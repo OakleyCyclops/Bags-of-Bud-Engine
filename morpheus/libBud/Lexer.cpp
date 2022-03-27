@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 #define PUNCTABLE
@@ -139,7 +139,7 @@ void budLexer::CreatePunctuationTable( const punctuation_t* punctuations )
 	{
 		if( !budLexer::punctuationtable || budLexer::punctuationtable == default_punctuationtable )
 		{
-			budLexer::punctuationtable = ( int* ) Mem_Alloc( 256 * sizeof( int ), TAG_libBud_LEXER );
+			budLexer::punctuationtable = ( int* ) Mem_Alloc( 256 * sizeof( int ), TAG_LIBBUD_LEXER );
 		}
 		if( budLexer::nextpunctuation && budLexer::nextpunctuation != default_nextpunctuation )
 		{
@@ -148,7 +148,7 @@ void budLexer::CreatePunctuationTable( const punctuation_t* punctuations )
 		for( i = 0; punctuations[i].p; i++ )
 		{
 		}
-		budLexer::nextpunctuation = ( int* ) Mem_Alloc( i * sizeof( int ), TAG_libBud_LEXER );
+		budLexer::nextpunctuation = ( int* ) Mem_Alloc( i * sizeof( int ), TAG_LIBBUD_LEXER );
 	}
 	memset( budLexer::punctuationtable, 0xFF, 256 * sizeof( int ) );
 	memset( budLexer::nextpunctuation, 0xFF, i * sizeof( int ) );
@@ -2112,7 +2112,7 @@ int budLexer::LoadFile( const char* filename, bool OSPath )
 		return false;
 	}
 	length = fp->Length();
-	buf = ( char* ) Mem_Alloc( length + 1, TAG_libBud_LEXER );
+	buf = ( char* ) Mem_Alloc( length + 1, TAG_LIBBUD_LEXER );
 	buf[length] = '\0';
 	fp->Read( buf, length );
 	budLexer::fileTime = fp->Timestamp();

@@ -1150,7 +1150,7 @@ int idPush::DiscardEntities( idEntity* entityList[], int numEntities, int flags,
 		}
 		
 		// don't push players in noclip mode
-		if( check->IsType( idPlayer::Type ) && static_cast<idPlayer*>( check )->noclip )
+		if( check->IsType( budPlayer::Type ) && static_cast<budPlayer*>( check )->noclip )
 		{
 			continue;
 		}

@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_lobby.h"
+#include "corePCH.hpp"
+#include "sys_lobby.hpp"
 
 budCVar net_migration_debug( "net_migration_debug", "0", CVAR_BOOL, "debug" );
 budCVar net_migration_disable( "net_migration_disable", "0", CVAR_BOOL, "debug" );
@@ -418,10 +418,6 @@ void idLobby::ResetAllMigrationState()
 	migrationInfo.persistUntilGameEndsData.Clear();
 	
 	migrateMsgFlags		= 0;
-	
-	common->Dialog().ClearDialog( GDM_MIGRATING );
-	common->Dialog().ClearDialog( GDM_MIGRATING_WAITING );
-	common->Dialog().ClearDialog( GDM_MIGRATING_RELAUNCHING );
 }
 
 /*

@@ -27,11 +27,9 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
-#include "ConsoleHistory.h"
-#include "../renderer/ResolutionScale.h"
-#include "Common_local.h"
-#include "imgui.h"
+#include "corePCH.hpp"
+#include "ConsoleHistory.hpp"
+#include "Common_local.hpp"
 
 #define	CON_TEXTSIZE			0x30000
 #define	NUM_CON_TIMES			4
@@ -61,12 +59,12 @@ public:
 	virtual void		Open();
 	virtual	void		Close();
 	virtual	void		Print( const char* text );
-	virtual	void		Draw( bool forceFullScreen );
+	// virtual	void		Draw( bool forceFullScreen );
 	
-	virtual void		PrintOverlay( budOverlayHandle& handle, justify_t justify, const char* text, ... );
+	// virtual void		PrintOverlay( budOverlayHandle& handle, justify_t justify, const char* text, ... );
 	
-	virtual budDebugGraph* 	CreateGraph( int numItems );
-	virtual void			DestroyGraph( budDebugGraph* graph );
+	// virtual budDebugGraph* 	CreateGraph( int numItems );
+	// virtual void			DestroyGraph( budDebugGraph* graph );
 	
 	void				Dump( const char* toFile );
 	void				Clear();
@@ -131,16 +129,16 @@ private:
 	// for transparent notify lines
 	budVec4				color;
 	
-	idEditField			historyEditLines[COMMAND_HISTORY];
+	// idEditField			historyEditLines[COMMAND_HISTORY];
 	
 	int					nextHistoryLine;// the last line in the history buffer, not masked
 	int					historyLine;	// the line being displayed from history buffer
 	// will be <= nextHistoryLine
 	
-	idEditField			consoleField;
+	// idEditField			consoleField;
 	
 	budList< overlayText_t >	overlayText;
-	budList< budDebugGraph*> debugGraphs;
+	// budList< budDebugGraph*> debugGraphs;
 	
 	int					lastVirtualScreenWidth;
 	int					lastVirtualScreenHeight;
@@ -148,9 +146,6 @@ private:
 	static budCVar		con_speed;
 	static budCVar		con_notifyTime;
 	static budCVar		con_noPrint;
-
-	ImGuiIO& io = ImGui::GetIO();
-
 };
 
 static budConsoleLocal localConsole;
@@ -171,155 +166,6 @@ budCVar budConsoleLocal::con_noPrint( "con_noPrint", "1", CVAR_BOOL | CVAR_SYSTE
 
 =============================================================================
 */
-
-/*
-==================
-budConsoleLocal::DrawTextLeftAlign
-==================
-*/
-void budConsoleLocal::DrawTextLeftAlign( float x, float& y, const char* text, ... )
-{
-	char string[MAX_STRING_CHARS];
-	va_list argptr;
-	va_start( argptr, text );
-	budStr::vsnPrintf( string, sizeof( string ), text, argptr );
-	va_end( argptr );
-	renderSystem->DrawSmallStringExt( x, y + 2, string, colorWhite, true );
-	y += SMALLCHAR_HEIGHT + 4;
-}
-
-/*
-==================
-budConsoleLocal::DrawTextRightAlign
-==================
-*/
-void budConsoleLocal::DrawTextRightAlign( float x, float& y, const char* text, ... )
-{
-	char string[MAX_STRING_CHARS];
-	va_list argptr;
-	va_start( argptr, text );
-	int i = budStr::vsnPrintf( string, sizeof( string ), text, argptr );
-	va_end( argptr );
-	renderSystem->DrawSmallStringExt( x - i * SMALLCHAR_WIDTH, y + 2, string, colorWhite, true );
-	y += SMALLCHAR_HEIGHT + 4;
-}
-
-
-
-
-/*
-==================
-budConsoleLocal::DrawFPS
-==================
-*/
-#define	FPS_FRAMES	6
-float budConsoleLocal::DrawFPS( float y )
-{
-	static int previousTimes[FPS_FRAMES];
-	static int index;
-	static int previous;
-	
-	// don't use serverTime, because that will be drifting to
-	// correct for internet lag changes, timescales, timedemos, etc
-	int t = Sys_Milliseconds();
-	int frameTime = t - previous;
-	previous = t;
-	
-	previousTimes[index % FPS_FRAMES] = frameTime;
-	index++;
-	if( index > FPS_FRAMES )
-	{
-		// average multiple frames together to smooth changes out a bit
-		int total = 0;
-		for( int i = 0 ; i < FPS_FRAMES ; i++ )
-		{
-			total += previousTimes[i];
-		}
-		if( !total )
-		{
-			total = 1;
-		}
-		int fps = 1000000 * FPS_FRAMES / total;
-		fps = ( fps + 500 ) / 1000;
-		
-		const char* s = va( "%ifps", fps );
-		int w = strlen( s ) * BIGCHAR_WIDTH;
-		
-		renderSystem->DrawBigStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, s, colorWhite, true );
-	}
-	
-	y += BIGCHAR_HEIGHT + 4;
-	
-	// DG: "com_showFPS 2" means: show FPS only, like in classic doom3
-	if( com_showFPS.GetInteger() == 2 )
-	{
-		return y;
-	}
-	// DG end
-	
-	// print the resolution scale so we can tell when we are at reduced resolution
-	budStr resolutionText;
-	resolutionScale.GetConsoleText( resolutionText );
-	int w = resolutionText.Length() * BIGCHAR_WIDTH;
-	renderSystem->DrawBigStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, resolutionText.c_str(), colorWhite, true );
-	
-	const int gameThreadTotalTime = commonLocal.GetGameThreadTotalTime();
-	const int gameThreadGameTime = commonLocal.GetGameThreadGameTime();
-	const int gameThreadRenderTime = commonLocal.GetGameThreadRenderTime();
-	const int rendererBackEndTime = commonLocal.GetRendererBackEndMicroseconds();
-	const int rendererShadowsTime = commonLocal.GetRendererShadowsMicroseconds();
-	const int rendererGPUIdleTime = commonLocal.GetRendererIdleMicroseconds();
-	const int rendererGPUTime = commonLocal.GetRendererGPUMicroseconds();
-	const int maxTime = 16;
-	
-	y += SMALLCHAR_HEIGHT + 4;
-	budStr timeStr;
-	timeStr.Format( "%sG+RF: %4d", gameThreadTotalTime > maxTime ? S_COLOR_RED : "", gameThreadTotalTime );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	y += SMALLCHAR_HEIGHT + 4;
-	
-	timeStr.Format( "%sG: %4d", gameThreadGameTime > maxTime ? S_COLOR_RED : "", gameThreadGameTime );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	y += SMALLCHAR_HEIGHT + 4;
-	
-	timeStr.Format( "%sRF: %4d", gameThreadRenderTime > maxTime ? S_COLOR_RED : "", gameThreadRenderTime );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	y += SMALLCHAR_HEIGHT + 4;
-	
-	timeStr.Format( "%sRB: %4.1f", rendererBackEndTime > maxTime * 1000 ? S_COLOR_RED : "", rendererBackEndTime / 1000.0f );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	y += SMALLCHAR_HEIGHT + 4;
-	
-	timeStr.Format( "%sSV: %4.1f", rendererShadowsTime > maxTime * 1000 ? S_COLOR_RED : "", rendererShadowsTime / 1000.0f );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	y += SMALLCHAR_HEIGHT + 4;
-	
-	timeStr.Format( "%sIDLE: %4.1f", rendererGPUIdleTime > maxTime * 1000 ? S_COLOR_RED : "", rendererGPUIdleTime / 1000.0f );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	y += SMALLCHAR_HEIGHT + 4;
-	
-	timeStr.Format( "%sGPU: %4.1f", rendererGPUTime > maxTime * 1000 ? S_COLOR_RED : "", rendererGPUTime / 1000.0f );
-	w = timeStr.LengthWithoutColors() * SMALLCHAR_WIDTH;
-	renderSystem->DrawSmallStringExt( LOCALSAFE_RIGHT - w, budMath::Ftoi( y ) + 2, timeStr.c_str(), colorWhite, false );
-	
-	return y + BIGCHAR_HEIGHT + 4;
-}
-
-/*
-==================
-budConsoleLocal::DrawMemoryUsage
-==================
-*/
-float budConsoleLocal::DrawMemoryUsage( float y )
-{
-	return y;
-}
 
 //=========================================================================
 
@@ -366,27 +212,27 @@ void budConsoleLocal::Init()
 	
 	keyCatching = false;
 	
-	LOCALSAFE_LEFT		= 32;
-	LOCALSAFE_RIGHT		= SCREEN_WIDTH - LOCALSAFE_LEFT;
-	LOCALSAFE_TOP		= 24;
-	LOCALSAFE_BOTTOM	= SCREEN_HEIGHT - LOCALSAFE_TOP;
-	LOCALSAFE_WIDTH		= LOCALSAFE_RIGHT - LOCALSAFE_LEFT;
-	LOCALSAFE_HEIGHT	= LOCALSAFE_BOTTOM - LOCALSAFE_TOP;
+	// LOCALSAFE_LEFT		= 32;
+	// LOCALSAFE_RIGHT		= SCREEN_WIDTH - LOCALSAFE_LEFT;
+	// LOCALSAFE_TOP		= 24;
+	// LOCALSAFE_BOTTOM	= SCREEN_HEIGHT - LOCALSAFE_TOP;
+	// LOCALSAFE_WIDTH		= LOCALSAFE_RIGHT - LOCALSAFE_LEFT;
+	// LOCALSAFE_HEIGHT	= LOCALSAFE_BOTTOM - LOCALSAFE_TOP;
 	
-	LINE_WIDTH = ( ( LOCALSAFE_WIDTH / SMALLCHAR_WIDTH ) - 2 );
-	TOTAL_LINES = ( CON_TEXTSIZE / LINE_WIDTH );
+	// LINE_WIDTH = ( ( LOCALSAFE_WIDTH / SMALLCHAR_WIDTH ) - 2 );
+	// TOTAL_LINES = ( CON_TEXTSIZE / LINE_WIDTH );
 	
-	lastKeyEvent = -1;
-	nextKeyEvent = CONSOLE_FIRSTREPEAT;
+	// lastKeyEvent = -1;
+	// nextKeyEvent = CONSOLE_FIRSTREPEAT;
 	
-	consoleField.Clear();
-	consoleField.SetWidthInChars( LINE_WIDTH );
+	// consoleField.Clear();
+	// consoleField.SetWidthInChars( LINE_WIDTH );
 	
-	for( i = 0 ; i < COMMAND_HISTORY ; i++ )
-	{
-		historyEditLines[i].Clear();
-		historyEditLines[i].SetWidthInChars( LINE_WIDTH );
-	}
+	// for( i = 0 ; i < COMMAND_HISTORY ; i++ )
+	// {
+	// 	historyEditLines[i].Clear();
+	// 	historyEditLines[i].SetWidthInChars( LINE_WIDTH );
+	// }
 	
 	cmdSystem->AddCommand( "clear", Con_Clear_f, CMD_FL_SYSTEM, "clears the console" );
 	cmdSystem->AddCommand( "conDump", Con_Dump_f, CMD_FL_SYSTEM, "dumps the console text to a file" );
@@ -401,8 +247,6 @@ void budConsoleLocal::Shutdown()
 {
 	cmdSystem->RemoveCommand( "clear" );
 	cmdSystem->RemoveCommand( "conDump" );
-	
-	debugGraphs.DeleteContents( true );
 }
 
 /*
@@ -547,18 +391,18 @@ void budConsoleLocal::Dump( const char* fileName )
 budConsoleLocal::Resize
 ==============
 */
-void budConsoleLocal::Resize()
-{
-	if( renderSystem->GetVirtualWidth() == lastVirtualScreenWidth && renderSystem->GetVirtualHeight() == lastVirtualScreenHeight )
-		return;
+// void budConsoleLocal::Resize()
+// {
+// 	if( renderSystem->GetVirtualWidth() == lastVirtualScreenWidth && renderSystem->GetVirtualHeight() == lastVirtualScreenHeight )
+// 		return;
 		
-	lastVirtualScreenWidth = renderSystem->GetVirtualWidth();
-	lastVirtualScreenHeight = renderSystem->GetVirtualHeight();
-	LOCALSAFE_RIGHT		= renderSystem->GetVirtualWidth() - LOCALSAFE_LEFT;
-	LOCALSAFE_BOTTOM	= renderSystem->GetVirtualHeight() - LOCALSAFE_TOP;
-	LOCALSAFE_WIDTH		= LOCALSAFE_RIGHT - LOCALSAFE_LEFT;
-	LOCALSAFE_HEIGHT	= LOCALSAFE_BOTTOM - LOCALSAFE_TOP;
-}
+// 	lastVirtualScreenWidth = renderSystem->GetVirtualWidth();
+// 	lastVirtualScreenHeight = renderSystem->GetVirtualHeight();
+// 	LOCALSAFE_RIGHT		= renderSystem->GetVirtualWidth() - LOCALSAFE_LEFT;
+// 	LOCALSAFE_BOTTOM	= renderSystem->GetVirtualHeight() - LOCALSAFE_TOP;
+// 	LOCALSAFE_WIDTH		= LOCALSAFE_RIGHT - LOCALSAFE_LEFT;
+// 	LOCALSAFE_HEIGHT	= LOCALSAFE_BOTTOM - LOCALSAFE_TOP;
+// }
 
 /*
 ================
@@ -641,38 +485,7 @@ void budConsoleLocal::KeyDownEvent( int key )
 		return;
 	}
 	
-	// enter finishes the line
-	if( key == K_ENTER || key == K_KP_ENTER )
-	{
-	
-		common->Printf( "]%s\n", consoleField.GetBuffer() );
-		
-		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, consoleField.GetBuffer() );	// valid command
-		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "\n" );
-		
-		// copy line to history buffer
-		
-		if( consoleField.GetBuffer()[ 0 ] != '\n' && consoleField.GetBuffer()[ 0 ] != '\0' )
-		{
-			consoleHistory.AddToHistory( consoleField.GetBuffer() );
-		}
-		
-		consoleField.Clear();
-		consoleField.SetWidthInChars( LINE_WIDTH );
-		
-		const bool captureToImage = false;
-		common->UpdateScreen( captureToImage );// force an update, because the command
-		// may take some time
-		return;
-	}
-	
 	// command completion
-	
-	if( key == K_TAB )
-	{
-		consoleField.AutoComplete();
-		return;
-	}
 	
 	// command history (ctrl-p ctrl-n for unix style)
 	
@@ -680,10 +493,6 @@ void budConsoleLocal::KeyDownEvent( int key )
 			( key == K_P && ( idKeyInput::IsDown( K_LCTRL ) || idKeyInput::IsDown( K_RCTRL ) ) ) )
 	{
 		budStr hist = consoleHistory.RetrieveFromHistory( true );
-		if( !hist.IsEmpty() )
-		{
-			consoleField.SetBuffer( hist );
-		}
 		return;
 	}
 	
@@ -691,14 +500,6 @@ void budConsoleLocal::KeyDownEvent( int key )
 			( key == K_N && ( idKeyInput::IsDown( K_LCTRL ) || idKeyInput::IsDown( K_RCTRL ) ) ) )
 	{
 		budStr hist = consoleHistory.RetrieveFromHistory( false );
-		if( !hist.IsEmpty() )
-		{
-			consoleField.SetBuffer( hist );
-		}
-		else // DG: if no more lines are in the history, show a blank line again
-		{
-			consoleField.Clear();
-		} // DG end
 		
 		return;
 	}
@@ -746,8 +547,6 @@ void budConsoleLocal::KeyDownEvent( int key )
 		return;
 	}
 	
-	// pass to the normal editline routine
-	consoleField.KeyDownEvent( key );
 }
 
 /*
@@ -846,8 +645,6 @@ bool	budConsoleLocal::ProcessEvent( const sysEvent_t* event, bool forceAccept )
 			return true;
 		}
 		
-		consoleField.ClearAutoComplete();
-		
 		// a down event will toggle the destination lines
 		if( keyCatching )
 		{
@@ -856,7 +653,6 @@ bool	budConsoleLocal::ProcessEvent( const sysEvent_t* event, bool forceAccept )
 		}
 		else
 		{
-			consoleField.Clear();
 			keyCatching = true;
 			if( idKeyInput::IsDown( K_LSHIFT ) || idKeyInput::IsDown( K_RSHIFT ) )
 			{
@@ -875,17 +671,6 @@ bool	budConsoleLocal::ProcessEvent( const sysEvent_t* event, bool forceAccept )
 	if( !forceAccept && !keyCatching )
 	{
 		return false;
-	}
-	
-	// handle key and character events
-	if( event->evType == SE_CHAR )
-	{
-		// never send the console key as a character
-		if( event->evValue != '`' && event->evValue != '~' )
-		{
-			consoleField.CharEvent( event->evValue );
-		}
-		return true;
 	}
 	
 	if( event->evType == SE_KEY )
@@ -1040,443 +825,5 @@ void budConsoleLocal::Print( const char* txt )
 	if( current >= 0 )
 	{
 		times[current % NUM_CON_TIMES] = Sys_Milliseconds();
-	}
-}
-
-
-/*
-==============================================================================
-
-DRAWING
-
-==============================================================================
-*/
-
-
-/*
-================
-DrawInput
-
-Draw the editline after a ] prompt
-================
-*/
-void budConsoleLocal::DrawInput()
-{
-	int y, autoCompleteLength;
-	
-	y = vislines - ( SMALLCHAR_HEIGHT * 2 );
-	
-	if( consoleField.GetAutoCompleteLength() != 0 )
-	{
-		autoCompleteLength = strlen( consoleField.GetBuffer() ) - consoleField.GetAutoCompleteLength();
-		
-		if( autoCompleteLength > 0 )
-		{
-			renderSystem->DrawFilled( budVec4( 0.8f, 0.2f, 0.2f, 0.45f ),
-									  LOCALSAFE_LEFT + 2 * SMALLCHAR_WIDTH + consoleField.GetAutoCompleteLength() * SMALLCHAR_WIDTH,
-									  y + 2, autoCompleteLength * SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT - 2 );
-		}
-	}
-	
-	renderSystem->SetColor( budStr::ColorForIndex( C_COLOR_CYAN ) );
-	
-	renderSystem->DrawSmallChar( LOCALSAFE_LEFT + 1 * SMALLCHAR_WIDTH, y, ']' );
-	
-	consoleField.Draw( LOCALSAFE_LEFT + 2 * SMALLCHAR_WIDTH, y, renderSystem->GetVirtualWidth() - 3 * SMALLCHAR_WIDTH, true );
-}
-
-
-/*
-================
-DrawNotify
-
-Draws the last few lines of output transparently over the game top
-================
-*/
-void budConsoleLocal::DrawNotify()
-{
-	int		x, v;
-	short*	text_p;
-	int		i;
-	int		time;
-	int		currentColor;
-	
-	if( con_noPrint.GetBool() )
-	{
-		return;
-	}
-	
-	currentColor = budStr::ColorIndex( C_COLOR_WHITE );
-	renderSystem->SetColor( budStr::ColorForIndex( currentColor ) );
-	
-	v = 0;
-	for( i = current - NUM_CON_TIMES + 1; i <= current; i++ )
-	{
-		if( i < 0 )
-		{
-			continue;
-		}
-		time = times[i % NUM_CON_TIMES];
-		if( time == 0 )
-		{
-			continue;
-		}
-		time = Sys_Milliseconds() - time;
-		if( time > con_notifyTime.GetFloat() * 1000 )
-		{
-			continue;
-		}
-		text_p = text + ( i % TOTAL_LINES ) * LINE_WIDTH;
-		
-		for( x = 0; x < LINE_WIDTH; x++ )
-		{
-			if( ( text_p[x] & 0xff ) == ' ' )
-			{
-				continue;
-			}
-			if( budStr::ColorIndex( text_p[x] >> 8 ) != currentColor )
-			{
-				currentColor = budStr::ColorIndex( text_p[x] >> 8 );
-				renderSystem->SetColor( budStr::ColorForIndex( currentColor ) );
-			}
-			renderSystem->DrawSmallChar( LOCALSAFE_LEFT + ( x + 1 )*SMALLCHAR_WIDTH, v, text_p[x] & 0xff );
-		}
-		
-		v += SMALLCHAR_HEIGHT;
-	}
-	
-	renderSystem->SetColor( colorCyan );
-}
-
-/*
-================
-DrawSolbudConsole
-
-Draws the console with the solid background
-================
-*/
-void budConsoleLocal::DrawSolbudConsole( float frac )
-{
-	int				i, x;
-	float			y;
-	int				rows;
-	short*			text_p;
-	int				row;
-	int				lines;
-	int				currentColor;
-	
-	lines = budMath::Ftoi( renderSystem->GetVirtualHeight() * frac );
-	if( lines <= 0 )
-	{
-		return;
-	}
-	
-	if( lines > renderSystem->GetVirtualHeight() )
-	{
-		lines = renderSystem->GetVirtualHeight();
-	}
-	
-	// draw the background
-	y = frac * renderSystem->GetVirtualHeight() - 2;
-	if( y < 1.0f )
-	{
-		y = 0.0f;
-	}
-	else
-	{
-		renderSystem->DrawFilled( budVec4( 0.0f, 0.0f, 0.0f, 0.75f ), 0, 0, renderSystem->GetVirtualWidth(), y );
-	}
-	
-	renderSystem->DrawFilled( colorCyan, 0, y, renderSystem->GetVirtualWidth(), 2 );
-	
-	// draw the version number
-	
-	renderSystem->SetColor( budStr::ColorForIndex( C_COLOR_CYAN ) );
-	
-	// RB begin
-	//budStr version = va( "%s.%i.%i", ENGINE_VERSION, BUILD_NUMBER, BUILD_NUMBER_MINOR );
-	budStr version = va( "%s %s %s %s", ENGINE_VERSION, BUILD_STRING, __DATE__, __TIME__ );
-	//budStr version = com_version.GetString();
-	// RB end
-	
-	i = version.Length();
-	
-	for( x = 0; x < i; x++ )
-	{
-		renderSystem->DrawSmallChar( LOCALSAFE_WIDTH - ( i - x ) * SMALLCHAR_WIDTH,
-									 ( lines - ( SMALLCHAR_HEIGHT + SMALLCHAR_HEIGHT / 4 ) ), version[x] );
-									 
-	}
-	
-	
-	// draw the text
-	vislines = lines;
-	rows = ( lines - SMALLCHAR_WIDTH ) / SMALLCHAR_WIDTH;		// rows of text to draw
-	
-	y = lines - ( SMALLCHAR_HEIGHT * 3 );
-	
-	// draw from the bottom up
-	if( display != current )
-	{
-		// draw arrows to show the buffer is backscrolled
-		renderSystem->SetColor( budStr::ColorForIndex( C_COLOR_CYAN ) );
-		for( x = 0; x < LINE_WIDTH; x += 4 )
-		{
-			renderSystem->DrawSmallChar( LOCALSAFE_LEFT + ( x + 1 )*SMALLCHAR_WIDTH, budMath::Ftoi( y ), '^' );
-		}
-		y -= SMALLCHAR_HEIGHT;
-		rows--;
-	}
-	
-	row = display;
-	
-	if( x == 0 )
-	{
-		row--;
-	}
-	
-	currentColor = budStr::ColorIndex( C_COLOR_WHITE );
-	renderSystem->SetColor( budStr::ColorForIndex( currentColor ) );
-	
-	for( i = 0; i < rows; i++, y -= SMALLCHAR_HEIGHT, row-- )
-	{
-		if( row < 0 )
-		{
-			break;
-		}
-		if( current - row >= TOTAL_LINES )
-		{
-			// past scrollback wrap point
-			continue;
-		}
-		
-		text_p = text + ( row % TOTAL_LINES ) * LINE_WIDTH;
-		
-		for( x = 0; x < LINE_WIDTH; x++ )
-		{
-			if( ( text_p[x] & 0xff ) == ' ' )
-			{
-				continue;
-			}
-			
-			if( budStr::ColorIndex( text_p[x] >> 8 ) != currentColor )
-			{
-				currentColor = budStr::ColorIndex( text_p[x] >> 8 );
-				renderSystem->SetColor( budStr::ColorForIndex( currentColor ) );
-			}
-			renderSystem->DrawSmallChar( LOCALSAFE_LEFT + ( x + 1 )*SMALLCHAR_WIDTH, budMath::Ftoi( y ), text_p[x] & 0xff );
-		}
-	}
-	
-	// draw the input prompt, user text, and cursor if desired
-	DrawInput();
-	
-	renderSystem->SetColor( colorCyan );
-}
-
-
-/*
-==============
-Draw
-
-ForceFullScreen is used by the editor
-==============
-*/
-void budConsoleLocal::Draw( bool forceFullScreen )
-{
-	Resize();
-	
-	if( forceFullScreen )
-	{
-		// if we are forced full screen because of a disconnect,
-		// we want the console closed when we go back to a session state
-		Close();
-		// we are however catching keyboard input
-		keyCatching = true;
-	}
-	
-	Scroll();
-	
-	UpdateDisplayFraction();
-	
-	if( forceFullScreen )
-	{
-		DrawSolbudConsole( 1.0f );
-	}
-	else if( displayFrac )
-	{
-		DrawSolbudConsole( displayFrac );
-	}
-	else
-	{
-		// only draw the notify lines if the developer cvar is set,
-		// or we are a debug build
-		if( !con_noPrint.GetBool() )
-		{
-			DrawNotify();
-		}
-	}
-	
-	float lefty = LOCALSAFE_TOP;
-	float righty = LOCALSAFE_TOP;
-	float centery = LOCALSAFE_TOP;
-	if( com_showFPS.GetBool() )
-	{
-		righty = DrawFPS( righty );
-	}
-	if( com_showMemoryUsage.GetBool() )
-	{
-		righty = DrawMemoryUsage( righty );
-	}
-	DrawOverlayText( lefty, righty, centery );
-	DrawDebugGraphs();
-	
-}
-
-/*
-========================
-budConsoleLocal::PrintOverlay
-========================
-*/
-void budConsoleLocal::PrintOverlay( budOverlayHandle& handle, justify_t justify, const char* text, ... )
-{
-	if( handle.index >= 0 && handle.index < overlayText.Num() )
-	{
-		if( overlayText[handle.index].time == handle.time )
-		{
-			return;
-		}
-	}
-	
-	char string[MAX_PRINT_MSG];
-	va_list argptr;
-	va_start( argptr, text );
-	budStr::vsnPrintf( string, sizeof( string ), text, argptr );
-	va_end( argptr );
-	
-	overlayText_t& overlay = overlayText.Alloc();
-	overlay.text = string;
-	overlay.justify = justify;
-	overlay.time = Sys_Milliseconds();
-	
-	handle.index = overlayText.Num() - 1;
-	handle.time = overlay.time;
-}
-
-/*
-========================
-budConsoleLocal::DrawOverlayText
-========================
-*/
-void budConsoleLocal::DrawOverlayText( float& leftY, float& rightY, float& centerY )
-{
-	for( int i = 0; i < overlayText.Num(); i++ )
-	{
-		const budStr& text = overlayText[i].text;
-		
-		int maxWidth = 0;
-		int numLines = 0;
-		for( int j = 0; j < text.Length(); j++ )
-		{
-			int width = 1;
-			for( ; j < text.Length() && text[j] != '\n'; j++ )
-			{
-				width++;
-			}
-			numLines++;
-			if( width > maxWidth )
-			{
-				maxWidth = width;
-			}
-		}
-		
-		budVec4 bgColor( 0.0f, 0.0f, 0.0f, 0.75f );
-		
-		const float width = maxWidth * SMALLCHAR_WIDTH;
-		const float height = numLines * ( SMALLCHAR_HEIGHT + 4 );
-		const float bgAdjust = - 0.5f * SMALLCHAR_WIDTH;
-		if( overlayText[i].justify == JUSTIFY_LEFT )
-		{
-			renderSystem->DrawFilled( bgColor, LOCALSAFE_LEFT + bgAdjust, leftY, width, height );
-		}
-		else if( overlayText[i].justify == JUSTIFY_RIGHT )
-		{
-			renderSystem->DrawFilled( bgColor, LOCALSAFE_RIGHT - width + bgAdjust, rightY, width, height );
-		}
-		else if( overlayText[i].justify == JUSTIFY_CENTER_LEFT || overlayText[i].justify == JUSTIFY_CENTER_RIGHT )
-		{
-			renderSystem->DrawFilled( bgColor, LOCALSAFE_LEFT + ( LOCALSAFE_WIDTH - width + bgAdjust ) * 0.5f, centerY, width, height );
-		}
-		else
-		{
-			assert( false );
-		}
-		
-		budStr singleLine;
-		for( int j = 0; j < text.Length(); j += singleLine.Length() + 1 )
-		{
-			singleLine = "";
-			for( int k = j; k < text.Length() && text[k] != '\n'; k++ )
-			{
-				singleLine.Append( text[k] );
-			}
-			if( overlayText[i].justify == JUSTIFY_LEFT )
-			{
-				DrawTextLeftAlign( LOCALSAFE_LEFT, leftY, "%s", singleLine.c_str() );
-			}
-			else if( overlayText[i].justify == JUSTIFY_RIGHT )
-			{
-				DrawTextRightAlign( LOCALSAFE_RIGHT, rightY, "%s", singleLine.c_str() );
-			}
-			else if( overlayText[i].justify == JUSTIFY_CENTER_LEFT )
-			{
-				DrawTextLeftAlign( LOCALSAFE_LEFT + ( LOCALSAFE_WIDTH - width ) * 0.5f, centerY, "%s", singleLine.c_str() );
-			}
-			else if( overlayText[i].justify == JUSTIFY_CENTER_RIGHT )
-			{
-				DrawTextRightAlign( LOCALSAFE_LEFT + ( LOCALSAFE_WIDTH + width ) * 0.5f, centerY, "%s", singleLine.c_str() );
-			}
-			else
-			{
-				assert( false );
-			}
-		}
-	}
-	overlayText.SetNum( 0 );
-}
-
-/*
-========================
-budConsoleLocal::CreateGraph
-========================
-*/
-budDebugGraph* budConsoleLocal::CreateGraph( int numItems )
-{
-	budDebugGraph* graph = new( TAG_SYSTEM ) budDebugGraph( numItems );
-	debugGraphs.Append( graph );
-	return graph;
-}
-
-/*
-========================
-budConsoleLocal::DestroyGraph
-========================
-*/
-void budConsoleLocal::DestroyGraph( budDebugGraph* graph )
-{
-	debugGraphs.Remove( graph );
-	delete graph;
-}
-
-/*
-========================
-budConsoleLocal::DrawDebugGraphs
-========================
-*/
-void budConsoleLocal::DrawDebugGraphs()
-{
-	for( int i = 0; i < debugGraphs.Num(); i++ )
-	{
-		debugGraphs[i]->Render( renderSystem );
 	}
 }

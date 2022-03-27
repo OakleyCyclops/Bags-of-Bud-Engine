@@ -27,10 +27,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
-
-#include "Unzip.h"
 
 
 /*
@@ -849,7 +847,7 @@ int budFile_Memory::Write( const void* buffer, int len )
 			return 0;
 		}
 		int extra = granularity * ( 1 + alloc / granularity );
-		char* newPtr = ( char* ) Mem_Alloc( allocated + extra, TAG_budFile );
+		char* newPtr = ( char* ) Mem_Alloc( allocated + extra, TAG_BUDFILE );
 		if( allocated )
 		{
 			memcpy( newPtr, filePtr, allocated );
@@ -933,7 +931,7 @@ void budFile_Memory::PreAllocate( size_t len )
 		{
 			libBud::Error( "budFile_Memory::SetLength: exceeded maximum size %" PRIuSIZE "", maxSize );
 		}
-		char* newPtr = ( char* )Mem_Alloc( len, TAG_budFile );
+		char* newPtr = ( char* )Mem_Alloc( len, TAG_BUDFILE );
 		if( allocated > 0 )
 		{
 			memcpy( newPtr, filePtr, allocated );

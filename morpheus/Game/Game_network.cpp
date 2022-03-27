@@ -150,7 +150,7 @@ void budGameLocal::SyncPlayersWithLobbyUsers( bool initial )
 		
 		for( int j = 0; j < MAX_PLAYERS; j++ )
 		{
-			idPlayer* player = static_cast<idPlayer*>( entities[ j ] );
+			budPlayer* player = static_cast<budPlayer*>( entities[ j ] );
 			if( player == NULL )
 			{
 				continue;
@@ -175,7 +175,7 @@ void budGameLocal::SyncPlayersWithLobbyUsers( bool initial )
 	// Validate connected players
 	for( int i = 0; i < MAX_PLAYERS; i++ )
 	{
-		idPlayer* player = static_cast<idPlayer*>( entities[ i ] );
+		budPlayer* player = static_cast<budPlayer*>( entities[ i ] );
 		if( player == NULL )
 		{
 			continue;
@@ -201,7 +201,7 @@ void budGameLocal::SyncPlayersWithLobbyUsers( bool initial )
 		
 		for( int i = 0; i < MAX_PLAYERS; ++i )
 		{
-			idPlayer* player = static_cast<idPlayer*>( entities[ i ] );
+			budPlayer* player = static_cast<budPlayer*>( entities[ i ] );
 			if( player == NULL )
 			{
 				freePlayerDataIndex = i;
@@ -387,16 +387,16 @@ void budGameLocal::ServerWriteSnapshot( budSnapShot& ss )
 	pvsHandle_t pvsHandles[ MAX_PLAYERS ];
 	for( int i = 0; i < MAX_PLAYERS; i++ )
 	{
-		idPlayer* player = static_cast<idPlayer*>( entities[ i ] );
+		budPlayer* player = static_cast<budPlayer*>( entities[ i ] );
 		if( player == NULL )
 		{
 			pvsHandles[i].i = -1;
 			continue;
 		}
-		idPlayer* spectated = player;
+		budPlayer* spectated = player;
 		if( player->spectating && player->spectator != i && entities[ player->spectator ] )
 		{
-			spectated = static_cast< idPlayer* >( entities[ player->spectator ] );
+			spectated = static_cast< budPlayer* >( entities[ player->spectator ] );
 		}
 		
 		msg.InitWrite( buffer, sizeof( buffer ) );
@@ -606,7 +606,7 @@ void budGameLocal::ServerProcessReliableMessage( int clientNum, int type, const 
 		case GAME_RELIABLE_MESSAGE_SPECTATE:
 		{
 			bool spec = msg.ReadBool();
-			idPlayer* player = GetClientByNum( clientNum );
+			budPlayer* player = GetClientByNum( clientNum );
 			if( serverInfo.GetBool( "si_spectators" ) )
 			{
 				// never let spectators go back to game while sudden death is on
@@ -654,8 +654,8 @@ void budGameLocal::ServerProcessReliableMessage( int clientNum, int type, const 
 				break;
 			}
 			
-			idPlayer& victim = static_cast< idPlayer& >( *gameLocal.entities[victimNum] );
-			idPlayer& attacker = static_cast< idPlayer& >( *gameLocal.entities[attackerNum] );
+			budPlayer& victim = static_cast< budPlayer& >( *gameLocal.entities[victimNum] );
+			budPlayer& attacker = static_cast< budPlayer& >( *gameLocal.entities[attackerNum] );
 			
 			if( victim.GetPhysics() == NULL )
 			{
@@ -772,7 +772,7 @@ void budGameLocal::ClientReadSnapshot( const budSnapShot& ss )
 		if( snapObjectNum >= SNAP_PLAYERSTATE && snapObjectNum < SNAP_PLAYERSTATE_END )
 		{
 			int playerNumber = snapObjectNum - SNAP_PLAYERSTATE;
-			idPlayer* otherPlayer = static_cast< idPlayer* >( entities[ playerNumber ] );
+			budPlayer* otherPlayer = static_cast< budPlayer* >( entities[ playerNumber ] );
 			
 			// Don't process Player Snapshots that are disconnected.
 			const int lobbyIndex = session->GetActingGameStateLobbyBase().GetLobbyUserIndexFromLobbyUserID( lobbyUserIDs[ playerNumber ] );
@@ -861,7 +861,7 @@ void budGameLocal::ClientReadSnapshot( const budSnapShot& ss )
 							{
 								continue;
 							}
-							idPlayer* player = idPlayer::CastTo( entities[i] );
+							budPlayer* player = budPlayer::CastTo( entities[i] );
 							if( player != NULL )
 							{
 								if( player->GetUniqueProjectile() == predictedProjectile )
@@ -1133,7 +1133,7 @@ void budGameLocal::ClientProcessReliableMessage( int type, const budBitMsg& msg 
 		case GAME_RELIABLE_MESSAGE_TOURNEYLINE:
 		{
 			int line = msg.ReadByte( );
-			idPlayer* p = static_cast< idPlayer* >( entities[ GetLocalClientNum() ] );
+			budPlayer* p = static_cast< budPlayer* >( entities[ GetLocalClientNum() ] );
 			if( !p )
 			{
 				break;
@@ -1159,7 +1159,7 @@ void budGameLocal::ClientProcessReliableMessage( int type, const budBitMsg& msg 
 		}
 		case GAME_RELIABLE_MESSAGE_RESPAWN_AVAILABLE:
 		{
-			idPlayer* p = static_cast< idPlayer* >( entities[ GetLocalClientNum() ] );
+			budPlayer* p = static_cast< budPlayer* >( entities[ GetLocalClientNum() ] );
 			if( p )
 			{
 				p->ShowRespawnHudMessage();
@@ -1198,7 +1198,7 @@ void budGameLocal::ClientRunFrame( budUserCmdMgr& cmdMgr, bool lastPredictFrame,
 	framenum++;
 	time = FRAME_TO_MSEC( framenum );
 	
-	idPlayer* player = static_cast<idPlayer*>( entities[GetLocalClientNum()] );
+	budPlayer* player = static_cast<budPlayer*>( entities[GetLocalClientNum()] );
 	if( !player )
 	{
 	
@@ -1326,7 +1326,7 @@ idEntity*   budGameLocal::FindPredictedEntity( uint32 predictedKey, idTypeInfo* 
 budGameLocal::GeneratePredictionKey
 ========================
 */
-uint32  budGameLocal::GeneratePredictionKey( idWeapon* weapon, idPlayer* playerAttacker, int overrideKey )
+uint32  budGameLocal::GeneratePredictionKey( idWeapon* weapon, budPlayer* playerAttacker, int overrideKey )
 {
 	if( overrideKey != -1 )
 	{

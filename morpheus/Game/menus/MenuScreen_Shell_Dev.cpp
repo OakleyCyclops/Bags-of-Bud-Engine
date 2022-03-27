@@ -145,7 +145,7 @@ void idMenuScreen_Shell_Dev::SetupDevOptions()
 	devOptions.Append( devOption_t( "game/pdas", "PDAs" ) );
 	devOptions.Append( devOption_t( "testmaps/test_box", "Box" ) );
 	
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	
 	for( int i = 0; i < devOptions.Num(); ++i )
 	{

@@ -304,7 +304,7 @@ protected:
 	budSWF* 						gui;
 	actionRepeater_t			actionRepeater;
 	idMenuScreen* 				menuScreens[MAX_SCREEN_AREAS];
-	budList< idMenuWidget*, TAG_libBud_LIST_MENU>	children;
+	budList< idMenuWidget*, TAG_LIBBUD_LIST_MENU>	children;
 	
 	budStaticList< budStr, NUM_GUI_SOUNDS >		sounds;
 	
@@ -467,8 +467,8 @@ private:
 	const char* 			waitBind;
 	//budSysSignal				deviceRequestedSignal;
 	
-	budList<const char*, TAG_libBud_LIST_MENU>	mpGameModes;
-	budList<mpMap_t, TAG_libBud_LIST_MENU>			mpGameMaps;
+	budList<const char*, TAG_LIBBUD_LIST_MENU>	mpGameModes;
+	budList<mpMap_t, TAG_LIBBUD_LIST_MENU>			mpGameMaps;
 	idMenuWidget_MenuBar* 	menuBar;
 	idMenuWidget* 			pacifier;
 	int						timeRemaining;
@@ -484,7 +484,7 @@ private:
 	const budMaterial* 		roeIntro;
 	const budMaterial* 		lmIntro;
 	const budMaterial* 		marsRotation;
-	budList< budStr, TAG_libBud_LIST_MENU>			navOptions;
+	budList< budStr, TAG_LIBBUD_LIST_MENU>			navOptions;
 	
 };
 
@@ -524,8 +524,8 @@ protected:
 
 	bool							audioLogPlaying;
 	bool							videoPlaying;
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU >		pdaNames;
-	budList< budStr, TAG_libBud_LIST_MENU >					navOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		pdaNames;
+	budList< budStr, TAG_LIBBUD_LIST_MENU >					navOptions;
 	const budDeclAudio* 				audioFile;
 	idMenuWidget_ScrollBar pdaScrollBar;
 	idMenuWidget_DynamicList pdaList;
@@ -614,8 +614,8 @@ protected:
 	int		activationScreen;
 	
 	budList< mpScoreboardInfo > scoreboardInfo;
-	budList< scoreboardInfo_t, TAG_libBud_LIST_MENU >		redInfo;
-	budList< scoreboardInfo_t, TAG_libBud_LIST_MENU>		blueInfo;
+	budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU >		redInfo;
+	budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU>		blueInfo;
 	
 };
 

@@ -26,10 +26,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_savegame.h"
-#include "sys_session_local.h"
-#include "sys_session_savegames.h"
+#include "corePCH.hpp"
+#include "sys_savegame.hpp"
+#include "sys_session_local.hpp"
+#include "sys_session_savegames.hpp"
 
 
 extern budCVar saveGame_verbose;
@@ -227,7 +227,6 @@ saveGameHandle_t budSessionLocal::SaveGameSync( const char* name, const saveFile
 	
 	if( processorSaveFiles->InitSave( name, filesWithDetails, description ) )
 	{
-		processorSaveFiles->AddCompletedCallback( MakeCallback( this, &budSessionLocal::OnSaveCompleted, &processorSaveFiles->GetParmsNonConst() ) );
 		handle = GetSaveGameManager().ExecuteProcessorAndWait( processorSaveFiles );
 	}
 	
@@ -239,7 +238,6 @@ saveGameHandle_t budSessionLocal::SaveGameSync( const char* name, const saveFile
 		parms.errorCode = SAVEGAME_E_UNKNOWN;
 		
 		// Uniform error handling
-		OnSaveCompleted( &parms );
 	}
 	
 	return handle;
@@ -277,7 +275,7 @@ saveGameHandle_t budSessionLocal::SaveGameAsync( const char* name, const saveFil
 	
 	if( processorSaveFiles->InitSave( name, filesWithDetails, description ) )
 	{
-		processorSaveFiles->AddCompletedCallback( MakeCallback( this, &budSessionLocal::OnSaveCompleted, &processorSaveFiles->GetParmsNonConst() ) );
+		// processorSaveFiles->AddCompletedCallback( MakeCallback( this, &budSessionLocal::OnSaveCompleted, &processorSaveFiles->GetParmsNonConst() ) );
 		handle = GetSaveGameManager().ExecuteProcessor( processorSaveFiles );
 	}
 	
@@ -288,9 +286,7 @@ saveGameHandle_t budSessionLocal::SaveGameAsync( const char* name, const saveFil
 		idSaveLoadParms& parms = processorSaveFiles->GetParmsNonConst();
 		parms.errorCode = SAVEGAME_E_UNKNOWN;
 		
-		common->Dialog().ShowSaveIndicator( false );
 		// Uniform error handling
-		OnSaveCompleted( &parms );
 	}
 	
 	
@@ -302,48 +298,42 @@ saveGameHandle_t budSessionLocal::SaveGameAsync( const char* name, const saveFil
 budSessionLocal::OnSaveCompleted
 ========================
 */
-void budSessionLocal::OnSaveCompleted( idSaveLoadParms* parms )
-{
-	idLocalUser* master = session->GetSignInManager().GetMasterLocalUser();
+// void budSessionLocal::OnSaveCompleted( idSaveLoadParms* parms )
+// {
+// 	idLocalUser* master = session->GetSignInManager().GetMasterLocalUser();
 	
-	if( parms->GetError() != SAVEGAME_E_INSUFFICIENT_ROOM )
-	{
-		// if savegame completeed we can clear retry info
-		GetSaveGameManager().ClearRetryInfo();
-	}
+// 	if( parms->GetError() != SAVEGAME_E_INSUFFICIENT_ROOM )
+// 	{
+// 		// if savegame completeed we can clear retry info
+// 		GetSaveGameManager().ClearRetryInfo();
+// 	}
 	
-	// Only turn off the indicator if we're not also going to save the profile settings
-	if( master != NULL && master->GetProfile() != NULL && !master->GetProfile()->IsDirty() )
-	{
-		common->Dialog().ShowSaveIndicator( false );
-	}
-	
-	if( parms->GetError() == SAVEGAME_E_NONE )
-	{
-		// Save the profile any time we save the game
-		if( master != NULL && master->GetProfile() != NULL )
-		{
-			master->GetProfile()->SaveSettings( false );
-		}
+// 	if( parms->GetError() == SAVEGAME_E_NONE )
+// 	{
+// 		// Save the profile any time we save the game
+// 		if( master != NULL && master->GetProfile() != NULL )
+// 		{
+// 			master->GetProfile()->SaveSettings( false );
+// 		}
 		
-		// Update the enumerated savegames
-		saveGameDetailsList_t& detailList = session->GetSaveGameManager().GetEnumeratedSavegamesNonConst();
-		idSaveGameDetails* details = detailList.Find( parms->description );
-		if( details == NULL )
-		{
-			// add it
-			detailList.Append( parms->description );
-		}
-		else
-		{
-			// replace it
-			*details = parms->description;
-		}
-	}
+// 		// Update the enumerated savegames
+// 		saveGameDetailsList_t& detailList = session->GetSaveGameManager().GetEnumeratedSavegamesNonConst();
+// 		idSaveGameDetails* details = detailList.Find( parms->description );
+// 		if( details == NULL )
+// 		{
+// 			// add it
+// 			detailList.Append( parms->description );
+// 		}
+// 		else
+// 		{
+// 			// replace it
+// 			*details = parms->description;
+// 		}
+// 	}
 	
-	// Error handling and additional processing
-	common->OnSaveCompleted( *parms );
-}
+// 	// Error handling and additional processing
+// 	common->OnSaveCompleted( *parms );
+// }
 
 /*
 ========================
@@ -379,7 +369,7 @@ saveGameHandle_t budSessionLocal::LoadGameSync( const char* name, saveFileEntryL
 				{
 				}
 				
-				common->OnLoadCompleted( *parms );
+				// common->OnLoadCompleted( *parms );
 			}
 			idSaveLoadParms* parms;
 		} local( &parms );
@@ -443,9 +433,9 @@ saveGameHandle_t budSessionLocal::LoadGameSync( const char* name, saveFileEntryL
 budSessionLocal::OnLoadCompleted
 ========================
 */
-void budSessionLocal::OnLoadCompleted( idSaveLoadParms* parms )
-{
-}
+// void budSessionLocal::OnLoadCompleted( idSaveLoadParms* parms )
+// {
+// }
 
 /*
 ========================
@@ -632,7 +622,6 @@ saveGameHandle_t budSessionLocal::DeleteSaveGameAsync( const char* name )
 	if( processorDelete->InitDelete( name ) )
 	{
 		processorDelete->AddCompletedCallback( MakeCallback( this, &budSessionLocal::OnDeleteCompleted, &processorDelete->GetParmsNonConst() ) );
-		common->Dialog().ShowSaveIndicator( true );
 		handle = GetSaveGameManager().ExecuteProcessor( processorDelete );
 	}
 	
@@ -657,7 +646,6 @@ budSessionLocal::OnDeleteCompleted
 */
 void budSessionLocal::OnDeleteCompleted( idSaveLoadParms* parms )
 {
-	common->Dialog().ShowSaveIndicator( false );
 	
 	if( parms->GetError() == SAVEGAME_E_NONE )
 	{

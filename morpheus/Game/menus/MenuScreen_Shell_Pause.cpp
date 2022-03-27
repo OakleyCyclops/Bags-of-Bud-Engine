@@ -114,7 +114,7 @@ void idMenuScreen_Shell_Pause::Update()
 			buttonInfo->action.Set( WIDGET_ACTION_PRESS_FOCUSED );
 			
 			bool isDead = false;
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player != NULL )
 			{
 				if( player->health <= 0 )
@@ -146,11 +146,11 @@ idMenuScreen_Shell_Pause::ShowScreen
 void idMenuScreen_Shell_Pause::ShowScreen( const mainMenuTransition_t transitionType )
 {
 
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	budList< budStr > option;
 	
 	bool isDead = false;
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		if( player->health <= 0 )

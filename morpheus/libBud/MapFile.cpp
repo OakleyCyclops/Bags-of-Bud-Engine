@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 
@@ -152,7 +152,7 @@ idMapPatch* idMapPatch::Parse( budLexer& src, const budVec3& origin, bool patchD
 		}
 	}
 	
-	idMapPatch* patch = new( TAG_libBud ) idMapPatch( info[0], info[1] );
+	idMapPatch* patch = new( TAG_LIBBUD ) idMapPatch( info[0], info[1] );
 	
 	patch->SetSize( info[0], info[1] );
 	if( version < 2.0f )
@@ -383,7 +383,7 @@ idMapBrush* idMapBrush::Parse( budLexer& src, const budVec3& origin, bool newFor
 		
 		src.UnreadToken( &token );
 		
-		side = new( TAG_libBud ) idMapBrushSide();
+		side = new( TAG_LIBBUD ) idMapBrushSide();
 		sides.Append( side );
 		
 		if( newFormat )
@@ -461,7 +461,7 @@ idMapBrush* idMapBrush::Parse( budLexer& src, const budVec3& origin, bool newFor
 		return NULL;
 	}
 	
-	idMapBrush* brush = new( TAG_libBud ) idMapBrush();
+	idMapBrush* brush = new( TAG_LIBBUD ) idMapBrush();
 	for( i = 0; i < sides.Num(); i++ )
 	{
 		brush->AddSide( sides[i] );
@@ -494,7 +494,7 @@ idMapBrush* idMapBrush::ParseQ3( budLexer& src, const budVec3& origin )
 			break;
 		}
 		
-		side = new( TAG_libBud ) idMapBrushSide();
+		side = new( TAG_LIBBUD ) idMapBrushSide();
 		sides.Append( side );
 		
 		// read the three point plane definition
@@ -547,7 +547,7 @@ idMapBrush* idMapBrush::ParseQ3( budLexer& src, const budVec3& origin )
 	}
 	while( 1 );
 	
-	idMapBrush* brush = new( TAG_libBud ) idMapBrush();
+	idMapBrush* brush = new( TAG_LIBBUD ) idMapBrush();
 	for( i = 0; i < sides.Num(); i++ )
 	{
 		brush->AddSide( sides[i] );
@@ -646,7 +646,7 @@ idMapEntity* idMapEntity::Parse( budLexer& src, bool worldSpawn, float version )
 		return NULL;
 	}
 	
-	mapEnt = new( TAG_libBud ) idMapEntity();
+	mapEnt = new( TAG_LIBBUD ) idMapEntity();
 	
 	if( worldSpawn )
 	{
@@ -1552,7 +1552,7 @@ MapPolygonMesh::MapPolygonMesh()
 	originalType = TYPE_MESH;
 	polygons.Resize( 8, 4 );
 	
-	contents = CONTENTS_SOLID;
+	// contents = CONTENTS_SOLID;
 	opaque = true;
 }
 
@@ -1581,7 +1581,7 @@ void MapPolygonMesh::ConvertFromBrush( const idMapBrush* mapBrush, int entityNum
 	{
 		idMapBrushSide* mapSide = mapBrush->GetSide( i );
 		
-		const budMaterial* material = declManager->FindMaterial( mapSide->GetMaterial() );
+		// const budMaterial* material = declManager->FindMaterial( mapSide->GetMaterial() );
 		//contents |= ( material->GetContentFlags() & CONTENTS_REMOVE_UTIL );
 		//materials.AddUnique( material );
 		
@@ -2164,7 +2164,7 @@ void MapPolygonMesh::SetContents()
 {
 	if( polygons.Num() < 1 )
 	{
-		contents = CONTENTS_SOLID;
+		// contents = CONTENTS_SOLID;
 		opaque = true;
 		
 		return;
@@ -2174,8 +2174,8 @@ void MapPolygonMesh::SetContents()
 	
 	MapPolygon* poly = &polygons[0];
 	
-	const budMaterial* mat = declManager->FindMaterial( poly->GetMaterial() );
-	contents = mat->GetContentFlags();
+	// const budMaterial* mat = declManager->FindMaterial( poly->GetMaterial() );
+	// contents = mat->GetContentFlags();
 	
 	//b->contentShader = s->material;
 	bool mixed = false;
@@ -2187,19 +2187,19 @@ void MapPolygonMesh::SetContents()
 	{
 		poly = &polygons[i];
 		
-		const budMaterial* mat2 = declManager->FindMaterial( poly->GetMaterial() );
+		// const budMaterial* mat2 = declManager->FindMaterial( poly->GetMaterial() );
 		
-		c2 = mat2->GetContentFlags();
+		// c2 = mat2->GetContentFlags();
 		if( c2 != contents )
 		{
 			mixed = true;
 			contents |= c2;
 		}
 		
-		if( mat2->Coverage() != MC_OPAQUE )
-		{
-			opaque = false;
-		}
+		// if( mat2->Coverage() != MC_OPAQUE )
+		// {
+		// 	opaque = false;
+		// }
 	}
 }
 
@@ -2228,7 +2228,8 @@ unsigned int MapPolygonMesh::GetGeometryCRC() const
 
 bool MapPolygonMesh::IsAreaportal() const
 {
-	return ( ( contents & CONTENTS_AREAPORTAL ) != 0 );
+	// & CONTENTS_AREAPORTAL 
+	return ( ( contents ) != 0 );
 }
 
 void MapPolygonMesh::GetBounds( budBounds& bounds ) const

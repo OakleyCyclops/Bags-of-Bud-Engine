@@ -56,7 +56,7 @@ void idMenuScreen_Shell_Settings::Initialize( idMenuHandler* data )
 	SetSpritePath( "menuSettings" );
 	
 	options = new( TAG_SWF ) idMenuWidget_DynamicList();
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	budList< budStr > option;
 	
 	option.Append( "#str_04158" );	// controls

@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "ConsoleHistory.h"
+#include "corePCH.hpp"
+#include "ConsoleHistory.hpp"
 
 budConsoleHistory consoleHistory;
 

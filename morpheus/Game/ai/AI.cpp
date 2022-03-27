@@ -3715,7 +3715,7 @@ int budAI::ReactionTo( const idEntity* ent )
 	}
 	
 	const budActor* actor = static_cast<const budActor*>( ent );
-	if( actor->IsType( idPlayer::Type ) && static_cast<const idPlayer*>( actor )->noclip )
+	if( actor->IsType( budPlayer::Type ) && static_cast<const budPlayer*>( actor )->noclip )
 	{
 		// ignore players in noclip mode
 		return ATTACK_IGNORE;
@@ -3876,7 +3876,7 @@ void budAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const b
 	// Guardian died?  grats, you get an achievement
 	if( budStr::Icmp( name, "guardian_spawn" ) == 0 )
 	{
-		idPlayer* player = gameLocal.GetLocalPlayer();
+		budPlayer* player = gameLocal.GetLocalPlayer();
 		if( player != NULL && player->GetExpansionType() == GAME_BASE )
 		{
 			player->GetAchievementManager().EventCompletesAchievement( ACHIEVEMENT_DEFEAT_GUARDIAN_BOSS );
@@ -3982,9 +3982,9 @@ void budAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const b
 		kv = spawnArgs.MatchPrefix( "def_drops", kv );
 	}
 	
-	if( ( attacker && attacker->IsType( idPlayer::Type ) ) && ( inflictor && !inflictor->IsType( idSoulCubeMissile::Type ) ) )
+	if( ( attacker && attacker->IsType( budPlayer::Type ) ) && ( inflictor && !inflictor->IsType( idSoulCubeMissile::Type ) ) )
 	{
-		static_cast< idPlayer* >( attacker )->AddAIKill();
+		static_cast< budPlayer* >( attacker )->AddAIKill();
 	}
 	
 	if( spawnArgs.GetBool( "harvest_on_death" ) )
@@ -4102,7 +4102,7 @@ Notifies the script that a monster has been activated by a trigger or flashlight
 */
 void budAI::Activate( idEntity* activator )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	if( AI_DEAD )
 	{
@@ -4120,13 +4120,13 @@ void budAI::Activate( idEntity* activator )
 	else
 	{
 		AI_ACTIVATED = true;
-		if( !activator || !activator->IsType( idPlayer::Type ) )
+		if( !activator || !activator->IsType( budPlayer::Type ) )
 		{
 			player = gameLocal.GetLocalPlayer();
 		}
 		else
 		{
-			player = static_cast<idPlayer*>( activator );
+			player = static_cast<budPlayer*>( activator );
 		}
 		
 		if( ReactionTo( player ) & ATTACK_ON_ACTIVATE )
@@ -4534,9 +4534,9 @@ void budAI::SetEnemy( budActor* newEnemy )
 	
 		// Check to see if we should unlock the 'Turncloak' achievement
 		const budActor* enemyEnt = enemy.GetEntity();
-		if( enemyEnt != NULL && enemyEnt->IsType( idPlayer::Type ) && newEnemy->IsType( budAI::Type ) && newEnemy->team == this->team && ( budStr::Icmp( newEnemy->GetName(), "hazmat_dummy" ) != 0 ) )
+		if( enemyEnt != NULL && enemyEnt->IsType( budPlayer::Type ) && newEnemy->IsType( budAI::Type ) && newEnemy->team == this->team && ( budStr::Icmp( newEnemy->GetName(), "hazmat_dummy" ) != 0 ) )
 		{
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player != NULL )
 			{
 				player->GetAchievementManager().EventCompletesAchievement( ACHIEVEMENT_TWO_DEMONS_FIGHT_EACH_OTHER );
@@ -4981,7 +4981,7 @@ budAI::DamageFeedback
 
 callback function for when another entity received damage from this entity.  damage can be adjusted and returned to the caller.
 
-FIXME: This gets called when we call idPlayer::CalcDamagePoints from budAI::AttackMelee, which then checks for a saving throw,
+FIXME: This gets called when we call budPlayer::CalcDamagePoints from budAI::AttackMelee, which then checks for a saving throw,
 possibly forcing a miss.  This is harmless behavior ATM, but is not intuitive.
 ================
 */
@@ -5146,10 +5146,10 @@ bool budAI::AttackMelee( const char* meleeDefName )
 	// check for the "saving throw" automatic melee miss on lethal blow
 	// stupid place for this.
 	bool forceMiss = false;
-	if( enemyEnt->IsType( idPlayer::Type ) && g_skill.GetInteger() < 2 )
+	if( enemyEnt->IsType( budPlayer::Type ) && g_skill.GetInteger() < 2 )
 	{
 		int	damage, armor;
-		idPlayer* player = static_cast<idPlayer*>( enemyEnt );
+		budPlayer* player = static_cast<budPlayer*>( enemyEnt );
 		player->CalcDamagePoints( this, this, meleeDef, 1.0f, INVALID_JOINT, &damage, &armor );
 		
 		if( enemyEnt->health <= damage )
@@ -6038,7 +6038,7 @@ void idCombatNode::DrawDebugInfo()
 {
 	idEntity*		ent;
 	idCombatNode*	node;
-	idPlayer*		player = gameLocal.GetLocalPlayer();
+	budPlayer*		player = gameLocal.GetLocalPlayer();
 	budVec4			color;
 	budBounds		bounds( budVec3( -16, -16, 0 ), budVec3( 16, 16, 0 ) );
 	

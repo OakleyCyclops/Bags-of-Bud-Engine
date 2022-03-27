@@ -26,10 +26,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
-#include "achievements.h"
-#include "../sys_session_local.h"
+#include "achievements.hpp"
+#include "sys_session_local.hpp"
 
 extern budCVar achievements_Verbose;
 

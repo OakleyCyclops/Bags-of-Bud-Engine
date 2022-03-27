@@ -78,7 +78,7 @@ public:
 	
 	int						durationMsec;
 	
-	budList<WarpPolygon_t, TAG_libBud_LIST_PLAYER>	polys;
+	budList<WarpPolygon_t, TAG_LIBBUD_LIST_PLAYER>	polys;
 };
 
 
@@ -88,7 +88,7 @@ public:
 
 
 
-class idPlayerView;
+class budPlayerView;
 class FullscreenFXManager;
 
 
@@ -358,7 +358,7 @@ class FullscreenFXManager
 {
 	budList<FullscreenFX*, TAG_FX>	fx;
 	
-	idPlayerView* 			playerView;
+	budPlayerView* 			playerView;
 	const budMaterial*		blendBackMaterial;
 	
 	void					CreateFX( budStr name, budStr fxtype, int fade );
@@ -367,16 +367,16 @@ public:
 	FullscreenFXManager();
 	virtual					~FullscreenFXManager();
 	
-	void					Initialize( idPlayerView* pv );
+	void					Initialize( budPlayerView* pv );
 	
 	void					Process( const renderView_t* view );
 	void					Blendback( float alpha );
 	
-	idPlayerView*			GetPlayerView()
+	budPlayerView*			GetPlayerView()
 	{
 		return playerView;
 	};
-	idPlayer*				GetPlayer()
+	budPlayer*				GetPlayer()
 	{
 		return gameLocal.GetLocalPlayer();
 	};
@@ -404,16 +404,16 @@ public:
 
 
 
-class idPlayerView
+class budPlayerView
 {
 public:
-	idPlayerView();
-	~idPlayerView();
+	budPlayerView();
+	~budPlayerView();
 	
 	void				Save( idSaveGame* savefile ) const;
 	void				Restore( idRestoreGame* savefile );
 	
-	void				SetPlayerEntity( class idPlayer* playerEnt );
+	void				SetPlayerEntity( class budPlayer* playerEnt );
 	
 	void				ClearEffects();
 	
@@ -474,7 +474,7 @@ public:
 	
 	budAngles			shakeAng;			// from the sound sources
 	
-	idPlayer* 			player;
+	budPlayer* 			player;
 	renderView_t		view;
 	
 	FullscreenFXManager*	fxManager;

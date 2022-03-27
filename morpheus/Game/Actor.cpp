@@ -2490,7 +2490,7 @@ void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 	}
 	
 	// for killed by fists achievement
-	if( attacker->IsType( idPlayer::Type ) && budStr::Cmp( "damage_fists", damageDefName ) )
+	if( attacker->IsType( budPlayer::Type ) && budStr::Cmp( "damage_fists", damageDefName ) )
 	{
 		damageNotByFists = true;
 	}
@@ -2545,10 +2545,10 @@ void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 			
 			if( oldHealth > 0 )
 			{
-				idPlayer* player = NULL;
-				if( ( attacker && attacker->IsType( idPlayer::Type ) ) )
+				budPlayer* player = NULL;
+				if( ( attacker && attacker->IsType( budPlayer::Type ) ) )
 				{
-					player = static_cast< idPlayer* >( attacker );
+					player = static_cast< budPlayer* >( attacker );
 				}
 				
 				if( player != NULL )
@@ -2604,7 +2604,7 @@ void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 						// AND it has an attacker (set when the grabber picks up a moveable )
 						// AND the moveable's attacker is the attacker here (the player)
 						// then the player has killed an enemy with a launched moveable from the Grabber
-						if( moveable != NULL && moveable->GetAttacker() != NULL && moveable->GetAttacker()->IsType( idPlayer::Type ) && moveable->GetAttacker() == attacker && player->GetExpansionType() == GAME_D3XP && team != player->team )
+						if( moveable != NULL && moveable->GetAttacker() != NULL && moveable->GetAttacker()->IsType( budPlayer::Type ) && moveable->GetAttacker() == attacker && player->GetExpansionType() == GAME_D3XP && team != player->team )
 						{
 							player->GetAchievementManager().EventCompletesAchievement( ACHIEVEMENT_GRABBER_KILL_20_ENEMY );
 						}

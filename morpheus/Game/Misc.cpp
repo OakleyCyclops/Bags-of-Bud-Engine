@@ -64,64 +64,64 @@ void idSpawnableEntity::Spawn()
 /*
 ===============================================================================
 
-	idPlayerStart
+	budPlayerStart
 
 ===============================================================================
 */
 
 const idEventDef EV_TeleportStage( "<TeleportStage>", "e" );
 
-CLASS_DECLARATION( idEntity, idPlayerStart )
-EVENT( EV_Activate,			idPlayerStart::Event_TeleportPlayer )
-EVENT( EV_TeleportStage,	idPlayerStart::Event_TeleportStage )
+CLASS_DECLARATION( idEntity, budPlayerStart )
+EVENT( EV_Activate,			budPlayerStart::Event_TeleportPlayer )
+EVENT( EV_TeleportStage,	budPlayerStart::Event_TeleportStage )
 END_CLASS
 
 /*
 ===============
-idPlayerStart::idPlayerStart
+budPlayerStart::budPlayerStart
 ================
 */
-idPlayerStart::idPlayerStart()
+budPlayerStart::budPlayerStart()
 {
 	teleportStage = 0;
 }
 
 /*
 ===============
-idPlayerStart::Spawn
+budPlayerStart::Spawn
 ================
 */
-void idPlayerStart::Spawn()
+void budPlayerStart::Spawn()
 {
 	teleportStage = 0;
 }
 
 /*
 ================
-idPlayerStart::Save
+budPlayerStart::Save
 ================
 */
-void idPlayerStart::Save( idSaveGame* savefile ) const
+void budPlayerStart::Save( idSaveGame* savefile ) const
 {
 	savefile->WriteInt( teleportStage );
 }
 
 /*
 ================
-idPlayerStart::Restore
+budPlayerStart::Restore
 ================
 */
-void idPlayerStart::Restore( idRestoreGame* savefile )
+void budPlayerStart::Restore( idRestoreGame* savefile )
 {
 	savefile->ReadInt( teleportStage );
 }
 
 /*
 ================
-idPlayerStart::ClientReceiveEvent
+budPlayerStart::ClientReceiveEvent
 ================
 */
-bool idPlayerStart::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
+bool budPlayerStart::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 {
 	int entityNumber;
 	
@@ -130,8 +130,8 @@ bool idPlayerStart::ClientReceiveEvent( int event, int time, const budBitMsg& ms
 		case EVENT_TELEPORTPLAYER:
 		{
 			entityNumber = msg.ReadBits( GENTITYNUM_BITS );
-			idPlayer* player = static_cast<idPlayer*>( gameLocal.entities[entityNumber] );
-			if( player != NULL && player->IsType( idPlayer::Type ) )
+			budPlayer* player = static_cast<budPlayer*>( gameLocal.entities[entityNumber] );
+			if( player != NULL && player->IsType( budPlayer::Type ) )
 			{
 				Event_TeleportPlayer( player );
 			}
@@ -146,20 +146,20 @@ bool idPlayerStart::ClientReceiveEvent( int event, int time, const budBitMsg& ms
 
 /*
 ===============
-idPlayerStart::Event_TeleportStage
+budPlayerStart::Event_TeleportStage
 
 FIXME: add functionality to fx system ( could be done with player scripting too )
 ================
 */
-void idPlayerStart::Event_TeleportStage( idEntity* _player )
+void budPlayerStart::Event_TeleportStage( idEntity* _player )
 {
-	idPlayer* player;
-	if( !_player->IsType( idPlayer::Type ) )
+	budPlayer* player;
+	if( !_player->IsType( budPlayer::Type ) )
 	{
-		common->Warning( "idPlayerStart::Event_TeleportStage: entity is not an idPlayer\n" );
+		common->Warning( "budPlayerStart::Event_TeleportStage: entity is not an budPlayer\n" );
 		return;
 	}
-	player = static_cast<idPlayer*>( _player );
+	player = static_cast<budPlayer*>( _player );
 	float teleportDelay = spawnArgs.GetFloat( "teleportDelay" );
 	switch( teleportStage )
 	{
@@ -191,10 +191,10 @@ void idPlayerStart::Event_TeleportStage( idEntity* _player )
 
 /*
 ===============
-idPlayerStart::TeleportPlayer
+budPlayerStart::TeleportPlayer
 ================
 */
-void idPlayerStart::TeleportPlayer( idPlayer* player )
+void budPlayerStart::TeleportPlayer( budPlayer* player )
 {
 	float pushVel = spawnArgs.GetFloat( "push", "300" );
 	float f = spawnArgs.GetFloat( "visualEffect", "0" );
@@ -231,16 +231,16 @@ void idPlayerStart::TeleportPlayer( idPlayer* player )
 
 /*
 ===============
-idPlayerStart::Event_TeleportPlayer
+budPlayerStart::Event_TeleportPlayer
 ================
 */
-void idPlayerStart::Event_TeleportPlayer( idEntity* activator )
+void budPlayerStart::Event_TeleportPlayer( idEntity* activator )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
-	if( activator->IsType( idPlayer::Type ) )
+	if( activator->IsType( budPlayer::Type ) )
 	{
-		player = static_cast<idPlayer*>( activator );
+		player = static_cast<budPlayer*>( activator );
 	}
 	else
 	{
@@ -1401,7 +1401,7 @@ void budAnimated::Event_Activate( idEntity* _activator )
 	achievement = spawnArgs.GetInt( "achievement", "-1" );
 	if( achievement != -1 )
 	{
-		idPlayer* player = gameLocal.GetLocalPlayer();
+		budPlayer* player = gameLocal.GetLocalPlayer();
 		if( player != NULL )
 		{
 			bool shouldCountAction = true;
@@ -1736,7 +1736,7 @@ void idStaticEntity::Think()
 	{
 		if( runGui && renderEntity.gui[0] )
 		{
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player )
 			{
 				if( !player->objectiveSystemOpen )
@@ -3152,7 +3152,7 @@ void idEarthQuake::Event_Activate( idEntity* activator )
 		return;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;
@@ -3504,7 +3504,7 @@ idFuncRadioChatter::Event_Activate
 */
 void idFuncRadioChatter::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	
 	if( player != NULL && player->hudManager )
 	{
@@ -3531,7 +3531,7 @@ idFuncRadioChatter::Event_ResetRadioHud
 */
 void idFuncRadioChatter::Event_ResetRadioHud( idEntity* activator )
 {
-	idPlayer* player = ( activator->IsType( idPlayer::Type ) ) ? static_cast<idPlayer*>( activator ) : gameLocal.GetLocalPlayer();
+	budPlayer* player = ( activator->IsType( budPlayer::Type ) ) ? static_cast<budPlayer*>( activator ) : gameLocal.GetLocalPlayer();
 	
 	if( player != NULL && player->hudManager )
 	{
@@ -4007,7 +4007,7 @@ void idShockwave::Think()
 				continue;
 			}
 			
-			if( !ent->IsType( idMoveable::Type ) && !ent->IsType( budAFEntity_Base::Type ) && !ent->IsType( idPlayer::Type ) )
+			if( !ent->IsType( idMoveable::Type ) && !ent->IsType( budAFEntity_Base::Type ) && !ent->IsType( budPlayer::Type ) )
 			{
 				continue;
 			}
@@ -4017,7 +4017,7 @@ void idShockwave::Think()
 			
 			float dist = force.Normalize();
 			
-			if( ent->IsType( idPlayer::Type ) )
+			if( ent->IsType( budPlayer::Type ) )
 			{
 			
 				if( ent->GetPhysics()->GetAbsBounds().IntersectsBounds( bounds ) )
@@ -4032,7 +4032,7 @@ void idShockwave::Think()
 						{
 						
 							playerDamaged = true;	//Only damage once per shockwave
-							idPlayer* player = static_cast< idPlayer* >( ent );
+							budPlayer* player = static_cast< budPlayer* >( ent );
 							budVec3 dir = ent->GetPhysics()->GetOrigin() - pos;
 							dir.NormalizeFast();
 							player->Damage( NULL, NULL, dir, damageDef, 1.0f, INVALID_JOINT );
@@ -4217,9 +4217,9 @@ idFuncMountedObject::Event_Activate
 */
 void idFuncMountedObject::Event_Activate( idEntity* activator )
 {
-	if( !isMounted && activator->IsType( idPlayer::Type ) )
+	if( !isMounted && activator->IsType( budPlayer::Type ) )
 	{
-		idPlayer* client = ( idPlayer* )activator;
+		budPlayer* client = ( budPlayer* )activator;
 		
 		mountedPlayer = client;
 		

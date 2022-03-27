@@ -27,8 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
-#include "PacketProcessor.h"
+#include "corePCH.hpp"
 
 // DG: workaround for GCC bug
 const int idPacketProcessor::RETURN_TYPE_NONE = 0;

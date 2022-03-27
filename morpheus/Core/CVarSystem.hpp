@@ -254,7 +254,7 @@ BUD_INLINE budCVar::budCVar( const char* name, const char* value, int flags, con
 {
 	if( !valueCompletion && ( flags & CVAR_BOOL ) )
 	{
-		valueCompletion = idCmdSystem::ArgCompletion_Boolean;
+		valueCompletion = budCmdSystem::ArgCompletion_Boolean;
 	}
 	Init( name, value, flags, description, 1, -1, NULL, valueCompletion );
 }

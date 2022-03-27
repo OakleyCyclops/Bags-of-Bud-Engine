@@ -27,11 +27,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Unzip.h"
-#include "Zip.h"
+#include "Zip.hpp"
 
 #ifdef WIN32
 #include <io.h>	// for _read
@@ -296,7 +295,7 @@ private:
 	void					ReOpenCacheFiles();
 };
 
-budCVar	budFileSystemLocal::fs_debug( "fs_debug", "0", CVAR_SYSTEM | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+budCVar	budFileSystemLocal::fs_debug( "fs_debug", "0", CVAR_SYSTEM | CVAR_INTEGER, "", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
 budCVar	budFileSystemLocal::fs_debugResources( "fs_debugResources", "0", CVAR_SYSTEM | CVAR_BOOL, "" );
 budCVar	budFileSystemLocal::fs_enableBGL( "fs_enableBGL", "0", CVAR_SYSTEM | CVAR_BOOL, "" );
 budCVar	budFileSystemLocal::fs_debugBGL( "fs_debugBGL", "0", CVAR_SYSTEM | CVAR_BOOL, "" );
@@ -1990,7 +1989,7 @@ int budFileSystemLocal::ReadFile( const char* relativePath, void** buffer, ID_TI
 				*buffer = NULL;
 				return -1;
 			}
-			buf = ( byte* )Mem_ClearedAlloc( len + 1, TAG_budFile );
+			buf = ( byte* )Mem_ClearedAlloc( len + 1, TAG_BUDFILE );
 			*buffer = buf;
 			r = eventLoop->com_journalDataFile->Read( buf, len );
 			if( r != len )
@@ -2050,7 +2049,7 @@ int budFileSystemLocal::ReadFile( const char* relativePath, void** buffer, ID_TI
 	loadCount++;
 	loadStack++;
 	
-	buf = ( byte* )Mem_ClearedAlloc( len + 1, TAG_budFile );
+	buf = ( byte* )Mem_ClearedAlloc( len + 1, TAG_BUDFILE );
 	*buffer = buf;
 	
 	f->Read( buf, len );
@@ -2381,7 +2380,7 @@ budFileList* budFileSystemLocal::ListFiles( const char* relativePath, const char
 	budHashIndex hashIndex( 4096, 4096 );
 	budStrList extensionList;
 	
-	budFileList* fileList = new( TAG_budFile ) budFileList;
+	budFileList* fileList = new( TAG_BUDFILE ) budFileList;
 	fileList->basePath = relativePath;
 	
 	GetExtensionList( extension, extensionList );
@@ -2439,7 +2438,7 @@ budFileList* budFileSystemLocal::ListFilesTree( const char* relativePath, const 
 	budHashIndex hashIndex( 4096, 4096 );
 	budStrList extensionList;
 	
-	budFileList* fileList = new( TAG_budFile ) budFileList();
+	budFileList* fileList = new( TAG_BUDFILE ) budFileList();
 	fileList->basePath = relativePath;
 	fileList->list.SetGranularity( 4096 );
 	
@@ -2731,7 +2730,6 @@ void budFileSystemLocal::TouchFileList_f( const budCmdArgs& args )
 			{
 				common->Printf( "%s\n", token.c_str() );
 				const bool captureToImage = false;
-				common->UpdateScreen( captureToImage );
 				budFile* f = fileSystemLocal.OpenFileRead( token );
 				if( f )
 				{
@@ -3091,7 +3089,7 @@ void budFileSystemLocal::Startup()
 	}
 	
 	// add our commands
-	cmdSystem->AddCommand( "dir", Dir_f, CMD_FL_SYSTEM, "lists a folder", idCmdSystem::ArgCompletion_FileName );
+	cmdSystem->AddCommand( "dir", Dir_f, CMD_FL_SYSTEM, "lists a folder", budCmdSystem::ArgCompletion_FileName );
 	cmdSystem->AddCommand( "dirtree", DirTree_f, CMD_FL_SYSTEM, "lists a folder with subfolders" );
 	cmdSystem->AddCommand( "path", Path_f, CMD_FL_SYSTEM, "lists search paths" );
 	cmdSystem->AddCommand( "touchFile", TouchFile_f, CMD_FL_SYSTEM, "touches a file" );
@@ -3407,7 +3405,7 @@ budFile* budFileSystemLocal::OpenFileReadFlags( const char* relativePath, int se
 				continue;
 			}
 			
-			budFile_Permanent* file = new( TAG_budFile ) budFile_Permanent();
+			budFile_Permanent* file = new( TAG_BUDFILE ) budFile_Permanent();
 			file->o = fp;
 			file->name = relativePath;
 			file->fullPath = netpath;
@@ -3502,7 +3500,7 @@ budFile* budFileSystemLocal::OpenFileReadFlags( const char* relativePath, int se
 			
 			if( searchFlags & FSFLAG_RETURN_FILE_MEM )
 			{
-				budFile_Memory* memFile = new( TAG_budFile ) budFile_Memory( file->name );
+				budFile_Memory* memFile = new( TAG_BUDFILE ) budFile_Memory( file->name );
 				memFile->SetLength( file->fileSize );
 				file->Read( ( void* )memFile->GetDataPtr(), file->fileSize );
 				delete file;
@@ -3584,7 +3582,7 @@ budFile* budFileSystemLocal::OpenFileWrite( const char* relativePath, const char
 	common->DPrintf( "writing to: %s\n", OSpath.c_str() );
 	CreateOSPath( OSpath );
 	
-	f = new( TAG_budFile ) budFile_Permanent();
+	f = new( TAG_BUDFILE ) budFile_Permanent();
 	f->o = OpenOSFile( OSpath, FS_WRITE );
 	if( !f->o )
 	{
@@ -3621,7 +3619,7 @@ budFile* budFileSystemLocal::OpenExplicitFileRead( const char* OSPath )
 	
 	//common->DPrintf( "budFileSystem::OpenExplicitFileRead - reading from: %s\n", OSPath );
 	
-	f = new( TAG_budFile ) budFile_Permanent();
+	f = new( TAG_BUDFILE ) budFile_Permanent();
 	f->o = OpenOSFile( OSPath, FS_READ );
 	if( !f->o )
 	{
@@ -3657,7 +3655,7 @@ budFile_Cached* budFileSystemLocal::OpenExplicitPakFile( const char* OSPath )
 	
 	//common->DPrintf( "budFileSystem::OpenExplicitFileRead - reading from: %s\n", OSPath );
 	
-	f = new( TAG_budFile ) budFile_Cached();
+	f = new( TAG_BUDFILE ) budFile_Cached();
 	f->o = OpenOSFile( OSPath, FS_READ );
 	if( !f->o )
 	{
@@ -3695,7 +3693,7 @@ budFile* budFileSystemLocal::OpenExplicitFileWrite( const char* OSPath )
 	common->DPrintf( "writing to: %s\n", OSPath );
 	CreateOSPath( OSPath );
 	
-	f = new( TAG_budFile ) budFile_Permanent();
+	f = new( TAG_BUDFILE ) budFile_Permanent();
 	f->o = OpenOSFile( OSPath, FS_WRITE );
 	if( !f->o )
 	{
@@ -3742,7 +3740,7 @@ budFile* budFileSystemLocal::OpenFileAppend( const char* relativePath, bool sync
 		common->Printf( "budFileSystem::OpenFileAppend: %s\n", OSpath.c_str() );
 	}
 	
-	f = new( TAG_budFile ) budFile_Permanent();
+	f = new( TAG_BUDFILE ) budFile_Permanent();
 	f->o = OpenOSFile( OSpath, FS_APPEND );
 	if( !f->o )
 	{

@@ -27,8 +27,8 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
-#include "Winding2D.h"
+#include "libBudPCH.hpp"
+#include "Winding2D.hpp"
 
 /*
 ============
@@ -212,8 +212,8 @@ int idWinding2D::Split( const budVec3& plane, const float epsilon, idWinding2D**
 	
 	maxpts = numPoints + 4;	// cant use counts[0]+2 because of fp grouping errors
 	
-	*front = f = new( TAG_libBud_WINDING ) idWinding2D;
-	*back = b = new( TAG_libBud_WINDING ) idWinding2D;
+	*front = f = new( TAG_LIBBUD_WINDING ) idWinding2D;
+	*back = b = new( TAG_LIBBUD_WINDING ) idWinding2D;
 	
 	for( i = 0; i < numPoints; i++ )
 	{
@@ -429,7 +429,7 @@ idWinding2D* idWinding2D::Copy() const
 {
 	idWinding2D* w;
 	
-	w = new( TAG_libBud_WINDING ) idWinding2D;
+	w = new( TAG_LIBBUD_WINDING ) idWinding2D;
 	w->numPoints = numPoints;
 	memcpy( w->p, p, numPoints * sizeof( p[0] ) );
 	return w;
@@ -445,7 +445,7 @@ idWinding2D* idWinding2D::Reverse() const
 	idWinding2D* w;
 	int i;
 	
-	w = new( TAG_libBud_WINDING ) idWinding2D;
+	w = new( TAG_LIBBUD_WINDING ) idWinding2D;
 	w->numPoints = numPoints;
 	for( i = 0; i < numPoints; i++ )
 	{

@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 //===============================================================
 //
@@ -46,7 +46,7 @@ bool idWinding::ReAllocate( int n, bool keep )
 	
 	oldP = p;
 	n = ( n + 3 ) & ~3;	// align up to multiple of four
-	p = new( TAG_libBud_WINDING ) budVec5[n];
+	p = new( TAG_LIBBUD_WINDING ) budVec5[n];
 	if( oldP )
 	{
 		if( keep )
@@ -166,8 +166,8 @@ int idWinding::Split( const budPlane& plane, const float epsilon, idWinding** fr
 	
 	maxpts = numPoints + 4;	// cant use counts[0]+2 because of fp grouping errors
 	
-	*front = f = new( TAG_libBud_WINDING ) idWinding( maxpts );
-	*back = b = new( TAG_libBud_WINDING ) idWinding( maxpts );
+	*front = f = new( TAG_LIBBUD_WINDING ) idWinding( maxpts );
+	*back = b = new( TAG_LIBBUD_WINDING ) idWinding( maxpts );
 	
 	for( i = 0; i < numPoints; i++ )
 	{
@@ -548,7 +548,7 @@ idWinding* idWinding::Copy() const
 {
 	idWinding* w;
 	
-	w = new( TAG_libBud_WINDING ) idWinding( numPoints );
+	w = new( TAG_LIBBUD_WINDING ) idWinding( numPoints );
 	w->numPoints = numPoints;
 	memcpy( w->p, p, numPoints * sizeof( p[0] ) );
 	return w;
@@ -564,7 +564,7 @@ idWinding* idWinding::Reverse() const
 	idWinding* w;
 	int i;
 	
-	w = new( TAG_libBud_WINDING ) idWinding( numPoints );
+	w = new( TAG_LIBBUD_WINDING ) idWinding( numPoints );
 	w->numPoints = numPoints;
 	for( i = 0; i < numPoints; i++ )
 	{
@@ -1261,7 +1261,7 @@ idWinding* idWinding::TryMerge( const idWinding& w, const budVec3& planenormal, 
 	//
 	// build the new polygon
 	//
-	newf = new( TAG_libBud_WINDING ) idWinding( f1->numPoints + f2->numPoints );
+	newf = new( TAG_LIBBUD_WINDING ) idWinding( f1->numPoints + f2->numPoints );
 	
 	// copy first polygon
 	for( k = ( i + 1 ) % f1->numPoints; k != i; k = ( k + 1 ) % f1->numPoints )

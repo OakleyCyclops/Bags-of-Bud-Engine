@@ -54,7 +54,7 @@ typedef enum
 typedef int ammo_t;
 static const int AMMO_NUMTYPES = 16;
 
-class idPlayer;
+class budPlayer;
 
 static const int LIGHTID_WORLD_MUZZLE_FLASH = 1;
 static const int LIGHTID_VIEW_MUZZLE_FLASH = 100;
@@ -93,10 +93,10 @@ public:
 	
 	// Init
 	void					Spawn();
-	void					SetOwner( idPlayer* owner );
-	idPlayer*				GetOwner();
+	void					SetOwner( budPlayer* owner );
+	budPlayer*				GetOwner();
 	virtual bool			ShouldConstructScriptObjectAtSpawn() const;
-	void					SetFlashlightOwner( idPlayer* owner );
+	void					SetFlashlightOwner( budPlayer* owner );
 	
 	static void				CacheWeapon( const char* weaponName );
 	
@@ -222,7 +222,7 @@ public:
 		return weaponDef;
 	}
 	
-	friend class idPlayer;
+	friend class budPlayer;
 private:
 	// script control
 	idScriptBool			WEAPON_ATTACK;
@@ -244,7 +244,7 @@ private:
 	// precreated projectile
 	idEntity*				projectileEnt;
 	
-	idPlayer* 				owner;
+	budPlayer* 				owner;
 	idEntityPtr<budAnimatedEntity>	worldModel;
 	
 	// hiding (for GUIs and NPCs)
@@ -459,7 +459,7 @@ BUD_INLINE bool idWeapon::IsWorldModelReady()
 	return ( worldModel.GetEntity() != NULL );
 }
 
-BUD_INLINE idPlayer* idWeapon::GetOwner()
+BUD_INLINE budPlayer* idWeapon::GetOwner()
 {
 	return owner;
 }

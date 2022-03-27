@@ -300,7 +300,7 @@ bool idSecurityCamera::CanSeePlayer()
 {
 	int i;
 	float dist;
-	idPlayer* ent;
+	budPlayer* ent;
 	trace_t tr;
 	budVec3 dir;
 	pvsHandle_t handle;
@@ -309,7 +309,7 @@ bool idSecurityCamera::CanSeePlayer()
 	
 	for( i = 0; i < gameLocal.numClients; i++ )
 	{
-		ent = static_cast<idPlayer*>( gameLocal.entities[ i ] );
+		ent = static_cast<budPlayer*>( gameLocal.entities[ i ] );
 		
 		if( !ent || ( ent->fl.notarget ) )
 		{

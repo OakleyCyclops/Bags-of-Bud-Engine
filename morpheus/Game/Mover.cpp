@@ -1939,7 +1939,7 @@ void idElevator::Event_Touch( idEntity* other, trace_t* trace )
 		return;
 	}
 	
-	if( !other->IsType( idPlayer::Type ) )
+	if( !other->IsType( budPlayer::Type ) )
 	{
 		return;
 	}
@@ -4171,7 +4171,7 @@ idDoor::AllowPlayerOnly
 */
 bool idDoor::AllowPlayerOnly( idEntity* ent )
 {
-	if( playerOnly && !ent->IsType( idPlayer::Type ) )
+	if( playerOnly && !ent->IsType( budPlayer::Type ) )
 	{
 		return false;
 	}
@@ -4457,7 +4457,7 @@ void idDoor::Event_Touch( idEntity* other, trace_t* trace )
 	}
 	else if( sndTrigger && trace->c.id == sndTrigger->GetId() )
 	{
-		if( other && other->IsType( idPlayer::Type ) && IsLocked() && gameLocal.slow.time > nextSndTriggerTime )
+		if( other && other->IsType( budPlayer::Type ) && IsLocked() && gameLocal.slow.time > nextSndTriggerTime )
 		{
 			StartSound( "snd_locked", SND_CHANNEL_ANY, 0, false, NULL );
 			nextSndTriggerTime = gameLocal.slow.time + 10000;
@@ -4474,11 +4474,11 @@ void idDoor::Event_SpectatorTouch( idEntity* other, trace_t* trace )
 {
 	budVec3		contact, translate, normal;
 	budBounds	bounds;
-	idPlayer*	p;
+	budPlayer*	p;
 	
-	assert( other && other->IsType( idPlayer::Type ) && static_cast< idPlayer* >( other )->spectating );
+	assert( other && other->IsType( budPlayer::Type ) && static_cast< budPlayer* >( other )->spectating );
 	
-	p = static_cast< idPlayer* >( other );
+	p = static_cast< budPlayer* >( other );
 	// avoid flicker when stopping right at clip box boundaries
 	if( p->lastSpectateTeleport > gameLocal.slow.time - 1000 )
 	{
@@ -5040,7 +5040,7 @@ void idPlat::Event_Touch( idEntity* other, trace_t* trace )
 		return;
 	}
 	
-	if( !other->IsType( idPlayer::Type ) )
+	if( !other->IsType( budPlayer::Type ) )
 	{
 		return;
 	}

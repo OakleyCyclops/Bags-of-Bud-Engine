@@ -26,9 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-
-#include "File_SaveGame.h"
+#include "corePCH.hpp"
 
 /*
 
@@ -409,7 +407,7 @@ bool budFile_SaveGamePipelined::OpenForWriting( const char* const filename, bool
 	
 	if( sgf_threads.GetInteger() >= 1 )
 	{
-		compressThread = new( TAG_budFile ) idSGFcompressThread();
+		compressThread = new( TAG_BUDFILE ) idSGFcompressThread();
 		compressThread->sgf = this;
 		// DG: change threadname from "SGF_CompressThread" to "SGF_Compress", because Linux
 		// has a 15 (+ \0) char limit for threadnames. also, "thread" in a threadname is redundant
@@ -418,7 +416,7 @@ bool budFile_SaveGamePipelined::OpenForWriting( const char* const filename, bool
 	}
 	if( nativeFile != NULL && sgf_threads.GetInteger() >= 2 )
 	{
-		writeThread = new( TAG_budFile ) idSGFwriteThread();
+		writeThread = new( TAG_BUDFILE ) idSGFwriteThread();
 		writeThread->sgf = this;
 		writeThread->StartWorkerThread( "SGF_WriteThread", CORE_2A, THREAD_NORMAL );
 	}
@@ -469,7 +467,7 @@ bool budFile_SaveGamePipelined::OpenForWriting( budFile* file )
 	
 	if( sgf_threads.GetInteger() >= 1 )
 	{
-		compressThread = new( TAG_budFile ) idSGFcompressThread();
+		compressThread = new( TAG_BUDFILE ) idSGFcompressThread();
 		compressThread->sgf = this;
 		// DG: change threadname from "SGF_CompressThread" to "SGF_Compress", because Linux
 		// has a 15 (+ \0) char limit for threadnames. also, "thread" in a threadname is redundant
@@ -478,7 +476,7 @@ bool budFile_SaveGamePipelined::OpenForWriting( budFile* file )
 	}
 	if( nativeFile != NULL && sgf_threads.GetInteger() >= 2 )
 	{
-		writeThread = new( TAG_budFile ) idSGFwriteThread();
+		writeThread = new( TAG_BUDFILE ) idSGFwriteThread();
 		writeThread->sgf = this;
 		writeThread->StartWorkerThread( "SGF_WriteThread", CORE_2A, THREAD_NORMAL );
 	}
@@ -814,7 +812,7 @@ bool budFile_SaveGamePipelined::OpenForReading( const char* const filename, bool
 	// spawn threads
 	if( sgf_threads.GetInteger() >= 1 )
 	{
-		decompressThread = new( TAG_budFile ) idSGFdecompressThread();
+		decompressThread = new( TAG_BUDFILE ) idSGFdecompressThread();
 		decompressThread->sgf = this;
 		// DG: change threadname from "SGF_DecompressThread" to "SGF_Decompress", because Linux
 		// has a 15 (+ \0) char limit for threadnames. also, "thread" in a threadname is redundant
@@ -823,7 +821,7 @@ bool budFile_SaveGamePipelined::OpenForReading( const char* const filename, bool
 	}
 	if( nativeFile != NULL && sgf_threads.GetInteger() >= 2 )
 	{
-		readThread = new( TAG_budFile ) idSGFreadThread();
+		readThread = new( TAG_BUDFILE ) idSGFreadThread();
 		readThread->sgf = this;
 		readThread->StartWorkerThread( "SGF_ReadThread", CORE_2A, THREAD_NORMAL );
 	}
@@ -864,7 +862,7 @@ bool budFile_SaveGamePipelined::OpenForReading( budFile* file )
 	// spawn threads
 	if( sgf_threads.GetInteger() >= 1 )
 	{
-		decompressThread = new( TAG_budFile ) idSGFdecompressThread();
+		decompressThread = new( TAG_BUDFILE ) idSGFdecompressThread();
 		decompressThread->sgf = this;
 		// DG: change threadname from "SGF_DecompressThread" to "SGF_Decompress", because Linux
 		// has a 15 (+ \0) char limit for threadnames. also, "thread" in a threadname is redundant
@@ -873,7 +871,7 @@ bool budFile_SaveGamePipelined::OpenForReading( budFile* file )
 	}
 	if( nativeFile != NULL && sgf_threads.GetInteger() >= 2 )
 	{
-		readThread = new( TAG_budFile ) idSGFreadThread();
+		readThread = new( TAG_BUDFILE ) idSGFreadThread();
 		readThread->sgf = this;
 		readThread->StartWorkerThread( "SGF_ReadThread", CORE_1A, THREAD_NORMAL );
 	}
@@ -1216,7 +1214,7 @@ static void TestProcessFile( const char* const filename )
 	const int testDataLength = fileSystem->ReadFile( filename, &testData, NULL );
 	
 	const char* const outFileName = "junk/savegameTest.bin";
-	budFile_SaveGamePipelined* saveFile = new( TAG_budFile ) budFile_SaveGamePipelined;
+	budFile_SaveGamePipelined* saveFile = new( TAG_BUDFILE ) budFile_SaveGamePipelined;
 	saveFile->OpenForWriting( outFileName, true );
 	
 	const uint64 startWriteMicroseconds = Sys_Microseconds();
@@ -1235,7 +1233,7 @@ static void TestProcessFile( const char* const filename )
 	
 	const uint64 startReadMicroseconds = Sys_Microseconds();
 	
-	budFile_SaveGamePipelined* loadFile = new( TAG_budFile ) budFile_SaveGamePipelined;
+	budFile_SaveGamePipelined* loadFile = new( TAG_BUDFILE ) budFile_SaveGamePipelined;
 	loadFile->OpenForReading( outFileName, true );
 	loadFile->Read( readData, testDataLength );
 	delete loadFile;
@@ -1303,9 +1301,9 @@ CONSOLE_COMMAND( TestCompressionSpeeds, "Compares zlib and our code", 0 )
 	
 	const int startWriteMicroseconds = Sys_Microseconds();
 	
-	idCompressor* compressor = idCompressor::AllocLZW();
+	budCompressor* compressor = budCompressor::AllocLZW();
 //	budFile *f = fileSystem->OpenFileWrite( "junk/lzwTest.bin" );
-	budFile_Memory* f = new( TAG_budFile ) budFile_Memory( "junk/lzwTest.bin" );
+	budFile_Memory* f = new( TAG_BUDFILE ) budFile_Memory( "junk/lzwTest.bin" );
 	compressor->Init( f, true, 8 );
 	
 	compressor->Write( testData, testDataLength );

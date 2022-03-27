@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 // this file is full of intentional case fall throughs
 //lint -e616

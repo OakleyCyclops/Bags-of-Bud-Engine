@@ -27,8 +27,8 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
-#include "Simd_Generic.h"
+#include "libBudPCH.hpp"
+#include "Simd_Generic.hpp"
 
 //===============================================================
 //

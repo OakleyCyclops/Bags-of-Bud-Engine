@@ -141,7 +141,7 @@ typedef struct
 typedef struct
 {
 	char		name[64];
-	budList<int, TAG_libBud_LIST_PLAYER>	toggleList;
+	budList<int, TAG_LIBBUD_LIST_PLAYER>	toggleList;
 	int			lastUsed;
 } WeaponToggle_t;
 
@@ -183,7 +183,7 @@ public:
 	bool					armorPulse;
 	int						lastGiveTime;
 	
-	budList<idLevelTriggerInfo, TAG_libBud_LIST_PLAYER> levelTriggers;
+	budList<idLevelTriggerInfo, TAG_LIBBUD_LIST_PLAYER> levelTriggers;
 	
 	idInventory()
 	{
@@ -199,25 +199,25 @@ public:
 	void					Restore( idRestoreGame* savefile );					// unarchives object from save game file
 	
 	void					Clear();
-	void					GivePowerUp( idPlayer* player, int powerup, int msec );
+	void					GivePowerUp( budPlayer* player, int powerup, int msec );
 	void					ClearPowerUps();
 	void					GetPersistantData( idDict& dict );
-	void					RestoreInventory( idPlayer* owner, const idDict& dict );
-	bool					Give( idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value,
+	void					RestoreInventory( budPlayer* owner, const idDict& dict );
+	bool					Give( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value,
 								  idPredictedValue< int >* idealWeapon, bool updateHud, unsigned int giveFlags );
 	void					Drop( const idDict& spawnArgs, const char* weapon_classname, int weapon_index );
 	ammo_t					AmmoIndexForAmmoClass( const char* ammo_classname ) const;
-	int						MaxAmmoForAmmoClass( const idPlayer* owner, const char* ammo_classname ) const;
+	int						MaxAmmoForAmmoClass( const budPlayer* owner, const char* ammo_classname ) const;
 	int						WeaponIndexForAmmoClass( const idDict& spawnArgs, const char* ammo_classname ) const;
 	ammo_t					AmmoIndexForWeaponClass( const char* weapon_classname, int* ammoRequired );
 	const char* 			AmmoPickupNameForIndex( ammo_t ammonum ) const;
-	void					AddPickupName( const char* name, idPlayer* owner );   //_D3XP
+	void					AddPickupName( const char* name, budPlayer* owner );   //_D3XP
 	
 	int						HasAmmo( ammo_t type, int amount );
 	bool					UseAmmo( ammo_t type, int amount );
-	int						HasAmmo( const char* weapon_classname, bool includeClip = false, idPlayer* owner = NULL );			// _D3XP
+	int						HasAmmo( const char* weapon_classname, bool includeClip = false, budPlayer* owner = NULL );			// _D3XP
 	
-	bool					HasEmptyClipCannotRefill( const char* weapon_classname, idPlayer* owner );
+	bool					HasEmptyClipCannotRefill( const char* weapon_classname, budPlayer* owner );
 	
 	void					UpdateArmor();
 	
@@ -238,9 +238,9 @@ public:
 	budList<budStr>			pickupItemNames;
 	budList<idObjectiveInfo>	objectiveNames;
 	
-	void					InitRechargeAmmo( idPlayer* owner );
-	void					RechargeAmmo( idPlayer* owner );
-	bool					CanGive( idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value );
+	void					InitRechargeAmmo( budPlayer* owner );
+	void					RechargeAmmo( budPlayer* owner );
+	bool					CanGive( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value );
 	
 private:
 	budArray< idPredictedValue< int >, AMMO_NUMTYPES >		ammo;
@@ -259,7 +259,7 @@ typedef struct
 	budVec3	pos;
 } aasLocation_t;
 
-class idPlayer : public budActor
+class budPlayer : public budActor
 {
 public:
 	enum
@@ -283,7 +283,7 @@ public:
 	usercmd_t				oldCmd;
 	usercmd_t				usercmd;
 	
-	class idPlayerView		playerView;			// handles damage kicks and effects
+	class budPlayerView		playerView;			// handles damage kicks and effects
 	
 	renderEntity_t			laserSightRenderEntity;	// replace crosshair for 3DTV
 	qhandle_t				laserSightHandle;
@@ -438,10 +438,10 @@ public:
 	float					bloomIntensity;
 	
 public:
-	CLASS_PROTOTYPE( idPlayer );
+	CLASS_PROTOTYPE( budPlayer );
 	
-	idPlayer();
-	virtual					~idPlayer();
+	budPlayer();
+	virtual					~budPlayer();
 	
 	void					Spawn();
 	void					Think();
@@ -590,7 +590,7 @@ public:
 	}
 	void					SelectWeapon( int num, bool force );
 	void					DropWeapon( bool died ) ;
-	void					StealWeapon( idPlayer* player );
+	void					StealWeapon( budPlayer* player );
 	void					AddProjectilesFired( int count );
 	void					AddProjectileHits( int count );
 	void					SetLastHitTime( int time );
@@ -804,7 +804,7 @@ private:
 	
 	idPhysics_Player		physicsObj;			// player physics
 	
-	budList<aasLocation_t, TAG_libBud_LIST_PLAYER>	aasLocation;		// for AI tracking the player
+	budList<aasLocation_t, TAG_LIBBUD_LIST_PLAYER>	aasLocation;		// for AI tracking the player
 	
 	int						bobFoot;
 	float					bobFrac;
@@ -911,7 +911,7 @@ private:
 	int						serverOverridePositionTime;
 	int						clientFireCount;
 	
-	idPlayerIcon			playerIcon;
+	budPlayerIcon			playerIcon;
 	
 	bool					selfSmooth;
 	
@@ -996,37 +996,37 @@ private:
 	void					Event_SetBloomParms( float speed, float intensity );
 };
 
-BUD_INLINE bool idPlayer::IsRespawning()
+BUD_INLINE bool budPlayer::IsRespawning()
 {
 	return respawning;
 }
 
-BUD_INLINE idPhysics* idPlayer::GetPlayerPhysics()
+BUD_INLINE idPhysics* budPlayer::GetPlayerPhysics()
 {
 	return &physicsObj;
 }
 
-BUD_INLINE bool idPlayer::IsInTeleport()
+BUD_INLINE bool budPlayer::IsInTeleport()
 {
 	return ( teleportEntity.GetEntity() != NULL );
 }
 
-BUD_INLINE void idPlayer::SetLeader( bool lead )
+BUD_INLINE void budPlayer::SetLeader( bool lead )
 {
 	leader = lead;
 }
 
-BUD_INLINE bool idPlayer::IsLeader()
+BUD_INLINE bool budPlayer::IsLeader()
 {
 	return leader;
 }
 
-BUD_INLINE bool idPlayer::SelfSmooth()
+BUD_INLINE bool budPlayer::SelfSmooth()
 {
 	return selfSmooth;
 }
 
-BUD_INLINE void idPlayer::SetSelfSmooth( bool b )
+BUD_INLINE void budPlayer::SetSelfSmooth( bool b )
 {
 	selfSmooth = b;
 }

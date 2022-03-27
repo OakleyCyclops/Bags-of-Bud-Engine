@@ -37,7 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 */
 
-class idPlayer;
+class budPlayer;
 class idMenuHandler_HUD;
 class idMenuHandler_Scoreboard;
 class idItemTeam;
@@ -129,7 +129,7 @@ public:
 	bool			Draw( int clientNum );
 	
 	// updates frag counts and potentially ends the match in sudden death
-	void			PlayerDeath( idPlayer* dead, idPlayer* killer, bool telefrag );
+	void			PlayerDeath( budPlayer* dead, budPlayer* killer, bool telefrag );
 	
 	void			AddChatLine( VERIFY_FORMAT_STRING const char* fmt, ... );
 	
@@ -203,12 +203,12 @@ public:
 	
 	void			ToggleSpectate();
 	
-	void			GetSpectateText( idPlayer* player, budStr spectatetext[ 2 ], bool scoreboard );
+	void			GetSpectateText( budPlayer* player, budStr spectatetext[ 2 ], bool scoreboard );
 	
 	void			ClearFrags( int clientNum );
 	
-	bool			CanPlay( idPlayer* p );
-	bool			WantRespawn( idPlayer* p );
+	bool			CanPlay( budPlayer* p );
+	bool			WantRespawn( budPlayer* p );
 	
 	void			ServerWriteInitialReliableMessages( int clientNum, lobbyUserID_t lobbyUserID );
 	void			ClientReadStartState( const budBitMsg& msg );
@@ -263,7 +263,7 @@ private:
 	
 	// rankings are used by UpdateScoreboard and UpdateHud
 	int				numRankedPlayers;		// ranked players, others may be empty slots or spectators
-	idPlayer* 		rankedPlayers[MAX_CLIENTS];
+	budPlayer* 		rankedPlayers[MAX_CLIENTS];
 	
 	bool			pureReady;				// defaults to false, set to true once server game is running with pure checksums
 	int				fragLimitTimeout;
@@ -283,20 +283,20 @@ private:
 	
 	// updates the passed gui with current score information
 	void			UpdateRankColor( budUserInterface* gui, const char* mask, int i, const budVec3& vec );
-	void			UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, idPlayer* owner );
+	void			UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, budPlayer* owner );
 	
-	void			DrawScoreBoard( idPlayer* player );
+	void			DrawScoreBoard( budPlayer* player );
 	
-	void			UpdateHud( idPlayer* player, idMenuHandler_HUD* hudManager );
+	void			UpdateHud( budPlayer* player, idMenuHandler_HUD* hudManager );
 	bool			Warmup();
-	idPlayer* 		FragLimitHit();
-	idPlayer* 		FragLeader();
+	budPlayer* 		FragLimitHit();
+	budPlayer* 		FragLeader();
 	bool			TimeLimitHit();
 	bool			PointLimitHit();
 	// return team with most points
 	int				WinningTeam();
-	void			NewState( gameState_t news, idPlayer* player = NULL );
-	void			UpdateWinsLosses( idPlayer* winner );
+	void			NewState( gameState_t news, budPlayer* player = NULL );
+	void			UpdateWinsLosses( budPlayer* winner );
 	// fill any empty tourney slots based on the current tourney ranks
 	void			FillTourneySlots();
 	void			CycleTourneyPlayers();
@@ -306,11 +306,11 @@ private:
 	void			Clear();
 	bool			EnoughClientsToPlay();
 	void			ClearChatData();
-	void			DrawChat( idPlayer* player );
+	void			DrawChat( budPlayer* player );
 	// go through the clients, and see if they want to be respawned, and if the game allows it
 	// called during normal gameplay for death -> respawn cycles
 	// and for a spectator who want back in the game (see param)
-	void			CheckRespawns( idPlayer* spectator = NULL );
+	void			CheckRespawns( budPlayer* spectator = NULL );
 	// when clients disconnect or join spectate during game, check if we need to end the game
 	void			CheckAbortGame();
 	void			MessageMode( const budCmdArgs& args );

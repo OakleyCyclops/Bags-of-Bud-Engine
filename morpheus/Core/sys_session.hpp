@@ -28,8 +28,8 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SYS_SESSION_H__
 #define __SYS_SESSION_H__
 
-#include "../framework/Serializer.h"
-#include "sys_localuser.h"
+#include "Serializer.hpp"
+#include "sys_localuser.hpp"
 
 typedef uint8 peerMask_t;
 static const int MAX_PLAYERS			= 8;
@@ -84,11 +84,11 @@ BUD_INLINE bool MatchTypeIsJoinInProgress( uint8 matchFlags )
 	return ( matchFlags & MATCH_JOIN_IN_PROGRESS ) ? true : false;
 }
 
-class idCompressor;
+class budCompressor;
 class idLeaderboardSubmission;
 class idLeaderboardQuery;
 class idSignInManagerBase;
-class idPlayerProfile;
+class budPlayerProfile;
 class budGameSpawnInfo;
 class idSaveLoadParms;
 class idSaveGameManager;
@@ -377,7 +377,7 @@ public:
 	virtual int							GetLobbyUserTeam( lobbyUserID_t lobbyUserID ) const = 0;
 	virtual bool						SetLobbyUserTeam( lobbyUserID_t lobbyUserID, int teamNumber ) = 0;
 	virtual int							GetLobbyUserPartyToken( lobbyUserID_t lobbyUserID ) const = 0;
-	virtual idPlayerProfile* 			GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID ) = 0;
+	virtual budPlayerProfile* 			GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID ) = 0;
 	virtual idLocalUser* 				GetLocalUserFromLobbyUser( lobbyUserID_t lobbyUserID ) = 0;
 	virtual int							GetNumLobbyUsersOnTeam( int teamNumber ) const = 0;
 	
@@ -513,7 +513,7 @@ public:
 	
 	virtual idLobbyBase& 	GetLobbyFromLobbyUserID( lobbyUserID_t lobbyUserID ) = 0;
 	
-	virtual idPlayerProfile* 	GetProfileFromMasterLocalUser() = 0;
+	virtual budPlayerProfile* 	GetProfileFromMasterLocalUser() = 0;
 	
 	virtual bool			ProcessInputEvent( const sysEvent_t* ev ) = 0;
 	virtual float			GetUpstreamDropRate() = 0;

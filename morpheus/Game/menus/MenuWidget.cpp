@@ -214,7 +214,7 @@ This should only be used in very specific circumstances!  Most events should go 
 */
 bool idMenuWidget::ExecuteEvent( const idWidgetEvent& event )
 {
-	budList< idWidgetAction, TAG_libBud_LIST_MENU >* const actions = GetEventActions( event.type );
+	budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >* const actions = GetEventActions( event.type );
 	
 	if( actions != NULL )
 	{
@@ -587,7 +587,7 @@ bool idMenuWidget::HandleAction( idWidgetAction& action, const idWidgetEvent& ev
 idMenuWidget::GetEventActions
 ========================
 */
-budList< idWidgetAction, TAG_libBud_LIST_MENU >* idMenuWidget::GetEventActions( const widgetEvent_t eventType )
+budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >* idMenuWidget::GetEventActions( const widgetEvent_t eventType )
 {
 	if( eventActionLookup[ eventType ] == INVALID_ACTION_INDEX )
 	{

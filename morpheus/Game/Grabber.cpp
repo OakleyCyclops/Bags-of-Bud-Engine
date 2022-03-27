@@ -231,7 +231,7 @@ idGrabber::StartDrag
 void idGrabber::StartDrag( idEntity* grabEnt, int id )
 {
 	int clipModelId = id;
-	idPlayer* thePlayer = owner.GetEntity();
+	budPlayer* thePlayer = owner.GetEntity();
 	
 	holdingAF = false;
 	dragFailTime = gameLocal.slow.time;
@@ -335,7 +335,7 @@ idGrabber::StopDrag
 */
 void idGrabber::StopDrag( bool dropOnly )
 {
-	idPlayer* thePlayer = owner.GetEntity();
+	budPlayer* thePlayer = owner.GetEntity();
 	
 	if( beam )
 	{
@@ -409,7 +409,7 @@ void idGrabber::StopDrag( bool dropOnly )
 			// Orient projectiles away from the player
 			if( ent->IsType( idProjectile::Type ) )
 			{
-				idPlayer* player = owner.GetEntity();
+				budPlayer* player = owner.GetEntity();
 				budAngles ang = player->firstPersonViewAxis[0].ToAngles();
 				
 				ang.pitch += 90.f;
@@ -467,7 +467,7 @@ void idGrabber::StopDrag( bool dropOnly )
 idGrabber::Update
 ==============
 */
-int idGrabber::Update( idPlayer* player, bool hide )
+int idGrabber::Update( budPlayer* player, bool hide )
 {
 	trace_t trace;
 	idEntity* newEnt;
@@ -749,7 +749,7 @@ void idGrabber::UpdateBeams()
 	
 	if( dragEnt.IsValid() )
 	{
-		idPlayer* thePlayer = owner.GetEntity();
+		budPlayer* thePlayer = owner.GetEntity();
 		
 		if( beamTarget )
 		{

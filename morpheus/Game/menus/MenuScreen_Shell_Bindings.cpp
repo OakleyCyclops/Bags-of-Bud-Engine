@@ -261,7 +261,7 @@ idMenuScreen_Shell_Bindings::UpdateBindingDisplay
 void idMenuScreen_Shell_Bindings::UpdateBindingDisplay()
 {
 
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > bindList;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > bindList;
 	
 	for( int i = 0; i < numBinds; ++i )
 	{
@@ -469,7 +469,7 @@ void idMenuScreen_Shell_Bindings::HandleRestoreDefaults()
 				idLocalUser* user = session->GetSignInManager().GetMasterLocalUser();
 				if( user != NULL )
 				{
-					idPlayerProfile* profile = user->GetProfile();
+					budPlayerProfile* profile = user->GetProfile();
 					if( profile != NULL )
 					{
 						profile->RestoreDefault();

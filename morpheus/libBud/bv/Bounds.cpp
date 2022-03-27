@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 budBounds bounds_zero( vec3_zero, vec3_zero );
 budBounds bounds_zeroOneCube( budVec3( 0.0f ), budVec3( 1.0f ) );

@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
 budCVar budDemoFile::com_logDemos( "com_logDemos", "0", CVAR_SYSTEM | CVAR_BOOL, "Write demo.log with debug information in it" );
@@ -65,19 +65,19 @@ budDemoFile::~budDemoFile()
 budDemoFile::AllocCompressor
 ================
 */
-idCompressor* budDemoFile::AllocCompressor( int type )
+budCompressor* budDemoFile::AllocCompressor( int type )
 {
 	switch( type )
 	{
 		case 0:
-			return idCompressor::AllocNoCompression();
+			return budCompressor::AllocNoCompression();
 		default:
 		case 1:
-			return idCompressor::AllocLZW();
+			return budCompressor::AllocLZW();
 		case 2:
-			return idCompressor::AllocLZSS();
+			return budCompressor::AllocLZSS();
 		case 3:
-			return idCompressor::AllocHuffman();
+			return budCompressor::AllocHuffman();
 	}
 }
 

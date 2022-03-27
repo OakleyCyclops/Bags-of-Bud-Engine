@@ -25,22 +25,22 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
 
 /*
 =================================================================================
 
-	idCompressor_None
+	budCompressor_None
 
 =================================================================================
 */
 
-class idCompressor_None : public idCompressor
+class budCompressor_None : public budCompressor
 {
 public:
-	idCompressor_None();
+	budCompressor_None();
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	void			FinishCompress();
@@ -64,10 +64,10 @@ protected:
 
 /*
 ================
-idCompressor_None::idCompressor_None
+budCompressor_None::budCompressor_None
 ================
 */
-idCompressor_None::idCompressor_None()
+budCompressor_None::budCompressor_None()
 {
 	file = NULL;
 	compress = true;
@@ -75,10 +75,10 @@ idCompressor_None::idCompressor_None()
 
 /*
 ================
-idCompressor_None::Init
+budCompressor_None::Init
 ================
 */
-void idCompressor_None::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_None::Init( budFile* f, bool compress, int wordLength )
 {
 	this->file = f;
 	this->compress = compress;
@@ -86,29 +86,29 @@ void idCompressor_None::Init( budFile* f, bool compress, int wordLength )
 
 /*
 ================
-idCompressor_None::FinishCompress
+budCompressor_None::FinishCompress
 ================
 */
-void idCompressor_None::FinishCompress()
+void budCompressor_None::FinishCompress()
 {
 }
 
 /*
 ================
-idCompressor_None::GetCompressionRatio
+budCompressor_None::GetCompressionRatio
 ================
 */
-float idCompressor_None::GetCompressionRatio() const
+float budCompressor_None::GetCompressionRatio() const
 {
 	return 0.0f;
 }
 
 /*
 ================
-idCompressor_None::GetName
+budCompressor_None::GetName
 ================
 */
-const char* idCompressor_None::GetName()
+const char* budCompressor_None::GetName()
 {
 	if( file )
 	{
@@ -122,10 +122,10 @@ const char* idCompressor_None::GetName()
 
 /*
 ================
-idCompressor_None::GetFullPath
+budCompressor_None::GetFullPath
 ================
 */
-const char* idCompressor_None::GetFullPath()
+const char* budCompressor_None::GetFullPath()
 {
 	if( file )
 	{
@@ -139,10 +139,10 @@ const char* idCompressor_None::GetFullPath()
 
 /*
 ================
-idCompressor_None::Write
+budCompressor_None::Write
 ================
 */
-int idCompressor_None::Write( const void* inData, int inLength )
+int budCompressor_None::Write( const void* inData, int inLength )
 {
 	if( compress == false || inLength <= 0 )
 	{
@@ -153,10 +153,10 @@ int idCompressor_None::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_None::Read
+budCompressor_None::Read
 ================
 */
-int idCompressor_None::Read( void* outData, int outLength )
+int budCompressor_None::Read( void* outData, int outLength )
 {
 	if( compress == true || outLength <= 0 )
 	{
@@ -167,10 +167,10 @@ int idCompressor_None::Read( void* outData, int outLength )
 
 /*
 ================
-idCompressor_None::Length
+budCompressor_None::Length
 ================
 */
-int idCompressor_None::Length()
+int budCompressor_None::Length()
 {
 	if( file )
 	{
@@ -184,10 +184,10 @@ int idCompressor_None::Length()
 
 /*
 ================
-idCompressor_None::Timestamp
+budCompressor_None::Timestamp
 ================
 */
-ID_TIME_T idCompressor_None::Timestamp()
+ID_TIME_T budCompressor_None::Timestamp()
 {
 	if( file )
 	{
@@ -201,10 +201,10 @@ ID_TIME_T idCompressor_None::Timestamp()
 
 /*
 ================
-idCompressor_None::Tell
+budCompressor_None::Tell
 ================
 */
-int idCompressor_None::Tell()
+int budCompressor_None::Tell()
 {
 	if( file )
 	{
@@ -218,10 +218,10 @@ int idCompressor_None::Tell()
 
 /*
 ================
-idCompressor_None::ForceFlush
+budCompressor_None::ForceFlush
 ================
 */
-void idCompressor_None::ForceFlush()
+void budCompressor_None::ForceFlush()
 {
 	if( file )
 	{
@@ -231,10 +231,10 @@ void idCompressor_None::ForceFlush()
 
 /*
 ================
-idCompressor_None::Flush
+budCompressor_None::Flush
 ================
 */
-void idCompressor_None::Flush()
+void budCompressor_None::Flush()
 {
 	if( file )
 	{
@@ -244,12 +244,12 @@ void idCompressor_None::Flush()
 
 /*
 ================
-idCompressor_None::Seek
+budCompressor_None::Seek
 ================
 */
-int idCompressor_None::Seek( long offset, fsOrigin_t origin )
+int budCompressor_None::Seek( long offset, fsOrigin_t origin )
 {
-	common->Error( "cannot seek on idCompressor" );
+	common->Error( "cannot seek on budCompressor" );
 	return -1;
 }
 
@@ -257,17 +257,17 @@ int idCompressor_None::Seek( long offset, fsOrigin_t origin )
 /*
 =================================================================================
 
-	idCompressor_BitStream
+	budCompressor_BitStream
 
 	Base class for bit stream compression.
 
 =================================================================================
 */
 
-class idCompressor_BitStream : public idCompressor_None
+class budCompressor_BitStream : public budCompressor_None
 {
 public:
-	idCompressor_BitStream() {}
+	budCompressor_BitStream() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	void			FinishCompress();
@@ -303,10 +303,10 @@ protected:
 
 /*
 ================
-idCompressor_BitStream::Init
+budCompressor_BitStream::Init
 ================
 */
-void idCompressor_BitStream::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_BitStream::Init( budFile* f, bool compress, int wordLength )
 {
 
 	assert( wordLength >= 1 && wordLength <= 32 );
@@ -330,10 +330,10 @@ void idCompressor_BitStream::Init( budFile* f, bool compress, int wordLength )
 
 /*
 ================
-idCompressor_BitStream::InitCompress
+budCompressor_BitStream::InitCompress
 ================
 */
-BUD_INLINE void idCompressor_BitStream::InitCompress( const void* inData, const int inLength )
+BUD_INLINE void budCompressor_BitStream::InitCompress( const void* inData, const int inLength )
 {
 
 	readLength = inLength;
@@ -352,10 +352,10 @@ BUD_INLINE void idCompressor_BitStream::InitCompress( const void* inData, const 
 
 /*
 ================
-idCompressor_BitStream::InitDecompress
+budCompressor_BitStream::InitDecompress
 ================
 */
-BUD_INLINE void idCompressor_BitStream::InitDecompress( void* outData, int outLength )
+BUD_INLINE void budCompressor_BitStream::InitDecompress( void* outData, int outLength )
 {
 
 	if( !readLength )
@@ -374,10 +374,10 @@ BUD_INLINE void idCompressor_BitStream::InitDecompress( void* outData, int outLe
 
 /*
 ================
-idCompressor_BitStream::WriteBits
+budCompressor_BitStream::WriteBits
 ================
 */
-void idCompressor_BitStream::WriteBits( int value, int numBits )
+void budCompressor_BitStream::WriteBits( int value, int numBits )
 {
 	int put, fraction;
 	
@@ -430,10 +430,10 @@ void idCompressor_BitStream::WriteBits( int value, int numBits )
 
 /*
 ================
-idCompressor_BitStream::ReadBits
+budCompressor_BitStream::ReadBits
 ================
 */
-int idCompressor_BitStream::ReadBits( int numBits )
+int budCompressor_BitStream::ReadBits( int numBits )
 {
 	int value, valueBits, get, fraction;
 	
@@ -489,10 +489,10 @@ int idCompressor_BitStream::ReadBits( int numBits )
 
 /*
 ================
-idCompressor_BitStream::UnreadBits
+budCompressor_BitStream::UnreadBits
 ================
 */
-void idCompressor_BitStream::UnreadBits( int numBits )
+void budCompressor_BitStream::UnreadBits( int numBits )
 {
 	readByte -= ( numBits >> 3 );
 	readTotalBytes -= ( numBits >> 3 );
@@ -519,10 +519,10 @@ void idCompressor_BitStream::UnreadBits( int numBits )
 
 /*
 ================
-idCompressor_BitStream::Compare
+budCompressor_BitStream::Compare
 ================
 */
-int idCompressor_BitStream::Compare( const byte* src1, int bitPtr1, const byte* src2, int bitPtr2, int maxBits ) const
+int budCompressor_BitStream::Compare( const byte* src1, int bitPtr1, const byte* src2, int bitPtr2, int maxBits ) const
 {
 	int i;
 	
@@ -605,10 +605,10 @@ int idCompressor_BitStream::Compare( const byte* src1, int bitPtr1, const byte* 
 
 /*
 ================
-idCompressor_BitStream::Write
+budCompressor_BitStream::Write
 ================
 */
-int idCompressor_BitStream::Write( const void* inData, int inLength )
+int budCompressor_BitStream::Write( const void* inData, int inLength )
 {
 	int i;
 	
@@ -628,10 +628,10 @@ int idCompressor_BitStream::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_BitStream::FinishCompress
+budCompressor_BitStream::FinishCompress
 ================
 */
-void idCompressor_BitStream::FinishCompress()
+void budCompressor_BitStream::FinishCompress()
 {
 	if( compress == false )
 	{
@@ -649,10 +649,10 @@ void idCompressor_BitStream::FinishCompress()
 
 /*
 ================
-idCompressor_BitStream::Read
+budCompressor_BitStream::Read
 ================
 */
-int idCompressor_BitStream::Read( void* outData, int outLength )
+int budCompressor_BitStream::Read( void* outData, int outLength )
 {
 	int i;
 	
@@ -672,10 +672,10 @@ int idCompressor_BitStream::Read( void* outData, int outLength )
 
 /*
 ================
-idCompressor_BitStream::GetCompressionRatio
+budCompressor_BitStream::GetCompressionRatio
 ================
 */
-float idCompressor_BitStream::GetCompressionRatio() const
+float budCompressor_BitStream::GetCompressionRatio() const
 {
 	if( compress )
 	{
@@ -691,7 +691,7 @@ float idCompressor_BitStream::GetCompressionRatio() const
 /*
 =================================================================================
 
-	idCompressor_RunLength
+	budCompressor_RunLength
 
 	The following algorithm implements run length compression with an arbitrary
 	word size.
@@ -699,10 +699,10 @@ float idCompressor_BitStream::GetCompressionRatio() const
 =================================================================================
 */
 
-class idCompressor_RunLength : public idCompressor_BitStream
+class budCompressor_RunLength : public budCompressor_BitStream
 {
 public:
-	idCompressor_RunLength() {}
+	budCompressor_RunLength() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	
@@ -715,21 +715,21 @@ private:
 
 /*
 ================
-idCompressor_RunLength::Init
+budCompressor_RunLength::Init
 ================
 */
-void idCompressor_RunLength::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_RunLength::Init( budFile* f, bool compress, int wordLength )
 {
-	idCompressor_BitStream::Init( f, compress, wordLength );
+	budCompressor_BitStream::Init( f, compress, wordLength );
 	runLengthCode = ( 1 << wordLength ) - 1;
 }
 
 /*
 ================
-idCompressor_RunLength::Write
+budCompressor_RunLength::Write
 ================
 */
-int idCompressor_RunLength::Write( const void* inData, int inLength )
+int budCompressor_RunLength::Write( const void* inData, int inLength )
 {
 	int bits, nextBits, count;
 	
@@ -783,10 +783,10 @@ int idCompressor_RunLength::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_RunLength::Read
+budCompressor_RunLength::Read
 ================
 */
-int idCompressor_RunLength::Read( void* outData, int outLength )
+int budCompressor_RunLength::Read( void* outData, int outLength )
 {
 	int bits, count;
 	
@@ -826,7 +826,7 @@ int idCompressor_RunLength::Read( void* outData, int outLength )
 /*
 =================================================================================
 
-	idCompressor_RunLength_ZeroBased
+	budCompressor_RunLength_ZeroBased
 
 	The following algorithm implements run length compression with an arbitrary
 	word size for data with a lot of zero bits.
@@ -834,10 +834,10 @@ int idCompressor_RunLength::Read( void* outData, int outLength )
 =================================================================================
 */
 
-class idCompressor_RunLength_ZeroBased : public idCompressor_BitStream
+class budCompressor_RunLength_ZeroBased : public budCompressor_BitStream
 {
 public:
-	idCompressor_RunLength_ZeroBased() {}
+	budCompressor_RunLength_ZeroBased() {}
 	
 	int				Write( const void* inData, int inLength );
 	int				Read( void* outData, int outLength );
@@ -847,10 +847,10 @@ private:
 
 /*
 ================
-idCompressor_RunLength_ZeroBased::Write
+budCompressor_RunLength_ZeroBased::Write
 ================
 */
-int idCompressor_RunLength_ZeroBased::Write( const void* inData, int inLength )
+int budCompressor_RunLength_ZeroBased::Write( const void* inData, int inLength )
 {
 	int bits, count;
 	
@@ -885,10 +885,10 @@ int idCompressor_RunLength_ZeroBased::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_RunLength_ZeroBased::Read
+budCompressor_RunLength_ZeroBased::Read
 ================
 */
-int idCompressor_RunLength_ZeroBased::Read( void* outData, int outLength )
+int budCompressor_RunLength_ZeroBased::Read( void* outData, int outLength )
 {
 	int bits, count;
 	
@@ -923,7 +923,7 @@ int idCompressor_RunLength_ZeroBased::Read( void* outData, int outLength )
 /*
 =================================================================================
 
-	idCompressor_Huffman
+	budCompressor_Huffman
 
 	The following algorithm is based on the adaptive Huffman algorithm described
 	in Sayood's Data Compression book. The ranks are not actually stored, but
@@ -945,10 +945,10 @@ typedef struct nodetype
 	int				symbol;
 } huffmanNode_t;
 
-class idCompressor_Huffman : public idCompressor_None
+class budCompressor_Huffman : public budCompressor_None
 {
 public:
-	idCompressor_Huffman() {}
+	budCompressor_Huffman() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	void			FinishCompress();
@@ -996,10 +996,10 @@ private:
 
 /*
 ================
-idCompressor_Huffman::Init
+budCompressor_Huffman::Init
 ================
 */
-void idCompressor_Huffman::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_Huffman::Init( budFile* f, bool compress, int wordLength )
 {
 	int i;
 	
@@ -1050,10 +1050,10 @@ void idCompressor_Huffman::Init( budFile* f, bool compress, int wordLength )
 
 /*
 ================
-idCompressor_Huffman::PutBit
+budCompressor_Huffman::PutBit
 ================
 */
-void idCompressor_Huffman::PutBit( int bit, byte* fout, int* offset )
+void budCompressor_Huffman::PutBit( int bit, byte* fout, int* offset )
 {
 	bloc = *offset;
 	if( ( bloc & 7 ) == 0 )
@@ -1067,10 +1067,10 @@ void idCompressor_Huffman::PutBit( int bit, byte* fout, int* offset )
 
 /*
 ================
-idCompressor_Huffman::GetBit
+budCompressor_Huffman::GetBit
 ================
 */
-int idCompressor_Huffman::GetBit( byte* fin, int* offset )
+int budCompressor_Huffman::GetBit( byte* fin, int* offset )
 {
 	int t;
 	bloc = *offset;
@@ -1082,12 +1082,12 @@ int idCompressor_Huffman::GetBit( byte* fin, int* offset )
 
 /*
 ================
-idCompressor_Huffman::Add_bit
+budCompressor_Huffman::Add_bit
 
   Add a bit to the output file (buffered)
 ================
 */
-void idCompressor_Huffman::Add_bit( char bit, byte* fout )
+void budCompressor_Huffman::Add_bit( char bit, byte* fout )
 {
 	if( ( bloc & 7 ) == 0 )
 	{
@@ -1099,12 +1099,12 @@ void idCompressor_Huffman::Add_bit( char bit, byte* fout )
 
 /*
 ================
-idCompressor_Huffman::Get_bit
+budCompressor_Huffman::Get_bit
 
   Get one bit from the input file (buffered)
 ================
 */
-int idCompressor_Huffman::Get_bit()
+int budCompressor_Huffman::Get_bit()
 {
 	int t;
 	int wh = bloc >> 3;
@@ -1122,10 +1122,10 @@ int idCompressor_Huffman::Get_bit()
 
 /*
 ================
-idCompressor_Huffman::Get_ppnode
+budCompressor_Huffman::Get_ppnode
 ================
 */
-huffmanNode_t** idCompressor_Huffman::Get_ppnode()
+huffmanNode_t** budCompressor_Huffman::Get_ppnode()
 {
 	huffmanNode_t** tppnode;
 	if( !freelist )
@@ -1142,10 +1142,10 @@ huffmanNode_t** idCompressor_Huffman::Get_ppnode()
 
 /*
 ================
-idCompressor_Huffman::Free_ppnode
+budCompressor_Huffman::Free_ppnode
 ================
 */
-void idCompressor_Huffman::Free_ppnode( huffmanNode_t** ppnode )
+void budCompressor_Huffman::Free_ppnode( huffmanNode_t** ppnode )
 {
 	*ppnode = ( huffmanNode_t* )freelist;
 	freelist = ppnode;
@@ -1153,12 +1153,12 @@ void idCompressor_Huffman::Free_ppnode( huffmanNode_t** ppnode )
 
 /*
 ================
-idCompressor_Huffman::Swap
+budCompressor_Huffman::Swap
 
   Swap the location of the given two nodes in the tree.
 ================
 */
-void idCompressor_Huffman::Swap( huffmanNode_t* node1, huffmanNode_t* node2 )
+void budCompressor_Huffman::Swap( huffmanNode_t* node1, huffmanNode_t* node2 )
 {
 	huffmanNode_t* par1, *par2;
 	
@@ -1203,12 +1203,12 @@ void idCompressor_Huffman::Swap( huffmanNode_t* node1, huffmanNode_t* node2 )
 
 /*
 ================
-idCompressor_Huffman::Swaplist
+budCompressor_Huffman::Swaplist
 
   Swap the given two nodes in the linked list (update ranks)
 ================
 */
-void idCompressor_Huffman::Swaplist( huffmanNode_t* node1, huffmanNode_t* node2 )
+void budCompressor_Huffman::Swaplist( huffmanNode_t* node1, huffmanNode_t* node2 )
 {
 	huffmanNode_t* par1;
 	
@@ -1248,10 +1248,10 @@ void idCompressor_Huffman::Swaplist( huffmanNode_t* node1, huffmanNode_t* node2 
 
 /*
 ================
-idCompressor_Huffman::Increment
+budCompressor_Huffman::Increment
 ================
 */
-void idCompressor_Huffman::Increment( huffmanNode_t* node )
+void budCompressor_Huffman::Increment( huffmanNode_t* node )
 {
 	huffmanNode_t* lnode;
 	
@@ -1304,10 +1304,10 @@ void idCompressor_Huffman::Increment( huffmanNode_t* node )
 
 /*
 ================
-idCompressor_Huffman::AddRef
+budCompressor_Huffman::AddRef
 ================
 */
-void idCompressor_Huffman::AddRef( byte ch )
+void budCompressor_Huffman::AddRef( byte ch )
 {
 	huffmanNode_t* tnode, *tnode2;
 	if( loc[ch] == NULL )    /* if this is the first transmission of this node */
@@ -1400,12 +1400,12 @@ void idCompressor_Huffman::AddRef( byte ch )
 
 /*
 ================
-idCompressor_Huffman::Receive
+budCompressor_Huffman::Receive
 
   Get a symbol.
 ================
 */
-int idCompressor_Huffman::Receive( huffmanNode_t* node, int* ch )
+int budCompressor_Huffman::Receive( huffmanNode_t* node, int* ch )
 {
 	while( node && node->symbol == INTERNAL_NODE )
 	{
@@ -1427,12 +1427,12 @@ int idCompressor_Huffman::Receive( huffmanNode_t* node, int* ch )
 
 /*
 ================
-idCompressor_Huffman::Send
+budCompressor_Huffman::Send
 
   Send the prefix code for this node.
 ================
 */
-void idCompressor_Huffman::Send( huffmanNode_t* node, huffmanNode_t* child, byte* fout )
+void budCompressor_Huffman::Send( huffmanNode_t* node, huffmanNode_t* child, byte* fout )
 {
 	if( node->parent )
 	{
@@ -1453,12 +1453,12 @@ void idCompressor_Huffman::Send( huffmanNode_t* node, huffmanNode_t* child, byte
 
 /*
 ================
-idCompressor_Huffman::Transmit
+budCompressor_Huffman::Transmit
 
   Send a symbol.
 ================
 */
-void idCompressor_Huffman::Transmit( int ch, byte* fout )
+void budCompressor_Huffman::Transmit( int ch, byte* fout )
 {
 	int i;
 	if( loc[ch] == NULL )
@@ -1478,10 +1478,10 @@ void idCompressor_Huffman::Transmit( int ch, byte* fout )
 
 /*
 ================
-idCompressor_Huffman::Write
+budCompressor_Huffman::Write
 ================
 */
-int idCompressor_Huffman::Write( const void* inData, int inLength )
+int budCompressor_Huffman::Write( const void* inData, int inLength )
 {
 	int i, ch;
 	
@@ -1511,10 +1511,10 @@ int idCompressor_Huffman::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_Huffman::FinishCompress
+budCompressor_Huffman::FinishCompress
 ================
 */
-void idCompressor_Huffman::FinishCompress()
+void budCompressor_Huffman::FinishCompress()
 {
 
 	if( compress == false )
@@ -1533,10 +1533,10 @@ void idCompressor_Huffman::FinishCompress()
 
 /*
 ================
-idCompressor_Huffman::Read
+budCompressor_Huffman::Read
 ================
 */
-int idCompressor_Huffman::Read( void* outData, int outLength )
+int budCompressor_Huffman::Read( void* outData, int outLength )
 {
 	int i, j, ch;
 	
@@ -1580,10 +1580,10 @@ int idCompressor_Huffman::Read( void* outData, int outLength )
 
 /*
 ================
-idCompressor_Huffman::GetCompressionRatio
+budCompressor_Huffman::GetCompressionRatio
 ================
 */
-float idCompressor_Huffman::GetCompressionRatio() const
+float budCompressor_Huffman::GetCompressionRatio() const
 {
 	return ( unCompressedSize - compressedSize ) * 100.0f / unCompressedSize;
 }
@@ -1592,7 +1592,7 @@ float idCompressor_Huffman::GetCompressionRatio() const
 /*
 =================================================================================
 
-	idCompressor_Arithmetic
+	budCompressor_Arithmetic
 
 	The following algorithm is based on the Arithmetic Coding methods described
 	by Mark Nelson. The probability table is implicitly stored.
@@ -1609,10 +1609,10 @@ const int AC_MSB2_MASK		= 0x4000;
 const int AC_HIGH_INIT		= 0xffff;
 const int AC_LOW_INIT		= 0x0000;
 
-class idCompressor_Arithmetic : public idCompressor_BitStream
+class budCompressor_Arithmetic : public budCompressor_BitStream
 {
 public:
-	idCompressor_Arithmetic() {}
+	budCompressor_Arithmetic() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	void			FinishCompress();
@@ -1665,12 +1665,12 @@ private:
 
 /*
 ================
-idCompressor_Arithmetic::Init
+budCompressor_Arithmetic::Init
 ================
 */
-void idCompressor_Arithmetic::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_Arithmetic::Init( budFile* f, bool compress, int wordLength )
 {
-	idCompressor_BitStream::Init( f, compress, wordLength );
+	budCompressor_BitStream::Init( f, compress, wordLength );
 	
 	symbolBuffer	= 0;
 	symbolBit		= 0;
@@ -1678,10 +1678,10 @@ void idCompressor_Arithmetic::Init( budFile* f, bool compress, int wordLength )
 
 /*
 ================
-idCompressor_Arithmetic::InitProbabilities
+budCompressor_Arithmetic::InitProbabilities
 ================
 */
-void idCompressor_Arithmetic::InitProbabilities()
+void budCompressor_Arithmetic::InitProbabilities()
 {
 	high			= AC_HIGH_INIT;
 	low				= AC_LOW_INIT;
@@ -1699,10 +1699,10 @@ void idCompressor_Arithmetic::InitProbabilities()
 
 /*
 ================
-idCompressor_Arithmetic::UpdateProbabilities
+budCompressor_Arithmetic::UpdateProbabilities
 ================
 */
-void idCompressor_Arithmetic::UpdateProbabilities( acSymbol_t* symbol )
+void budCompressor_Arithmetic::UpdateProbabilities( acSymbol_t* symbol )
 {
 	int i, x;
 	
@@ -1721,10 +1721,10 @@ void idCompressor_Arithmetic::UpdateProbabilities( acSymbol_t* symbol )
 
 /*
 ================
-idCompressor_Arithmetic::GetCurrentCount
+budCompressor_Arithmetic::GetCurrentCount
 ================
 */
-int idCompressor_Arithmetic::GetCurrentCount()
+int budCompressor_Arithmetic::GetCurrentCount()
 {
 	// DG: use int instead of long for 64bit compatibility
 	return ( unsigned int )( ( ( ( ( int ) code - low ) + 1 ) * scale - 1 ) / ( ( ( int ) high - low ) + 1 ) );
@@ -1733,10 +1733,10 @@ int idCompressor_Arithmetic::GetCurrentCount()
 
 /*
 ================
-idCompressor_Arithmetic::ProbabilityForCount
+budCompressor_Arithmetic::ProbabilityForCount
 ================
 */
-int idCompressor_Arithmetic::ProbabilityForCount( unsigned int count )
+int budCompressor_Arithmetic::ProbabilityForCount( unsigned int count )
 {
 #if 1
 
@@ -1788,10 +1788,10 @@ int idCompressor_Arithmetic::ProbabilityForCount( unsigned int count )
 
 /*
 ================
-idCompressor_Arithmetic::SymbolFromCount
+budCompressor_Arithmetic::SymbolFromCount
 ================
 */
-int idCompressor_Arithmetic::SymbolFromCount( unsigned int count, acSymbol_t* symbol )
+int budCompressor_Arithmetic::SymbolFromCount( unsigned int count, acSymbol_t* symbol )
 {
 	int p = ProbabilityForCount( count );
 	symbol->low = probabilities[ p ].low;
@@ -1802,10 +1802,10 @@ int idCompressor_Arithmetic::SymbolFromCount( unsigned int count, acSymbol_t* sy
 
 /*
 ================
-idCompressor_Arithmetic::RemoveSymbolFromStream
+budCompressor_Arithmetic::RemoveSymbolFromStream
 ================
 */
-void idCompressor_Arithmetic::RemoveSymbolFromStream( acSymbol_t* symbol )
+void budCompressor_Arithmetic::RemoveSymbolFromStream( acSymbol_t* symbol )
 {
 	// DG: use int instead of long for 64bit compatibility
 	int range;
@@ -1844,10 +1844,10 @@ void idCompressor_Arithmetic::RemoveSymbolFromStream( acSymbol_t* symbol )
 
 /*
 ================
-idCompressor_Arithmetic::GetBit
+budCompressor_Arithmetic::GetBit
 ================
 */
-int idCompressor_Arithmetic::GetBit()
+int budCompressor_Arithmetic::GetBit()
 {
 	int getbit;
 	
@@ -1868,10 +1868,10 @@ int idCompressor_Arithmetic::GetBit()
 
 /*
 ================
-idCompressor_Arithmetic::EncodeSymbol
+budCompressor_Arithmetic::EncodeSymbol
 ================
 */
-void idCompressor_Arithmetic::EncodeSymbol( acSymbol_t* symbol )
+void budCompressor_Arithmetic::EncodeSymbol( acSymbol_t* symbol )
 {
 	unsigned int range;
 	
@@ -1916,10 +1916,10 @@ void idCompressor_Arithmetic::EncodeSymbol( acSymbol_t* symbol )
 
 /*
 ================
-idCompressor_Arithmetic::CharToSymbol
+budCompressor_Arithmetic::CharToSymbol
 ================
 */
-void idCompressor_Arithmetic::CharToSymbol( byte c, acSymbol_t* symbol )
+void budCompressor_Arithmetic::CharToSymbol( byte c, acSymbol_t* symbol )
 {
 	symbol->low			= probabilities[ c ].low;
 	symbol->high		= probabilities[ c ].high;
@@ -1928,10 +1928,10 @@ void idCompressor_Arithmetic::CharToSymbol( byte c, acSymbol_t* symbol )
 
 /*
 ================
-idCompressor_Arithmetic::PutBit
+budCompressor_Arithmetic::PutBit
 ================
 */
-void idCompressor_Arithmetic::PutBit( int putbit )
+void budCompressor_Arithmetic::PutBit( int putbit )
 {
 	symbolBuffer |= ( putbit & 1 ) << symbolBit;
 	symbolBit++;
@@ -1950,10 +1950,10 @@ void idCompressor_Arithmetic::PutBit( int putbit )
 
 /*
 ================
-idCompressor_Arithmetic::WriteOverflowBits
+budCompressor_Arithmetic::WriteOverflowBits
 ================
 */
-void idCompressor_Arithmetic::WriteOverflowBits()
+void budCompressor_Arithmetic::WriteOverflowBits()
 {
 
 	WriteBits( low >> AC_MSB2_SHIFT, 1 );
@@ -1967,10 +1967,10 @@ void idCompressor_Arithmetic::WriteOverflowBits()
 
 /*
 ================
-idCompressor_Arithmetic::Write
+budCompressor_Arithmetic::Write
 ================
 */
-int idCompressor_Arithmetic::Write( const void* inData, int inLength )
+int budCompressor_Arithmetic::Write( const void* inData, int inLength )
 {
 	int i, j;
 	
@@ -2008,10 +2008,10 @@ int idCompressor_Arithmetic::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_Arithmetic::FinishCompress
+budCompressor_Arithmetic::FinishCompress
 ================
 */
-void idCompressor_Arithmetic::FinishCompress()
+void budCompressor_Arithmetic::FinishCompress()
 {
 	if( compress == false )
 	{
@@ -2020,15 +2020,15 @@ void idCompressor_Arithmetic::FinishCompress()
 	
 	WriteOverflowBits();
 	
-	idCompressor_BitStream::FinishCompress();
+	budCompressor_BitStream::FinishCompress();
 }
 
 /*
 ================
-idCompressor_Arithmetic::Read
+budCompressor_Arithmetic::Read
 ================
 */
-int idCompressor_Arithmetic::Read( void* outData, int outLength )
+int budCompressor_Arithmetic::Read( void* outData, int outLength )
 {
 	int i, j;
 	
@@ -2073,7 +2073,7 @@ int idCompressor_Arithmetic::Read( void* outData, int outLength )
 /*
 =================================================================================
 
-	idCompressor_LZSS
+	budCompressor_LZSS
 
 	In 1977 Abraham Lempel and Jacob Ziv presented a dictionary based scheme for
 	text compression called LZ77. For any new text LZ77 outputs an offset/length
@@ -2099,10 +2099,10 @@ const int LZSS_HASH_MASK		= ( 1 << LZSS_HASH_BITS ) - 1;
 const int LZSS_OFFSET_BITS		= 11;
 const int LZSS_LENGTH_BITS		= 5;
 
-class idCompressor_LZSS : public idCompressor_BitStream
+class budCompressor_LZSS : public budCompressor_BitStream
 {
 public:
-	idCompressor_LZSS() {}
+	budCompressor_LZSS() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	void			FinishCompress();
@@ -2132,12 +2132,12 @@ protected:
 
 /*
 ================
-idCompressor_LZSS::Init
+budCompressor_LZSS::Init
 ================
 */
-void idCompressor_LZSS::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_LZSS::Init( budFile* f, bool compress, int wordLength )
 {
-	idCompressor_BitStream::Init( f, compress, wordLength );
+	budCompressor_BitStream::Init( f, compress, wordLength );
 	
 	offsetBits = LZSS_OFFSET_BITS;
 	lengthBits = LZSS_LENGTH_BITS;
@@ -2149,10 +2149,10 @@ void idCompressor_LZSS::Init( budFile* f, bool compress, int wordLength )
 
 /*
 ================
-idCompressor_LZSS::FindMatch
+budCompressor_LZSS::FindMatch
 ================
 */
-bool idCompressor_LZSS::FindMatch( int startWord, int startValue, int& wordOffset, int& numWords )
+bool budCompressor_LZSS::FindMatch( int startWord, int startValue, int& wordOffset, int& numWords )
 {
 	int i, n, hash, bottom, maxBits;
 	
@@ -2183,10 +2183,10 @@ bool idCompressor_LZSS::FindMatch( int startWord, int startValue, int& wordOffse
 
 /*
 ================
-idCompressor_LZSS::AddToHash
+budCompressor_LZSS::AddToHash
 ================
 */
-void idCompressor_LZSS::AddToHash( int index, int hash )
+void budCompressor_LZSS::AddToHash( int index, int hash )
 {
 	hashNext[index] = hashTable[hash];
 	hashTable[hash] = index;
@@ -2194,10 +2194,10 @@ void idCompressor_LZSS::AddToHash( int index, int hash )
 
 /*
 ================
-idCompressor_LZSS::GetWordFromBlock
+budCompressor_LZSS::GetWordFromBlock
 ================
 */
-int idCompressor_LZSS::GetWordFromBlock( int wordOffset ) const
+int budCompressor_LZSS::GetWordFromBlock( int wordOffset ) const
 {
 	int blockBit, blockByte, value, valueBits, get, fraction;
 	
@@ -2239,10 +2239,10 @@ int idCompressor_LZSS::GetWordFromBlock( int wordOffset ) const
 
 /*
 ================
-idCompressor_LZSS::CompressBlock
+budCompressor_LZSS::CompressBlock
 ================
 */
-void idCompressor_LZSS::CompressBlock()
+void budCompressor_LZSS::CompressBlock()
 {
 	int i, startWord, startValue, wordOffset, numWords;
 	
@@ -2282,10 +2282,10 @@ void idCompressor_LZSS::CompressBlock()
 
 /*
 ================
-idCompressor_LZSS::DecompressBlock
+budCompressor_LZSS::DecompressBlock
 ================
 */
-void idCompressor_LZSS::DecompressBlock()
+void budCompressor_LZSS::DecompressBlock()
 {
 	int i, offset, startWord, numWords;
 	
@@ -2316,10 +2316,10 @@ void idCompressor_LZSS::DecompressBlock()
 
 /*
 ================
-idCompressor_LZSS::Write
+budCompressor_LZSS::Write
 ================
 */
-int idCompressor_LZSS::Write( const void* inData, int inLength )
+int budCompressor_LZSS::Write( const void* inData, int inLength )
 {
 	int i, n;
 	
@@ -2351,10 +2351,10 @@ int idCompressor_LZSS::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_LZSS::FinishCompress
+budCompressor_LZSS::FinishCompress
 ================
 */
-void idCompressor_LZSS::FinishCompress()
+void budCompressor_LZSS::FinishCompress()
 {
 	if( compress == false )
 	{
@@ -2364,15 +2364,15 @@ void idCompressor_LZSS::FinishCompress()
 	{
 		CompressBlock();
 	}
-	idCompressor_BitStream::FinishCompress();
+	budCompressor_BitStream::FinishCompress();
 }
 
 /*
 ================
-idCompressor_LZSS::Read
+budCompressor_LZSS::Read
 ================
 */
-int idCompressor_LZSS::Read( void* outData, int outLength )
+int budCompressor_LZSS::Read( void* outData, int outLength )
 {
 	int i, n;
 	
@@ -2413,17 +2413,17 @@ int idCompressor_LZSS::Read( void* outData, int outLength )
 /*
 =================================================================================
 
-	idCompressor_LZSS_WordAligned
+	budCompressor_LZSS_WordAligned
 
 	Outputs word aligned compressed data.
 
 =================================================================================
 */
 
-class idCompressor_LZSS_WordAligned : public idCompressor_LZSS
+class budCompressor_LZSS_WordAligned : public budCompressor_LZSS
 {
 public:
-	idCompressor_LZSS_WordAligned() {}
+	budCompressor_LZSS_WordAligned() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 private:
@@ -2433,12 +2433,12 @@ private:
 
 /*
 ================
-idCompressor_LZSS_WordAligned::Init
+budCompressor_LZSS_WordAligned::Init
 ================
 */
-void idCompressor_LZSS_WordAligned::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_LZSS_WordAligned::Init( budFile* f, bool compress, int wordLength )
 {
-	idCompressor_LZSS::Init( f, compress, wordLength );
+	budCompressor_LZSS::Init( f, compress, wordLength );
 	
 	offsetBits = 2 * wordLength;
 	lengthBits = wordLength;
@@ -2450,10 +2450,10 @@ void idCompressor_LZSS_WordAligned::Init( budFile* f, bool compress, int wordLen
 
 /*
 ================
-idCompressor_LZSS_WordAligned::CompressBlock
+budCompressor_LZSS_WordAligned::CompressBlock
 ================
 */
-void idCompressor_LZSS_WordAligned::CompressBlock()
+void budCompressor_LZSS_WordAligned::CompressBlock()
 {
 	int i, startWord, startValue, wordOffset, numWords;
 	
@@ -2492,10 +2492,10 @@ void idCompressor_LZSS_WordAligned::CompressBlock()
 
 /*
 ================
-idCompressor_LZSS_WordAligned::DecompressBlock
+budCompressor_LZSS_WordAligned::DecompressBlock
 ================
 */
-void idCompressor_LZSS_WordAligned::DecompressBlock()
+void budCompressor_LZSS_WordAligned::DecompressBlock()
 {
 	int i, offset, startWord, numWords;
 	
@@ -2528,7 +2528,7 @@ void idCompressor_LZSS_WordAligned::DecompressBlock()
 /*
 =================================================================================
 
-	idCompressor_LZW
+	budCompressor_LZW
 
 	http://www.unisys.com/about__unisys/lzw
 	http://www.dogma.net/markn/articles/lzw/lzw.htm
@@ -2573,10 +2573,10 @@ void idCompressor_LZSS_WordAligned::DecompressBlock()
 =================================================================================
 */
 
-class idCompressor_LZW : public idCompressor_BitStream
+class budCompressor_LZW : public budCompressor_BitStream
 {
 public:
-	idCompressor_LZW() {}
+	budCompressor_LZW() {}
 	
 	void			Init( budFile* f, bool compress, int wordLength );
 	void			FinishCompress();
@@ -2624,12 +2624,12 @@ protected:
 
 /*
 ================
-idCompressor_LZW::Init
+budCompressor_LZW::Init
 ================
 */
-void idCompressor_LZW::Init( budFile* f, bool compress, int wordLength )
+void budCompressor_LZW::Init( budFile* f, bool compress, int wordLength )
 {
-	idCompressor_BitStream::Init( f, compress, wordLength );
+	budCompressor_BitStream::Init( f, compress, wordLength );
 	
 	for( int i = 0; i < LZW_FIRST_CODE; i++ )
 	{
@@ -2650,10 +2650,10 @@ void idCompressor_LZW::Init( budFile* f, bool compress, int wordLength )
 
 /*
 ================
-idCompressor_LZW::Read
+budCompressor_LZW::Read
 ================
 */
-int idCompressor_LZW::Read( void* outData, int outLength )
+int budCompressor_LZW::Read( void* outData, int outLength )
 {
 	int i, n;
 	
@@ -2693,10 +2693,10 @@ int idCompressor_LZW::Read( void* outData, int outLength )
 
 /*
 ================
-idCompressor_LZW::Lookup
+budCompressor_LZW::Lookup
 ================
 */
-int idCompressor_LZW::Lookup( int w, int k )
+int budCompressor_LZW::Lookup( int w, int k )
 {
 	int j;
 	
@@ -2720,10 +2720,10 @@ int idCompressor_LZW::Lookup( int w, int k )
 
 /*
 ================
-idCompressor_LZW::AddToDict
+budCompressor_LZW::AddToDict
 ================
 */
-int idCompressor_LZW::AddToDict( int w, int k )
+int budCompressor_LZW::AddToDict( int w, int k )
 {
 	dictionary[ nextCode ].k = k;
 	dictionary[ nextCode ].w = w;
@@ -2733,13 +2733,13 @@ int idCompressor_LZW::AddToDict( int w, int k )
 
 /*
 ================
-idCompressor_LZW::BumpBits
+budCompressor_LZW::BumpBits
 
 Possibly increments codeBits
 Returns true if the dictionary was cleared
 ================
 */
-bool idCompressor_LZW::BumpBits()
+bool budCompressor_LZW::BumpBits()
 {
 	if( nextCode == ( 1 << codeBits ) )
 	{
@@ -2757,21 +2757,21 @@ bool idCompressor_LZW::BumpBits()
 
 /*
 ================
-idCompressor_LZW::FinishCompress
+budCompressor_LZW::FinishCompress
 ================
 */
-void idCompressor_LZW::FinishCompress()
+void budCompressor_LZW::FinishCompress()
 {
 	WriteBits( w, codeBits );
-	idCompressor_BitStream::FinishCompress();
+	budCompressor_BitStream::FinishCompress();
 }
 
 /*
 ================
-idCompressor_LZW::Write
+budCompressor_LZW::Write
 ================
 */
-int idCompressor_LZW::Write( const void* inData, int inLength )
+int budCompressor_LZW::Write( const void* inData, int inLength )
 {
 	int i;
 	
@@ -2803,11 +2803,11 @@ int idCompressor_LZW::Write( const void* inData, int inLength )
 
 /*
 ================
-idCompressor_LZW::WriteChain
+budCompressor_LZW::WriteChain
 The chain is stored backwards, so we have to write it to a buffer then output the buffer in reverse
 ================
 */
-int idCompressor_LZW::WriteChain( int code )
+int budCompressor_LZW::WriteChain( int code )
 {
 	byte chain[LZW_DICT_SIZE];
 	int firstChar = 0;
@@ -2829,10 +2829,10 @@ int idCompressor_LZW::WriteChain( int code )
 
 /*
 ================
-idCompressor_LZW::DecompressBlock
+budCompressor_LZW::DecompressBlock
 ================
 */
-void idCompressor_LZW::DecompressBlock()
+void budCompressor_LZW::DecompressBlock()
 {
 	int code, firstChar;
 	
@@ -2884,97 +2884,97 @@ void idCompressor_LZW::DecompressBlock()
 /*
 =================================================================================
 
-	idCompressor
+	budCompressor
 
 =================================================================================
 */
 
 /*
 ================
-idCompressor::AllocNoCompression
+budCompressor::AllocNoCompression
 ================
 */
-idCompressor* idCompressor::AllocNoCompression()
+budCompressor* budCompressor::AllocNoCompression()
 {
-	return new( TAG_budFile ) idCompressor_None();
+	return new( TAG_BUDFILE ) budCompressor_None();
 }
 
 /*
 ================
-idCompressor::AllocBitStream
+budCompressor::AllocBitStream
 ================
 */
-idCompressor* idCompressor::AllocBitStream()
+budCompressor* budCompressor::AllocBitStream()
 {
-	return new( TAG_budFile ) idCompressor_BitStream();
+	return new( TAG_BUDFILE ) budCompressor_BitStream();
 }
 
 /*
 ================
-idCompressor::AllocRunLength
+budCompressor::AllocRunLength
 ================
 */
-idCompressor* idCompressor::AllocRunLength()
+budCompressor* budCompressor::AllocRunLength()
 {
-	return new( TAG_budFile ) idCompressor_RunLength();
+	return new( TAG_BUDFILE ) budCompressor_RunLength();
 }
 
 /*
 ================
-idCompressor::AllocRunLength_ZeroBased
+budCompressor::AllocRunLength_ZeroBased
 ================
 */
-idCompressor* idCompressor::AllocRunLength_ZeroBased()
+budCompressor* budCompressor::AllocRunLength_ZeroBased()
 {
-	return new( TAG_budFile ) idCompressor_RunLength_ZeroBased();
+	return new( TAG_BUDFILE ) budCompressor_RunLength_ZeroBased();
 }
 
 /*
 ================
-idCompressor::AllocHuffman
+budCompressor::AllocHuffman
 ================
 */
-idCompressor* idCompressor::AllocHuffman()
+budCompressor* budCompressor::AllocHuffman()
 {
-	return new( TAG_budFile ) idCompressor_Huffman();
+	return new( TAG_BUDFILE ) budCompressor_Huffman();
 }
 
 /*
 ================
-idCompressor::AllocArithmetic
+budCompressor::AllocArithmetic
 ================
 */
-idCompressor* idCompressor::AllocArithmetic()
+budCompressor* budCompressor::AllocArithmetic()
 {
-	return new( TAG_budFile ) idCompressor_Arithmetic();
+	return new( TAG_BUDFILE ) budCompressor_Arithmetic();
 }
 
 /*
 ================
-idCompressor::AllocLZSS
+budCompressor::AllocLZSS
 ================
 */
-idCompressor* idCompressor::AllocLZSS()
+budCompressor* budCompressor::AllocLZSS()
 {
-	return new( TAG_budFile ) idCompressor_LZSS();
+	return new( TAG_BUDFILE ) budCompressor_LZSS();
 }
 
 /*
 ================
-idCompressor::AllocLZSS_WordAligned
+budCompressor::AllocLZSS_WordAligned
 ================
 */
-idCompressor* idCompressor::AllocLZSS_WordAligned()
+budCompressor* budCompressor::AllocLZSS_WordAligned()
 {
-	return new( TAG_budFile ) idCompressor_LZSS_WordAligned();
+	return new( TAG_BUDFILE ) budCompressor_LZSS_WordAligned();
 }
 
 /*
 ================
-idCompressor::AllocLZW
+budCompressor::AllocLZW
 ================
 */
-idCompressor* idCompressor::AllocLZW()
+budCompressor* budCompressor::AllocLZW()
 {
-	return new( TAG_budFile ) idCompressor_LZW();
+	return new( TAG_BUDFILE ) budCompressor_LZW();
 }

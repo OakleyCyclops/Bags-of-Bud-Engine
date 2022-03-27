@@ -26,10 +26,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Common_local.h"
+#include "Common_local.hpp"
 
 budCVar com_product_lang_ext( "com_product_lang_ext", "1", CVAR_INTEGER | CVAR_SYSTEM | CVAR_ARCHIVE, "Extension to use when creating language files." );
 
@@ -712,7 +712,6 @@ void budCommonLocal::LocalizeGui( const char* fileName, budLangDict& langDict )
 			common->Printf( "Processing %s\n", fileName );
 			
 			const bool captureToImage = false;
-			UpdateScreen( captureToImage );
 			budToken token;
 			while( src.ReadToken( &token ) )
 			{

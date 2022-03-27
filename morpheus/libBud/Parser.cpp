@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 //#define DEBUG_EVAL
@@ -260,7 +260,7 @@ define_t* budParser::CopyDefine( define_t* define )
 	define_t* newdefine;
 	budToken* token, *newtoken, *lasttoken;
 	
-	newdefine = ( define_t* ) Mem_Alloc( sizeof( define_t ) + strlen( define->name ) + 1, TAG_libBud_PARSER );
+	newdefine = ( define_t* ) Mem_Alloc( sizeof( define_t ) + strlen( define->name ) + 1, TAG_LIBBUD_PARSER );
 	//copy the define name
 	newdefine->name = ( char* ) newdefine + sizeof( define_t );
 	strcpy( newdefine->name, define->name );
@@ -274,7 +274,7 @@ define_t* budParser::CopyDefine( define_t* define )
 	newdefine->tokens = NULL;
 	for( lasttoken = NULL, token = define->tokens; token; token = token->next )
 	{
-		newtoken = new( TAG_libBud_PARSER ) budToken( token );
+		newtoken = new( TAG_LIBBUD_PARSER ) budToken( token );
 		newtoken->next = NULL;
 		if( lasttoken ) lasttoken->next = newtoken;
 		else newdefine->tokens = newtoken;
@@ -284,7 +284,7 @@ define_t* budParser::CopyDefine( define_t* define )
 	newdefine->parms = NULL;
 	for( lasttoken = NULL, token = define->parms; token; token = token->next )
 	{
-		newtoken = new( TAG_libBud_PARSER ) budToken( token );
+		newtoken = new( TAG_LIBBUD_PARSER ) budToken( token );
 		newtoken->next = NULL;
 		if( lasttoken ) lasttoken->next = newtoken;
 		else newdefine->parms = newtoken;
@@ -391,7 +391,7 @@ void budParser::PushIndent( int type, int skip )
 {
 	indent_t* indent;
 	
-	indent = ( indent_t* ) Mem_Alloc( sizeof( indent_t ), TAG_libBud_PARSER );
+	indent = ( indent_t* ) Mem_Alloc( sizeof( indent_t ), TAG_LIBBUD_PARSER );
 	indent->type = type;
 	indent->script = budParser::scriptstack;
 	indent->skip = ( skip != 0 );
@@ -522,7 +522,7 @@ int budParser::UnreadSourceToken( budToken* token )
 {
 	budToken* t;
 	
-	t = new( TAG_libBud_PARSER ) budToken( token );
+	t = new( TAG_LIBBUD_PARSER ) budToken( token );
 	t->next = budParser::tokens;
 	budParser::tokens = t;
 	return true;
@@ -633,7 +633,7 @@ int budParser::ReadDefineParms( define_t* define, budToken** parms, int maxparms
 			if( numparms < define->numparms )
 			{
 			
-				t = new( TAG_libBud_PARSER ) budToken( token );
+				t = new( TAG_LIBBUD_PARSER ) budToken( token );
 				t->next = NULL;
 				if( last ) last->next = t;
 				else parms[numparms] = t;
@@ -721,7 +721,7 @@ void budParser::AddBuiltinDefines()
 	
 	for( i = 0; builtin[i].string; i++ )
 	{
-		define = ( define_t* ) Mem_Alloc( sizeof( define_t ) + strlen( builtin[i].string ) + 1, TAG_libBud_PARSER );
+		define = ( define_t* ) Mem_Alloc( sizeof( define_t ) + strlen( builtin[i].string ) + 1, TAG_LIBBUD_PARSER );
 		define->name = ( char* ) define + sizeof( define_t );
 		strcpy( define->name, builtin[i].string );
 		define->flags = DEFINE_FIXED;
@@ -810,7 +810,7 @@ int budParser::ExpandBuiltinDefine( budToken* deftoken, define_t* define, budTok
 	budToken* token;
 	char buf[MAX_STRING_CHARS];
 	
-	token = new( TAG_libBud_PARSER ) budToken( deftoken );
+	token = new( TAG_LIBBUD_PARSER ) budToken( deftoken );
 	switch( define->builtin )
 	{
 		case BUILTIN_LINE:
@@ -932,7 +932,7 @@ int budParser::ExpandDefine( budToken* deftoken, define_t* define, budToken** fi
 		{
 			for( pt = parms[parmnum]; pt; pt = pt->next )
 			{
-				t = new( TAG_libBud_PARSER ) budToken( pt );
+				t = new( TAG_LIBBUD_PARSER ) budToken( pt );
 				//add the token to the list
 				t->next = NULL;
 				if( last ) last->next = t;
@@ -965,7 +965,7 @@ int budParser::ExpandDefine( budToken* deftoken, define_t* define, budToken** fi
 						budParser::Error( "can't stringize tokens" );
 						return false;
 					}
-					t = new( TAG_libBud_PARSER ) budToken( token );
+					t = new( TAG_LIBBUD_PARSER ) budToken( token );
 					t->line = deftoken->line;
 				}
 				else
@@ -976,7 +976,7 @@ int budParser::ExpandDefine( budToken* deftoken, define_t* define, budToken** fi
 			}
 			else
 			{
-				t = new( TAG_libBud_PARSER ) budToken( dt );
+				t = new( TAG_LIBBUD_PARSER ) budToken( dt );
 				t->line = deftoken->line;
 			}
 			// add the token to the list
@@ -1110,7 +1110,7 @@ int budParser::Directive_include( budToken* token, bool supressWarning )
 	}
 	if( token->type == TT_STRING )
 	{
-		script = new( TAG_libBud_PARSER ) budLexer;
+		script = new( TAG_LIBBUD_PARSER ) budLexer;
 		// try relative to the current file
 		path = scriptstack->GetFileName();
 		path.StripFilename();
@@ -1161,7 +1161,7 @@ int budParser::Directive_include( budToken* token, bool supressWarning )
 		{
 			return true;
 		}
-		script = new( TAG_libBud_PARSER ) budLexer;
+		script = new( TAG_LIBBUD_PARSER ) budLexer;
 		if( !script->LoadFile( includepath + path, OSPath ) )
 		{
 			delete script;
@@ -1280,7 +1280,7 @@ int budParser::Directive_define()
 		define = FindHashedDefine( budParser::definehash, token.c_str() );
 	}
 	// allocate define
-	define = ( define_t* ) Mem_ClearedAlloc( sizeof( define_t ) + token.Length() + 1, TAG_libBud_PARSER );
+	define = ( define_t* ) Mem_ClearedAlloc( sizeof( define_t ) + token.Length() + 1, TAG_LIBBUD_PARSER );
 	define->name = ( char* ) define + sizeof( define_t );
 	strcpy( define->name, token.c_str() );
 	// add the define to the source
@@ -1317,7 +1317,7 @@ int budParser::Directive_define()
 					return false;
 				}
 				// add the define parm
-				t = new( TAG_libBud_PARSER ) budToken( token );
+				t = new( TAG_LIBBUD_PARSER ) budToken( token );
 				t->ClearTokenWhiteSpace();
 				t->next = NULL;
 				if( last ) last->next = t;
@@ -1352,7 +1352,7 @@ int budParser::Directive_define()
 	last = NULL;
 	do
 	{
-		t = new( TAG_libBud_PARSER ) budToken( token );
+		t = new( TAG_LIBBUD_PARSER ) budToken( token );
 		if( t->type == TT_NAME && !strcmp( t->c_str(), define->name ) )
 		{
 			t->flags |= TOKEN_FL_RECURSIVE_DEFINE;
@@ -2154,7 +2154,7 @@ int budParser::Evaluate( signed int* intvalue, double* floatvalue, int integer )
 			if( defined )
 			{
 				defined = false;
-				t = new( TAG_libBud_PARSER ) budToken( token );
+				t = new( TAG_LIBBUD_PARSER ) budToken( token );
 				t->next = NULL;
 				if( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
@@ -2163,7 +2163,7 @@ int budParser::Evaluate( signed int* intvalue, double* floatvalue, int integer )
 			else if( token == "defined" )
 			{
 				defined = true;
-				t = new( TAG_libBud_PARSER ) budToken( token );
+				t = new( TAG_LIBBUD_PARSER ) budToken( token );
 				t->next = NULL;
 				if( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
@@ -2187,7 +2187,7 @@ int budParser::Evaluate( signed int* intvalue, double* floatvalue, int integer )
 		//if the token is a number or a punctuation
 		else if( token.type == TT_NUMBER || token.type == TT_PUNCTUATION )
 		{
-			t = new( TAG_libBud_PARSER ) budToken( token );
+			t = new( TAG_LIBBUD_PARSER ) budToken( token );
 			t->next = NULL;
 			if( lasttoken ) lasttoken->next = t;
 			else firsttoken = t;
@@ -2267,7 +2267,7 @@ int budParser::DollarEvaluate( signed int* intvalue, double* floatvalue, int int
 			if( defined )
 			{
 				defined = false;
-				t = new( TAG_libBud_PARSER ) budToken( token );
+				t = new( TAG_LIBBUD_PARSER ) budToken( token );
 				t->next = NULL;
 				if( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
@@ -2276,7 +2276,7 @@ int budParser::DollarEvaluate( signed int* intvalue, double* floatvalue, int int
 			else if( token == "defined" )
 			{
 				defined = true;
-				t = new( TAG_libBud_PARSER ) budToken( token );
+				t = new( TAG_LIBBUD_PARSER ) budToken( token );
 				t->next = NULL;
 				if( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
@@ -2306,7 +2306,7 @@ int budParser::DollarEvaluate( signed int* intvalue, double* floatvalue, int int
 			{
 				break;
 			}
-			t = new( TAG_libBud_PARSER ) budToken( token );
+			t = new( TAG_LIBBUD_PARSER ) budToken( token );
 			t->next = NULL;
 			if( lasttoken ) lasttoken->next = t;
 			else firsttoken = t;
@@ -3585,7 +3585,7 @@ int budParser::LoadFile( const char* filename, bool OSPath )
 		libBud::common->FatalError( "budParser::loadFile: another source already loaded" );
 		return false;
 	}
-	script = new( TAG_libBud_PARSER ) budLexer( filename, 0, OSPath );
+	script = new( TAG_LIBBUD_PARSER ) budLexer( filename, 0, OSPath );
 	if( !script->IsLoaded() )
 	{
 		delete script;
@@ -3605,7 +3605,7 @@ int budParser::LoadFile( const char* filename, bool OSPath )
 	if( !budParser::definehash )
 	{
 		budParser::defines = NULL;
-		budParser::definehash = ( define_t** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t* ), TAG_libBud_PARSER );
+		budParser::definehash = ( define_t** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t* ), TAG_LIBBUD_PARSER );
 		budParser::AddGlobalDefinesToSource();
 	}
 	return true;
@@ -3625,7 +3625,7 @@ int budParser::LoadMemory( const char* ptr, int length, const char* name )
 		libBud::common->FatalError( "budParser::loadMemory: another source already loaded" );
 		return false;
 	}
-	script = new( TAG_libBud_PARSER ) budLexer( ptr, length, name );
+	script = new( TAG_LIBBUD_PARSER ) budLexer( ptr, length, name );
 	if( !script->IsLoaded() )
 	{
 		delete script;
@@ -3644,7 +3644,7 @@ int budParser::LoadMemory( const char* ptr, int length, const char* name )
 	if( !budParser::definehash )
 	{
 		budParser::defines = NULL;
-		budParser::definehash = ( define_t** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t* ), TAG_libBud_PARSER );
+		budParser::definehash = ( define_t** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t* ), TAG_LIBBUD_PARSER );
 		budParser::AddGlobalDefinesToSource();
 	}
 	return true;

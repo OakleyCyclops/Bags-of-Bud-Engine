@@ -3,7 +3,20 @@
         "cstdlib": "cpp",
         "fstream": "cpp",
         "*.def": "cpp",
-        "*.inc": "cpp"
+        "*.inc": "cpp",
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "numeric": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "ranges": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp",
+        "algorithm": "cpp",
+        "typeinfo": "cpp",
+        "memory": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/."
 }

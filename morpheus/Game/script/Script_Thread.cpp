@@ -1794,7 +1794,7 @@ idThread::Event_FadeIn
 void idThread::Event_FadeIn( budVec3& color, float time )
 {
 	budVec4		fadeColor;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( player )
@@ -1812,7 +1812,7 @@ idThread::Event_FadeOut
 void idThread::Event_FadeOut( budVec3& color, float time )
 {
 	budVec4		fadeColor;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( player )
@@ -1830,7 +1830,7 @@ idThread::Event_FadeTo
 void idThread::Event_FadeTo( budVec3& color, float alpha, float time )
 {
 	budVec4		fadeColor;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( player )
@@ -2139,7 +2139,7 @@ idThread::Event_InfluenceActive
 */
 void idThread::Event_InfluenceActive()
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( player != NULL && player->GetInfluenceLevel() )

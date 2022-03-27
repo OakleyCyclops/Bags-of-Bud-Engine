@@ -37,7 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 
 budSys* 						sys = NULL;
 budCommon* 					common = NULL;
-idCmdSystem* 				cmdSystem = NULL;
+budCmdSystem* 				cmdSystem = NULL;
 budCVarSystem* 				cvarSystem = NULL;
 budFileSystem* 				fileSystem = NULL;
 budRenderSystem* 			renderSystem = NULL;
@@ -331,7 +331,7 @@ void budGameLocal::Init()
 	declManager->RegisterDeclFolder( "newpdas",			".pda",				DECL_PDA );
 	
 	cmdSystem->AddCommand( "listModelDefs", budListDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "lists model defs" );
-	cmdSystem->AddCommand( "printModelDefs", idPrintDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "prints a model def", idCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
+	cmdSystem->AddCommand( "printModelDefs", budPrintDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "prints a model def", budCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
 	
 	Clear();
 	
@@ -702,7 +702,7 @@ void budGameLocal::GetSaveGameDetails( idSaveGameDetails& gameDetails )
 	
 	const budDeclEntityDef* mapDef = static_cast<const budDeclEntityDef*>( declManager->FindType( DECL_MAPDEF, shortMapName, false ) );
 	const char* mapPrettyName = mapDef ? budLocalization::GetString( mapDef->dict.GetString( "name", shortMapName ) ) : shortMapName.c_str();
-	idPlayer* player = GetClientByNum( 0 );
+	budPlayer* player = GetClientByNum( 0 );
 	int playTime = player ? player->GetPlayedTime() : 0;
 	gameExpansionType_t expansionType = player ? player->GetExpansionType() : GAME_BASE;
 	
@@ -731,9 +731,9 @@ const idDict& budGameLocal::GetPersistentPlayerInfo( int clientNum )
 	
 	persistentPlayerInfo[ clientNum ].Clear();
 	ent = entities[ clientNum ];
-	if( ent && ent->IsType( idPlayer::Type ) )
+	if( ent && ent->IsType( budPlayer::Type ) )
 	{
-		static_cast<idPlayer*>( ent )->SavePersistantInfo();
+		static_cast<budPlayer*>( ent )->SavePersistantInfo();
 	}
 	
 	return persistentPlayerInfo[ clientNum ];
@@ -1122,9 +1122,9 @@ void budGameLocal::LocalMapRestart( )
 	
 	for( i = 0; i < MAX_CLIENTS; i++ )
 	{
-		if( entities[ i ] && entities[ i ]->IsType( idPlayer::Type ) )
+		if( entities[ i ] && entities[ i ]->IsType( budPlayer::Type ) )
 		{
-			static_cast< idPlayer* >( entities[ i ] )->PrepareForRestart();
+			static_cast< budPlayer* >( entities[ i ] )->PrepareForRestart();
 		}
 	}
 	
@@ -1167,9 +1167,9 @@ void budGameLocal::LocalMapRestart( )
 	// setup the client entities again
 	for( i = 0; i < MAX_CLIENTS; i++ )
 	{
-		if( entities[ i ] && entities[ i ]->IsType( idPlayer::Type ) )
+		if( entities[ i ] && entities[ i ]->IsType( budPlayer::Type ) )
 		{
-			static_cast< idPlayer* >( entities[ i ] )->Restart();
+			static_cast< budPlayer* >( entities[ i ] )->Restart();
 		}
 	}
 	
@@ -1703,7 +1703,7 @@ void budGameLocal::GetAimAssistAngles( budAngles& angles )
 	angles.Zero();
 	
 	// Take a look at serializing this to the clients
-	idPlayer* player = GetLocalPlayer();
+	budPlayer* player = GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;
@@ -1726,7 +1726,7 @@ budGameLocal::GetAimAssistSensitivity
 float budGameLocal::GetAimAssistSensitivity()
 {
 	// Take a look at serializing this to the clients
-	idPlayer* player = GetLocalPlayer();
+	budPlayer* player = GetLocalPlayer();
 	if( player == NULL )
 	{
 		return 1.0f;
@@ -2117,9 +2117,9 @@ void budGameLocal::SpawnPlayer( int clientNum )
 	}
 	
 	// make sure it's a compatible class
-	if( !ent->IsType( idPlayer::Type ) )
+	if( !ent->IsType( budPlayer::Type ) )
 	{
-		Error( "'%s' spawned the player as a '%s'.  Player spawnclass must be a subclass of idPlayer.", args.GetString( "classname" ), ent->GetClassname() );
+		Error( "'%s' spawned the player as a '%s'.  Player spawnclass must be a subclass of budPlayer.", args.GetString( "classname" ), ent->GetClassname() );
 	}
 	mpGame.SpawnPlayer( clientNum );
 }
@@ -2129,7 +2129,7 @@ void budGameLocal::SpawnPlayer( int clientNum )
 budGameLocal::GetClientByNum
 ================
 */
-idPlayer* budGameLocal::GetClientByNum( int current ) const
+budPlayer* budGameLocal::GetClientByNum( int current ) const
 {
 	if( current < 0 || current >= numClients )
 	{
@@ -2137,7 +2137,7 @@ idPlayer* budGameLocal::GetClientByNum( int current ) const
 	}
 	if( entities[current] )
 	{
-		return static_cast<idPlayer*>( entities[ current ] );
+		return static_cast<budPlayer*>( entities[ current ] );
 	}
 	return NULL;
 }
@@ -2155,7 +2155,7 @@ int budGameLocal::GetNextClientNum( int _current ) const
 	for( i = 0; i < numClients; i++ )
 	{
 		current = ( _current + i + 1 ) % numClients;
-		if( entities[ current ] && entities[ current ]->IsType( idPlayer::Type ) )
+		if( entities[ current ] && entities[ current ]->IsType( budPlayer::Type ) )
 		{
 			return current;
 		}
@@ -2174,19 +2174,19 @@ draw phase even happening.  This just returns client 0, which will
 be correct for single player.
 ================
 */
-idPlayer* budGameLocal::GetLocalPlayer() const
+budPlayer* budGameLocal::GetLocalPlayer() const
 {
 	if( GetLocalClientNum() < 0 )
 	{
 		return NULL;
 	}
 	
-	if( !entities[ GetLocalClientNum() ] || !entities[ GetLocalClientNum() ]->IsType( idPlayer::Type ) )
+	if( !entities[ GetLocalClientNum() ] || !entities[ GetLocalClientNum() ]->IsType( budPlayer::Type ) )
 	{
 		// not fully in game yet
 		return NULL;
 	}
-	return static_cast<idPlayer*>( entities[ GetLocalClientNum() ] );
+	return static_cast<budPlayer*>( entities[ GetLocalClientNum() ] );
 }
 
 /*
@@ -2194,7 +2194,7 @@ idPlayer* budGameLocal::GetLocalPlayer() const
 budGameLocal::SetupClientPVS
 ================
 */
-pvsHandle_t budGameLocal::GetClientPVS( idPlayer* player, pvsType_t type )
+pvsHandle_t budGameLocal::GetClientPVS( budPlayer* player, pvsType_t type )
 {
 	if( player->GetPrivateCameraView() )
 	{
@@ -2219,19 +2219,19 @@ void budGameLocal::SetupPlayerPVS()
 {
 	int			i;
 	idEntity* 	ent;
-	idPlayer* 	player;
+	budPlayer* 	player;
 	pvsHandle_t	otherPVS, newPVS;
 	
 	playerPVS.i = -1;
 	for( i = 0; i < numClients; i++ )
 	{
 		ent = entities[i];
-		if( !ent || !ent->IsType( idPlayer::Type ) )
+		if( !ent || !ent->IsType( budPlayer::Type ) )
 		{
 			continue;
 		}
 		
-		player = static_cast<idPlayer*>( ent );
+		player = static_cast<budPlayer*>( ent );
 		
 		if( playerPVS.i == -1 )
 		{
@@ -2532,7 +2532,7 @@ void budGameLocal::RunFrame( budUserCmdMgr& cmdMgr, gameReturn_t& ret )
 	float		ms;
 	budTimer		timer_think, timer_events, timer_singlethink;
 	
-	idPlayer*	player;
+	budPlayer*	player;
 	const renderView_t* view;
 	
 	if( g_recordTrace.GetBool() )
@@ -2835,7 +2835,7 @@ Runs a Think or a ClientThink for a player. Will write the client's
 position and firecount to the usercmd.
 ====================
 */
-void budGameLocal::RunSingleUserCmd( usercmd_t& cmd, idPlayer& player )
+void budGameLocal::RunSingleUserCmd( usercmd_t& cmd, budPlayer& player )
 {
 	player.HandleUserCmds( cmd );
 	
@@ -2897,7 +2897,7 @@ void budGameLocal::RunAllUserCmdsForPlayer( budUserCmdMgr& cmdMgr, const int pla
 		return;
 	}
 	
-	idPlayer& player = static_cast< idPlayer& >( *entities[ playerNumber ] );
+	budPlayer& player = static_cast< budPlayer& >( *entities[ playerNumber ] );
 	
 	// Only run a single userCmd each game frame for local players, otherwise when
 	// we are running < 60fps things like footstep sounds may get started right on top
@@ -3094,7 +3094,7 @@ bool budGameLocal::Draw( int clientNum )
 	// chose the optimized or legacy device context code
 	uiManager->SetDrawingDC();
 	
-	idPlayer* player = static_cast<idPlayer*>( entities[ clientNum ] );
+	budPlayer* player = static_cast<budPlayer*>( entities[ clientNum ] );
 	
 	if( ( player == NULL ) || ( player->GetRenderView() == NULL ) )
 	{
@@ -3115,7 +3115,7 @@ budGameLocal::HandleGuiCommands
 bool budGameLocal::HandlePlayerGuiEvent( const sysEvent_t* ev )
 {
 
-	idPlayer* player = GetLocalPlayer();
+	budPlayer* player = GetLocalPlayer();
 	bool handled = false;
 	
 	if( player != NULL )
@@ -3285,7 +3285,7 @@ budGameLocal::RunDebugInfo
 void budGameLocal::RunDebugInfo()
 {
 	idEntity* ent;
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = GetLocalPlayer();
 	if( !player )
@@ -3597,7 +3597,7 @@ bool budGameLocal::CheatsOk( bool requirePlayer )
 		return true;
 	}
 	
-	idPlayer* player = GetLocalPlayer();
+	budPlayer* player = GetLocalPlayer();
 	if( !requirePlayer || ( player != NULL && ( player->health > 0 ) ) )
 	{
 		return true;
@@ -4288,10 +4288,10 @@ void budGameLocal::KillBox( idEntity* ent, bool catch_teleport )
 		}
 		
 		// nail it
-		idPlayer* otherPlayer = NULL;
-		if( hit->IsType( idPlayer::Type ) )
+		budPlayer* otherPlayer = NULL;
+		if( hit->IsType( budPlayer::Type ) )
 		{
-			otherPlayer = static_cast< idPlayer* >( hit );
+			otherPlayer = static_cast< budPlayer* >( hit );
 		}
 		if( otherPlayer != NULL )
 		{
@@ -4320,9 +4320,9 @@ bool budGameLocal::RequirementMet( idEntity* activator, const budStr& requires, 
 {
 	if( requires.Length() )
 	{
-		if( activator->IsType( idPlayer::Type ) )
+		if( activator->IsType( budPlayer::Type ) )
 		{
-			idPlayer* player = static_cast<idPlayer*>( activator );
+			budPlayer* player = static_cast<budPlayer*>( activator );
 			idDict* item = player->FindInventoryItem( requires );
 			if( item )
 			{
@@ -4452,7 +4452,7 @@ void budGameLocal::RadiusDamage( const budVec3& origin, idEntity* inflictor, idE
 		}
 		
 		// don't damage a dead player
-		if( common->IsMultiplayer() && ent->entityNumber < MAX_CLIENTS && ent->IsType( idPlayer::Type ) && static_cast< idPlayer* >( ent )->health < 0 )
+		if( common->IsMultiplayer() && ent->entityNumber < MAX_CLIENTS && ent->IsType( budPlayer::Type ) && static_cast< budPlayer* >( ent )->health < 0 )
 		{
 			continue;
 		}
@@ -4508,9 +4508,9 @@ void budGameLocal::RadiusDamage( const budVec3& origin, idEntity* inflictor, idE
 			if( !common->IsMultiplayer() &&  ent->entityNumber == GetLocalClientNum() )
 			{
 			
-				if( ent->IsType( idPlayer::Type ) )
+				if( ent->IsType( budPlayer::Type ) )
 				{
-					idPlayer* player = static_cast< idPlayer* >( ent );
+					budPlayer* player = static_cast< budPlayer* >( ent );
 					if( player )
 					{
 						player->ControllerShakeFromDamage( damage );
@@ -4523,11 +4523,11 @@ void budGameLocal::RadiusDamage( const budVec3& origin, idEntity* inflictor, idE
 			{
 				if( inflictor && inflictor->IsType( idProjectile::Type ) )
 				{
-					if( attacker && attacker->IsType( idPlayer::Type ) )
+					if( attacker && attacker->IsType( budPlayer::Type ) )
 					{
 						if( ent->IsType( budActor::Type ) && ent != attacker )
 						{
-							idPlayer* player = static_cast<idPlayer*>( attacker );
+							budPlayer* player = static_cast<budPlayer*>( attacker );
 							player->AddProjectileKills();
 						}
 					}
@@ -4596,8 +4596,8 @@ void budGameLocal::RadiusPush( const budVec3& origin, const float radius, const 
 			continue;
 		}
 		
-		// players use "knockback" in idPlayer::Damage
-		if( ent->IsType( idPlayer::Type ) && !quake )
+		// players use "knockback" in budPlayer::Damage
+		if( ent->IsType( budPlayer::Type ) && !quake )
 		{
 			continue;
 		}
@@ -4793,7 +4793,7 @@ void budGameLocal::SetCamera( idCamera* cam )
 	budAI* ai;
 	
 	// this should fix going into a cinematic when dead.. rare but happens
-	idPlayer* client = GetLocalPlayer();
+	budPlayer* client = GetLocalPlayer();
 	if( client->health <= 0 || client->AI_DEAD )
 	{
 		return;
@@ -4826,7 +4826,7 @@ void budGameLocal::SetCamera( idCamera* cam )
 		{
 			if( entities[ i ] )
 			{
-				client = static_cast< idPlayer* >( entities[ i ] );
+				client = static_cast< budPlayer* >( entities[ i ] );
 				client->EnterCinematic();
 			}
 		}
@@ -4885,7 +4885,7 @@ void budGameLocal::SetCamera( idCamera* cam )
 		{
 			if( entities[ i ] )
 			{
-				idPlayer* client = static_cast< idPlayer* >( entities[ i ] );
+				budPlayer* client = static_cast< budPlayer* >( entities[ i ] );
 				client->ExitCinematic();
 			}
 		}
@@ -5216,7 +5216,7 @@ upon map restart, initial spawns are used (randomized ordered list of spawns fla
   if there are more players than initial spots, overflow to regular spawning
 ============
 */
-idEntity* budGameLocal::SelectInitialSpawnPoint( idPlayer* player )
+idEntity* budGameLocal::SelectInitialSpawnPoint( budPlayer* player )
 {
 	int				i, j, which;
 	spawnSpot_t		spot;
@@ -5305,9 +5305,9 @@ idEntity* budGameLocal::SelectInitialSpawnPoint( idPlayer* player )
 				
 				for( j = 0; j < MAX_CLIENTS; j++ )
 				{
-					if( !entities[ j ] || !entities[ j ]->IsType( idPlayer::Type )
+					if( !entities[ j ] || !entities[ j ]->IsType( budPlayer::Type )
 							|| entities[ j ] == player
-							|| static_cast< idPlayer* >( entities[ j ] )->spectating )
+							|| static_cast< budPlayer* >( entities[ j ] )->spectating )
 					{
 						continue;
 					}
@@ -5338,9 +5338,9 @@ idEntity* budGameLocal::SelectInitialSpawnPoint( idPlayer* player )
 			spawnSpots[ i ].dist = 0x7fffffff;
 			for( j = 0; j < MAX_CLIENTS; j++ )
 			{
-				if( !entities[ j ] || !entities[ j ]->IsType( idPlayer::Type )
+				if( !entities[ j ] || !entities[ j ]->IsType( budPlayer::Type )
 						|| entities[ j ] == player
-						|| static_cast< idPlayer* >( entities[ j ] )->spectating )
+						|| static_cast< budPlayer* >( entities[ j ] )->spectating )
 				{
 					continue;
 				}
@@ -5396,7 +5396,7 @@ int budGameLocal::GetSpawnId( const idEntity* ent ) const
 
 /*
 =================
-idPlayer::SetPortalSkyEnt
+budPlayer::SetPortalSkyEnt
 =================
 */
 void budGameLocal::SetPortalSkyEnt( idEntity* ent )
@@ -5406,7 +5406,7 @@ void budGameLocal::SetPortalSkyEnt( idEntity* ent )
 
 /*
 =================
-idPlayer::IsPortalSkyAcive
+budPlayer::IsPortalSkyAcive
 =================
 */
 bool budGameLocal::IsPortalSkyAcive()
@@ -5475,7 +5475,7 @@ void budGameLocal::ComputeSlowScale()
 	}
 	
 	// check the player state
-	idPlayer* player = GetLocalPlayer();
+	budPlayer* player = GetLocalPlayer();
 	bool powerupOn = false;
 	
 	if( player != NULL && player->PowerUpActive( HELLTIME ) )

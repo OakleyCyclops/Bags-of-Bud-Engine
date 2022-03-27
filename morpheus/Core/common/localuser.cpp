@@ -27,8 +27,8 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
-#include "localuser.h"
+#include "corePCH.hpp"
+#include "localuser.hpp"
 
 extern budCVar win_userPersistent;
 extern budCVar win_userOnline;

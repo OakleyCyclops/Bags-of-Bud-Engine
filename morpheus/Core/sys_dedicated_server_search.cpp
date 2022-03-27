@@ -27,9 +27,9 @@ If you have questions concerning this license or the applicable additional terms
 */
 #pragma hdrstop
 
-#include "PCH.hpp"
-#include "sys_lobby_backend.h"
-#include "sys_dedicated_server_search.h"
+#include "corePCH.hpp"
+#include "sys_lobby_backend.hpp"
+#include "sys_dedicated_server_search.hpp"
 
 /*
 ========================

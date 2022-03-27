@@ -728,7 +728,7 @@ void idTestModel::TestSkin_f( const budCmdArgs& args )
 {
 	budVec3		offset;
 	budStr		name;
-	idPlayer* 	player;
+	budPlayer* 	player;
 	idDict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -766,7 +766,7 @@ void idTestModel::TestShaderParm_f( const budCmdArgs& args )
 {
 	budVec3		offset;
 	budStr		name;
-	idPlayer* 	player;
+	budPlayer* 	player;
 	idDict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -820,7 +820,7 @@ void idTestModel::TestModel_f( const budCmdArgs& args )
 {
 	budVec3			offset;
 	budStr			name;
-	idPlayer* 		player;
+	budPlayer* 		player;
 	const idDict* 	entityDef;
 	idDict			dict;
 	

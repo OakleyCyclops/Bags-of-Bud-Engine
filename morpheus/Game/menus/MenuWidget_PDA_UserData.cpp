@@ -48,7 +48,7 @@ void idMenuWidget_PDA_UserData::Update()
 		return;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;

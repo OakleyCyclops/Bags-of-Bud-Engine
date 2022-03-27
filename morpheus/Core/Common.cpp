@@ -27,25 +27,12 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "../libBud/PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Common_local.h"
-
-#include "ConsoleHistory.h"
-
-#include "../sound/sound.h"
-
-// RB begin
-#if defined(USE_DOOMCLASSIC)
-#include "../../doomclassic/doom/doomlib.h"
-#include "../../doomclassic/doom/d_event.h"
-#include "../../doomclassic/doom/d_main.h"
-#endif
-// RB end
-
-
-#include "../sys/sys_savegame.h"
+#include "Common_local.hpp"
+#include "ConsoleHistory.hpp"
+#include "sys_savegame.hpp"
 
 
 
@@ -172,7 +159,6 @@ budCommonLocal::budCommonLocal() :
 	
 	gameDLL = 0;
 	
-	loadGUI = NULL;
 	nextLoadTip = 0;
 	isHellMap = false;
 	wipeForced = false;
@@ -180,7 +166,6 @@ budCommonLocal::budCommonLocal() :
 	
 	menuSoundWorld = NULL;
 	
-	insideUpdateScreen = false;
 	insideExecuteMapChange = false;
 	
 	mapSpawnData.savegameFile = NULL;
@@ -478,7 +463,7 @@ int	budCommonLocal::KeyState( int key )
 
 /*
 ============
-idCmdSystemLocal::PrintMemInfo_f
+budCmdSystemLocal::PrintMemInfo_f
 
 This prints out memory debugging data
 ============
@@ -488,9 +473,6 @@ CONSOLE_COMMAND( printMemInfo, "prints memory debugging data", NULL )
 	MemInfo_t mi;
 	memset( &mi, 0, sizeof( mi ) );
 	mi.filebase = commonLocal.GetCurrentMapName();
-	
-	renderSystem->PrintMemInfo( &mi );			// textures and models
-	soundSystem->PrintMemInfo( &mi );			// sounds
 	
 	common->Printf( " Used image memory: %s bytes\n", budStr::FormatNumber( mi.imageAssetsTotal ).c_str() );
 	mi.assetTotals += mi.imageAssetsTotal;
@@ -823,8 +805,6 @@ CONSOLE_COMMAND( reloadLanguage, "reload language dict", NULL )
 	commonLocal.InitLanguageDict();
 }
 
-#include "../renderer/Image.h"
-
 /*
 =================
 Com_FinishBuild_f
@@ -832,171 +812,7 @@ Com_FinishBuild_f
 */
 CONSOLE_COMMAND( finishBuild, "finishes the build process", NULL )
 {
-	if( game )
-	{
-		game->CacheDictionaryMedia( NULL );
-	}
-}
 
-/*
-=================
-budCommonLocal::RenderSplash
-=================
-*/
-void budCommonLocal::RenderSplash()
-{
-	//const emptyCommand_t* renderCommands = NULL;
-	
-	// RB: this is the same as Doom 3 renderSystem->BeginFrame()
-	//renderCommands = renderSystem->SwapCommandBuffers_FinishCommandBuffers();
-	
-	const float sysWidth = renderSystem->GetWidth() * renderSystem->GetPixelAspect();
-	const float sysHeight = renderSystem->GetHeight();
-	const float sysAspect = sysWidth / sysHeight;
-	const float splashAspect = 16.0f / 9.0f;
-	const float adjustment = sysAspect / splashAspect;
-	const float barHeight = ( adjustment >= 1.0f ) ? 0.0f : ( 1.0f - adjustment ) * ( float )renderSystem->GetVirtualHeight() * 0.25f;
-	const float barWidth = ( adjustment <= 1.0f ) ? 0.0f : ( adjustment - 1.0f ) * ( float )renderSystem->GetVirtualWidth() * 0.25f;
-	if( barHeight > 0.0f )
-	{
-		renderSystem->SetColor( colorBlack );
-		renderSystem->DrawStretchPic( 0, 0, renderSystem->GetVirtualWidth(), barHeight, 0, 0, 1, 1, whiteMaterial );
-		renderSystem->DrawStretchPic( 0, renderSystem->GetVirtualHeight() - barHeight, renderSystem->GetVirtualWidth(), barHeight, 0, 0, 1, 1, whiteMaterial );
-	}
-	if( barWidth > 0.0f )
-	{
-		renderSystem->SetColor( colorBlack );
-		renderSystem->DrawStretchPic( 0, 0, barWidth, renderSystem->GetVirtualHeight(), 0, 0, 1, 1, whiteMaterial );
-		renderSystem->DrawStretchPic( renderSystem->GetVirtualWidth() - barWidth, 0, barWidth, renderSystem->GetVirtualHeight(), 0, 0, 1, 1, whiteMaterial );
-	}
-	renderSystem->SetColor4( 1, 1, 1, 1 );
-	renderSystem->DrawStretchPic( barWidth, barHeight, renderSystem->GetVirtualWidth() - barWidth * 2.0f, renderSystem->GetVirtualHeight() - barHeight * 2.0f, 0, 0, 1, 1, splashScreen );
-	
-	const emptyCommand_t* cmd = renderSystem->SwapCommandBuffers( &time_frontend, &time_backend, &time_shadows, &time_gpu );
-	renderSystem->RenderCommandBuffers( cmd );
-	
-	// RB: this is the same as Doom 3 renderSystem->EndFrame()
-	//renderSystem->SwapCommandBuffers_FinishRendering( &time_frontend, &time_backend, &time_shadows, &time_gpu );
-}
-
-/*
-=================
-budCommonLocal::RenderBink
-=================
-*/
-void budCommonLocal::RenderBink( const char* path )
-{
-	const float sysWidth = renderSystem->GetWidth() * renderSystem->GetPixelAspect();
-	const float sysHeight = renderSystem->GetHeight();
-	const float sysAspect = sysWidth / sysHeight;
-	const float movieAspect = ( 16.0f / 9.0f );
-	const float imageWidth = renderSystem->GetVirtualWidth() * movieAspect / sysAspect;
-	const float chop = 0.5f * ( renderSystem->GetVirtualWidth() - imageWidth );
-	
-	budStr materialText;
-	materialText.Format( "{ translucent { videoMap %s } }", path );
-	
-	budMaterial* material = const_cast<budMaterial*>( declManager->FindMaterial( "splashbink" ) );
-	material->Parse( materialText.c_str(), materialText.Length(), false );
-	material->ResetCinematicTime( Sys_Milliseconds() );
-	
-	// RB: FFmpeg might return the wrong play length so I changed the intro video to play max 30 seconds until finished
-	int cinematicLength = 30000; //material->CinematicLength();
-	int	mouseEvents[MAX_MOUSE_EVENTS][2];
-	
-	bool escapeEvent = false;
-	while( ( Sys_Milliseconds() <= ( material->GetCinematicStartTime() + cinematicLength ) ) && material->CinematicIsPlaying() )
-	{
-		renderSystem->DrawStretchPic( chop, 0, imageWidth, renderSystem->GetVirtualHeight(), 0, 0, 1, 1, material );
-		const emptyCommand_t* cmd = renderSystem->SwapCommandBuffers( &time_frontend, &time_backend, &time_shadows, &time_gpu );
-		renderSystem->RenderCommandBuffers( cmd );
-		
-		Sys_GenerateEvents();
-		
-		// queue system events ready for polling
-		Sys_GetEvent();
-		
-		// RB: allow to escape video by pressing anything
-		int numKeyEvents = Sys_PollKeyboardInputEvents();
-		if( numKeyEvents > 0 )
-		{
-			for( int i = 0; i < numKeyEvents; i++ )
-			{
-				int key;
-				bool state;
-				
-				if( Sys_ReturnKeyboardInputEvent( i, key, state ) )
-				{
-					if( key == K_ESCAPE && state == true )
-					{
-						escapeEvent = true;
-					}
-					break;
-				}
-			}
-			
-			Sys_EndKeyboardInputEvents();
-		}
-		
-		int numMouseEvents = Sys_PollMouseInputEvents( mouseEvents );
-		if( numMouseEvents > 0 )
-		{
-			for( int i = 0; i < numMouseEvents; i++ )
-			{
-				int action = mouseEvents[i][0];
-				switch( action )
-				{
-					case M_ACTION1:
-					case M_ACTION2:
-					case M_ACTION3:
-					case M_ACTION4:
-					case M_ACTION5:
-					case M_ACTION6:
-					case M_ACTION7:
-					case M_ACTION8:
-						escapeEvent = true;
-						break;
-						
-					default:	// some other undefined button
-						break;
-				}
-			}
-		}
-		
-		int numJoystickEvents = Sys_PollJoystickInputEvents( 0 );
-		if( numJoystickEvents > 0 )
-		{
-			for( int i = 0; i < numJoystickEvents; i++ )
-			{
-				int action;
-				int value;
-				
-				if( Sys_ReturnJoystickInputEvent( i, action, value ) )
-				{
-					if( action >= J_ACTION1 && action <= J_ACTION_MAX )
-					{
-						if( value != 0 )
-						{
-							escapeEvent = true;
-							break;
-						}
-					}
-				}
-			}
-			
-			Sys_EndJoystickInputEvents();
-		}
-		
-		if( escapeEvent )
-		{
-			break;
-		}
-		
-		Sys_Sleep( 10 );
-	}
-	// RB end
-	
-	material->MakeDefault();
 }
 
 /*
@@ -1078,12 +894,7 @@ void budCommonLocal::LoadGameDLL()
 	gameEdit							= gameExport.gameEdit;
 	
 #endif
-	
-	// initialize the game object
-	if( game != NULL )
-	{
-		game->Init();
-	}
+
 }
 
 /*
@@ -1093,10 +904,7 @@ budCommonLocal::UnloadGameDLL
 */
 void budCommonLocal::CleanupShell()
 {
-	if( game != NULL )
-	{
-		game->Shell_Cleanup();
-	}
+
 }
 
 /*
@@ -1107,12 +915,6 @@ budCommonLocal::UnloadGameDLL
 void budCommonLocal::UnloadGameDLL()
 {
 
-	// shut down the game object
-	if( game != NULL )
-	{
-		game->Shutdown();
-	}
-	
 #ifdef __DOOM_DLL__
 	
 	if( gameDLL )
@@ -1223,16 +1025,16 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		
 		// Pre-allocate our 20 MB save buffer here on time, instead of on-demand for each save....
 		
-		saveFile.SetNameAndType( SAVEGAME_CHECKPOINT_FILENAME, SAVEGAMEFILE_BINARY );
-		saveFile.PreAllocate( MIN_SAVEGAME_SIZE_BYTES );
+		// saveFile.SetNameAndType( SAVEGAME_CHECKPOINT_FILENAME, SAVEGAMEFILE_BINARY );
+		// saveFile.PreAllocate( MIN_SAVEGAME_SIZE_BYTES );
 		
-		stringsFile.SetNameAndType( SAVEGAME_STRINGS_FILENAME, SAVEGAMEFILE_BINARY );
-		stringsFile.PreAllocate( MAX_SAVEGAME_STRING_TABLE_SIZE );
+		// stringsFile.SetNameAndType( SAVEGAME_STRINGS_FILENAME, SAVEGAMEFILE_BINARY );
+		// stringsFile.PreAllocate( MAX_SAVEGAME_STRING_TABLE_SIZE );
 		
 		fileSystem->BeginLevelLoad( "_startup", saveFile.GetDataPtr(), saveFile.GetAllocated() );
 		
 		// initialize the declaration manager
-		declManager->Init();
+		// declManager->Init();
 		
 		// init journalling, etc
 		eventLoop->Init();
@@ -1245,7 +1047,7 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		
 #ifdef CONFIG_FILE
 		// skip the config file if "safe" is on the command line
-		if( !SafeMode() && !g_demoMode.GetBool() )
+		if(!SafeMode())
 		{
 			cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "exec " CONFIG_FILE "\n" );
 		}
@@ -1262,57 +1064,15 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		// if any archived cvars are modified after this, we will trigger a writing of the config file
 		cvarSystem->ClearModifiedFlags( CVAR_ARCHIVE );
 		
-		// init OpenGL, which will open a window and connect sound and input hardware
-		renderSystem->InitOpenGL();
-		
 		// Support up to 2 digits after the decimal point
 		com_engineHz_denominator = 100LL * com_engineHz.GetFloat();
 		com_engineHz_latched = com_engineHz.GetFloat();
 		
-		// start the sound system, but don't do any hardware operations yet
-		soundSystem->Init();
-		
-		// initialize the renderSystem data structures
-		renderSystem->Init();
-		
-		whiteMaterial = declManager->FindMaterial( "_white" );
-		
-		if( budStr::Icmp( sys_lang.GetString(), ID_LANG_FRENCH ) == 0 )
-		{
-			// If the user specified french, we show french no matter what SKU
-			splashScreen = declManager->FindMaterial( "guis/assets/splash/legal_french" );
-		}
-		else if( budStr::Icmp( defaultLang, ID_LANG_FRENCH ) == 0 )
-		{
-			// If the lead sku is french (ie: europe), display figs
-			splashScreen = declManager->FindMaterial( "guis/assets/splash/legal_figs" );
-		}
-		else
-		{
-			// Otherwise show it in english
-			splashScreen = declManager->FindMaterial( "guis/assets/splash/legal_english" );
-		}
-		
 		const int legalMinTime = 4000;
 		const bool showVideo = ( !com_skipIntroVideos.GetBool() && fileSystem->UsingResourceFiles() );
-		if( showVideo )
-		{
-			RenderBink( "video\\loadvideo.bik" );
-			RenderSplash();
-			RenderSplash();
-		}
-		else
-		{
-			libBud::Printf( "Skipping Intro Videos!\n" );
-			// display the legal splash screen
-			// No clue why we have to render this twice to show up...
-			RenderSplash();
-			//RenderSplash();
-		}
-		
 		
 		int legalStartTime = Sys_Milliseconds();
-		declManager->Init2();
+		// declManager->Init2();
 		
 		// initialize string database so we can use it for loading messages
 		InitLanguageDict();
@@ -1329,9 +1089,6 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		
 		Sys_SetRumble( 0, 0, 0 );
 		
-		// initialize the user interfaces
-		uiManager->Init();
-		
 		// startup the script debugger
 		// DebuggerServerInit();
 		
@@ -1341,47 +1098,12 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		// load the game dll
 		LoadGameDLL();
 		
-		// On the PC touch them all so they get included in the resource build
-		if( !fileSystem->UsingResourceFiles() )
-		{
-			declManager->FindMaterial( "guis/assets/splash/legal_english" );
-			declManager->FindMaterial( "guis/assets/splash/legal_french" );
-			declManager->FindMaterial( "guis/assets/splash/legal_figs" );
-			// register the japanese font so it gets included
-			renderSystem->RegisterFont( "DFPHeiseiGothicW7" );
-			// Make sure all videos get touched because you can bring videos from one map to another, they need to be included in all maps
-			for( int i = 0; i < declManager->GetNumDecls( DECL_VIDEO ); i++ )
-			{
-				declManager->DeclByIndex( DECL_VIDEO, i );
-			}
-		}
 		
 		fileSystem->UnloadResourceContainer( "_ordered" );
-		
-		// the same budRenderWorld will be used for all games
-		// and demos, insuring that level specific models
-		// will be freed
-		renderWorld = renderSystem->AllocRenderWorld();
-		soundWorld = soundSystem->AllocSoundWorld( renderWorld );
-		
-		menuSoundWorld = soundSystem->AllocSoundWorld( NULL );
-		menuSoundWorld->PlaceListener( vec3_origin, mat3_identity, 0 );
 		
 		// init the session
 		session->Initialize();
 		session->InitializeSoundRelatedSystems();
-		
-		InitializeMPMapsModes();
-		
-		// leaderboards need to be initialized after InitializeMPMapsModes, which populates the MP Map list.
-		if( game != NULL )
-		{
-			game->Leaderboards_Init();
-		}
-		
-		CreateMainMenu();
-		
-		commonDialog.Init();
 		
 		// load the console history file
 		consoleHistory.LoadHistoryFile();
@@ -1392,7 +1114,6 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		
 		while( Sys_Milliseconds() - legalStartTime < legalMinTime )
 		{
-			RenderSplash();
 			Sys_GenerateEvents();
 			Sys_Sleep( 10 );
 		};
@@ -1410,45 +1131,11 @@ void budCommonLocal::Init( int argc, const char* const* argv, const char* cmdlin
 		{
 			idPreloadManifest manifest;
 			manifest.LoadManifest( "_common.preload" );
-			globalImages->Preload( manifest, false );
-			soundSystem->Preload( manifest );
 		}
 		
 		fileSystem->EndLevelLoad();
 		
-		// RB begin
-#if defined(USE_DOOMCLASSIC)
-		// Initialize support for Doom classic.
-		doomClassicMaterial = declManager->FindMaterial( "_doomClassic" );
-		budImage* image = globalImages->GetImage( "_doomClassic" );
-		if( image != NULL )
-		{
-			budImageOpts opts;
-			opts.format = FMT_RGBA8;
-			opts.colorFormat = CFM_DEFAULT;
-			opts.width = DOOMCLASSIC_RENDERWIDTH;
-			opts.height = DOOMCLASSIC_RENDERHEIGHT;
-			opts.numLevels = 1;
-			image->AllocImage( opts, TF_LINEAR, TR_REPEAT );
-		}
-#endif
-		// RB end
-		
 		com_fullyInitialized = true;
-		
-		
-		// No longer need the splash screen
-		if( splashScreen != NULL )
-		{
-			for( int i = 0; i < splashScreen->GetNumStages(); i++ )
-			{
-				budImage* image = splashScreen->GetStage( i )->texture.image;
-				if( image != NULL )
-				{
-					image->PurgeImage();
-				}
-			}
-		}
 		
 		Printf( "--- Common Initialization Complete ---\n" );
 		
@@ -1479,10 +1166,6 @@ void budCommonLocal::Shutdown()
 	printf( "session->GetSaveGameManager().CancelToTerminate();\n" );
 	session->GetSaveGameManager().CancelToTerminate();
 	
-	// kill sound first
-	printf( "soundSystem->StopAllSounds();\n" );
-	soundSystem->StopAllSounds();
-	
 	// shutdown the script debugger
 	// DebuggerServerShutdown();
 	
@@ -1498,61 +1181,16 @@ void budCommonLocal::Shutdown()
 	printf( "CleanupShell();\n" );
 	CleanupShell();
 	
-	printf( "delete loadGUI;\n" );
-	delete loadGUI;
-	loadGUI = NULL;
-	
-	printf( "delete renderWorld;\n" );
-	delete renderWorld;
-	renderWorld = NULL;
-	
-	printf( "delete soundWorld;\n" );
-	delete soundWorld;
-	soundWorld = NULL;
-	
-	printf( "delete menuSoundWorld;\n" );
-	delete menuSoundWorld;
-	menuSoundWorld = NULL;
-	
-	// shut down the session
-	printf( "session->ShutdownSoundRelatedSystems();\n" );
-	session->ShutdownSoundRelatedSystems();
 	printf( "session->Shutdown();\n" );
 	session->Shutdown();
-	
-	// shutdown, deallocate leaderboard definitions.
-	if( game != NULL )
-	{
-		printf( "game->Leaderboards_Shutdown();\n" );
-		game->Leaderboards_Shutdown();
-	}
-	
-	// shut down the user interfaces
-	printf( "uiManager->Shutdown();\n" );
-	uiManager->Shutdown();
-	
-	// shut down the sound system
-	printf( "soundSystem->Shutdown();\n" );
-	soundSystem->Shutdown();
-	
-	// shut down the user command input code
-	printf( "usercmdGen->Shutdown();\n" );
-	usercmdGen->Shutdown();
 	
 	// shut down the event loop
 	printf( "eventLoop->Shutdown();\n" );
 	eventLoop->Shutdown();
 	
 	// shutdown the decl manager
-	printf( "declManager->Shutdown();\n" );
-	declManager->Shutdown();
-	
-	// shut down the renderSystem
-	printf( "renderSystem->Shutdown();\n" );
-	renderSystem->Shutdown();
-	
-	printf( "commonDialog.Shutdown();\n" );
-	commonDialog.Shutdown();
+	// printf( "declManager->Shutdown();\n" );
+	// declManager->Shutdown();
 	
 	// unload the game dll
 	printf( "UnloadGameDLL();\n" );
@@ -1611,26 +1249,7 @@ budCommonLocal::CreateMainMenu
 */
 void budCommonLocal::CreateMainMenu()
 {
-	if( game != NULL )
-	{
-		// note which media we are going to need to load
-		declManager->BeginLevelLoad();
-		renderSystem->BeginLevelLoad();
-		soundSystem->BeginLevelLoad();
-		uiManager->BeginLevelLoad();
-		
-		// create main inside an "empty" game level load - so assets get
-		// purged automagically when we transition to a "real" map
-		game->Shell_CreateMenu( false );
-		game->Shell_Show( true );
-		game->Shell_SyncWithSession();
-		
-		// load
-		renderSystem->EndLevelLoad();
-		soundSystem->EndLevelLoad();
-		declManager->EndLevelLoad();
-		uiManager->EndLevelLoad( "" );
-	}
+
 }
 
 /*
@@ -1647,9 +1266,6 @@ void budCommonLocal::Stop( bool resetSession )
 	// clear mapSpawned and demo playing flags
 	UnloadMap();
 	
-	soundSystem->StopAllSounds();
-	
-	insideUpdateScreen = false;
 	insideExecuteMapChange = false;
 	
 	// drop all guis
@@ -1671,7 +1287,6 @@ void budCommonLocal::BusyWait()
 	Sys_GenerateEvents();
 	
 	const bool captureToImage = false;
-	UpdateScreen( captureToImage );
 	
 	session->UpdateSignInManager();
 	session->Pump();
@@ -1686,10 +1301,10 @@ budCommonLocal::InitCommands
 void budCommonLocal::InitCommands()
 {
 	// compilers
-	cmdSystem->AddCommand( "dmap", Dmap_f, CMD_FL_TOOL, "compiles a map", idCmdSystem::ArgCompletion_MapName );
-	cmdSystem->AddCommand( "runAAS", RunAAS_f, CMD_FL_TOOL, "compiles an AAS file for a map", idCmdSystem::ArgCompletion_MapName );
-	cmdSystem->AddCommand( "runAASDir", RunAASDir_f, CMD_FL_TOOL, "compiles AAS files for all maps in a folder", idCmdSystem::ArgCompletion_MapName );
-	cmdSystem->AddCommand( "runReach", RunReach_f, CMD_FL_TOOL, "calculates reachability for an AAS file", idCmdSystem::ArgCompletion_MapName );
+	// cmdSystem->AddCommand( "dmap", Dmap_f, CMD_FL_TOOL, "compiles a map", budCmdSystem::ArgCompletion_MapName );
+	// cmdSystem->AddCommand( "runAAS", RunAAS_f, CMD_FL_TOOL, "compiles an AAS file for a map", budCmdSystem::ArgCompletion_MapName );
+	// cmdSystem->AddCommand( "runAASDir", RunAASDir_f, CMD_FL_TOOL, "compiles AAS files for all maps in a folder", budCmdSystem::ArgCompletion_MapName );
+	// cmdSystem->AddCommand( "runReach", RunReach_f, CMD_FL_TOOL, "calculates reachability for an AAS file", budCmdSystem::ArgCompletion_MapName );
 }
 
 /*
@@ -1735,7 +1350,6 @@ void budCommonLocal::LeaveGame()
 {
 
 	const bool captureToImage = false;
-	UpdateScreen( captureToImage );
 	
 	ResetNetworkingState();
 	
@@ -1756,46 +1370,6 @@ budCommonLocal::ProcessEvent
 */
 bool budCommonLocal::ProcessEvent( const sysEvent_t* event )
 {
-	// hitting escape anywhere brings up the menu
-	if( game && game->IsInGame() )
-	{
-		if( event->evType == SE_KEY && event->evValue2 == 1 && ( event->evValue == K_ESCAPE || event->evValue == K_JOY9 ) )
-		{
-			if( game->CheckInCinematic() == true )
-			{
-				game->SkipCinematicScene();
-			}
-			else
-			{
-				if( !game->Shell_IsActive() )
-				{
-				
-					// menus / etc
-					if( MenuEvent( event ) )
-					{
-						return true;
-					}
-					
-					console->Close();
-					
-					StartMenu();
-					return true;
-				}
-				else
-				{
-					console->Close();
-					
-					// menus / etc
-					if( MenuEvent( event ) )
-					{
-						return true;
-					}
-					
-					game->Shell_ClosePause();
-				}
-			}
-		}
-	}
 	
 	// let the pull-down console take it if desired
 	if( console->ProcessEvent( event, false ) )
@@ -1806,50 +1380,6 @@ bool budCommonLocal::ProcessEvent( const sysEvent_t* event )
 	{
 		return true;
 	}
-	
-	if( Dialog().IsDialogActive() )
-	{
-		Dialog().HandleDialogEvent( event );
-		return true;
-	}
-	
-	// RB begin
-#if defined(USE_DOOMCLASSIC)
-	
-	// Let Doom classic run events.
-	if( IsPlayingDoomClassic() )
-	{
-		// Translate the event to Doom classic format.
-		event_t classicEvent;
-		if( event->evType == SE_KEY )
-		{
-		
-			if( event->evValue2 == 1 )
-			{
-				classicEvent.type = ev_keydown;
-			}
-			else if( event->evValue2 == 0 )
-			{
-				classicEvent.type = ev_keyup;
-			}
-			
-			DoomLib::SetPlayer( 0 );
-			
-			extern Globals* g;
-			if( g != NULL )
-			{
-				classicEvent.data1 =  DoomLib::RemapControl( event->GetKey() );
-				
-				D_PostEvent( &classicEvent );
-			}
-			DoomLib::SetPlayer( -1 );
-		}
-		
-		// Let the classics eat all events.
-		return true;
-	}
-#endif
-	// RB end
 	
 	// menus / etc
 	if( MenuEvent( event ) )
@@ -1884,94 +1414,6 @@ void budCommonLocal::ResetPlayerInput( int playerIndex )
 	userCmdMgr.ResetPlayer( playerIndex );
 }
 
-// RB begin
-#if defined(USE_DOOMCLASSIC)
-
-/*
-========================
-budCommonLocal::SwitchToGame
-========================
-*/
-void budCommonLocal::SwitchToGame( currentGame_t newGame )
-{
-	idealCurrentGame = newGame;
-}
-
-/*
-========================
-budCommonLocal::PerformGameSwitch
-========================
-*/
-void budCommonLocal::PerformGameSwitch()
-{
-	// If the session state is past the menu, we should be in Doom 3.
-	// This will happen if, for example, we accept an invite while playing
-	// Doom or Doom 2.
-	if( session->GetState() > budSession::IDLE )
-	{
-		idealCurrentGame = DOOM3_BFG;
-	}
-	
-	if( currentGame == idealCurrentGame )
-	{
-		return;
-	}
-	
-	const int DOOM_CLASSIC_HZ = 35;
-	
-	if( idealCurrentGame == DOOM_CLASSIC || idealCurrentGame == DOOM2_CLASSIC )
-	{
-		// Pause Doom 3 sound.
-		if( menuSoundWorld != NULL )
-		{
-			menuSoundWorld->Pause();
-		}
-		
-		DoomLib::skipToNew = false;
-		DoomLib::skipToLoad = false;
-		
-		// Reset match parameters for the classics.
-		DoomLib::matchParms = budMatchParameters();
-		
-		// The classics use the usercmd manager too, clear it.
-		userCmdMgr.SetDefaults();
-		
-		// Classics need a local user too.
-		session->UpdateSignInManager();
-		session->GetSignInManager().RegisterLocalUser( 0 );
-		
-		com_engineHz_denominator = 100LL * DOOM_CLASSIC_HZ;
-		com_engineHz_latched = DOOM_CLASSIC_HZ;
-		
-		DoomLib::SetCurrentExpansion( idealCurrentGame );
-		
-	}
-	else if( idealCurrentGame == DOOM3_BFG )
-	{
-		DoomLib::Interface.Shutdown();
-		com_engineHz_denominator = 100LL * com_engineHz.GetFloat();
-		com_engineHz_latched = com_engineHz.GetFloat();
-		
-		// Don't MoveToPressStart if we have an invite, we need to go
-		// directly to the lobby.
-		if( session->GetState() <= budSession::IDLE )
-		{
-			session->MoveToPressStart();
-		}
-		
-		// Unpause Doom 3 sound.
-		if( menuSoundWorld != NULL )
-		{
-			menuSoundWorld->UnPause();
-		}
-	}
-	
-	currentGame = idealCurrentGame;
-}
-
-#endif // #if defined(USE_DOOMCLASSIC)
-// RB end
-
 /*
 ==================
 Common_WritePrecache_f
@@ -1987,9 +1429,7 @@ CONSOLE_COMMAND( writePrecache, "writes precache commands", NULL )
 	budStr	str = args.Argv( 1 );
 	str.DefaultFileExtension( ".cfg" );
 	budFile* f = fileSystem->OpenFileWrite( str );
-	declManager->WritePrecacheCommands( f );
-	renderModelManager->WritePrecacheCommands( f );
-	uiManager->WritePrecacheCommands( f );
+	// declManager->WritePrecacheCommands( f );
 	
 	fileSystem->CloseFile( f );
 }

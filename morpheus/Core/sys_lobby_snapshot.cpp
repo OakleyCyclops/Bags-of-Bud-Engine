@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_lobby.h"
+#include "corePCH.hpp"
+#include "sys_lobby.hpp"
 
 budCVar net_snapshot_send_warntime( "net_snapshot_send_warntime", "500", CVAR_INTEGER, "Print warning messages if we take longer than this to send a client a snapshot." );
 

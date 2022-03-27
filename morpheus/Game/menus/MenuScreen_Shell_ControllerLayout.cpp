@@ -366,7 +366,7 @@ idMenuScreen_Shell_ControllerLayout::idMenuDataSource_AudioSettings::LoadData
 void idMenuScreen_Shell_ControllerLayout::idMenuDataSource_LayoutSettings::LoadData()
 {
 
-	idPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
+	budPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
 	if( profile == NULL )
 	{
 		return;
@@ -404,7 +404,7 @@ idMenuScreen_Shell_ControllerLayout::idMenuDataSource_AudioSettings::AdjustField
 void idMenuScreen_Shell_ControllerLayout::idMenuDataSource_LayoutSettings::AdjustField( const int fieldIndex, const int adjustAmount )
 {
 
-	idPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
+	budPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
 	if( profile == NULL )
 	{
 		return;

@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SNAPSHOT_JOBS_H__
 #define __SNAPSHOT_JOBS_H__
 
-#include "LightweightCompression.h"
+#include "LightweightCompression.hpp"
 
 //#define SNAPSHOT_CHECKSUMS
 

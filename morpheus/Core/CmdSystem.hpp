@@ -73,7 +73,7 @@ typedef void ( *argCompletion_t )( const budCmdArgs& args, void( *callback )( co
 /*
 ================================================
 budCommandLink is a convenient way to get a function registered as a
-ConsoleCommand without having to add an explicit call to idCmdSystem->AddCommand() in a startup
+ConsoleCommand without having to add an explicit call to budCmdSystem->AddCommand() in a startup
 function somewhere. Simply declare a static variable with the parameters and it will get
 executed before main(). For example:
 
@@ -140,10 +140,10 @@ created using the CONSOLE_COMMAND_SHIP macro.
 	budCommandLink name ## _v( #name, name ## _f, comment, completion  ); \
 	void name ## _f( const budCmdArgs &args )
 
-class idCmdSystem
+class budCmdSystem
 {
 public:
-	virtual				~idCmdSystem() {}
+	virtual				~budCmdSystem() {}
 	
 	virtual void		Init() = 0;
 	virtual void		Shutdown() = 0;
@@ -171,8 +171,6 @@ public:
 	
 	// Base for path/file auto-completion.
 	virtual void		ArgCompletion_FolderExtension( const budCmdArgs& args, void( *callback )( const char* s ), const char* folder, bool stripFolder, ... ) = 0;
-	// Base for decl name auto-completion.
-	virtual void		ArgCompletion_DeclName( const budCmdArgs& args, void( *callback )( const char* s ), int type ) = 0;
 	
 	// Adds to the command buffer in tokenized form ( CMD_EXEC_NOW or CMD_EXEC_APPEND only )
 	virtual void		BufferCommandArgs( cmdExecution_t exec, const budCmdArgs& args ) = 0;
@@ -201,16 +199,16 @@ public:
 	static void			ArgCompletion_DemoName( const budCmdArgs& args, void( *callback )( const char* s ) );
 };
 
-extern idCmdSystem* 	cmdSystem;
+extern budCmdSystem* 	cmdSystem;
 
 
-BUD_INLINE void idCmdSystem::ArgCompletion_Boolean( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_Boolean( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	callback( va( "%s 0", args.Argv( 0 ) ) );
 	callback( va( "%s 1", args.Argv( 0 ) ) );
 }
 
-template<int min, int max> BUD_INLINE void idCmdSystem::ArgCompletion_Integer( const budCmdArgs& args, void( *callback )( const char* s ) )
+template<int min, int max> BUD_INLINE void budCmdSystem::ArgCompletion_Integer( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	for( int i = min; i <= max; i++ )
 	{
@@ -218,7 +216,7 @@ template<int min, int max> BUD_INLINE void idCmdSystem::ArgCompletion_Integer( c
 	}
 }
 
-template<const char** strings> BUD_INLINE void idCmdSystem::ArgCompletion_String( const budCmdArgs& args, void( *callback )( const char* s ) )
+template<const char** strings> BUD_INLINE void budCmdSystem::ArgCompletion_String( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	for( int i = 0; strings[i]; i++ )
 	{
@@ -226,57 +224,52 @@ template<const char** strings> BUD_INLINE void idCmdSystem::ArgCompletion_String
 	}
 }
 
-template<int type> BUD_INLINE void idCmdSystem::ArgCompletion_Decl( const budCmdArgs& args, void( *callback )( const char* s ) )
-{
-	cmdSystem->ArgCompletion_DeclName( args, callback, type );
-}
-
-BUD_INLINE void idCmdSystem::ArgCompletion_FileName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_FileName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "/", true, "", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_MapName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_MapName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "maps/", true, ".map", ".json", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_MapNameNoJson( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_MapNameNoJson( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "maps/", true, ".map", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_ModelName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_ModelName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "models/", false, ".lwo", ".ase", ".md5mesh", ".ma", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_SoundName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_SoundName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "sound/", false, ".wav", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_ImageName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_ImageName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "/", false, ".tga", ".dds", ".jpg", ".pcx", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_VideoName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_VideoName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "/", false, ".bik", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_ConfigName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_ConfigName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "/", true, ".cfg", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_SaveGame( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_SaveGame( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "SaveGames/", true, ".save", NULL );
 }
 
-BUD_INLINE void idCmdSystem::ArgCompletion_DemoName( const budCmdArgs& args, void( *callback )( const char* s ) )
+BUD_INLINE void budCmdSystem::ArgCompletion_DemoName( const budCmdArgs& args, void( *callback )( const char* s ) )
 {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "demos/", true, ".demo", NULL );
 }

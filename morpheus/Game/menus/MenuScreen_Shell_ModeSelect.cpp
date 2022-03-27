@@ -58,7 +58,7 @@ void idMenuScreen_Shell_ModeSelect::Initialize( idMenuHandler* data )
 	AddChild( helpWidget );
 	
 	const budStrList& modes = common->GetModeDisplayList();
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	for( int i = 0; i < modes.Num(); ++i )
 	{
 		budList< budStr > option;

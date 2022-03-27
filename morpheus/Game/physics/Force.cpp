@@ -35,7 +35,7 @@ If you have questions concerning this license or the applicable additional terms
 CLASS_DECLARATION( idClass, idForce )
 END_CLASS
 
-budList<idForce*, TAG_libBud_LIST_PHYSICS> idForce::forceList;
+budList<idForce*, TAG_LIBBUD_LIST_PHYSICS> idForce::forceList;
 
 /*
 ================

@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-#include "../../libBud/PCH.hpp"
-#include "../sys_local.h"
+#include "corePCH.hpp"
+#include "sys_local.hpp"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -48,7 +48,7 @@ If you have questions concerning this license or the applicable additional terms
 #include <sys/statvfs.h>
 // RB end
 
-#include "posix_public.h"
+#include "posix_public.hpp"
 
 #define					MAX_OSPATH 256
 #define					COMMAND_HISTORY 64
@@ -782,7 +782,7 @@ const char* Sys_DefaultCDPath()
 	return "";
 }
 
-ID_TIME_T Sys_FileTimeStamp( idFileHandle fp )
+ID_TIME_T Sys_FileTimeStamp( budFileHandle fp )
 {
 	struct stat st;
 	fstat( fileno( fp ), &st );

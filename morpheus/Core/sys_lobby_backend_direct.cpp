@@ -26,9 +26,9 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_lobby_backend.h"
-#include "sys_lobby_backend_direct.h"
+#include "corePCH.hpp"
+#include "sys_lobby_backend.hpp"
+#include "sys_lobby_backend_direct.hpp"
 
 extern budCVar net_port;
 extern budCVar net_ip;

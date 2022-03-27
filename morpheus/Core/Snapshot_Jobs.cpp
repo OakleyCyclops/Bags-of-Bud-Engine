@@ -26,9 +26,9 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
-#include "Snapshot_Jobs.h"
+#include "Snapshot_Jobs.hpp"
 
 uint32 SnapObjChecksum( const uint8* data, int length )
 {

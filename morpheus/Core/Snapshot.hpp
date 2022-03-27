@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SNAPSHOT_H__
 #define __SNAPSHOT_H__
 
-#include "Snapshot_Jobs.h"
+#include "Snapshot_Jobs.hpp"
 
 extern budCVar net_verboseSnapshot;
 #define NET_VERBOSESNAPSHOT_PRINT	if ( net_verboseSnapshot.GetInteger() > 0 ) libBud::Printf
@@ -217,7 +217,7 @@ public:
 	
 private:
 
-	budList< objectState_t*, TAG_libBud_LIST_SNAPSHOT>							objectStates;
+	budList< objectState_t*, TAG_LIBBUD_LIST_SNAPSHOT>							objectStates;
 	idBlockAlloc< objectState_t, 16, TAG_NETWORKING >	allocatedObjs;
 	
 	int													time;

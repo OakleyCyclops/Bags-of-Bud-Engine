@@ -388,7 +388,7 @@ void idItem::GetAttributes( idDict& attributes ) const
 idItem::GiveToPlayer
 ================
 */
-bool idItem::GiveToPlayer( idPlayer* player, unsigned int giveFlags )
+bool idItem::GiveToPlayer( budPlayer* player, unsigned int giveFlags )
 {
 	if( player == NULL )
 	{
@@ -408,7 +408,7 @@ bool idItem::GiveToPlayer( idPlayer* player, unsigned int giveFlags )
 idItem::Pickup
 ================
 */
-bool idItem::Pickup( idPlayer* player )
+bool idItem::Pickup( budPlayer* player )
 {
 
 	const bool didGiveSucceed = GiveToPlayer( player, ITEM_GIVE_FEEDBACK );
@@ -611,7 +611,7 @@ idItem::Event_Touch
 */
 void idItem::Event_Touch( idEntity* other, trace_t* trace )
 {
-	if( !other->IsType( idPlayer::Type ) )
+	if( !other->IsType( budPlayer::Type ) )
 	{
 		return;
 	}
@@ -621,7 +621,7 @@ void idItem::Event_Touch( idEntity* other, trace_t* trace )
 		return;
 	}
 	
-	Pickup( static_cast<idPlayer*>( other ) );
+	Pickup( static_cast<budPlayer*>( other ) );
 }
 
 /*
@@ -638,9 +638,9 @@ void idItem::Event_Trigger( idEntity* activator )
 		return;
 	}
 	
-	if( activator && activator->IsType( idPlayer::Type ) )
+	if( activator && activator->IsType( budPlayer::Type ) )
 	{
-		Pickup( static_cast<idPlayer*>( activator ) );
+		Pickup( static_cast<budPlayer*>( activator ) );
 	}
 }
 
@@ -749,7 +749,7 @@ void idItemPowerup::Spawn()
 idItemPowerup::GiveToPlayer
 ================
 */
-bool idItemPowerup::GiveToPlayer( idPlayer* player, unsigned int giveFlags )
+bool idItemPowerup::GiveToPlayer( budPlayer* player, unsigned int giveFlags )
 {
 	if( player->spectating )
 	{
@@ -950,7 +950,7 @@ void idItemTeam::Think()
 idItemTeam::Pickup
 ===============
 */
-bool idItemTeam::Pickup( idPlayer* player )
+bool idItemTeam::Pickup( budPlayer* player )
 {
 	if( !gameLocal.mpGame.IsGametypeFlagBased() )  /* CTF */
 		return false;
@@ -997,7 +997,7 @@ bool idItemTeam::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 	{
 		case EVENT_TAKEFLAG:
 		{
-			idPlayer* player = static_cast<idPlayer*>( gameLocal.entities[ msg.ReadBits( GENTITYNUM_BITS ) ] );
+			budPlayer* player = static_cast<budPlayer*>( gameLocal.entities[ msg.ReadBits( GENTITYNUM_BITS ) ] );
 			if( player == NULL )
 			{
 				gameLocal.Warning( "NULL player takes flag?\n" );
@@ -1058,7 +1058,7 @@ void idItemTeam::Drop( bool death )
 idItemTeam::Return
 ================
 */
-void idItemTeam::Return( idPlayer* player )
+void idItemTeam::Return( budPlayer* player )
 {
 	if( team != 0 && team != 1 )
 		return;
@@ -1094,7 +1094,7 @@ void idItemTeam::PrivateReturn()
 		int playerIdx = gameLocal.mpGame.GetFlagCarrier( 1 - team );
 		if( playerIdx != -1 )
 		{
-			idPlayer* player = static_cast<idPlayer*>( gameLocal.entities[ playerIdx ] );
+			budPlayer* player = static_cast<budPlayer*>( gameLocal.entities[ playerIdx ] );
 			player->carryingFlag = false;
 		}
 		else
@@ -1131,7 +1131,7 @@ void idItemTeam::PrivateReturn()
 idItemTeam::Event_TakeFlag
 ================
 */
-void idItemTeam::Event_TakeFlag( idPlayer* player )
+void idItemTeam::Event_TakeFlag( budPlayer* player )
 {
 	gameLocal.DPrintf( "Event_TakeFlag()!\n" );
 	
@@ -1291,7 +1291,7 @@ void idItemTeam::Event_DropFlag( bool death )
 idItemTeam::Event_FlagReturn
 ================
 */
-void idItemTeam::Event_FlagReturn( idPlayer* player )
+void idItemTeam::Event_FlagReturn( budPlayer* player )
 {
 	gameLocal.DPrintf( "Event_FlagReturn()!\n" );
 	
@@ -1484,11 +1484,11 @@ Update all client's huds wrt the flag status.
 */
 void idItemTeam::UpdateGuis()
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	for( int i = 0; i < gameLocal.numClients; i++ )
 	{
-		player = static_cast<idPlayer*>( gameLocal.entities[ i ] );
+		player = static_cast<budPlayer*>( gameLocal.entities[ i ] );
 		
 		if( player && player->hud )
 		{
@@ -1512,7 +1512,7 @@ void idItemTeam::Present()
 	// hide the flag for localplayer if in first person
 	if( carried && GetBindMaster() )
 	{
-		idPlayer* player = static_cast<idPlayer*>( GetBindMaster() );
+		budPlayer* player = static_cast<budPlayer*>( GetBindMaster() );
 		if( player == gameLocal.GetLocalPlayer() && !pm_thirdPerson.GetBool() )
 		{
 			FreeModelDef();
@@ -1594,7 +1594,7 @@ idObjective::Event_Trigger
 */
 void idObjective::Event_Trigger( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 	
@@ -1632,7 +1632,7 @@ idObjective::Event_GetPlayerPos
 */
 void idObjective::Event_GetPlayerPos()
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		playerPos = player->GetPhysics()->GetOrigin();
@@ -1647,7 +1647,7 @@ idObjective::Event_HideObjective
 */
 void idObjective::Event_HideObjective( idEntity* e )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		budVec3 v = player->GetPhysics()->GetOrigin() - playerPos;
@@ -1679,7 +1679,7 @@ END_CLASS
 idVideoCDItem::GiveToPlayer
 ================
 */
-bool idVideoCDItem::GiveToPlayer( idPlayer* player, unsigned int giveFlags )
+bool idVideoCDItem::GiveToPlayer( budPlayer* player, unsigned int giveFlags )
 {
 	if( player == NULL )
 	{
@@ -1713,7 +1713,7 @@ END_CLASS
 idPDAItem::GiveToPlayer
 ================
 */
-bool idPDAItem::GiveToPlayer( idPlayer* player, unsigned int giveFlags )
+bool idPDAItem::GiveToPlayer( budPlayer* player, unsigned int giveFlags )
 {
 	if( player == NULL )
 	{
@@ -1975,7 +1975,7 @@ bool idMoveableItem::Collide( const trace_t& collision, const budVec3& velocity 
 idMoveableItem::Pickup
 ================
 */
-bool idMoveableItem::Pickup( idPlayer* player )
+bool idMoveableItem::Pickup( budPlayer* player )
 {
 	bool ret = idItem::Pickup( player );
 	if( ret )
@@ -2209,7 +2209,7 @@ END_CLASS
 idMoveablePDAItem::GiveToPlayer
 ================
 */
-bool idMoveablePDAItem::GiveToPlayer( idPlayer* player, unsigned int giveFlags )
+bool idMoveablePDAItem::GiveToPlayer( budPlayer* player, unsigned int giveFlags )
 {
 	if( player == NULL )
 	{
@@ -2262,7 +2262,7 @@ void idItemRemover::Spawn()
 idItemRemover::RemoveItem
 ================
 */
-void idItemRemover::RemoveItem( idPlayer* player )
+void idItemRemover::RemoveItem( budPlayer* player )
 {
 	const char* remove;
 	
@@ -2277,9 +2277,9 @@ idItemRemover::Event_Trigger
 */
 void idItemRemover::Event_Trigger( idEntity* activator )
 {
-	if( activator->IsType( idPlayer::Type ) )
+	if( activator->IsType( budPlayer::Type ) )
 	{
-		RemoveItem( static_cast<idPlayer*>( activator ) );
+		RemoveItem( static_cast<budPlayer*>( activator ) );
 	}
 }
 
@@ -2349,7 +2349,7 @@ void idObjectiveComplete::Event_Trigger( idEntity* activator )
 	{
 		return;
 	}
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		RemoveItem( player );
@@ -2369,7 +2369,7 @@ idObjectiveComplete::Event_GetPlayerPos
 */
 void idObjectiveComplete::Event_GetPlayerPos()
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		playerPos = player->GetPhysics()->GetOrigin();
@@ -2384,7 +2384,7 @@ idObjectiveComplete::Event_HideObjective
 */
 void idObjectiveComplete::Event_HideObjective( idEntity* e )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		budVec3 v = player->GetPhysics()->GetOrigin();

@@ -1,5 +1,5 @@
 
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 /*
@@ -165,7 +165,7 @@ budBase64::Decode
 */
 void budBase64::Decode( budStr& dest ) const
 {
-	byte* buf = new( TAG_libBud ) byte[ DecodeLength() + 1 ]; // +1 for trailing \0
+	byte* buf = new( TAG_LIBBUD ) byte[ DecodeLength() + 1 ]; // +1 for trailing \0
 	int out = Decode( buf );
 	buf[out] = '\0';
 	dest = ( const char* )buf;
@@ -179,7 +179,7 @@ budBase64::Decode
 */
 void budBase64::Decode( budFile* dest ) const
 {
-	byte* buf = new( TAG_libBud ) byte[ DecodeLength() + 1 ]; // +1 for trailing \0
+	byte* buf = new( TAG_LIBBUD ) byte[ DecodeLength() + 1 ]; // +1 for trailing \0
 	int out = Decode( buf );
 	dest->Write( buf, out );
 	delete[] buf;

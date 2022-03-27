@@ -352,10 +352,10 @@ public:
 	budAFEntity_Vehicle();
 	
 	void					Spawn();
-	void					Use( idPlayer* player );
+	void					Use( budPlayer* player );
 	
 protected:
-	idPlayer* 				player;
+	budPlayer* 				player;
 	jointHandle_t			eyesJoint;
 	jointHandle_t			steeringWheelJoint;
 	float					wheelRadius;
@@ -572,7 +572,7 @@ protected:
 	float					removeDelay;
 	bool					given;
 	
-	idEntityPtr<idPlayer>	player;
+	idEntityPtr<budPlayer>	player;
 	int						startTime;
 	
 	bool					fxFollowPlayer;

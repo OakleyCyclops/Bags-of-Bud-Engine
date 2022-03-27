@@ -89,7 +89,7 @@ int cm_contentsFlagByIndex[] =
 	0
 };
 
-budCVar cm_drawMask(	"cm_drawMask",			"none",		CVAR_GAME,				"collision mask", cm_contentsNameByIndex, idCmdSystem::ArgCompletion_String<cm_contentsNameByIndex> );
+budCVar cm_drawMask(	"cm_drawMask",			"none",		CVAR_GAME,				"collision mask", cm_contentsNameByIndex, budCmdSystem::ArgCompletion_String<cm_contentsNameByIndex> );
 budCVar cm_drawColor(	"cm_drawColor",			"1 0 0 .5",	CVAR_GAME,				"color used to draw the collision models" );
 budCVar cm_drawFilled(	"cm_drawFilled",		"0",		CVAR_GAME | CVAR_BOOL,	"draw filled polygons" );
 budCVar cm_drawInternal(	"cm_drawInternal",		"1",		CVAR_GAME | CVAR_BOOL,	"draw internal edges green" );

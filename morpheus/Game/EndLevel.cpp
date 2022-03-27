@@ -100,7 +100,7 @@ void idTarget_EndLevel::Event_Trigger( idEntity* activator )
 	gameLocal.endLevel = this;
 	
 	// grab the activating player view position
-	idPlayer* player = ( idPlayer* )( activator );
+	budPlayer* player = ( budPlayer* )( activator );
 	
 	initialViewOrg = player->GetEyePosition();
 	initialViewAngles = budVec3( player->viewAngles[0], player->viewAngles[1], player->viewAngles[2] );

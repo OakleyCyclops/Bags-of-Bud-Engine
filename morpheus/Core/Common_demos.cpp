@@ -28,10 +28,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Common_local.h"
+#include "Common_local.hpp"
 
 /*
 ================
@@ -57,28 +57,28 @@ static budStr FindUnusedFileName( const char* format )
 
 extern budCVar com_smp;
 
-void WriteDeclCache( budDemoFile* f, int demoCategory, int demoCode, declType_t  declType )
-{
-	f->WriteInt( demoCategory );
-	f->WriteInt( demoCode );
+// void WriteDeclCache( budDemoFile* f, int demoCategory, int demoCode, declType_t  declType )
+// {
+// 	f->WriteInt( demoCategory );
+// 	f->WriteInt( demoCode );
 	
-	int numDecls = 0;
+// 	int numDecls = 0;
 	
-	for( int i = 0; i < declManager->GetNumDecls( declType ); i++ )
-	{
-		const budDecl* decl = declManager->DeclByIndex( declType, i, false );
-		if( decl && decl->IsValid() )
-			++numDecls;
-	}
+// 	for( int i = 0; i < declManager->GetNumDecls( declType ); i++ )
+// 	{
+// 		const budDecl* decl = declManager->DeclByIndex( declType, i, false );
+// 		if( decl && decl->IsValid() )
+// 			++numDecls;
+// 	}
 	
-	f->WriteInt( numDecls );
-	for( int i = 0; i < declManager->GetNumDecls( declType ); i++ )
-	{
-		const budDecl* decl = declManager->DeclByIndex( declType, i, false );
-		if( decl && decl->IsValid() )
-			f->WriteHashString( decl->GetName() );
-	}
-}
+// 	f->WriteInt( numDecls );
+// 	for( int i = 0; i < declManager->GetNumDecls( declType ); i++ )
+// 	{
+// 		const budDecl* decl = declManager->DeclByIndex( declType, i, false );
+// 		if( decl && decl->IsValid() )
+// 			f->WriteHashString( decl->GetName() );
+// 	}
+// }
 
 /*
 ================
@@ -119,8 +119,6 @@ void budCommonLocal::StartRecordingRenderDemo( const char* demoName )
 	writeDemo->WriteInt( RENDERDEMO_VERSION );
 	
 	// if we are in a map already, dump the current state
-	soundWorld->StartWritingDemo( writeDemo );
-	renderWorld->StartWritingDemo( writeDemo );
 }
 
 /*
@@ -135,8 +133,6 @@ void budCommonLocal::StopRecordingRenderDemo()
 		common->Printf( "budCommonLocal::StopRecordingRenderDemo: not recording\n" );
 		return;
 	}
-	soundWorld->StopWritingDemo();
-	renderWorld->StopWritingDemo();
 	
 	writeDemo->Close();
 	common->Printf( "stopped recording %s.\n", writeDemo->GetName() );
@@ -167,8 +163,8 @@ void budCommonLocal::StopPlayingRenderDemo()
 	
 	readDemo->Close();
 	
-	soundWorld->StopAllSounds();
-	soundSystem->SetPlayingSoundWorld( menuSoundWorld );
+	// soundWorld->StopAllSounds();
+	// soundSystem->SetPlayingSoundWorld( menuSoundWorld );
 	
 	common->Printf( "stopped playing %s.\n", readDemo->GetName() );
 	delete readDemo;
@@ -205,7 +201,6 @@ void budCommonLocal::DemoShot( const char* demoName )
 	
 	// force draw one frame
 	const bool captureToImage = false;
-	UpdateScreen( captureToImage );
 	
 	StopRecordingRenderDemo();
 }
@@ -224,12 +219,6 @@ void budCommonLocal::StartPlayingRenderDemo( budStr demoName )
 	}
 	
 	com_smp.SetInteger( 0 );
-	
-	// make sure localSound / GUI intro music shuts up
-	soundWorld->StopAllSounds();
-	soundWorld->PlayShaderDirectly( "", 0 );
-	menuSoundWorld->StopAllSounds();
-	menuSoundWorld->PlayShaderDirectly( "", 0 );
 	
 	// exit any current game
 	Stop();
@@ -272,12 +261,7 @@ void budCommonLocal::StartPlayingRenderDemo( budStr demoName )
 	
 	AdvanceRenderDemo( true );
 	
-	Game()->StartDemoPlayback( renderWorld );
-	
-	renderWorld->GenerateAllInteractions();
-	
 	const bool captureToImage = false;
-	UpdateScreen( captureToImage );
 	
 	numDemoFrames = 1;
 	
@@ -300,7 +284,6 @@ void budCommonLocal::TimeRenderDemo( const char* demoName, bool twice, bool quit
 		while( readDemo )
 		{
 			const bool captureToImage = false;
-			UpdateScreen( captureToImage );
 			AdvanceRenderDemo( true );
 		}
 		
@@ -336,7 +319,6 @@ void budCommonLocal::BeginAVICapture( const char* demoName )
 	name.ExtractFileBase( aviDemoShortName );
 	aviCaptureMode = true;
 	aviDemoFrameCount = 0;
-	soundWorld->AVIOpen( va( "demos/%s/", aviDemoShortName.c_str() ), aviDemoShortName.c_str() );
 }
 
 /*
@@ -350,8 +332,6 @@ void budCommonLocal::EndAVICapture()
 	{
 		return;
 	}
-	
-	soundWorld->AVIClose();
 	
 	// write a .roqParam file so the demo can be converted to a roq file
 	budFile* f = fileSystem->OpenFileWrite( va( "demos/%s/%s.roqParam",
@@ -389,7 +369,6 @@ void budCommonLocal::AVIRenderDemo( const char* _demoName )
 	// I don't understand why I need to do this twice, something
 	// strange with the nvidia swapbuffers?
 	const bool captureToImage = false;
-	UpdateScreen( captureToImage );
 }
 
 /*
@@ -491,35 +470,6 @@ void budCommonLocal::AdvanceRenderDemo( bool singleFrameOnly )
 	{
 		int	ds = DS_FINISHED;
 		readDemo->ReadInt( ds );
-		
-		switch( ds )
-		{
-			case DS_FINISHED:
-				if( numDemoFrames != 1 )
-				{
-					// if the demo has a single frame (a demoShot), continuously replay
-					// the renderView that has already been read
-					Stop();
-					StartMenu();
-				}
-				return;
-			case DS_RENDER:
-				if( renderWorld->ProcessDemoCommand( readDemo, &currentDemoRenderView, &demoTimeOffset ) )
-				{
-					// a view is ready to render
-					numDemoFrames++;
-					return;
-				}
-				break;
-			case DS_SOUND:
-				soundWorld->ProcessDemoCommand( readDemo );
-				break;
-			case DS_GAME:
-				Game()->ProcessDemoCommand( readDemo );
-				break;
-			default:
-				common->Error( "Bad render demo token %d", ds );
-		}
 	}
 }
 
@@ -564,7 +514,7 @@ CONSOLE_COMMAND( recordDemo, "records a demo", NULL )
 Common_CompressDemo_f
 ================
 */
-CONSOLE_COMMAND( compressDemo, "compresses a demo file", idCmdSystem::ArgCompletion_DemoName )
+CONSOLE_COMMAND( compressDemo, "compresses a demo file", budCmdSystem::ArgCompletion_DemoName )
 {
 	if( args.Argc() == 2 )
 	{
@@ -595,7 +545,7 @@ CONSOLE_COMMAND( stopRecording, "stops demo recording", NULL )
 Common_PlayDemo_f
 ================
 */
-CONSOLE_COMMAND( playDemo, "plays back a demo", idCmdSystem::ArgCompletion_DemoName )
+CONSOLE_COMMAND( playDemo, "plays back a demo", budCmdSystem::ArgCompletion_DemoName )
 {
 	if( args.Argc() >= 2 )
 	{
@@ -608,7 +558,7 @@ CONSOLE_COMMAND( playDemo, "plays back a demo", idCmdSystem::ArgCompletion_DemoN
 Common_TimeDemo_f
 ================
 */
-CONSOLE_COMMAND( timeDemo, "times a demo", idCmdSystem::ArgCompletion_DemoName )
+CONSOLE_COMMAND( timeDemo, "times a demo", budCmdSystem::ArgCompletion_DemoName )
 {
 	if( args.Argc() >= 2 )
 	{
@@ -621,7 +571,7 @@ CONSOLE_COMMAND( timeDemo, "times a demo", idCmdSystem::ArgCompletion_DemoName )
 Common_TimeDemoQuit_f
 ================
 */
-CONSOLE_COMMAND( timeDemoQuit, "times a demo and quits", idCmdSystem::ArgCompletion_DemoName )
+CONSOLE_COMMAND( timeDemoQuit, "times a demo and quits", budCmdSystem::ArgCompletion_DemoName )
 {
 	commonLocal.TimeRenderDemo( va( "demos/%s", args.Argv( 1 ) ), true );
 }
@@ -631,7 +581,7 @@ CONSOLE_COMMAND( timeDemoQuit, "times a demo and quits", idCmdSystem::ArgComplet
 Common_AVIDemo_f
 ================
 */
-CONSOLE_COMMAND( aviDemo, "writes AVIs for a demo", idCmdSystem::ArgCompletion_DemoName )
+CONSOLE_COMMAND( aviDemo, "writes AVIs for a demo", budCmdSystem::ArgCompletion_DemoName )
 {
 	commonLocal.AVIRenderDemo( va( "demos/%s", args.Argv( 1 ) ) );
 }

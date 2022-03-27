@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 /*
 ====================
@@ -66,7 +66,7 @@ idSurface_SweptSpline::SetSweptCircle
 */
 void idSurface_SweptSpline::SetSweptCircle( const float radius )
 {
-	idCurve_NURBS<budVec4>* nurbs = new( TAG_libBud_SURFACE ) idCurve_NURBS<budVec4>();
+	idCurve_NURBS<budVec4>* nurbs = new( TAG_LIBBUD_SURFACE ) idCurve_NURBS<budVec4>();
 	nurbs->Clear();
 	nurbs->AddValue( 0.0f, budVec4( radius,  radius, 0.0f, 0.00f ) );
 	nurbs->AddValue( 100.0f, budVec4( -radius,  radius, 0.0f, 0.25f ) );

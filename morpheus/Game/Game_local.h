@@ -54,7 +54,7 @@ extern budSoundWorld* 				gameSoundWorld;
 // classes used by budGameLocal
 class idEntity;
 class budActor;
-class idPlayer;
+class budPlayer;
 class idCamera;
 class idWorldspawn;
 class idTestModel;
@@ -355,7 +355,7 @@ public:
 	idEntityPtr<idEntity>	lastGUIEnt;				// last entity with a GUI, used by Cmd_NextGUI_f
 	int						lastGUI;				// last GUI on the lastGUIEnt
 	
-	idEntityPtr<idPlayer>	playerActivateFragChamber;	// The player that activated the frag chamber
+	idEntityPtr<budPlayer>	playerActivateFragChamber;	// The player that activated the frag chamber
 	
 	idEntityPtr<idEntity>	portalSkyEnt;
 	bool					portalSkyActive;
@@ -404,7 +404,7 @@ public:
 	virtual void			Preload( const idPreloadManifest& manifest );
 	virtual void			RunFrame( budUserCmdMgr& cmdMgr, gameReturn_t& gameReturn );
 	void					RunAllUserCmdsForPlayer( budUserCmdMgr& cmdMgr, const int playerNumber );
-	void					RunSingleUserCmd( usercmd_t& cmd, idPlayer& player );
+	void					RunSingleUserCmd( usercmd_t& cmd, budPlayer& player );
 	void					RunEntityThink( idEntity& ent, budUserCmdMgr& userCmdMgr );
 	virtual bool			Draw( int clientNum );
 	virtual bool			HandlePlayerGuiEvent( const sysEvent_t* ev );
@@ -525,13 +525,13 @@ public:
 	};
 	
 	int						GetNextClientNum( int current ) const;
-	idPlayer* 				GetClientByNum( int current ) const;
+	budPlayer* 				GetClientByNum( int current ) const;
 	
-	idPlayer* 				GetLocalPlayer() const;
+	budPlayer* 				GetLocalPlayer() const;
 	
 	void					SpreadLocations();
 	idLocationEntity* 		LocationForPoint( const budVec3& point );	// May return NULL
-	idEntity* 				SelectInitialSpawnPoint( idPlayer* player );
+	idEntity* 				SelectInitialSpawnPoint( budPlayer* player );
 	
 	void					SetPortalState( qhandle_t portal, int blockingBits );
 	void					SaveEntityNetworkEvent( const idEntity* ent, int event, const budBitMsg* msg );
@@ -560,7 +560,7 @@ public:
 	virtual int				GetServerGameTimeMs() const;
 	
 	idEntity* 				FindPredictedEntity( uint32 predictedKey, idTypeInfo* type );
-	uint32					GeneratePredictionKey( idWeapon* weapon, idPlayer* playerAttacker, int overrideKey );
+	uint32					GeneratePredictionKey( idWeapon* weapon, budPlayer* playerAttacker, int overrideKey );
 	
 	int						GetLastClientUsercmdMilliseconds( int playerIndex ) const
 	{
@@ -704,7 +704,7 @@ private:
 	void					MapPopulate();
 	void					MapClear( bool clearClients );
 	
-	pvsHandle_t				GetClientPVS( idPlayer* player, pvsType_t type );
+	pvsHandle_t				GetClientPVS( budPlayer* player, pvsType_t type );
 	void					SetupPlayerPVS();
 	void					FreePlayerPVS();
 	void					UpdateGravity();

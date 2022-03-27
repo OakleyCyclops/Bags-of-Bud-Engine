@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
 #ifdef ID_RETAIL
@@ -38,7 +38,7 @@ budCVar net_allowCheats( "net_allowCheats", "0", CVAR_BOOL | CVAR_NOCHEAT, "Allo
 /*
 ===============================================================================
 
-	idCmdSystemLocal
+	budCmdSystemLocal
 
 ===============================================================================
 */
@@ -55,10 +55,10 @@ typedef struct commandDef_s
 
 /*
 ================================================
-idCmdSystemLocal
+budCmdSystemLocal
 ================================================
 */
-class idCmdSystemLocal : public idCmdSystem
+class budCmdSystemLocal : public budCmdSystem
 {
 public:
 	virtual void			Init();
@@ -77,7 +77,6 @@ public:
 	virtual void			ExecuteCommandBuffer();
 	
 	virtual void			ArgCompletion_FolderExtension( const budCmdArgs& args, void( *callback )( const char* s ), const char* folder, bool stripFolder, ... );
-	virtual void			ArgCompletion_DeclName( const budCmdArgs& args, void( *callback )( const char* s ), int type );
 	
 	virtual void			BufferCommandArgs( cmdExecution_t exec, const budCmdArgs& args );
 	
@@ -130,8 +129,8 @@ private:
 	static void				PrintMemInfo_f( const budCmdArgs& args );
 };
 
-idCmdSystemLocal			cmdSystemLocal;
-idCmdSystem* 				cmdSystem = &cmdSystemLocal;
+budCmdSystemLocal			cmdSystemLocal;
+budCmdSystem* 				cmdSystem = &cmdSystemLocal;
 
 /*
 ================================================
@@ -149,10 +148,10 @@ public:
 
 /*
 ============
-idCmdSystemLocal::ListByFlags
+budCmdSystemLocal::ListByFlags
 ============
 */
-void idCmdSystemLocal::ListByFlags( const budCmdArgs& args, cmdFlags_t flags )
+void budCmdSystemLocal::ListByFlags( const budCmdArgs& args, cmdFlags_t flags )
 {
 	int i;
 	budStr match;
@@ -197,70 +196,70 @@ void idCmdSystemLocal::ListByFlags( const budCmdArgs& args, cmdFlags_t flags )
 
 /*
 ============
-idCmdSystemLocal::List_f
+budCmdSystemLocal::List_f
 ============
 */
-void idCmdSystemLocal::List_f( const budCmdArgs& args )
+void budCmdSystemLocal::List_f( const budCmdArgs& args )
 {
-	idCmdSystemLocal::ListByFlags( args, CMD_FL_ALL );
+	budCmdSystemLocal::ListByFlags( args, CMD_FL_ALL );
 }
 
 /*
 ============
-idCmdSystemLocal::SystemList_f
+budCmdSystemLocal::SystemList_f
 ============
 */
-void idCmdSystemLocal::SystemList_f( const budCmdArgs& args )
+void budCmdSystemLocal::SystemList_f( const budCmdArgs& args )
 {
-	idCmdSystemLocal::ListByFlags( args, CMD_FL_SYSTEM );
+	budCmdSystemLocal::ListByFlags( args, CMD_FL_SYSTEM );
 }
 
 /*
 ============
-idCmdSystemLocal::RendererList_f
+budCmdSystemLocal::RendererList_f
 ============
 */
-void idCmdSystemLocal::RendererList_f( const budCmdArgs& args )
+void budCmdSystemLocal::RendererList_f( const budCmdArgs& args )
 {
-	idCmdSystemLocal::ListByFlags( args, CMD_FL_RENDERER );
+	budCmdSystemLocal::ListByFlags( args, CMD_FL_RENDERER );
 }
 
 /*
 ============
-idCmdSystemLocal::SoundList_f
+budCmdSystemLocal::SoundList_f
 ============
 */
-void idCmdSystemLocal::SoundList_f( const budCmdArgs& args )
+void budCmdSystemLocal::SoundList_f( const budCmdArgs& args )
 {
-	idCmdSystemLocal::ListByFlags( args, CMD_FL_SOUND );
+	budCmdSystemLocal::ListByFlags( args, CMD_FL_SOUND );
 }
 
 /*
 ============
-idCmdSystemLocal::GameList_f
+budCmdSystemLocal::GameList_f
 ============
 */
-void idCmdSystemLocal::GameList_f( const budCmdArgs& args )
+void budCmdSystemLocal::GameList_f( const budCmdArgs& args )
 {
-	idCmdSystemLocal::ListByFlags( args, CMD_FL_GAME );
+	budCmdSystemLocal::ListByFlags( args, CMD_FL_GAME );
 }
 
 /*
 ============
-idCmdSystemLocal::ToolList_f
+budCmdSystemLocal::ToolList_f
 ============
 */
-void idCmdSystemLocal::ToolList_f( const budCmdArgs& args )
+void budCmdSystemLocal::ToolList_f( const budCmdArgs& args )
 {
-	idCmdSystemLocal::ListByFlags( args, CMD_FL_TOOL );
+	budCmdSystemLocal::ListByFlags( args, CMD_FL_TOOL );
 }
 
 /*
 ===============
-idCmdSystemLocal::Exec_f
+budCmdSystemLocal::Exec_f
 ===============
 */
-void idCmdSystemLocal::Exec_f( const budCmdArgs& args )
+void budCmdSystemLocal::Exec_f( const budCmdArgs& args )
 {
 	char* 	f;
 	int		len;
@@ -289,12 +288,12 @@ void idCmdSystemLocal::Exec_f( const budCmdArgs& args )
 
 /*
 ===============
-idCmdSystemLocal::Vstr_f
+budCmdSystemLocal::Vstr_f
 
 Inserts the current value of a cvar as command text
 ===============
 */
-void idCmdSystemLocal::Vstr_f( const budCmdArgs& args )
+void budCmdSystemLocal::Vstr_f( const budCmdArgs& args )
 {
 	const char* v;
 	
@@ -311,12 +310,12 @@ void idCmdSystemLocal::Vstr_f( const budCmdArgs& args )
 
 /*
 ===============
-idCmdSystemLocal::Echo_f
+budCmdSystemLocal::Echo_f
 
 Just prints the rest of the line to the console
 ===============
 */
-void idCmdSystemLocal::Echo_f( const budCmdArgs& args )
+void budCmdSystemLocal::Echo_f( const budCmdArgs& args )
 {
 	int		i;
 	
@@ -329,12 +328,12 @@ void idCmdSystemLocal::Echo_f( const budCmdArgs& args )
 
 /*
 ============
-idCmdSystemLocal::Wait_f
+budCmdSystemLocal::Wait_f
 
 Causes execution of the remainder of the command buffer to be delayed until next frame.
 ============
 */
-void idCmdSystemLocal::Wait_f( const budCmdArgs& args )
+void budCmdSystemLocal::Wait_f( const budCmdArgs& args )
 {
 	if( args.Argc() == 2 )
 	{
@@ -348,12 +347,12 @@ void idCmdSystemLocal::Wait_f( const budCmdArgs& args )
 
 /*
 ============
-idCmdSystemLocal::Parse_f
+budCmdSystemLocal::Parse_f
 
 This just prints out how the rest of the line was parsed, as a debugging tool.
 ============
 */
-void idCmdSystemLocal::Parse_f( const budCmdArgs& args )
+void budCmdSystemLocal::Parse_f( const budCmdArgs& args )
 {
 	int		i;
 	
@@ -365,10 +364,10 @@ void idCmdSystemLocal::Parse_f( const budCmdArgs& args )
 
 /*
 ============
-idCmdSystemLocal::Init
+budCmdSystemLocal::Init
 ============
 */
-void idCmdSystemLocal::Init()
+void budCmdSystemLocal::Init()
 {
 
 	AddCommand( "listCmds", List_f, CMD_FL_SYSTEM, "lists commands" );
@@ -396,10 +395,10 @@ void idCmdSystemLocal::Init()
 
 /*
 ============
-idCmdSystemLocal::Shutdown
+budCmdSystemLocal::Shutdown
 ============
 */
-void idCmdSystemLocal::Shutdown()
+void budCmdSystemLocal::Shutdown()
 {
 	commandDef_t* cmd;
 	
@@ -419,10 +418,10 @@ void idCmdSystemLocal::Shutdown()
 
 /*
 ============
-idCmdSystemLocal::AddCommand
+budCmdSystemLocal::AddCommand
 ============
 */
-void idCmdSystemLocal::AddCommand( const char* cmdName, cmdFunction_t function, int flags, const char* description, argCompletion_t argCompletion )
+void budCmdSystemLocal::AddCommand( const char* cmdName, cmdFunction_t function, int flags, const char* description, argCompletion_t argCompletion )
 {
 	commandDef_t* cmd;
 	
@@ -433,7 +432,7 @@ void idCmdSystemLocal::AddCommand( const char* cmdName, cmdFunction_t function, 
 		{
 			if( function != cmd->function )
 			{
-				common->Printf( "idCmdSystemLocal::AddCommand: %s already defined\n", cmdName );
+				common->Printf( "budCmdSystemLocal::AddCommand: %s already defined\n", cmdName );
 			}
 			return;
 		}
@@ -451,10 +450,10 @@ void idCmdSystemLocal::AddCommand( const char* cmdName, cmdFunction_t function, 
 
 /*
 ============
-idCmdSystemLocal::RemoveCommand
+budCmdSystemLocal::RemoveCommand
 ============
 */
-void idCmdSystemLocal::RemoveCommand( const char* cmdName )
+void budCmdSystemLocal::RemoveCommand( const char* cmdName )
 {
 	commandDef_t* cmd, **last;
 	
@@ -474,10 +473,10 @@ void idCmdSystemLocal::RemoveCommand( const char* cmdName )
 
 /*
 ============
-idCmdSystemLocal::RemoveFlaggedCommands
+budCmdSystemLocal::RemoveFlaggedCommands
 ============
 */
-void idCmdSystemLocal::RemoveFlaggedCommands( int flags )
+void budCmdSystemLocal::RemoveFlaggedCommands( int flags )
 {
 	commandDef_t* cmd, **last;
 	
@@ -497,10 +496,10 @@ void idCmdSystemLocal::RemoveFlaggedCommands( int flags )
 
 /*
 ============
-idCmdSystemLocal::CommandCompletion
+budCmdSystemLocal::CommandCompletion
 ============
 */
-void idCmdSystemLocal::CommandCompletion( void( *callback )( const char* s ) )
+void budCmdSystemLocal::CommandCompletion( void( *callback )( const char* s ) )
 {
 	commandDef_t* cmd;
 	
@@ -512,10 +511,10 @@ void idCmdSystemLocal::CommandCompletion( void( *callback )( const char* s ) )
 
 /*
 ============
-idCmdSystemLocal::ArgCompletion
+budCmdSystemLocal::ArgCompletion
 ============
 */
-void idCmdSystemLocal::ArgCompletion( const char* cmdString, void( *callback )( const char* s ) )
+void budCmdSystemLocal::ArgCompletion( const char* cmdString, void( *callback )( const char* s ) )
 {
 	commandDef_t* cmd;
 	budCmdArgs args;
@@ -538,10 +537,10 @@ void idCmdSystemLocal::ArgCompletion( const char* cmdString, void( *callback )( 
 
 /*
 ============
-idCmdSystemLocal::ExecuteTokenizedString
+budCmdSystemLocal::ExecuteTokenizedString
 ============
 */
-void idCmdSystemLocal::ExecuteTokenizedString( const budCmdArgs& args )
+void budCmdSystemLocal::ExecuteTokenizedString( const budCmdArgs& args )
 {
 	commandDef_t* cmd, **prev;
 	
@@ -592,25 +591,25 @@ void idCmdSystemLocal::ExecuteTokenizedString( const budCmdArgs& args )
 
 /*
 ============
-idCmdSystemLocal::ExecuteCommandText
+budCmdSystemLocal::ExecuteCommandText
 
 Tokenizes, then executes.
 ============
 */
-void idCmdSystemLocal::ExecuteCommandText( const char* text )
+void budCmdSystemLocal::ExecuteCommandText( const char* text )
 {
 	ExecuteTokenizedString( budCmdArgs( text, false ) );
 }
 
 /*
 ============
-idCmdSystemLocal::InsertCommandText
+budCmdSystemLocal::InsertCommandText
 
 Adds command text immediately after the current command
 Adds a \n to the text
 ============
 */
-void idCmdSystemLocal::InsertCommandText( const char* text )
+void budCmdSystemLocal::InsertCommandText( const char* text )
 {
 	int		len;
 	int		i;
@@ -618,7 +617,7 @@ void idCmdSystemLocal::InsertCommandText( const char* text )
 	len = strlen( text ) + 1;
 	if( len + textLength > ( int )sizeof( textBuf ) )
 	{
-		common->Printf( "idCmdSystemLocal::InsertText: buffer overflow\n" );
+		common->Printf( "budCmdSystemLocal::InsertText: buffer overflow\n" );
 		return;
 	}
 	
@@ -639,12 +638,12 @@ void idCmdSystemLocal::InsertCommandText( const char* text )
 
 /*
 ============
-idCmdSystemLocal::AppendCommandText
+budCmdSystemLocal::AppendCommandText
 
 Adds command text at the end of the buffer, does NOT add a final \n
 ============
 */
-void idCmdSystemLocal::AppendCommandText( const char* text )
+void budCmdSystemLocal::AppendCommandText( const char* text )
 {
 	int l;
 	
@@ -652,7 +651,7 @@ void idCmdSystemLocal::AppendCommandText( const char* text )
 	
 	if( textLength + l >= ( int )sizeof( textBuf ) )
 	{
-		common->Printf( "idCmdSystemLocal::AppendText: buffer overflow\n" );
+		common->Printf( "budCmdSystemLocal::AppendText: buffer overflow\n" );
 		return;
 	}
 	memcpy( textBuf + textLength, text, l );
@@ -661,10 +660,10 @@ void idCmdSystemLocal::AppendCommandText( const char* text )
 
 /*
 ============
-idCmdSystemLocal::BufferCommandText
+budCmdSystemLocal::BufferCommandText
 ============
 */
-void idCmdSystemLocal::BufferCommandText( cmdExecution_t exec, const char* text )
+void budCmdSystemLocal::BufferCommandText( cmdExecution_t exec, const char* text )
 {
 	switch( exec )
 	{
@@ -685,17 +684,17 @@ void idCmdSystemLocal::BufferCommandText( cmdExecution_t exec, const char* text 
 		}
 		default:
 		{
-			common->FatalError( "idCmdSystemLocal::BufferCommandText: bad exec type" );
+			common->FatalError( "budCmdSystemLocal::BufferCommandText: bad exec type" );
 		}
 	}
 }
 
 /*
 ============
-idCmdSystemLocal::BufferCommandArgs
+budCmdSystemLocal::BufferCommandArgs
 ============
 */
-void idCmdSystemLocal::BufferCommandArgs( cmdExecution_t exec, const budCmdArgs& args )
+void budCmdSystemLocal::BufferCommandArgs( cmdExecution_t exec, const budCmdArgs& args )
 {
 	switch( exec )
 	{
@@ -712,17 +711,17 @@ void idCmdSystemLocal::BufferCommandArgs( cmdExecution_t exec, const budCmdArgs&
 		}
 		default:
 		{
-			common->FatalError( "idCmdSystemLocal::BufferCommandArgs: bad exec type" );
+			common->FatalError( "budCmdSystemLocal::BufferCommandArgs: bad exec type" );
 		}
 	}
 }
 
 /*
 ============
-idCmdSystemLocal::ExecuteCommandBuffer
+budCmdSystemLocal::ExecuteCommandBuffer
 ============
 */
-void idCmdSystemLocal::ExecuteCommandBuffer()
+void budCmdSystemLocal::ExecuteCommandBuffer()
 {
 	int			i;
 	char* 		text;
@@ -793,10 +792,10 @@ void idCmdSystemLocal::ExecuteCommandBuffer()
 
 /*
 ============
-idCmdSystemLocal::ArgCompletion_FolderExtension
+budCmdSystemLocal::ArgCompletion_FolderExtension
 ============
 */
-void idCmdSystemLocal::ArgCompletion_FolderExtension( const budCmdArgs& args, void( *callback )( const char* s ), const char* folder, bool stripFolder, ... )
+void budCmdSystemLocal::ArgCompletion_FolderExtension( const budCmdArgs& args, void( *callback )( const char* s ), const char* folder, bool stripFolder, ... )
 {
 	int i;
 	budStr string;
@@ -872,30 +871,10 @@ void idCmdSystemLocal::ArgCompletion_FolderExtension( const budCmdArgs& args, vo
 
 /*
 ============
-idCmdSystemLocal::ArgCompletion_DeclName
+budCmdSystemLocal::SetupReloadEngine
 ============
 */
-void idCmdSystemLocal::ArgCompletion_DeclName( const budCmdArgs& args, void( *callback )( const char* s ), int type )
-{
-	int i, num;
-	
-	if( declManager == NULL )
-	{
-		return;
-	}
-	num = declManager->GetNumDecls( ( declType_t )type );
-	for( i = 0; i < num; i++ )
-	{
-		callback( budStr( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( ( declType_t )type, i , false )->GetName() );
-	}
-}
-
-/*
-============
-idCmdSystemLocal::SetupReloadEngine
-============
-*/
-void idCmdSystemLocal::SetupReloadEngine( const budCmdArgs& args )
+void budCmdSystemLocal::SetupReloadEngine( const budCmdArgs& args )
 {
 	BufferCommandText( CMD_EXEC_APPEND, "reloadEngine\n" );
 	postReload = args;
@@ -903,10 +882,10 @@ void idCmdSystemLocal::SetupReloadEngine( const budCmdArgs& args )
 
 /*
 ============
-idCmdSystemLocal::PostReloadEngine
+budCmdSystemLocal::PostReloadEngine
 ============
 */
-bool idCmdSystemLocal::PostReloadEngine()
+bool budCmdSystemLocal::PostReloadEngine()
 {
 	if( !postReload.Argc() )
 	{

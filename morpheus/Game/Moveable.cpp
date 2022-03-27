@@ -1363,7 +1363,7 @@ void idExplodingBarrel::Killed( idEntity* inflictor, idEntity* attacker, int dam
 	}
 	
 	// Any time a barrel explodes, attribute it towards the 'Boomtastic' achievement, since there's no way a barrel can explode without player interference
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL && !common->IsMultiplayer() )
 	{
 		player->GetAchievementManager().EventCompletesAchievement( ACHIEVEMENT_DESTROY_BARRELS );
@@ -1433,7 +1433,7 @@ void idExplodingBarrel::Event_Respawn()
 		float minDist = -1;
 		for( i = 0; i < gameLocal.numClients; i++ )
 		{
-			if( !gameLocal.entities[ i ] || !gameLocal.entities[ i ]->IsType( idPlayer::Type ) )
+			if( !gameLocal.entities[ i ] || !gameLocal.entities[ i ]->IsType( budPlayer::Type ) )
 			{
 				continue;
 			}

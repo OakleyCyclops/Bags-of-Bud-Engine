@@ -649,7 +649,7 @@ void idMenuScreen_Shell_Leaderboards::RefreshLeaderboard()
 	bool downArrow = false;
 	
 	int focusIndex = -1;
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > lbListings;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > lbListings;
 	
 	if( !lbCache->IsLoadingNewLeaderboard() && lbCache->GetErrorCode() == LEADERBOARD_DISPLAY_ERROR_NONE )
 	{

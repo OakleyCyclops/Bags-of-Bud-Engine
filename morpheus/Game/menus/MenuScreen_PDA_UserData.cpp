@@ -102,7 +102,7 @@ void idMenuScreen_PDA_UserData::Update()
 			buttonInfo->label = "";
 			buttonInfo->action.Set( WIDGET_ACTION_GO_BACK );
 			
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			idMenuWidget_DynamicList* pdaList = dynamic_cast< idMenuWidget_DynamicList* >( menuData->GetChildFromIndex( PDA_WIDGET_PDA_LIST ) );
 			if( pdaList != NULL && player != NULL )
 			{
@@ -237,7 +237,7 @@ bool idMenuScreen_PDA_UserData::HandleAction( idWidgetAction& action, const idWi
 				return true;
 			}
 			
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player != NULL && player->IsSoundChannelPlaying( SND_CHANNEL_PDA_AUDIO ) )
 			{
 				player->EndAudioLog();

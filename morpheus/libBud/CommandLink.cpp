@@ -26,14 +26,14 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 /*
 ========================
 CommandLinks
 
-The command system is not required for libBud, but we want to be able
-to use the CONSOLE_COMMAND() macro inside libBud, so these must be here.
+The command system is not required for idLib, but we want to be able
+to use the CONSOLE_COMMAND() macro inside idlib, so these must be here.
 ========================
 */
 budCommandLink* CommandLinks( budCommandLink* cl )

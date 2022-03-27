@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_voicechat.h"
+#include "corePCH.hpp"
+#include "sys_voicechat.hpp"
 
 /*
 ================================================

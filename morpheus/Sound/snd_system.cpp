@@ -158,7 +158,7 @@ void idSoundSystemLocal::Init()
 		InitStreamBuffers();
 	}
 	
-	cmdSystem->AddCommand( "testSound", TestSound_f, 0, "tests a sound", idCmdSystem::ArgCompletion_SoundName );
+	cmdSystem->AddCommand( "testSound", TestSound_f, 0, "tests a sound", budCmdSystem::ArgCompletion_SoundName );
 	cmdSystem->AddCommand( "s_restart", RestartSound_f, 0, "restart sound system" );
 	cmdSystem->AddCommand( "listSamples", ListSamples_f, 0, "lists all loaded sound samples" );
 	

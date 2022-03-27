@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 /*
 =================
@@ -594,7 +594,7 @@ void idSurface_Patch::SubdivideExplicit( int horzSubdivisions, int vertSubdivisi
 	budDrawVert sample[3][3];
 	int outWidth = ( ( width - 1 ) / 2 * horzSubdivisions ) + 1;
 	int outHeight = ( ( height - 1 ) / 2 * vertSubdivisions ) + 1;
-	budDrawVert* dv = new( TAG_libBud_SURFACE ) budDrawVert[ outWidth * outHeight ];
+	budDrawVert* dv = new( TAG_LIBBUD_SURFACE ) budDrawVert[ outWidth * outHeight ];
 	
 	// generate normals for the control mesh
 	if( genNormals )

@@ -118,34 +118,34 @@ const idEventDef EV_Player_StopHelltime( "stopHelltime", "d" );
 const idEventDef EV_Player_ToggleBloom( "toggleBloom", "d" );
 const idEventDef EV_Player_SetBloomParms( "setBloomParms", "ff" );
 
-CLASS_DECLARATION( budActor, idPlayer )
-EVENT( EV_Player_GetButtons,			idPlayer::Event_GetButtons )
-EVENT( EV_Player_GetMove,				idPlayer::Event_GetMove )
-EVENT( EV_Player_GetViewAngles,			idPlayer::Event_GetViewAngles )
-EVENT( EV_Player_StopFxFov,				idPlayer::Event_StopFxFov )
-EVENT( EV_Player_EnableWeapon,			idPlayer::Event_EnableWeapon )
-EVENT( EV_Player_DisableWeapon,			idPlayer::Event_DisableWeapon )
-EVENT( EV_Player_GetCurrentWeapon,		idPlayer::Event_GetCurrentWeapon )
-EVENT( EV_Player_GetPreviousWeapon,		idPlayer::Event_GetPreviousWeapon )
-EVENT( EV_Player_SelectWeapon,			idPlayer::Event_SelectWeapon )
-EVENT( EV_Player_GetWeaponEntity,		idPlayer::Event_GetWeaponEntity )
-EVENT( EV_Player_OpenPDA,				idPlayer::Event_OpenPDA )
-EVENT( EV_Player_InPDA,					idPlayer::Event_InPDA )
-EVENT( EV_Player_ExitTeleporter,		idPlayer::Event_ExitTeleporter )
-EVENT( EV_Player_StopAudioLog,			idPlayer::Event_StopAudioLog )
-EVENT( EV_Player_HideTip,				idPlayer::Event_HideTip )
-EVENT( EV_Player_LevelTrigger,			idPlayer::Event_LevelTrigger )
-EVENT( EV_Gibbed,						idPlayer::Event_Gibbed )
-EVENT( EV_Player_GiveInventoryItem,		idPlayer::Event_GiveInventoryItem )
-EVENT( EV_Player_RemoveInventoryItem,	idPlayer::Event_RemoveInventoryItem )
-EVENT( EV_Player_GetIdealWeapon,		idPlayer::Event_GetIdealWeapon )
-EVENT( EV_Player_WeaponAvailable,		idPlayer::Event_WeaponAvailable )
-EVENT( EV_Player_SetPowerupTime,		idPlayer::Event_SetPowerupTime )
-EVENT( EV_Player_IsPowerupActive,		idPlayer::Event_IsPowerupActive )
-EVENT( EV_Player_StartWarp,				idPlayer::Event_StartWarp )
-EVENT( EV_Player_StopHelltime,			idPlayer::Event_StopHelltime )
-EVENT( EV_Player_ToggleBloom,			idPlayer::Event_ToggleBloom )
-EVENT( EV_Player_SetBloomParms,			idPlayer::Event_SetBloomParms )
+CLASS_DECLARATION( budActor, budPlayer )
+EVENT( EV_Player_GetButtons,			budPlayer::Event_GetButtons )
+EVENT( EV_Player_GetMove,				budPlayer::Event_GetMove )
+EVENT( EV_Player_GetViewAngles,			budPlayer::Event_GetViewAngles )
+EVENT( EV_Player_StopFxFov,				budPlayer::Event_StopFxFov )
+EVENT( EV_Player_EnableWeapon,			budPlayer::Event_EnableWeapon )
+EVENT( EV_Player_DisableWeapon,			budPlayer::Event_DisableWeapon )
+EVENT( EV_Player_GetCurrentWeapon,		budPlayer::Event_GetCurrentWeapon )
+EVENT( EV_Player_GetPreviousWeapon,		budPlayer::Event_GetPreviousWeapon )
+EVENT( EV_Player_SelectWeapon,			budPlayer::Event_SelectWeapon )
+EVENT( EV_Player_GetWeaponEntity,		budPlayer::Event_GetWeaponEntity )
+EVENT( EV_Player_OpenPDA,				budPlayer::Event_OpenPDA )
+EVENT( EV_Player_InPDA,					budPlayer::Event_InPDA )
+EVENT( EV_Player_ExitTeleporter,		budPlayer::Event_ExitTeleporter )
+EVENT( EV_Player_StopAudioLog,			budPlayer::Event_StopAudioLog )
+EVENT( EV_Player_HideTip,				budPlayer::Event_HideTip )
+EVENT( EV_Player_LevelTrigger,			budPlayer::Event_LevelTrigger )
+EVENT( EV_Gibbed,						budPlayer::Event_Gibbed )
+EVENT( EV_Player_GiveInventoryItem,		budPlayer::Event_GiveInventoryItem )
+EVENT( EV_Player_RemoveInventoryItem,	budPlayer::Event_RemoveInventoryItem )
+EVENT( EV_Player_GetIdealWeapon,		budPlayer::Event_GetIdealWeapon )
+EVENT( EV_Player_WeaponAvailable,		budPlayer::Event_WeaponAvailable )
+EVENT( EV_Player_SetPowerupTime,		budPlayer::Event_SetPowerupTime )
+EVENT( EV_Player_IsPowerupActive,		budPlayer::Event_IsPowerupActive )
+EVENT( EV_Player_StartWarp,				budPlayer::Event_StartWarp )
+EVENT( EV_Player_StopHelltime,			budPlayer::Event_StopHelltime )
+EVENT( EV_Player_ToggleBloom,			budPlayer::Event_ToggleBloom )
+EVENT( EV_Player_SetBloomParms,			budPlayer::Event_SetBloomParms )
 END_CLASS
 
 const int MAX_RESPAWN_TIME = 10000;
@@ -218,7 +218,7 @@ void idInventory::Clear()
 idInventory::GivePowerUp
 ==============
 */
-void idInventory::GivePowerUp( idPlayer* player, int powerup, int msec )
+void idInventory::GivePowerUp( budPlayer* player, int powerup, int msec )
 {
 	powerups |= 1 << powerup;
 	powerupEndTime[ powerup ] = gameLocal.time + msec;
@@ -349,7 +349,7 @@ void idInventory::GetPersistantData( idDict& dict )
 idInventory::RestoreInventory
 ==============
 */
-void idInventory::RestoreInventory( idPlayer* owner, const idDict& dict )
+void idInventory::RestoreInventory( budPlayer* owner, const idDict& dict )
 {
 	int			i;
 	int			num;
@@ -739,7 +739,7 @@ ammo_t idInventory::AmmoIndexForAmmoClass( const char* ammo_classname ) const
 idInventory::AmmoIndexForAmmoClass
 ==============
 */
-int idInventory::MaxAmmoForAmmoClass( const idPlayer* owner, const char* ammo_classname ) const
+int idInventory::MaxAmmoForAmmoClass( const budPlayer* owner, const char* ammo_classname ) const
 {
 	return owner->spawnArgs.GetInt( va( "max_%s", ammo_classname ), "0" );
 }
@@ -810,7 +810,7 @@ ammo_t idInventory::AmmoIndexForWeaponClass( const char* weapon_classname, int* 
 idInventory::AddPickupName
 ==============
 */
-void idInventory::AddPickupName( const char* name, idPlayer* owner )     //_D3XP
+void idInventory::AddPickupName( const char* name, budPlayer* owner )     //_D3XP
 {
 	int num = pickupItemNames.Num();
 	if( ( num == 0 ) || ( pickupItemNames[ num - 1 ].Icmp( name ) != 0 ) )
@@ -831,7 +831,7 @@ void idInventory::AddPickupName( const char* name, idPlayer* owner )     //_D3XP
 idInventory::Give
 ==============
 */
-bool idInventory::Give( idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value,
+bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value,
 						idPredictedValue< int >* idealWeapon, bool updateHud, unsigned int giveFlags )
 {
 	int						i;
@@ -1152,7 +1152,7 @@ int idInventory::HasAmmo( ammo_t type, int amount )
 idInventory::HasAmmo
 ===============
 */
-int idInventory::HasAmmo( const char* weapon_classname, bool includeClip, idPlayer* owner )  		//_D3XP
+int idInventory::HasAmmo( const char* weapon_classname, bool includeClip, budPlayer* owner )  		//_D3XP
 {
 	int ammoRequired;
 	ammo_t ammo_i = AmmoIndexForWeaponClass( weapon_classname, &ammoRequired );
@@ -1171,7 +1171,7 @@ int idInventory::HasAmmo( const char* weapon_classname, bool includeClip, idPlay
 idInventory::HasEmptyClipCannotRefill
 ===============
 */
-bool idInventory::HasEmptyClipCannotRefill( const char* weapon_classname, idPlayer* owner )
+bool idInventory::HasEmptyClipCannotRefill( const char* weapon_classname, budPlayer* owner )
 {
 
 	int clipSize = clip[owner->SlotForWeapon( weapon_classname )].Get();
@@ -1260,7 +1260,7 @@ idInventory::InitRechargeAmmo
 ===============
 * Loads any recharge ammo definitions from the ammo_types entity definitions.
 */
-void idInventory::InitRechargeAmmo( idPlayer* owner )
+void idInventory::InitRechargeAmmo( budPlayer* owner )
 {
 
 	memset( rechargeAmmo, 0, sizeof( rechargeAmmo ) );
@@ -1283,7 +1283,7 @@ idInventory::RechargeAmmo
 ===============
 * Called once per frame to update any ammo amount for ammo types that recharge.
 */
-void idInventory::RechargeAmmo( idPlayer* owner )
+void idInventory::RechargeAmmo( budPlayer* owner )
 {
 
 	for( int i = 0; i < AMMO_NUMTYPES; i++ )
@@ -1320,7 +1320,7 @@ void idInventory::RechargeAmmo( idPlayer* owner )
 idInventory::CanGive
 ===============
 */
-bool idInventory::CanGive( idPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value )
+bool idInventory::CanGive( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value )
 {
 
 	if( !budStr::Icmp( statname, "ammo_bloodstone" ) )
@@ -1454,10 +1454,10 @@ void idInventory::SetRemoteClientAmmo( const int ownerEntityNumber )
 
 /*
 ==============
-idPlayer::idPlayer
+budPlayer::budPlayer
 ==============
 */
-idPlayer::idPlayer():
+budPlayer::budPlayer():
 	previousViewQuat( 0.0f, 0.0f, 0.0f, 1.0f ),
 	nextViewQuat( 0.0f, 0.0f, 0.0f, 1.0f ),
 	idealWeapon( -1 ),
@@ -1670,12 +1670,12 @@ idPlayer::idPlayer():
 
 /*
 ==============
-idPlayer::LinkScriptVariables
+budPlayer::LinkScriptVariables
 
 set up conditions for animation
 ==============
 */
-void idPlayer::LinkScriptVariables()
+void budPlayer::LinkScriptVariables()
 {
 	AI_FORWARD.LinkTo(	scriptObject, "AI_FORWARD" );
 	AI_BACKWARD.LinkTo(	scriptObject, "AI_BACKWARD" );
@@ -1700,10 +1700,10 @@ void idPlayer::LinkScriptVariables()
 
 /*
 ==============
-idPlayer::SetupWeaponEntity
+budPlayer::SetupWeaponEntity
 ==============
 */
-void idPlayer::SetupWeaponEntity()
+void budPlayer::SetupWeaponEntity()
 {
 	int w;
 	const char* weap;
@@ -1738,10 +1738,10 @@ void idPlayer::SetupWeaponEntity()
 
 /*
 ==============
-idPlayer::Init
+budPlayer::Init
 ==============
 */
-void idPlayer::Init()
+void budPlayer::Init()
 {
 	const char*			value;
 	const idKeyValue*	kv;
@@ -1999,12 +1999,12 @@ void idPlayer::Init()
 
 /*
 ==============
-idPlayer::Spawn
+budPlayer::Spawn
 
 Prepare any resources used by the player.
 ==============
 */
-void idPlayer::Spawn()
+void budPlayer::Spawn()
 {
 	budStr		temp;
 	budBounds	bounds;
@@ -2274,12 +2274,12 @@ void idPlayer::Spawn()
 
 /*
 ==============
-idPlayer::~idPlayer()
+budPlayer::~budPlayer()
 
 Release any resources used by the player.
 ==============
 */
-idPlayer::~idPlayer()
+budPlayer::~budPlayer()
 {
 	delete weapon.GetEntity();
 	weapon = NULL;
@@ -2309,10 +2309,10 @@ idPlayer::~idPlayer()
 
 /*
 ===========
-idPlayer::Save
+budPlayer::Save
 ===========
 */
-void idPlayer::Save( idSaveGame* savefile ) const
+void budPlayer::Save( idSaveGame* savefile ) const
 {
 	int i;
 	
@@ -2576,10 +2576,10 @@ void idPlayer::Save( idSaveGame* savefile ) const
 
 /*
 ===========
-idPlayer::Restore
+budPlayer::Restore
 ===========
 */
-void idPlayer::Restore( idRestoreGame* savefile )
+void budPlayer::Restore( idRestoreGame* savefile )
 {
 	int	  i;
 	int	  num;
@@ -2937,10 +2937,10 @@ void idPlayer::Restore( idRestoreGame* savefile )
 
 /*
 ===============
-idPlayer::PrepareForRestart
+budPlayer::PrepareForRestart
 ================
 */
-void idPlayer::PrepareForRestart()
+void budPlayer::PrepareForRestart()
 {
 	ClearPowerUps();
 	
@@ -2969,10 +2969,10 @@ void idPlayer::PrepareForRestart()
 
 /*
 ===============
-idPlayer::Restart
+budPlayer::Restart
 ================
 */
-void idPlayer::Restart()
+void budPlayer::Restart()
 {
 	budActor::Restart();
 	
@@ -2999,10 +2999,10 @@ void idPlayer::Restart()
 
 /*
 ===============
-idPlayer::ServerSpectate
+budPlayer::ServerSpectate
 ================
 */
-void idPlayer::ServerSpectate( bool spectate )
+void budPlayer::ServerSpectate( bool spectate )
 {
 	assert( !common->IsClient() );
 	
@@ -3050,13 +3050,13 @@ void idPlayer::ServerSpectate( bool spectate )
 
 /*
 ===========
-idPlayer::SelectInitialSpawnPoint
+budPlayer::SelectInitialSpawnPoint
 
 Try to find a spawn point marked 'initial', otherwise
 use normal spawn selection.
 ============
 */
-void idPlayer::SelectInitialSpawnPoint( budVec3& origin, budAngles& angles )
+void budPlayer::SelectInitialSpawnPoint( budVec3& origin, budAngles& angles )
 {
 	idEntity* spot;
 	budStr skin;
@@ -3079,12 +3079,12 @@ void idPlayer::SelectInitialSpawnPoint( budVec3& origin, budAngles& angles )
 
 /*
 ===========
-idPlayer::SpawnFromSpawnSpot
+budPlayer::SpawnFromSpawnSpot
 
 Chooses a spawn location and spawns the player
 ============
 */
-void idPlayer::SpawnFromSpawnSpot()
+void budPlayer::SpawnFromSpawnSpot()
 {
 	budVec3		spawn_origin;
 	budAngles	spawn_angles;
@@ -3095,7 +3095,7 @@ void idPlayer::SpawnFromSpawnSpot()
 
 /*
 ===========
-idPlayer::SpawnToPoint
+budPlayer::SpawnToPoint
 
 Called every time a client is placed fresh in the world:
 after the first ClientBegin, and after each respawn
@@ -3104,7 +3104,7 @@ Initializes all non-persistant parts of playerState
 when called here with spectating set to true, just place yourself and init
 ============
 */
-void idPlayer::SpawnToPoint( const budVec3& spawn_origin, const budAngles& spawn_angles )
+void budPlayer::SpawnToPoint( const budVec3& spawn_origin, const budAngles& spawn_angles )
 {
 	budVec3 spec_origin;
 	
@@ -3221,11 +3221,11 @@ void idPlayer::SpawnToPoint( const budVec3& spawn_origin, const budAngles& spawn
 
 /*
 ===============
-idPlayer::Respawn_Shared
+budPlayer::Respawn_Shared
 Called on server and client players when they respawn (including on initial spawn)
 ===============
 */
-void idPlayer::Respawn_Shared()
+void budPlayer::Respawn_Shared()
 {
 	respawn_netEvent.Set();
 	
@@ -3239,12 +3239,12 @@ void idPlayer::Respawn_Shared()
 
 /*
 ===============
-idPlayer::SavePersistantInfo
+budPlayer::SavePersistantInfo
 
 Saves any inventory and player stats when changing levels.
 ===============
 */
-void idPlayer::SavePersistantInfo()
+void budPlayer::SavePersistantInfo()
 {
 	idDict& playerInfo = gameLocal.persistentPlayerInfo[entityNumber];
 	
@@ -3259,12 +3259,12 @@ void idPlayer::SavePersistantInfo()
 
 /*
 ===============
-idPlayer::RestorePersistantInfo
+budPlayer::RestorePersistantInfo
 
 Restores any inventory and player stats when changing levels.
 ===============
 */
-void idPlayer::RestorePersistantInfo()
+void budPlayer::RestorePersistantInfo()
 {
 	if( common->IsMultiplayer() || g_demoMode.GetBool() )
 	{
@@ -3284,10 +3284,10 @@ void idPlayer::RestorePersistantInfo()
 
 /*
 ==============
-idPlayer::UpdateSkinSetup
+budPlayer::UpdateSkinSetup
 ==============
 */
-void idPlayer::UpdateSkinSetup()
+void budPlayer::UpdateSkinSetup()
 {
 	if( !common->IsMultiplayer() )
 	{
@@ -3327,10 +3327,10 @@ void idPlayer::UpdateSkinSetup()
 
 /*
 ===============
-idPlayer::UpdateHudStats
+budPlayer::UpdateHudStats
 ===============
 */
-void idPlayer::UpdateHudStats( idMenuHandler_HUD* _hudManager )
+void budPlayer::UpdateHudStats( idMenuHandler_HUD* _hudManager )
 {
 
 	if( _hudManager && _hudManager->GetHud() )
@@ -3363,17 +3363,17 @@ void idPlayer::UpdateHudStats( idMenuHandler_HUD* _hudManager )
 
 /*
 ===============
-idPlayer::UpdateHudWeapon
+budPlayer::UpdateHudWeapon
 ===============
 */
-void idPlayer::UpdateHudWeapon( bool flashWeapon )
+void budPlayer::UpdateHudWeapon( bool flashWeapon )
 {
 
 	idMenuScreen_HUD* curDisplay = hud;
-	idPlayer* p = this;
-	if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( idPlayer::Type ) )
+	budPlayer* p = this;
+	if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( budPlayer::Type ) )
 	{
-		p = static_cast< idPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
+		p = static_cast< budPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
 		if( p->spectating && p->spectator == entityNumber )
 		{
 			assert( p->hud );
@@ -3391,17 +3391,17 @@ void idPlayer::UpdateHudWeapon( bool flashWeapon )
 
 /*
 ===============
-idPlayer::UpdateHudWeapon
+budPlayer::UpdateHudWeapon
 ===============
 */
-void idPlayer::UpdateChattingHud()
+void budPlayer::UpdateChattingHud()
 {
 
 	idMenuScreen_HUD* curDisplay = hud;
-	idPlayer* p = this;
-	if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( idPlayer::Type ) )
+	budPlayer* p = this;
+	if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( budPlayer::Type ) )
 	{
-		p = static_cast< idPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
+		p = static_cast< budPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
 		if( p->spectating && p->spectator == entityNumber )
 		{
 			assert( p->hud );
@@ -3423,14 +3423,14 @@ void idPlayer::UpdateChattingHud()
 idMenuScreen_Scoreboard::UpdateSpectating
 ========================
 */
-void idPlayer::UpdateSpectatingText()
+void budPlayer::UpdateSpectatingText()
 {
 
 	budSWF* spectatorMessages = mpMessages;
-	idPlayer* p = this;
-	if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( idPlayer::Type ) )
+	budPlayer* p = this;
+	if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( budPlayer::Type ) )
 	{
-		p = static_cast< idPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
+		p = static_cast< budPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
 		if( p && p->spectating )
 		{
 			spectatorMessages = p->mpMessages;
@@ -3442,7 +3442,7 @@ void idPlayer::UpdateSpectatingText()
 		return;
 	}
 	
-	idPlayer* viewPlayer = static_cast<idPlayer*>( gameLocal.entities[ p->spectator ] );
+	budPlayer* viewPlayer = static_cast<budPlayer*>( gameLocal.entities[ p->spectator ] );
 	if( viewPlayer == NULL )
 	{
 		return;
@@ -3473,10 +3473,10 @@ void idPlayer::UpdateSpectatingText()
 
 /*
 ===============
-idPlayer::UpdateMpMessages
+budPlayer::UpdateMpMessages
 ===============
 */
-void idPlayer::AddChatMessage( int index, int alpha, const budStr& message )
+void budPlayer::AddChatMessage( int index, int alpha, const budStr& message )
 {
 
 	if( mpMessages == NULL || !mpMessages->IsActive() )
@@ -3524,10 +3524,10 @@ void idPlayer::AddChatMessage( int index, int alpha, const budStr& message )
 
 /*
 ===============
-idPlayer::UpdateMpMessages
+budPlayer::UpdateMpMessages
 ===============
 */
-void idPlayer::ClearChatMessage( int index )
+void budPlayer::ClearChatMessage( int index )
 {
 
 	if( mpMessages == NULL || !mpMessages->IsActive() )
@@ -3553,12 +3553,12 @@ void idPlayer::ClearChatMessage( int index )
 
 /*
 ===============
-idPlayer::DrawHUD
+budPlayer::DrawHUD
 ===============
 */
-void idPlayer::DrawHUD( idMenuHandler_HUD* _hudManager )
+void budPlayer::DrawHUD( idMenuHandler_HUD* _hudManager )
 {
-	SCOPED_PROFILE_EVENT( "idPlayer::DrawHUD" );
+	SCOPED_PROFILE_EVENT( "budPlayer::DrawHUD" );
 	
 	if( !weapon.GetEntity() || influenceActive != INFLUENCE_NONE || privateCameraView || gameLocal.GetCamera() || !g_showHud.GetBool() )
 	{
@@ -3572,7 +3572,7 @@ void idPlayer::DrawHUD( idMenuHandler_HUD* _hudManager )
 	}
 	
 	// Always draw the local client's messages so that chat works correctly while spectating another player.
-	idPlayer* localPlayer = static_cast< idPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
+	budPlayer* localPlayer = static_cast< budPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
 	
 	if( localPlayer != NULL && localPlayer->mpMessages != NULL )
 	{
@@ -3638,10 +3638,10 @@ void idPlayer::DrawHUD( idMenuHandler_HUD* _hudManager )
 
 /*
 ===============
-idPlayer::EnterCinematic
+budPlayer::EnterCinematic
 ===============
 */
-void idPlayer::EnterCinematic()
+void budPlayer::EnterCinematic()
 {
 	if( PowerUpActive( HELLTIME ) )
 	{
@@ -3694,10 +3694,10 @@ void idPlayer::EnterCinematic()
 
 /*
 ===============
-idPlayer::ExitCinematic
+budPlayer::ExitCinematic
 ===============
 */
-void idPlayer::ExitCinematic()
+void budPlayer::ExitCinematic()
 {
 	Show();
 	
@@ -3724,10 +3724,10 @@ void idPlayer::ExitCinematic()
 
 /*
 =====================
-idPlayer::UpdateConditions
+budPlayer::UpdateConditions
 =====================
 */
-void idPlayer::UpdateConditions()
+void budPlayer::UpdateConditions()
 {
 	budVec3	velocity;
 	float	fallspeed;
@@ -3780,7 +3780,7 @@ WeaponFireFeedback
 Called when a weapon fires, generates head twitches, etc
 ==================
 */
-void idPlayer::WeaponFireFeedback( const idDict* weaponDef )
+void budPlayer::WeaponFireFeedback( const idDict* weaponDef )
 {
 	// force a blink
 	blink_time = 0;
@@ -3806,10 +3806,10 @@ void idPlayer::WeaponFireFeedback( const idDict* weaponDef )
 
 /*
 ===============
-idPlayer::StopFiring
+budPlayer::StopFiring
 ===============
 */
-void idPlayer::StopFiring()
+void budPlayer::StopFiring()
 {
 	AI_ATTACK_HELD	= false;
 	AI_WEAPON_FIRED = false;
@@ -3822,12 +3822,12 @@ void idPlayer::StopFiring()
 
 /*
 ===============
-idPlayer::FireWeapon
+budPlayer::FireWeapon
 ===============
 */
 budCVar g_infiniteAmmo( "g_infiniteAmmo", "0", CVAR_GAME | CVAR_BOOL, "infinite ammo" );
 extern budCVar ui_autoSwitch;
-void idPlayer::FireWeapon()
+void budPlayer::FireWeapon()
 {
 	budMat3 axis;
 	budVec3 muzzle;
@@ -3913,10 +3913,10 @@ void idPlayer::FireWeapon()
 
 /*
 ===============
-idPlayer::CacheWeapons
+budPlayer::CacheWeapons
 ===============
 */
-void idPlayer::CacheWeapons()
+void budPlayer::CacheWeapons()
 {
 	budStr	weap;
 	int		w;
@@ -3946,10 +3946,10 @@ void idPlayer::CacheWeapons()
 
 /*
 ===============
-idPlayer::SetQuickSlot
+budPlayer::SetQuickSlot
 ===============
 */
-void idPlayer::SetQuickSlot( int index, int val )
+void budPlayer::SetQuickSlot( int index, int val )
 {
 	if( index >= NUM_QUICK_SLOTS || index < 0 )
 	{
@@ -3961,10 +3961,10 @@ void idPlayer::SetQuickSlot( int index, int val )
 
 /*
 ===============
-idPlayer::GetQuickSlot
+budPlayer::GetQuickSlot
 ===============
 */
-int idPlayer::GetQuickSlot( int index )
+int budPlayer::GetQuickSlot( int index )
 {
 
 	if( index >= NUM_QUICK_SLOTS || index < 0 )
@@ -3977,10 +3977,10 @@ int idPlayer::GetQuickSlot( int index )
 
 /*
 ===============
-idPlayer::Give
+budPlayer::Give
 ===============
 */
-bool idPlayer::Give( const char* statname, const char* value, unsigned int giveFlags )
+bool budPlayer::Give( const char* statname, const char* value, unsigned int giveFlags )
 {
 	int amount;
 	
@@ -4072,12 +4072,12 @@ bool idPlayer::Give( const char* statname, const char* value, unsigned int giveF
 
 /*
 ===============
-idPlayer::GiveHealthPool
+budPlayer::GiveHealthPool
 
 adds health to the player health pool
 ===============
 */
-void idPlayer::GiveHealthPool( float amt )
+void budPlayer::GiveHealthPool( float amt )
 {
 
 	if( AI_DEAD )
@@ -4098,12 +4098,12 @@ void idPlayer::GiveHealthPool( float amt )
 
 /*
 ===============
-idPlayer::GiveItem
+budPlayer::GiveItem
 
 Returns false if the item shouldn't be picked up
 ===============
 */
-bool idPlayer::GiveItem( idItem* item, unsigned int giveFlags )
+bool budPlayer::GiveItem( idItem* item, unsigned int giveFlags )
 {
 	int					i;
 	const idKeyValue*	arg;
@@ -4163,10 +4163,10 @@ bool idPlayer::GiveItem( idItem* item, unsigned int giveFlags )
 
 /*
 ===============
-idPlayer::PowerUpModifier
+budPlayer::PowerUpModifier
 ===============
 */
-float idPlayer::PowerUpModifier( int type )
+float budPlayer::PowerUpModifier( int type )
 {
 	float mod = 1.0f;
 	
@@ -4226,20 +4226,20 @@ float idPlayer::PowerUpModifier( int type )
 
 /*
 ===============
-idPlayer::PowerUpActive
+budPlayer::PowerUpActive
 ===============
 */
-bool idPlayer::PowerUpActive( int powerup ) const
+bool budPlayer::PowerUpActive( int powerup ) const
 {
 	return ( inventory.powerups & ( 1 << powerup ) ) != 0;
 }
 
 /*
 ===============
-idPlayer::GivePowerUp
+budPlayer::GivePowerUp
 ===============
 */
-bool idPlayer::GivePowerUp( int powerup, int time, unsigned int giveFlags )
+bool budPlayer::GivePowerUp( int powerup, int time, unsigned int giveFlags )
 {
 	const char* sound;
 	
@@ -4437,10 +4437,10 @@ bool idPlayer::GivePowerUp( int powerup, int time, unsigned int giveFlags )
 
 /*
 ==============
-idPlayer::ClearPowerup
+budPlayer::ClearPowerup
 ==============
 */
-void idPlayer::ClearPowerup( int i )
+void budPlayer::ClearPowerup( int i )
 {
 
 	if( common->IsServer() )
@@ -4525,10 +4525,10 @@ void idPlayer::ClearPowerup( int i )
 
 /*
 ==============
-idPlayer::UpdatePowerUps
+budPlayer::UpdatePowerUps
 ==============
 */
-void idPlayer::UpdatePowerUps()
+void budPlayer::UpdatePowerUps()
 {
 	int i;
 	
@@ -4633,10 +4633,10 @@ void idPlayer::UpdatePowerUps()
 
 /*
 ===============
-idPlayer::ClearPowerUps
+budPlayer::ClearPowerUps
 ===============
 */
-void idPlayer::ClearPowerUps()
+void budPlayer::ClearPowerUps()
 {
 	int i;
 	for( i = 0; i < MAX_POWERUPS; i++ )
@@ -4659,10 +4659,10 @@ void idPlayer::ClearPowerUps()
 
 /*
 ===============
-idPlayer::GiveInventoryItem
+budPlayer::GiveInventoryItem
 ===============
 */
-bool idPlayer::GiveInventoryItem( idDict* item, unsigned int giveFlags )
+bool budPlayer::GiveInventoryItem( idDict* item, unsigned int giveFlags )
 {
 	if( common->IsMultiplayer() && spectating )
 	{
@@ -4715,10 +4715,10 @@ bool idPlayer::GiveInventoryItem( idDict* item, unsigned int giveFlags )
 
 /*
 ==============
-idPlayer::GiveInventoryItem
+budPlayer::GiveInventoryItem
 ==============
 */
-bool idPlayer::GiveInventoryItem( const char* name )
+bool budPlayer::GiveInventoryItem( const char* name )
 {
 	idDict args;
 	
@@ -4730,10 +4730,10 @@ bool idPlayer::GiveInventoryItem( const char* name )
 
 /*
 ===============
-idPlayer::GiveObjective
+budPlayer::GiveObjective
 ===============
 */
-void idPlayer::GiveObjective( const char* title, const char* text, const budMaterial* screenshot )
+void budPlayer::GiveObjective( const char* title, const char* text, const budMaterial* screenshot )
 {
 	idObjectiveInfo& info = inventory.objectiveNames.Alloc();
 	info.title = title;
@@ -4752,10 +4752,10 @@ void idPlayer::GiveObjective( const char* title, const char* text, const budMate
 
 /*
 ===============
-idPlayer::CompleteObjective
+budPlayer::CompleteObjective
 ===============
 */
-void idPlayer::CompleteObjective( const char* title )
+void budPlayer::CompleteObjective( const char* title )
 {
 	int c = inventory.objectiveNames.Num();
 	for( int i = 0;  i < c; i++ )
@@ -4778,10 +4778,10 @@ void idPlayer::CompleteObjective( const char* title )
 
 /*
 ===============
-idPlayer::GiveVideo
+budPlayer::GiveVideo
 ===============
 */
-void idPlayer::GiveVideo( const budDeclVideo* video, const char* itemName )
+void budPlayer::GiveVideo( const budDeclVideo* video, const char* itemName )
 {
 
 	if( video == NULL )
@@ -4810,10 +4810,10 @@ void idPlayer::GiveVideo( const budDeclVideo* video, const char* itemName )
 
 /*
 ===============
-idPlayer::GiveSecurity
+budPlayer::GiveSecurity
 ===============
 */
-void idPlayer::GiveSecurity( const char* security )
+void budPlayer::GiveSecurity( const char* security )
 {
 	GetPDA()->SetSecurity( security );
 	
@@ -4825,10 +4825,10 @@ void idPlayer::GiveSecurity( const char* security )
 
 /*
 ===============
-idPlayer::GiveEmail
+budPlayer::GiveEmail
 ===============
 */
-void idPlayer::GiveEmail( const budDeclEmail* email )
+void budPlayer::GiveEmail( const budDeclEmail* email )
 {
 	if( email == NULL )
 	{
@@ -4846,10 +4846,10 @@ void idPlayer::GiveEmail( const budDeclEmail* email )
 
 /*
 ===============
-idPlayer::GivePDA
+budPlayer::GivePDA
 ===============
 */
-void idPlayer::GivePDA( const budDeclPDA* pda, const char* securityItem )
+void budPlayer::GivePDA( const budDeclPDA* pda, const char* securityItem )
 {
 	if( common->IsMultiplayer() && spectating )
 	{
@@ -4928,10 +4928,10 @@ void idPlayer::GivePDA( const budDeclPDA* pda, const char* securityItem )
 
 /*
 ===============
-idPlayer::FindInventoryItem
+budPlayer::FindInventoryItem
 ===============
 */
-idDict* idPlayer::FindInventoryItem( const char* name )
+idDict* budPlayer::FindInventoryItem( const char* name )
 {
 	for( int i = 0; i < inventory.items.Num(); i++ )
 	{
@@ -4949,10 +4949,10 @@ idDict* idPlayer::FindInventoryItem( const char* name )
 
 /*
 ===============
-idPlayer::FindInventoryItem
+budPlayer::FindInventoryItem
 ===============
 */
-idDict* idPlayer::FindInventoryItem( int index )
+idDict* budPlayer::FindInventoryItem( int index )
 {
 	if( index <= inventory.items.Num() )
 	{
@@ -4963,20 +4963,20 @@ idDict* idPlayer::FindInventoryItem( int index )
 
 /*
 ===============
-idPlayer::GetNumInventoryItems
+budPlayer::GetNumInventoryItems
 ===============
 */
-int idPlayer::GetNumInventoryItems()
+int budPlayer::GetNumInventoryItems()
 {
 	return inventory.items.Num();
 }
 
 /*
 ===============
-idPlayer::RemoveInventoryItem
+budPlayer::RemoveInventoryItem
 ===============
 */
-void idPlayer::RemoveInventoryItem( const char* name )
+void budPlayer::RemoveInventoryItem( const char* name )
 {
 	//Hack for localization
 	if( !budStr::Icmp( name, "Pwr Cell" ) )
@@ -4992,10 +4992,10 @@ void idPlayer::RemoveInventoryItem( const char* name )
 
 /*
 ===============
-idPlayer::RemoveInventoryItem
+budPlayer::RemoveInventoryItem
 ===============
 */
-void idPlayer::RemoveInventoryItem( idDict* item )
+void budPlayer::RemoveInventoryItem( idDict* item )
 {
 	inventory.items.Remove( item );
 	
@@ -5019,10 +5019,10 @@ void idPlayer::RemoveInventoryItem( idDict* item )
 
 /*
 ===============
-idPlayer::GiveItem
+budPlayer::GiveItem
 ===============
 */
-void idPlayer::GiveItem( const char* itemname )
+void budPlayer::GiveItem( const char* itemname )
 {
 	idDict args;
 	
@@ -5033,10 +5033,10 @@ void idPlayer::GiveItem( const char* itemname )
 
 /*
 ==================
-idPlayer::SlotForWeapon
+budPlayer::SlotForWeapon
 ==================
 */
-int idPlayer::SlotForWeapon( const char* weaponName )
+int budPlayer::SlotForWeapon( const char* weaponName )
 {
 	int i;
 	
@@ -5055,10 +5055,10 @@ int idPlayer::SlotForWeapon( const char* weaponName )
 
 /*
 ===============
-idPlayer::Reload
+budPlayer::Reload
 ===============
 */
-void idPlayer::Reload()
+void budPlayer::Reload()
 {
 	if( spectating || gameLocal.inCinematic || influenceActive )
 	{
@@ -5078,10 +5078,10 @@ void idPlayer::Reload()
 
 /*
 ===============
-idPlayer::NextBestWeapon
+budPlayer::NextBestWeapon
 ===============
 */
-void idPlayer::NextBestWeapon()
+void budPlayer::NextBestWeapon()
 {
 	const char* weap;
 	int w = MAX_WEAPONS;
@@ -5125,10 +5125,10 @@ void idPlayer::NextBestWeapon()
 
 /*
 ===============
-idPlayer::NextWeapon
+budPlayer::NextWeapon
 ===============
 */
-void idPlayer::NextWeapon()
+void budPlayer::NextWeapon()
 {
 
 	if( !weaponEnabled || spectating || hiddenWeapon || gameLocal.inCinematic || gameLocal.world->spawnArgs.GetBool( "no_Weapons" ) || health < 0 )
@@ -5185,10 +5185,10 @@ void idPlayer::NextWeapon()
 
 /*
 ===============
-idPlayer::PrevWeapon
+budPlayer::PrevWeapon
 ===============
 */
-void idPlayer::PrevWeapon()
+void budPlayer::PrevWeapon()
 {
 
 	if( !weaponEnabled || spectating || hiddenWeapon || gameLocal.inCinematic || gameLocal.world->spawnArgs.GetBool( "no_Weapons" ) || health < 0 )
@@ -5244,10 +5244,10 @@ void idPlayer::PrevWeapon()
 
 /*
 ===============
-idPlayer::SelectWeapon
+budPlayer::SelectWeapon
 ===============
 */
-void idPlayer::SelectWeapon( int num, bool force )
+void budPlayer::SelectWeapon( int num, bool force )
 {
 	const char* weap;
 	
@@ -5373,10 +5373,10 @@ void idPlayer::SelectWeapon( int num, bool force )
 
 /*
 =================
-idPlayer::DropWeapon
+budPlayer::DropWeapon
 =================
 */
-void idPlayer::DropWeapon( bool died )
+void budPlayer::DropWeapon( bool died )
 {
 	budVec3 forward, up;
 	int inclip, ammoavailable;
@@ -5417,7 +5417,7 @@ void idPlayer::DropWeapon( bool died )
 	
 	if( ( ammoavailable != -1 ) && ( ammoavailable < 0 ) )
 	{
-		common->DPrintf( "idPlayer::DropWeapon: bad ammo setup\n" );
+		common->DPrintf( "budPlayer::DropWeapon: bad ammo setup\n" );
 		return;
 	}
 	idEntity* item = NULL;
@@ -5458,11 +5458,11 @@ void idPlayer::DropWeapon( bool died )
 
 /*
 =================
-idPlayer::StealWeapon
+budPlayer::StealWeapon
 steal the target player's current weapon
 =================
 */
-void idPlayer::StealWeapon( idPlayer* player )
+void budPlayer::StealWeapon( budPlayer* player )
 {
 	assert( !common->IsClient() );
 	
@@ -5493,7 +5493,7 @@ void idPlayer::StealWeapon( idPlayer* player )
 	if( ( ammoavailable != -1 ) && ( ammoavailable < 0 ) )
 	{
 		// see DropWeapon
-		common->DPrintf( "idPlayer::StealWeapon: bad ammo setup\n" );
+		common->DPrintf( "budPlayer::StealWeapon: bad ammo setup\n" );
 		// we still steal the weapon, so let's use the default ammo levels
 		inclip = -1;
 		const budDeclEntityDef* decl = gameLocal.FindEntityDef( weapon_classname );
@@ -5520,10 +5520,10 @@ void idPlayer::StealWeapon( idPlayer* player )
 
 /*
 ===============
-idPlayer::ActiveGui
+budPlayer::ActiveGui
 ===============
 */
-budUserInterface* idPlayer::ActiveGui()
+budUserInterface* budPlayer::ActiveGui()
 {
 	if( objectiveSystemOpen )
 	{
@@ -5535,10 +5535,10 @@ budUserInterface* idPlayer::ActiveGui()
 
 /*
 ===============
-idPlayer::Weapon_Combat
+budPlayer::Weapon_Combat
 ===============
 */
-void idPlayer::Weapon_Combat()
+void budPlayer::Weapon_Combat()
 {
 	if( influenceActive || !weaponEnabled || gameLocal.inCinematic || privateCameraView )
 	{
@@ -5658,10 +5658,10 @@ void idPlayer::Weapon_Combat()
 
 /*
 ===============
-idPlayer::Weapon_NPC
+budPlayer::Weapon_NPC
 ===============
 */
-void idPlayer::Weapon_NPC()
+void budPlayer::Weapon_NPC()
 {
 	if( idealWeapon != currentWeapon )
 	{
@@ -5681,10 +5681,10 @@ void idPlayer::Weapon_NPC()
 
 /*
 ===============
-idPlayer::LowerWeapon
+budPlayer::LowerWeapon
 ===============
 */
-void idPlayer::LowerWeapon()
+void budPlayer::LowerWeapon()
 {
 	if( weapon.GetEntity() && !weapon.GetEntity()->IsHidden() )
 	{
@@ -5694,10 +5694,10 @@ void idPlayer::LowerWeapon()
 
 /*
 ===============
-idPlayer::RaiseWeapon
+budPlayer::RaiseWeapon
 ===============
 */
-void idPlayer::RaiseWeapon()
+void budPlayer::RaiseWeapon()
 {
 	if( weapon.GetEntity() && weapon.GetEntity()->IsHidden() )
 	{
@@ -5707,10 +5707,10 @@ void idPlayer::RaiseWeapon()
 
 /*
 ===============
-idPlayer::WeaponLoweringCallback
+budPlayer::WeaponLoweringCallback
 ===============
 */
-void idPlayer::WeaponLoweringCallback()
+void budPlayer::WeaponLoweringCallback()
 {
 	SetState( "LowerWeapon" );
 	UpdateScript();
@@ -5718,10 +5718,10 @@ void idPlayer::WeaponLoweringCallback()
 
 /*
 ===============
-idPlayer::WeaponRisingCallback
+budPlayer::WeaponRisingCallback
 ===============
 */
-void idPlayer::WeaponRisingCallback()
+void budPlayer::WeaponRisingCallback()
 {
 	SetState( "RaiseWeapon" );
 	UpdateScript();
@@ -5729,10 +5729,10 @@ void idPlayer::WeaponRisingCallback()
 
 /*
 ===============
-idPlayer::Weapon_GUI
+budPlayer::Weapon_GUI
 ===============
 */
-void idPlayer::Weapon_GUI()
+void budPlayer::Weapon_GUI()
 {
 
 	if( !objectiveSystemOpen )
@@ -5795,10 +5795,10 @@ void idPlayer::Weapon_GUI()
 
 /*
 ===============
-idPlayer::UpdateWeapon
+budPlayer::UpdateWeapon
 ===============
 */
-void idPlayer::UpdateWeapon()
+void budPlayer::UpdateWeapon()
 {
 	if( health <= 0 )
 	{
@@ -5876,10 +5876,10 @@ void idPlayer::UpdateWeapon()
 
 /*
 ===============
-idPlayer::UpdateFlashLight
+budPlayer::UpdateFlashLight
 ===============
 */
-void idPlayer::UpdateFlashlight()
+void budPlayer::UpdateFlashlight()
 {
 	if( idealWeapon == weapon_flashlight )
 	{
@@ -6002,10 +6002,10 @@ void idPlayer::UpdateFlashlight()
 
 /*
 ===============
-idPlayer::FlashlightOn
+budPlayer::FlashlightOn
 ===============
 */
-void idPlayer::FlashlightOn()
+void budPlayer::FlashlightOn()
 {
 	if( !flashlight.IsValid() )
 	{
@@ -6037,10 +6037,10 @@ void idPlayer::FlashlightOn()
 
 /*
 ===============
-idPlayer::FlashlightOff
+budPlayer::FlashlightOff
 ===============
 */
-void idPlayer::FlashlightOff()
+void budPlayer::FlashlightOff()
 {
 	if( !flashlight.IsValid() )
 	{
@@ -6055,12 +6055,12 @@ void idPlayer::FlashlightOff()
 
 /*
 ===============
-idPlayer::SpectateFreeFly
+budPlayer::SpectateFreeFly
 ===============
 */
-void idPlayer::SpectateFreeFly( bool force )
+void budPlayer::SpectateFreeFly( bool force )
 {
-	idPlayer*	player;
+	budPlayer*	player;
 	budVec3		newOrig;
 	budVec3		spawn_origin;
 	budAngles	spawn_angles;
@@ -6121,7 +6121,7 @@ void idPlayer::SpectateFreeFly( bool force )
 						msg.WriteFloat( viewAngles[1] );
 						msg.WriteFloat( viewAngles[2] );
 						
-						ServerSendEvent( idPlayer::EVENT_FORCE_ORIGIN, &msg, false );
+						ServerSendEvent( budPlayer::EVENT_FORCE_ORIGIN, &msg, false );
 					}
 				}
 			}
@@ -6134,12 +6134,12 @@ void idPlayer::SpectateFreeFly( bool force )
 
 /*
 ===============
-idPlayer::SpectateCycle
+budPlayer::SpectateCycle
 ===============
 */
-void idPlayer::SpectateCycle()
+void budPlayer::SpectateCycle()
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	if( gameLocal.time > lastSpectateChange )
 	{
@@ -6159,15 +6159,15 @@ void idPlayer::SpectateCycle()
 
 /*
 ===============
-idPlayer::UpdateSpectating
+budPlayer::UpdateSpectating
 ===============
 */
-void idPlayer::UpdateSpectating()
+void budPlayer::UpdateSpectating()
 {
 	assert( spectating );
 	assert( !common->IsClient() );
 	assert( IsHidden() );
-	idPlayer* player;
+	budPlayer* player;
 	if( !common->IsMultiplayer() )
 	{
 		return;
@@ -6193,10 +6193,10 @@ void idPlayer::UpdateSpectating()
 
 /*
 ===============
-idPlayer::HandleSingleGuiCommand
+budPlayer::HandleSingleGuiCommand
 ===============
 */
-bool idPlayer::HandleSingleGuiCommand( idEntity* entityGui, budLexer* src )
+bool budPlayer::HandleSingleGuiCommand( idEntity* entityGui, budLexer* src )
 {
 	budToken token;
 	
@@ -6236,10 +6236,10 @@ bool idPlayer::HandleSingleGuiCommand( idEntity* entityGui, budLexer* src )
 
 /*
 ==============
-idPlayer::PlayAudioLog
+budPlayer::PlayAudioLog
 ==============
 */
-void idPlayer::PlayAudioLog( const idSoundShader* shader )
+void budPlayer::PlayAudioLog( const idSoundShader* shader )
 {
 	EndVideoDisk();
 	if( name.Length() > 0 )
@@ -6253,20 +6253,20 @@ void idPlayer::PlayAudioLog( const idSoundShader* shader )
 
 /*
 ==============
-idPlayer::EndAudioLog
+budPlayer::EndAudioLog
 ==============
 */
-void idPlayer::EndAudioLog()
+void budPlayer::EndAudioLog()
 {
 	StopSound( SND_CHANNEL_PDA_AUDIO, false );
 }
 
 /*
 ==============
-idPlayer::PlayVideoDisk
+budPlayer::PlayVideoDisk
 ==============
 */
-void idPlayer::PlayVideoDisk( const budDeclVideo* decl )
+void budPlayer::PlayVideoDisk( const budDeclVideo* decl )
 {
 	EndAudioLog();
 	pdaVideoMat = decl->GetRoq();
@@ -6290,10 +6290,10 @@ void idPlayer::PlayVideoDisk( const budDeclVideo* decl )
 
 /*
 ==============
-idPlayer::EndVideoDisk
+budPlayer::EndVideoDisk
 ==============
 */
-void idPlayer::EndVideoDisk()
+void budPlayer::EndVideoDisk()
 {
 	pdaVideoMat = NULL;
 	StopSound( SND_CHANNEL_PDA_VIDEO, false );
@@ -6301,10 +6301,10 @@ void idPlayer::EndVideoDisk()
 
 /*
 ==============
-idPlayer::Collide
+budPlayer::Collide
 ==============
 */
-bool idPlayer::Collide( const trace_t& collision, const budVec3& velocity )
+bool budPlayer::Collide( const trace_t& collision, const budVec3& velocity )
 {
 	idEntity* other;
 	
@@ -6338,12 +6338,12 @@ bool idPlayer::Collide( const trace_t& collision, const budVec3& velocity )
 
 /*
 ================
-idPlayer::UpdateLocation
+budPlayer::UpdateLocation
 
 Searches nearby locations
 ================
 */
-void idPlayer::UpdateLocation()
+void budPlayer::UpdateLocation()
 {
 
 	if( hud )
@@ -6354,12 +6354,12 @@ void idPlayer::UpdateLocation()
 
 /*
 ================
-idPlayer::ClearFocus
+budPlayer::ClearFocus
 
 Clears the focus cursor
 ================
 */
-void idPlayer::ClearFocus()
+void budPlayer::ClearFocus()
 {
 	focusCharacter	= NULL;
 	focusGUIent		= NULL;
@@ -6370,13 +6370,13 @@ void idPlayer::ClearFocus()
 
 /*
 ================
-idPlayer::UpdateFocus
+budPlayer::UpdateFocus
 
 Searches nearby entities for interactive guis, possibly making one of them
 the focus and sending it a mouse move event
 ================
 */
-void idPlayer::UpdateFocus()
+void budPlayer::UpdateFocus()
 {
 	budClipModel* clipModelList[ MAX_GENTITIES ];
 	budClipModel* clip;
@@ -6674,12 +6674,12 @@ void idPlayer::UpdateFocus()
 
 /*
 =================
-idPlayer::CrashLand
+budPlayer::CrashLand
 
 Check for hard landings that generate sound events
 =================
 */
-void idPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity )
+void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity )
 {
 	budVec3		origin, velocity;
 	budVec3		gravityVector, gravityNormal;
@@ -6828,10 +6828,10 @@ void idPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity )
 
 /*
 ===============
-idPlayer::BobCycle
+budPlayer::BobCycle
 ===============
 */
-void idPlayer::BobCycle( const budVec3& pushVelocity )
+void budPlayer::BobCycle( const budVec3& pushVelocity )
 {
 	float		bobmove;
 	int			old, deltaTime;
@@ -6985,10 +6985,10 @@ void idPlayer::BobCycle( const budVec3& pushVelocity )
 
 /*
 ================
-idPlayer::UpdateDeltaViewAngles
+budPlayer::UpdateDeltaViewAngles
 ================
 */
-void idPlayer::UpdateDeltaViewAngles( const budAngles& angles )
+void budPlayer::UpdateDeltaViewAngles( const budAngles& angles )
 {
 	// set the delta angle
 	budAngles delta;
@@ -7001,10 +7001,10 @@ void idPlayer::UpdateDeltaViewAngles( const budAngles& angles )
 
 /*
 ================
-idPlayer::SetViewAngles
+budPlayer::SetViewAngles
 ================
 */
-void idPlayer::SetViewAngles( const budAngles& angles )
+void budPlayer::SetViewAngles( const budAngles& angles )
 {
 	UpdateDeltaViewAngles( angles );
 	viewAngles = angles;
@@ -7012,10 +7012,10 @@ void idPlayer::SetViewAngles( const budAngles& angles )
 
 /*
 ================
-idPlayer::UpdateViewAngles
+budPlayer::UpdateViewAngles
 ================
 */
-void idPlayer::UpdateViewAngles()
+void budPlayer::UpdateViewAngles()
 {
 	int i;
 	budAngles delta;
@@ -7122,7 +7122,7 @@ void idPlayer::UpdateViewAngles()
 
 /*
 ==============
-idPlayer::AdjustHeartRate
+budPlayer::AdjustHeartRate
 
 Player heartrate works as follows
 
@@ -7149,7 +7149,7 @@ Exception to the above rule is once the player is dead, the dying heart rate sta
 it is audible or -10db and scales to 8db on the last few beats
 ==============
 */
-void idPlayer::AdjustHeartRate( int target, float timeInSecs, float delay, bool force )
+void budPlayer::AdjustHeartRate( int target, float timeInSecs, float delay, bool force )
 {
 
 	if( heartInfo.GetEndValue() == target )
@@ -7169,10 +7169,10 @@ void idPlayer::AdjustHeartRate( int target, float timeInSecs, float delay, bool 
 
 /*
 ==============
-idPlayer::GetBaseHeartRate
+budPlayer::GetBaseHeartRate
 ==============
 */
-int idPlayer::GetBaseHeartRate()
+int budPlayer::GetBaseHeartRate()
 {
 	int base = budMath::Ftoi( ( BASE_HEARTRATE + LOWHEALTH_HEARTRATE_ADJ ) - ( ( float )health / 100.0f ) * LOWHEALTH_HEARTRATE_ADJ );
 	int rate = budMath::Ftoi( base + ( ZEROSTAMINA_HEARTRATE - base ) * ( 1.0f - stamina / pm_stamina.GetFloat() ) );
@@ -7183,10 +7183,10 @@ int idPlayer::GetBaseHeartRate()
 
 /*
 ==============
-idPlayer::SetCurrentHeartRate
+budPlayer::SetCurrentHeartRate
 ==============
 */
-void idPlayer::SetCurrentHeartRate()
+void budPlayer::SetCurrentHeartRate()
 {
 
 	int base = budMath::Ftoi( ( BASE_HEARTRATE + LOWHEALTH_HEARTRATE_ADJ ) - ( ( float ) health / 100.0f ) * LOWHEALTH_HEARTRATE_ADJ );
@@ -7249,10 +7249,10 @@ void idPlayer::SetCurrentHeartRate()
 
 /*
 ==============
-idPlayer::UpdateAir
+budPlayer::UpdateAir
 ==============
 */
-void idPlayer::UpdateAir()
+void budPlayer::UpdateAir()
 {
 	if( health <= 0 )
 	{
@@ -7333,7 +7333,7 @@ void idPlayer::UpdateAir()
 	}
 }
 
-void idPlayer::UpdatePowerupHud()
+void budPlayer::UpdatePowerupHud()
 {
 
 	if( health <= 0 )
@@ -7382,10 +7382,10 @@ void idPlayer::UpdatePowerupHud()
 
 /*
 ==============
-idPlayer::GetPDA
+budPlayer::GetPDA
 ==============
  */
-const budDeclPDA* idPlayer::GetPDA() const
+const budDeclPDA* budPlayer::GetPDA() const
 {
 	if( inventory.pdas.Num() > 0 )
 	{
@@ -7400,10 +7400,10 @@ const budDeclPDA* idPlayer::GetPDA() const
 
 /*
 ==============
-idPlayer::GetVideo
+budPlayer::GetVideo
 ==============
 */
-const budDeclVideo* idPlayer::GetVideo( int index )
+const budDeclVideo* budPlayer::GetVideo( int index )
 {
 	if( index >= 0 && index < inventory.videos.Num() )
 	{
@@ -7414,10 +7414,10 @@ const budDeclVideo* idPlayer::GetVideo( int index )
 
 /*
 ==============
-idPlayer::TogglePDA
+budPlayer::TogglePDA
 ==============
 */
-void idPlayer::TogglePDA()
+void budPlayer::TogglePDA()
 {
 
 	if( inventory.pdas.Num() == 0 )
@@ -7443,10 +7443,10 @@ void idPlayer::TogglePDA()
 
 /*
 ==============
-idPlayer::Spectate
+budPlayer::Spectate
 ==============
 */
-void idPlayer::Spectate( bool spectate, bool force )
+void budPlayer::Spectate( bool spectate, bool force )
 {
 	spectating = spectate;
 	
@@ -7487,10 +7487,10 @@ void idPlayer::Spectate( bool spectate, bool force )
 
 /*
 ==============
-idPlayer::SetClipModel
+budPlayer::SetClipModel
 ==============
 */
-void idPlayer::SetClipModel()
+void budPlayer::SetClipModel()
 {
 	budBounds bounds;
 	
@@ -7522,10 +7522,10 @@ void idPlayer::SetClipModel()
 
 /*
 ==============
-idPlayer::UseVehicle
+budPlayer::UseVehicle
 ==============
 */
-void idPlayer::UseVehicle()
+void budPlayer::UseVehicle()
 {
 	trace_t	trace;
 	budVec3 start, end;
@@ -7555,10 +7555,10 @@ void idPlayer::UseVehicle()
 
 /*
 ==============
-idPlayer::PerformImpulse
+budPlayer::PerformImpulse
 ==============
 */
-void idPlayer::PerformImpulse( int impulse )
+void budPlayer::PerformImpulse( int impulse )
 {
 	bool isIntroMap = ( budStr::FindText( gameLocal.GetMapFileName(), "mars_city1" ) >= 0 );
 	
@@ -7707,10 +7707,10 @@ void idPlayer::PerformImpulse( int impulse )
 
 /*
 ==============
-idPlayer::EvaluateControls
+budPlayer::EvaluateControls
 ==============
 */
-void idPlayer::EvaluateControls()
+void budPlayer::EvaluateControls()
 {
 	// check for respawning
 	if( health <= 0 && !g_testDeath.GetBool() )
@@ -7757,10 +7757,10 @@ void idPlayer::EvaluateControls()
 
 /*
 ==============
-idPlayer::AdjustSpeed
+budPlayer::AdjustSpeed
 ==============
 */
-void idPlayer::AdjustSpeed()
+void budPlayer::AdjustSpeed()
 {
 	float speed;
 	float rate;
@@ -7830,10 +7830,10 @@ void idPlayer::AdjustSpeed()
 
 /*
 ==============
-idPlayer::AdjustBodyAngles
+budPlayer::AdjustBodyAngles
 ==============
 */
-void idPlayer::AdjustBodyAngles()
+void budPlayer::AdjustBodyAngles()
 {
 	budMat3	lookAxis;
 	budMat3	legsAxis;
@@ -7949,10 +7949,10 @@ void idPlayer::AdjustBodyAngles()
 
 /*
 ==============
-idPlayer::InitAASLocation
+budPlayer::InitAASLocation
 ==============
 */
-void idPlayer::InitAASLocation()
+void budPlayer::InitAASLocation()
 {
 	int		i;
 	int		num;
@@ -7985,10 +7985,10 @@ void idPlayer::InitAASLocation()
 
 /*
 ==============
-idPlayer::SetAASLocation
+budPlayer::SetAASLocation
 ==============
 */
-void idPlayer::SetAASLocation()
+void budPlayer::SetAASLocation()
 {
 	int		i;
 	int		areaNum;
@@ -8026,10 +8026,10 @@ void idPlayer::SetAASLocation()
 
 /*
 ==============
-idPlayer::GetAASLocation
+budPlayer::GetAASLocation
 ==============
 */
-void idPlayer::GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const
+void budPlayer::GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const
 {
 	int i;
 	
@@ -8052,10 +8052,10 @@ void idPlayer::GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const
 
 /*
 ==============
-idPlayer::Move_Interpolated
+budPlayer::Move_Interpolated
 ==============
 */
-void idPlayer::Move_Interpolated( float fraction )
+void budPlayer::Move_Interpolated( float fraction )
 {
 
 	float newEyeOffset;
@@ -8195,10 +8195,10 @@ void idPlayer::Move_Interpolated( float fraction )
 
 /*
 ==============
-idPlayer::Move
+budPlayer::Move
 ==============
 */
-void idPlayer::Move()
+void budPlayer::Move()
 {
 	float newEyeOffset;
 	budVec3 oldOrigin;
@@ -8370,10 +8370,10 @@ void idPlayer::Move()
 
 /*
 ========================
-idPlayer::AllowClientAuthPhysics
+budPlayer::AllowClientAuthPhysics
 ========================
 */
-bool idPlayer::AllowClientAuthPhysics()
+bool budPlayer::AllowClientAuthPhysics()
 {
 	// note respawn count > 1: respawn should be called twice - once for initial spawn and once for actual respawn by game mode
 	// TODO: I don't think doom 3 will need to care about the respawn count.
@@ -8382,10 +8382,10 @@ bool idPlayer::AllowClientAuthPhysics()
 
 /*
 ========================
-idPlayer::RunPhysics_RemoteClientCorrection
+budPlayer::RunPhysics_RemoteClientCorrection
 ========================
 */
-void idPlayer::RunPhysics_RemoteClientCorrection()
+void budPlayer::RunPhysics_RemoteClientCorrection()
 {
 
 	if( !AllowClientAuthPhysics() )
@@ -8494,13 +8494,13 @@ void idPlayer::RunPhysics_RemoteClientCorrection()
 
 /*
 ========================
-idPlayer::GetPhysicsTimeStep
+budPlayer::GetPhysicsTimeStep
 
 Uses the time from the usercmd in case the server is running at a slower engineHz
 than the client.
 ========================
 */
-int idPlayer::GetPhysicsTimeStep() const
+int budPlayer::GetPhysicsTimeStep() const
 {
 	// if the ucDeltaMillisecond value looks wrong, use the game delta milliseconds
 	// This can happen if the user brings up the pause menu in SP
@@ -8517,13 +8517,13 @@ int idPlayer::GetPhysicsTimeStep() const
 
 /*
 ==============
-idPlayer::ShowRespawnHudMessage
+budPlayer::ShowRespawnHudMessage
 
 Called once when the minimum respawn time has passed after a player has died
 so that we can display a message to the user.
 ==============
 */
-void idPlayer::ShowRespawnHudMessage()
+void budPlayer::ShowRespawnHudMessage()
 {
 	if( IsLocallyControlled() )
 	{
@@ -8543,13 +8543,13 @@ void idPlayer::ShowRespawnHudMessage()
 
 /*
 ==============
-idPlayer::HideRespawnHudMessage
+budPlayer::HideRespawnHudMessage
 
 Called once when we should remove the respawn message from the hud,
 for example, when a player does respawn.
 ==============
 */
-void idPlayer::HideRespawnHudMessage()
+void budPlayer::HideRespawnHudMessage()
 {
 	if( IsLocallyControlled() )
 	{
@@ -8559,12 +8559,12 @@ void idPlayer::HideRespawnHudMessage()
 
 /*
 ==============
-idPlayer::UpdateHud
+budPlayer::UpdateHud
 ==============
 */
-void idPlayer::UpdateHud()
+void budPlayer::UpdateHud()
 {
-	idPlayer* aimed;
+	budPlayer* aimed;
 	
 	if( !hud )
 	{
@@ -8617,10 +8617,10 @@ void idPlayer::UpdateHud()
 	if( gameLocal.realClientTime == lastMPAimTime )
 	{
 		if( MPAim != -1 && gameLocal.mpGame.IsGametypeTeamBased()  /* CTF */
-				&& gameLocal.entities[ MPAim ] && gameLocal.entities[ MPAim ]->IsType( idPlayer::Type )
-				&& static_cast< idPlayer* >( gameLocal.entities[ MPAim ] )->team == team )
+				&& gameLocal.entities[ MPAim ] && gameLocal.entities[ MPAim ]->IsType( budPlayer::Type )
+				&& static_cast< budPlayer* >( gameLocal.entities[ MPAim ] )->team == team )
 		{
-			aimed = static_cast< idPlayer* >( gameLocal.entities[ MPAim ] );
+			aimed = static_cast< budPlayer* >( gameLocal.entities[ MPAim ] );
 			
 			hud->TriggerHitTarget( true, session->GetActingGameStateLobbyBase().GetLobbyUserName( gameLocal.lobbyUserIDs[ MPAim ] ), aimed->team + 1 );
 			MPAimHighlight = true;
@@ -8660,10 +8660,10 @@ void idPlayer::UpdateHud()
 
 /*
 ==============
-idPlayer::UpdateDeathSkin
+budPlayer::UpdateDeathSkin
 ==============
 */
-void idPlayer::UpdateDeathSkin( bool state_hitch )
+void budPlayer::UpdateDeathSkin( bool state_hitch )
 {
 	if( !( common->IsMultiplayer() || g_testDeath.GetBool() ) )
 	{
@@ -8705,10 +8705,10 @@ void idPlayer::UpdateDeathSkin( bool state_hitch )
 
 /*
 ==============
-idPlayer::StartFxOnBone
+budPlayer::StartFxOnBone
 ==============
 */
-void idPlayer::StartFxOnBone( const char* fx, const char* bone )
+void budPlayer::StartFxOnBone( const char* fx, const char* bone )
 {
 	budVec3 offset;
 	budMat3 axis;
@@ -8731,10 +8731,10 @@ void idPlayer::StartFxOnBone( const char* fx, const char* bone )
 
 /*
 ==============
-idPlayer::HandleGuiEvents
+budPlayer::HandleGuiEvents
 ==============
 */
-bool idPlayer::HandleGuiEvents( const sysEvent_t* ev )
+bool budPlayer::HandleGuiEvents( const sysEvent_t* ev )
 {
 
 	bool handled = false;
@@ -8754,13 +8754,13 @@ bool idPlayer::HandleGuiEvents( const sysEvent_t* ev )
 
 /*
 ==============
-idPlayer::UpdateLaserSight
+budPlayer::UpdateLaserSight
 ==============
 */
 budCVar	g_laserSightWidth( "g_laserSightWidth", "2.0", CVAR_FLOAT | CVAR_ARCHIVE, "laser sight beam width" );
 budCVar	g_laserSightLength( "g_laserSightLength", "250", CVAR_FLOAT | CVAR_ARCHIVE, "laser sight beam length" );
 
-void idPlayer::UpdateLaserSight()
+void budPlayer::UpdateLaserSight()
 {
 	budVec3	muzzleOrigin;
 	budMat3	muzzleAxis;
@@ -8814,12 +8814,12 @@ void idPlayer::UpdateLaserSight()
 
 /*
 ==============
-idPlayer::Think
+budPlayer::Think
 
 Called every tic for each player
 ==============
 */
-void idPlayer::Think()
+void budPlayer::Think()
 {
 	playedTimeResidual += ( gameLocal.time - gameLocal.previousTime );
 	playedTimeSecs += playedTimeResidual / 1000;
@@ -9154,10 +9154,10 @@ void idPlayer::Think()
 
 /*
 =================
-idPlayer::StartHealthRecharge
+budPlayer::StartHealthRecharge
 =================
 */
-void idPlayer::StartHealthRecharge( int speed )
+void budPlayer::StartHealthRecharge( int speed )
 {
 	lastHealthRechargeTime = gameLocal.time;
 	healthRecharge = true;
@@ -9166,20 +9166,20 @@ void idPlayer::StartHealthRecharge( int speed )
 
 /*
 =================
-idPlayer::StopHealthRecharge
+budPlayer::StopHealthRecharge
 =================
 */
-void idPlayer::StopHealthRecharge()
+void budPlayer::StopHealthRecharge()
 {
 	healthRecharge = false;
 }
 
 /*
 =================
-idPlayer::GetCurrentWeapon
+budPlayer::GetCurrentWeapon
 =================
 */
-budStr idPlayer::GetCurrentWeapon()
+budStr budPlayer::GetCurrentWeapon()
 {
 	const char* weapon;
 	
@@ -9196,10 +9196,10 @@ budStr idPlayer::GetCurrentWeapon()
 
 /*
 =================
-idPlayer::CanGive
+budPlayer::CanGive
 =================
 */
-bool idPlayer::CanGive( const char* statname, const char* value )
+bool budPlayer::CanGive( const char* statname, const char* value )
 {
 	if( AI_DEAD )
 	{
@@ -9244,12 +9244,12 @@ bool idPlayer::CanGive( const char* statname, const char* value )
 
 /*
 =================
-idPlayer::StopHelltime
+budPlayer::StopHelltime
 
 provides a quick non-ramping way of stopping helltime
 =================
 */
-void idPlayer::StopHelltime( bool quick )
+void budPlayer::StopHelltime( bool quick )
 {
 	if( !PowerUpActive( HELLTIME ) )
 	{
@@ -9284,10 +9284,10 @@ void idPlayer::StopHelltime( bool quick )
 
 /*
 =================
-idPlayer::Event_ToggleBloom
+budPlayer::Event_ToggleBloom
 =================
 */
-void idPlayer::Event_ToggleBloom( int on )
+void budPlayer::Event_ToggleBloom( int on )
 {
 	if( on )
 	{
@@ -9301,10 +9301,10 @@ void idPlayer::Event_ToggleBloom( int on )
 
 /*
 =================
-idPlayer::Event_SetBloomParms
+budPlayer::Event_SetBloomParms
 =================
 */
-void idPlayer::Event_SetBloomParms( float speed, float intensity )
+void budPlayer::Event_SetBloomParms( float speed, float intensity )
 {
 	bloomSpeed = speed;
 	bloomIntensity = intensity;
@@ -9312,10 +9312,10 @@ void idPlayer::Event_SetBloomParms( float speed, float intensity )
 
 /*
 =================
-idPlayer::PlayHelltimeStopSound
+budPlayer::PlayHelltimeStopSound
 =================
 */
-void idPlayer::PlayHelltimeStopSound()
+void budPlayer::PlayHelltimeStopSound()
 {
 	const char* sound;
 	
@@ -9327,10 +9327,10 @@ void idPlayer::PlayHelltimeStopSound()
 
 /*
 =================
-idPlayer::RouteGuiMouse
+budPlayer::RouteGuiMouse
 =================
 */
-void idPlayer::RouteGuiMouse( budUserInterface* gui )
+void budPlayer::RouteGuiMouse( budUserInterface* gui )
 {
 	sysEvent_t ev;
 	const char* command;
@@ -9346,10 +9346,10 @@ void idPlayer::RouteGuiMouse( budUserInterface* gui )
 
 /*
 ==================
-idPlayer::LookAtKiller
+budPlayer::LookAtKiller
 ==================
 */
-void idPlayer::LookAtKiller( idEntity* inflictor, idEntity* attacker )
+void budPlayer::LookAtKiller( idEntity* inflictor, idEntity* attacker )
 {
 	budVec3 dir;
 	
@@ -9372,10 +9372,10 @@ void idPlayer::LookAtKiller( idEntity* inflictor, idEntity* attacker )
 
 /*
 ==============
-idPlayer::Kill
+budPlayer::Kill
 ==============
 */
-void idPlayer::Kill( bool delayRespawn, bool nodamage )
+void budPlayer::Kill( bool delayRespawn, bool nodamage )
 {
 	if( spectating )
 	{
@@ -9406,10 +9406,10 @@ void idPlayer::Kill( bool delayRespawn, bool nodamage )
 
 /*
 ==================
-idPlayer::Killed
+budPlayer::Killed
 ==================
 */
-void idPlayer::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void budPlayer::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
 {
 	float delay;
 	
@@ -9494,11 +9494,11 @@ void idPlayer::Killed( idEntity* inflictor, idEntity* attacker, int damage, cons
 	
 	if( common->IsMultiplayer() || g_testDeath.GetBool() )
 	{
-		idPlayer* killer = NULL;
+		budPlayer* killer = NULL;
 		// no gibbing in MP. Event_Gib will early out in MP
-		if( attacker->IsType( idPlayer::Type ) )
+		if( attacker->IsType( budPlayer::Type ) )
 		{
-			killer = static_cast<idPlayer*>( attacker );
+			killer = static_cast<budPlayer*>( attacker );
 			if( health < -20 || killer->PowerUpActive( BERSERK ) )
 			{
 				gibDeath = true;
@@ -9520,12 +9520,12 @@ void idPlayer::Killed( idEntity* inflictor, idEntity* attacker, int damage, cons
 
 /*
 =====================
-idPlayer::GetAIAimTargets
+budPlayer::GetAIAimTargets
 
 Returns positions for the AI to aim at.
 =====================
 */
-void idPlayer::GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, budVec3& chestPos )
+void budPlayer::GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, budVec3& chestPos )
 {
 	budVec3 offset;
 	budMat3 axis;
@@ -9542,12 +9542,12 @@ void idPlayer::GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, b
 
 /*
 ================
-idPlayer::DamageFeedback
+budPlayer::DamageFeedback
 
 callback function for when another entity received damage from this entity.  damage can be adjusted and returned to the caller.
 ================
 */
-void idPlayer::DamageFeedback( idEntity* victim, idEntity* inflictor, int& damage )
+void budPlayer::DamageFeedback( idEntity* victim, idEntity* inflictor, int& damage )
 {
 	// Since we're predicting projectiles on the client now, we might actually get here
 	// (used be an assert for clients).
@@ -9560,12 +9560,12 @@ void idPlayer::DamageFeedback( idEntity* victim, idEntity* inflictor, int& damag
 	if( damage && ( victim != this ) && ( victim->IsType( budActor::Type ) || victim->IsType( idDamagable::Type ) ) )
 	{
 	
-		idPlayer* victimPlayer = NULL;
+		budPlayer* victimPlayer = NULL;
 		
 		/* No damage feedback sound for hitting friendlies in CTF */
-		if( victim->IsType( idPlayer::Type ) )
+		if( victim->IsType( budPlayer::Type ) )
 		{
-			victimPlayer = static_cast<idPlayer*>( victim );
+			victimPlayer = static_cast<budPlayer*>( victim );
 		}
 		
 		if( gameLocal.mpGame.IsGametypeFlagBased() && victimPlayer && this->team == victimPlayer->team )
@@ -9581,14 +9581,14 @@ void idPlayer::DamageFeedback( idEntity* victim, idEntity* inflictor, int& damag
 
 /*
 =================
-idPlayer::CalcDamagePoints
+budPlayer::CalcDamagePoints
 
 Calculates how many health and armor points will be inflicted, but
 doesn't actually do anything with them.  This is used to tell when an attack
 would have killed the player, possibly allowing a "saving throw"
 =================
 */
-void idPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const idDict* damageDef,
+void budPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const idDict* damageDef,
 								 const float damageScale, const int location, int* health, int* armor )
 {
 	int		damage;
@@ -9597,7 +9597,7 @@ void idPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const 
 	damageDef->GetInt( "damage", "20", damage );
 	damage = GetDamageForLocation( damage, location );
 	
-	idPlayer* player = attacker->IsType( idPlayer::Type ) ? static_cast<idPlayer*>( attacker ) : NULL;
+	budPlayer* player = attacker->IsType( budPlayer::Type ) ? static_cast<budPlayer*>( attacker ) : NULL;
 	if( !common->IsMultiplayer() )
 	{
 		if( inflictor != gameLocal.world )
@@ -9706,10 +9706,10 @@ void idPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const 
 
 /*
 ============
-idPlayer::ControllerShakeFromDamage
+budPlayer::ControllerShakeFromDamage
 ============
 */
-void idPlayer::ControllerShakeFromDamage( int damage )
+void budPlayer::ControllerShakeFromDamage( int damage )
 {
 
 	// If the player is local. SHAkkkkkkeeee!
@@ -9738,7 +9738,7 @@ AdjustDamageAmount
 Modifies the previously calculated damage to adjust for more factors.
 ============
 */
-int idPlayer::AdjustDamageAmount( const int inputDamage )
+int budPlayer::AdjustDamageAmount( const int inputDamage )
 {
 	int outputDamage = inputDamage;
 	
@@ -9788,7 +9788,7 @@ sound effects happen elsewhere so that clients can get instant
 feedback and hide lag.
 ============
 */
-void idPlayer::ServerDealDamage( int damage, idEntity& inflictor, idEntity& attacker, const budVec3& dir, const char* damageDefName, const int location )
+void budPlayer::ServerDealDamage( int damage, idEntity& inflictor, idEntity& attacker, const budVec3& dir, const char* damageDefName, const int location )
 {
 	assert( !common->IsClient() );
 	
@@ -9835,7 +9835,7 @@ void idPlayer::ServerDealDamage( int damage, idEntity& inflictor, idEntity& atta
 			// HACK - A - LICIOUS - Check to see if we are being damaged by the frag chamber.
 			if( oldHealth > 0 && strcmp( gameLocal.GetMapName(), "maps/game/mp/d3dm3.map" ) == 0 && strcmp( damageDefName, "damage_triggerhurt_1000_chamber" ) == 0 )
 			{
-				idPlayer* fragChamberActivator = gameLocal.playerActivateFragChamber;
+				budPlayer* fragChamberActivator = gameLocal.playerActivateFragChamber;
 				if( fragChamberActivator != NULL )
 				{
 					fragChamberActivator->GetAchievementManager().EventCompletesAchievement( ACHIEVEMENT_MP_CATCH_ENEMY_IN_ROFC );
@@ -9886,7 +9886,7 @@ damageDef	an idDict with all the options for damage effects
 inflictor, attacker, dir, and point can be NULL for environmental effects
 ============
 */
-void idPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+void budPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
 					   const char* damageDefName, const float damageScale, const int location )
 {
 	budVec3		kick;
@@ -9969,7 +9969,7 @@ void idPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 			msg.WriteFloat( physicsObj.GetLinearVelocity()[1] );
 			msg.WriteFloat( physicsObj.GetLinearVelocity()[2] );
 			msg.WriteByte( budMath::ClampInt( 50, 200, knockback * 2 ) );
-			ServerSendEvent( idPlayer::EVENT_KNOCKBACK, &msg, false );
+			ServerSendEvent( budPlayer::EVENT_KNOCKBACK, &msg, false );
 		}
 	}
 	
@@ -10067,10 +10067,10 @@ void idPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 
 /*
 ===========
-idPlayer::Teleport
+budPlayer::Teleport
 ============
 */
-void idPlayer::Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination )
+void budPlayer::Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination )
 {
 	budVec3 org;
 	
@@ -10127,10 +10127,10 @@ void idPlayer::Teleport( const budVec3& origin, const budAngles& angles, idEntit
 
 /*
 ====================
-idPlayer::SetPrivateCameraView
+budPlayer::SetPrivateCameraView
 ====================
 */
-void idPlayer::SetPrivateCameraView( idCamera* camView )
+void budPlayer::SetPrivateCameraView( idCamera* camView )
 {
 	privateCameraView = camView;
 	if( camView )
@@ -10149,12 +10149,12 @@ void idPlayer::SetPrivateCameraView( idCamera* camView )
 
 /*
 ====================
-idPlayer::DefaultFov
+budPlayer::DefaultFov
 
 Returns the base FOV
 ====================
 */
-float idPlayer::DefaultFov() const
+float budPlayer::DefaultFov() const
 {
 	float fov;
 	
@@ -10176,12 +10176,12 @@ float idPlayer::DefaultFov() const
 
 /*
 ====================
-idPlayer::CalcFov
+budPlayer::CalcFov
 
 Fixed fov at intermissions, otherwise account for fov variable and zooms.
 ====================
 */
-float idPlayer::CalcFov( bool honorZoom )
+float budPlayer::CalcFov( bool honorZoom )
 {
 	float fov;
 	
@@ -10219,13 +10219,13 @@ float idPlayer::CalcFov( bool honorZoom )
 
 /*
 ==============
-idPlayer::GunTurningOffset
+budPlayer::GunTurningOffset
 
 generate a rotational offset for the gun based on the view angle
 history in loggedViewAngles
 ==============
 */
-budAngles idPlayer::GunTurningOffset()
+budAngles budPlayer::GunTurningOffset()
 {
 	budAngles	a;
 	
@@ -10284,13 +10284,13 @@ budAngles idPlayer::GunTurningOffset()
 
 /*
 ==============
-idPlayer::GunAcceleratingOffset
+budPlayer::GunAcceleratingOffset
 
 generate a positional offset for the gun based on the movement
 history in loggedAccelerations
 ==============
 */
-budVec3	idPlayer::GunAcceleratingOffset()
+budVec3	budPlayer::GunAcceleratingOffset()
 {
 	budVec3	ofs;
 	
@@ -10326,12 +10326,12 @@ budVec3	idPlayer::GunAcceleratingOffset()
 
 /*
 ==============
-idPlayer::CalculateViewWeaponPos
+budPlayer::CalculateViewWeaponPos
 
 Calculate the bobbing position of the view weapon
 ==============
 */
-void idPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
+void budPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
 {
 	float		scale;
 	float		fracsin;
@@ -10407,10 +10407,10 @@ void idPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
 
 /*
 ===============
-idPlayer::OffsetThirdPersonView
+budPlayer::OffsetThirdPersonView
 ===============
 */
-void idPlayer::OffsetThirdPersonView( float angle, float range, float height, bool clip )
+void budPlayer::OffsetThirdPersonView( float angle, float range, float height, bool clip )
 {
 	budVec3			view;
 	budVec3			focusAngles;
@@ -10484,10 +10484,10 @@ void idPlayer::OffsetThirdPersonView( float angle, float range, float height, bo
 
 /*
 ===============
-idPlayer::GetEyePosition
+budPlayer::GetEyePosition
 ===============
 */
-budVec3 idPlayer::GetEyePosition() const
+budVec3 budPlayer::GetEyePosition() const
 {
 	budVec3 org;
 	
@@ -10505,10 +10505,10 @@ budVec3 idPlayer::GetEyePosition() const
 
 /*
 ===============
-idPlayer::GetViewPos
+budPlayer::GetViewPos
 ===============
 */
-void idPlayer::GetViewPos( budVec3& origin, budMat3& axis ) const
+void budPlayer::GetViewPos( budVec3& origin, budMat3& axis ) const
 {
 	budAngles angles;
 	
@@ -10539,10 +10539,10 @@ void idPlayer::GetViewPos( budVec3& origin, budMat3& axis ) const
 
 /*
 ===============
-idPlayer::CalculateFirstPersonView
+budPlayer::CalculateFirstPersonView
 ===============
 */
-void idPlayer::CalculateFirstPersonView()
+void budPlayer::CalculateFirstPersonView()
 {
 	if( ( pm_modelView.GetInteger() == 1 ) || ( ( pm_modelView.GetInteger() == 2 ) && ( health <= 0 ) ) )
 	{
@@ -10573,24 +10573,24 @@ void idPlayer::CalculateFirstPersonView()
 
 /*
 ==================
-idPlayer::GetRenderView
+budPlayer::GetRenderView
 
 Returns the renderView that was calculated for this tic
 ==================
 */
-renderView_t* idPlayer::GetRenderView()
+renderView_t* budPlayer::GetRenderView()
 {
 	return renderView;
 }
 
 /*
 ==================
-idPlayer::CalculateRenderView
+budPlayer::CalculateRenderView
 
 create the renderView for the current tic
 ==================
 */
-void idPlayer::CalculateRenderView()
+void budPlayer::CalculateRenderView()
 {
 	int i;
 	float range;
@@ -10675,10 +10675,10 @@ void idPlayer::CalculateRenderView()
 
 /*
 =============
-idPlayer::AddAIKill
+budPlayer::AddAIKill
 =============
 */
-void idPlayer::AddAIKill()
+void budPlayer::AddAIKill()
 {
 	int max_souls;
 	int ammo_souls;
@@ -10708,42 +10708,42 @@ void idPlayer::AddAIKill()
 
 /*
 =============
-idPlayer::SetSoulCubeProjectile
+budPlayer::SetSoulCubeProjectile
 =============
 */
-void idPlayer::SetSoulCubeProjectile( idProjectile* projectile )
+void budPlayer::SetSoulCubeProjectile( idProjectile* projectile )
 {
 	soulCubeProjectile = projectile;
 }
 
 /*
 =============
-idPlayer::AddProjectilesFired
+budPlayer::AddProjectilesFired
 =============
 */
-void idPlayer::AddProjectilesFired( int count )
+void budPlayer::AddProjectilesFired( int count )
 {
 	numProjectilesFired += count;
 }
 
 /*
 =============
-idPlayer::AddProjectileHites
+budPlayer::AddProjectileHites
 =============
 */
-void idPlayer::AddProjectileHits( int count )
+void budPlayer::AddProjectileHits( int count )
 {
 	numProjectileHits += count;
 }
 
 /*
 =============
-idPlayer::SetLastHitTime
+budPlayer::SetLastHitTime
 =============
 */
-void idPlayer::SetLastHitTime( int time )
+void budPlayer::SetLastHitTime( int time )
 {
-	idPlayer* aimed = NULL;
+	budPlayer* aimed = NULL;
 	
 	if( time && lastHitTime != time )
 	{
@@ -10768,9 +10768,9 @@ void idPlayer::SetLastHitTime( int time )
 	
 	if( MPAim != -1 )
 	{
-		if( gameLocal.entities[ MPAim ] && gameLocal.entities[ MPAim ]->IsType( idPlayer::Type ) )
+		if( gameLocal.entities[ MPAim ] && gameLocal.entities[ MPAim ]->IsType( budPlayer::Type ) )
 		{
-			aimed = static_cast< idPlayer* >( gameLocal.entities[ MPAim ] );
+			aimed = static_cast< budPlayer* >( gameLocal.entities[ MPAim ] );
 		}
 		assert( aimed );
 		// full highlight, no fade till loosing aim
@@ -10789,9 +10789,9 @@ void idPlayer::SetLastHitTime( int time )
 	}
 	else if( lastMPAim != -1 )
 	{
-		if( gameLocal.entities[ lastMPAim ] && gameLocal.entities[ lastMPAim ]->IsType( idPlayer::Type ) )
+		if( gameLocal.entities[ lastMPAim ] && gameLocal.entities[ lastMPAim ]->IsType( budPlayer::Type ) )
 		{
-			aimed = static_cast< idPlayer* >( gameLocal.entities[ lastMPAim ] );
+			aimed = static_cast< budPlayer* >( gameLocal.entities[ lastMPAim ] );
 		}
 		assert( aimed );
 		// start fading right away
@@ -10812,10 +10812,10 @@ void idPlayer::SetLastHitTime( int time )
 
 /*
 =============
-idPlayer::SetInfluenceLevel
+budPlayer::SetInfluenceLevel
 =============
 */
-void idPlayer::SetInfluenceLevel( int level )
+void budPlayer::SetInfluenceLevel( int level )
 {
 	if( level != influenceActive )
 	{
@@ -10848,10 +10848,10 @@ void idPlayer::SetInfluenceLevel( int level )
 
 /*
 =============
-idPlayer::SetInfluenceView
+budPlayer::SetInfluenceView
 =============
 */
-void idPlayer::SetInfluenceView( const char* mtr, const char* skinname, float radius, idEntity* ent )
+void budPlayer::SetInfluenceView( const char* mtr, const char* skinname, float radius, idEntity* ent )
 {
 	influenceMaterial = NULL;
 	influenceEntity = NULL;
@@ -10878,40 +10878,40 @@ void idPlayer::SetInfluenceView( const char* mtr, const char* skinname, float ra
 
 /*
 =============
-idPlayer::SetInfluenceFov
+budPlayer::SetInfluenceFov
 =============
 */
-void idPlayer::SetInfluenceFov( float fov )
+void budPlayer::SetInfluenceFov( float fov )
 {
 	influenceFov = fov;
 }
 
 /*
 ================
-idPlayer::OnLadder
+budPlayer::OnLadder
 ================
 */
-bool idPlayer::OnLadder() const
+bool budPlayer::OnLadder() const
 {
 	return physicsObj.OnLadder();
 }
 
 /*
 ==================
-idPlayer::Event_GetButtons
+budPlayer::Event_GetButtons
 ==================
 */
-void idPlayer::Event_GetButtons()
+void budPlayer::Event_GetButtons()
 {
 	idThread::ReturnInt( usercmd.buttons );
 }
 
 /*
 ==================
-idPlayer::Event_GetMove
+budPlayer::Event_GetMove
 ==================
 */
-void idPlayer::Event_GetMove()
+void budPlayer::Event_GetMove()
 {
 	int upmove = ( ( usercmd.buttons & BUTTON_JUMP ) ? 127 : 0 ) - ( ( usercmd.buttons & BUTTON_CROUCH ) ? 127 : 0 );
 	budVec3 move( usercmd.forwardmove, usercmd.rightmove, upmove );
@@ -10920,30 +10920,30 @@ void idPlayer::Event_GetMove()
 
 /*
 ================
-idPlayer::Event_GetViewAngles
+budPlayer::Event_GetViewAngles
 ================
 */
-void idPlayer::Event_GetViewAngles()
+void budPlayer::Event_GetViewAngles()
 {
 	idThread::ReturnVector( budVec3( viewAngles[0], viewAngles[1], viewAngles[2] ) );
 }
 
 /*
 ==================
-idPlayer::Event_StopFxFov
+budPlayer::Event_StopFxFov
 ==================
 */
-void idPlayer::Event_StopFxFov()
+void budPlayer::Event_StopFxFov()
 {
 	fxFov = false;
 }
 
 /*
 ==================
-idPlayer::StartFxFov
+budPlayer::StartFxFov
 ==================
 */
-void idPlayer::StartFxFov( float duration )
+void budPlayer::StartFxFov( float duration )
 {
 	fxFov = true;
 	PostEventSec( &EV_Player_StopFxFov, duration );
@@ -10951,10 +10951,10 @@ void idPlayer::StartFxFov( float duration )
 
 /*
 ==================
-idPlayer::Event_EnableWeapon
+budPlayer::Event_EnableWeapon
 ==================
 */
-void idPlayer::Event_EnableWeapon()
+void budPlayer::Event_EnableWeapon()
 {
 	hiddenWeapon = gameLocal.world->spawnArgs.GetBool( "no_Weapons" );
 	weaponEnabled = true;
@@ -10966,10 +10966,10 @@ void idPlayer::Event_EnableWeapon()
 
 /*
 ==================
-idPlayer::Event_DisableWeapon
+budPlayer::Event_DisableWeapon
 ==================
 */
-void idPlayer::Event_DisableWeapon()
+void budPlayer::Event_DisableWeapon()
 {
 	hiddenWeapon = gameLocal.world->spawnArgs.GetBool( "no_Weapons" );
 	weaponEnabled = false;
@@ -10981,30 +10981,30 @@ void idPlayer::Event_DisableWeapon()
 
 /*
 ==================
-idPlayer::Event_GiveInventoryItem
+budPlayer::Event_GiveInventoryItem
 ==================
 */
-void idPlayer::Event_GiveInventoryItem( const char* name )
+void budPlayer::Event_GiveInventoryItem( const char* name )
 {
 	GiveInventoryItem( name );
 }
 
 /*
 ==================
-idPlayer::Event_RemoveInventoryItem
+budPlayer::Event_RemoveInventoryItem
 ==================
 */
-void idPlayer::Event_RemoveInventoryItem( const char* name )
+void budPlayer::Event_RemoveInventoryItem( const char* name )
 {
 	RemoveInventoryItem( name );
 }
 
 /*
 ==================
-idPlayer::Event_GetIdealWeapon
+budPlayer::Event_GetIdealWeapon
 ==================
 */
-void idPlayer::Event_GetIdealWeapon()
+void budPlayer::Event_GetIdealWeapon()
 {
 	const char* weapon;
 	
@@ -11021,10 +11021,10 @@ void idPlayer::Event_GetIdealWeapon()
 
 /*
 ==================
-idPlayer::Event_SetPowerupTime
+budPlayer::Event_SetPowerupTime
 ==================
 */
-void idPlayer::Event_SetPowerupTime( int powerup, int time )
+void budPlayer::Event_SetPowerupTime( int powerup, int time )
 {
 	if( time > 0 )
 	{
@@ -11038,30 +11038,30 @@ void idPlayer::Event_SetPowerupTime( int powerup, int time )
 
 /*
 ==================
-idPlayer::Event_IsPowerupActive
+budPlayer::Event_IsPowerupActive
 ==================
 */
-void idPlayer::Event_IsPowerupActive( int powerup )
+void budPlayer::Event_IsPowerupActive( int powerup )
 {
 	idThread::ReturnInt( this->PowerUpActive( powerup ) ? 1 : 0 );
 }
 
 /*
 ==================
-idPlayer::Event_StartWarp
+budPlayer::Event_StartWarp
 ==================
 */
-void idPlayer::Event_StartWarp()
+void budPlayer::Event_StartWarp()
 {
 	playerView.AddWarp( budVec3( 0, 0, 0 ), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 1000 );
 }
 
 /*
 ==================
-idPlayer::Event_StopHelltime
+budPlayer::Event_StopHelltime
 ==================
 */
-void idPlayer::Event_StopHelltime( int mode )
+void budPlayer::Event_StopHelltime( int mode )
 {
 	if( mode == 1 )
 	{
@@ -11075,16 +11075,16 @@ void idPlayer::Event_StopHelltime( int mode )
 
 /*
 ==================
-idPlayer::Event_WeaponAvailable
+budPlayer::Event_WeaponAvailable
 ==================
 */
-void idPlayer::Event_WeaponAvailable( const char* name )
+void budPlayer::Event_WeaponAvailable( const char* name )
 {
 
 	idThread::ReturnInt( WeaponAvailable( name ) ? 1 : 0 );
 }
 
-bool idPlayer::WeaponAvailable( const char* name )
+bool budPlayer::WeaponAvailable( const char* name )
 {
 	for( int i = 0; i < MAX_WEAPONS; i++ )
 	{
@@ -11103,10 +11103,10 @@ bool idPlayer::WeaponAvailable( const char* name )
 
 /*
 ==================
-idPlayer::Event_GetCurrentWeapon
+budPlayer::Event_GetCurrentWeapon
 ==================
 */
-void idPlayer::Event_GetCurrentWeapon()
+void budPlayer::Event_GetCurrentWeapon()
 {
 	const char* weapon;
 	
@@ -11123,10 +11123,10 @@ void idPlayer::Event_GetCurrentWeapon()
 
 /*
 ==================
-idPlayer::Event_GetPreviousWeapon
+budPlayer::Event_GetPreviousWeapon
 ==================
 */
-void idPlayer::Event_GetPreviousWeapon()
+void budPlayer::Event_GetPreviousWeapon()
 {
 	const char* weapon;
 	
@@ -11144,10 +11144,10 @@ void idPlayer::Event_GetPreviousWeapon()
 
 /*
 ==================
-idPlayer::Event_SelectWeapon
+budPlayer::Event_SelectWeapon
 ==================
 */
-void idPlayer::Event_SelectWeapon( const char* weaponName )
+void budPlayer::Event_SelectWeapon( const char* weaponName )
 {
 	int i;
 	int weaponNum;
@@ -11193,20 +11193,20 @@ void idPlayer::Event_SelectWeapon( const char* weaponName )
 
 /*
 ==================
-idPlayer::Event_GetWeaponEntity
+budPlayer::Event_GetWeaponEntity
 ==================
 */
-void idPlayer::Event_GetWeaponEntity()
+void budPlayer::Event_GetWeaponEntity()
 {
 	idThread::ReturnEntity( weapon.GetEntity() );
 }
 
 /*
 ==================
-idPlayer::Event_OpenPDA
+budPlayer::Event_OpenPDA
 ==================
 */
-void idPlayer::Event_OpenPDA()
+void budPlayer::Event_OpenPDA()
 {
 	if( !common->IsMultiplayer() )
 	{
@@ -11216,30 +11216,30 @@ void idPlayer::Event_OpenPDA()
 
 /*
 ==================
-idPlayer::Event_InPDA
+budPlayer::Event_InPDA
 ==================
 */
-void idPlayer::Event_InPDA()
+void budPlayer::Event_InPDA()
 {
 	idThread::ReturnInt( objectiveSystemOpen );
 }
 
 /*
 ==================
-idPlayer::TeleportDeath
+budPlayer::TeleportDeath
 ==================
 */
-void idPlayer::TeleportDeath( int killer )
+void budPlayer::TeleportDeath( int killer )
 {
 	teleportKiller = killer;
 }
 
 /*
 ==================
-idPlayer::Event_ExitTeleporter
+budPlayer::Event_ExitTeleporter
 ==================
 */
-void idPlayer::Event_ForceOrigin( budVec3& origin, budAngles& angles )
+void budPlayer::Event_ForceOrigin( budVec3& origin, budAngles& angles )
 {
 	SetOrigin( origin + budVec3( 0, 0, CM_CLIP_EPSILON ) );
 	//SetViewAngles( angles );
@@ -11249,10 +11249,10 @@ void idPlayer::Event_ForceOrigin( budVec3& origin, budAngles& angles )
 
 /*
 ==================
-idPlayer::Event_ExitTeleporter
+budPlayer::Event_ExitTeleporter
 ==================
 */
-void idPlayer::Event_ExitTeleporter()
+void budPlayer::Event_ExitTeleporter()
 {
 	idEntity*	exitEnt;
 	float		pushVel;
@@ -11304,10 +11304,10 @@ void idPlayer::Event_ExitTeleporter()
 
 /*
 ================
-idPlayer::ClientThink
+budPlayer::ClientThink
 ================
 */
-void idPlayer::ClientThink( const int curTime, const float fraction, const bool predict )
+void budPlayer::ClientThink( const int curTime, const float fraction, const bool predict )
 {
 	if( IsLocallyControlled() )
 	{
@@ -11568,10 +11568,10 @@ void idPlayer::ClientThink( const int curTime, const float fraction, const bool 
 
 /*
 ================
-idPlayer::GetPhysicsToVisualTransform
+budPlayer::GetPhysicsToVisualTransform
 ================
 */
-bool idPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
+bool budPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 {
 	if( af.IsActive() )
 	{
@@ -11625,10 +11625,10 @@ bool idPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 
 /*
 ================
-idPlayer::GetPhysicsToSoundTransform
+budPlayer::GetPhysicsToSoundTransform
 ================
 */
-bool idPlayer::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
+bool budPlayer::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
 {
 	idCamera* camera;
 	
@@ -11659,10 +11659,10 @@ bool idPlayer::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
 
 /*
 ================
-idPlayer::HandleUserCmds
+budPlayer::HandleUserCmds
 ================
 */
-void idPlayer::HandleUserCmds( const usercmd_t& newcmd )
+void budPlayer::HandleUserCmds( const usercmd_t& newcmd )
 {
 	// latch button actions
 	oldButtons = usercmd.buttons;
@@ -11675,10 +11675,10 @@ void idPlayer::HandleUserCmds( const usercmd_t& newcmd )
 
 /*
 ================
-idPlayer::WriteToSnapshot
+budPlayer::WriteToSnapshot
 ================
 */
-void idPlayer::WriteToSnapshot( budBitMsg& msg ) const
+void budPlayer::WriteToSnapshot( budBitMsg& msg ) const
 {
 	physicsObj.WriteToSnapshot( msg );
 	WriteBindToSnapshot( msg );
@@ -11725,10 +11725,10 @@ void idPlayer::WriteToSnapshot( budBitMsg& msg ) const
 
 /*
 ================
-idPlayer::ReadFromSnapshot
+budPlayer::ReadFromSnapshot
 ================
 */
-void idPlayer::ReadFromSnapshot( const budBitMsg& msg )
+void budPlayer::ReadFromSnapshot( const budBitMsg& msg )
 {
 	int		oldHealth, newIdealWeapon, weaponSpawnId;
 	int		flashlightSpawnId;
@@ -11968,10 +11968,10 @@ void idPlayer::ReadFromSnapshot( const budBitMsg& msg )
 
 /*
 ================
-idPlayer::WritePlayerStateToSnapshot
+budPlayer::WritePlayerStateToSnapshot
 ================
 */
-void idPlayer::WritePlayerStateToSnapshot( budBitMsg& msg ) const
+void budPlayer::WritePlayerStateToSnapshot( budBitMsg& msg ) const
 {
 	msg.WriteByte( bobCycle );
 	msg.WriteLong( stepUpTime );
@@ -11984,10 +11984,10 @@ void idPlayer::WritePlayerStateToSnapshot( budBitMsg& msg ) const
 
 /*
 ================
-idPlayer::ReadPlayerStateFromSnapshot
+budPlayer::ReadPlayerStateFromSnapshot
 ================
 */
-void idPlayer::ReadPlayerStateFromSnapshot( const budBitMsg& msg )
+void budPlayer::ReadPlayerStateFromSnapshot( const budBitMsg& msg )
 {
 	int newBobCycle = 0;
 	int newStepUpTime = 0;
@@ -12005,10 +12005,10 @@ void idPlayer::ReadPlayerStateFromSnapshot( const budBitMsg& msg )
 
 /*
 ================
-idPlayer::ServerReceiveEvent
+budPlayer::ServerReceiveEvent
 ================
 */
-bool idPlayer::ServerReceiveEvent( int event, int time, const budBitMsg& msg )
+bool budPlayer::ServerReceiveEvent( int event, int time, const budBitMsg& msg )
 {
 
 	if( idEntity::ServerReceiveEvent( event, time, msg ) )
@@ -12021,10 +12021,10 @@ bool idPlayer::ServerReceiveEvent( int event, int time, const budBitMsg& msg )
 
 /*
 ================
-idPlayer::ClientReceiveEvent
+budPlayer::ClientReceiveEvent
 ================
 */
-bool idPlayer::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
+bool budPlayer::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 {
 	switch( event )
 	{
@@ -12101,10 +12101,10 @@ bool idPlayer::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 
 /*
 ================
-idPlayer::Hide
+budPlayer::Hide
 ================
 */
-void idPlayer::Hide()
+void budPlayer::Hide()
 {
 	idWeapon* weap;
 	
@@ -12123,10 +12123,10 @@ void idPlayer::Hide()
 
 /*
 ================
-idPlayer::Show
+budPlayer::Show
 ================
 */
-void idPlayer::Show()
+void budPlayer::Show()
 {
 	idWeapon* weap;
 	
@@ -12145,10 +12145,10 @@ void idPlayer::Show()
 
 /*
 ===============
-idPlayer::IsSoundChannelPlaying
+budPlayer::IsSoundChannelPlaying
 ===============
 */
-bool idPlayer::IsSoundChannelPlaying( const s_channelType channel )
+bool budPlayer::IsSoundChannelPlaying( const s_channelType channel )
 {
 	if( GetSoundEmitter() != NULL )
 	{
@@ -12160,10 +12160,10 @@ bool idPlayer::IsSoundChannelPlaying( const s_channelType channel )
 
 /*
 ===============
-idPlayer::ShowTip
+budPlayer::ShowTip
 ===============
 */
-void idPlayer::ShowTip( const char* title, const char* tip, bool autoHide )
+void budPlayer::ShowTip( const char* title, const char* tip, bool autoHide )
 {
 	if( tipUp )
 	{
@@ -12179,10 +12179,10 @@ void idPlayer::ShowTip( const char* title, const char* tip, bool autoHide )
 
 /*
 ===============
-idPlayer::HideTip
+budPlayer::HideTip
 ===============
 */
-void idPlayer::HideTip()
+void budPlayer::HideTip()
 {
 	if( hudManager )
 	{
@@ -12193,20 +12193,20 @@ void idPlayer::HideTip()
 
 /*
 ===============
-idPlayer::Event_HideTip
+budPlayer::Event_HideTip
 ===============
 */
-void idPlayer::Event_HideTip()
+void budPlayer::Event_HideTip()
 {
 	HideTip();
 }
 
 /*
 ===============
-idPlayer::HideObjective
+budPlayer::HideObjective
 ===============
 */
-void idPlayer::HideObjective()
+void budPlayer::HideObjective()
 {
 
 	StartSound( "snd_objectivedown", SND_CHANNEL_ANY, 0, false, NULL );
@@ -12227,20 +12227,20 @@ void idPlayer::HideObjective()
 
 /*
 ===============
-idPlayer::Event_StopAudioLog
+budPlayer::Event_StopAudioLog
 ===============
 */
-void idPlayer::Event_StopAudioLog()
+void budPlayer::Event_StopAudioLog()
 {
 	//EndAudioLog();
 }
 
 /*
 ===============
-idPlayer::SetSpectateOrigin
+budPlayer::SetSpectateOrigin
 ===============
 */
-void idPlayer::SetSpectateOrigin()
+void budPlayer::SetSpectateOrigin()
 {
 	budVec3 neworig;
 	
@@ -12252,10 +12252,10 @@ void idPlayer::SetSpectateOrigin()
 
 /*
 ===============
-idPlayer::RemoveWeapon
+budPlayer::RemoveWeapon
 ===============
 */
-void idPlayer::RemoveWeapon( const char* weap )
+void budPlayer::RemoveWeapon( const char* weap )
 {
 	if( weap && *weap )
 	{
@@ -12265,10 +12265,10 @@ void idPlayer::RemoveWeapon( const char* weap )
 
 /*
 ===============
-idPlayer::RemoveAllButEssentialWeapons
+budPlayer::RemoveAllButEssentialWeapons
 ===============
 */
-void idPlayer::RemoveAllButEssentialWeapons()
+void budPlayer::RemoveAllButEssentialWeapons()
 {
 	const idKeyValue* kv = spawnArgs.MatchPrefix( "def_weapon", NULL );
 	for( ; kv != NULL; kv = spawnArgs.MatchPrefix( "def_weapon", kv ) )
@@ -12285,20 +12285,20 @@ void idPlayer::RemoveAllButEssentialWeapons()
 
 /*
 ===============
-idPlayer::CanShowWeaponViewmodel
+budPlayer::CanShowWeaponViewmodel
 ===============
 */
-bool idPlayer::CanShowWeaponViewmodel() const
+bool budPlayer::CanShowWeaponViewmodel() const
 {
 	return ui_showGun.GetBool();
 }
 
 /*
 ===============
-idPlayer::SetLevelTrigger
+budPlayer::SetLevelTrigger
 ===============
 */
-void idPlayer::SetLevelTrigger( const char* levelName, const char* triggerName )
+void budPlayer::SetLevelTrigger( const char* levelName, const char* triggerName )
 {
 	if( levelName && *levelName && triggerName && *triggerName )
 	{
@@ -12311,10 +12311,10 @@ void idPlayer::SetLevelTrigger( const char* levelName, const char* triggerName )
 
 /*
 ===============
-idPlayer::Event_LevelTrigger
+budPlayer::Event_LevelTrigger
 ===============
 */
-void idPlayer::Event_LevelTrigger()
+void budPlayer::Event_LevelTrigger()
 {
 	budStr mapName = gameLocal.GetMapName();
 	mapName.StripPath();
@@ -12334,10 +12334,10 @@ void idPlayer::Event_LevelTrigger()
 
 /*
 ===============
-idPlayer::Event_Gibbed
+budPlayer::Event_Gibbed
 ===============
 */
-void idPlayer::Event_Gibbed()
+void budPlayer::Event_Gibbed()
 {
 	// do nothing
 }
@@ -12346,10 +12346,10 @@ extern budCVar net_clientMaxPrediction;
 
 /*
 ===============
-idPlayer::UpdatePlayerIcons
+budPlayer::UpdatePlayerIcons
 ===============
 */
-void idPlayer::UpdatePlayerIcons()
+void budPlayer::UpdatePlayerIcons()
 {
 	idLobbyBase& lobby = session->GetActingGameStateLobbyBase();
 	int lastPacketTime = lobby.GetPeerTimeSinceLastPacket( lobby.PeerIndexFromLobbyUser( gameLocal.lobbyUserIDs[entityNumber] ) );
@@ -12359,10 +12359,10 @@ void idPlayer::UpdatePlayerIcons()
 
 /*
 ===============
-idPlayer::DrawPlayerIcons
+budPlayer::DrawPlayerIcons
 ===============
 */
-void idPlayer::DrawPlayerIcons()
+void budPlayer::DrawPlayerIcons()
 {
 	if( !NeedsIcon() )
 	{
@@ -12379,20 +12379,20 @@ void idPlayer::DrawPlayerIcons()
 
 /*
 ===============
-idPlayer::HidePlayerIcons
+budPlayer::HidePlayerIcons
 ===============
 */
-void idPlayer::HidePlayerIcons()
+void budPlayer::HidePlayerIcons()
 {
 	playerIcon.FreeIcon();
 }
 
 /*
 ===============
-idPlayer::NeedsIcon
+budPlayer::NeedsIcon
 ==============
 */
-bool idPlayer::NeedsIcon()
+bool budPlayer::NeedsIcon()
 {
 	// local clients don't render their own icons... they're only info for other clients
 	// always draw icons in CTF games
@@ -12401,10 +12401,10 @@ bool idPlayer::NeedsIcon()
 
 /*
 ===============
-idPlayer::DropFlag()
+budPlayer::DropFlag()
 ==============
 */
-void idPlayer::DropFlag()
+void budPlayer::DropFlag()
 {
 	if( !carryingFlag || !common->IsMultiplayer() || !gameLocal.mpGame.IsGametypeFlagBased() )  /* CTF */
 		return;
@@ -12423,7 +12423,7 @@ void idPlayer::DropFlag()
 	
 }
 
-void idPlayer::ReturnFlag()
+void budPlayer::ReturnFlag()
 {
 
 	if( !carryingFlag || !common->IsMultiplayer() || !gameLocal.mpGame.IsGametypeFlagBased() )  /* CTF */
@@ -12442,7 +12442,7 @@ void idPlayer::ReturnFlag()
 	}
 }
 
-void idPlayer::FreeModelDef()
+void budPlayer::FreeModelDef()
 {
 	budAFEntity_Base::FreeModelDef();
 	if( common->IsMultiplayer() && gameLocal.mpGame.IsGametypeFlagBased() )
@@ -12454,7 +12454,7 @@ void idPlayer::FreeModelDef()
 idView::SetControllerShake
 ========================
 */
-void idPlayer::SetControllerShake( float highMagnitude, int highDuration, float lowMagnitude, int lowDuration )
+void budPlayer::SetControllerShake( float highMagnitude, int highDuration, float lowMagnitude, int lowDuration )
 {
 
 	// the main purpose of having these buffer is so multiple, individual shake events can co-exist with each other,
@@ -12514,7 +12514,7 @@ void idPlayer::SetControllerShake( float highMagnitude, int highDuration, float 
 idView::ResetControllerShake
 ========================
 */
-void idPlayer::ResetControllerShake()
+void budPlayer::ResetControllerShake()
 {
 	for( int i = 0; i < MAX_SHAKE_BUFFER; i++ )
 	{
@@ -12539,10 +12539,10 @@ void idPlayer::ResetControllerShake()
 
 /*
 ========================
-idPlayer::GetControllerShake
+budPlayer::GetControllerShake
 ========================
 */
-void idPlayer::GetControllerShake( int& highMagnitude, int& lowMagnitude ) const
+void budPlayer::GetControllerShake( int& highMagnitude, int& lowMagnitude ) const
 {
 
 	if( gameLocal.inCinematic )
@@ -12584,10 +12584,10 @@ void idPlayer::GetControllerShake( int& highMagnitude, int& lowMagnitude ) const
 
 /*
 ========================
-idPlayer::GetExpansionType
+budPlayer::GetExpansionType
 ========================
 */
-gameExpansionType_t idPlayer::GetExpansionType() const
+gameExpansionType_t budPlayer::GetExpansionType() const
 {
 	const char* expansion = spawnArgs.GetString( "player_expansion", "d3" );
 	if( budStr::Icmp( expansion, "d3" ) == 0 )

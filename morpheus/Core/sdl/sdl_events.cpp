@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "../../libBud/PCH.hpp"
+#include "corePCH.hpp"
 
 // DG: SDL.h somehow needs the following functions, so #undef those silly
 //     "don't use" #defines from Str.h
@@ -40,8 +40,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #include <SDL2/SDL.h>
 
-#include "sdl_local.h"
-#include "../posix/posix_public.h"
+#include "sdl_local.hpp"
+#include "posix/posix_public.hpp"
 
 // DG: those are needed for moving/resizing windows
 extern budCVar r_windowX;
@@ -55,7 +55,7 @@ const char* kbdNames[] =
 	"english", "french", "german", "italian", "spanish", "turkish", "norwegian", NULL
 };
 
-budCVar in_keyboard( "in_keyboard", "english", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_NOCHEAT, "keyboard layout", kbdNames, idCmdSystem::ArgCompletion_String<kbdNames> );
+budCVar in_keyboard( "in_keyboard", "english", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_NOCHEAT, "keyboard layout", kbdNames, budCmdSystem::ArgCompletion_String<kbdNames> );
 
 struct kbd_poll_t
 {
@@ -112,7 +112,7 @@ SDL_Joystick* joy = NULL;
 int SDL_joystick_has_hat = 0;
 bool buttonStates[K_LAST_KEY];	// For keeping track of button up/down events
 
-#include "sdl2_scancode_mappings.h"
+#include "sdl2_scancode_mappings.hpp"
 
 static int SDLScanCodeToKeyNum( SDL_Scancode sc )
 {
@@ -398,7 +398,7 @@ void Sys_GrabMouseCursor( bool grabIt )
 		flags = GRAB_SETSTATE;
 	}
 	
-	GLimp_GrabInput( flags );
+	// GLimp_GrabInput( flags );
 }
 
 /*
@@ -529,12 +529,6 @@ sysEvent_t Sys_GetEvent()
 				{
 					// DG: go to fullscreen on current display, instead of always first display
 					int fullscreen = 0;
-					if( ! renderSystem->IsFullScreen() )
-					{
-						// this will be handled as "fullscreen on current window"
-						// r_fullscreen 1 means "fullscreen on first window" in d3 bfg
-						fullscreen = -2;
-					}
 					cvarSystem->SetCVarInteger( "r_fullscreen", fullscreen );
 					// DG end
 					PushConsoleEvent( "vid_restart" );
@@ -614,18 +608,6 @@ sysEvent_t Sys_GetEvent()
 			case SDL_MOUSEMOTION:
 				// DG: return event with absolute mouse-coordinates when in menu
 				// to fix cursor problems in windowed mode
-				if( game && game->Shell_IsActive() )
-				{
-					res.evType = SE_MOUSE_ABSOLUTE;
-					res.evValue = ev.motion.x;
-					res.evValue2 = ev.motion.y;
-				}
-				else     // this is the old, default behavior
-				{
-					res.evType = SE_MOUSE;
-					res.evValue = ev.motion.xrel;
-					res.evValue2 = ev.motion.yrel;
-				}
 				// DG end
 				
 				mouse_polls.Append( mouse_poll_t( M_DELTAX, ev.motion.xrel ) );

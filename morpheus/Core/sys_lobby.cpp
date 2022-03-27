@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_lobby.h"
+#include "corePCH.hpp"
+#include "sys_lobby.hpp"
 
 extern budCVar net_connectTimeoutInSeconds;
 extern budCVar net_headlessServer;
@@ -314,7 +314,6 @@ void idLobby::Shutdown( bool retainMigrationInfo, bool skipGoodbye )
 	peerIndexOnHost			= -1;
 	isHost					= false;
 	needToDisplayMigrateMsg	= false;
-	migrationDlg			= GDM_INVALID;
 	
 	partyToken				= 0;		// Reset our party token so we recompute
 	loaded					= false;
@@ -691,7 +690,6 @@ void idLobby::HandlePacket( lobbyAddress_t& remoteAddress, budBitMsg fragMsg, id
 				ApplySnapshotDelta( peerNum, snapNum );
 				
 				budBitMsg usercmdMsg( ( const byte* )usercmdBuffer, usercmdSize );
-				common->NetReceiveUsercmds( peerNum, usercmdMsg );
 			}
 		}
 	}
@@ -762,9 +760,6 @@ void idLobby::State_Idle()
 	if( lobbyBackend != NULL && lobbyBackend->GetState() == idLobbyBackend::STATE_FAILED )
 	{
 		HandleConnectionAttemptFailed();
-		common->Dialog().ClearDialog( GDM_MIGRATING );
-		common->Dialog().ClearDialog( GDM_MIGRATING_WAITING );
-		common->Dialog().ClearDialog( GDM_MIGRATING_RELAUNCHING );
 		return;
 	}
 	
@@ -773,9 +768,6 @@ void idLobby::State_Idle()
 		// This can happen with 'leaveGame' or 'disconnect' since those paths don't go through endMatch
 		// This seems like an ok catch all place but there may be a better way to handle this
 		ResetAllMigrationState();
-		common->Dialog().ClearDialog( GDM_MIGRATING );
-		common->Dialog().ClearDialog( GDM_MIGRATING_WAITING );
-		common->Dialog().ClearDialog( GDM_MIGRATING_RELAUNCHING );
 	}
 }
 
@@ -1742,9 +1734,6 @@ bool idLobby::ConnectToNextSearchResult()
 	// Attempt to connect the lobby
 	ConnectTo( connectInfo, true );		// Pass in true for invite, since searches are for matchmaking, and we should always be able to connect to those types of matches
 	
-	// Clear the "Lobby was Full" dialog in case it's up, since we are going to try to connect to a different lobby now
-	common->Dialog().ClearDialog( GDM_LOBBY_FULL );
-	
 	return true;	// Notify caller we are attempting to connect
 }
 
@@ -2119,7 +2108,6 @@ void idLobby::InitStateLobbyHost()
 	{
 		migrationInfo.persistUntilGameEndsData.wasMigratedHost = true; // InitSessionUsersFromLocalUsers needs to know this
 		migrationInfo.persistUntilGameEndsData.hasRelaunchedMigratedGame = false;
-		// migrationDlg = GDM_MIGRATING_WAITING;
 	}
 	
 	// Initialize the initial user list for this lobby
@@ -2684,11 +2672,11 @@ int idLobby::GetLobbyUserPartyToken( lobbyUserID_t lobbyUserID ) const
 idLobby::GetProfileFromLobbyUser
 ========================
 */
-idPlayerProfile* idLobby::GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID )
+budPlayerProfile* idLobby::GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID )
 {
 	const int userIndex = GetLobbyUserIndexByID( lobbyUserID );
 	
-	idPlayerProfile* profile = NULL;
+	budPlayerProfile* profile = NULL;
 	
 	idLocalUser* localUser = GetLocalUserFromLobbyUserIndex( userIndex );
 	
@@ -2819,7 +2807,6 @@ void idLobby::HandleReliableMsg( int p, budBitMsg& msg, const lobbyAddress_t* re
 	else if( reliableType == RELIABLE_KICK_PLAYER )
 	{
 		VERIFY_FROM_HOST( p, lobbyType, RELIABLE_KICK_PLAYER );
-		common->Dialog().AddDialog( GDM_KICKED, DIALOG_ACCEPT, NULL, NULL, false );
 		if( sessionCB->GetPartyLobby().IsHost() )
 		{
 			session->SetSessionOption( budSession::OPTION_LEAVE_WITH_PARTY );
@@ -3094,7 +3081,6 @@ void idLobby::HandleReliableMsg( int p, budBitMsg& msg, const lobbyAddress_t* re
 	
 		VERIFY_CONNECTED_PEER( p, lobbyType, RELIABLE_GAME_DATA );
 		
-		common->NetReceiveReliable( p, reliableType - RELIABLE_GAME_DATA, msg );
 	}
 	else if( reliableType == RELIABLE_DUMMY_MSG )
 	{
@@ -3129,355 +3115,6 @@ int idLobby::GetTotalOutgoingRate()
 		totalSendRate += proc.GetOutgoingRateBytes();
 	}
 	return totalSendRate;
-}
-
-/*
-========================
-idLobby::DrawDebugNetworkHUD
-========================
-*/
-extern budCVar net_forceUpstream;
-void idLobby::DrawDebugNetworkHUD() const
-{
-	int		totalSendRate = 0;
-	int		totalRecvRate = 0;
-	float	totalSentMB = 0.0f;
-	float	totalRecvMB = 0.0f;
-	
-	const float Y_OFFSET	= 20.0f;
-	const float X_OFFSET	= 20.0f;
-	const float Y_SPACING	= 15.0f;
-	
-	float curY = Y_OFFSET;
-	
-	int numLines = ( net_forceUpstream.GetFloat() != 0.0f ? 6 : 5 );
-	
-	renderSystem->DrawFilled( budVec4( 0.0f, 0.0f, 0.0f, 0.7f ), X_OFFSET - 10.0f, curY - 10.0f, 1550, ( peers.Num() + numLines ) * Y_SPACING + 20.0f );
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), "# Peer                   | Sent kB/s | Recv kB/s | Sent MB | Recv MB | Ping   | L |  %  | R.NM | R.SZ | R.AK | T", colorGreen, false );
-	curY += Y_SPACING;
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), "------------------------------------------------------------------------------------------------------------------------------------", colorGreen, false );
-	curY += Y_SPACING;
-	
-	for( int p = 0; p < peers.Num(); p++ )
-	{
-		const peer_t& peer = peers[p];
-		
-		if( !peer.IsConnected() )
-		{
-			continue;
-		}
-		
-		const idPacketProcessor& proc = *peer.packetProc;
-		
-		totalSendRate += proc.GetOutgoingRateBytes();
-		totalRecvRate += proc.GetIncomingRateBytes();
-		float sentKps = ( float )proc.GetOutgoingRateBytes() / 1024.0f;
-		float recvKps = ( float )proc.GetIncomingRateBytes() / 1024.0f;
-		float sentMB = ( float )proc.GetOutgoingBytes() / ( 1024.0f * 1024.0f );
-		float recvMB = ( float )proc.GetIncomingBytes() / ( 1024.0f * 1024.0f );
-		
-		totalSentMB += sentMB;
-		totalRecvMB += recvMB;
-		
-		budVec4 color = sentKps > 20.0f ? colorRed : colorGreen;
-		
-		int resourcePercent = 0;
-		budStr name = peer.address.ToString();
-		
-		name += lobbyType == TYPE_PARTY ? "(P" : "(G";
-		name += host == p ? ":H)" : ":C)";
-		
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "%i %22s | %2.02f kB/s | %2.02f kB/s | %2.02f MB | %2.02f MB |%4i ms | %i | %i%% | %i | %i | %i | %2.2f / %2.2f / %i", p, name.c_str(), sentKps, recvKps, sentMB, recvMB, peer.lastPingRtt, peer.loaded, resourcePercent, peer.packetProc->NumQueuedReliables(), peer.packetProc->GetReliableDataSize(), peer.packetProc->NeedToSendReliableAck(), peer.snapHz, peer.maxSnapBps, peer.failedPingRecoveries ), color, false );
-		curY += Y_SPACING;
-	}
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), "------------------------------------------------------------------------------------------------------------------------------------", colorGreen, false );
-	curY += Y_SPACING;
-	
-	float totalSentKps = ( float )totalSendRate / 1024.0f;
-	float totalRecvKps = ( float )totalRecvRate / 1024.0f;
-	
-	budVec4 color = totalSentKps > 100.0f ? colorRed : colorGreen;
-	
-	renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "# %20s | %2.02f KB/s | %2.02f KB/s | %2.02f MB | %2.02f MB", "", totalSentKps, totalRecvKps, totalSentMB, totalRecvMB ), color, false );
-	curY += Y_SPACING;
-	
-	if( net_forceUpstream.GetFloat() != 0.0f )
-	{
-		float upstreamDropRate = session->GetUpstreamDropRate();
-		float upstreamQueuedRate = session->GetUpstreamQueueRate();
-		
-		int queuedBytes = session->GetQueuedBytes();
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "Queued: %d | Dropping: %2.02f kB/s Queue: %2.02f kB/s -> Effective %2.02f kB/s", queuedBytes, upstreamDropRate / 1024.0f, upstreamQueuedRate / 1024.0f, totalSentKps - ( upstreamDropRate / 1024.0f ) + ( upstreamQueuedRate / 1024.0f ) ), color, false );
-	}
-}
-
-/*
-========================
-idLobby::DrawDebugNetworkHUD2
-========================
-*/
-void idLobby::DrawDebugNetworkHUD2() const
-{
-	int		totalSendRate = 0;
-	int		totalRecvRate = 0;
-	
-	const float Y_OFFSET	= 20.0f;
-	const float X_OFFSET	= 20.0f;
-	const float Y_SPACING	= 15.0f;
-	
-	float	curY = Y_OFFSET;
-	
-	renderSystem->DrawFilled( budVec4( 0.0f, 0.0f, 0.0f, 0.7f ), X_OFFSET - 10.0f, curY - 10.0f, 550, ( peers.Num() + 4 ) * Y_SPACING + 20.0f );
-	
-	const char* stateName = session->GetStateString();
-	
-	renderSystem->DrawFilled( budVec4( 1.0f, 1.0f, 1.0f, 0.7f ), X_OFFSET - 10.0f, curY - 10.0f, 550, ( peers.Num() + 5 ) * Y_SPACING + 20.0f );
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), va( "State: %s. Local time: %d", stateName, Sys_Milliseconds() ), colorGreen, false );
-	curY += Y_SPACING;
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), "Peer           | Sent kB/s | Recv kB/s | L | R | Resources", colorGreen, false );
-	curY += Y_SPACING;
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), "------------------------------------------------------------------", colorGreen, false );
-	curY += Y_SPACING;
-	
-	for( int p = 0; p < peers.Num(); p++ )
-	{
-	
-		if( !peers[ p ].IsConnected() )
-		{
-			continue;
-		}
-		
-		idPacketProcessor& proc = *peers[ p ].packetProc;
-		
-		totalSendRate += proc.GetOutgoingRate2();
-		totalRecvRate += proc.GetIncomingRate2();
-		float sentKps = ( float )proc.GetOutgoingRate2() / 1024.0f;
-		float recvKps = ( float )proc.GetIncomingRate2() / 1024.0f;
-		
-		// should probably complement that with a bandwidth reading
-		// right now I am mostly concerned about fragmentation and the latency spikes it will cause
-		budVec4 color = proc.TickFragmentAccumulator() ? colorRed : colorGreen;
-		
-		int rLoaded = peers[ p ].numResources;
-		int rTotal = 0;
-		
-		// show the names of the clients connected to the server. Also make sure it looks reasonably good.
-		budStr peerName;
-		if( IsHost() )
-		{
-			peerName = GetPeerName( p );
-			
-			int MAX_PEERNAME_LENGTH = 10;
-			int nameLength = peerName.Length();
-			if( nameLength > MAX_PEERNAME_LENGTH )
-			{
-				peerName = peerName.Left( MAX_PEERNAME_LENGTH );
-			}
-			else if( nameLength < MAX_PEERNAME_LENGTH )
-			{
-				budStr filler;
-				filler.Fill( ' ', MAX_PEERNAME_LENGTH );
-				peerName += filler.Left( MAX_PEERNAME_LENGTH - nameLength );
-			}
-		}
-		else
-		{
-			peerName = "Local     ";
-		}
-		
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "%i - %s | %2.02f kB/s | %2.02f kB/s | %i | %i | %d/%d", p, peerName.c_str(), sentKps, recvKps, peers[p].loaded, peers[p].address.UsingRelay(), rLoaded, rTotal ), color, false );
-		curY += Y_SPACING;
-	}
-	
-	renderSystem->DrawSmallStringExt( budMath::Ftoi( X_OFFSET ), budMath::Ftoi( curY ), "------------------------------------------------------------------", colorGreen, false );
-	curY += Y_SPACING;
-	
-	float totalSentKps = ( float )totalSendRate / 1024.0f;
-	float totalRecvKps = ( float )totalRecvRate / 1024.0f;
-	
-	renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "Total | %2.02f KB/s | %2.02f KB/s", totalSentKps, totalRecvKps ), colorGreen, false );
-}
-
-
-/*
-========================
-idLobby::DrawDebugNetworkHUD_ServerSnapshotMetrics
-========================
-*/
-budCVar net_debughud3_bps_max( "net_debughud3_bps_max", "5120.0f", CVAR_FLOAT, "Highest factor of server base snapRate that a client can be throttled" );
-void idLobby::DrawDebugNetworkHUD_ServerSnapshotMetrics( bool draw )
-{
-	const float Y_OFFSET	= 20.0f;
-	const float X_OFFSET	= 20.0f;
-	const float Y_SPACING	= 15.0f;
-	budVec4 color = colorWhite;
-	
-	float	curY = Y_OFFSET;
-	
-	if( !draw )
-	{
-		for( int p = 0; p < peers.Num(); p++ )
-		{
-			for( int i = 0; i < peers[p].debugGraphs.Num(); i++ )
-			{
-				if( peers[p].debugGraphs[i] != NULL )
-				{
-					peers[p].debugGraphs[i]->Enable( false );
-				}
-				else
-				{
-					return;
-				}
-			}
-		}
-		return;
-	}
-	
-	static int lastTime = 0;
-	int time = Sys_Milliseconds();
-	
-	for( int p = 0; p < peers.Num(); p++ )
-	{
-	
-		peer_t& peer = peers[p];
-		
-		if( !peer.IsConnected() )
-		{
-			continue;
-		}
-		
-		idPacketProcessor* packetProc = peer.packetProc;
-		budSnapShotProcessor* snapProc = peer.snapProc;
-		
-		if( !verify( packetProc != NULL && snapProc != NULL ) )
-		{
-			continue;
-		}
-		
-		int snapSeq = snapProc->GetSnapSequence();
-		int snapBase = snapProc->GetBaseSequence();
-		int deltaSeq = snapSeq - snapBase;
-		bool throttled = peer.throttledSnapRate > common->GetSnapRate();
-		
-		int numLines =  net_forceUpstream.GetBool() ? 5 : 4;
-		
-		const int width = renderSystem->GetWidth() / 2.0f - ( X_OFFSET * 2 );
-		
-		enum netDebugGraphs_t
-		{
-			GRAPH_SNAPSENT,
-			GRAPH_OUTGOING,
-			GRAPH_INCOMINGREPORTED,
-			GRAPH_MAX
-		};
-		
-		peer.debugGraphs.SetNum( GRAPH_MAX, NULL );
-		for( int i = 0; i < GRAPH_MAX; i++ )
-		{
-			// Initialize graphs
-			if( peer.debugGraphs[i] == NULL )
-			{
-				peer.debugGraphs[i] = console->CreateGraph( 500 );
-				if( !verify( peer.debugGraphs[i] != NULL ) )
-				{
-					continue;
-				}
-				
-				peer.debugGraphs[i]->SetPosition( X_OFFSET - 10.0f + width, curY - 10.0f, width , Y_SPACING * numLines );
-			}
-			
-			peer.debugGraphs[i]->Enable( true );
-		}
-		
-		renderSystem->DrawFilled( budVec4( 0.0f, 0.0f, 0.0f, 0.7f ), X_OFFSET - 10.0f, curY - 10.0f, width, ( Y_SPACING * numLines ) + 20.0f );
-		
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "Peer %d - %s RTT %d %sPeerSnapRate: %d %s", p, GetPeerName( p ), peer.lastPingRtt, throttled ? "^1" : "^2", peer.throttledSnapRate / 1000, throttled ? "^1Throttled" : "" ), color, false );
-		curY += Y_SPACING;
-		
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "SnapSeq %d  BaseSeq %d  Delta %d  Queue %d", snapSeq, snapBase, deltaSeq, snapProc->GetSnapQueueSize() ), color, false );
-		curY += Y_SPACING;
-		
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "Reliables: %d / %d bytes Reliable Ack: %d", packetProc->NumQueuedReliables(), packetProc->GetReliableDataSize(), packetProc->NeedToSendReliableAck() ), color, false );
-		curY += Y_SPACING;
-		
-		renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "Outgoing %.2f kB/s  Reported %.2f kB/s Throttle: %.2f", peer.packetProc->GetOutgoingRateBytes() / 1024.0f, peers[p].receivedBps / 1024.0f, peer.receivedThrottle ), color, false );
-		curY += Y_SPACING;
-		
-		if( net_forceUpstream.GetFloat() != 0.0f )
-		{
-			float upstreamDropRate = session->GetUpstreamDropRate();
-			float upstreamQueuedRate = session->GetUpstreamQueueRate();
-			int queuedBytes = session->GetQueuedBytes();
-			renderSystem->DrawSmallStringExt( X_OFFSET, curY, va( "Queued: %d | Dropping: %2.02f kB/s Queue: %2.02f kB/s ", queuedBytes, upstreamDropRate / 1024.0f, upstreamQueuedRate / 1024.0f ), color, false );
-			
-		}
-		
-		curY += Y_SPACING;
-		
-		
-		
-		if( peer.debugGraphs[GRAPH_SNAPSENT] != NULL )
-		{
-			if( peer.lastSnapTime > lastTime )
-			{
-				peer.debugGraphs[GRAPH_SNAPSENT]->SetValue( -1, 1.0f, colorBlue );
-			}
-			else
-			{
-				peer.debugGraphs[GRAPH_SNAPSENT]->SetValue( -1, 0.0f, colorBlue );
-			}
-		}
-		
-		if( peer.debugGraphs[GRAPH_OUTGOING] != NULL )
-		{
-			budVec4 bgColor( vec4_zero );
-			peer.debugGraphs[GRAPH_OUTGOING]->SetBackgroundColor( bgColor );
-			
-			budVec4 lineColor = colorLtGrey;
-			lineColor.w	 = 0.5f;
-			float outgoingRate = peer.sentBpsHistory[ peer.receivedBpsIndex % MAX_BPS_HISTORY ];
-			// peer.packetProc->GetOutgoingRateBytes()
-			peer.debugGraphs[GRAPH_OUTGOING]->SetValue( -1, budMath::ClampFloat( 0.0f, 1.0f, outgoingRate / net_debughud3_bps_max.GetFloat() ), lineColor );
-		}
-		
-		
-		if( peer.debugGraphs[GRAPH_INCOMINGREPORTED] != NULL )
-		{
-			budVec4 lineColor = colorYellow;
-			extern budCVar net_peer_throttle_bps_peer_threshold_pct;
-			extern budCVar net_peer_throttle_bps_host_threshold;
-			
-			if( peer.packetProc->GetOutgoingRateBytes() > net_peer_throttle_bps_host_threshold.GetFloat() )
-			{
-				float pct = peer.packetProc->GetOutgoingRateBytes() > 0.0f ? peer.receivedBps / peer.packetProc->GetOutgoingRateBytes() : 0.0f;
-				if( pct < net_peer_throttle_bps_peer_threshold_pct.GetFloat() )
-				{
-					lineColor = colorRed;
-				}
-				else
-				{
-					lineColor = colorGreen;
-				}
-			}
-			budVec4 bgColor( vec4_zero );
-			peer.debugGraphs[GRAPH_INCOMINGREPORTED]->SetBackgroundColor( bgColor );
-			peer.debugGraphs[GRAPH_INCOMINGREPORTED]->SetFillMode( budDebugGraph::GRAPH_LINE );
-			peer.debugGraphs[GRAPH_INCOMINGREPORTED]->SetValue( -1, budMath::ClampFloat( 0.0f, 1.0f, peer.receivedBps / net_debughud3_bps_max.GetFloat() ), lineColor );
-		}
-		
-		
-		
-		// Skip down
-		curY += ( Y_SPACING * 2.0f );
-	}
-	
-	lastTime = time;
 }
 
 /*
@@ -4566,7 +4203,6 @@ void idLobby::SendReliable( int type, budBitMsg& msg, bool callReceiveReliable /
 	if( callReceiveReliable )
 	{
 		// NOTE: this will put the msg's read status to fully read - which is why the assert check is above
-		common->NetReceiveReliable( -1, type, msg );
 	}
 	
 	uint32 sentPeerMask = 0;
@@ -4632,7 +4268,6 @@ void idLobby::SendReliableToLobbyUser( lobbyUserID_t lobbyUserID, int type, budB
 	}
 	else
 	{
-		common->NetReceiveReliable( -1, type, msg );
 	}
 }
 
@@ -4648,7 +4283,6 @@ void idLobby::SendReliableToHost( int type, budBitMsg& msg )
 	
 	if( IsHost() )
 	{
-		common->NetReceiveReliable( -1, type, msg );
 	}
 	else
 	{

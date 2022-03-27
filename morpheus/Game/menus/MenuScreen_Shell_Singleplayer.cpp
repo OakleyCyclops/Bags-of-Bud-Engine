@@ -148,7 +148,7 @@ idMenuScreen_Shell_Singleplayer::ShowScreen
 void idMenuScreen_Shell_Singleplayer::ShowScreen( const mainMenuTransition_t transitionType )
 {
 
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	budList< budStr > option;
 	
 	canContinue = false;

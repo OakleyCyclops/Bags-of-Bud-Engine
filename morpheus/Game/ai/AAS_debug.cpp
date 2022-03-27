@@ -385,7 +385,7 @@ void budAASLocal::ShowWallEdges( const budVec3& origin ) const
 {
 	int i, areaNum, numEdges, edges[1024];
 	budVec3 start, end;
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player )
@@ -444,7 +444,7 @@ bool budAASLocal::PullPlayer( const budVec3& origin, int toAreaNum ) const
 	budVec3 areaCenter, dir, vel;
 	budAngles delta;
 	aasPath_t path;
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player )

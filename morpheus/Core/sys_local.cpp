@@ -27,8 +27,8 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_local.h"
+#include "corePCH.hpp"
+#include "sys_local.hpp"
 
 const char* sysLanguageNames[] =
 {
@@ -37,7 +37,7 @@ const char* sysLanguageNames[] =
 
 const int numLanguages = sizeof( sysLanguageNames ) / sizeof sysLanguageNames[ 0 ] - 1;
 
-budCVar sys_lang( "sys_lang", ID_LANG_ENGLISH, CVAR_SYSTEM | CVAR_INIT, "", sysLanguageNames, idCmdSystem::ArgCompletion_String<sysLanguageNames> );
+budCVar sys_lang( "sys_lang", ID_LANG_ENGLISH, CVAR_SYSTEM | CVAR_INIT, "", sysLanguageNames, budCmdSystem::ArgCompletion_String<sysLanguageNames> );
 
 budSysLocal			sysLocal;
 budSys* 				sys = &sysLocal;

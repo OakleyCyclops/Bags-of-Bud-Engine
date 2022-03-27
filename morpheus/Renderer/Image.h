@@ -261,7 +261,7 @@ public:
 	void		Bind();
 	
 	// RB begin
-	void		GenerateShadowArray( int width, int height, textureFilter_t filter, textureRepeat_t repeat, textureUsage_t usage );
+	// void		GenerateShadowArray( int width, int height, textureFilter_t filter, textureRepeat_t repeat, textureUsage_t usage );
 	// RB end
 	
 	void		CopyFramebuffer( int x, int y, int width, int height );
@@ -516,7 +516,7 @@ public:
 	
 	bool				ExcludePreloadImage( const char* name );
 	
-	budList<budImage*, TAG_libBud_LIST_IMAGE>	images;
+	budList<budImage*, TAG_LIBBUD_LIST_IMAGE>	images;
 	budHashIndex			imageHash;
 	
 	bool				insideLevelLoad;			// don't actually load images now

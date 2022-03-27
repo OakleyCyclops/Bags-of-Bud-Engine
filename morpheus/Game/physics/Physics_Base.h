@@ -149,8 +149,8 @@ protected:
 	int						clipMask;				// contents the physics object collides with
 	budVec3					gravityVector;			// direction and magnitude of gravity
 	budVec3					gravityNormal;			// normalized direction of gravity
-	budList<contactInfo_t, TAG_libBud_LIST_PHYSICS>	contacts;				// contacts with other physics objects
-	budList<contactEntity_t, TAG_libBud_LIST_PHYSICS>	contactEntities;		// entities touching this physics object
+	budList<contactInfo_t, TAG_LIBBUD_LIST_PHYSICS>	contacts;				// contacts with other physics objects
+	budList<contactEntity_t, TAG_LIBBUD_LIST_PHYSICS>	contactEntities;		// entities touching this physics object
 	
 protected:
 	// add ground contacts for the clip model

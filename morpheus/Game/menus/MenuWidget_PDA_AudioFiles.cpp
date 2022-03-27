@@ -86,7 +86,7 @@ void idMenuWidget_PDA_AudioFiles::Update()
 		return;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;

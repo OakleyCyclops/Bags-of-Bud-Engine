@@ -43,7 +43,7 @@ void idMenuWidget_PDA_VideoInfo::Update()
 		return;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;
@@ -105,7 +105,7 @@ void idMenuWidget_PDA_VideoInfo::ObserveEvent( const idMenuWidget& widget, const
 			const idMenuWidget_DynamicList* const list = dynamic_cast< const idMenuWidget_DynamicList* const >( listWidget );
 			videoIndex = list->GetViewIndex();
 			
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player != NULL )
 			{
 				player->EndVideoDisk();

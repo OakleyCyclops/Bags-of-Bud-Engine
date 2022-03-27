@@ -1,567 +1,592 @@
 [
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/CVarSystem.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/CVarSystem.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/CVarSystem.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -x c++-header -o CMakeFiles/engine.dir/cmake_pch.hxx.pch -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.cxx",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.cxx"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/CmdSystem.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/CmdSystem.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/CmdSystem.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.h -x c-header -o CMakeFiles/engine.dir/cmake_pch.h.pch -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.h.c",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.h.c"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/CVarSystem.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/CVarSystem.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/CVarSystem.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_demos.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_demos.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_demos.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/CmdSystem.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/CmdSystem.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/CmdSystem.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_dialog.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_dialog.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_dialog.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_load.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_load.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_load.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_demos.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_demos.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_demos.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_localize.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_localize.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_localize.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_load.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_load.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_load.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_mapconvert.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_mapconvert.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_mapconvert.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_localize.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_localize.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_localize.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_menu.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_menu.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_menu.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_mapconvert.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_mapconvert.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_mapconvert.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_network.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_network.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_network.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_menu.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_menu.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_menu.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Common_printf.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_printf.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Common_printf.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_network.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_network.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_network.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Compressor.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Compressor.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Compressor.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Common_printf.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_printf.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Common_printf.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Console.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Console.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Console.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Compressor.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Compressor.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Compressor.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/ConsoleHistory.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/ConsoleHistory.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/ConsoleHistory.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Console.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Console.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Console.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/DemoFile.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/DemoFile.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/DemoFile.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/ConsoleHistory.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/ConsoleHistory.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/ConsoleHistory.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/EventLoop.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/EventLoop.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/EventLoop.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/DemoFile.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/DemoFile.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/DemoFile.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/File.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/File.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/File.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/EditField.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/EditField.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/EditField.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/FileSystem.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/FileSystem.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/FileSystem.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/EventLoop.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/EventLoop.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/EventLoop.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/File_Manifest.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/File_Manifest.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/File_Manifest.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/File.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/File_Resource.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/File_Resource.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/File_Resource.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/FileSystem.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/FileSystem.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/FileSystem.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/File_SaveGame.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/File_SaveGame.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/File_SaveGame.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/File_Manifest.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File_Manifest.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File_Manifest.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/KeyInput.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/KeyInput.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/KeyInput.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/File_Resource.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File_Resource.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File_Resource.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/LightweightCompression.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/LightweightCompression.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/LightweightCompression.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/File_SaveGame.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File_SaveGame.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/File_SaveGame.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/PacketProcessor.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/PacketProcessor.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/PacketProcessor.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/KeyInput.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/KeyInput.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/KeyInput.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Snapshot.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Snapshot.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Snapshot.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/LightweightCompression.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/LightweightCompression.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/LightweightCompression.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/SnapshotProcessor.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/SnapshotProcessor.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/SnapshotProcessor.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/PacketProcessor.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/PacketProcessor.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/PacketProcessor.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Snapshot_Jobs.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Snapshot_Jobs.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Snapshot_Jobs.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/PlayerProfile.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/PlayerProfile.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/PlayerProfile.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/TokenParser.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/TokenParser.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/TokenParser.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Snapshot.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Snapshot.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Snapshot.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/UsercmdGen.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/UsercmdGen.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/UsercmdGen.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/SnapshotProcessor.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/SnapshotProcessor.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/SnapshotProcessor.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/Zip.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/Zip.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/Zip.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Snapshot_Jobs.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Snapshot_Jobs.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Snapshot_Jobs.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common_frame.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common_frame.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common_frame.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/UsercmdGen.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/UsercmdGen.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/UsercmdGen.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_achievements.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_achievements.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_achievements.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/Zip.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Zip.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/Zip.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_dedicated_server_search.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_dedicated_server_search.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_dedicated_server_search.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common_frame.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common_frame.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common_frame.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_lobby.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_achievements.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_achievements.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_achievements.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_lobby_backend_direct.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_backend_direct.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_backend_direct.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_assert.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_assert.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_assert.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_lobby_migrate.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_migrate.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_migrate.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_dedicated_server_search.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_dedicated_server_search.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_dedicated_server_search.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_lobby_snapshot.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_snapshot.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_snapshot.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_lobby.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_lobby_users.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_users.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_lobby_users.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_lobby_backend_direct.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_backend_direct.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_backend_direct.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_local.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_local.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_local.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_lobby_migrate.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_migrate.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_migrate.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_localuser.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_localuser.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_localuser.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_lobby_snapshot.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_snapshot.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_snapshot.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_profile.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_profile.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_profile.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_lobby_users.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_users.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_lobby_users.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_savegame.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_savegame.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_savegame.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_local.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_local.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_local.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_session_callbacks.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_session_callbacks.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_session_callbacks.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_localuser.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_localuser.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_localuser.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_session_local.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_session_local.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_session_local.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_profile.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_profile.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_profile.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_session_savegames.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_session_savegames.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_session_savegames.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_savegame.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_savegame.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_savegame.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_signin.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_signin.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_signin.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_session_callbacks.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_session_callbacks.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_session_callbacks.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sys_voicechat.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_voicechat.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sys_voicechat.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_session_local.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_session_local.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_session_local.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/posix/platform_linux.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/posix/platform_linux.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/posix/platform_linux.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_session_savegames.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_session_savegames.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_session_savegames.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/posix/posix_main.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/posix/posix_main.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/posix/posix_main.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_signin.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_signin.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_signin.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/posix/posix_signal.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/posix/posix_signal.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/posix/posix_signal.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sys_voicechat.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_voicechat.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sys_voicechat.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common/achievements.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common/achievements.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common/achievements.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.h.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.h -o CMakeFiles/engine.dir/libs/zlib/minizip/ioapi.c.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/ioapi.c",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/ioapi.c"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common/localuser.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common/localuser.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common/localuser.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/libs/zlib/minizip/unzip.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/unzip.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/unzip.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common/savegame.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common/savegame.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common/savegame.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/libs/zlib/minizip/zip.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/zip.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/zip.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common/session_local.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common/session_local.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common/session_local.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/posix/platform_linux.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/platform_linux.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/platform_linux.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common/signin.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common/signin.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common/signin.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/posix/posix_main.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/posix_main.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/posix_main.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/common/socket_net.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/common/socket_net.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/common/socket_net.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/posix/posix_signal.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/posix_signal.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/posix_signal.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sdl/sdl_cpu.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sdl/sdl_cpu.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sdl/sdl_cpu.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/posix/posix_thread.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/posix_thread.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/posix/posix_thread.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud -I/home/oakley/Repositories/BoB-Engine/morpheus/libs/rapidjson/include -g -o CMakeFiles/engine.dir/Core/sdl/sdl_events.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/Core/sdl/sdl_events.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/Core/sdl/sdl_events.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common/achievements.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/achievements.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/achievements.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Base64.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Base64.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Base64.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common/localuser.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/localuser.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/localuser.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/BitMsg.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/BitMsg.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/BitMsg.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common/savegame.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/savegame.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/savegame.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/CmdArgs.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/CmdArgs.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/CmdArgs.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common/session_local.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/session_local.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/session_local.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/CommandLink.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/CommandLink.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/CommandLink.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common/signin.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/signin.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/signin.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Dict.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Dict.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Dict.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/common/socket_net.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/socket_net.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/socket_net.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Heap.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Heap.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Heap.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sdl/sdl_cpu.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sdl/sdl_cpu.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sdl/sdl_cpu.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/LangDict.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/LangDict.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/LangDict.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx -o CMakeFiles/engine.dir/Core/sdl/sdl_events.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sdl/sdl_events.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/sdl/sdl_events.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Lexer.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Lexer.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Lexer.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -x c++-header -o libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.cxx",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.cxx"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Lib.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Lib.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Lib.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Base64.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Base64.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Base64.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/MapFile.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/MapFile.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/MapFile.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/BitMsg.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/BitMsg.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/BitMsg.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/ParallelJobList.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/ParallelJobList.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/ParallelJobList.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/CmdArgs.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/CmdArgs.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/CmdArgs.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Parser.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Parser.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Parser.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/CommandLink.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/CommandLink.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/CommandLink.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/RectAllocator.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/RectAllocator.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/RectAllocator.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Dict.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Dict.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Dict.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/SoftwareCache.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/SoftwareCache.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/SoftwareCache.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Heap.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Heap.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Heap.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Str.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Str.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Str.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/LangDict.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/LangDict.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/LangDict.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Thread.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Thread.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Thread.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Lexer.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Lexer.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Lexer.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Timer.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Timer.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Timer.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Lib.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Lib.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Lib.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/Token.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/Token.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/Token.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/MapFile.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/MapFile.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/MapFile.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/precompiled.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/precompiled.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/precompiled.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/ParallelJobList.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/ParallelJobList.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/ParallelJobList.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/bv/Bounds.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/bv/Bounds.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/bv/Bounds.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Parser.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Parser.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Parser.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/bv/Box.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/bv/Box.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/bv/Box.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/RectAllocator.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/RectAllocator.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/RectAllocator.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/bv/Sphere.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/bv/Sphere.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/bv/Sphere.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/SoftwareCache.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/SoftwareCache.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/SoftwareCache.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/containers/HashIndex.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/containers/HashIndex.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/containers/HashIndex.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Str.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Str.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Str.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/DrawVert.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/DrawVert.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/DrawVert.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Thread.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Thread.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Thread.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/JointTransform.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/JointTransform.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/JointTransform.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Timer.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Timer.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Timer.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/RenderMatrix.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/RenderMatrix.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/RenderMatrix.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/Token.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Token.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Token.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/Surface.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/bv/Bounds.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Bounds.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Bounds.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/Surface_Patch.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface_Patch.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface_Patch.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/bv/Box.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Box.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Box.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/Surface_Polytope.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface_Polytope.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface_Polytope.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/bv/Sphere.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Sphere.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Sphere.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/Surface_SweptSpline.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface_SweptSpline.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Surface_SweptSpline.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/containers/HashIndex.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/containers/HashIndex.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/containers/HashIndex.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/TraceModel.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/TraceModel.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/TraceModel.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/DrawVert.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/DrawVert.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/DrawVert.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/Winding.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Winding.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Winding.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/JointTransform.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/JointTransform.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/JointTransform.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/geometry/Winding2D.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Winding2D.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/geometry/Winding2D.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/RenderMatrix.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/RenderMatrix.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/RenderMatrix.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/hashing/CRC32.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/hashing/CRC32.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/hashing/CRC32.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/Surface.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/hashing/MD4.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/hashing/MD4.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/hashing/MD4.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/Surface_Patch.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_Patch.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_Patch.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/hashing/MD5.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/hashing/MD5.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/hashing/MD5.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/Surface_Polytope.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_Polytope.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_Polytope.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Angles.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Angles.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Angles.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/Surface_SweptSpline.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_SweptSpline.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_SweptSpline.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Complex.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Complex.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Complex.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/TraceModel.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/TraceModel.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/TraceModel.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Lcp.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Lcp.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Lcp.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/Winding.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Winding.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Winding.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/MatX.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/MatX.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/MatX.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/geometry/Winding2D.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Winding2D.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Winding2D.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Math.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Math.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Math.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/hashing/CRC32.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/CRC32.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/CRC32.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Matrix.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Matrix.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Matrix.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/hashing/MD4.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/MD4.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/MD4.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Ode.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Ode.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Ode.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/hashing/MD5.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/MD5.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/MD5.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Plane.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Plane.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Plane.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Angles.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Angles.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Angles.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Pluecker.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Pluecker.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Pluecker.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Complex.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Complex.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Complex.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Polynomial.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Polynomial.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Polynomial.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Lcp.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Lcp.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Lcp.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Quat.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Quat.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Quat.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/MatX.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/MatX.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/MatX.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Rotation.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Rotation.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Rotation.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Math.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Math.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Math.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Simd.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Simd.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Simd.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Matrix.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Matrix.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Matrix.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Simd_Generic.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Simd_Generic.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Simd_Generic.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Ode.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Ode.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Ode.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Simd_SSE.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Simd_SSE.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Simd_SSE.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Plane.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Plane.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Plane.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/VecX.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/VecX.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/VecX.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Pluecker.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Pluecker.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Pluecker.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/math/Vector.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Vector.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/math/Vector.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Polynomial.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Polynomial.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Polynomial.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/sys/sys_assert.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/sys/sys_assert.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/sys/sys_assert.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Quat.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Quat.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Quat.cpp"
 },
 {
-  "directory": "/home/oakley/Repositories/BoB-Engine/morpheus/build",
-  "command": "/usr/bin/clang++ -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/BoB-Engine/morpheus/libBud/. -g -o libBud/CMakeFiles/Bud.dir/sys/posix/posix_thread.cpp.o -c /home/oakley/Repositories/BoB-Engine/morpheus/libBud/sys/posix/posix_thread.cpp",
-  "file": "/home/oakley/Repositories/BoB-Engine/morpheus/libBud/sys/posix/posix_thread.cpp"
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Rotation.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Rotation.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Rotation.cpp"
+},
+{
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Simd.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd.cpp"
+},
+{
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Simd_Generic.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd_Generic.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd_Generic.cpp"
+},
+{
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Simd_SSE.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd_SSE.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd_SSE.cpp"
+},
+{
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/VecX.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/VecX.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/VecX.cpp"
+},
+{
+  "directory": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build",
+  "command": "/usr/bin/clang++ -DUSE_EXCEPTIONS -D__DOOM_DLL__ -D__libBud__ -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core -g -D_DEBUG -O0 -ggdb   -pipe -Werror=format-security -Werror=format -Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar -Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -fno-strict-aliasing -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -o libBud/CMakeFiles/Bud.dir/math/Vector.cpp.o -c /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Vector.cpp",
+  "file": "/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Vector.cpp"
 }
 ]

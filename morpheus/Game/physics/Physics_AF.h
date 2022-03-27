@@ -874,10 +874,10 @@ private:
 	// properties
 	budStr					name;						// name of body
 	budAFBody* 				parent;						// parent of this body
-	budList<budAFBody*, TAG_libBud_LIST_PHYSICS>		children;					// children of this body
+	budList<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		children;					// children of this body
 	budClipModel* 			clipModel;					// model used for collision detection
 	budAFConstraint* 		primaryConstraint;			// primary constraint (this->constraint->body1 = this)
-	budList<budAFConstraint*, TAG_libBud_LIST_PHYSICS>constraints;				// all constraints attached to this body
+	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>constraints;				// all constraints attached to this body
 	budAFTree* 				tree;						// tree structure this body is part of
 	float					linearFriction;				// translational friction
 	float					angularFriction;			// rotational friction
@@ -951,7 +951,7 @@ public:
 	void					DebugDraw( const budVec4& color ) const;
 	
 private:
-	budList<budAFBody*, TAG_libBud_LIST_PHYSICS>		sortedBodies;
+	budList<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		sortedBodies;
 };
 
 
@@ -1156,15 +1156,15 @@ public:	// common physics interface
 	
 private:
 	// articulated figure
-	budList<budAFTree*, TAG_libBud_LIST_PHYSICS>		trees;							// tree structures
-	budList<budAFBody*, TAG_libBud_LIST_PHYSICS>		bodies;							// all bodies
-	budList<budAFConstraint*, TAG_libBud_LIST_PHYSICS>constraints;					// all frame independent constraints
-	budList<budAFConstraint*, TAG_libBud_LIST_PHYSICS>primaryConstraints;				// list with primary constraints
-	budList<budAFConstraint*, TAG_libBud_LIST_PHYSICS>auxiliaryConstraints;			// list with auxiliary constraints
-	budList<budAFConstraint*, TAG_libBud_LIST_PHYSICS>frameConstraints;				// constraints that only live one frame
-	budList<budAFConstraint_Contact*, TAG_libBud_LIST_PHYSICS>contactConstraints;		// contact constraints
-	budList<int, TAG_libBud_LIST_PHYSICS>				contactBodies;					// body id for each contact
-	budList<AFCollision_t, TAG_libBud_LIST_PHYSICS>	collisions;						// collisions
+	budList<budAFTree*, TAG_LIBBUD_LIST_PHYSICS>		trees;							// tree structures
+	budList<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		bodies;							// all bodies
+	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>constraints;					// all frame independent constraints
+	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>primaryConstraints;				// list with primary constraints
+	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>auxiliaryConstraints;			// list with auxiliary constraints
+	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>frameConstraints;				// constraints that only live one frame
+	budList<budAFConstraint_Contact*, TAG_LIBBUD_LIST_PHYSICS>contactConstraints;		// contact constraints
+	budList<int, TAG_LIBBUD_LIST_PHYSICS>				contactBodies;					// body id for each contact
+	budList<AFCollision_t, TAG_LIBBUD_LIST_PHYSICS>	collisions;						// collisions
 	bool					changedAF;						// true when the articulated figure just changed
 	
 	// properties

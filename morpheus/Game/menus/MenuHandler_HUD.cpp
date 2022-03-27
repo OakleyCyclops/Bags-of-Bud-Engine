@@ -61,7 +61,7 @@ void idMenuHandler_HUD::Update()
 		activeScreen = nextScreen;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		if( player->IsTipVisible() && autoHideTip && !hiding )
@@ -105,7 +105,7 @@ void idMenuHandler_HUD::ActivateMenu( bool show )
 
 	idMenuHandler::ActivateMenu( show );
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;

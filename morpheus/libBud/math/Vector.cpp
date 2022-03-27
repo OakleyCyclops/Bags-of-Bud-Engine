@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 budVec2 vec2_origin( 0.0f, 0.0f );
 budVec3 vec3_origin( 0.0f, 0.0f, 0.0f );

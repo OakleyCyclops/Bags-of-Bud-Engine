@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 
 /*
@@ -35,7 +35,7 @@ This routine performs a tight packing of a list of rectangles, attempting to min
 of the rectangle that encloses all of them.  Algorithm order is N^2, so it is not apropriate
 for lists with many thousands of elements.
 
-Contrast with idBitBlockAllocator, which is used incrementally with either fixed size or
+Contrast with budBitBlockAllocator, which is used incrementally with either fixed size or
 size-doubling target areas.
 
 Typical uses:

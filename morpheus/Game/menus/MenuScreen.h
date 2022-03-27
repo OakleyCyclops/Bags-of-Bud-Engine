@@ -327,7 +327,7 @@ private:
 	idMenuWidget_ScrollBar		scrollbar;
 	idMenuWidget_DynamicList 		pdaVideoList;
 	idMenuWidget_PDA_VideoInfo 	videoDetails;
-	budList< budList< budStr, TAG_libBud_LIST_MENU>, TAG_libBud_LIST_MENU >		videoItems;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU>, TAG_LIBBUD_LIST_MENU >		videoItems;
 	const budDeclVideo* 				activeVideo;
 };
 
@@ -888,7 +888,7 @@ public:
 private:
 	idMenuWidget_DynamicList* 	options;
 	idMenuWidget_Button*			btnBack;
-	budList< devOption_t, TAG_libBud_LIST_MENU >		devOptions;
+	budList< devOption_t, TAG_LIBBUD_LIST_MENU >		devOptions;
 };
 
 //*
@@ -1528,7 +1528,7 @@ private:
 	idMenuWidget_DynamicList* 		options;
 	idMenuWidget_LobbyList* 		lobby;
 	idMenuWidget_Button*				btnBack;
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 };
 
 //*
@@ -1573,7 +1573,7 @@ private:
 	idMenuWidget_DynamicList* 		options;
 	idMenuWidget_LobbyList* 		lobby;
 	idMenuWidget_Button*				btnBack;
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 };
 
 //*
@@ -1652,11 +1652,11 @@ public:
 	virtual void			ShowScreen( const mainMenuTransition_t transitionType );
 	virtual void			HideScreen( const mainMenuTransition_t transitionType );
 	
-	void					UpdateHealthArmor( idPlayer* player );
-	void					UpdateStamina( idPlayer* player );
-	void					UpdateLocation( idPlayer* player );
-	void					UpdateWeaponInfo( idPlayer* player );
-	void					UpdateWeaponStates( idPlayer* player, bool weaponChanged );
+	void					UpdateHealthArmor( budPlayer* player );
+	void					UpdateStamina( budPlayer* player );
+	void					UpdateLocation( budPlayer* player );
+	void					UpdateWeaponInfo( budPlayer* player );
+	void					UpdateWeaponStates( budPlayer* player, bool weaponChanged );
 	void					ShowTip( const char* title, const char* tip );
 	void					HideTip();
 	void					DownloadVideo();
@@ -1666,17 +1666,17 @@ public:
 	void					ClearNewPDAInfo();
 	void					ToggleNewPDA( bool show );
 	void					UpdateAudioLog( bool show );
-	void					UpdateCommunication( bool show, idPlayer* player );
+	void					UpdateCommunication( bool show, budPlayer* player );
 	void					UpdateOxygen( bool show, int val = 0 );
 	void					SetupObjective( const budStr& title, const budStr& desc, const budMaterial* screenshot );
 	void					SetupObjectiveComplete( const budStr& title );
 	void					ShowObjective( bool complete );
 	void					HideObjective( bool complete );
-	void					GiveWeapon( idPlayer* player, int weaponIndex );
+	void					GiveWeapon( budPlayer* player, int weaponIndex );
 	void					UpdatePickupInfo( int index, const budStr& name );
 	bool					IsPickupListReady();
 	void					ShowPickups();
-	void					SetCursorState( idPlayer* player, cursorState_t state, int set );
+	void					SetCursorState( budPlayer* player, cursorState_t state, int set );
 	void					SetCursorText( const budStr& action, const budStr& focus );
 	void					UpdateCursorState();
 	void					CombatCursorFlash();
@@ -1698,8 +1698,8 @@ public:
 	void					UpdateGameTime( const char* time );
 	void					UpdateMessage( bool show, const budStr& message );
 	void					ShowNewItem( const char* name, const char* icon );
-	void					UpdateFlashlight( idPlayer* player );
-	void					UpdateChattingHud( idPlayer* player );
+	void					UpdateFlashlight( budPlayer* player );
+	void					UpdateChattingHud( budPlayer* player );
 	
 private:
 
@@ -1797,7 +1797,7 @@ public:
 	virtual void				ShowScreen( const mainMenuTransition_t transitionType );
 	virtual bool				HandleAction( idWidgetAction& action, const idWidgetEvent& event, idMenuWidget* widget, bool forceHandled = false );
 	
-	virtual void				SetPlayerData( budList< scoreboardInfo_t, TAG_libBud_LIST_MENU > data );
+	virtual void				SetPlayerData( budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > data );
 	virtual void				UpdateTeamScores( int r, int b );
 	virtual void				UpdateGameInfo( budStr gameInfo );
 	virtual void				UpdateSpectating( budStr spectating, budStr follow );

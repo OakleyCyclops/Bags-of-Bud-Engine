@@ -72,8 +72,8 @@ public:
 	
 	void					Spawn();
 	void					GetAttributes( idDict& attributes ) const;
-	virtual bool			GiveToPlayer( idPlayer* player, unsigned int giveFlags );
-	virtual bool			Pickup( idPlayer* player );
+	virtual bool			GiveToPlayer( budPlayer* player, unsigned int giveFlags );
+	virtual bool			Pickup( budPlayer* player );
 	virtual void			Think();
 	virtual void			Present();
 	
@@ -143,7 +143,7 @@ public:
 	void					Restore( idRestoreGame* savefile );
 	
 	void					Spawn();
-	virtual bool			GiveToPlayer( idPlayer* player, unsigned int giveFlags );
+	virtual bool			GiveToPlayer( budPlayer* player, unsigned int giveFlags );
 	
 private:
 	int						time;
@@ -176,7 +176,7 @@ class idVideoCDItem : public idItem
 public:
 	CLASS_PROTOTYPE( idVideoCDItem );
 	
-	virtual bool			GiveToPlayer( idPlayer* player, unsigned int giveFlags );
+	virtual bool			GiveToPlayer( budPlayer* player, unsigned int giveFlags );
 };
 
 class idPDAItem : public idItem
@@ -184,7 +184,7 @@ class idPDAItem : public idItem
 public:
 	CLASS_PROTOTYPE( idPDAItem );
 	
-	virtual bool			GiveToPlayer( idPlayer* player, unsigned int giveFlags );
+	virtual bool			GiveToPlayer( budPlayer* player, unsigned int giveFlags );
 };
 
 class idMoveableItem : public idItem
@@ -202,7 +202,7 @@ public:
 	virtual void			Think();
 	void					ClientThink( const int curTime, const float fraction, const bool predict );
 	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
-	virtual bool			Pickup( idPlayer* player );
+	virtual bool			Pickup( budPlayer* player );
 	
 	static void				DropItems( budAnimatedEntity* ent, const char* type, budList<idEntity*>* list );
 	static idEntity*			DropItem( const char* classname, const budVec3& origin, const budMat3& axis, const budVec3& velocity, int activateDelay, int removeDelay );
@@ -234,12 +234,12 @@ public:
 	virtual					~idItemTeam();
 	
 	void                    Spawn();
-	virtual bool			Pickup( idPlayer* player );
+	virtual bool			Pickup( budPlayer* player );
 	virtual bool			ClientReceiveEvent( int event, int time, const budBitMsg& msg );
 	virtual void			Think();
 	
 	void					Drop( bool death = false );	// was the drop caused by death of carrier?
-	void					Return( idPlayer* player = NULL );
+	void					Return( budPlayer* player = NULL );
 	void					Capture();
 	
 	virtual void			FreeLightDef();
@@ -276,9 +276,9 @@ private:
 	
 private:
 
-	void					Event_TakeFlag( idPlayer* player );
+	void					Event_TakeFlag( budPlayer* player );
 	void					Event_DropFlag( bool death );
-	void					Event_FlagReturn( idPlayer* player = NULL );
+	void					Event_FlagReturn( budPlayer* player = NULL );
 	void					Event_FlagCapture();
 	
 	void					PrivateReturn();
@@ -293,7 +293,7 @@ class idMoveablePDAItem : public idMoveableItem
 public:
 	CLASS_PROTOTYPE( idMoveablePDAItem );
 	
-	virtual bool			GiveToPlayer( idPlayer* player, unsigned int giveFlags );
+	virtual bool			GiveToPlayer( budPlayer* player, unsigned int giveFlags );
 };
 
 /*
@@ -310,7 +310,7 @@ public:
 	CLASS_PROTOTYPE( idItemRemover );
 	
 	void					Spawn();
-	void					RemoveItem( idPlayer* player );
+	void					RemoveItem( budPlayer* player );
 	
 private:
 	void					Event_Trigger( idEntity* activator );

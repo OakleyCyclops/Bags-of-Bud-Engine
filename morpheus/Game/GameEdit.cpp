@@ -176,7 +176,7 @@ void idDragEntity::StopDrag()
 idDragEntity::Update
 ==============
 */
-void idDragEntity::Update( idPlayer* player )
+void idDragEntity::Update( budPlayer* player )
 {
 	budVec3 viewPoint, origin;
 	budMat3 viewAxis, axis;

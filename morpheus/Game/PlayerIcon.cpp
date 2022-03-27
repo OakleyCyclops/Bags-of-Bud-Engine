@@ -42,10 +42,10 @@ static const char* iconKeys[ ICON_NONE ] =
 
 /*
 ===============
-idPlayerIcon::idPlayerIcon
+budPlayerIcon::budPlayerIcon
 ===============
 */
-idPlayerIcon::idPlayerIcon()
+budPlayerIcon::budPlayerIcon()
 {
 	iconHandle	= -1;
 	iconType	= ICON_NONE;
@@ -53,20 +53,20 @@ idPlayerIcon::idPlayerIcon()
 
 /*
 ===============
-idPlayerIcon::~idPlayerIcon
+budPlayerIcon::~budPlayerIcon
 ===============
 */
-idPlayerIcon::~idPlayerIcon()
+budPlayerIcon::~budPlayerIcon()
 {
 	FreeIcon();
 }
 
 /*
 ===============
-idPlayerIcon::Draw
+budPlayerIcon::Draw
 ===============
 */
-void idPlayerIcon::Draw( idPlayer* player, jointHandle_t joint )
+void budPlayerIcon::Draw( budPlayer* player, jointHandle_t joint )
 {
 	budVec3 origin;
 	budMat3 axis;
@@ -85,12 +85,12 @@ void idPlayerIcon::Draw( idPlayer* player, jointHandle_t joint )
 
 /*
 ===============
-idPlayerIcon::Draw
+budPlayerIcon::Draw
 ===============
 */
-void idPlayerIcon::Draw( idPlayer* player, const budVec3& origin )
+void budPlayerIcon::Draw( budPlayer* player, const budVec3& origin )
 {
-	idPlayer* localPlayer = gameLocal.GetLocalPlayer();
+	budPlayer* localPlayer = gameLocal.GetLocalPlayer();
 	if( !localPlayer || !localPlayer->GetRenderView() )
 	{
 		FreeIcon();
@@ -127,10 +127,10 @@ void idPlayerIcon::Draw( idPlayer* player, const budVec3& origin )
 
 /*
 ===============
-idPlayerIcon::FreeIcon
+budPlayerIcon::FreeIcon
 ===============
 */
-void idPlayerIcon::FreeIcon()
+void budPlayerIcon::FreeIcon()
 {
 	if( iconHandle != - 1 )
 	{
@@ -142,10 +142,10 @@ void idPlayerIcon::FreeIcon()
 
 /*
 ===============
-idPlayerIcon::CreateIcon
+budPlayerIcon::CreateIcon
 ===============
 */
-bool idPlayerIcon::CreateIcon( idPlayer* player, playerIconType_t type, const budVec3& origin, const budMat3& axis )
+bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const budVec3& origin, const budMat3& axis )
 {
 	assert( type < ICON_NONE );
 	const char* mtr = player->spawnArgs.GetString( iconKeys[ type ], "_default" );
@@ -154,10 +154,10 @@ bool idPlayerIcon::CreateIcon( idPlayer* player, playerIconType_t type, const bu
 
 /*
 ===============
-idPlayerIcon::CreateIcon
+budPlayerIcon::CreateIcon
 ===============
 */
-bool idPlayerIcon::CreateIcon( idPlayer* player, playerIconType_t type, const char* mtr, const budVec3& origin, const budMat3& axis )
+bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const char* mtr, const budVec3& origin, const budMat3& axis )
 {
 	assert( type != ICON_NONE );
 	
@@ -196,10 +196,10 @@ bool idPlayerIcon::CreateIcon( idPlayer* player, playerIconType_t type, const ch
 
 /*
 ===============
-idPlayerIcon::UpdateIcon
+budPlayerIcon::UpdateIcon
 ===============
 */
-void idPlayerIcon::UpdateIcon( idPlayer* player, const budVec3& origin, const budMat3& axis )
+void budPlayerIcon::UpdateIcon( budPlayer* player, const budVec3& origin, const budMat3& axis )
 {
 	assert( iconHandle >= 0 );
 	

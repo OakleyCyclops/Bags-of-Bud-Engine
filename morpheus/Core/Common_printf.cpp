@@ -26,14 +26,14 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Common_local.h"
+#include "Common_local.hpp"
 
-budCVar com_logFile( "logFile", "0", CVAR_SYSTEM | CVAR_NOCHEAT, "1 = buffer log, 2 = flush after each print", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+budCVar com_logFile( "logFile", "0", CVAR_SYSTEM | CVAR_NOCHEAT, "1 = buffer log, 2 = flush after each print", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
 budCVar com_logFileName( "logFileName", "qconsole.log", CVAR_SYSTEM | CVAR_NOCHEAT, "name of log file, if empty, qconsole.log will be used" );
-budCVar com_timestampPrints( "com_timestampPrints", "0", CVAR_SYSTEM, "print time with each console print, 1 = msec, 2 = sec", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+budCVar com_timestampPrints( "com_timestampPrints", "0", CVAR_SYSTEM, "print time with each console print, 1 = msec, 2 = sec", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
 
 #ifndef ID_RETAIL
 budCVar com_printFilter( "com_printFilter", "", CVAR_SYSTEM, "only print lines that contain this, add multiple filters with a ; delimeter" );
@@ -257,7 +257,6 @@ void budCommonLocal::VPrintf( const char* fmt, va_list args )
 		if( com_refreshOnPrint )
 		{
 			const bool captureToImage = false;
-			UpdateScreen( captureToImage );
 		}
 	}
 }
@@ -495,11 +494,11 @@ void budCommonLocal::Error( const char* fmt, ... )
 		code = ERP_FATAL;
 	}
 	
-	// if we don't have GL running, make it a fatal error
-	if( !renderSystem->IsOpenGLRunning() )
-	{
-		code = ERP_FATAL;
-	}
+	// // if we don't have GL running, make it a fatal error
+	// if( !renderSystem->IsOpenGLRunning() )
+	// {
+	// 	code = ERP_FATAL;
+	// }
 	
 	// if we got a recursive error, make it fatal
 	if( com_errorEntered )

@@ -52,53 +52,53 @@ project(engine)
 		
 # message(STATUS CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE})
 
-# if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
-# 	add_definitions(-pipe)
-# 	#add_definitions(-Wall)
-# 	add_definitions(-Werror=format-security)
-# 	add_definitions(-Werror=format)
-# 	if(CPU_TYPE)
-# 		add_definitions(-DCPUSTRING="${CPU_TYPE}")
-# 	endif()
-# 	if (CPU_OPTIMIZATION)
-# 		add_definitions(${CPU_OPTIMIZATION})
-# 	endif()
-# 	if (USE_INTRINSICS)
-# 		add_definitions(-DUSE_INTRINSICS)
-# 	endif()
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+	add_definitions(-pipe)
+	#add_definitions(-Wall)
+	add_definitions(-Werror=format-security)
+	add_definitions(-Werror=format)
+	if(CPU_TYPE)
+		add_definitions(-DCPUSTRING="${CPU_TYPE}")
+	endif()
+	if (CPU_OPTIMIZATION)
+		add_definitions(${CPU_OPTIMIZATION})
+	endif()
+	if (USE_INTRINSICS)
+		add_definitions(-DUSE_INTRINSICS)
+	endif()
 	
-# 	#if(NOT ANDROID)
-# 		add_definitions(-DUSE_EXCEPTIONS)
-# 	#endif()
+	#if(NOT ANDROID)
+		add_definitions(-DUSE_EXCEPTIONS)
+	#endif()
 	
-# 	add_compile_options(-Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar)
-# 	if(CMAKE_C_COMPILER_ID STREQUAL "Clang")
-# 		# add clang-specific settings for warnings (the second one make sure clang doesn't complain
-# 		# about unknown -W flags, like -Wno-unused-but-set-variable)
-# 		add_compile_options(-Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum)
-# 	endif()
+	add_compile_options(-Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar)
+	if(CMAKE_C_COMPILER_ID STREQUAL "Clang")
+		# add clang-specific settings for warnings (the second one make sure clang doesn't complain
+		# about unknown -W flags, like -Wno-unused-but-set-variable)
+		add_compile_options(-Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum)
+	endif()
 	
-# 	if(NOT CMAKE_CROSSCOMPILING AND ONATIVE)
-# 		add_definitions(-march=native)
-# 	endif()
+	if(NOT CMAKE_CROSSCOMPILING AND ONATIVE)
+		add_definitions(-march=native)
+	endif()
 
-# 	add_compile_options(-fno-strict-aliasing)
+	add_compile_options(-fno-strict-aliasing)
 
-# 	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG -O0 -ggdb")
-# 	#set(CMAKE_C_FLAGS_DEBUGALL "${CMAKE_C_FLAGS_DEBUGALL} -g -ggdb -D_DEBUG")
-# 	#set(CMAKE_C_FLAGS_PROFILE "${CMAKE_C_FLAGS_PROFILE} -g -ggdb -D_DEBUG -O1 -fno-omit-frame-pointer")
-# 	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
-# 	set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -g -O3 -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
-# 	set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -Os -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
+	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG -O0 -ggdb")
+	#set(CMAKE_C_FLAGS_DEBUGALL "${CMAKE_C_FLAGS_DEBUGALL} -g -ggdb -D_DEBUG")
+	#set(CMAKE_C_FLAGS_PROFILE "${CMAKE_C_FLAGS_PROFILE} -g -ggdb -D_DEBUG -O1 -fno-omit-frame-pointer")
+	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
+	set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -g -O3 -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
+	set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -Os -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
 	
-# 	set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
-# 	#set(CMAKE_CXX_FLAGS_DEBUGALL ${CMAKE_C_FLAGS_DEBUGALL})
-# 	#set(CMAKE_CXX_FLAGS_PROFILE ${CMAKE_C_FLAGS_PROFILE})
-# 	set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
-# 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_C_FLAGS_RELWITHDEBINFO})
-# 	set(CMAKE_CXX_FLAGS_MINSIZEREL ${CMAKE_C_FLAGS_MINSIZEREL})
+	set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
+	#set(CMAKE_CXX_FLAGS_DEBUGALL ${CMAKE_C_FLAGS_DEBUGALL})
+	#set(CMAKE_CXX_FLAGS_PROFILE ${CMAKE_C_FLAGS_PROFILE})
+	set(CMAKE_CXX_FLAGS_RELEASE ${CMAKE_C_FLAGS_RELEASE})
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO ${CMAKE_C_FLAGS_RELWITHDEBINFO})
+	set(CMAKE_CXX_FLAGS_MINSIZEREL ${CMAKE_C_FLAGS_MINSIZEREL})
 
-# endif()
+endif()
 
 # #if(STANDALONE)
 # #	add_definitions(-DSTANDALONE)
@@ -320,9 +320,6 @@ project(engine)
 # 	add_definitions(-DUSE_BINKDEC)
 # 	include_directories("libs/libbinkdec/include")
 # endif()
-
-# file(GLOB MINIZIP_INCLUDES libs/zlib/minizip/*.h)
-# file(GLOB MINIZIP_SOURCES libs/zlib/minizip/*.c libs/zlib/minizip/*.cpp)
 	
 
 	
@@ -712,9 +709,6 @@ project(engine)
 # source_group("libs\\zlib" FILES ${ZLIB_INCLUDES})
 # source_group("libs\\zlib" FILES ${ZLIB_SOURCES})
 
-# source_group("libs\\zlib\\minizip" FILES ${MINIZIP_INCLUDES})
-# source_group("libs\\zlib\\minizip" FILES ${MINIZIP_SOURCES})
-
 # source_group("libs\\glew" FILES ${GLEW_INCLUDES})
 # source_group("libs\\glew" FILES ${GLEW_SOURCES})
 
@@ -1036,6 +1030,9 @@ project(engine)
 
 file(GLOB RAPIDJSON_INCLUDES libs/rapidjson/include/*.h)
 
+file(GLOB MINIZIP_INCLUDES libs/zlib/minizip/*.h)
+file(GLOB MINIZIP_SOURCES libs/zlib/minizip/*.c libs/zlib/minizip/*.cpp)
+
 file(GLOB CORE_INCLUDES Core/*.hpp)
 file(GLOB CORE_SOURCES Core/*.cpp)
 
@@ -1049,6 +1046,9 @@ file(GLOB SDL_INCLUDES Core/sdl/*.hpp)
 file(GLOB SDL_SOURCES Core/sdl/*.cpp)
 
 source_group("libs\\rapidjson" FILES ${RAPIDJSON_INCLUDES})
+
+source_group("libs\\zlib\\minizip" FILES ${MINIZIP_INCLUDES})
+source_group("libs\\zlib\\minizip" FILES ${MINIZIP_SOURCES})
 
 source_group("Core" FILES ${CORE_INCLUDES})
 source_group("Core" FILES ${CORE_SOURCES})
@@ -1064,6 +1064,7 @@ source_group("Core\\sdl" FILES ${SDL_SOURCES})
 
 set(ENGINE_INCLUDES
 	${RAPIDJSON_INCLUDES}
+	${MINIZIP_INCLUDES}
 	${CORE_INCLUDES}
 	${POSIX_INCLUDES}
 	${COMMON_INCLUDES}
@@ -1071,6 +1072,7 @@ set(ENGINE_INCLUDES
 
 set(ENGINE_SOURCES
 	${CORE_SOURCES}
+	${MINIZIP_SOURCES}
 	${POSIX_SOURCES}
 	${COMMON_SOURCES}
 	${SDL_SOURCES})
@@ -1078,10 +1080,12 @@ set(ENGINE_SOURCES
 
 add_subdirectory(libBud)
 
-
 include_directories(libBud)
+include_directories(Core)
 include_directories(libs/rapidjson/include)
 
 add_executable(engine ${ENGINE_SOURCES})
 
-target_link_libraries(engine Bud pthread SDL2)
+target_precompile_headers(engine PRIVATE Core/corePCH.hpp)
+
+target_link_libraries(engine Bud ${OPENGL_LIBRARIES} pthread ${RT_LIBRARY} SDL2 ${OPENAL_LIBRARY} ${FFMPEG_LIBRARIES} ${ZLIB_LIBRARIES} ${PNG_LIBRARY} ${JPEG_LIBRARY} ${GLEW_LIBRARY} ${CMAKE_DL_LIBS})

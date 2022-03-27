@@ -95,7 +95,7 @@ idMenuScreen_PDA_VideoDisks::Update
 void idMenuScreen_PDA_VideoDisks::Update()
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	
 	if( menuData != NULL )
 	{
@@ -193,7 +193,7 @@ void idMenuScreen_PDA_VideoDisks::ShowScreen( const mainMenuTransition_t transit
 {
 
 	videoItems.Clear();
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		int numVideos = player->GetInventory().videos.Num();
@@ -222,7 +222,7 @@ idMenuScreen_PDA_VideoDisks::ToggleVideoDiskPlay
 void idMenuScreen_PDA_VideoDisks::ToggleVideoDiskPlay()
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;
@@ -264,7 +264,7 @@ idMenuScreen_PDA_VideoDisks::SelectedVideoToPlay
 void idMenuScreen_PDA_VideoDisks::SelectedVideoToPlay( int index )
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;

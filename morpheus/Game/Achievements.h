@@ -124,7 +124,7 @@ enum achievement_t
 	STAT_DOOM_COMPLETED_EPISODE_4_HARD,
 };
 
-compile_time_assert( ACHIEVEMENTS_NUM <= idPlayerProfile::MAX_PLAYER_PROFILE_STATS );
+compile_time_assert( ACHIEVEMENTS_NUM <= budPlayerProfile::MAX_PLAYER_PROFILE_STATS );
 
 /*
 ================================================
@@ -140,7 +140,7 @@ class budAchievementManager
 public:
 	budAchievementManager();
 	
-	void		Init( idPlayer* player );
+	void		Init( budPlayer* player );
 	bool		IsInitialized() const
 	{
 		return owner != NULL;
@@ -201,7 +201,7 @@ public:
 	// RB end
 	
 private:
-	idEntityPtr< idPlayer >	owner;
+	idEntityPtr< budPlayer >	owner;
 	budArray<int, ACHIEVEMENTS_NUM> counts; // How many times has each achievement been given
 	
 	int				lastPlayerKilledTime;

@@ -152,7 +152,7 @@ void idMenuScreen_Shell_Load::UpdateSaveEnumerations()
 	
 	if( options != NULL )
 	{
-		budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > saveList;
+		budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > saveList;
 		if( session->GetSaveGameManager().IsWorking() )
 		{
 			budList< budStr > saveName;
@@ -371,7 +371,7 @@ void idMenuScreen_Shell_Load::LoadGame( int index )
 	}
 	
 	bool isDead = false;
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL && player->health <= 0 )
 	{
 		isDead = true;

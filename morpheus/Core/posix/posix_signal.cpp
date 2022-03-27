@@ -25,8 +25,8 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-#include "../../libBud/PCH.hpp"
-#include "posix_public.h"
+#include "corePCH.hpp"
+#include "posix_public.hpp"
 
 #include <string.h>
 #include <errno.h>

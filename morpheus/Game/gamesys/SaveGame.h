@@ -106,7 +106,7 @@ public:
 private:
 	budFile* 				file;
 	budFile* 				stringFile;
-	idCompressor* 			compressor;
+	budCompressor* 			compressor;
 	
 	budList<const idClass*>	objects;
 	int						version;

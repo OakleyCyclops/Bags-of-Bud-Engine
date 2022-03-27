@@ -152,7 +152,7 @@ budCVar zip_avgSeekDistance( "zip_avgSeekDistance", "0", CVAR_INTEGER, "" );
 # define TRYFREE(p) {if (p) free(p);}
 #endif
 #else // 0
-#define ALLOC(size) (Mem_Alloc(size, TAG_budFile))
+#define ALLOC(size) (Mem_Alloc(size, TAG_BUDFILE))
 #define TRYFREE(p) {Mem_Free(p);} // Mem_Free - as well as free() - check for NULL themselves, no need to do it here
 #endif // 0
 

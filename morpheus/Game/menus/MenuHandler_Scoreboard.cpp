@@ -110,7 +110,7 @@ void idMenuHandler_Scoreboard::ActivateMenu( bool show )
 
 	idMenuHandler::ActivateMenu( show );
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;
@@ -425,7 +425,7 @@ void idMenuHandler_Scoreboard::UpdateScoreboard( budList< mpScoreboardInfo >& da
 		AddPlayerInfo( data[i].playerNum, data[i].voiceState, data[i].team, data[i].name, data[i].score, data[i].wins, data[i].ping, data[i].spectateData );
 	}
 	
-	budList< scoreboardInfo_t, TAG_libBud_LIST_MENU > listItemInfo;
+	budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > listItemInfo;
 	for( int i = 0; i < redInfo.Num(); ++i )
 	{
 		listItemInfo.Append( redInfo[i] );

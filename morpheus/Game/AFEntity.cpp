@@ -1945,7 +1945,7 @@ void budAFEntity_Vehicle::Spawn()
 budAFEntity_Vehicle::Use
 ================
 */
-void budAFEntity_Vehicle::Use( idPlayer* other )
+void budAFEntity_Vehicle::Use( budPlayer* other )
 {
 	budVec3 origin;
 	budMat3 axis;
@@ -3174,7 +3174,7 @@ budGameEdit::AF_SpawnEntity
 bool budGameEdit::AF_SpawnEntity( const char* fileName )
 {
 	idDict args;
-	idPlayer* player;
+	budPlayer* player;
 	budAFEntity_Generic* ent;
 	const budDeclAF* af;
 	budVec3 org;
@@ -3729,7 +3729,7 @@ void idHarvestable::Think()
 	
 	if( startTime && gameLocal.slow.time - startTime > giveDelay && ! given )
 	{
-		idPlayer* thePlayer = player.GetEntity();
+		budPlayer* thePlayer = player.GetEntity();
 		
 		thePlayer->Give( spawnArgs.GetString( "give_item" ), spawnArgs.GetString( "give_value" ), ITEM_GIVE_FEEDBACK | ITEM_GIVE_UPDATE_STATE );
 		thePlayer->harvest_lock = false;
@@ -3886,7 +3886,7 @@ bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
 		return false;
 	}
 	
-	idPlayer* thePlayer = player.GetEntity();
+	budPlayer* thePlayer = player.GetEntity();
 	
 	if( !fxOrient.Icmp( "up" ) )
 	{
@@ -4002,9 +4002,9 @@ void idHarvestable::Event_Touch( idEntity* other, trace_t* trace )
 	}
 	
 	
-	if( !startTime && other && other->IsType( idPlayer::Type ) )
+	if( !startTime && other && other->IsType( budPlayer::Type ) )
 	{
-		idPlayer* thePlayer = static_cast<idPlayer*>( other );
+		budPlayer* thePlayer = static_cast<budPlayer*>( other );
 		
 		if( thePlayer->harvest_lock )
 		{

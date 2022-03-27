@@ -49,14 +49,14 @@ public:
 		threadGameTime(),
 		threadRenderTime(),
 		userCmdMgr( NULL ),
-		ret(),
+		// ret(),
 		numGameFrames(),
 		isClient()
 	{}
 	
 	// the gameReturn_t is from the previous frame, the
 	// new frame will be running in parallel on exit
-	gameReturn_t	RunGameAndDraw( int numGameFrames, budUserCmdMgr& userCmdMgr_, bool isClient_, int startGameFrame );
+	// gameReturn_t	RunGameAndDraw( int numGameFrames, budUserCmdMgr& userCmdMgr_, bool isClient_, int startGameFrame );
 	
 	// Accessors to the stored frame/thread time information
 	void			SetThreadTotalTime( const int inTime )
@@ -95,7 +95,7 @@ private:
 	int				threadGameTime;				// game time only
 	int				threadRenderTime;			// render fg time only
 	budUserCmdMgr* 	userCmdMgr;
-	gameReturn_t	ret;
+	// gameReturn_t	ret;
 	int				numGameFrames;
 	bool			isClient;
 };
@@ -149,8 +149,6 @@ public:
 	virtual void				Quit();
 	virtual bool				IsInitialized() const;
 	virtual void				Frame();
-	// DG: added possibility to *not* release mouse in UpdateScreen(), it fucks up the view angle for screenshots
-	virtual void				UpdateScreen( bool captureToImage, bool releaseMouse = true );
 	// DG end
 	virtual void				UpdateLevelLoadPacifier();  // Indefinate
 //	virtual void				UpdateLevelLoadPacifier( int mProgress );
@@ -189,9 +187,7 @@ public:
 	
 	virtual int					GetSnapRate();
 	
-	virtual void				NetReceiveReliable( int peer, int type, budBitMsg& msg );
 	virtual void				NetReceiveSnapshot( class budSnapShot& ss );
-	virtual void				NetReceiveUsercmds( int peer, budBitMsg& msg );
 	void						NetReadUsercmds( int clientNum, budBitMsg& msg );
 	
 	virtual bool				ProcessEvent( const sysEvent_t* event );
@@ -211,37 +207,32 @@ public:
 		return writeDemo;
 	}
 	
-	virtual budGame* 			Game()
-	{
-		return game;
-	}
-	virtual budRenderWorld* 		RW()
-	{
-		return renderWorld;
-	}
-	virtual budSoundWorld* 		SW()
-	{
-		return soundWorld;
-	}
-	virtual budSoundWorld* 		MenuSW()
-	{
-		return menuSoundWorld;
-	}
+	// virtual budGame* 			Game()
+	// {
+	// 	return game;
+	// }
+	// virtual budRenderWorld* 		RW()
+	// {
+	// 	return renderWorld;
+	// }
+	// virtual budSoundWorld* 		SW()
+	// {
+	// 	return soundWorld;
+	// }
+	// virtual budSoundWorld* 		MenuSW()
+	// {
+	// 	return menuSoundWorld;
+	// }
 	virtual budSession* 			Session()
 	{
 		return session;
 	}
-	virtual budCommonDialog& 	Dialog()
-	{
-		return commonDialog;
-	}
 	
-	virtual void				OnSaveCompleted( idSaveLoadParms& parms );
-	virtual void				OnLoadCompleted( idSaveLoadParms& parms );
+	// virtual void				OnLoadCompleted( idSaveLoadParms& parms );
 	virtual void				OnLoadFilesCompleted( idSaveLoadParms& parms );
 	virtual void				OnEnumerationCompleted( idSaveLoadParms& parms );
 	virtual void				OnDeleteCompleted( idSaveLoadParms& parms );
-	virtual void				TriggerScreenWipe( const char* _wipeMaterial, bool hold );
+	// virtual void				TriggerScreenWipe( const char* _wipeMaterial, bool hold );
 	
 	virtual void				OnStartHosting( budMatchParameters& parms );
 	
@@ -250,7 +241,6 @@ public:
 		return gameFrame;
 	}
 	
-	virtual void				InitializeMPMapsModes();
 	virtual const budStrList& 			GetModeList() const
 	{
 		return mpGameModes;
@@ -379,8 +369,6 @@ private:
 	
 	int							gameDLL;
 	
-	budCommonDialog				commonDialog;
-	
 	budFile_SaveGame 			saveFile;
 	budFile_SaveGame 			stringsFile;
 	budFile_SaveGamePipelined*	 pipelineFile;
@@ -490,23 +478,23 @@ private:
 	int					timeDemoStartTime;
 	int					numDemoFrames;		// for timeDemo and demoShot
 	int					demoTimeOffset;
-	renderView_t		currentDemoRenderView;
+	// renderView_t		currentDemoRenderView;
 	
 	budStrList			mpGameModes;
 	budStrList			mpDisplayGameModes;
 	budList<mpMap_t>		mpGameMaps;
 	
-	budSWF* 				loadGUI;
+	// budSWF* 				loadGUI;
 	int					nextLoadTip;
 	bool				isHellMap;
 	bool				defaultLoadscreen;
 	budStaticList<int, LOAD_TIP_COUNT>	loadTipList;
 	
-	const budMaterial* 	splashScreen;
+	// const budMaterial* 	splashScreen;
 	
-	const budMaterial* 	whiteMaterial;
+	// const budMaterial* 	whiteMaterial;
 	
-	const budMaterial* 	wipeMaterial;
+	// const budMaterial* 	wipeMaterial;
 	int					wipeStartTime;
 	int					wipeStopTime;
 	bool				wipeHold;
@@ -556,7 +544,6 @@ private:
 	void	UnloadGameDLL();
 	void	CleanupShell();
 	void	RenderBink( const char* path );
-	void	RenderSplash();
 	void	FilterLangList( budStrList* list, budStr lang );
 	void	CheckStartupStorageRequirements();
 	
@@ -571,7 +558,7 @@ private:
 	
 	void	AdvanceRenderDemo( bool singleFrameOnly );
 	
-	void	ProcessGameReturn( const gameReturn_t& ret );
+	// void	ProcessGameReturn( const gameReturn_t& ret );
 	
 	void	RunNetworkSnapshotFrame();
 	void	ExecuteReliableMessages();
@@ -588,7 +575,7 @@ private:
 	void	SendSnapshots();
 	void	SendUsercmds( int localClientNum );
 	
-	void	LoadLoadingGui( const char* mapName, bool& hellMap );
+	// void	LoadLoadingGui( const char* mapName, bool& hellMap );
 	
 	// Meant to be used like:
 	// while ( waiting ) { BusyWait(); }
@@ -611,19 +598,7 @@ private:
 	void	PlayIntroGui();
 	
 	void	ScrubSaveGameFileName( budStr& saveFileName ) const;
-	
-	// RB begin
-#if defined(USE_DOOMCLASSIC)
-	// Doom classic support
-	void	RunDoomClassicFrame();
-	void	RenderDoomClassic();
-	bool	IsPlayingDoomClassic() const
-	{
-		return GetCurrentGame() != DOOM3_BFG;
-	}
-	void	PerformGameSwitch();
-#endif
-	// RB end
+
 };
 
 extern budCommonLocal commonLocal;

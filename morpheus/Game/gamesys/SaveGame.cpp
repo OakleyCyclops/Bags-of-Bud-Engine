@@ -66,7 +66,7 @@ idSaveGame::idSaveGame()
 */
 idSaveGame::idSaveGame( budFile* savefile, budFile* stringTableFile, int saveVersion )
 {
-	//compressor = idCompressor::AllocLZW();
+	//compressor = budCompressor::AllocLZW();
 	//compressor->Init( savefile, true, 8 );
 	//file = compressor;
 	file = savefile;

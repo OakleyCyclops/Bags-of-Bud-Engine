@@ -1,4 +1,4 @@
-# Install script for directory: /home/oakley/Repositories/BoB-Engine/morpheus/libBud
+# Install script for directory: /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

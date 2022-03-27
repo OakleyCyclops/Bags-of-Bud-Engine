@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 budCVar com_requireNonProductionSignIn( "com_requireNonProductionSignIn", "1", CVAR_BOOL | CVAR_ARCHIVE, "If true, will require sign in, even on non production builds." );
 extern budCVar fs_savepath;
@@ -63,12 +63,12 @@ bool idSignInManagerBase::ProcessInputEvent( const sysEvent_t* ev )
 idSignInManagerBase::GetDefaultProfile
 ========================
 */
-idPlayerProfile* idSignInManagerBase::GetDefaultProfile()
+budPlayerProfile* idSignInManagerBase::GetDefaultProfile()
 {
 	if( defaultProfile == NULL )
 	{
 		// Create a new profile
-		defaultProfile = idPlayerProfile::CreatePlayerProfile( 0 );
+		defaultProfile = budPlayerProfile::CreatePlayerProfile( 0 );
 	}
 	return defaultProfile;
 }
@@ -114,10 +114,10 @@ idLocalUser* idSignInManagerBase::GetLocalUserByHandle( localUserHandle_t handle
 idSignInManagerBase::GetPlayerProfileByInputDevice
 ========================
 */
-idPlayerProfile* idSignInManagerBase::GetPlayerProfileByInputDevice( int index )
+budPlayerProfile* idSignInManagerBase::GetPlayerProfileByInputDevice( int index )
 {
 	idLocalUser* user = session->GetSignInManager().GetLocalUserByInputDevice( index );
-	idPlayerProfile* profile = NULL;
+	budPlayerProfile* profile = NULL;
 	if( user != NULL )
 	{
 		profile = user->GetProfile();
@@ -175,7 +175,7 @@ void idSignInManagerBase::SaveUserProfiles()
 		idLocalUser* localUser = GetLocalUserByIndex( i );
 		if( localUser != NULL )
 		{
-			idPlayerProfile* profile = localUser->GetProfile();
+			budPlayerProfile* profile = localUser->GetProfile();
 			if( profile != NULL )
 			{
 				profile->SaveSettings( false );

@@ -70,7 +70,7 @@ public:
 	~idDragEntity();
 	
 	void					Clear();
-	void					Update( idPlayer* player );
+	void					Update( budPlayer* player );
 	void					SetSelected( idEntity* ent );
 	idEntity* 				GetSelected() const
 	{

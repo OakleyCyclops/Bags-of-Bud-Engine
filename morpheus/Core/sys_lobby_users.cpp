@@ -26,9 +26,9 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_lobby.h"
-#include "sys_voicechat.h"
+#include "corePCH.hpp"
+#include "sys_lobby.hpp"
+#include "sys_voicechat.hpp"
 
 
 
@@ -1519,7 +1519,7 @@ float idLobby::GetAverageLocalUserLevel( bool onlineOnly )
 			continue;
 		}
 		
-		const idPlayerProfile* profile = localUser->GetProfile();
+		const budPlayerProfile* profile = localUser->GetProfile();
 		
 		if( profile == NULL )
 		{

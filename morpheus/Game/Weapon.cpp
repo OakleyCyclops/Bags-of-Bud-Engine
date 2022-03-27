@@ -231,7 +231,7 @@ idWeapon::SetOwner
 Only called at player spawn time, not each weapon switch
 ================
 */
-void idWeapon::SetOwner( idPlayer* _owner )
+void idWeapon::SetOwner( budPlayer* _owner )
 {
 	assert( !owner );
 	owner = _owner;
@@ -250,7 +250,7 @@ idWeapon::SetFlashlightOwner
 Only called at player spawn time, not each weapon switch
 ================
 */
-void idWeapon::SetFlashlightOwner( idPlayer* _owner )
+void idWeapon::SetFlashlightOwner( budPlayer* _owner )
 {
 	assert( !owner );
 	owner = _owner;
@@ -1464,9 +1464,9 @@ void idWeapon::UpdateGUI()
 	if( !owner->IsLocallyControlled() )
 	{
 		// if updating the hud for a followed client
-		if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( idPlayer::Type ) )
+		if( gameLocal.GetLocalClientNum() >= 0 && gameLocal.entities[ gameLocal.GetLocalClientNum() ] && gameLocal.entities[ gameLocal.GetLocalClientNum() ]->IsType( budPlayer::Type ) )
 		{
-			idPlayer* p = static_cast< idPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
+			budPlayer* p = static_cast< budPlayer* >( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
 			if( !p->spectating || p->spectator != owner->entityNumber )
 			{
 				return;
@@ -4563,15 +4563,15 @@ void idWeapon::Event_Melee()
 			// weapon stealing - do this before damaging so weapons are not dropped twice
 			if( common->IsMultiplayer()
 					&& weaponDef->dict.GetBool( "stealing" )
-					&& ent->IsType( idPlayer::Type )
+					&& ent->IsType( budPlayer::Type )
 					&& !owner->PowerUpActive( BERSERK )
-					&& ( ( gameLocal.gameType != GAME_TDM ) || gameLocal.serverInfo.GetBool( "si_teamDamage" ) || ( owner->team != static_cast< idPlayer* >( ent )->team ) )
+					&& ( ( gameLocal.gameType != GAME_TDM ) || gameLocal.serverInfo.GetBool( "si_teamDamage" ) || ( owner->team != static_cast< budPlayer* >( ent )->team ) )
 			  )
 			{
 			
 				if( !gameLocal.mpGame.IsGametypeFlagBased() )
 				{
-					owner->StealWeapon( static_cast< idPlayer* >( ent ) );
+					owner->StealWeapon( static_cast< budPlayer* >( ent ) );
 				}
 			}
 			

@@ -205,7 +205,7 @@ void idTarget_EndLevel::Event_Activate( idEntity* activator )
 		return;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	
 	const bool isTutorialMap = ( budStr::FindText( gameLocal.GetMapFileName(), "mars_city1" ) >= 0 ) ||
 							   ( budStr::FindText( gameLocal.GetMapFileName(), "mars_city2" ) >= 0 ) ||
@@ -358,7 +358,7 @@ idTarget_WaitForButton::Think
 */
 void idTarget_WaitForButton::Think()
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	if( thinkFlags & TH_THINK )
 	{
@@ -769,7 +769,7 @@ void idTarget_Give::Event_Activate( idEntity* activator )
 	}
 	
 	static int giveNum = 0;
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		const idKeyValue* kv = spawnArgs.MatchPrefix( "item", NULL );
@@ -812,7 +812,7 @@ idTarget_GiveEmail::Event_Activate
 */
 void idTarget_GiveEmail::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	const budDeclPDA* pda = player->GetPDA();
 	if( pda )
 	{
@@ -1071,7 +1071,7 @@ idTarget_SetInfluence::Event_Flash
 */
 void idTarget_SetInfluence::Event_Flash( float flash, int out )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	player->playerView.Fade( budVec4( 1, 1, 1, 1 ), flash );
 	const idSoundShader* shader = NULL;
 	if( !out && flashInSound.Length() )
@@ -1095,7 +1095,7 @@ idTarget_SetInfluence::Event_ClearFlash
 */
 void idTarget_SetInfluence::Event_ClearFlash( float flash )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	player->playerView.Fade( vec4_zero , flash );
 }
 /*
@@ -1192,7 +1192,7 @@ void idTarget_SetInfluence::Event_Activate( idEntity* activator )
 	bool update;
 	budVec3 color;
 	budVec4 colorTo;
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	
@@ -1376,7 +1376,7 @@ void idTarget_SetInfluence::Think()
 {
 	if( thinkFlags & TH_THINK )
 	{
-		idPlayer* player = gameLocal.GetLocalPlayer();
+		budPlayer* player = gameLocal.GetLocalPlayer();
 		player->SetInfluenceFov( fovSetting.GetCurrentValue( gameLocal.time ) );
 		if( fovSetting.IsDone( gameLocal.time ) )
 		{
@@ -1486,7 +1486,7 @@ void idTarget_SetInfluence::Event_RestoreInfluence()
 		}
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	player->SetInfluenceLevel( 0 );
 	player->SetInfluenceView( NULL, NULL, 0.0f, NULL );
 	player->SetInfluenceFov( 0 );
@@ -1617,7 +1617,7 @@ void idTarget_SetFov::Event_Activate( idEntity* activator )
 	// always allow during cinematics
 	cinematic = true;
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	fovSetting.Init( gameLocal.time, SEC2MS( spawnArgs.GetFloat( "time" ) ), player ? player->DefaultFov() : g_fov.GetFloat(), spawnArgs.GetFloat( "fov" ) );
 	BecomeActive( TH_THINK );
 }
@@ -1631,7 +1631,7 @@ void idTarget_SetFov::Think()
 {
 	if( thinkFlags & TH_THINK )
 	{
-		idPlayer* player = gameLocal.GetLocalPlayer();
+		budPlayer* player = gameLocal.GetLocalPlayer();
 		player->SetInfluenceFov( fovSetting.GetCurrentValue( gameLocal.time ) );
 		if( fovSetting.IsDone( gameLocal.time ) )
 		{
@@ -1665,7 +1665,7 @@ idTarget_SetPrimaryObjective::Event_Activate
 */
 void idTarget_SetPrimaryObjective::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		player->SetPrimaryObjective( this );
@@ -1882,7 +1882,7 @@ idTarget_Tip::Event_Activate
 */
 void idTarget_Tip::Event_GetPlayerPos()
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		playerPos = player->GetPhysics()->GetOrigin();
@@ -1897,7 +1897,7 @@ idTarget_Tip::Event_Activate
 */
 void idTarget_Tip::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		if( player->IsTipVisible() )
@@ -1917,7 +1917,7 @@ idTarget_Tip::Event_TipOff
 */
 void idTarget_Tip::Event_TipOff()
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		budVec3 v = player->GetPhysics()->GetOrigin() - playerPos;
@@ -1952,7 +1952,7 @@ idTarget_GiveEmail::Event_Activate
 */
 void idTarget_GiveSecurity::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		player->GiveSecurity( spawnArgs.GetString( "text_security" ) );
@@ -1983,7 +1983,7 @@ void idTarget_RemoveWeapons::Event_Activate( idEntity* activator )
 	{
 		if( gameLocal.entities[ i ] )
 		{
-			idPlayer* player = static_cast< idPlayer* >( gameLocal.entities[i] );
+			budPlayer* player = static_cast< budPlayer* >( gameLocal.entities[i] );
 			
 			// Everywhere that we use target_removeweapons the intent is to remove ALL of the
 			// weapons that hte player has (save a few: flashlights, fists, soul cube).
@@ -2017,7 +2017,7 @@ void idTarget_LevelTrigger::Event_Activate( idEntity* activator )
 	{
 		if( gameLocal.entities[ i ] )
 		{
-			idPlayer* player = static_cast< idPlayer* >( gameLocal.entities[i] );
+			budPlayer* player = static_cast< budPlayer* >( gameLocal.entities[i] );
 			player->SetLevelTrigger( spawnArgs.GetString( "levelName" ), spawnArgs.GetString( "triggerName" ) );
 		}
 	}
@@ -2074,7 +2074,7 @@ void idTarget_EnableStamina::Event_Activate( idEntity* activator )
 	{
 		if( gameLocal.entities[ i ] )
 		{
-			idPlayer* player = static_cast< idPlayer* >( gameLocal.entities[i] );
+			budPlayer* player = static_cast< budPlayer* >( gameLocal.entities[i] );
 			if( spawnArgs.GetBool( "enable" ) )
 			{
 				pm_stamina.SetFloat( player->spawnArgs.GetFloat( "pm_stamina" ) );
@@ -2156,7 +2156,7 @@ idTarget_RumbleJoystick::Event_Activate
 */
 void idTarget_RumbleJoystick::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		float highMagnitude = spawnArgs.GetFloat( "high_magnitude" );
@@ -2188,7 +2188,7 @@ idTarget_Achievement::Event_Activate
 */
 void idTarget_Achievement::Event_Activate( idEntity* activator )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		int achievement = spawnArgs.GetFloat( "achievement" );

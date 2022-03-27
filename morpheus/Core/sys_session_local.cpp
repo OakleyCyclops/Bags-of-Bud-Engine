@@ -26,10 +26,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_session_local.h"
-#include "sys_voicechat.h"
-#include "sys_dedicated_server_search.h"
+#include "corePCH.hpp"
+#include "sys_session_local.hpp"
+#include "sys_voicechat.hpp"
+#include "sys_dedicated_server_search.hpp"
 
 
 budCVar ui_skinIndex( "ui_skinIndex", "0", CVAR_ARCHIVE, "Selected skin index" );
@@ -792,7 +792,6 @@ void budSessionLocal::HandleVoiceRestrictionDialog()
 	// Pop a dialog up the first time we are in a lobby and have voice chat restrictions due to account privileges
 	if( voiceChat != NULL && voiceChat->IsRestrictedByPrivleges() && !hasShownVoiceRestrictionDialog )
 	{
-		common->Dialog().AddDialog( GDM_VOICE_RESTRICTED, DIALOG_ACCEPT, NULL, NULL, false );
 		hasShownVoiceRestrictionDialog = true;
 	}
 }
@@ -816,8 +815,6 @@ bool budSessionLocal::WaitOnLobbyCreate( idLobby& lobby )
 		NET_VERBOSE_PRINT( "NET: budSessionLocal::WaitOnLobbyCreate lobby.GetState() == idLobby::STATE_FAILED (%s)\n", lobby.GetLobbyName() );
 		// If we failed to create a lobby, assume connection to backend service was lost
 		MoveToMainMenu();
-		common->Dialog().ClearDialogs( true );
-		common->Dialog().AddDialog( GDM_CONNECTION_LOST, DIALOG_ACCEPT, NULL, NULL, true, "", 0, true );
 		return false;
 	}
 	
@@ -855,8 +852,6 @@ bool budSessionLocal::DetectDisconnectFromService( bool cancelAndShowMsg )
 			if( cancelAndShowMsg )
 			{
 				MoveToMainMenu();
-				common->Dialog().ClearDialogs( true );
-				common->Dialog().AddDialog( GDM_CONNECTION_LOST, DIALOG_ACCEPT, NULL, NULL, false, "", 0, true );
 			}
 			
 			return true;
@@ -888,7 +883,6 @@ void budSessionLocal::HandleConnectionFailed( idLobby& lobby, bool wasFull )
 	{
 		// Clear the "Lobby was Full" dialog in case it's up
 		// We only want to see this msg when doing a direct connect (CONNECT_DIRECT)
-		common->Dialog().ClearDialog( GDM_LOBBY_FULL );
 		
 		assert( localState == STATE_CONNECT_AND_MOVE_TO_GAME || localState == STATE_CONNECT_AND_MOVE_TO_GAME_STATE );
 		assert( lobby.lobbyType == idLobby::TYPE_GAME );
@@ -912,24 +906,6 @@ void budSessionLocal::HandleConnectionFailed( idLobby& lobby, bool wasFull )
 			}
 		}
 		
-		if( wasFull )
-		{
-			common->Dialog().AddDialog( GDM_LOBBY_FULL, DIALOG_ACCEPT, NULL, NULL, false );
-		}
-		else if( !canPlayOnline )
-		{
-			common->Dialog().AddDialog( GDM_PLAY_ONLINE_NO_PROFILE, DIALOG_ACCEPT, NULL, NULL, false );
-		}
-		else
-		{
-			// TEMP HACK: We detect the steam lobby is full in idLobbyBackendWin, and then STATE_FAILED, which brings us here. Need to find a way to notify
-			// session local that the game was full so we don't do this check here
-			// eeubanks: Pollard, how do you think we should handle this?
-			if( !common->Dialog().HasDialogMsg( GDM_LOBBY_FULL, NULL ) )
-			{
-				common->Dialog().AddDialog( GDM_INVALID_INVITE, DIALOG_ACCEPT, NULL, NULL, false );
-			}
-		}
 		MoveToMainMenu();
 	}
 	else
@@ -1505,16 +1481,14 @@ bool budSessionLocal::State_Game_Lobby_Peer()
 {
 	HandleVoiceRestrictionDialog();
 	bool saving = false;
-	idPlayerProfile* profile = GetProfileFromMasterLocalUser();
-	if( profile != NULL && ( profile->GetState() == idPlayerProfile::SAVING || profile->GetRequestedState() == idPlayerProfile::SAVE_REQUESTED ) )
+	budPlayerProfile* profile = GetProfileFromMasterLocalUser();
+	if( profile != NULL && ( profile->GetState() == budPlayerProfile::SAVING || profile->GetRequestedState() == budPlayerProfile::SAVE_REQUESTED ) )
 	{
 		saving = true;
 	}
 	
 	if( GetActingGameStateLobby().startLoadingFromHost && !saving )
 	{
-		common->Dialog().ClearDialog( GDM_HOST_RETURNED_TO_LOBBY );
-		common->Dialog().ClearDialog( GDM_HOST_RETURNED_TO_LOBBY_STATS_DROPPED );
 		
 		VerifySnapshotInitialState();
 		
@@ -1825,7 +1799,6 @@ void budSessionLocal::EndMatchInternal( bool premature/*=false*/ )
 	{
 		// Notify client that host left early and thats why we are back in the lobby
 		const bool stats = MatchTypeHasStats( GetActingGameStateLobby().GetMatchParms().matchFlags ) && ( GetFlushedStats() == false );
-		common->Dialog().AddDialog( stats ? GDM_HOST_RETURNED_TO_LOBBY_STATS_DROPPED : GDM_HOST_RETURNED_TO_LOBBY, DIALOG_ACCEPT, NULL, NULL, false, __FUNCTION__, __LINE__, true );
 	}
 	
 	if( GetGameStateLobby().IsLobbyActive() )
@@ -1936,14 +1909,11 @@ void budSessionLocal::ValidateLobby( idLobby& lobby )
 		if( lobby.failedReason == idLobby::FAILED_MIGRATION_CONNECT_FAILED || lobby.failedReason == idLobby::FAILED_CONNECT_FAILED )
 		{
 			MoveToMainMenu();
-			common->Dialog().AddDialog( GDM_INVALID_INVITE, DIALOG_ACCEPT, NULL, NULL, false );		// The game session no longer exists
 		}
 		else
 		{
 			// If the lobbyBackend goes bad under our feet for no known reason, assume we lost connection to the back end service
 			MoveToMainMenu();
-			common->Dialog().ClearDialogs( true );
-			common->Dialog().AddDialog( GDM_CONNECTION_LOST, DIALOG_ACCEPT, NULL, NULL, false );		// Lost connection to XBox LIVE
 		}
 	}
 }
@@ -2050,24 +2020,6 @@ void budSessionLocal::Pump()
 	{
 		showMigratingInfoStartTime = currentTime;
 	}
-	else if( showMigratingInfoStartTime > 0 && ( ( currentTime - showMigratingInfoStartTime ) > SHOW_MIGRATING_INFO_IN_SECONDS * 1000 ) )
-	{
-		showMigratingInfoStartTime = 0;
-	}
-	
-	bool isShowingMigrate = common->Dialog().HasDialogMsg( GDM_MIGRATING, NULL );
-	
-	if( showMigratingInfoStartTime != 0 )
-	{
-		if( !isShowingMigrate )
-		{
-			common->Dialog().AddDialog( GDM_MIGRATING, DIALOG_WAIT, NULL, NULL, false, "", 0, false, false, true );
-		}
-	}
-	else if( isShowingMigrate )
-	{
-		common->Dialog().ClearDialog( GDM_MIGRATING );
-	}
 	
 	// Update possible pending invite
 	UpdatePendingInvite();
@@ -2150,10 +2102,6 @@ void budSessionLocal::UpdatePendingInvite()
 		libBud::Printf( "ignoring invite - master local user is not setup properly\n" );
 		return; // If there is no master, if the invitee is not online, or different than the current master, then ignore invite
 	}
-	
-	// Clear any current dialogs, as we're going into a state which will be unstable for any current dialogs.
-	// Do we want to throw an assert if a dialog is currently up?
-	common->Dialog().ClearDialogs( true );
 	
 	// Everything looks good, let's join the party
 	ConnectAndMoveToLobby( GetPartyLobby(), pendingInviteConnectInfo, wasFromInvite );
@@ -2329,7 +2277,6 @@ void budSessionLocal::LoadingFinished()
 	
 	assert( GetState() == budSession::LOADING );
 	
-	common->Dialog().ClearDialog( GDM_VOICE_RESTRICTED );
 	GetActingGameStateLobby().loaded = true;
 	
 	if( MatchTypeIsLocal( GetActingGameStateLobby().parms.matchFlags ) )
@@ -2511,8 +2458,6 @@ void budSessionLocal::UpdateSignInManager()
 			if( ( Sys_Milliseconds() - offlineTransitionTimerStart ) > net_offlineTransitionThreshold.GetInteger() )
 			{
 				MoveToMainMenu();
-				common->Dialog().ClearDialogs();
-				common->Dialog().AddDialog( GDM_CONNECTION_LOST, DIALOG_ACCEPT, NULL, NULL, false, "", 0, true );
 			}
 		}
 		return;		// Bail out so signInManager->ValidateLocalUsers below doesn't prematurely remove the master user before we can detect loss of connection
@@ -2536,7 +2481,6 @@ void budSessionLocal::UpdateSignInManager()
 	if( masterUser == NULL )
 	{
 		// If we don't have a master user at all, then we need to be at "Press Start"
-		MoveToPressStart( GDM_SP_SIGNIN_CHANGE_POST );
 		return;
 	}
 	else if( localState == STATE_PRESS_START )
@@ -2552,7 +2496,6 @@ void budSessionLocal::UpdateSignInManager()
 	// RequirePersistentMaster is poorly named, this really means RequireSignedInMaster
 	if( masterUser->HasOwnerChanged() || ( RequirePersistentMaster() && !masterUser->IsProfileReady() ) )
 	{
-		MoveToPressStart( GDM_SP_SIGNIN_CHANGE_POST );
 		return;
 	}
 	
@@ -2572,9 +2515,9 @@ void budSessionLocal::UpdateSignInManager()
 budSessionLocal::GetProfileFromMasterLocalUser
 ========================
 */
-idPlayerProfile* budSessionLocal::GetProfileFromMasterLocalUser()
+budPlayerProfile* budSessionLocal::GetProfileFromMasterLocalUser()
 {
-	idPlayerProfile* profile = NULL;
+	budPlayerProfile* profile = NULL;
 	idLocalUser* masterUser = signInManager->GetMasterLocalUser();
 	
 	if( masterUser != NULL )
@@ -2590,21 +2533,6 @@ idPlayerProfile* budSessionLocal::GetProfileFromMasterLocalUser()
 	}
 	
 	return profile;
-}
-
-/*
-========================
-budSessionLocal::MoveToPressStart
-========================
-*/
-void budSessionLocal::MoveToPressStart( gameDialogMessages_t msg )
-{
-	if( localState != STATE_PRESS_START )
-	{
-		MoveToPressStart();
-		common->Dialog().ClearDialogs();
-		common->Dialog().AddDialog( msg, DIALOG_ACCEPT, NULL, NULL, false, "", 0, true );
-	}
 }
 
 /*
@@ -2644,7 +2572,6 @@ void budSessionLocal::SetState( state_t newState )
 		// Tell lobby instances that the match has started
 		StartSessions();
 		// Clear certain dialog boxes we don't want to see in-game
-		common->Dialog().ClearDialog( GDM_LOBBY_DISBANDED );	// The lobby you were previously in has disbanded
 	}
 	else if( localState >= STATE_LOADING && newState < STATE_LOADING )
 	{
@@ -3354,7 +3281,7 @@ lobbyUser_t::UpdateClientMutableData
 bool lobbyUser_t::UpdateClientMutableData( const idLocalUser* localUser )
 {
 	bool updated = false;
-	const idPlayerProfile* profile = localUser->GetProfile();
+	const budPlayerProfile* profile = localUser->GetProfile();
 	if( profile != NULL )
 	{
 		updated |= CheckAndUpdateValue( level, profile->GetLevel() );
@@ -4184,12 +4111,10 @@ void budSessionLocal::PrePickNewHost( idLobby& lobby, bool forceMe, bool inviteO
 		if( localState >= budSessionLocal::STATE_LOADING )
 		{
 			NET_VERBOSE_PRINT( "budSessionLocal::PrePickNewHost: localState >= budSessionLocal::STATE_LOADING (%s)\n", lobby.GetLobbyName() );
-			common->Dialog().AddDialog( GDM_BECAME_HOST_GAME_STATS_DROPPED, DIALOG_ACCEPT, NULL, NULL, false, __FUNCTION__, __LINE__, true );
 		}
 		else
 		{
 			NET_VERBOSE_PRINT( "budSessionLocal::PrePickNewHost: localState < budSessionLocal::STATE_LOADING (%s)\n", lobby.GetLobbyName() );
-			common->Dialog().AddDialog( GDM_LOBBY_BECAME_HOST_GAME, DIALOG_ACCEPT, NULL, NULL, false, __FUNCTION__, __LINE__, true );
 		}
 		
 		CreateMatch( GetActivePlatformLobby()->parms );
@@ -4226,10 +4151,6 @@ void budSessionLocal::PrePickNewHost( idLobby& lobby, bool forceMe, bool inviteO
 	else
 	{
 		NET_VERBOSE_PRINT( "budSessionLocal::PrePickNewHost: GetBackState() < budSessionLocal::PARTY_LOBBY && GetState() != budSession::PARTY_LOBBY (%s)\n", lobby.GetLobbyName() );
-		if( localState >= budSessionLocal::STATE_LOADING )
-		{
-			common->Dialog().AddDialog( GDM_HOST_QUIT, DIALOG_ACCEPT, NULL, NULL, false, __FUNCTION__, __LINE__, true );		// The host has quit the session. Returning to the main menu.
-		}
 		
 		// Go back to main menu
 		GetGameLobby().Shutdown();
@@ -4505,6 +4426,7 @@ void Net_DebugOutputSignedInUsers_f( const budCmdArgs& args )
 {
 	session->GetSignInManager().DebugOutputLocalUserInfo();
 }
+
 budCommandLink Net_DebugOutputSignedInUsers( "net_debugOutputSignedInUsers", Net_DebugOutputSignedInUsers_f, "Outputs all the local users and other debugging information from the sign in manager" );
 
 /*

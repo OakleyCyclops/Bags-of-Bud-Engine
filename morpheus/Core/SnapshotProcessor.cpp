@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 budCVar net_optimalSnapDeltaSize( "net_optimalSnapDeltaSize", "1000", CVAR_INTEGER, "Optimal size of snapshot delta msgs." );
 budCVar net_debugBaseStates( "net_debugBaseStates", "0", CVAR_BOOL, "Log out base state information" );

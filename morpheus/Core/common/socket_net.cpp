@@ -37,7 +37,7 @@ Note that other POSIX systems may need some small changes, e.g. in Sys_InitNetwo
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 #ifdef _WIN32
 

@@ -66,7 +66,7 @@ budCVar aa_targetFrictionMultiplierMax(	"aa_targetFrictionMultiplierMax",				"0.
 budAimAssist::Init
 ========================
 */
-void budAimAssist::Init( idPlayer* player_ )
+void budAimAssist::Init( budPlayer* player_ )
 {
 	player = player_;
 	angleCorrection = ang_zero;

@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "sys_lobby_backend.h"
+#include "sys_lobby_backend.hpp"
 
 #define INVALID_LOBBY_USER_NAME " " // Used to be "INVALID" but Sony might not like that.
 
@@ -617,7 +617,7 @@ public:		// Turning this on for now, for the sake of getting this up and running
 	virtual int							GetLobbyUserTeam( lobbyUserID_t lobbyUserID ) const;
 	virtual bool						SetLobbyUserTeam( lobbyUserID_t lobbyUserID, int teamNumber );
 	virtual int							GetLobbyUserPartyToken( lobbyUserID_t lobbyUserID ) const;
-	virtual idPlayerProfile* 			GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID );
+	virtual budPlayerProfile* 			GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID );
 	virtual idLocalUser* 				GetLocalUserFromLobbyUser( lobbyUserID_t lobbyUserID );
 	virtual int							GetNumLobbyUsersOnTeam( int teamNumber ) const;
 	
@@ -792,7 +792,6 @@ public:		// Turning this on for now, for the sake of getting this up and running
 	
 	
 	bool								needToDisplayMigrateMsg;	// If true, we migrated as host, so we need to display the msg as soon as the lobby is active
-	gameDialogMessages_t				migrationDlg;				// current migration dialog we should be showing
 	
 	uint8								migrateMsgFlags;			// cached match flags from the old game we migrated from, so we know what type of msg to display
 	

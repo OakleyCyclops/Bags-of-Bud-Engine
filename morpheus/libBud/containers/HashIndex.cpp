@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 int budHashIndex::INVALID_INDEX[1] = { -1 };
 
@@ -60,10 +60,10 @@ void budHashIndex::Allocate( const int newHashSize, const int newIndexSize )
 	
 	Free();
 	hashSize = newHashSize;
-	hash = new( TAG_libBud_HASH ) int[hashSize];
+	hash = new( TAG_LIBBUD_HASH ) int[hashSize];
 	memset( hash, 0xff, hashSize * sizeof( hash[0] ) );
 	indexSize = newIndexSize;
-	indexChain = new( TAG_libBud_HASH ) int[indexSize];
+	indexChain = new( TAG_LIBBUD_HASH ) int[indexSize];
 	memset( indexChain, 0xff, indexSize * sizeof( indexChain[0] ) );
 	hashMask = hashSize - 1;
 	lookupMask = -1;
@@ -120,7 +120,7 @@ void budHashIndex::ResizeIndex( const int newIndexSize )
 	}
 	
 	oldIndexChain = indexChain;
-	indexChain = new( TAG_libBud_HASH ) int[newSize];
+	indexChain = new( TAG_LIBBUD_HASH ) int[newSize];
 	memcpy( indexChain, oldIndexChain, indexSize * sizeof( int ) );
 	memset( indexChain + indexSize, 0xff, ( newSize - indexSize ) * sizeof( int ) );
 	delete[] oldIndexChain;
@@ -142,7 +142,7 @@ int budHashIndex::GetSpread() const
 	}
 	
 	totalItems = 0;
-	numHashItems = new( TAG_libBud_HASH ) int[hashSize];
+	numHashItems = new( TAG_LIBBUD_HASH ) int[hashSize];
 	for( i = 0; i < hashSize; i++ )
 	{
 		numHashItems[i] = 0;

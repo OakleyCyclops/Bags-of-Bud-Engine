@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 double budTimer::base = -1.0;
@@ -99,7 +99,7 @@ int budTimerReport::AddReport( const char* name )
 	if( name && *name )
 	{
 		names.Append( name );
-		return timers.Append( new( TAG_libBud ) budTimer() );
+		return timers.Append( new( TAG_LIBBUD ) budTimer() );
 	}
 	return -1;
 }

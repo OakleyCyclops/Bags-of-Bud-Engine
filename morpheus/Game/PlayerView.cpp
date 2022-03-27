@@ -36,10 +36,10 @@ If you have questions concerning this license or the applicable additional terms
 const int IMPULSE_DELAY = 150;
 /*
 ==============
-idPlayerView::idPlayerView
+budPlayerView::budPlayerView
 ==============
 */
-idPlayerView::idPlayerView()
+budPlayerView::budPlayerView()
 {
 	memset( screenBlobs, 0, sizeof( screenBlobs ) );
 	memset( &view, 0, sizeof( view ) );
@@ -74,19 +74,19 @@ idPlayerView::idPlayerView()
 
 /*
 ==============
-idPlayerView::~idPlayerView
+budPlayerView::~budPlayerView
 ==============
 */
-idPlayerView::~idPlayerView()
+budPlayerView::~budPlayerView()
 {
 	delete fxManager;
 }
 /*
 ==============
-idPlayerView::Save
+budPlayerView::Save
 ==============
 */
-void idPlayerView::Save( idSaveGame* savefile ) const
+void budPlayerView::Save( idSaveGame* savefile ) const
 {
 	int i;
 	const screenBlob_t* blob;
@@ -140,10 +140,10 @@ void idPlayerView::Save( idSaveGame* savefile ) const
 
 /*
 ==============
-idPlayerView::Restore
+budPlayerView::Restore
 ==============
 */
-void idPlayerView::Restore( idRestoreGame* savefile )
+void budPlayerView::Restore( idRestoreGame* savefile )
 {
 	int i;
 	screenBlob_t* blob;
@@ -197,20 +197,20 @@ void idPlayerView::Restore( idRestoreGame* savefile )
 
 /*
 ==============
-idPlayerView::SetPlayerEntity
+budPlayerView::SetPlayerEntity
 ==============
 */
-void idPlayerView::SetPlayerEntity( idPlayer* playerEnt )
+void budPlayerView::SetPlayerEntity( budPlayer* playerEnt )
 {
 	player = playerEnt;
 }
 
 /*
 ==============
-idPlayerView::ClearEffects
+budPlayerView::ClearEffects
 ==============
 */
-void idPlayerView::ClearEffects()
+void budPlayerView::ClearEffects()
 {
 	lastDamageTime = MS2SEC( gameLocal.slow.time - 99999 );
 	
@@ -228,10 +228,10 @@ void idPlayerView::ClearEffects()
 
 /*
 ==============
-idPlayerView::GetScreenBlob
+budPlayerView::GetScreenBlob
 ==============
 */
-screenBlob_t* idPlayerView::GetScreenBlob()
+screenBlob_t* budPlayerView::GetScreenBlob()
 {
 	screenBlob_t* oldest = &screenBlobs[0];
 	
@@ -247,13 +247,13 @@ screenBlob_t* idPlayerView::GetScreenBlob()
 
 /*
 ==============
-idPlayerView::DamageImpulse
+budPlayerView::DamageImpulse
 
 LocalKickDir is the direction of force in the player's coordinate system,
 which will determine the head kick direction
 ==============
 */
-void idPlayerView::DamageImpulse( budVec3 localKickDir, const idDict* damageDef )
+void budPlayerView::DamageImpulse( budVec3 localKickDir, const idDict* damageDef )
 {
 	//
 	// double vision effect
@@ -341,12 +341,12 @@ void idPlayerView::DamageImpulse( budVec3 localKickDir, const idDict* damageDef 
 
 /*
 ==================
-idPlayerView::WeaponFireFeedback
+budPlayerView::WeaponFireFeedback
 
 Called when a weapon fires, generates head twitches, etc
 ==================
 */
-void idPlayerView::WeaponFireFeedback( const idDict* weaponDef )
+void budPlayerView::WeaponFireFeedback( const idDict* weaponDef )
 {
 	int recoilTime = weaponDef->GetInt( "recoilTime" );
 	// don't shorten a damage kick in progress
@@ -363,10 +363,10 @@ void idPlayerView::WeaponFireFeedback( const idDict* weaponDef )
 
 /*
 ===================
-idPlayerView::CalculateShake
+budPlayerView::CalculateShake
 ===================
 */
-void idPlayerView::CalculateShake()
+void budPlayerView::CalculateShake()
 {
 	float shakeVolume = gameSoundWorld->CurrentShakeAmplitude();
 	//
@@ -382,22 +382,22 @@ void idPlayerView::CalculateShake()
 
 /*
 ===================
-idPlayerView::ShakeAxis
+budPlayerView::ShakeAxis
 ===================
 */
-budMat3 idPlayerView::ShakeAxis() const
+budMat3 budPlayerView::ShakeAxis() const
 {
 	return shakeAng.ToMat3();
 }
 
 /*
 ===================
-idPlayerView::AngleOffset
+budPlayerView::AngleOffset
 
   kickVector, a world space direction that the attack should
 ===================
 */
-budAngles idPlayerView::AngleOffset() const
+budAngles budPlayerView::AngleOffset() const
 {
 	budAngles ang( 0.0f, 0.0f, 0.0f );
 	
@@ -424,10 +424,10 @@ budAngles idPlayerView::AngleOffset() const
 
 /*
 ==================
-idPlayerView::SingleView
+budPlayerView::SingleView
 ==================
 */
-void idPlayerView::SingleView( const renderView_t* view, idMenuHandler_HUD* hudManager )
+void budPlayerView::SingleView( const renderView_t* view, idMenuHandler_HUD* hudManager )
 {
 
 	// normal rendering
@@ -575,12 +575,12 @@ void idPlayerView::SingleView( const renderView_t* view, idMenuHandler_HUD* hudM
 
 /*
 =================
-idPlayerView::Flash
+budPlayerView::Flash
 
 flashes the player view with the given color
 =================
 */
-void idPlayerView::Flash( budVec4 color, int time )
+void budPlayerView::Flash( budVec4 color, int time )
 {
 	Fade( budVec4( 0.0f, 0.0f, 0.0f, 0.0f ), time );
 	fadeFromColor = colorWhite;
@@ -588,13 +588,13 @@ void idPlayerView::Flash( budVec4 color, int time )
 
 /*
 =================
-idPlayerView::Fade
+budPlayerView::Fade
 
 used for level transition fades
 assumes: color.w is 0 or 1
 =================
 */
-void idPlayerView::Fade( budVec4 color, int time )
+void budPlayerView::Fade( budVec4 color, int time )
 {
 	SetTimeState ts( player->timeGroup );
 	
@@ -631,10 +631,10 @@ void idPlayerView::Fade( budVec4 color, int time )
 
 /*
 =================
-idPlayerView::ScreenFade
+budPlayerView::ScreenFade
 =================
 */
-void idPlayerView::ScreenFade()
+void budPlayerView::ScreenFade()
 {
 	if( !fadeTime )
 	{
@@ -747,10 +747,10 @@ float	GetScreenSeparationForGuis()
 
 /*
 ===================
-idPlayerView::EmitStereoEyeView
+budPlayerView::EmitStereoEyeView
 ===================
 */
-void idPlayerView::EmitStereoEyeView( const int eye, idMenuHandler_HUD* hudManager )
+void budPlayerView::EmitStereoEyeView( const int eye, idMenuHandler_HUD* hudManager )
 {
 	renderView_t* view = player->GetRenderView();
 	if( view == NULL )
@@ -797,10 +797,10 @@ int EyeForHalfRateFrame( const int frameCount )
 
 /*
 ===================
-idPlayerView::RenderPlayerView
+budPlayerView::RenderPlayerView
 ===================
 */
-void idPlayerView::RenderPlayerView( idMenuHandler_HUD* hudManager )
+void budPlayerView::RenderPlayerView( idMenuHandler_HUD* hudManager )
 {
 	const renderView_t* view = player->GetRenderView();
 	if( renderSystem->GetStereo3DMode() != STEREO3D_OFF )
@@ -820,10 +820,10 @@ void idPlayerView::RenderPlayerView( idMenuHandler_HUD* hudManager )
 
 /*
 ===================
-idPlayerView::WarpVision
+budPlayerView::WarpVision
 ===================
 */
-int idPlayerView::AddWarp( budVec3 worldOrigin, float centerx, float centery, float initialRadius, float durationMsec )
+int budPlayerView::AddWarp( budVec3 worldOrigin, float centerx, float centery, float initialRadius, float durationMsec )
 {
 	FullscreenFX_Warp* fx = ( FullscreenFX_Warp* )( fxManager->FindFX( "warp" ) );
 	
@@ -836,7 +836,7 @@ int idPlayerView::AddWarp( budVec3 worldOrigin, float centerx, float centery, fl
 	return 1;
 }
 
-void idPlayerView::FreeWarp( int id )
+void budPlayerView::FreeWarp( int id )
 {
 	FullscreenFX_Warp* fx = ( FullscreenFX_Warp* )( fxManager->FindFX( "warp" ) );
 	
@@ -1010,7 +1010,7 @@ int FullscreenFX_Helltime::DetermineLevel()
 		return testfx;
 	}
 	
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player != NULL &&  player->PowerUpActive( INVULNERABILITY ) )
 	{
@@ -1145,7 +1145,7 @@ int FullscreenFX_Multiplayer::DetermineLevel()
 		return testfx;
 	}
 	
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player != NULL && player->PowerUpActive( INVULNERABILITY ) )
 	{
@@ -1420,7 +1420,7 @@ FullscreenFX_EnviroSuit::Active
 */
 bool FullscreenFX_EnviroSuit::Active()
 {
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player != NULL && player->PowerUpActive( ENVIROSUIT ) )
 	{
@@ -1494,7 +1494,7 @@ void FullscreenFX_DoubleVision::HighQuality()
 		scale = offset * g_dvAmplitude.GetFloat();
 	}
 	
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player == NULL )
 	{
@@ -1561,7 +1561,7 @@ FullscreenFX_InfluenceVision::Active
 */
 bool FullscreenFX_InfluenceVision::Active()
 {
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player != NULL && ( player->GetInfluenceMaterial() || player->GetInfluenceEntity() ) )
 	{
@@ -1580,7 +1580,7 @@ void FullscreenFX_InfluenceVision::HighQuality()
 {
 	float distance = 0.0f;
 	float pct = 1.0f;
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player == NULL )
 	{
@@ -1637,7 +1637,7 @@ FullscreenFX_Bloom::Active
 */
 bool FullscreenFX_Bloom::Active()
 {
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	
 	if( player != NULL && player->bloomEnabled )
 	{
@@ -1655,7 +1655,7 @@ FullscreenFX_Bloom::HighQuality
 void FullscreenFX_Bloom::HighQuality()
 {
 	float shift = 1;
-	idPlayer* player = fxman->GetPlayer();
+	budPlayer* player = fxman->GetPlayer();
 	renderSystem->SetColor4( 1.0f, 1.0f, 1.0f, 1.0f );
 	
 	// if intensity value is different, start the blend
@@ -1849,7 +1849,7 @@ void FullscreenFXManager::CreateFX( budStr name, budStr fxtype, int fade )
 FullscreenFXManager::Initialize
 ==================
 */
-void FullscreenFXManager::Initialize( idPlayerView* pv )
+void FullscreenFXManager::Initialize( budPlayerView* pv )
 {
 	// set the playerview
 	playerView = pv;

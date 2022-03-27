@@ -6492,7 +6492,7 @@ void budAnimatedEntity::AddLocalDamageEffect( jointHandle_t jointNum, const budV
 	}
 	
 	// can't see wounds on the player model in single player mode
-	if( !( IsType( idPlayer::Type ) && !common->IsMultiplayer() ) )
+	if( !( IsType( budPlayer::Type ) && !common->IsMultiplayer() ) )
 	{
 		// place a wound overlay on the model
 		key = va( "mtr_wound_%s", materialType );

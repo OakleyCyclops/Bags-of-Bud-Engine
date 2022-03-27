@@ -25,10 +25,10 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Common_local.h"
+#include "Common_local.hpp"
 
 budCVar net_clientMaxPrediction( "net_clientMaxPrediction", "5000", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "maximum number of milliseconds a client can predict ahead of server." );
 budCVar net_snapRate( "net_snapRate", "100", CVAR_SYSTEM | CVAR_INTEGER, "How many milliseconds between sending snapshots" );
@@ -142,7 +142,7 @@ void budCommonLocal::SendSnapshots()
 		return;
 	}
 	budSnapShot ss;
-	game->ServerWriteSnapshot( ss );
+	// game->ServerWriteSnapshot( ss );
 	
 	session->SendSnapshot( ss );
 	nextSnapshotSendTime = MSEC_ALIGN_TO_FRAME( currentTime + net_snapRate.GetInteger() );
@@ -223,42 +223,42 @@ void budCommonLocal::SendUsercmds( int localClientNum )
 budCommonLocal::NetReceiveUsercmds
 ===============
 */
-void budCommonLocal::NetReceiveUsercmds( int peer, budBitMsg& msg )
-{
-	int clientNum = Game()->MapPeerToClient( peer );
-	if( clientNum == -1 )
-	{
-		libBud::Warning( "NetReceiveUsercmds: Could not find client for peer %d", peer );
-		return;
-	}
+// void budCommonLocal::NetReceiveUsercmds( int peer, budBitMsg& msg )
+// {
+// 	int clientNum = Game()->MapPeerToClient( peer );
+// 	if( clientNum == -1 )
+// 	{
+// 		libBud::Warning( "NetReceiveUsercmds: Could not find client for peer %d", peer );
+// 		return;
+// 	}
 	
-	NetReadUsercmds( clientNum, msg );
-}
+// 	NetReadUsercmds( clientNum, msg );
+// }
 
-/*
-===============
-budCommonLocal::NetReceiveReliable
-===============
-*/
-void budCommonLocal::NetReceiveReliable( int peer, int type, budBitMsg& msg )
-{
-	int clientNum = Game()->MapPeerToClient( peer );
-	// Only servers care about the client num. Band-aid for problems related to the host's peerIndex being -1 on clients.
-	if( common->IsServer() && clientNum == -1 )
-	{
-		libBud::Warning( "NetReceiveReliable: Could not find client for peer %d", peer );
-		return;
-	}
+// /*
+// ===============
+// budCommonLocal::NetReceiveReliable
+// ===============
+// */
+// void budCommonLocal::NetReceiveReliable( int peer, int type, budBitMsg& msg )
+// {
+// 	int clientNum = Game()->MapPeerToClient( peer );
+// 	// Only servers care about the client num. Band-aid for problems related to the host's peerIndex being -1 on clients.
+// 	if( common->IsServer() && clientNum == -1 )
+// 	{
+// 		libBud::Warning( "NetReceiveReliable: Could not find client for peer %d", peer );
+// 		return;
+// 	}
 	
-	const byte* msgData = msg.GetReadData() + msg.GetReadCount();
-	int msgSize = msg.GetRemainingData();
-	reliableMsg_t& reliable = reliableQueue.Alloc();
-	reliable.client = clientNum;
-	reliable.type = type;
-	reliable.dataSize = msgSize;
-	reliable.data = ( byte* )Mem_Alloc( msgSize, TAG_NETWORKING );
-	memcpy( reliable.data, msgData, msgSize );
-}
+// 	const byte* msgData = msg.GetReadData() + msg.GetReadCount();
+// 	int msgSize = msg.GetRemainingData();
+// 	reliableMsg_t& reliable = reliableQueue.Alloc();
+// 	reliable.client = clientNum;
+// 	reliable.type = type;
+// 	reliable.dataSize = msgSize;
+// 	reliable.data = ( byte* )Mem_Alloc( msgSize, TAG_NETWORKING );
+// 	memcpy( reliable.data, msgData, msgSize );
+// }
 
 /*
 ========================
@@ -304,34 +304,34 @@ void budCommonLocal::ProcessSnapshot( budSnapShot& ss )
 	}
 	*/
 	
-	// Read usercmds from other players
-	for( int p = 0; p < MAX_PLAYERS; p++ )
-	{
-		if( p == game->GetLocalClientNum() )
-		{
-			continue;
-		}
-		budBitMsg msg;
-		if( ss.GetObjectMsgByID( SNAP_USERCMDS + p, msg ) )
-		{
-			NetReadUsercmds( p, msg );
-		}
-	}
+	// // Read usercmds from other players
+	// for( int p = 0; p < MAX_PLAYERS; p++ )
+	// {
+	// 	if( p == game->GetLocalClientNum() )
+	// 	{
+	// 		continue;
+	// 	}
+	// 	budBitMsg msg;
+	// 	if( ss.GetObjectMsgByID( SNAP_USERCMDS + p, msg ) )
+	// 	{
+	// 		NetReadUsercmds( p, msg );
+	// 	}
+	// }
 	
 	
 	
 	
-	// Set server game time here so that it accurately reflects the time when this frame was saved out, in case any serialize function needs it.
-	int oldTime = Game()->GetServerGameTimeMs();
-	Game()->SetServerGameTimeMs( snapCurrent.serverTime );
+	// // Set server game time here so that it accurately reflects the time when this frame was saved out, in case any serialize function needs it.
+	// int oldTime = Game()->GetServerGameTimeMs();
+	// Game()->SetServerGameTimeMs( snapCurrent.serverTime );
 	
-	Game()->ClientReadSnapshot( ss ); //, &oldss );
+	// Game()->ClientReadSnapshot( ss ); //, &oldss );
 	
-	// Restore server game time
-	Game()->SetServerGameTimeMs( oldTime );
+	// // Restore server game time
+	// Game()->SetServerGameTimeMs( oldTime );
 	
-	snapTimeDelta = ss.GetRecvTime() - oldss.GetRecvTime();
-	oldss = ss;
+	// snapTimeDelta = ss.GetRecvTime() - oldss.GetRecvTime();
+	// oldss = ss;
 }
 
 /*
@@ -464,8 +464,8 @@ void budCommonLocal::InterpolateSnapshot( netTimes_t& prev, netTimes_t& next, fl
 
 	int serverTime = Lerp( prev.serverTime, next.serverTime, fraction );
 	
-	Game()->SetServerGameTimeMs( serverTime );		// Set the global server time to the interpolated time of the server
-	Game()->SetInterpolation( fraction, serverTime, prev.serverTime, next.serverTime );
+	// Game()->SetServerGameTimeMs( serverTime );		// Set the global server time to the interpolated time of the server
+	// Game()->SetInterpolation( fraction, serverTime, prev.serverTime, next.serverTime );
 	
 	//Game()->RunFrame( &userCmdMgr, &ret, true );
 	
@@ -482,8 +482,8 @@ void budCommonLocal::RunNetworkSnapshotFrame()
 	// Process any reliable messages we've received
 	for( int i = 0; i < reliableQueue.Num(); i++ )
 	{
-		game->ProcessReliableMessage( reliableQueue[i].client, reliableQueue[i].type, budBitMsg( ( const byte* )reliableQueue[i].data, reliableQueue[i].dataSize ) );
-		Mem_Free( reliableQueue[i].data );
+		// game->ProcessReliableMessage( reliableQueue[i].client, reliableQueue[i].type, budBitMsg( ( const byte* )reliableQueue[i].data, reliableQueue[i].dataSize ) );
+		// Mem_Free( reliableQueue[i].data );
 	}
 	reliableQueue.Clear();
 	
@@ -654,7 +654,7 @@ void budCommonLocal::ExecuteReliableMessages()
 	for( int i = 0; i < reliableQueue.Num(); i++ )
 	{
 		reliableMsg_t& reliable = reliableQueue[i];
-		game->ProcessReliableMessage( reliable.client, reliable.type, budBitMsg( ( const byte* )reliable.data, reliable.dataSize ) );
+		// game->ProcessReliableMessage( reliable.client, reliable.type, budBitMsg( ( const byte* )reliable.data, reliable.dataSize ) );
 		Mem_Free( reliable.data );
 	}
 	reliableQueue.Clear();

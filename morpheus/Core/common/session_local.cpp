@@ -14,16 +14,15 @@ Contains the windows implementation of the network session
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
-#include "../../framework/Common_local.h"
-#include "../sys_session_local.h"
-#include "../sys_stats.h"
-#include "../sys_savegame.h"
-#include "../sys_lobby_backend_direct.h"
-#include "../sys_voicechat.h"
-#include "achievements.h"
-//#include "win_local.h"
+#include "Common_local.hpp"
+#include "sys_session_local.hpp"
+#include "sys_stats.hpp"
+#include "sys_savegame.hpp"
+#include "sys_lobby_backend_direct.hpp"
+#include "sys_voicechat.hpp"
+#include "achievements.hpp"
 
 /*
 ========================

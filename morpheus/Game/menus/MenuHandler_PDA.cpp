@@ -97,7 +97,7 @@ void idMenuHandler_PDA::Update()
 		activeScreen = nextScreen;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		if( activeScreen == PDA_AREA_USER_DATA )
@@ -139,7 +139,7 @@ void idMenuHandler_PDA::ActivateMenu( bool show )
 	if( show )
 	{
 		// Add names to pda
-		idPlayer* player = gameLocal.GetLocalPlayer();
+		budPlayer* player = gameLocal.GetLocalPlayer();
 		if( player == NULL )
 		{
 			return;
@@ -309,7 +309,7 @@ void idMenuHandler_PDA::Initialize( const char* swfFile, budSoundWorld* sw )
 	menuScreens[ PDA_AREA_USER_DATA ]->RegisterEventObserver( &pdaList );
 	menuScreens[ PDA_AREA_USER_EMAIL ]->RegisterEventObserver( &pdaList );
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 	
@@ -335,7 +335,7 @@ void idMenuHandler_PDA::Initialize( const char* swfFile, budSoundWorld* sw )
 	public:
 		budSWFScriptVar Call( budSWFScriptObject* thisObject, const budSWFParmList& parms )
 		{
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player != NULL )
 			{
 				player->TogglePDA();
@@ -588,7 +588,7 @@ idMenuHandler_PDA::PlayPDAAudioLog
 */
 bool idMenuHandler_PDA::PlayPDAAudioLog( int pdaIndex, int audioIndex )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 		const budDeclPDA* pda = player->GetInventory().pdas[ pdaIndex ];
@@ -662,7 +662,7 @@ void idMenuHandler_PDA::UdpateVideoPlaying( bool playing )
 	{
 		if( activeScreen == PDA_AREA_VIDEO_DISKS && menuScreens[ activeScreen ] != NULL )
 		{
-			idPlayer* player = gameLocal.GetLocalPlayer();
+			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( !playing )
 			{
 				player->EndVideoDisk();

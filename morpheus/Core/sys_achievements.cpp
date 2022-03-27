@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 /*
 ========================
@@ -35,19 +35,5 @@ budAchievementSystem::SyncAchievementBits
 */
 void budAchievementSystem::SyncAchievementBits( idLocalUser* user )
 {
-	if( user != NULL )
-	{
-		budArray< bool, budAchievementSystem::MAX_ACHIEVEMENTS > achievements;
-		
-		if( GetAchievementState( user, achievements ) )
-		{
-			for( int i = 0; i < achievements.Num(); i++ )
-			{
-				if( achievements[i] )
-				{
-					user->GetProfile()->SetAchievement( i );
-				}
-			}
-		}
-	}
+
 }

@@ -549,7 +549,7 @@ void idEntityFx::Run( int time )
 					args.SetFloat( "kick_amplitude", fxaction.shakeAmplitude );
 					for( j = 0; j < gameLocal.numClients; j++ )
 					{
-						idPlayer* player = gameLocal.GetClientByNum( j );
+						budPlayer* player = gameLocal.GetClientByNum( j );
 						if( player && ( player->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin() ).LengthSqr() < Square( fxaction.shakeDistance ) )
 						{
 							if( !common->IsMultiplayer() || !fxaction.shakeIgnoreMaster || GetBindMaster() != player )

@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
 /*
@@ -35,7 +35,7 @@ Contains external code for building ZipFiles.
 ================================================================================================
 */
 
-#include "Zip.h"
+#include "Zip.hpp"
 
 
 // #undef STDC

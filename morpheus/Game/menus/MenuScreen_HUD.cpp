@@ -107,7 +107,7 @@ void idMenuScreen_HUD::ShowScreen( const mainMenuTransition_t transitionType )
 	bsInfo = root.GetNestedSprite( "_bottomRight", "bsInfo" );
 	soulcubeInfo = root.GetNestedSprite( "_bottomRight", "soulcube" );
 	
-	// If the player loaded a save with enough souls to use the cube, the icon wouldn't show.  We're setting this flag in idPlayer::Restore so we can show the cube after loading a game
+	// If the player loaded a save with enough souls to use the cube, the icon wouldn't show.  We're setting this flag in budPlayer::Restore so we can show the cube after loading a game
 	if( showSoulCubeInfoOnLoad == true )
 	{
 		showSoulCubeInfoOnLoad = false;
@@ -201,7 +201,7 @@ idMenuScreen_HUD::Update
 void idMenuScreen_HUD::Update()
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;
@@ -215,7 +215,7 @@ void idMenuScreen_HUD::Update()
 idMenuScreen_HUD::UpdateHealth
 ========================
 */
-void idMenuScreen_HUD::UpdateHealthArmor( idPlayer* player )
+void idMenuScreen_HUD::UpdateHealthArmor( budPlayer* player )
 {
 
 	if( !playerInfo || !player )
@@ -309,7 +309,7 @@ void idMenuScreen_HUD::UpdateHealthArmor( idPlayer* player )
 idMenuScreen_HUD::UpdateStamina
 ========================
 */
-void idMenuScreen_HUD::UpdateStamina( idPlayer* player )
+void idMenuScreen_HUD::UpdateStamina( budPlayer* player )
 {
 
 	if( !stamina || !player )
@@ -347,7 +347,7 @@ void idMenuScreen_HUD::UpdateStamina( idPlayer* player )
 idMenuScreen_HUD::UpdateLocation
 ========================
 */
-void idMenuScreen_HUD::UpdateWeaponInfo( idPlayer* player )
+void idMenuScreen_HUD::UpdateWeaponInfo( budPlayer* player )
 {
 
 	if( !player || !ammoInfo )
@@ -535,7 +535,7 @@ void idMenuScreen_HUD::UpdateWeaponInfo( idPlayer* player )
 idMenuScreen_HUD::GiveWeapon
 ========================
 */
-void idMenuScreen_HUD::GiveWeapon( idPlayer* player, int weaponIndex )
+void idMenuScreen_HUD::GiveWeapon( budPlayer* player, int weaponIndex )
 {
 
 	if( common->IsMultiplayer() )
@@ -641,7 +641,7 @@ void idMenuScreen_HUD::ShowPickups()
 idMenuScreen_HUD::SetCursorState
 ========================
 */
-void idMenuScreen_HUD::SetCursorState( idPlayer* player, cursorState_t state, int set )
+void idMenuScreen_HUD::SetCursorState( budPlayer* player, cursorState_t state, int set )
 {
 
 	switch( state )
@@ -1020,7 +1020,7 @@ void idMenuScreen_HUD::ShowRespawnMessage( bool show )
 idMenuScreen_HUD::UpdateWeaponStates
 ========================
 */
-void idMenuScreen_HUD::UpdateWeaponStates( idPlayer* player, bool weaponChanged )
+void idMenuScreen_HUD::UpdateWeaponStates( budPlayer* player, bool weaponChanged )
 {
 
 	if( !weaponPills )
@@ -1276,7 +1276,7 @@ void idMenuScreen_HUD::UpdateWeaponStates( idPlayer* player, bool weaponChanged 
 idMenuScreen_HUD::UpdateLocation
 ========================
 */
-void idMenuScreen_HUD::UpdateLocation( idPlayer* player )
+void idMenuScreen_HUD::UpdateLocation( budPlayer* player )
 {
 
 	if( !locationName || !player )
@@ -1284,10 +1284,10 @@ void idMenuScreen_HUD::UpdateLocation( idPlayer* player )
 		return;
 	}
 	
-	idPlayer* playertoLoc = player;
+	budPlayer* playertoLoc = player;
 	if( player->spectating && player->spectator != player->entityNumber )
 	{
-		playertoLoc = static_cast< idPlayer* >( gameLocal.entities[ player->spectator ] );
+		playertoLoc = static_cast< budPlayer* >( gameLocal.entities[ player->spectator ] );
 		if( playertoLoc == NULL )
 		{
 			playertoLoc = player;
@@ -1605,7 +1605,7 @@ void  idMenuScreen_HUD::UpdateAudioLog( bool show )
 idMenuScreen_HUD::UpdatedSecurity
 ========================
 */
-void  idMenuScreen_HUD::UpdateCommunication( bool show, idPlayer* player )
+void  idMenuScreen_HUD::UpdateCommunication( bool show, budPlayer* player )
 {
 
 	if( !communication || !player )
@@ -2226,7 +2226,7 @@ void idMenuScreen_HUD::ShowNewItem( const char* name, const char* icon )
 idMenuScreen_HUD::UpdateFlashlight
 ========================
 */
-void idMenuScreen_HUD::UpdateFlashlight( idPlayer* player )
+void idMenuScreen_HUD::UpdateFlashlight( budPlayer* player )
 {
 
 	if( !player || !flashlight )
@@ -2257,7 +2257,7 @@ void idMenuScreen_HUD::UpdateFlashlight( idPlayer* player )
 idMenuScreen_HUD::UpdateChattingHud
 ========================
 */
-void idMenuScreen_HUD::UpdateChattingHud( idPlayer* player )
+void idMenuScreen_HUD::UpdateChattingHud( budPlayer* player )
 {
 
 	if( !mpChatObject || !GetSWFObject() )
@@ -2327,7 +2327,7 @@ void idMenuScreen_HUD::UpdateChattingHud( idPlayer* player )
 				class idPostTextChat : public budSWFScriptFunction_RefCounted
 				{
 				public:
-					idPostTextChat( idPlayer* _player, budSWFTextInstance* _text )
+					idPostTextChat( budPlayer* _player, budSWFTextInstance* _text )
 					{
 						player = _player;
 						text = _text;
@@ -2357,14 +2357,14 @@ void idMenuScreen_HUD::UpdateChattingHud( idPlayer* player )
 						player->isChatting = 0;
 						return budSWFScriptVar();
 					}
-					idPlayer* player;
+					budPlayer* player;
 					budSWFTextInstance* text;
 				};
 				
 				class idCancelTextChat : public budSWFScriptFunction_RefCounted
 				{
 				public:
-					idCancelTextChat( idPlayer* _player )
+					idCancelTextChat( budPlayer* _player )
 					{
 						player = _player;
 					}
@@ -2378,7 +2378,7 @@ void idMenuScreen_HUD::UpdateChattingHud( idPlayer* player )
 						player->isChatting = 0;
 						return budSWFScriptVar();
 					}
-					idPlayer* player;
+					budPlayer* player;
 				};
 				
 				sayObj->Set( "onPress", new( TAG_SWF ) idPostTextChat( player, say ) );

@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SYS_PUBLIC__
 #define __SYS_PUBLIC__
 
-#include "../libBud/CmdArgs.h"
+#include "CmdArgs.hpp"
 
 /*
 ===============================================================================

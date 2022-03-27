@@ -69,77 +69,15 @@ source_group("sys\\posix" FILES ${ID_SYS_POSIX_SOURCES})
 #	add_definitions(-DSTANDALONE)
 #endif()
 
-set(ID_PRECOMPILED_SOURCES ${ID_SOURCES_ALL})
-list(REMOVE_ITEM ID_PRECOMPILED_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/geometry/RenderMatrix.cpp)
-list(REMOVE_ITEM ID_PRECOMPILED_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/SoftwareCache.cpp)
+include_directories(.)
 
-if(MSVC)
-    list(REMOVE_ITEM ID_PRECOMPILED_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/PCH.cpp)
+GET_DIRECTORY_PROPERTY(_directory_flags DEFINITIONS)
+LIST(APPEND _compiler_FLAGS ${_directory_flags})
+	
+SEPARATE_ARGUMENTS(_compiler_FLAGS)
+	
+include_directories(../Core/)
 
-    #set_target_properties(libBud PROPERTIES COMPILE_FLAGS "/YuPCH.hpp")
-    set_source_files_properties(PCH.cpp
-        PROPERTIES
-        COMPILE_FLAGS "/YcPCH.hpp"
-        OBJECT_OUTPUTS "PCH.pch"
-        )
-        set_source_files_properties(
-            ${ID_PRECOMPILED_SOURCES}
-            PROPERTIES
-            COMPILE_FLAGS "/YuPCH.hpp"
-            OBJECT_DEPENDS "PCH.pch"
-            )
+add_library(Bud STATIC ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
 
-    add_library(Bud ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
-else()
-	if (USE_PRECOMPILED_HEADERS)
-	foreach( src_file ${ID_PRECOMPILED_SOURCES} )
-		#message(STATUS "-include PCH.hpp for ${src_file}")
-		set_source_files_properties(
-			${src_file}
-			PROPERTIES
-			COMPILE_FLAGS "-include ${CMAKE_CURRENT_SOURCE_DIR}/PCH.hpp"
-			)
-	endforeach()
-	endif()
-
-	include_directories(.)
-	
-	if (USE_PRECOMPILED_HEADERS)
-	# PCH magic for GCC/clang, adapted from https://gist.github.com/573926
-	STRING(TOUPPER "CMAKE_CXX_FLAGS_${CMAKE_BUILD_TYPE}" _flags_var_name)
-	SET(_compiler_FLAGS ${${_flags_var_name}})
-	GET_DIRECTORY_PROPERTY(_directory_flags INCLUDE_DIRECTORIES)
-	FOREACH(item ${_directory_flags})
-		LIST(APPEND _compiler_FLAGS " -I${item}")
-	ENDFOREACH(item)
-	endif()
-
-	GET_DIRECTORY_PROPERTY(_directory_flags DEFINITIONS)
-	LIST(APPEND _compiler_FLAGS ${_directory_flags})
-	
-	SEPARATE_ARGUMENTS(_compiler_FLAGS)
-	
-	if (USE_PRECOMPILED_HEADERS)
-	add_custom_target(precomp_header_libBud ALL
-	                  COMMAND ${CMAKE_CXX_COMPILER} ${_compiler_FLAGS} -x c++-header PCH.hpp -o PCH.hpp.gch
-	                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-	                  COMMENT "Creating libBud/PCH.hpp.gch for libBud"
-	                  )
-	endif()
-	
-	add_library(Bud ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
-	if (USE_PRECOMPILED_HEADERS)
-	add_dependencies(Bud precomp_header_libBud)
-	endif()
-	
-endif()
-	
-
-# if(MSVC)
-	# # set_source_files_properties(PCH.cpp
-        # # PROPERTIES
-        # # COMPILE_FLAGS "/YcPCH.hpp"
-        # # )
-		
-	# #set_target_properties(libBud PROPERTIES COMPILE_FLAGS "/YuPCH.hpp")
-# endif()
+target_precompile_headers(Bud PRIVATE libBudPCH.hpp)

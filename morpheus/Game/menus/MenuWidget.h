@@ -188,7 +188,7 @@ struct scoreboardInfo_t
 	{
 	}
 	
-	budList< budStr, TAG_libBud_LIST_MENU> values;
+	budList< budStr, TAG_LIBBUD_LIST_MENU> values;
 	int						index;
 	voiceStateDisplay_t		voiceState;
 };
@@ -390,7 +390,7 @@ private:
 	budSWFScriptFunction* 	scriptFunction;
 };
 
-typedef budList< idMenuWidget*, TAG_libBud_LIST_MENU > idMenuWidgetList;
+typedef budList< idMenuWidget*, TAG_LIBBUD_LIST_MENU > idMenuWidgetList;
 
 /*
 ================================================
@@ -479,7 +479,7 @@ public:
 	
 	void								SetSpritePath( const char* arg1, const char* arg2 = NULL, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL );
 	void								SetSpritePath( const budList< budStr >& spritePath_, const char* arg1 = NULL, const char* arg2 = NULL, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL );
-	budList< budStr, TAG_libBud_LIST_MENU >& 					GetSpritePath()
+	budList< budStr, TAG_LIBBUD_LIST_MENU >& 					GetSpritePath()
 	{
 		return spritePath;
 	}
@@ -517,7 +517,7 @@ public:
 	// returns the list of actions for a given event, or NULL if no actions are registered for
 	// that event.  Events should not be directly added to the returned list.  Instead use
 	// AddEventAction for adding new events.
-	budList< idWidgetAction, TAG_libBud_LIST_MENU >* 			GetEventActions( const widgetEvent_t eventType );
+	budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >* 			GetEventActions( const widgetEvent_t eventType );
 	
 	// allocates an action for the given event
 	idWidgetAction& 					AddEventAction( const widgetEvent_t eventType );
@@ -612,12 +612,12 @@ protected:
 	budSWF* 								swfObj;
 	budSWFSpriteInstance* 				boundSprite;
 	idMenuWidget* 						parent;
-	budList< budStr, TAG_libBud_LIST_MENU >						spritePath;
+	budList< budStr, TAG_LIBBUD_LIST_MENU >						spritePath;
 	idMenuWidgetList											children;
 	idMenuWidgetList											observers;
 	
 	static const int INVALID_ACTION_INDEX = -1;
-	budList< budList< idWidgetAction, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU >		eventActions;
+	budList< budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		eventActions;
 	budStaticList< int, MAX_WIDGET_EVENT >	eventActionLookup;
 	
 	idMenuDataSource* 					dataSource;
@@ -714,7 +714,7 @@ protected:
 	void					SetupTransitionInfo( widgetTransition_t& trans, const widgetState_t buttonState, const animState_t sourceAnimState, const animState_t destAnimState ) const;
 	void					AnimateToState( const animState_t targetState, const bool force = false );
 	
-	budList< budStr, TAG_libBud_LIST_MENU >			values;
+	budList< budStr, TAG_LIBBUD_LIST_MENU >			values;
 	budStr					btnLabel;
 	budStr					description;
 	animState_t				animState;
@@ -1220,7 +1220,7 @@ public:
 	}
 	void						SetRefreshFunction( const char* func );
 private:
-	budList< budStr, TAG_libBud_LIST_MENU >	headings;
+	budList< budStr, TAG_LIBBUD_LIST_MENU >	headings;
 	int							numEntries;
 };
 
@@ -1245,7 +1245,7 @@ public:
 	virtual bool				PrepareListElement( idMenuWidget& widget, const int childIndex );
 	
 	virtual void				Recalculate();
-	virtual void				SetListData( budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU >& list );
+	virtual void				SetListData( budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >& list );
 	
 	void						SetControlList( bool val )
 	{
@@ -1257,7 +1257,7 @@ public:
 	}
 	
 protected:
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU >	listItemInfo;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >	listItemInfo;
 	bool						controlList;
 	bool						ignoreColor;
 };
@@ -1312,7 +1312,7 @@ public:
 	
 private:
 
-	budList< budStr, TAG_libBud_LIST_MENU >		headings;
+	budList< budStr, TAG_LIBBUD_LIST_MENU >		headings;
 	float				initialPos;
 	float				buttonPos;
 	float				leftSpacer;
@@ -1351,7 +1351,7 @@ public:
 	
 private:
 
-	budList< budStr, TAG_libBud_LIST_MENU >				headings;
+	budList< budStr, TAG_LIBBUD_LIST_MENU >				headings;
 	float						totalWidth;
 	float						buttonPos;
 	float						rightSpacer;
@@ -1504,7 +1504,7 @@ public:
 	virtual void	ObserveEvent( const idMenuWidget& widget, const idWidgetEvent& event );
 private:
 	int								pdaIndex;
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU >		audioFileNames;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		audioFileNames;
 };
 
 /*
@@ -1537,7 +1537,7 @@ private:
 	idMenuWidget_DynamicList* 		emailList;
 	idMenuWidget_ScrollBar* 		scrollbar;
 	int								pdaIndex;
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU >		emailInfo;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		emailInfo;
 };
 
 /*

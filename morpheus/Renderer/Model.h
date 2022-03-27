@@ -123,7 +123,7 @@ struct srfTriangles_t
 	DISALLOW_COPY_AND_ASSIGN( srfTriangles_t );
 };
 
-typedef budList<srfTriangles_t*, TAG_libBud_LIST_TRIANGLES> idTriList;
+typedef budList<srfTriangles_t*, TAG_LIBBUD_LIST_TRIANGLES> idTriList;
 
 struct modelSurface_t
 {

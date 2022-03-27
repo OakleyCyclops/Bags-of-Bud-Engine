@@ -26,54 +26,10 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
-#include "Common_local.h"
-
-/*
-==============
-budCommonLocal::InitializeMPMapsModes
-==============
-*/
-void budCommonLocal::InitializeMPMapsModes()
-{
-
-	const char** gameModes = NULL;
-	const char** gameModesDisplay = NULL;
-	int numModes = game->GetMPGameModes( &gameModes, &gameModesDisplay );
-	mpGameModes.SetNum( numModes );
-	for( int i = 0; i < numModes; i++ )
-	{
-		mpGameModes[i] = gameModes[i];
-	}
-	mpDisplayGameModes.SetNum( numModes );
-	for( int i = 0; i < numModes; i++ )
-	{
-		mpDisplayGameModes[i] = gameModesDisplay[i];
-	}
-	int numMaps = declManager->GetNumDecls( DECL_MAPDEF );
-	mpGameMaps.Clear();
-	for( int i = 0; i < numMaps; i++ )
-	{
-		const budDeclEntityDef* mapDef = static_cast<const budDeclEntityDef*>( declManager->DeclByIndex( DECL_MAPDEF, i ) );
-		uint32 supportedModes = 0;
-		for( int j = 0; j < numModes; j++ )
-		{
-			if( mapDef->dict.GetBool( gameModes[j], false ) )
-			{
-				supportedModes |= BIT( j );
-			}
-		}
-		if( supportedModes != 0 )
-		{
-			mpMap_t& mpMap = mpGameMaps.Alloc();
-			mpMap.mapFile = mapDef->GetName();
-			mpMap.mapName = mapDef->dict.GetString( "name", mpMap.mapFile );
-			mpMap.supportedModes = supportedModes;
-		}
-	}
-}
+#include "Common_local.hpp"
 
 /*
 ==============
@@ -145,21 +101,11 @@ budCommonLocal::StartMainMenu
 */
 void budCommonLocal::StartMenu( bool playIntro )
 {
-	if( game && game->Shell_IsActive() )
-	{
-		return;
-	}
 	
 	if( readDemo )
 	{
 		// if we're playing a demo, esc kills it
 		UnloadMap();
-	}
-	
-	if( game )
-	{
-		game->Shell_Show( true );
-		game->Shell_SyncWithSession();
 	}
 	
 	console->Close();
@@ -173,10 +119,6 @@ budCommonLocal::ExitMenu
 */
 void budCommonLocal::ExitMenu()
 {
-	if( game )
-	{
-		game->Shell_Show( false );
-	}
 }
 
 /*
@@ -194,16 +136,6 @@ bool budCommonLocal::MenuEvent( const sysEvent_t* event )
 		return true;
 	}
 	
-	if( game && game->Shell_IsActive() )
-	{
-		return game->Shell_HandleGuiEvent( event );
-	}
-	
-	if( game )
-	{
-		return game->HandlePlayerGuiEvent( event );
-	}
-	
 	return false;
 }
 
@@ -214,8 +146,5 @@ budCommonLocal::GuiFrameEvents
 */
 void budCommonLocal::GuiFrameEvents()
 {
-	if( game )
-	{
-		game->Shell_SyncWithSession();
-	}
+
 }

@@ -28,10 +28,10 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SYS_LOCALUSER_H__
 #define __SYS_LOCALUSER_H__
 
-#include "sys_profile.h"
+#include "sys_profile.hpp"
 
 struct achievementDescription_t;
-class idPlayerProfile;
+class budPlayerProfile;
 class idProfileMgr;
 
 enum onlineCaps_t
@@ -136,11 +136,11 @@ public:
 	virtual int					GetStatInt( int stat );
 	virtual float				GetStatFloat( int stat );
 	
-	virtual idPlayerProfile* 	GetProfile()
+	virtual budPlayerProfile* 	GetProfile()
 	{
 		return GetProfileMgr().GetProfile();
 	}
-	const idPlayerProfile* 		GetProfile() const
+	const budPlayerProfile* 		GetProfile() const
 	{
 		return const_cast< idLocalUser* >( this )->GetProfile();
 	}

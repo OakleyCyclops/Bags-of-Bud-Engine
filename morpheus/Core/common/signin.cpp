@@ -27,11 +27,11 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
-#include "../../framework/PlayerProfile.h"
-#include "../sys_session_local.h"
-#include "signin.h"
+#include "PlayerProfile.hpp"
+#include "sys_session_local.hpp"
+#include "signin.hpp"
 #ifndef _WIN32
 #include <unistd.h>
 #endif

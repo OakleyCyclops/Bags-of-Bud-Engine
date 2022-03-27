@@ -118,7 +118,7 @@ private:
 		}
 	};
 	
-	budList< budBinaryImageData, TAG_libBud_LIST_IMAGE > images;
+	budList< budBinaryImageData, TAG_LIBBUD_LIST_IMAGE > images;
 	
 private:
 	void				MakeGeneratedFileName( budStr& gfn );

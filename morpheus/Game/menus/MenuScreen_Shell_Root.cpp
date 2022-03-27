@@ -146,7 +146,7 @@ void idMenuScreen_Shell_Root::ShowScreen( const mainMenuTransition_t transitionT
 
 	if( menuData != NULL && menuData->GetPlatform() != 2 )
 	{
-		budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+		budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 		budList< budStr > option;
 		
 		int index = 0;
@@ -290,7 +290,7 @@ void idMenuScreen_Shell_Root::ShowScreen( const mainMenuTransition_t transitionT
 	}
 	else
 	{
-		budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+		budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 		options->SetListData( menuOptions );
 	}
 	

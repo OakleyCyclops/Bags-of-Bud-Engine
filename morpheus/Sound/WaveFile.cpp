@@ -282,7 +282,7 @@ const char* idWaveFile::ReadWaveFormat( waveFmt_t& format )
 		}
 		Read( &format.extra.extensible, sizeof( format.extra.extensible ) );
 		idSwapClass<waveFmt_t::extra_t::extensible_t> swap;
-		swap.Little( format.extra.extensible.validBitsPerSample );
+		swap.Little( format.extra.extensible.valbudBitsPerSample );
 		swap.Little( format.extra.extensible.channelMask );
 		swap.Little( format.extra.extensible.subFormat.data1 );
 		swap.Little( format.extra.extensible.subFormat.data2 );
@@ -382,7 +382,7 @@ bool idWaveFile::ReadWaveFormatDirect( waveFmt_t& format, budFile* file )
 		}
 		file->Read( &format.extra.extensible, sizeof( format.extra.extensible ) );
 		idSwapClass<waveFmt_t::extra_t::extensible_t> swap;
-		swap.Little( format.extra.extensible.validBitsPerSample );
+		swap.Little( format.extra.extensible.valbudBitsPerSample );
 		swap.Little( format.extra.extensible.channelMask );
 		swap.Little( format.extra.extensible.subFormat.data1 );
 		swap.Little( format.extra.extensible.subFormat.data2 );

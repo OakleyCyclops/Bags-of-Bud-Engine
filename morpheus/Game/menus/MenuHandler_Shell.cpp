@@ -670,7 +670,7 @@ void idMenuHandler_Shell::ActivateMenu( bool show )
 	
 	if( inGame )
 	{
-		idPlayer* player = gameLocal.GetLocalPlayer();
+		budPlayer* player = gameLocal.GetLocalPlayer();
 		if( player != NULL )
 		{
 			if( !show )

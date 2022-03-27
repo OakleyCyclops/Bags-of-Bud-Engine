@@ -27,11 +27,11 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#ifdef HAHAHAHA
+
+#include "corePCH.hpp"
 #pragma hdrstop
-#include "../renderer/Image.h"
-
-
+#include "../Renderer/Image.h"
 
 class OBJExporter
 {
@@ -422,7 +422,7 @@ void OBJExporter::ConvertMeshToOBJ( OBJGroup& group, const MapPolygonMesh* mesh,
 }
 
 
-CONSOLE_COMMAND( exportMapToOBJ, "Convert .map file to .obj/.mtl ", idCmdSystem::ArgCompletion_MapName )
+CONSOLE_COMMAND( exportMapToOBJ, "Convert .map file to .obj/.mtl ", budCmdSystem::ArgCompletion_MapName )
 {
 	common->SetRefreshOnPrint( true );
 	
@@ -584,7 +584,7 @@ CONSOLE_COMMAND( exportMapToOBJ, "Convert .map file to .obj/.mtl ", idCmdSystem:
 
 
 
-CONSOLE_COMMAND( convertMap, "Convert .map file to new map format with polygons instead of brushes ", idCmdSystem::ArgCompletion_MapNameNoJson )
+CONSOLE_COMMAND( convertMap, "Convert .map file to new map format with polygons instead of brushes ", budCmdSystem::ArgCompletion_MapNameNoJson )
 {
 	common->SetRefreshOnPrint( true );
 	
@@ -627,7 +627,7 @@ CONSOLE_COMMAND( convertMap, "Convert .map file to new map format with polygons 
 }
 
 
-CONSOLE_COMMAND( convertMapToJSON, "Convert .map file to new map format with polygons instead of brushes ", idCmdSystem::ArgCompletion_MapNameNoJson )
+CONSOLE_COMMAND( convertMapToJSON, "Convert .map file to new map format with polygons instead of brushes ", budCmdSystem::ArgCompletion_MapNameNoJson )
 {
 	common->SetRefreshOnPrint( true );
 	
@@ -668,3 +668,5 @@ CONSOLE_COMMAND( convertMapToJSON, "Convert .map file to new map format with pol
 	
 	common->SetRefreshOnPrint( false );
 }
+
+#endif

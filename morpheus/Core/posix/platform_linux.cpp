@@ -26,9 +26,9 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-#include "../../libBud/PCH.hpp"
-#include "../posix/posix_public.h"
-#include "../sys_local.h"
+#include "corePCH.hpp"
+#include "posix_public.hpp"
+#include "sys_local.hpp"
 //#include "local.h"
 
 #include <pthread.h>

@@ -47,7 +47,7 @@ void idMenuScreen_Shell_Playstation::Initialize( idMenuHandler* data )
 	SetSpritePath( "menuPlaystation" );
 	
 	options = new( TAG_SWF ) idMenuWidget_DynamicList();
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	budList< budStr > option;
 	option.Append( "#str_swf_friends" );	// FRIENDS
 	menuOptions.Append( option );

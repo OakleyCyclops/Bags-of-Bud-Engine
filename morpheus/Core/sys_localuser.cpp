@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 extern budCVar fs_savepath;
 
@@ -47,7 +47,7 @@ void idLocalUser::Pump()
 	// Pump the profile
 	GetProfileMgr().Pump();
 	
-	if( GetProfileMgr().GetProfile() != NULL && GetProfileMgr().GetProfile()->GetState() == idPlayerProfile::IDLE )
+	if( GetProfileMgr().GetProfile() != NULL && GetProfileMgr().GetProfile()->GetState() == budPlayerProfile::IDLE )
 	{
 		// Pump achievements
 		if( syncAchievementsRequested )
@@ -113,7 +113,7 @@ idLocalUser::SetStatInt
 */
 void idLocalUser::SetStatInt( int s, int v )
 {
-	idPlayerProfile* profile = GetProfile();
+	budPlayerProfile* profile = GetProfile();
 	if( profile != NULL )
 	{
 		return profile->StatSetInt( s, v );
@@ -127,7 +127,7 @@ idLocalUser::SetStatFloat
 */
 void idLocalUser::SetStatFloat( int s, float v )
 {
-	idPlayerProfile* profile = GetProfile();
+	budPlayerProfile* profile = GetProfile();
 	if( profile != NULL )
 	{
 		return profile->StatSetFloat( s, v );
@@ -141,7 +141,7 @@ idLocalUser::GetStatInt
 */
 int	idLocalUser::GetStatInt( int s )
 {
-	const idPlayerProfile* profile = GetProfile();
+	const budPlayerProfile* profile = GetProfile();
 	
 	if( profile != NULL && s >= 0 )
 	{
@@ -158,7 +158,7 @@ idLocalUser::GetStatFloat
 */
 float idLocalUser::GetStatFloat( int s )
 {
-	const idPlayerProfile* profile = GetProfile();
+	const budPlayerProfile* profile = GetProfile();
 	
 	if( profile != NULL )
 	{
@@ -175,13 +175,13 @@ idLocalUser::LoadProfileSettings
 */
 void idLocalUser::LoadProfileSettings()
 {
-	idPlayerProfile* profile = GetProfileMgr().GetProfile();
+	budPlayerProfile* profile = GetProfileMgr().GetProfile();
 	
 	// Lazy instantiation
 	if( profile == NULL )
 	{
 		// Create a new profile
-		profile = idPlayerProfile::CreatePlayerProfile( GetInputDevice() );
+		profile = budPlayerProfile::CreatePlayerProfile( GetInputDevice() );
 	}
 	
 	if( profile != NULL )
@@ -199,7 +199,7 @@ idLocalUser::SaveProfileSettings
 */
 void idLocalUser::SaveProfileSettings()
 {
-	idPlayerProfile* profile = GetProfileMgr().GetProfile();
+	budPlayerProfile* profile = GetProfileMgr().GetProfile();
 	if( profile != NULL )
 	{
 		profile->SaveSettings( true );

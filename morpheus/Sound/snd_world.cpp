@@ -41,7 +41,7 @@ budCVar s_cushionFadeLimit( "s_cushionFadeLimit", "-30", CVAR_FLOAT, "Never cush
 budCVar s_cushionFadeOver( "s_cushionFadeOver", "10", CVAR_FLOAT, "DB above s_cushionFadeLimit to start ramp to silence" );
 budCVar s_unpauseFadeInTime( "s_unpauseFadeInTime", "250", CVAR_INTEGER, "When unpausing a sound world, milliseconds to fade sounds in over" );
 budCVar s_doorDistanceAdd( "s_doorDistanceAdd", "150", CVAR_FLOAT, "reduce sound volume with this distance when going through a door" );
-budCVar s_drawSounds( "s_drawSounds", "0", CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+budCVar s_drawSounds( "s_drawSounds", "0", CVAR_INTEGER, "", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
 budCVar s_showVoices( "s_showVoices", "0", CVAR_BOOL, "show active voices" );
 budCVar s_volume_dB( "s_volume_dB", "0", CVAR_ARCHIVE | CVAR_FLOAT, "volume in dB" );
 extern budCVar s_noSound;
@@ -505,7 +505,7 @@ void budSoundWorldLocal::Update()
 	if( showVoices )
 	{
 		static budOverlayHandle handle;
-		console->PrintOverlay( handle, JUSTIFY_LEFT, showVoiceTable.c_str() );
+		// console->PrintOverlay( handle, JUSTIFY_LEFT, showVoiceTable.c_str() );
 	}
 	
 	if( s_drawSounds.GetBool() && renderWorld != NULL )

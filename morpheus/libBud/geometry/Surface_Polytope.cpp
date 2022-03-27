@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 #define POLYTOPE_VERTEX_EPSILON		0.1f
 
@@ -299,8 +299,8 @@ int idSurface_Polytope::SplitPolytope( const budPlane& plane, const float epsilo
 	
 	side = Split( plane, epsilon, &surface[0], &surface[1], onPlaneEdges[0], onPlaneEdges[1] );
 	
-	*front = polytopeSurfaces[0] = new( TAG_libBud_SURFACE ) idSurface_Polytope;
-	*back = polytopeSurfaces[1] = new( TAG_libBud_SURFACE ) idSurface_Polytope;
+	*front = polytopeSurfaces[0] = new( TAG_LIBBUD_SURFACE ) idSurface_Polytope;
+	*back = polytopeSurfaces[1] = new( TAG_LIBBUD_SURFACE ) idSurface_Polytope;
 	
 	for( s = 0; s < 2; s++ )
 	{

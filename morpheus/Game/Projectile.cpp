@@ -338,7 +338,7 @@ void idProjectile::Launch( const budVec3& start, const budVec3& dir, const budVe
 	int				clipMask;
 	
 	// allow characters to throw projectiles during cinematics, but not the player
-	if( owner.GetEntity() && !owner.GetEntity()->IsType( idPlayer::Type ) )
+	if( owner.GetEntity() && !owner.GetEntity()->IsType( budPlayer::Type ) )
 	{
 		cinematic = owner.GetEntity()->cinematic;
 	}
@@ -529,9 +529,9 @@ void idProjectile::Think()
 	}
 	
 	// if the projectile owner is a player
-	if( owner.GetEntity() && owner.GetEntity()->IsType( idPlayer::Type ) )
+	if( owner.GetEntity() && owner.GetEntity()->IsType( budPlayer::Type ) )
 	{
-		idPlayer* player = static_cast<idPlayer*>( owner.GetEntity() );
+		budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
 		
 		// Remove any projectiles spectators threw.
 		if( player != NULL && player->spectating )
@@ -649,7 +649,7 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 	}
 	
 	// just get rid of the projectile when it hits a player in noclip
-	if( ent->IsType( idPlayer::Type ) && static_cast<idPlayer*>( ent )->noclip )
+	if( ent->IsType( budPlayer::Type ) && static_cast<budPlayer*>( ent )->noclip )
 	{
 		PostEventMS( &EV_Remove, 0 );
 		return true;
@@ -742,12 +742,12 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 		}
 		
 		// if the projectile owner is a player
-		if( owner.GetEntity() && owner.GetEntity()->IsType( idPlayer::Type ) )
+		if( owner.GetEntity() && owner.GetEntity()->IsType( budPlayer::Type ) )
 		{
 			// if the projectile hit an actor
 			if( ent->IsType( budActor::Type ) )
 			{
-				idPlayer* player = static_cast<idPlayer*>( owner.GetEntity() );
+				budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
 				player->AddProjectileHits( 1 );
 				damageScale *= player->PowerUpModifier( PROJECTILE_DAMAGE );
 			}
@@ -771,7 +771,7 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 			}
 			else
 			{
-				if( ent->IsType( idPlayer::Type ) ==  false && common->IsServer() )
+				if( ent->IsType( budPlayer::Type ) ==  false && common->IsServer() )
 				{
 					ent->Damage( this, owner.GetEntity(), dir, damageDefName, damageScale, CLIPMODEL_ID_TO_JOINT_HANDLE( collision.c.id ) );
 				}
@@ -780,11 +780,11 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 			// Check if we are hitting an actor. and see if we killed him.
 			if( !common->IsClient() && ent->health <= 0 && killedByImpact )
 			{
-				if( owner.GetEntity() && owner.GetEntity()->IsType( idPlayer::Type ) )
+				if( owner.GetEntity() && owner.GetEntity()->IsType( budPlayer::Type ) )
 				{
 					if( ent->IsType( budActor::Type ) && ent != owner.GetEntity() )
 					{
-						idPlayer* player = static_cast<idPlayer*>( owner.GetEntity() );
+						budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
 						player->AddProjectileKills();
 					}
 				}
@@ -797,9 +797,9 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 	
 	Explode( collision, ignore );
 	
-	if( !common->IsClient() && owner.GetEntity() != NULL && owner.GetEntity()->IsType( idPlayer::Type ) )
+	if( !common->IsClient() && owner.GetEntity() != NULL && owner.GetEntity()->IsType( budPlayer::Type ) )
 	{
-		idPlayer* player = static_cast<idPlayer*>( owner.GetEntity() );
+		budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
 		int kills = player->GetProjectileKills();
 		
 		if( kills >= 2 && common->IsMultiplayer() && strstr( GetName(), "projectile_rocket" ) != 0 )
@@ -1021,7 +1021,7 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	}
 	
 	// activate rumble for player
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	const bool isHitscan = spawnArgs.GetBool( "net_instanthit" );
 	if( player != NULL && isHitscan == false )
 	{
@@ -1502,7 +1502,7 @@ bool idProjectile::ClientPredictionCollide( idEntity* soundEnt, const idDict& pr
 	}
 	
 	// don't do anything if hitting a noclip player
-	if( ent->IsType( idPlayer::Type ) && static_cast<idPlayer*>( ent )->noclip )
+	if( ent->IsType( budPlayer::Type ) && static_cast<budPlayer*>( ent )->noclip )
 	{
 		return false;
 	}
@@ -1985,10 +1985,10 @@ void budGuidedProjectile::Launch( const budVec3& start, const budVec3& dir, cons
 		{
 			enemy = static_cast<budAI*>( owner.GetEntity() )->GetEnemy();
 		}
-		else if( owner.GetEntity()->IsType( idPlayer::Type ) )
+		else if( owner.GetEntity()->IsType( budPlayer::Type ) )
 		{
 			trace_t tr;
-			idPlayer* player = static_cast<idPlayer*>( owner.GetEntity() );
+			budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
 			budVec3 start = player->GetEyePosition();
 			budVec3 end = start + player->viewAxis[0] * 1000.0f;
 			gameLocal.clip.TracePoint( tr, start, end, MASK_SHOT_RENDERMODEL | CONTENTS_BODY, owner.GetEntity() );
@@ -2128,9 +2128,9 @@ void idSoulCubeMissile::KillTarget( const budVec3& dir )
 			smokeKillTime = gameLocal.time;
 		}
 		ownerEnt = owner.GetEntity();
-		if( ( act->health > 0 ) && ownerEnt != NULL && ownerEnt->IsType( idPlayer::Type ) && ( ownerEnt->health > 0 ) && !act->spawnArgs.GetBool( "boss" ) )
+		if( ( act->health > 0 ) && ownerEnt != NULL && ownerEnt->IsType( budPlayer::Type ) && ( ownerEnt->health > 0 ) && !act->spawnArgs.GetBool( "boss" ) )
 		{
-			static_cast<idPlayer*>( ownerEnt )->GiveHealthPool( act->health );
+			static_cast<budPlayer*>( ownerEnt )->GiveHealthPool( act->health );
 		}
 		act->Damage( this, owner.GetEntity(), dir,  spawnArgs.GetString( "def_damage" ), 1.0f, INVALID_JOINT );
 		act->GetAFPhysics()->SetTimeScale( 0.25 );
@@ -2182,9 +2182,9 @@ void idSoulCubeMissile::Think()
 				PostEventSec( &EV_Remove, 2.0f );
 				
 				ownerEnt = owner.GetEntity();
-				if( ownerEnt != NULL && ownerEnt->IsType( idPlayer::Type ) )
+				if( ownerEnt != NULL && ownerEnt->IsType( budPlayer::Type ) )
 				{
-					static_cast<idPlayer*>( ownerEnt )->SetSoulCubeProjectile( NULL );
+					static_cast<budPlayer*>( ownerEnt )->SetSoulCubeProjectile( NULL );
 				}
 				
 				state = FIZZLED;
@@ -2267,9 +2267,9 @@ void idSoulCubeMissile::Launch( const budVec3& start, const budVec3& dir, const 
 	UpdateVisuals();
 	
 	ownerEnt = owner.GetEntity();
-	if( ownerEnt != NULL && ownerEnt->IsType( idPlayer::Type ) )
+	if( ownerEnt != NULL && ownerEnt->IsType( budPlayer::Type ) )
 	{
-		static_cast<idPlayer*>( ownerEnt )->SetSoulCubeProjectile( this );
+		static_cast<budPlayer*>( ownerEnt )->SetSoulCubeProjectile( this );
 	}
 	
 }
@@ -2416,7 +2416,7 @@ void idBFGProjectile::FreeBeams()
 		}
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
 		player->playerView.EnableBFGVision( false );
@@ -2440,7 +2440,7 @@ void idBFGProjectile::Think()
 			{
 				continue;
 			}
-			idPlayer* player = ( beamTargets[i].target.GetEntity()->IsType( idPlayer::Type ) ) ? static_cast<idPlayer*>( beamTargets[i].target.GetEntity() ) : NULL;
+			budPlayer* player = ( beamTargets[i].target.GetEntity()->IsType( budPlayer::Type ) ) ? static_cast<budPlayer*>( beamTargets[i].target.GetEntity() ) : NULL;
 			// Major hack for end boss.  :(
 			budAnimatedEntity*	beamEnt;
 			budVec3				org;
@@ -2586,9 +2586,9 @@ void idBFGProjectile::Launch( const budVec3& start, const budVec3& dir, const bu
 			continue;
 		}
 		
-		if( ent->IsType( idPlayer::Type ) )
+		if( ent->IsType( budPlayer::Type ) )
 		{
-			idPlayer* player = static_cast<idPlayer*>( ent );
+			budPlayer* player = static_cast<budPlayer*>( ent );
 			player->playerView.EnableBFGVision( true );
 		}
 		
@@ -2689,13 +2689,13 @@ void idBFGProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	float		beamWidth;
 	float		damageScale;
 	const char* damage;
-	idPlayer* 	player;
+	budPlayer* 	player;
 	idEntity* 	ownerEnt;
 	
 	ownerEnt = owner.GetEntity();
-	if( ownerEnt != NULL && ownerEnt->IsType( idPlayer::Type ) )
+	if( ownerEnt != NULL && ownerEnt->IsType( budPlayer::Type ) )
 	{
-		player = static_cast< idPlayer* >( ownerEnt );
+		player = static_cast< budPlayer* >( ownerEnt );
 	}
 	else
 	{
@@ -3357,10 +3357,10 @@ void idHomingProjectile::Launch( const budVec3& start, const budVec3& dir, const
 		{
 			enemy = static_cast<budAI*>( owner.GetEntity() )->GetEnemy();
 		}
-		else if( owner.GetEntity()->IsType( idPlayer::Type ) )
+		else if( owner.GetEntity()->IsType( budPlayer::Type ) )
 		{
 			trace_t tr;
-			idPlayer* player = static_cast<idPlayer*>( owner.GetEntity() );
+			budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
 			budVec3 start = player->GetEyePosition();
 			budVec3 end = start + player->viewAxis[0] * 1000.0f;
 			gameLocal.clip.TracePoint( tr, start, end, MASK_SHOT_RENDERMODEL | CONTENTS_BODY, owner.GetEntity() );

@@ -233,7 +233,7 @@ void idMenuScreen_Scoreboard::ShowScreen( const mainMenuTransition_t transitionT
 idMenuScreen_Scoreboard::SetPlayerData
 ========================
 */
-void idMenuScreen_Scoreboard::SetPlayerData( budList< scoreboardInfo_t, TAG_libBud_LIST_MENU > data )
+void idMenuScreen_Scoreboard::SetPlayerData( budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > data )
 {
 	if( playerList != NULL )
 	{

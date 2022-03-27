@@ -94,7 +94,7 @@ idMenuScreen_PDA_Inventory::ShowScreen
 */
 void idMenuScreen_PDA_Inventory::ShowScreen( const mainMenuTransition_t transitionType )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player != NULL )
 	{
 	
@@ -168,7 +168,7 @@ idMenuScreen_PDA_Inventory::GetWeaponName
 const char* idMenuScreen_PDA_Inventory::GetWeaponName( int index )
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return NULL;
@@ -191,7 +191,7 @@ idMenuScreen_PDA_Inventory::GetWeaponName
 bool idMenuScreen_PDA_Inventory::IsVisibleWeapon( int index )
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return false;
@@ -214,7 +214,7 @@ idMenuScreen_PDA_Inventory::Update
 void idMenuScreen_PDA_Inventory::Update()
 {
 
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		idMenuScreen::Update();
@@ -302,7 +302,7 @@ void idMenuScreen_PDA_Inventory::EquipWeapon()
 		return;
 	}
 	
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player == NULL )
 	{
 		return;

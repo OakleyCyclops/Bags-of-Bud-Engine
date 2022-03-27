@@ -121,7 +121,7 @@ budAchievementManager::budAchievementManager() :
 budAchievementManager::Init
 ========================
 */
-void budAchievementManager::Init( idPlayer* player )
+void budAchievementManager::Init( budPlayer* player )
 {
 	owner = player;
 	SyncAchievments();
@@ -575,14 +575,14 @@ AchievementsList
 */
 CONSOLE_COMMAND( AchievementsList, "Lists achievements and status", NULL )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	idLocalUser* user = ( player == NULL ) ? session->GetSignInManager().GetMasterLocalUser() : session->GetGameLobbyBase().GetLocalUserFromLobbyUser( gameLocal.lobbyUserIDs[ player->GetEntityNumber() ] );
 	if( user == NULL )
 	{
 		libBud::Printf( "Must be signed in\n" );
 		return;
 	}
-	idPlayerProfile* profile = user->GetProfile();
+	budPlayerProfile* profile = user->GetProfile();
 	
 	budArray<bool, 128> achievementState;
 	bool achievementStateValid = session->GetAchievementSystem().GetAchievementState( user, achievementState );

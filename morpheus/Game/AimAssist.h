@@ -36,7 +36,7 @@ Contains the AimAssist declaration.
 */
 
 class idEntity;
-class idPlayer;
+class budPlayer;
 
 /*
 ================================================
@@ -50,7 +50,7 @@ public:
 
 	budAimAssist() : player( NULL ), angleCorrection( ang_zero ), frictionScalar( 1.0f ), lastTargetPos( vec3_zero ) {}
 	
-	void		Init( idPlayer* player );
+	void		Init( budPlayer* player );
 	void		Update();
 	void		GetAngleCorrection( budAngles& correction ) const
 	{
@@ -75,7 +75,7 @@ private:
 	void		UpdateAdhesion( idEntity* pTarget, const budVec3& targetPos );
 	void		UpdateFriction( idEntity* pTarget, const budVec3& targetPos );
 	
-	idPlayer* 				player;						// player associated with this object
+	budPlayer* 				player;						// player associated with this object
 	budAngles				angleCorrection;			// the angle delta to apply for aim assistance
 	float					frictionScalar;				// friction scalar
 	idEntityPtr<idEntity>	targetEntity;				// the last target we had (updated every frame)

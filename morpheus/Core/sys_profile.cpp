@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 #define SAVEGAME_PROFILE_FILENAME			"profile.bin"
 
@@ -86,11 +86,11 @@ void idProfileMgr::Pump()
 	}
 	
 	// See if we are done with saving/loading the profile
-	bool saving = profile->GetState() == idPlayerProfile::SAVING;
-	bool loading = profile->GetState() == idPlayerProfile::LOADING;
+	bool saving = profile->GetState() == budPlayerProfile::SAVING;
+	bool loading = profile->GetState() == budPlayerProfile::LOADING;
 	if( ( saving || loading ) && session->IsSaveGameCompletedFromHandle( handle ) )
 	{
-		profile->SetState( idPlayerProfile::IDLE );
+		profile->SetState( budPlayerProfile::IDLE );
 		
 		if( saving )
 		{
@@ -107,13 +107,12 @@ void idProfileMgr::Pump()
 			else if( parms.GetError() == SAVEGAME_E_CORRUPTED )
 			{
 				libBud::Warning( "Profile corrupt, creating a new one..." );
-				common->Dialog().AddDialog( GDM_CORRUPT_PROFILE, DIALOG_CONTINUE, NULL, NULL, false );
 				profile->SetDefaults();
 				profile->SaveSettings( true );
 			}
 			else if( parms.GetError() != SAVEGAME_E_NONE )
 			{
-				profile->SetState( idPlayerProfile::ERR );
+				profile->SetState( budPlayerProfile::ERR );
 			}
 			
 			session->OnLocalUserProfileLoaded( user );
@@ -125,18 +124,18 @@ void idProfileMgr::Pump()
 	}
 	
 	// See if we need to save/load the profile
-	if( profile->GetRequestedState() == idPlayerProfile::SAVE_REQUESTED && profile->IsDirty() )
+	if( profile->GetRequestedState() == budPlayerProfile::SAVE_REQUESTED && profile->IsDirty() )
 	{
 		profile->MarkDirty( false );
 		SaveSettingsAsync();
 		// Syncs the steam data
 		//session->StoreStats();
-		profile->SetRequestedState( idPlayerProfile::IDLE );
+		profile->SetRequestedState( budPlayerProfile::IDLE );
 	}
-	else if( profile->GetRequestedState() == idPlayerProfile::LOAD_REQUESTED )
+	else if( profile->GetRequestedState() == budPlayerProfile::LOAD_REQUESTED )
 	{
 		LoadSettingsAsync();
-		profile->SetRequestedState( idPlayerProfile::IDLE );
+		profile->SetRequestedState( budPlayerProfile::IDLE );
 	}
 }
 
@@ -145,21 +144,21 @@ void idProfileMgr::Pump()
 idProfileMgr::GetProfile
 ========================
 */
-idPlayerProfile* idProfileMgr::GetProfile()
+budPlayerProfile* idProfileMgr::GetProfile()
 {
 	assert( user != NULL );
 	if( profile == NULL )
 	{
 		// Lazy instantiation
 		// Create a new profile
-		profile = idPlayerProfile::CreatePlayerProfile( user->GetInputDevice() );
+		profile = budPlayerProfile::CreatePlayerProfile( user->GetInputDevice() );
 		if( profile == NULL )
 		{
 			return NULL;
 		}
 	}
 	
-	bool loading = ( profile->GetState() == idPlayerProfile::LOADING ) || ( profile->GetRequestedState() == idPlayerProfile::LOAD_REQUESTED );
+	bool loading = ( profile->GetState() == budPlayerProfile::LOADING ) || ( profile->GetRequestedState() == budPlayerProfile::LOAD_REQUESTED );
 	if( loading )
 	{
 		return NULL;
@@ -189,7 +188,7 @@ void idProfileMgr::SaveSettingsAsync()
 		
 			profileSaveProcessor->AddCompletedCallback( MakeCallback( this, &idProfileMgr::OnSaveSettingsCompleted, &profileSaveProcessor->GetParmsNonConst() ) );
 			handle = session->GetSaveGameManager().ExecuteProcessor( profileSaveProcessor.get() );
-			profile->SetState( idPlayerProfile::SAVING );
+			profile->SetState( budPlayerProfile::SAVING );
 			
 		}
 	}
@@ -215,7 +214,7 @@ void idProfileMgr::LoadSettingsAsync()
 			
 			profileLoadProcessor->AddCompletedCallback( MakeCallback( this, &idProfileMgr::OnLoadSettingsCompleted, &profileLoadProcessor->GetParmsNonConst() ) );
 			handle = session->GetSaveGameManager().ExecuteProcessor( profileLoadProcessor.get() );
-			profile->SetState( idPlayerProfile::LOADING );
+			profile->SetState( budPlayerProfile::LOADING );
 			
 			
 		}
@@ -296,25 +295,6 @@ void idProfileMgr::OnLoadSettingsCompleted( idSaveLoadParms* parms )
 }
 
 /*
-========================
-idProfileMgr::OnSaveSettingsCompleted
-========================
-*/
-void idProfileMgr::OnSaveSettingsCompleted( idSaveLoadParms* parms )
-{
-	common->Dialog().ShowSaveIndicator( false );
-	
-	if( parms->GetError() != SAVEGAME_E_NONE )
-	{
-		common->Dialog().AddDialog( GDM_PROFILE_SAVE_ERROR, DIALOG_CONTINUE, NULL, NULL, false );
-	}
-	if( game )
-	{
-		game->Shell_UpdateSavedGames();
-	}
-}
-
-/*
 ================================================
 idSaveGameProcessorSaveProfile
 ================================================
@@ -337,7 +317,7 @@ idSaveGameProcessorSaveProfile::idSaveGameProcessorSaveProfile()
 idSaveGameProcessorSaveProfile::InitSaveProfile
 ========================
 */
-bool idSaveGameProcessorSaveProfile::InitSaveProfile( idPlayerProfile* profile_, const char* folder )
+bool idSaveGameProcessorSaveProfile::InitSaveProfile( budPlayerProfile* profile_, const char* folder )
 {
 	// Serialize the profile and pass a file to the processor
 	profileFile = new( TAG_SAVEGAMES ) budFile_SaveGame( SAVEGAME_PROFILE_FILENAME, SAVEGAMEFILE_BINARY | SAVEGAMEFILE_AUTO_DELETE );
@@ -425,7 +405,7 @@ idSaveGameProcessorLoadProfile::~idSaveGameProcessorLoadProfile()
 idSaveGameProcessorLoadProfile::InitLoadFiles
 ========================
 */
-bool idSaveGameProcessorLoadProfile::InitLoadProfile( idPlayerProfile* profile_, const char* folder_ )
+bool idSaveGameProcessorLoadProfile::InitLoadProfile( budPlayerProfile* profile_, const char* folder_ )
 {
 	if( !idSaveGameProcessor::Init() )
 	{

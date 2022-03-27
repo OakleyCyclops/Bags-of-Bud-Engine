@@ -329,7 +329,7 @@ void Cmd_Give_f( const budCmdArgs& args )
 	const char* name;
 	int			i;
 	bool		give_all;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -519,7 +519,7 @@ Centers the players pitch
 */
 void Cmd_CenterView_f( const budCmdArgs& args )
 {
-	idPlayer*	player;
+	budPlayer*	player;
 	budAngles	ang;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -545,7 +545,7 @@ argv(0) god
 void Cmd_God_f( const budCmdArgs& args )
 {
 	const char*		msg;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -579,7 +579,7 @@ argv(0) notarget
 void Cmd_Notarget_f( const budCmdArgs& args )
 {
 	const char*		msg;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -611,7 +611,7 @@ argv(0) noclip
 void Cmd_Noclip_f( const budCmdArgs& args )
 {
 	const char*		msg;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -639,7 +639,7 @@ Cmd_PlayerModel_f
 */
 void Cmd_PlayerModel_f( const budCmdArgs& args )
 {
-	idPlayer*	player;
+	budPlayer*	player;
 	const char* name;
 	budVec3		pos;
 	budAngles	ang;
@@ -707,7 +707,7 @@ static void Cmd_Say( bool team, const budCmdArgs& args )
 		name = session->GetActingGameStateLobbyBase().GetLobbyUserName( gameLocal.lobbyUserIDs[ gameLocal.GetLocalClientNum() ] );
 		
 		// Append the player's location to team chat messages in CTF
-		idPlayer* player = static_cast<idPlayer*>( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
+		budPlayer* player = static_cast<budPlayer*>( gameLocal.entities[ gameLocal.GetLocalClientNum() ] );
 		if( gameLocal.mpGame.IsGametypeFlagBased() && team && player )
 		{
 			idLocationEntity* locationEntity = gameLocal.LocationForPoint( player->GetEyePosition() );
@@ -776,7 +776,7 @@ Cmd_GetViewpos_f
 */
 void Cmd_GetViewpos_f( const budCmdArgs& args )
 {
-	idPlayer*	player;
+	budPlayer*	player;
 	budVec3		origin;
 	budMat3		axis;
 	
@@ -808,7 +808,7 @@ void Cmd_SetViewpos_f( const budCmdArgs& args )
 	budVec3		origin;
 	budAngles	angles;
 	int			i;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -846,7 +846,7 @@ void Cmd_Teleport_f( const budCmdArgs& args )
 {
 	budVec3		origin;
 	budAngles	angles;
-	idPlayer*	player;
+	budPlayer*	player;
 	idEntity*	ent;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -884,7 +884,7 @@ void Cmd_Trigger_f( const budCmdArgs& args )
 {
 	budVec3		origin;
 	budAngles	angles;
-	idPlayer*	player;
+	budPlayer*	player;
 	idEntity*	ent;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -922,7 +922,7 @@ void Cmd_Spawn_f( const budCmdArgs& args )
 	int			i;
 	float		yaw;
 	budVec3		org;
-	idPlayer*	player;
+	budPlayer*	player;
 	idDict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1027,7 +1027,7 @@ void Cmd_TestLight_f( const budCmdArgs& args )
 	int			i;
 	budStr		filename;
 	const char* key = NULL, *value = NULL, *name = NULL;
-	idPlayer* 	player = NULL;
+	budPlayer* 	player = NULL;
 	idDict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1091,7 +1091,7 @@ void Cmd_TestPointLight_f( const budCmdArgs& args )
 {
 	const char* key = NULL, *value = NULL, *name = NULL;
 	int			i;
-	idPlayer*	player = NULL;
+	budPlayer*	player = NULL;
 	idDict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1237,7 +1237,7 @@ void Cmd_TestFx_f( const budCmdArgs& args )
 {
 	budVec3		offset;
 	const char* name;
-	idPlayer* 	player;
+	budPlayer* 	player;
 	idDict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1668,7 +1668,7 @@ Cmd_TestDamage_f
 */
 static void Cmd_TestDamage_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	const char* damageDefName;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1712,7 +1712,7 @@ Cmd_TestBoneFx_f
 */
 static void Cmd_TestBoneFx_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	const char* bone, *fx;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1740,7 +1740,7 @@ Cmd_TestDamage_f
 */
 static void Cmd_TestDeath_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -1768,7 +1768,7 @@ Cmd_WeaponSplat_f
 */
 static void Cmd_WeaponSplat_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -1787,7 +1787,7 @@ Cmd_SaveSelected_f
 static void Cmd_SaveSelected_f( const budCmdArgs& args )
 {
 	int i;
-	idPlayer* player = NULL;
+	budPlayer* player = NULL;
 	idEntity* s = NULL;
 	idMapEntity* mapEnt;
 	budMapFile* mapFile = gameLocal.GetLevelMap();
@@ -1863,7 +1863,7 @@ Cmd_DeleteSelected_f
 */
 static void Cmd_DeleteSelected_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -2065,7 +2065,7 @@ Cmd_BindRagdoll_f
 */
 static void Cmd_BindRagdoll_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -2086,7 +2086,7 @@ Cmd_UnbindRagdoll_f
 */
 static void Cmd_UnbindRagdoll_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -2275,7 +2275,7 @@ Cmd_RecordViewNotes_f
 */
 static void Cmd_RecordViewNotes_f( const budCmdArgs& args )
 {
-	idPlayer* player;
+	budPlayer* player;
 	budVec3 origin;
 	budMat3 axis;
 	
@@ -2327,7 +2327,7 @@ Cmd_CloseViewNotes_f
 */
 static void Cmd_CloseViewNotes_f( const budCmdArgs& args )
 {
-	idPlayer* player = gameLocal.GetLocalPlayer();
+	budPlayer* player = gameLocal.GetLocalPlayer();
 	
 	if( !player )
 	{
@@ -2348,7 +2348,7 @@ static void Cmd_ShowViewNotes_f( const budCmdArgs& args )
 {
 	static budLexer parser( LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS | LEXFL_NOSTRINGCONCAT | LEXFL_NOFATALERRORS );
 	budToken	token;
-	idPlayer* player;
+	budPlayer* player;
 	budVec3 origin;
 	budMat3 axis;
 	
@@ -2458,7 +2458,7 @@ void Cmd_NextGUI_f( const budCmdArgs& args )
 {
 	budVec3					origin;
 	budAngles				angles;
-	idPlayer*				player;
+	budPlayer*				player;
 	idEntity*				ent;
 	int						guiSurfaces;
 	bool					newEnt;
@@ -2682,7 +2682,7 @@ void budGameLocal::InitConsoleCommands()
 	cmdSystem->AddCommand( "setviewpos",			Cmd_SetViewpos_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"sets the current view position" );
 	cmdSystem->AddCommand( "teleport",				Cmd_Teleport_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"teleports the player to an entity location", budGameLocal::ArgCompletion_EntityName );
 	cmdSystem->AddCommand( "trigger",				Cmd_Trigger_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"triggers an entity", budGameLocal::ArgCompletion_EntityName );
-	cmdSystem->AddCommand( "spawn",					Cmd_Spawn_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"spawns a game entity", idCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
+	cmdSystem->AddCommand( "spawn",					Cmd_Spawn_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"spawns a game entity", budCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
 	cmdSystem->AddCommand( "damage",				Cmd_Damage_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"apply damage to an entity", budGameLocal::ArgCompletion_EntityName );
 	cmdSystem->AddCommand( "remove",				Cmd_Remove_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"removes an entity", budGameLocal::ArgCompletion_EntityName );
 	cmdSystem->AddCommand( "killMonsters",			Cmd_KillMonsters_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"removes all monsters" );
@@ -2693,16 +2693,16 @@ void budGameLocal::InitConsoleCommands()
 	cmdSystem->AddCommand( "removeline",			Cmd_RemoveDebugLine_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"removes a debug line" );
 	cmdSystem->AddCommand( "blinkline",				Cmd_BlinkDebugLine_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"blinks a debug line" );
 	cmdSystem->AddCommand( "listLines",				Cmd_ListDebugLines_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"lists all debug lines" );
-	cmdSystem->AddCommand( "playerModel",			Cmd_PlayerModel_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"sets the given model on the player", idCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
-	cmdSystem->AddCommand( "testFx",				Cmd_TestFx_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"tests an FX system", idCmdSystem::ArgCompletion_Decl<DECL_FX> );
-	cmdSystem->AddCommand( "testBoneFx",			Cmd_TestBoneFx_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests an FX system bound to a joint", idCmdSystem::ArgCompletion_Decl<DECL_FX> );
+	cmdSystem->AddCommand( "playerModel",			Cmd_PlayerModel_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"sets the given model on the player", budCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
+	cmdSystem->AddCommand( "testFx",				Cmd_TestFx_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"tests an FX system", budCmdSystem::ArgCompletion_Decl<DECL_FX> );
+	cmdSystem->AddCommand( "testBoneFx",			Cmd_TestBoneFx_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests an FX system bound to a joint", budCmdSystem::ArgCompletion_Decl<DECL_FX> );
 	cmdSystem->AddCommand( "testLight",				Cmd_TestLight_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a light" );
 	cmdSystem->AddCommand( "testPointLight",		Cmd_TestPointLight_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"tests a point light" );
 	cmdSystem->AddCommand( "popLight",				Cmd_PopLight_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"removes the last created light" );
 	cmdSystem->AddCommand( "testDeath",				Cmd_TestDeath_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests death" );
 	cmdSystem->AddCommand( "testSave",				Cmd_TestSave_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"writes out a test savegame" );
 	cmdSystem->AddCommand( "testModel",				idTestModel::TestModel_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a model", idTestModel::ArgCompletion_TestModel );
-	cmdSystem->AddCommand( "testSkin",				idTestModel::TestSkin_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a skin on an existing testModel", idCmdSystem::ArgCompletion_Decl<DECL_SKIN> );
+	cmdSystem->AddCommand( "testSkin",				idTestModel::TestSkin_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a skin on an existing testModel", budCmdSystem::ArgCompletion_Decl<DECL_SKIN> );
 	cmdSystem->AddCommand( "testShaderParm",		idTestModel::TestShaderParm_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"sets a shaderParm on an existing testModel" );
 	cmdSystem->AddCommand( "keepTestModel",			idTestModel::KeepTestModel_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"keeps the last test model in the game" );
 	cmdSystem->AddCommand( "testAnim",				idTestModel::TestAnim_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests an animation", idTestModel::ArgCompletion_TestAnim );
@@ -2719,7 +2719,7 @@ void budGameLocal::InitConsoleCommands()
 	cmdSystem->AddCommand( "reloadanims",			Cmd_ReloadAnims_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"reloads animations" );
 	cmdSystem->AddCommand( "listAnims",				Cmd_ListAnims_f,			CMD_FL_GAME,				"lists all animations" );
 	cmdSystem->AddCommand( "aasStats",				Cmd_AASStats_f,				CMD_FL_GAME,				"shows AAS stats" );
-	cmdSystem->AddCommand( "testDamage",			Cmd_TestDamage_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a damage def", idCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
+	cmdSystem->AddCommand( "testDamage",			Cmd_TestDamage_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a damage def", budCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
 	cmdSystem->AddCommand( "weaponSplat",			Cmd_WeaponSplat_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"projects a blood splat on the player weapon" );
 	cmdSystem->AddCommand( "saveSelected",			Cmd_SaveSelected_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"saves the selected entity to the .map file" );
 	cmdSystem->AddCommand( "deleteSelected",		Cmd_DeleteSelected_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"deletes selected entity" );

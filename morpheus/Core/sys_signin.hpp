@@ -81,7 +81,7 @@ public:
 		this->maxDesiredLocalUsers = maxDesiredLocalUsers;
 	}
 	bool 					ProcessInputEvent( const sysEvent_t* ev );
-	idPlayerProfile* 		GetDefaultProfile();
+	budPlayerProfile* 		GetDefaultProfile();
 	
 	// Master user always index 0
 	idLocalUser* 			GetMasterLocalUser()
@@ -111,7 +111,7 @@ public:
 	}
 	idLocalUser* 			GetLocalUserByInputDevice( int index );
 	idLocalUser* 			GetLocalUserByHandle( localUserHandle_t handle );
-	idPlayerProfile* 		GetPlayerProfileByInputDevice( int index );
+	budPlayerProfile* 		GetPlayerProfileByInputDevice( int index );
 	bool					RemoveLocalUserByInputDevice( int index );
 	bool					RemoveLocalUserByHandle( localUserHandle_t handle );
 	void					RemoveAllLocalUsers();
@@ -128,7 +128,7 @@ public:
 protected:
 	int					minDesiredLocalUsers;
 	int					maxDesiredLocalUsers;
-	idPlayerProfile* 	defaultProfile;
+	budPlayerProfile* 	defaultProfile;
 };
 
 #endif	// __SYS_SIGNIN_H__

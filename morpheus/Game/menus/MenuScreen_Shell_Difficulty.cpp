@@ -51,7 +51,7 @@ void idMenuScreen_Shell_Difficulty::Initialize( idMenuHandler* data )
 	SetSpritePath( "menuDifficulty" );
 	
 	options = new( TAG_SWF ) idMenuWidget_DynamicList();
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	budList< budStr > option;
 	option.Append( "#str_04089" );	// Easy
 	menuOptions.Append( option );

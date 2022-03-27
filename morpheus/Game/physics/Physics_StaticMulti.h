@@ -146,12 +146,12 @@ public:	// common physics interface
 	
 protected:
 	idEntity* 				self;					// entity using this physics object
-	budList<staticPState_t, TAG_libBud_LIST_PHYSICS>	current;				// physics state
-	budList<budClipModel*, TAG_libBud_LIST_PHYSICS>	clipModels;				// collision model
+	budList<staticPState_t, TAG_LIBBUD_LIST_PHYSICS>	current;				// physics state
+	budList<budClipModel*, TAG_LIBBUD_LIST_PHYSICS>	clipModels;				// collision model
 	
 	// States used in client-side interpolation
-	budList<staticInterpolatePState_t, TAG_libBud_LIST_PHYSICS> previous;
-	budList<staticInterpolatePState_t, TAG_libBud_LIST_PHYSICS> next;
+	budList<staticInterpolatePState_t, TAG_LIBBUD_LIST_PHYSICS> previous;
+	budList<staticInterpolatePState_t, TAG_LIBBUD_LIST_PHYSICS> next;
 	
 	// master
 	bool					hasMaster;

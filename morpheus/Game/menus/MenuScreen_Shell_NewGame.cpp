@@ -47,7 +47,7 @@ void idMenuScreen_Shell_NewGame::Initialize( idMenuHandler* data )
 	SetSpritePath( "menuNewGame" );
 	
 	options = new( TAG_SWF ) idMenuWidget_DynamicList();
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	budList< budStr > option;
 	option.Append( "#str_swf_doom3" );	// doom 3
 	menuOptions.Append( option );

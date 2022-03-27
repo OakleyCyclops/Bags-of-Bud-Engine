@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 /*
@@ -138,7 +138,7 @@ void budCmdArgs::TokenizeString( const char* text, bool keepAsStrings )
 		return;
 	}
 	
-	lex.LoadMemory( text, strlen( text ), "idCmdSystemLocal::TokenizeString" );
+	lex.LoadMemory( text, strlen( text ), "budCmdSystemLocal::TokenizeString" );
 	lex.SetFlags( LEXFL_NOERRORS
 				  | LEXFL_NOWARNINGS
 				  | LEXFL_NOSTRINGCONCAT

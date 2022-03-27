@@ -27,7 +27,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 /*
 =================
@@ -103,31 +103,31 @@ int idSurface::Split( const budPlane& plane, const float epsilon, idSurface** fr
 		f = ( verts[indexes[1]].xyz - verts[indexes[0]].xyz ).Cross( verts[indexes[0]].xyz - verts[indexes[2]].xyz ) * plane.Normal();
 		if( IEEE_FLT_SIGNBITSET( f ) )
 		{
-			*back = new( TAG_libBud_SURFACE ) idSurface( *this );
+			*back = new( TAG_LIBBUD_SURFACE ) idSurface( *this );
 			return SIDE_BACK;
 		}
 		else
 		{
-			*front = new( TAG_libBud_SURFACE ) idSurface( *this );
+			*front = new( TAG_LIBBUD_SURFACE ) idSurface( *this );
 			return SIDE_FRONT;
 		}
 	}
 	// if nothing at the front of the clipping plane
 	if( !counts[SIDE_FRONT] )
 	{
-		*back = new( TAG_libBud_SURFACE ) idSurface( *this );
+		*back = new( TAG_LIBBUD_SURFACE ) idSurface( *this );
 		return SIDE_BACK;
 	}
 	// if nothing at the back of the clipping plane
 	if( !counts[SIDE_BACK] )
 	{
-		*front = new( TAG_libBud_SURFACE ) idSurface( *this );
+		*front = new( TAG_LIBBUD_SURFACE ) idSurface( *this );
 		return SIDE_FRONT;
 	}
 	
 	// allocate front and back surface
-	*front = surface[0] = new( TAG_libBud_SURFACE ) idSurface();
-	*back = surface[1] = new( TAG_libBud_SURFACE ) idSurface();
+	*front = surface[0] = new( TAG_LIBBUD_SURFACE ) idSurface();
+	*back = surface[1] = new( TAG_LIBBUD_SURFACE ) idSurface();
 	
 	edgeSplitVertex = ( int* ) _alloca( edges.Num() * sizeof( int ) );
 	numEdgeSplitVertexes = 0;
@@ -415,8 +415,8 @@ bool idSurface::ClipInPlace( const budPlane& plane, const float epsilon, const b
 	int				indexNum;
 	int				numEdgeSplitVertexes;
 	budDrawVert		v;
-	budList<budDrawVert, TAG_libBud_LIST_SURFACE> newVerts;
-	budList<int, TAG_libBud_LIST_SURFACE>		newIndexes;
+	budList<budDrawVert, TAG_LIBBUD_LIST_SURFACE> newVerts;
+	budList<int, TAG_LIBBUD_LIST_SURFACE>		newIndexes;
 	
 	dists = ( float* ) _alloca( verts.Num() * sizeof( float ) );
 	sides = ( byte* ) _alloca( verts.Num() * sizeof( byte ) );

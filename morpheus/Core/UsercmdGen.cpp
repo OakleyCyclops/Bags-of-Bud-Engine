@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "PCH.hpp"
+#include "corePCH.hpp"
 #pragma hdrstop
 
 budCVar joy_mergedThreshold( "joy_mergedThreshold", "1", CVAR_BOOL | CVAR_ARCHIVE, "If the thresholds aren't merged, you drift more off center" );
@@ -323,7 +323,7 @@ budCVar budUsercmdGenLocal::in_toggleZoom( "in_toggleZoom", "0", CVAR_SYSTEM | C
 budCVar budUsercmdGenLocal::sensitivity( "sensitivity", "5", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_FLOAT, "mouse view sensitivity" );
 budCVar budUsercmdGenLocal::m_pitch( "m_pitch", "0.022", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_FLOAT, "mouse pitch scale" );
 budCVar budUsercmdGenLocal::m_yaw( "m_yaw", "0.022", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_FLOAT, "mouse yaw scale" );
-budCVar budUsercmdGenLocal::m_smooth( "m_smooth", "1", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "number of samples blended for mouse viewing", 1, 8, idCmdSystem::ArgCompletion_Integer<1, 8> );
+budCVar budUsercmdGenLocal::m_smooth( "m_smooth", "1", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "number of samples blended for mouse viewing", 1, 8, budCmdSystem::ArgCompletion_Integer<1, 8> );
 budCVar budUsercmdGenLocal::m_showMouseRate( "m_showMouseRate", "0", CVAR_SYSTEM | CVAR_BOOL, "shows mouse movement" );
 
 static budUsercmdGenLocal localUsercmdGen;
@@ -638,12 +638,6 @@ void budUsercmdGenLocal::HandleJoystickAxis( int keyNum, float unclampedValue, f
 	else
 	{
 		lookValue = budMath::Pow( value, joy_powerScale.GetFloat() );
-	}
-	
-	budGame* game = common->Game();
-	if( game != NULL )
-	{
-		lookValue *= game->GetAimAssistSensitivity();
 	}
 	
 	switch( action )
@@ -1005,8 +999,7 @@ void budUsercmdGenLocal::JoystickMove2()
 	const float pitchSpeed =		joy_pitchSpeed.GetFloat();
 	const float yawSpeed =			joy_yawSpeed.GetFloat();
 	
-	budGame* game = common->Game();
-	const float aimAssist = game != NULL ? game->GetAimAssistSensitivity() : 1.0f;
+	const float aimAssist = NULL;
 	
 	budVec2 leftRaw( joystickAxis[ AXIS_LEFT_X ], joystickAxis[ AXIS_LEFT_Y ] );
 	budVec2 rightRaw( joystickAxis[ AXIS_RIGHT_X ], joystickAxis[ AXIS_RIGHT_Y ] );
@@ -1187,12 +1180,6 @@ void budUsercmdGenLocal::AimAssist()
 {
 	// callback to the game to update the aim assist for the current device
 	budAngles aimAssistAngles( 0.0f, 0.0f, 0.0f );
-	
-	budGame* game = common->Game();
-	if( game != NULL )
-	{
-		game->GetAimAssistAngles( aimAssistAngles );
-	}
 	
 	viewangles[YAW] += aimAssistAngles.yaw;
 	viewangles[PITCH] += aimAssistAngles.pitch;

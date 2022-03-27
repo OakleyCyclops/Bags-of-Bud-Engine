@@ -331,7 +331,7 @@ typedef struct
 	int							version;				// API version
 	budSys* 						sys;					// non-portable system services
 	budCommon* 					common;					// common
-	idCmdSystem* 				cmdSystem;				// console command system
+	budCmdSystem* 				cmdSystem;				// console command system
 	budCVarSystem* 				cvarSystem;				// console variable system
 	budFileSystem* 				fileSystem;				// file system
 	budRenderSystem* 			renderSystem;			// render system

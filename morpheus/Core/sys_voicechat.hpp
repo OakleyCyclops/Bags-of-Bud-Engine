@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef	__SYS_VOICECHATMGR_H__
 #define	__SYS_VOICECHATMGR_H__
 
-#include "sys_lobby_backend.h"
+#include "sys_lobby_backend.hpp"
 
 /*
 ================================================

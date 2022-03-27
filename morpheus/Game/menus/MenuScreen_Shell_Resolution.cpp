@@ -158,7 +158,7 @@ void idMenuScreen_Shell_Resolution::ShowScreen( const mainMenuTransition_t trans
 	originalOption.fullscreen = r_fullscreen.GetInteger();
 	originalOption.vidmode = r_vidMode.GetInteger();
 	
-	budList< budList< budStr, TAG_libBud_LIST_MENU >, TAG_libBud_LIST_MENU > menuOptions;
+	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	menuOptions.Alloc().Alloc() = "#str_swf_disabled";
 	optionData.Append( optionData_t( 0, 0 ) );
 	

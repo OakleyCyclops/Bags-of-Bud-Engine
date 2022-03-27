@@ -28,14 +28,14 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SYS_PROFILE_H__
 #define __SYS_PROFILE_H__
 
-#include "sys_savegame.h"
-#include "sys_session_savegames.h"
+#include "sys_savegame.hpp"
+#include "sys_session_savegames.hpp"
 
 
 class idSaveGameProcessorSaveProfile;
 class idSaveGameProcessorLoadProfile;
 class idLocalUser;
-class idPlayerProfile;
+class budPlayerProfile;
 
 /*
 ================================================
@@ -52,7 +52,7 @@ public:
 	void				Init( idLocalUser* user );
 	
 	void 				Pump();
-	idPlayerProfile* 	GetProfile();
+	budPlayerProfile* 	GetProfile();
 	
 private:
 	void				LoadSettingsAsync();
@@ -66,7 +66,7 @@ private:
 	std::auto_ptr< idSaveGameProcessorLoadProfile >	profileLoadProcessor;
 	
 	idLocalUser* 						user;					// reference passed in
-	idPlayerProfile* 					profile;
+	budPlayerProfile* 					profile;
 	saveGameHandle_t					handle;
 };
 
@@ -82,12 +82,12 @@ public:
 	
 	idSaveGameProcessorSaveProfile();
 	
-	bool			InitSaveProfile( idPlayerProfile* profile, const char* folder );
+	bool			InitSaveProfile( budPlayerProfile* profile, const char* folder );
 	virtual bool	Process();
 	
 private:
 	budFile_SaveGame* 	profileFile;
-	idPlayerProfile* 	profile;
+	budPlayerProfile* 	profile;
 	
 };
 
@@ -104,13 +104,13 @@ public:
 	idSaveGameProcessorLoadProfile();
 	~idSaveGameProcessorLoadProfile();
 	
-	bool			InitLoadProfile( idPlayerProfile* profile, const char* folder );
+	bool			InitLoadProfile( budPlayerProfile* profile, const char* folder );
 	virtual bool	Process();
 	
 	
 private:
 	budFile_SaveGame* 	profileFile;
-	idPlayerProfile* 	profile;
+	budPlayerProfile* 	profile;
 	
 };
 

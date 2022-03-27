@@ -32,26 +32,26 @@ If you have questions concerning this license or the applicable additional terms
 /*
 ===============================================================================
 
-	idCompressor is a layer ontop of budFile which provides lossless data
+	budCompressor is a layer ontop of budFile which provides lossless data
 	compression. The compressor can be used as a regular file and multiple
 	compressors can be stacked ontop of each other.
 
 ===============================================================================
 */
 
-class idCompressor : public budFile
+class budCompressor : public budFile
 {
 public:
 	// compressor allocation
-	static idCompressor* 	AllocNoCompression();
-	static idCompressor* 	AllocBitStream();
-	static idCompressor* 	AllocRunLength();
-	static idCompressor* 	AllocRunLength_ZeroBased();
-	static idCompressor* 	AllocHuffman();
-	static idCompressor* 	AllocArithmetic();
-	static idCompressor* 	AllocLZSS();
-	static idCompressor* 	AllocLZSS_WordAligned();
-	static idCompressor* 	AllocLZW();
+	static budCompressor* 	AllocNoCompression();
+	static budCompressor* 	AllocBitStream();
+	static budCompressor* 	AllocRunLength();
+	static budCompressor* 	AllocRunLength_ZeroBased();
+	static budCompressor* 	AllocHuffman();
+	static budCompressor* 	AllocArithmetic();
+	static budCompressor* 	AllocLZSS();
+	static budCompressor* 	AllocLZSS_WordAligned();
+	static budCompressor* 	AllocLZW();
 	
 	// initialization
 	virtual void			Init( budFile* f, bool compress, int wordLength ) = 0;

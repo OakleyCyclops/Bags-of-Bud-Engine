@@ -190,7 +190,6 @@ void budRenderModelManagerLocal::TouchModel_f( const budCmdArgs& args )
 	
 	common->Printf( "touchModel %s\n", model );
 	const bool captureToImage = false;
-	common->UpdateScreen( captureToImage );
 	budRenderModel* m = renderModelManager->CheckModel( model );
 	if( !m )
 	{
@@ -233,9 +232,9 @@ budRenderModelManagerLocal::Init
 void budRenderModelManagerLocal::Init()
 {
 	cmdSystem->AddCommand( "listModels", ListModels_f, CMD_FL_RENDERER, "lists all models" );
-	cmdSystem->AddCommand( "printModel", PrintModel_f, CMD_FL_RENDERER, "prints model info", idCmdSystem::ArgCompletion_ModelName );
+	cmdSystem->AddCommand( "printModel", PrintModel_f, CMD_FL_RENDERER, "prints model info", budCmdSystem::ArgCompletion_ModelName );
 	cmdSystem->AddCommand( "reloadModels", ReloadModels_f, CMD_FL_RENDERER | CMD_FL_CHEAT, "reloads models" );
-	cmdSystem->AddCommand( "touchModel", TouchModel_f, CMD_FL_RENDERER, "touches a model", idCmdSystem::ArgCompletion_ModelName );
+	cmdSystem->AddCommand( "touchModel", TouchModel_f, CMD_FL_RENDERER, "touches a model", budCmdSystem::ArgCompletion_ModelName );
 	
 	insideLevelLoad = false;
 	

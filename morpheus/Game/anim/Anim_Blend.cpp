@@ -5167,7 +5167,7 @@ bool budAnimator::CreateFrame( int currentTime, bool force )
 	const jointMod_t* 	jointMod;
 	const budJointQuat* 	defaultPose;
 	
-	static budCVar		r_showSkel( "r_showSkel", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+	static budCVar		r_showSkel( "r_showSkel", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
 	
 	if( gameLocal.inCinematic && gameLocal.skipCinematic )
 	{

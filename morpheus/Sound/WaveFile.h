@@ -128,7 +128,7 @@ public:
 			// Valid if basic.formatTag == FORMAT_EXTENSIBLE
 			struct extensible_t
 			{
-				uint16 validBitsPerSample;	// Valid bits in each sample container
+				uint16 valbudBitsPerSample;	// Valid bits in each sample container
 				uint32 channelMask;			// Positions of the audio channels
 				struct guid_t
 				{

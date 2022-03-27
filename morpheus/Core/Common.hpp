@@ -65,11 +65,10 @@ BUD_INLINE int MSEC_ALIGN_TO_FRAME( int msec )
 	return FRAME_TO_MSEC( MSEC_TO_FRAME_CEIL( msec ) );
 }
 
-class budGame;
+// class budGame;
 class budRenderWorld;
 class budSoundWorld;
 class budSession;
-class budCommonDialog;
 class budDemoFile;
 class budUserInterface;
 class idSaveLoadParms;
@@ -216,10 +215,6 @@ public:
 	// Called repeatedly as the foreground thread for rendering and game logic.
 	virtual void				Frame() = 0;
 	
-	// DG: added possibility to *not* release mouse in UpdateScreen(), it fucks up the view angle for screenshots
-	// Redraws the screen, handling games, guis, console, etc
-	// in a modal manner outside the normal frame loop
-	virtual void				UpdateScreen( bool captureToImage, bool releaseMouse = true ) = 0;
 	// DG end
 	
 	virtual void				UpdateLevelLoadPacifier() = 0;
@@ -295,9 +290,7 @@ public:
 	// Returns the rate (in ms between snaps) that we want to generate snapshots
 	virtual int					GetSnapRate() = 0;
 	
-	virtual void				NetReceiveReliable( int peer, int type, budBitMsg& msg ) = 0;
 	virtual void				NetReceiveSnapshot( class budSnapShot& ss ) = 0;
-	virtual void				NetReceiveUsercmds( int peer, budBitMsg& msg ) = 0;
 	
 	// Processes the given event.
 	virtual	bool				ProcessEvent( const sysEvent_t* event ) = 0;
@@ -308,41 +301,24 @@ public:
 	virtual budDemoFile* 		ReadDemo() = 0;
 	virtual budDemoFile* 		WriteDemo() = 0;
 	
-	virtual budGame* 			Game() = 0;
-	virtual budRenderWorld* 		RW() = 0;
-	virtual budSoundWorld* 		SW() = 0;
-	virtual budSoundWorld* 		MenuSW() = 0;
-	virtual budSession* 			Session() = 0;
-	virtual budCommonDialog& 	Dialog() = 0;
-	
-	virtual void				OnSaveCompleted( idSaveLoadParms& parms ) = 0;
-	virtual void				OnLoadCompleted( idSaveLoadParms& parms ) = 0;
+	// virtual void				OnLoadCompleted( idSaveLoadParms& parms ) = 0;
 	virtual void				OnLoadFilesCompleted( idSaveLoadParms& parms ) = 0;
 	virtual void				OnEnumerationCompleted( idSaveLoadParms& parms ) = 0;
 	virtual void				OnDeleteCompleted( idSaveLoadParms& parms ) = 0;
-	virtual void				TriggerScreenWipe( const char* _wipeMaterial, bool hold ) = 0;
+	// virtual void				TriggerScreenWipe( const char* _wipeMaterial, bool hold ) = 0;
 	
 	virtual void				OnStartHosting( budMatchParameters& parms ) = 0;
 	
 	virtual int					GetGameFrame() = 0;
 	
-	virtual void				InitializeMPMapsModes() = 0;
 	virtual const budStrList& 			GetModeList() const = 0;
 	virtual const budStrList& 			GetModeDisplayList() const = 0;
 	virtual const budList<mpMap_t>& 		GetMapList() const = 0;
 	
 	virtual void				ResetPlayerInput( int playerIndex ) = 0;
 	
-	virtual bool				JapaneseCensorship() const = 0;
-	
 	virtual void				QueueShowShell() = 0;		// Will activate the shell on the next frame.
-	
-	// RB begin
-#if defined(USE_DOOMCLASSIC)
-	virtual currentGame_t		GetCurrentGame() const = 0;
-	virtual void				SwitchToGame( currentGame_t newGame ) = 0;
-#endif
-	// RB end
+
 };
 
 extern budCommon* 		common;

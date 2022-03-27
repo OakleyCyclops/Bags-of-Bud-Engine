@@ -26,8 +26,8 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
-#include "sys_session_local.h"
+#include "corePCH.hpp"
+#include "sys_session_local.hpp"
 
 
 budCVar saveGame_verbose( "saveGame_verbose", "0", CVAR_BOOL | CVAR_ARCHIVE, "debug spam" );
@@ -685,66 +685,10 @@ idSaveGameManager::RetrySave
 */
 void idSaveGameManager::RetrySave()
 {
-	if( DeviceSelectorWaitingOnSaveRetry() && !common->Dialog().HasDialogMsg( GDM_WARNING_FOR_NEW_DEVICE_ABOUT_TO_LOSE_PROGRESS, NULL ) )
+	if( DeviceSelectorWaitingOnSaveRetry())
 	{
 		cmdSystem->AppendCommandText( "savegame autosave\n" );
 	}
-}
-
-/*
-========================
-idSaveGameManager::ShowRetySaveDialog
-========================
-*/
-void idSaveGameManager::ShowRetySaveDialog()
-{
-	ShowRetySaveDialog( retryFolder, retryBytes );
-}
-
-/*
-========================
-idSaveGameManager::ShowRetySaveDialog
-========================
-*/
-void idSaveGameManager::ShowRetySaveDialog( const char* folder, const int64 bytes )
-{
-
-	budStaticList< budSWFScriptFunction*, 4 > callbacks;
-	budStaticList< budStrId, 4 > optionText;
-	
-	class budSWFScriptFunction_Continue : public budSWFScriptFunction_RefCounted
-	{
-	public:
-		budSWFScriptVar Call( budSWFScriptObject* thisObject, const budSWFParmList& parms )
-		{
-			common->Dialog().ClearDialog( GDM_INSUFFICENT_STORAGE_SPACE );
-			session->GetSaveGameManager().ClearRetryInfo();
-			return budSWFScriptVar();
-		}
-	};
-	
-	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_Continue() );
-	optionText.Append( budStrId( "#str_dlg_continue_without_saving" ) );
-	
-	
-	
-	// build custom space required string
-	// #str_dlg_space_required ~= "There is insufficient storage available.  Please free %s and try again."
-	budStr format = budStrId( "#str_dlg_space_required" ).GetLocalizedString();
-	budStr size;
-	if( bytes > ( 1024 * 1024 ) )
-	{
-		const float roundUp = ( ( 1024.0f * 1024.0f / 10.0f ) - 1.0f );
-		size = va( "%.1f MB", ( roundUp + ( float ) bytes ) / ( 1024.0f * 1024.0f ) );
-	}
-	else
-	{
-		const float roundUp = 1024.0f - 1.0f;
-		size = va( "%.0f KB", ( roundUp + ( float ) bytes ) / 1024.0f );
-	}
-	budStr msg = va( format.c_str(), size.c_str() );
-	
-	common->Dialog().AddDynamicDialog( GDM_INSUFFICENT_STORAGE_SPACE, callbacks, optionText, true, msg, true );
 }
 
 /*
@@ -992,29 +936,7 @@ void idSaveGameManager::Pump()
 		
 		CancelAllProcessors( true );
 		
-		class budSWFScriptFunction_TryAgain : public budSWFScriptFunction_RefCounted
-		{
-		public:
-			budSWFScriptFunction_TryAgain( idSaveGameManager* manager, idSaveGameProcessor* processor )
-			{
-				this->manager = manager;
-				this->processor = processor;
-			}
-			budSWFScriptVar Call( budSWFScriptObject* thisObject, const budSWFParmList& parms )
-			{
-				common->Dialog().ClearDialog( GDM_ERROR_SAVING_SAVEGAME );
-				manager->ExecuteProcessor( processor );
-				return budSWFScriptVar();
-			}
-		private:
-			idSaveGameManager* manager;
-			idSaveGameProcessor* processor;
-		};
-		
-		budStaticList< budSWFScriptFunction*, 4 > callbacks;
 		budStaticList< budStrId, 4 > optionText;
-		callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_TryAgain( this, tempProcessor ) );
 		optionText.Append( budStrId( "#STR_SWF_RETRY" ) );
-		common->Dialog().AddDynamicDialog( GDM_ERROR_SAVING_SAVEGAME, callbacks, optionText, true, "" );
 	}
 }

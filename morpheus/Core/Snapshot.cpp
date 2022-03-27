@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 #pragma hdrstop
-#include "PCH.hpp"
+#include "corePCH.hpp"
 
 budCVar net_verboseSnapshot( "net_verboseSnapshot", "0", CVAR_INTEGER | CVAR_NOCHEAT, "Verbose snapshot code to help debug snapshot problems. Greater the number greater the spam" );
 budCVar net_verboseSnapshotCompression( "net_verboseSnapshotCompression", "0", CVAR_INTEGER | CVAR_NOCHEAT, "Verbose snapshot code to help debug snapshot problems. Greater the number greater the spam" );

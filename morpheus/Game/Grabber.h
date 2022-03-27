@@ -50,7 +50,7 @@ public:
 	
 	void					Initialize();
 	void					SetDragDistance( float dist );
-	int						Update( idPlayer* player, bool hide );
+	int						Update( budPlayer* player, bool hide );
 	
 private:
 	idEntityPtr<idEntity>	dragEnt;			// entity being dragged
@@ -59,7 +59,7 @@ private:
 	
 	int						id;					// id of body being dragged
 	budVec3					localPlayerPoint;	// dragged point in player space
-	idEntityPtr<idPlayer>	owner;
+	idEntityPtr<budPlayer>	owner;
 	int						oldImpulseSequence;
 	bool					holdingAF;
 	bool					shakeForceFlip;

@@ -79,12 +79,12 @@ public:
 	int				Write( const void* buffer, int len );
 	
 private:
-	static idCompressor* AllocCompressor( int type );
+	static budCompressor* AllocCompressor( int type );
 	
 	bool			writing;
 	byte* 			fileImage;
 	budFile* 		f;
-	idCompressor* 	compressor;
+	budCompressor* 	compressor;
 	
 	budList<budStr*>	demoStrings;
 	budFile* 		fLog;

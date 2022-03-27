@@ -28,14 +28,14 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "PCH.hpp"
+#include "libBudPCH.hpp"
 
 #ifdef __APPLE__
 #include <mach/mach_time.h>
 #endif
 
-#include "Simd_Generic.h"
-#include "Simd_SSE.h"
+#include "Simd_Generic.hpp"
+#include "Simd_SSE.hpp"
 
 idSIMDProcessor*		processor = NULL;			// pointer to SIMD processor
 idSIMDProcessor* 	generic = NULL;				// pointer to generic SIMD implementation

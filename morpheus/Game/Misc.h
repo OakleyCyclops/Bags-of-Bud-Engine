@@ -64,10 +64,10 @@ private:
 ===============================================================================
 */
 
-class idPlayerStart : public idEntity
+class budPlayerStart : public idEntity
 {
 public:
-	CLASS_PROTOTYPE( idPlayerStart );
+	CLASS_PROTOTYPE( budPlayerStart );
 	
 	enum
 	{
@@ -75,7 +75,7 @@ public:
 		EVENT_MAXEVENTS
 	};
 	
-	idPlayerStart();
+	budPlayerStart();
 	
 	void				Spawn();
 	
@@ -89,7 +89,7 @@ private:
 	
 	void				Event_TeleportPlayer( idEntity* activator );
 	void				Event_TeleportStage( idEntity* player );
-	void				TeleportPlayer( idPlayer* player );
+	void				TeleportPlayer( budPlayer* player );
 };
 
 
@@ -903,7 +903,7 @@ private:
 public:
 	bool				isMounted;
 	function_t*			scriptFunction;
-	idPlayer* 			mountedPlayer;
+	budPlayer* 			mountedPlayer;
 };
 
 

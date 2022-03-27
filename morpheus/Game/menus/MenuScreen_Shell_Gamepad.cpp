@@ -414,7 +414,7 @@ idMenuScreen_Shell_Gamepad::idMenuDataSource_AudioSettings::LoadData
 */
 void idMenuScreen_Shell_Gamepad::idMenuDataSource_GamepadSettings::LoadData()
 {
-	idPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
+	budPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
 	
 	fields[ GAMEPAD_FIELD_INVERT ].SetBool( in_invertLook.GetBool() );
 	fields[ GAMEPAD_FIELD_LEFTY ].SetBool( profile ? profile->GetLeftyFlip() : false );
@@ -442,7 +442,7 @@ void idMenuScreen_Shell_Gamepad::idMenuDataSource_GamepadSettings::CommitData()
 	joy_gammaLook.SetBool( fields[ GAMEPAD_FIELD_ACCELERATION ].ToBool() );
 	joy_mergedThreshold.SetBool( fields[ GAMEPAD_FIELD_THRESHOLD ].ToBool() );
 	
-	idPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
+	budPlayerProfile* profile = session->GetProfileFromMasterLocalUser();
 	if( profile != NULL )
 	{
 		profile->SetLeftyFlip( fields[ GAMEPAD_FIELD_LEFTY ].ToBool() );

@@ -31,12 +31,12 @@ If you have questions concerning this license or the applicable additional terms
 #undef protected
 
 // DG: achievements and signin is the same on windows, linux => put them in common dir
-#include "common/achievements.h"
-#include "common/signin.h"
+#include "common/achievements.hpp"
+#include "common/signin.hpp"
 // DG end
 
-#include "sys_lobby_backend.h"
-#include "sys_lobby.h"
+#include "sys_lobby_backend.hpp"
+#include "sys_lobby.hpp"
 
 class idSaveGameProcessorNextMap;
 class idSaveGameProcessorSaveGame;
@@ -141,7 +141,7 @@ public:
 	{
 		return 0;
 	}
-	virtual idPlayerProfile* 			GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID )
+	virtual budPlayerProfile* 			GetProfileFromLobbyUser( lobbyUserID_t lobbyUserID )
 	{
 		return NULL;
 	}
@@ -395,7 +395,7 @@ public:
 		return signInManager->GetLocalUserByIndex( i )->GetGamerTag();
 	}
 	virtual void			UpdateSignInManager();
-	virtual idPlayerProfile* GetProfileFromMasterLocalUser();
+	virtual budPlayerProfile* GetProfileFromMasterLocalUser();
 	
 	virtual void			PrePickNewHost( idLobby& lobby, bool forceMe, bool inviteOldHost );
 	virtual bool			PreMigrateInvite( idLobby& lobby );
@@ -578,8 +578,7 @@ public:
 	}
 	
 	// Notifications
-	void					OnSaveCompleted( idSaveLoadParms* parms );
-	void					OnLoadCompleted( idSaveLoadParms* parms );
+	// void					OnLoadCompleted( idSaveLoadParms* parms );
 	void					OnDeleteCompleted( idSaveLoadParms* parms );
 	void					OnEnumerationCompleted( idSaveLoadParms* parms );
 	
@@ -832,8 +831,6 @@ protected:
 	// this is called when the game finished and we are in the end match recap
 	void	MatchFinishedInternal();
 	void	EndMatchForMigration();
-	
-	void	MoveToPressStart( gameDialogMessages_t msg );
 	
 	// Voice chat
 	void	SendVoiceAudio();

@@ -38,16 +38,16 @@ typedef enum
 	ICON_NONE
 } playerIconType_t;
 
-class idPlayerIcon
+class budPlayerIcon
 {
 public:
 
 public:
-	idPlayerIcon();
-	~idPlayerIcon();
+	budPlayerIcon();
+	~budPlayerIcon();
 	
-	void	Draw( idPlayer* player, jointHandle_t joint );
-	void	Draw( idPlayer* player, const budVec3& origin );
+	void	Draw( budPlayer* player, jointHandle_t joint );
+	void	Draw( budPlayer* player, const budVec3& origin );
 	
 public:
 	playerIconType_t	iconType;
@@ -56,9 +56,9 @@ public:
 	
 public:
 	void	FreeIcon();
-	bool	CreateIcon( idPlayer* player, playerIconType_t type, const char* mtr, const budVec3& origin, const budMat3& axis );
-	bool	CreateIcon( idPlayer* player, playerIconType_t type, const budVec3& origin, const budMat3& axis );
-	void	UpdateIcon( idPlayer* player, const budVec3& origin, const budMat3& axis );
+	bool	CreateIcon( budPlayer* player, playerIconType_t type, const char* mtr, const budVec3& origin, const budMat3& axis );
+	bool	CreateIcon( budPlayer* player, playerIconType_t type, const budVec3& origin, const budMat3& axis );
+	void	UpdateIcon( budPlayer* player, const budVec3& origin, const budMat3& axis );
 	
 };
 

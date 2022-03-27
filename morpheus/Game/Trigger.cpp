@@ -426,11 +426,11 @@ bool idTrigger_Multi::CheckFacing( idEntity* activator )
 {
 	if( spawnArgs.GetBool( "facing" ) )
 	{
-		if( !activator->IsType( idPlayer::Type ) )
+		if( !activator->IsType( budPlayer::Type ) )
 		{
 			return true;
 		}
-		idPlayer* player = static_cast< idPlayer* >( activator );
+		budPlayer* player = static_cast< budPlayer* >( activator );
 		float dot = player->viewAngles.ToForward() * GetPhysics()->GetAxis()[0];
 		float angle = RAD2DEG( budMath::ACos( dot ) );
 		if( angle  > spawnArgs.GetFloat( "angleLimit", "30" ) )
@@ -544,14 +544,14 @@ void idTrigger_Multi::Event_Touch( idEntity* other, trace_t* trace )
 		return;
 	}
 	
-	bool player = other->IsType( idPlayer::Type );
+	bool player = other->IsType( budPlayer::Type );
 	if( player )
 	{
 		if( !touchClient )
 		{
 			return;
 		}
-		if( static_cast< idPlayer* >( other )->spectating )
+		if( static_cast< budPlayer* >( other )->spectating )
 		{
 			return;
 		}
@@ -1201,7 +1201,7 @@ void idTrigger_Hurt::Event_Touch( idEntity* other, trace_t* trace )
 		bool playerOnly = spawnArgs.GetBool( "playerOnly" );
 		if( playerOnly )
 		{
-			if( !other->IsType( idPlayer::Type ) )
+			if( !other->IsType( budPlayer::Type ) )
 			{
 				return;
 			}
@@ -1255,7 +1255,7 @@ void idTrigger_Fade::Event_Trigger( idEntity* activator )
 {
 	budVec4		fadeColor;
 	int			fadeTime;
-	idPlayer*	player;
+	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( player )
@@ -1481,10 +1481,10 @@ void idTrigger_Flag::Event_Touch( idEntity* other, trace_t* trace )
 	
 	if( player )
 	{
-		if( !other->IsType( idPlayer::Type ) )
+		if( !other->IsType( budPlayer::Type ) )
 			return;
 			
-		idPlayer* player = static_cast<idPlayer*>( other );
+		budPlayer* player = static_cast<budPlayer*>( other );
 		if( player->carryingFlag == false )
 			return;
 			
