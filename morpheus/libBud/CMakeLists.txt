@@ -13,11 +13,6 @@ file(GLOB ID_HASHING_INCLUDES hashing/*.h)
 file(GLOB ID_HASHING_SOURCES hashing/*.cpp)
 file(GLOB ID_MATH_INCLUDES math/*.h)
 file(GLOB ID_MATH_SOURCES math/*.cpp)
-file(GLOB ID_SYS_INCLUDES sys/*.h)
-file(GLOB ID_SYS_SOURCES sys/*.cpp)
-
-file(GLOB ID_SYS_POSIX_INCLUDES sys/posix/*.h)
-file(GLOB ID_SYS_POSIX_SOURCES sys/posix/*.cpp)
 
 set(ID_INCLUDES_ALL
 			${ID__INCLUDES}
@@ -26,7 +21,6 @@ set(ID_INCLUDES_ALL
 			${ID_GEOMETRY_INCLUDES}
 			${ID_HASHING_INCLUDES}
 			${ID_MATH_INCLUDES}
-			${ID_SYS_INCLUDES}
 			)
 			
 set(ID_SOURCES_ALL
@@ -36,17 +30,8 @@ set(ID_SOURCES_ALL
 			${ID_GEOMETRY_SOURCES}
 			${ID_HASHING_SOURCES}
 			${ID_MATH_SOURCES}
-			${ID_SYS_SOURCES}
 			)
 			
-if(MSVC)
-	list(APPEND ID_INCLUDES_ALL ${ID_SYS_WIN32_INCLUDES})
-	list(APPEND ID_SOURCES_ALL ${ID_SYS_WIN32_SOURCES})
-else()
-	list(APPEND ID_INCLUDES_ALL ${ID_SYS_POSIX_INCLUDES})
-	list(APPEND ID_SOURCES_ALL ${ID_SYS_POSIX_SOURCES})
-endif()
-
 source_group("" FILES ${ID__INCLUDES})
 source_group("" FILES ${ID__SOURCES})
 source_group("bv" FILES ${ID_BV_INCLUDES})
@@ -59,11 +44,6 @@ source_group("hashing" FILES ${ID_HASHING_INCLUDES})
 source_group("hashing" FILES ${ID_HASHING_SOURCES})
 source_group("math" FILES ${ID_MATH_INCLUDES})
 source_group("math" FILES ${ID_MATH_SOURCES})
-source_group("sys" FILES ${ID_SYS_INCLUDES})
-source_group("sys" FILES ${ID_SYS_SOURCES})
-
-source_group("sys\\posix" FILES ${ID_SYS_POSIX_INCLUDES})
-source_group("sys\\posix" FILES ${ID_SYS_POSIX_SOURCES})
 
 #if(STANDALONE)
 #	add_definitions(-DSTANDALONE)
@@ -80,4 +60,4 @@ include_directories(../Core/)
 
 add_library(Bud STATIC ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
 
-target_precompile_headers(Bud PRIVATE libBudPCH.hpp)
+target_precompile_headers(Bud PUBLIC libBudPCH.hpp)

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-project(engine)
+project(engine CXX)
 		
 # option(MONOLITH
 # 		"Embed game logic into main executable" ON)
@@ -52,19 +52,29 @@ project(engine)
 		
 # message(STATUS CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE})
 
-if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
+if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+
 	add_definitions(-pipe)
 	#add_definitions(-Wall)
 	add_definitions(-Werror=format-security)
 	add_definitions(-Werror=format)
+
+	# Compiler check (needs -std=c++11 flag)
+	include(CheckCXXCompilerFlag)
+	CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+	if(COMPILER_SUPPORTS_CXX11)
+		set(CMAKE_CXX_STANDARD 11)
+		set(CMAKE_CXX_STANDARD_REQUIRED ON)
+		set(CMAKE_CXX_EXTENSIONS OFF)
+	else()
+		message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+	endif()
+
 	if(CPU_TYPE)
 		add_definitions(-DCPUSTRING="${CPU_TYPE}")
 	endif()
 	if (CPU_OPTIMIZATION)
 		add_definitions(${CPU_OPTIMIZATION})
-	endif()
-	if (USE_INTRINSICS)
-		add_definitions(-DUSE_INTRINSICS)
 	endif()
 	
 	#if(NOT ANDROID)
@@ -72,24 +82,29 @@ if(CMAKE_COMPILER_IS_GNUCC OR CMAKE_C_COMPILER_ID STREQUAL "Clang")
 	#endif()
 	
 	add_compile_options(-Wno-pragmas -Wno-unused-variable -Wno-switch -Wno-unused-value -Winvalid-pch -Wno-multichar)
-	if(CMAKE_C_COMPILER_ID STREQUAL "Clang")
+    if(CMAKE_C_COMPILER_ID MATCHES "Clang")
 		# add clang-specific settings for warnings (the second one make sure clang doesn't complain
 		# about unknown -W flags, like -Wno-unused-but-set-variable)
-		add_compile_options(-Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum)
+		# SRS - Add -Wno-deprecated-register and -Wno-expansion-to-defined to list of warning settings
+		add_definitions(-Wno-local-type-template-args -Wno-unknown-warning-option -Wno-inline-new-delete -Wno-switch-enum -Wno-deprecated-register -Wno-expansion-to-defined)
 	endif()
 	
 	if(NOT CMAKE_CROSSCOMPILING AND ONATIVE)
-		add_definitions(-march=native)
+		if(CMAKE_SYSTEM_PROCESSOR MATCHES "((powerpc|ppc)64le)|(mips64)")
+			add_definitions(-mcpu=native)
+		else()
+			add_definitions(-march=native)
+		endif()
 	endif()
 
 	add_compile_options(-fno-strict-aliasing)
 
-	set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -D_DEBUG -O0 -ggdb")
-	#set(CMAKE_C_FLAGS_DEBUGALL "${CMAKE_C_FLAGS_DEBUGALL} -g -ggdb -D_DEBUG")
-	#set(CMAKE_C_FLAGS_PROFILE "${CMAKE_C_FLAGS_PROFILE} -g -ggdb -D_DEBUG -O1 -fno-omit-frame-pointer")
-	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
-	set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -g -O3 -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
-	set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -Os -ffast-math -fno-unsafe-math-optimizations -fomit-frame-pointer")
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -ggdb -D_DEBUG -O0")
+    #set(CMAKE_C_FLAGS_DEBUGALL "${CMAKE_C_FLAGS_DEBUGALL} -g -ggdb -D_DEBUG")
+    #set(CMAKE_C_FLAGS_PROFILE "${CMAKE_C_FLAGS_PROFILE} -g -ggdb -D_DEBUG -O1 -fno-omit-frame-pointer")
+	set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} -O3 -ffp-contract=off -fomit-frame-pointer -fno-math-errno -fno-trapping-math")
+	set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -g -O3 -ffp-contract=off -fomit-frame-pointer -fno-math-errno -fno-trapping-math")
+	set(CMAKE_C_FLAGS_MINSIZEREL "${CMAKE_C_FLAGS_MINSIZEREL} -Os -ffp-contract=off -fomit-frame-pointer -fno-math-errno -fno-trapping-math")
 	
 	set(CMAKE_CXX_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
 	#set(CMAKE_CXX_FLAGS_DEBUGALL ${CMAKE_C_FLAGS_DEBUGALL})
@@ -1064,6 +1079,7 @@ source_group("Core\\sdl" FILES ${SDL_SOURCES})
 
 set(ENGINE_INCLUDES
 	${RAPIDJSON_INCLUDES}
+	${ZLIB_INCLUDES}
 	${MINIZIP_INCLUDES}
 	${CORE_INCLUDES}
 	${POSIX_INCLUDES}
@@ -1086,6 +1102,20 @@ include_directories(libs/rapidjson/include)
 
 add_executable(engine ${ENGINE_SOURCES})
 
-target_precompile_headers(engine PRIVATE Core/corePCH.hpp)
+target_precompile_headers(engine PUBLIC Core/corePCH.hpp)
 
-target_link_libraries(engine Bud ${OPENGL_LIBRARIES} pthread ${RT_LIBRARY} SDL2 ${OPENAL_LIBRARY} ${FFMPEG_LIBRARIES} ${ZLIB_LIBRARIES} ${PNG_LIBRARY} ${JPEG_LIBRARY} ${GLEW_LIBRARY} ${CMAKE_DL_LIBS})
+target_link_libraries(engine 
+					Bud 
+					${OPENGL_LIBRARIES} 
+					pthread 
+					${RT_LIBRARY} 
+					SDL2 
+					${OPENAL_LIBRARY} 
+					${FFMPEG_LIBRARIES}
+					z 
+					${ZLIB_LIBRARIES} 
+					minizip
+					${PNG_LIBRARY} 
+					${JPEG_LIBRARY} 
+					${GLEW_LIBRARY} 
+					${CMAKE_DL_LIBS})

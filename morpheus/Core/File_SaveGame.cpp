@@ -28,6 +28,8 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 #include "corePCH.hpp"
 
+#include "File_SaveGame.hpp"
+
 /*
 
 TODO: CRC on each block

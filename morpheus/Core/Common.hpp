@@ -179,17 +179,6 @@ struct mpMap_t
 
 static const int	MAX_LOGGED_STATS = 60 * 120;		// log every half second
 
-// RB begin
-#if defined(USE_DOOMCLASSIC)
-enum currentGame_t
-{
-	DOOM_CLASSIC,
-	DOOM2_CLASSIC,
-	DOOM3_BFG
-};
-#endif
-// RB end
-
 class budCommon
 {
 public:

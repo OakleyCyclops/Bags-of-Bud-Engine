@@ -12,16 +12,6 @@
 # =============================================================================
 
 #############################################
-# Rule for compiling C files.
-
-rule C_COMPILER__engine_Debug
-  depfile = $DEP_FILE
-  deps = gcc
-  command = /usr/bin/clang $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
-  description = Building C object $out
-
-
-#############################################
 # Rule for compiling CXX files.
 
 rule CXX_COMPILER__engine_Debug

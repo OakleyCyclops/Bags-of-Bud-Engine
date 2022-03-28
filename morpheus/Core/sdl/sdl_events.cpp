@@ -44,10 +44,10 @@ If you have questions concerning this license or the applicable additional terms
 #include "posix/posix_public.hpp"
 
 // DG: those are needed for moving/resizing windows
-extern budCVar r_windowX;
-extern budCVar r_windowY;
-extern budCVar r_windowWidth;
-extern budCVar r_windowHeight;
+// extern budCVar r_windowX;
+// extern budCVar r_windowY;
+// extern budCVar r_windowWidth;
+// extern budCVar r_windowHeight;
 // DG end
 
 const char* kbdNames[] =
@@ -506,8 +506,8 @@ sysEvent_t Sys_GetEvent()
 					{
 						int w = ev.window.data1;
 						int h = ev.window.data2;
-						r_windowWidth.SetInteger( w );
-						r_windowHeight.SetInteger( h );
+						// r_windowWidth.SetInteger( w );
+						// r_windowHeight.SetInteger( h );
 						
 						break;
 					}
@@ -516,8 +516,8 @@ sysEvent_t Sys_GetEvent()
 					{
 						int x = ev.window.data1;
 						int y = ev.window.data2;
-						r_windowX.SetInteger( x );
-						r_windowY.SetInteger( y );
+						// r_windowX.SetInteger( x );
+						// r_windowY.SetInteger( y );
 						break;
 					}
 				}

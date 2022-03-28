@@ -120,7 +120,6 @@ int budGameThread::Run()
 	// build render commands and geometry
 	{
 		SCOPED_PROFILE_EVENT( "Draw" );
-		commonLocal.Draw();
 	}
 	
 	commonLocal.frameTiming.finishDrawTime = Sys_Microseconds();

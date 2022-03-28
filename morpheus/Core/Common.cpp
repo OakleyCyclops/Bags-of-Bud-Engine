@@ -124,14 +124,6 @@ budCommonLocal::budCommonLocal() :
 	lastPacifierGuiTime( 0 ),
 	lastPacifierDialogState( false ),
 	showShellRequested( false )
-	// RB begin
-#if defined(USE_DOOMCLASSIC)
-	,
-	currentGame( DOOM3_BFG ),
-	idealCurrentGame( DOOM3_BFG ),
-	doomClassicMaterial( NULL )
-#endif
-	// RB end
 {
 
 	snapCurrent.localTime = -1;

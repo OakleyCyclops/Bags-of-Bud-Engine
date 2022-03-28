@@ -295,6 +295,26 @@ void idProfileMgr::OnLoadSettingsCompleted( idSaveLoadParms* parms )
 }
 
 /*
+========================
+idProfileMgr::OnSaveSettingsCompleted
+========================
+*/
+void idProfileMgr::OnSaveSettingsCompleted( idSaveLoadParms* parms )
+{
+	// common->Dialog().ShowSaveIndicator( false );
+	
+	if( parms->GetError() != SAVEGAME_E_NONE )
+	{
+		// common->Dialog().AddDialog( GDM_PROFILE_SAVE_ERROR, DIALOG_CONTINUE, NULL, NULL, false );
+	}
+	// if( game )
+	// {
+	// 	game->Shell_UpdateSavedGames();
+	// }
+}
+
+
+/*
 ================================================
 idSaveGameProcessorSaveProfile
 ================================================
