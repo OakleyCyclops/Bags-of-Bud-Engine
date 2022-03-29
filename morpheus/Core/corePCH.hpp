@@ -3,61 +3,60 @@
 #ifndef __CORE_PCH__
 #define __CORE_PCH__
 
-#include "sys_defines.hpp"
-#include "sys_includes.hpp"
-#include "sys_assert.hpp"
-#include "sys_types.hpp"
-#include "sys_intrinsics.hpp"
-#include "sys_threading.hpp"
-#include "sys_public.hpp"
+#include "coreMacros.hpp"
+#include "coreIncludes.hpp"
+#include "coreAssert.hpp"
+#include "coreTypes.hpp"
+#include "coreIntrinsics.hpp"
+#include "coreThreading.hpp"
+#include "corePublic.hpp"
 
 // libBud
 #include "libBudPCH.hpp"
 
-// You need to include the filesystem right after including libBud
-// Precompiled headers don't get preprocessed in the same way cpp files do
-#include "sys_filesystem.hpp"
+// You need to include the filesystem right after including libBud, 
+// precompiled headers don't get preprocessed in the same way cpp files do
 
 // Core Framework
-#include "BuildVersion.hpp"
-#include "Licensee.hpp"
-#include "CmdSystem.hpp"
-#include "CVarSystem.hpp"
-#include "Common.hpp"
-#include "Unzip.hpp"
-#include "File.hpp"
-#include "File_Manifest.hpp"
-#include "File_SaveGame.hpp"
-#include "File_Resource.hpp"
-#include "FileSystem.hpp"
-#include "UsercmdGen.hpp"
-#include "Serializer.hpp"
-#include "PlayerProfile.hpp"
+
+#include "coreBuildVer.hpp"
+#include "coreLicense.hpp"
+#include "coreCmdSystem.hpp"
+#include "coreCVar.hpp"
+#include "coreCommon.hpp"
+#include "coreUnzip.hpp"
+#include "coreFile.hpp"
+#include "coreFileManifest.hpp"
+#include "coreFileSave.hpp"
+#include "coreFileResource.hpp"
+#include "coreFileSystem.hpp"
+#include "coreUserCmdGen.hpp"
+#include "coreSerializer.hpp"
+#include "coreProfilePlayer.hpp"
 
 // Session & Networking
-#include "LightweightCompression.hpp"
-#include "Snapshot.hpp"
-#include "PacketProcessor.hpp"
-#include "SnapshotProcessor.hpp"
+#include "coreServerCompression.hpp"
+#include "coreSnapshot.hpp"
+#include "coreServerPacketProcessor.hpp"
+#include "coreSnapshotProcessor.hpp"
 
-#include "sys_savegame.hpp"
-#include "sys_session_savegames.hpp"
-#include "sys_profile.hpp"
-#include "sys_localuser.hpp"
-#include "sys_signin.hpp"
-#include "sys_stats_misc.hpp"
-#include "sys_stats.hpp"
-#include "sys_session.hpp"
-#include "sys_achievements.hpp"
+#include "coreSave.hpp"
+#include "coreSessionSave.hpp"
+#include "corePublic.hpp"
+#include "coreLocalUser.hpp"
+#include "coreSignin.hpp"
+#include "coreMiscStats.hpp"
+#include "coreStats.hpp"
+#include "coreSession.hpp"
 
 // More no preprocessor bullshit
 // This is part of the core framework btw
-#include "Compressor.hpp"
-#include "EventLoop.hpp"
-#include "KeyInput.hpp"
-#include "EditField.hpp"
-#include "Console.hpp"
-#include "DemoFile.hpp"
+#include "coreCompressor.hpp"
+#include "coreEventLoop.hpp"
+#include "coreInputEvent.hpp"
+#include "coreEditField.hpp"
+#include "coreConsole.hpp"
+#include "coreFileDemo.hpp"
 
 
 #undef min

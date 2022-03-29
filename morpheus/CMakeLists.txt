@@ -659,8 +659,8 @@ endif()
 # file(GLOB EDITOR_SOUND_INCLUDES tools/sound/*.h)
 # file(GLOB EDITOR_SOUND_SOURCES tools/sound/*.cpp)
 
-# file(GLOB POSIX_INCLUDES sys/posix/*.h)
-# file(GLOB POSIX_SOURCES sys/posix/*.cpp)
+# file(GLOB UNIX_INCLUDES sys/unix/*.h)
+# file(GLOB UNIX_SOURCES sys/unix/*.cpp)
 
 # file(GLOB COMMON_INCLUDES sys/common/*.h)
 # file(GLOB COMMON_SOURCES sys/common/*.cpp)
@@ -937,10 +937,10 @@ endif()
 # 	include_directories(${SDL2_INCLUDE_DIR})
 # 	set(SDLx_LIBRARY ${SDL2_LIBRARY})
 
-# 	list(REMOVE_ITEM POSIX_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sys/posix/platform_osx.cpp)
+# 	list(REMOVE_ITEM UNIX_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/sys/unix/platform_osx.cpp)
 
 # 	list(APPEND ENGINE_SOURCES
-# 		${POSIX_INCLUDES} ${POSIX_SOURCES}
+# 		${UNIX_INCLUDES} ${UNIX_SOURCES}
 # 		${SDL_INCLUDES} ${SDL_SOURCES})
 			
 # 	find_package(OpenAL REQUIRED)
@@ -1051,8 +1051,8 @@ file(GLOB MINIZIP_SOURCES libs/zlib/minizip/*.c libs/zlib/minizip/*.cpp)
 file(GLOB CORE_INCLUDES Core/*.hpp)
 file(GLOB CORE_SOURCES Core/*.cpp)
 
-file(GLOB POSIX_INCLUDES Core/posix/*.hpp)
-file(GLOB POSIX_SOURCES Core/posix/*.cpp)
+file(GLOB UNIX_INCLUDES Core/unix/*.hpp)
+file(GLOB UNIX_SOURCES Core/unix/*.cpp)
 
 file(GLOB COMMON_INCLUDES Core/common/*.hpp)
 file(GLOB COMMON_SOURCES Core/common/*.cpp)
@@ -1068,8 +1068,8 @@ source_group("libs\\zlib\\minizip" FILES ${MINIZIP_SOURCES})
 source_group("Core" FILES ${CORE_INCLUDES})
 source_group("Core" FILES ${CORE_SOURCES})
 
-source_group("Core\\posix" FILES ${POSIX_INCLUDES})
-source_group("Core\\posix" FILES ${POSIX_SOURCES})
+source_group("Core\\unix" FILES ${UNIX_INCLUDES})
+source_group("Core\\unix" FILES ${UNIX_SOURCES})
 
 source_group("Core\\common" FILES ${COMMON_INCLUDES})
 source_group("Core\\common" FILES ${COMMON_SOURCES})
@@ -1082,14 +1082,14 @@ set(ENGINE_INCLUDES
 	${ZLIB_INCLUDES}
 	${MINIZIP_INCLUDES}
 	${CORE_INCLUDES}
-	${POSIX_INCLUDES}
+	${UNIX_INCLUDES}
 	${COMMON_INCLUDES}
 	${SDL_INCLUDES})
 
 set(ENGINE_SOURCES
 	${CORE_SOURCES}
 	${MINIZIP_SOURCES}
-	${POSIX_SOURCES}
+	${UNIX_SOURCES}
 	${COMMON_SOURCES}
 	${SDL_SOURCES})
 

@@ -3,20 +3,16 @@
 #ifndef __LIBBUD_PCH__
 #define __LIBBUD_PCH__
 
-#include "sys_defines.hpp"
-#include "sys_includes.hpp"
-#include "sys_assert.hpp"
-#include "sys_types.hpp"
-#include "sys_intrinsics.hpp"
-#include "sys_threading.hpp"
-#include "sys_public.hpp"
+#include "coreMacros.hpp"
+#include "coreIncludes.hpp"
+#include "coreAssert.hpp"
+#include "coreTypes.hpp"
+#include "coreIntrinsics.hpp"
+#include "coreThreading.hpp"
+#include "corePublic.hpp"
 
 // libBud
 #include "Lib.hpp"
-
-// You need to include the filesystem right after including libBud
-// Precompiled headers don't get preprocessed in the same way cpp files do
-#include "sys_filesystem.hpp"
 
 // Core 
 #include "corePCH.hpp"

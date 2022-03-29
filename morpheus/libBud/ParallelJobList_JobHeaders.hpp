@@ -37,7 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 ================================================================================================
 */
 
-#include "sys_defines.hpp"
+#include "coreMacros.hpp"
 
 #include <stddef.h>					// for offsetof
 #include <stdio.h>
@@ -75,9 +75,9 @@ If you have questions concerning this license or the applicable additional terms
 
 
 
-#include "sys_assert.hpp"
-#include "sys_types.hpp"
-#include "sys_intrinsics.hpp"
+#include "coreAssert.hpp"
+#include "coreTypes.hpp"
+#include "coreIntrinsics.hpp"
 #include "math/Math.hpp"
 #include "ParallelJobList.hpp"
 

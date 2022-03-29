@@ -28,8 +28,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #pragma hdrstop
 #include "corePCH.hpp"
-#include "sys_session_local.hpp"
-#include "sys_savegame.hpp"
+#include "coreSessionLocal.hpp"
+#include "coreSave.hpp"
 
 budCVar savegame_winInduceDelay( "savegame_winInduceDelay", "0", CVAR_INTEGER, "on windows, this is a delay induced before any file operation occurs" );
 extern budCVar fs_savepath;

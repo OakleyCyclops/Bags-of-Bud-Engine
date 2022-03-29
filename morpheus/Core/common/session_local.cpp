@@ -16,13 +16,12 @@ Contains the windows implementation of the network session
 #pragma hdrstop
 #include "corePCH.hpp"
 
-#include "Common_local.hpp"
-#include "sys_session_local.hpp"
-#include "sys_stats.hpp"
-#include "sys_savegame.hpp"
-#include "sys_lobby_backend_direct.hpp"
-#include "sys_voicechat.hpp"
-#include "achievements.hpp"
+#include "coreCommonLocal.hpp"
+#include "coreSessionLocal.hpp"
+#include "coreStats.hpp"
+#include "coreSave.hpp"
+#include "coreServerBackendDirect.hpp"
+#include "coreVOIP.hpp"
 
 /*
 ========================
@@ -230,8 +229,6 @@ void budSessionLocalWin::Initialize()
 	GetGameLobby().Initialize( idLobby::TYPE_GAME, sessionCallbacks );
 	GetGameStateLobby().Initialize( idLobby::TYPE_GAME_STATE, sessionCallbacks );
 	
-	achievementSystem = new( TAG_SYSTEM ) budAchievementSystemWin();
-	achievementSystem->Init();
 }
 
 /*
@@ -252,12 +249,6 @@ void budSessionLocalWin::Shutdown()
 		Pump();
 	}
 	
-	if( achievementSystem != NULL )
-	{
-		achievementSystem->Shutdown();
-		delete achievementSystem;
-		achievementSystem = NULL;
-	}
 }
 
 /*
