@@ -3071,18 +3071,56 @@ void budFileSystemLocal::Startup()
 	
 	InitPrecache();
 	
-	SetupGameDirectories( BASE_GAMEDIR );
+	// program_invocation_short_name is from cerrno
+	// basically it returns a string of the executable's name without the paths and stuff
+	// SetupGameDirectories(program_invocation_short_name);
 	
+	// I would love to use this but everything in linux is a file, even the folders are files
+	// Which means you can't have a file and folder with the same name in the same folder
+
+	static char defaultGameFilePath[MAX_STRING_CHARS];
+	budStr defaultGameFileName = "DefaultGame.txt";
+	budFileHandle defaultGameFile;
+
+	static char defaultGame[MAX_STRING_CHARS];
+
+	strcpy(defaultGameFilePath, get_current_dir_name());
+	strcat(defaultGameFilePath, "/"); // Put this shit here cuz that char doesn't return the path with a / at the end lol
+	strcat(defaultGameFilePath, defaultGameFileName);
+	
+
+	defaultGameFile = fopen(defaultGameFilePath, "r");
+
+	if (defaultGameFile == NULL)
+	{
+		common->FatalError("Couldn't find %s", defaultGameFileName.c_str());
+	} 
+
+	else
+	{	
+		// What this does is read a text file and passes the resulting string to SetupGameDirectories
+		// The filesystem is no longer hardcoded to use the base folder, now you can name it any folder
+		char buffer[MAX_STRING_CHARS];
+		while ((fgets(buffer, MAX_STRING_CHARS, defaultGameFile)))
+		{
+			strcat(defaultGame, buffer);
+		}
+		fclose(defaultGameFile);
+
+		SetupGameDirectories(defaultGame);
+	}
+
+
 	// fs_game_base override
 	if( fs_game_base.GetString()[0] &&
-			budStr::Icmp( fs_game_base.GetString(), BASE_GAMEDIR ) )
+			budStr::Icmp( fs_game_base.GetString(), defaultGame ) )
 	{
 		SetupGameDirectories( fs_game_base.GetString() );
 	}
 	
 	// fs_game override
 	if( fs_game.GetString()[0] &&
-			budStr::Icmp( fs_game.GetString(), BASE_GAMEDIR ) &&
+			budStr::Icmp( fs_game.GetString(), defaultGame ) &&
 			budStr::Icmp( fs_game.GetString(), fs_game_base.GetString() ) )
 	{
 		SetupGameDirectories( fs_game.GetString() );
@@ -3145,9 +3183,11 @@ void budFileSystemLocal::Init()
 	// busted and error out now, rather than getting an unreadable
 	// graphics screen when the font fails to load
 	// Dedicated servers can run with no outside files at all
-	if( ReadFile( "default.cfg", NULL, NULL ) <= 0 )
+	budStr configFile = "default.cfg";
+
+	if( ReadFile(configFile, NULL, NULL) <= 0)
 	{
-		common->FatalError( "Couldn't load default.cfg" );
+		common->FatalError("Couldn't load %s", configFile.c_str());
 	}
 }
 
