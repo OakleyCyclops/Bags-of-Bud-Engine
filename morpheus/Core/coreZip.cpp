@@ -683,7 +683,7 @@ void idZipBuilder::CleanSourceFolder()
 	
 	// get the game's base path
 	budStr basePath = fileSystem->GetBasePathStr( FSPATH_BASE );
-	basePath.AppendPath( BASE_GAMEDIR );
+	basePath.AppendPath( common->gameName );
 	basePath.AppendPath( "maps" );
 	basePath.SlashesToBackSlashes();
 	basePath.ToLower();

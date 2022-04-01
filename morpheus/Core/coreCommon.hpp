@@ -308,6 +308,8 @@ public:
 	
 	virtual void				QueueShowShell() = 0;		// Will activate the shell on the next frame.
 
+	const char*					gameName;
+
 };
 
 extern budCommon* 		common;

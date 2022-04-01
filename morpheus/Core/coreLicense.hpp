@@ -43,8 +43,6 @@ If you have questions concerning this license or the applicable additional terms
 #define ENGINE_VERSION					"Bags of Bud Engine v0.0.0-alpha"	// printed in console
 // RB end
 
-#define	BASE_GAMEDIR					"base"
-
 #define CONFIG_FILE						"D3BFGConfig.cfg"
 
 // see ASYNC_PROTOCOL_VERSION

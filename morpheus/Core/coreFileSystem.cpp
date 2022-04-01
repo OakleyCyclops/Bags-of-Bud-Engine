@@ -3110,6 +3110,8 @@ void budFileSystemLocal::Startup()
 		SetupGameDirectories(defaultGame);
 	}
 
+	// Save the game name into a constant
+	common->gameName = defaultGame;
 
 	// fs_game_base override
 	if( fs_game_base.GetString()[0] &&
