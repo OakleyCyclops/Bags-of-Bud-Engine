@@ -1,2 +1,2 @@
-morpheus/.vscode
-morpheus/build
+morpheus/.vscode/*
+morpheus/build/*
