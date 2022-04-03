@@ -52,11 +52,11 @@ private:
 	static ID_TLS				isMainThread;
 	
 public:
-	static class budSys* 		sys;
+	static class budSys* 			sys;
 	static class budCommon* 		common;
 	static class budCVarSystem* 	cvarSystem;
 	static class budFileSystem* 	fileSystem;
-	static int					frameNumber;
+	static int						frameNumber;
 	
 	static void					Init();
 	static void					ShutDown();

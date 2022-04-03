@@ -55,13 +55,8 @@ build CMakeFiles/engine.dir/cmake_pch.hxx.pch: CXX_COMPILER__engine_Debug /home/
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir
-
-build CMakeFiles/engine.dir/Core/coreAssert.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreAssert.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
-  DEP_FILE = CMakeFiles/engine.dir/Core/coreAssert.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/CMakeFiles/engine.dir/cmake_pch.hxx
-  INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
-  OBJECT_DIR = CMakeFiles/engine.dir
-  OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCPU.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCPU.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCPU.cpp.o.d
@@ -69,6 +64,8 @@ build CMakeFiles/engine.dir/Core/coreCPU.cpp.o: CXX_COMPILER__engine_Debug /home
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCVar.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCVar.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCVar.cpp.o.d
@@ -76,6 +73,8 @@ build CMakeFiles/engine.dir/Core/coreCVar.cpp.o: CXX_COMPILER__engine_Debug /hom
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCmdSystem.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCmdSystem.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCmdSystem.cpp.o.d
@@ -83,6 +82,8 @@ build CMakeFiles/engine.dir/Core/coreCmdSystem.cpp.o: CXX_COMPILER__engine_Debug
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommon.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommon.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommon.cpp.o.d
@@ -90,6 +91,8 @@ build CMakeFiles/engine.dir/Core/coreCommon.cpp.o: CXX_COMPILER__engine_Debug /h
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonDemos.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonDemos.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonDemos.cpp.o.d
@@ -97,6 +100,8 @@ build CMakeFiles/engine.dir/Core/coreCommonDemos.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonFrame.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonFrame.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonFrame.cpp.o.d
@@ -104,6 +109,8 @@ build CMakeFiles/engine.dir/Core/coreCommonFrame.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonLoad.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonLoad.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonLoad.cpp.o.d
@@ -111,6 +118,8 @@ build CMakeFiles/engine.dir/Core/coreCommonLoad.cpp.o: CXX_COMPILER__engine_Debu
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonLocalize.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonLocalize.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonLocalize.cpp.o.d
@@ -118,6 +127,8 @@ build CMakeFiles/engine.dir/Core/coreCommonLocalize.cpp.o: CXX_COMPILER__engine_
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonMapExport.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonMapExport.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonMapExport.cpp.o.d
@@ -125,6 +136,8 @@ build CMakeFiles/engine.dir/Core/coreCommonMapExport.cpp.o: CXX_COMPILER__engine
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonMenu.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonMenu.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonMenu.cpp.o.d
@@ -132,6 +145,8 @@ build CMakeFiles/engine.dir/Core/coreCommonMenu.cpp.o: CXX_COMPILER__engine_Debu
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonNetwork.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonNetwork.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonNetwork.cpp.o.d
@@ -139,6 +154,8 @@ build CMakeFiles/engine.dir/Core/coreCommonNetwork.cpp.o: CXX_COMPILER__engine_D
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCommonPrintf.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCommonPrintf.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCommonPrintf.cpp.o.d
@@ -146,6 +163,8 @@ build CMakeFiles/engine.dir/Core/coreCommonPrintf.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreCompressor.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreCompressor.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreCompressor.cpp.o.d
@@ -153,6 +172,8 @@ build CMakeFiles/engine.dir/Core/coreCompressor.cpp.o: CXX_COMPILER__engine_Debu
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreConsole.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreConsole.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreConsole.cpp.o.d
@@ -160,6 +181,8 @@ build CMakeFiles/engine.dir/Core/coreConsole.cpp.o: CXX_COMPILER__engine_Debug /
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreConsoleHistory.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreConsoleHistory.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreConsoleHistory.cpp.o.d
@@ -167,6 +190,8 @@ build CMakeFiles/engine.dir/Core/coreConsoleHistory.cpp.o: CXX_COMPILER__engine_
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreEditField.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreEditField.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreEditField.cpp.o.d
@@ -174,6 +199,8 @@ build CMakeFiles/engine.dir/Core/coreEditField.cpp.o: CXX_COMPILER__engine_Debug
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreEventLoop.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreEventLoop.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreEventLoop.cpp.o.d
@@ -181,6 +208,8 @@ build CMakeFiles/engine.dir/Core/coreEventLoop.cpp.o: CXX_COMPILER__engine_Debug
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreFile.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreFile.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreFile.cpp.o.d
@@ -188,6 +217,8 @@ build CMakeFiles/engine.dir/Core/coreFile.cpp.o: CXX_COMPILER__engine_Debug /hom
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreFileDemo.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreFileDemo.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreFileDemo.cpp.o.d
@@ -195,6 +226,8 @@ build CMakeFiles/engine.dir/Core/coreFileDemo.cpp.o: CXX_COMPILER__engine_Debug 
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreFileManifest.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreFileManifest.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreFileManifest.cpp.o.d
@@ -202,6 +235,8 @@ build CMakeFiles/engine.dir/Core/coreFileManifest.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreFileResource.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreFileResource.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreFileResource.cpp.o.d
@@ -209,6 +244,8 @@ build CMakeFiles/engine.dir/Core/coreFileResource.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreFileSave.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreFileSave.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreFileSave.cpp.o.d
@@ -216,6 +253,8 @@ build CMakeFiles/engine.dir/Core/coreFileSave.cpp.o: CXX_COMPILER__engine_Debug 
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreFileSystem.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreFileSystem.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreFileSystem.cpp.o.d
@@ -223,6 +262,8 @@ build CMakeFiles/engine.dir/Core/coreFileSystem.cpp.o: CXX_COMPILER__engine_Debu
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreInputEvent.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreInputEvent.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreInputEvent.cpp.o.d
@@ -230,6 +271,8 @@ build CMakeFiles/engine.dir/Core/coreInputEvent.cpp.o: CXX_COMPILER__engine_Debu
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreJobs.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreJobs.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreJobs.cpp.o.d
@@ -237,6 +280,8 @@ build CMakeFiles/engine.dir/Core/coreJobs.cpp.o: CXX_COMPILER__engine_Debug /hom
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreLocal.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreLocal.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreLocal.cpp.o.d
@@ -244,6 +289,8 @@ build CMakeFiles/engine.dir/Core/coreLocal.cpp.o: CXX_COMPILER__engine_Debug /ho
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreLocalUser.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreLocalUser.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreLocalUser.cpp.o.d
@@ -251,6 +298,8 @@ build CMakeFiles/engine.dir/Core/coreLocalUser.cpp.o: CXX_COMPILER__engine_Debug
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreProfile.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreProfile.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreProfile.cpp.o.d
@@ -258,6 +307,8 @@ build CMakeFiles/engine.dir/Core/coreProfile.cpp.o: CXX_COMPILER__engine_Debug /
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreProfilePlayer.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreProfilePlayer.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreProfilePlayer.cpp.o.d
@@ -265,6 +316,8 @@ build CMakeFiles/engine.dir/Core/coreProfilePlayer.cpp.o: CXX_COMPILER__engine_D
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSave.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSave.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSave.cpp.o.d
@@ -272,6 +325,8 @@ build CMakeFiles/engine.dir/Core/coreSave.cpp.o: CXX_COMPILER__engine_Debug /hom
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServer.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServer.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServer.cpp.o.d
@@ -279,6 +334,8 @@ build CMakeFiles/engine.dir/Core/coreServer.cpp.o: CXX_COMPILER__engine_Debug /h
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerBackendDirect.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerBackendDirect.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerBackendDirect.cpp.o.d
@@ -286,6 +343,8 @@ build CMakeFiles/engine.dir/Core/coreServerBackendDirect.cpp.o: CXX_COMPILER__en
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerCompression.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerCompression.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerCompression.cpp.o.d
@@ -293,6 +352,8 @@ build CMakeFiles/engine.dir/Core/coreServerCompression.cpp.o: CXX_COMPILER__engi
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerMigrate.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerMigrate.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerMigrate.cpp.o.d
@@ -300,6 +361,8 @@ build CMakeFiles/engine.dir/Core/coreServerMigrate.cpp.o: CXX_COMPILER__engine_D
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerPacketProcessor.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerPacketProcessor.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerPacketProcessor.cpp.o.d
@@ -307,6 +370,8 @@ build CMakeFiles/engine.dir/Core/coreServerPacketProcessor.cpp.o: CXX_COMPILER__
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerSearch.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerSearch.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerSearch.cpp.o.d
@@ -314,6 +379,8 @@ build CMakeFiles/engine.dir/Core/coreServerSearch.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerSnapshot.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerSnapshot.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerSnapshot.cpp.o.d
@@ -321,6 +388,8 @@ build CMakeFiles/engine.dir/Core/coreServerSnapshot.cpp.o: CXX_COMPILER__engine_
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreServerUsers.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreServerUsers.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreServerUsers.cpp.o.d
@@ -328,6 +397,8 @@ build CMakeFiles/engine.dir/Core/coreServerUsers.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSessionCallbacks.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSessionCallbacks.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSessionCallbacks.cpp.o.d
@@ -335,6 +406,8 @@ build CMakeFiles/engine.dir/Core/coreSessionCallbacks.cpp.o: CXX_COMPILER__engin
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSessionLocal.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSessionLocal.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSessionLocal.cpp.o.d
@@ -342,6 +415,8 @@ build CMakeFiles/engine.dir/Core/coreSessionLocal.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSessionSave.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSessionSave.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSessionSave.cpp.o.d
@@ -349,6 +424,8 @@ build CMakeFiles/engine.dir/Core/coreSessionSave.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSignin.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSignin.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSignin.cpp.o.d
@@ -356,6 +433,8 @@ build CMakeFiles/engine.dir/Core/coreSignin.cpp.o: CXX_COMPILER__engine_Debug /h
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSnapshot.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSnapshot.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSnapshot.cpp.o.d
@@ -363,6 +442,8 @@ build CMakeFiles/engine.dir/Core/coreSnapshot.cpp.o: CXX_COMPILER__engine_Debug 
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreSnapshotProcessor.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreSnapshotProcessor.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreSnapshotProcessor.cpp.o.d
@@ -370,6 +451,8 @@ build CMakeFiles/engine.dir/Core/coreSnapshotProcessor.cpp.o: CXX_COMPILER__engi
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreUserCmdGen.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreUserCmdGen.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreUserCmdGen.cpp.o.d
@@ -377,6 +460,8 @@ build CMakeFiles/engine.dir/Core/coreUserCmdGen.cpp.o: CXX_COMPILER__engine_Debu
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreVOIP.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreVOIP.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreVOIP.cpp.o.d
@@ -384,6 +469,8 @@ build CMakeFiles/engine.dir/Core/coreVOIP.cpp.o: CXX_COMPILER__engine_Debug /hom
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/coreZip.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/coreZip.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/coreZip.cpp.o.d
@@ -391,6 +478,8 @@ build CMakeFiles/engine.dir/Core/coreZip.cpp.o: CXX_COMPILER__engine_Debug /home
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/libs/zlib/minizip/unzip.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/unzip.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/libs/zlib/minizip/unzip.cpp.o.d
@@ -398,6 +487,8 @@ build CMakeFiles/engine.dir/libs/zlib/minizip/unzip.cpp.o: CXX_COMPILER__engine_
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/libs/zlib/minizip
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/libs/zlib/minizip/zip.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/zlib/minizip/zip.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/libs/zlib/minizip/zip.cpp.o.d
@@ -405,6 +496,8 @@ build CMakeFiles/engine.dir/libs/zlib/minizip/zip.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/libs/zlib/minizip
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/unix/unixMain.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/unix/unixMain.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/unix/unixMain.cpp.o.d
@@ -412,6 +505,8 @@ build CMakeFiles/engine.dir/Core/unix/unixMain.cpp.o: CXX_COMPILER__engine_Debug
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/unix
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/unix/unixPlatform.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/unix/unixPlatform.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/unix/unixPlatform.cpp.o.d
@@ -419,6 +514,8 @@ build CMakeFiles/engine.dir/Core/unix/unixPlatform.cpp.o: CXX_COMPILER__engine_D
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/unix
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/unix/unixSignal.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/unix/unixSignal.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/unix/unixSignal.cpp.o.d
@@ -426,6 +523,8 @@ build CMakeFiles/engine.dir/Core/unix/unixSignal.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/unix
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/unix/unixThread.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/unix/unixThread.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/unix/unixThread.cpp.o.d
@@ -433,6 +532,8 @@ build CMakeFiles/engine.dir/Core/unix/unixThread.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/unix
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/common/localuser.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/localuser.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/common/localuser.cpp.o.d
@@ -440,6 +541,8 @@ build CMakeFiles/engine.dir/Core/common/localuser.cpp.o: CXX_COMPILER__engine_De
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/common
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/common/savegame.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/savegame.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/common/savegame.cpp.o.d
@@ -447,6 +550,8 @@ build CMakeFiles/engine.dir/Core/common/savegame.cpp.o: CXX_COMPILER__engine_Deb
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/common
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/common/session_local.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/session_local.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/common/session_local.cpp.o.d
@@ -454,6 +559,8 @@ build CMakeFiles/engine.dir/Core/common/session_local.cpp.o: CXX_COMPILER__engin
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/common
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/common/signin.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/signin.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/common/signin.cpp.o.d
@@ -461,6 +568,8 @@ build CMakeFiles/engine.dir/Core/common/signin.cpp.o: CXX_COMPILER__engine_Debug
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/common
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 build CMakeFiles/engine.dir/Core/common/socket_net.cpp.o: CXX_COMPILER__engine_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core/common/socket_net.cpp | CMakeFiles/engine.dir/cmake_pch.hxx CMakeFiles/engine.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_engine
   DEP_FILE = CMakeFiles/engine.dir/Core/common/socket_net.cpp.o.d
@@ -468,6 +577,8 @@ build CMakeFiles/engine.dir/Core/common/socket_net.cpp.o: CXX_COMPILER__engine_D
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/Core -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libs/rapidjson/include
   OBJECT_DIR = CMakeFiles/engine.dir
   OBJECT_FILE_DIR = CMakeFiles/engine.dir/Core/common
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
+  TARGET_PDB = engine.pdb
 
 
 # =============================================================================
@@ -477,15 +588,16 @@ build CMakeFiles/engine.dir/Core/common/socket_net.cpp.o: CXX_COMPILER__engine_D
 #############################################
 # Link the executable engine
 
-build engine: CXX_EXECUTABLE_LINKER__engine_Debug CMakeFiles/engine.dir/Core/coreAssert.cpp.o CMakeFiles/engine.dir/Core/coreCPU.cpp.o CMakeFiles/engine.dir/Core/coreCVar.cpp.o CMakeFiles/engine.dir/Core/coreCmdSystem.cpp.o CMakeFiles/engine.dir/Core/coreCommon.cpp.o CMakeFiles/engine.dir/Core/coreCommonDemos.cpp.o CMakeFiles/engine.dir/Core/coreCommonFrame.cpp.o CMakeFiles/engine.dir/Core/coreCommonLoad.cpp.o CMakeFiles/engine.dir/Core/coreCommonLocalize.cpp.o CMakeFiles/engine.dir/Core/coreCommonMapExport.cpp.o CMakeFiles/engine.dir/Core/coreCommonMenu.cpp.o CMakeFiles/engine.dir/Core/coreCommonNetwork.cpp.o CMakeFiles/engine.dir/Core/coreCommonPrintf.cpp.o CMakeFiles/engine.dir/Core/coreCompressor.cpp.o CMakeFiles/engine.dir/Core/coreConsole.cpp.o CMakeFiles/engine.dir/Core/coreConsoleHistory.cpp.o CMakeFiles/engine.dir/Core/coreEditField.cpp.o CMakeFiles/engine.dir/Core/coreEventLoop.cpp.o CMakeFiles/engine.dir/Core/coreFile.cpp.o CMakeFiles/engine.dir/Core/coreFileDemo.cpp.o CMakeFiles/engine.dir/Core/coreFileManifest.cpp.o CMakeFiles/engine.dir/Core/coreFileResource.cpp.o CMakeFiles/engine.dir/Core/coreFileSave.cpp.o CMakeFiles/engine.dir/Core/coreFileSystem.cpp.o CMakeFiles/engine.dir/Core/coreInputEvent.cpp.o CMakeFiles/engine.dir/Core/coreJobs.cpp.o CMakeFiles/engine.dir/Core/coreLocal.cpp.o CMakeFiles/engine.dir/Core/coreLocalUser.cpp.o CMakeFiles/engine.dir/Core/coreProfile.cpp.o CMakeFiles/engine.dir/Core/coreProfilePlayer.cpp.o CMakeFiles/engine.dir/Core/coreSave.cpp.o CMakeFiles/engine.dir/Core/coreServer.cpp.o CMakeFiles/engine.dir/Core/coreServerBackendDirect.cpp.o CMakeFiles/engine.dir/Core/coreServerCompression.cpp.o CMakeFiles/engine.dir/Core/coreServerMigrate.cpp.o CMakeFiles/engine.dir/Core/coreServerPacketProcessor.cpp.o CMakeFiles/engine.dir/Core/coreServerSearch.cpp.o CMakeFiles/engine.dir/Core/coreServerSnapshot.cpp.o CMakeFiles/engine.dir/Core/coreServerUsers.cpp.o CMakeFiles/engine.dir/Core/coreSessionCallbacks.cpp.o CMakeFiles/engine.dir/Core/coreSessionLocal.cpp.o CMakeFiles/engine.dir/Core/coreSessionSave.cpp.o CMakeFiles/engine.dir/Core/coreSignin.cpp.o CMakeFiles/engine.dir/Core/coreSnapshot.cpp.o CMakeFiles/engine.dir/Core/coreSnapshotProcessor.cpp.o CMakeFiles/engine.dir/Core/coreUserCmdGen.cpp.o CMakeFiles/engine.dir/Core/coreVOIP.cpp.o CMakeFiles/engine.dir/Core/coreZip.cpp.o CMakeFiles/engine.dir/libs/zlib/minizip/unzip.cpp.o CMakeFiles/engine.dir/libs/zlib/minizip/zip.cpp.o CMakeFiles/engine.dir/Core/unix/unixMain.cpp.o CMakeFiles/engine.dir/Core/unix/unixPlatform.cpp.o CMakeFiles/engine.dir/Core/unix/unixSignal.cpp.o CMakeFiles/engine.dir/Core/unix/unixThread.cpp.o CMakeFiles/engine.dir/Core/common/localuser.cpp.o CMakeFiles/engine.dir/Core/common/savegame.cpp.o CMakeFiles/engine.dir/Core/common/session_local.cpp.o CMakeFiles/engine.dir/Core/common/signin.cpp.o CMakeFiles/engine.dir/Core/common/socket_net.cpp.o | libBud/libBud.a || libBud/libBud.a
+build engine: CXX_EXECUTABLE_LINKER__engine_Debug CMakeFiles/engine.dir/Core/coreCPU.cpp.o CMakeFiles/engine.dir/Core/coreCVar.cpp.o CMakeFiles/engine.dir/Core/coreCmdSystem.cpp.o CMakeFiles/engine.dir/Core/coreCommon.cpp.o CMakeFiles/engine.dir/Core/coreCommonDemos.cpp.o CMakeFiles/engine.dir/Core/coreCommonFrame.cpp.o CMakeFiles/engine.dir/Core/coreCommonLoad.cpp.o CMakeFiles/engine.dir/Core/coreCommonLocalize.cpp.o CMakeFiles/engine.dir/Core/coreCommonMapExport.cpp.o CMakeFiles/engine.dir/Core/coreCommonMenu.cpp.o CMakeFiles/engine.dir/Core/coreCommonNetwork.cpp.o CMakeFiles/engine.dir/Core/coreCommonPrintf.cpp.o CMakeFiles/engine.dir/Core/coreCompressor.cpp.o CMakeFiles/engine.dir/Core/coreConsole.cpp.o CMakeFiles/engine.dir/Core/coreConsoleHistory.cpp.o CMakeFiles/engine.dir/Core/coreEditField.cpp.o CMakeFiles/engine.dir/Core/coreEventLoop.cpp.o CMakeFiles/engine.dir/Core/coreFile.cpp.o CMakeFiles/engine.dir/Core/coreFileDemo.cpp.o CMakeFiles/engine.dir/Core/coreFileManifest.cpp.o CMakeFiles/engine.dir/Core/coreFileResource.cpp.o CMakeFiles/engine.dir/Core/coreFileSave.cpp.o CMakeFiles/engine.dir/Core/coreFileSystem.cpp.o CMakeFiles/engine.dir/Core/coreInputEvent.cpp.o CMakeFiles/engine.dir/Core/coreJobs.cpp.o CMakeFiles/engine.dir/Core/coreLocal.cpp.o CMakeFiles/engine.dir/Core/coreLocalUser.cpp.o CMakeFiles/engine.dir/Core/coreProfile.cpp.o CMakeFiles/engine.dir/Core/coreProfilePlayer.cpp.o CMakeFiles/engine.dir/Core/coreSave.cpp.o CMakeFiles/engine.dir/Core/coreServer.cpp.o CMakeFiles/engine.dir/Core/coreServerBackendDirect.cpp.o CMakeFiles/engine.dir/Core/coreServerCompression.cpp.o CMakeFiles/engine.dir/Core/coreServerMigrate.cpp.o CMakeFiles/engine.dir/Core/coreServerPacketProcessor.cpp.o CMakeFiles/engine.dir/Core/coreServerSearch.cpp.o CMakeFiles/engine.dir/Core/coreServerSnapshot.cpp.o CMakeFiles/engine.dir/Core/coreServerUsers.cpp.o CMakeFiles/engine.dir/Core/coreSessionCallbacks.cpp.o CMakeFiles/engine.dir/Core/coreSessionLocal.cpp.o CMakeFiles/engine.dir/Core/coreSessionSave.cpp.o CMakeFiles/engine.dir/Core/coreSignin.cpp.o CMakeFiles/engine.dir/Core/coreSnapshot.cpp.o CMakeFiles/engine.dir/Core/coreSnapshotProcessor.cpp.o CMakeFiles/engine.dir/Core/coreUserCmdGen.cpp.o CMakeFiles/engine.dir/Core/coreVOIP.cpp.o CMakeFiles/engine.dir/Core/coreZip.cpp.o CMakeFiles/engine.dir/libs/zlib/minizip/unzip.cpp.o CMakeFiles/engine.dir/libs/zlib/minizip/zip.cpp.o CMakeFiles/engine.dir/Core/unix/unixMain.cpp.o CMakeFiles/engine.dir/Core/unix/unixPlatform.cpp.o CMakeFiles/engine.dir/Core/unix/unixSignal.cpp.o CMakeFiles/engine.dir/Core/unix/unixThread.cpp.o CMakeFiles/engine.dir/Core/common/localuser.cpp.o CMakeFiles/engine.dir/Core/common/savegame.cpp.o CMakeFiles/engine.dir/Core/common/session_local.cpp.o CMakeFiles/engine.dir/Core/common/signin.cpp.o CMakeFiles/engine.dir/Core/common/socket_net.cpp.o | libBud/libBud.so || libBud/libBud.so
   FLAGS = -g
   LINK_FLAGS = -rdynamic
-  LINK_LIBRARIES = libBud/libBud.a  -lpthread  -lSDL2  -lz  -lminizip  -ldl
+  LINK_LIBRARIES = -Wl,-rpath,/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud  libBud/libBud.so  -lpthread  -lSDL2  -lz  -lminizip  -ldl
   OBJECT_DIR = CMakeFiles/engine.dir
   POST_BUILD = :
   PRE_LINK = :
+  TARGET_COMPILE_PDB = CMakeFiles/engine.dir/
   TARGET_FILE = engine
-  TARGET_PDB = engine.dbg
+  TARGET_PDB = engine.pdb
 
 
 #############################################
@@ -517,7 +629,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 
 # =============================================================================
-# Object build statements for STATIC_LIBRARY target Bud
+# Object build statements for SHARED_LIBRARY target Bud
 
 
 #############################################
@@ -526,444 +638,553 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 build cmake_object_order_depends_target_Bud: phony || libBud/CMakeFiles/Bud.dir
 
 build libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.cxx | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch.d
-  FLAGS = -g -Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -x c++-header
+  FLAGS = -g -fPIC -Winvalid-pch -fpch-instantiate-templates -Xclang -emit-pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx -x c++-header
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
+
+build libBud/CMakeFiles/Bud.dir/Assert.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Assert.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
+  DEP_FILE = libBud/CMakeFiles/Bud.dir/Assert.cpp.o.d
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
+  OBJECT_DIR = libBud/CMakeFiles/Bud.dir
+  OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Base64.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Base64.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Base64.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/BitMsg.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/BitMsg.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/BitMsg.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/CmdArgs.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/CmdArgs.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/CmdArgs.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
-
-build libBud/CMakeFiles/Bud.dir/CommandLink.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/CommandLink.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
-  DEP_FILE = libBud/CMakeFiles/Bud.dir/CommandLink.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
-  INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
-  OBJECT_DIR = libBud/CMakeFiles/Bud.dir
-  OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Dict.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Dict.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Dict.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Heap.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Heap.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Heap.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/LangDict.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/LangDict.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/LangDict.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Lexer.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Lexer.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Lexer.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Lib.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Lib.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Lib.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/MapFile.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/MapFile.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/MapFile.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/ParallelJobList.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/ParallelJobList.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/ParallelJobList.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Parser.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Parser.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Parser.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/RectAllocator.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/RectAllocator.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/RectAllocator.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/SoftwareCache.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/SoftwareCache.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/SoftwareCache.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Str.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Str.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Str.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Thread.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Thread.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Thread.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Timer.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Timer.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Timer.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/Token.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/Token.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/Token.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/bv/Bounds.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Bounds.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/bv/Bounds.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/bv
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/bv/Box.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Box.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/bv/Box.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/bv
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/bv/Sphere.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/bv/Sphere.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/bv/Sphere.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/bv
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/containers/HashIndex.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/containers/HashIndex.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/containers/HashIndex.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/containers
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/DrawVert.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/DrawVert.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/DrawVert.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/JointTransform.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/JointTransform.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/JointTransform.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/RenderMatrix.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/RenderMatrix.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/RenderMatrix.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/Surface.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/Surface.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/Surface_Patch.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_Patch.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/Surface_Patch.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/Surface_Polytope.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_Polytope.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/Surface_Polytope.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/Surface_SweptSpline.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Surface_SweptSpline.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/Surface_SweptSpline.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/TraceModel.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/TraceModel.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/TraceModel.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/Winding.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Winding.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/Winding.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/geometry/Winding2D.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/geometry/Winding2D.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/geometry/Winding2D.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/geometry
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/hashing/CRC32.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/CRC32.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/hashing/CRC32.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/hashing
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/hashing/MD4.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/MD4.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/hashing/MD4.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/hashing
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/hashing/MD5.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/hashing/MD5.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/hashing/MD5.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/hashing
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Angles.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Angles.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Angles.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Complex.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Complex.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Complex.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Lcp.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Lcp.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Lcp.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/MatX.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/MatX.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/MatX.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Math.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Math.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Math.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Matrix.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Matrix.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Matrix.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Ode.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Ode.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Ode.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Plane.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Plane.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Plane.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Pluecker.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Pluecker.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Pluecker.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Polynomial.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Polynomial.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Polynomial.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Quat.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Quat.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Quat.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Rotation.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Rotation.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Rotation.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Simd.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Simd.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Simd_Generic.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd_Generic.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Simd_Generic.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Simd_SSE.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Simd_SSE.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Simd_SSE.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/VecX.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/VecX.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/VecX.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 build libBud/CMakeFiles/Bud.dir/math/Vector.cpp.o: CXX_COMPILER__Bud_Debug /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/math/Vector.cpp | libBud/CMakeFiles/Bud.dir/cmake_pch.hxx libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch || cmake_object_order_depends_target_Bud
-  DEFINES = -D__DOOM_DLL__ -D__libBud__
+  DEFINES = -DBud_EXPORTS -D__DOOM_DLL__ -D__libBud__
   DEP_FILE = libBud/CMakeFiles/Bud.dir/math/Vector.cpp.o.d
-  FLAGS = -g -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
+  FLAGS = -g -fPIC -Winvalid-pch -Xclang -include-pch -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx.pch -Xclang -include -Xclang /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud/CMakeFiles/Bud.dir/cmake_pch.hxx
   INCLUDES = -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/. -I/home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/libBud/../Core
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   OBJECT_FILE_DIR = libBud/CMakeFiles/Bud.dir/math
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_PDB = libBud/libBud.pdb
 
 
 # =============================================================================
-# Link build statements for STATIC_LIBRARY target Bud
+# Link build statements for SHARED_LIBRARY target Bud
 
 
 #############################################
-# Link the static library libBud/libBud.a
+# Link the shared library libBud/libBud.so
 
-build libBud/libBud.a: CXX_STATIC_LIBRARY_LINKER__Bud_Debug libBud/CMakeFiles/Bud.dir/Base64.cpp.o libBud/CMakeFiles/Bud.dir/BitMsg.cpp.o libBud/CMakeFiles/Bud.dir/CmdArgs.cpp.o libBud/CMakeFiles/Bud.dir/CommandLink.cpp.o libBud/CMakeFiles/Bud.dir/Dict.cpp.o libBud/CMakeFiles/Bud.dir/Heap.cpp.o libBud/CMakeFiles/Bud.dir/LangDict.cpp.o libBud/CMakeFiles/Bud.dir/Lexer.cpp.o libBud/CMakeFiles/Bud.dir/Lib.cpp.o libBud/CMakeFiles/Bud.dir/MapFile.cpp.o libBud/CMakeFiles/Bud.dir/ParallelJobList.cpp.o libBud/CMakeFiles/Bud.dir/Parser.cpp.o libBud/CMakeFiles/Bud.dir/RectAllocator.cpp.o libBud/CMakeFiles/Bud.dir/SoftwareCache.cpp.o libBud/CMakeFiles/Bud.dir/Str.cpp.o libBud/CMakeFiles/Bud.dir/Thread.cpp.o libBud/CMakeFiles/Bud.dir/Timer.cpp.o libBud/CMakeFiles/Bud.dir/Token.cpp.o libBud/CMakeFiles/Bud.dir/bv/Bounds.cpp.o libBud/CMakeFiles/Bud.dir/bv/Box.cpp.o libBud/CMakeFiles/Bud.dir/bv/Sphere.cpp.o libBud/CMakeFiles/Bud.dir/containers/HashIndex.cpp.o libBud/CMakeFiles/Bud.dir/geometry/DrawVert.cpp.o libBud/CMakeFiles/Bud.dir/geometry/JointTransform.cpp.o libBud/CMakeFiles/Bud.dir/geometry/RenderMatrix.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface_Patch.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface_Polytope.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface_SweptSpline.cpp.o libBud/CMakeFiles/Bud.dir/geometry/TraceModel.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Winding.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Winding2D.cpp.o libBud/CMakeFiles/Bud.dir/hashing/CRC32.cpp.o libBud/CMakeFiles/Bud.dir/hashing/MD4.cpp.o libBud/CMakeFiles/Bud.dir/hashing/MD5.cpp.o libBud/CMakeFiles/Bud.dir/math/Angles.cpp.o libBud/CMakeFiles/Bud.dir/math/Complex.cpp.o libBud/CMakeFiles/Bud.dir/math/Lcp.cpp.o libBud/CMakeFiles/Bud.dir/math/MatX.cpp.o libBud/CMakeFiles/Bud.dir/math/Math.cpp.o libBud/CMakeFiles/Bud.dir/math/Matrix.cpp.o libBud/CMakeFiles/Bud.dir/math/Ode.cpp.o libBud/CMakeFiles/Bud.dir/math/Plane.cpp.o libBud/CMakeFiles/Bud.dir/math/Pluecker.cpp.o libBud/CMakeFiles/Bud.dir/math/Polynomial.cpp.o libBud/CMakeFiles/Bud.dir/math/Quat.cpp.o libBud/CMakeFiles/Bud.dir/math/Rotation.cpp.o libBud/CMakeFiles/Bud.dir/math/Simd.cpp.o libBud/CMakeFiles/Bud.dir/math/Simd_Generic.cpp.o libBud/CMakeFiles/Bud.dir/math/Simd_SSE.cpp.o libBud/CMakeFiles/Bud.dir/math/VecX.cpp.o libBud/CMakeFiles/Bud.dir/math/Vector.cpp.o
+build libBud/libBud.so: CXX_SHARED_LIBRARY_LINKER__Bud_Debug libBud/CMakeFiles/Bud.dir/Assert.cpp.o libBud/CMakeFiles/Bud.dir/Base64.cpp.o libBud/CMakeFiles/Bud.dir/BitMsg.cpp.o libBud/CMakeFiles/Bud.dir/CmdArgs.cpp.o libBud/CMakeFiles/Bud.dir/Dict.cpp.o libBud/CMakeFiles/Bud.dir/Heap.cpp.o libBud/CMakeFiles/Bud.dir/LangDict.cpp.o libBud/CMakeFiles/Bud.dir/Lexer.cpp.o libBud/CMakeFiles/Bud.dir/Lib.cpp.o libBud/CMakeFiles/Bud.dir/MapFile.cpp.o libBud/CMakeFiles/Bud.dir/ParallelJobList.cpp.o libBud/CMakeFiles/Bud.dir/Parser.cpp.o libBud/CMakeFiles/Bud.dir/RectAllocator.cpp.o libBud/CMakeFiles/Bud.dir/SoftwareCache.cpp.o libBud/CMakeFiles/Bud.dir/Str.cpp.o libBud/CMakeFiles/Bud.dir/Thread.cpp.o libBud/CMakeFiles/Bud.dir/Timer.cpp.o libBud/CMakeFiles/Bud.dir/Token.cpp.o libBud/CMakeFiles/Bud.dir/bv/Bounds.cpp.o libBud/CMakeFiles/Bud.dir/bv/Box.cpp.o libBud/CMakeFiles/Bud.dir/bv/Sphere.cpp.o libBud/CMakeFiles/Bud.dir/containers/HashIndex.cpp.o libBud/CMakeFiles/Bud.dir/geometry/DrawVert.cpp.o libBud/CMakeFiles/Bud.dir/geometry/JointTransform.cpp.o libBud/CMakeFiles/Bud.dir/geometry/RenderMatrix.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface_Patch.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface_Polytope.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Surface_SweptSpline.cpp.o libBud/CMakeFiles/Bud.dir/geometry/TraceModel.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Winding.cpp.o libBud/CMakeFiles/Bud.dir/geometry/Winding2D.cpp.o libBud/CMakeFiles/Bud.dir/hashing/CRC32.cpp.o libBud/CMakeFiles/Bud.dir/hashing/MD4.cpp.o libBud/CMakeFiles/Bud.dir/hashing/MD5.cpp.o libBud/CMakeFiles/Bud.dir/math/Angles.cpp.o libBud/CMakeFiles/Bud.dir/math/Complex.cpp.o libBud/CMakeFiles/Bud.dir/math/Lcp.cpp.o libBud/CMakeFiles/Bud.dir/math/MatX.cpp.o libBud/CMakeFiles/Bud.dir/math/Math.cpp.o libBud/CMakeFiles/Bud.dir/math/Matrix.cpp.o libBud/CMakeFiles/Bud.dir/math/Ode.cpp.o libBud/CMakeFiles/Bud.dir/math/Plane.cpp.o libBud/CMakeFiles/Bud.dir/math/Pluecker.cpp.o libBud/CMakeFiles/Bud.dir/math/Polynomial.cpp.o libBud/CMakeFiles/Bud.dir/math/Quat.cpp.o libBud/CMakeFiles/Bud.dir/math/Rotation.cpp.o libBud/CMakeFiles/Bud.dir/math/Simd.cpp.o libBud/CMakeFiles/Bud.dir/math/Simd_Generic.cpp.o libBud/CMakeFiles/Bud.dir/math/Simd_SSE.cpp.o libBud/CMakeFiles/Bud.dir/math/VecX.cpp.o libBud/CMakeFiles/Bud.dir/math/Vector.cpp.o
   LANGUAGE_COMPILE_FLAGS = -g
   OBJECT_DIR = libBud/CMakeFiles/Bud.dir
   POST_BUILD = :
   PRE_LINK = :
-  TARGET_FILE = libBud/libBud.a
-  TARGET_PDB = Bud.a.dbg
+  SONAME = libBud.so
+  SONAME_FLAG = -Wl,-soname,
+  TARGET_COMPILE_PDB = libBud/CMakeFiles/Bud.dir/
+  TARGET_FILE = libBud/libBud.so
+  TARGET_PDB = libBud/libBud.pdb
 
 
 #############################################
@@ -992,9 +1213,9 @@ build libBud/rebuild_cache: phony libBud/CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build Bud: phony libBud/libBud.a
+build Bud: phony libBud/libBud.so
 
-build libBud.a: phony libBud/libBud.a
+build libBud.so: phony libBud/libBud.so
 
 # =============================================================================
 # Folder targets.
@@ -1011,7 +1232,7 @@ build all: phony engine libBud/all
 #############################################
 # Folder: /home/oakley/Repositories/Bags-of-Bud-Engine/morpheus/build/libBud
 
-build libBud/all: phony libBud/libBud.a
+build libBud/all: phony libBud/libBud.so
 
 # =============================================================================
 # Unknown Build Time Dependencies.
@@ -1025,14 +1246,14 @@ build libBud/all: phony libBud/libBud.a
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../libBud/CMakeLists.txt /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.2/CMakeCXXCompiler.cmake CMakeFiles/3.22.2/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../libBud/CMakeLists.txt /usr/share/cmake-3.22/Modules/CMakeCXXCompiler.cmake.in /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeCompilerIdDetection.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCXXCompiler.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompileFeatures.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompiler.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompilerId.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineSystem.cmake /usr/share/cmake-3.22/Modules/CMakeFindBinUtils.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeNinjaFindMake.cmake /usr/share/cmake-3.22/Modules/CMakeParseImplicitIncludeInfo.cmake /usr/share/cmake-3.22/Modules/CMakeParseImplicitLinkInfo.cmake /usr/share/cmake-3.22/Modules/CMakeParseLibraryArchitecture.cmake /usr/share/cmake-3.22/Modules/CMakeSystem.cmake.in /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake /usr/share/cmake-3.22/Modules/CMakeTestCompilerCommon.cmake /usr/share/cmake-3.22/Modules/Compiler/ADSP-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/ARMCC-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/ARMClang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/AppleClang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Borland-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-FindBinUtils.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang.cmake /usr/share/cmake-3.22/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Cray-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/GHS-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/IAR-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /usr/share/cmake-3.22/Modules/Compiler/Intel-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/MSVC-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/NVHPC-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/PGI-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/PathScale-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/SCO-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/TI-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Watcom-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Internal/FeatureTesting.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-Determine-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.2/CMakeCXXCompiler.cmake CMakeFiles/3.22.2/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../CMakeLists.txt ../libBud/CMakeLists.txt /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.2/CMakeCXXCompiler.cmake CMakeFiles/3.22.2/CMakeSystem.cmake: phony
+build ../CMakeLists.txt ../libBud/CMakeLists.txt /usr/share/cmake-3.22/Modules/CMakeCXXCompiler.cmake.in /usr/share/cmake-3.22/Modules/CMakeCXXCompilerABI.cpp /usr/share/cmake-3.22/Modules/CMakeCXXInformation.cmake /usr/share/cmake-3.22/Modules/CMakeCommonLanguageInclude.cmake /usr/share/cmake-3.22/Modules/CMakeCompilerIdDetection.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCXXCompiler.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompileFeatures.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompiler.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompilerABI.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineCompilerId.cmake /usr/share/cmake-3.22/Modules/CMakeDetermineSystem.cmake /usr/share/cmake-3.22/Modules/CMakeFindBinUtils.cmake /usr/share/cmake-3.22/Modules/CMakeGenericSystem.cmake /usr/share/cmake-3.22/Modules/CMakeInitializeConfigs.cmake /usr/share/cmake-3.22/Modules/CMakeLanguageInformation.cmake /usr/share/cmake-3.22/Modules/CMakeNinjaFindMake.cmake /usr/share/cmake-3.22/Modules/CMakeParseImplicitIncludeInfo.cmake /usr/share/cmake-3.22/Modules/CMakeParseImplicitLinkInfo.cmake /usr/share/cmake-3.22/Modules/CMakeParseLibraryArchitecture.cmake /usr/share/cmake-3.22/Modules/CMakeSystem.cmake.in /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInformation.cmake /usr/share/cmake-3.22/Modules/CMakeSystemSpecificInitialize.cmake /usr/share/cmake-3.22/Modules/CMakeTestCXXCompiler.cmake /usr/share/cmake-3.22/Modules/CMakeTestCompilerCommon.cmake /usr/share/cmake-3.22/Modules/Compiler/ADSP-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/ARMCC-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/ARMClang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/AppleClang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Borland-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/CMakeCommonCompilerMacros.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-DetermineCompilerInternal.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang-FindBinUtils.cmake /usr/share/cmake-3.22/Modules/Compiler/Clang.cmake /usr/share/cmake-3.22/Modules/Compiler/Comeau-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Cray-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Embarcadero-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Fujitsu-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/GHS-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/GNU.cmake /usr/share/cmake-3.22/Modules/Compiler/HP-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/IAR-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake /usr/share/cmake-3.22/Modules/Compiler/Intel-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/MSVC-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/NVHPC-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/NVIDIA-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/PGI-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/PathScale-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/SCO-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/TI-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/Watcom-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/XL-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake /usr/share/cmake-3.22/Modules/Internal/FeatureTesting.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-Clang-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-Determine-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake /usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake /usr/share/cmake-3.22/Modules/Platform/Linux.cmake /usr/share/cmake-3.22/Modules/Platform/UnixPaths.cmake CMakeCache.txt CMakeFiles/3.22.2/CMakeCXXCompiler.cmake CMakeFiles/3.22.2/CMakeSystem.cmake: phony
 
 
 #############################################

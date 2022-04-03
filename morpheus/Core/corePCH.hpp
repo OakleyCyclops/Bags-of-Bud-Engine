@@ -3,14 +3,6 @@
 #ifndef __CORE_PCH__
 #define __CORE_PCH__
 
-#include "coreMacros.hpp"
-#include "coreIncludes.hpp"
-#include "coreAssert.hpp"
-#include "coreTypes.hpp"
-#include "coreIntrinsics.hpp"
-#include "coreThreading.hpp"
-#include "corePublic.hpp"
-
 // libBud
 #include "libBudPCH.hpp"
 
@@ -42,7 +34,7 @@
 
 #include "coreSave.hpp"
 #include "coreSessionSave.hpp"
-#include "corePublic.hpp"
+#include "coreProfile.hpp"
 #include "coreLocalUser.hpp"
 #include "coreSignin.hpp"
 #include "coreMiscStats.hpp"

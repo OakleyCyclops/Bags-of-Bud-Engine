@@ -3,13 +3,13 @@
 #ifndef __LIBBUD_PCH__
 #define __LIBBUD_PCH__
 
-#include "coreMacros.hpp"
-#include "coreIncludes.hpp"
-#include "coreAssert.hpp"
-#include "coreTypes.hpp"
-#include "coreIntrinsics.hpp"
-#include "coreThreading.hpp"
-#include "corePublic.hpp"
+#include "Macros.hpp"
+#include "Headers.hpp"
+#include "Assert.hpp"
+#include "Types.hpp"
+#include "Intrinsics.hpp"
+#include "Threading.hpp"
+#include "Public.hpp"
 
 // libBud
 #include "Lib.hpp"

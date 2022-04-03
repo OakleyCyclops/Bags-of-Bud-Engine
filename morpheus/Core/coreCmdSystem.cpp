@@ -364,6 +364,35 @@ void budCmdSystemLocal::Parse_f( const budCmdArgs& args )
 
 /*
 ============
+budCommandLink::budCommandLink
+============
+*/
+
+budCommandLink::budCommandLink( const char* cmdName, cmdFunction_t function,
+							  const char* description, argCompletion_t argCompletion )
+{
+	next = CommandLinks();
+	CommandLinks( this );
+	cmdName_ = cmdName;
+	function_ = function;
+	description_ = description;
+	argCompletion_ = argCompletion;
+}
+
+budCommandLink* CommandLinks( budCommandLink* cl )
+{
+	static budCommandLink* commandLinks = NULL;
+	if( cl != NULL )
+	{
+		commandLinks = cl;
+	}
+	return commandLinks;
+}
+
+budCommandLink* commandLinks = NULL;
+
+/*
+============
 budCmdSystemLocal::Init
 ============
 */

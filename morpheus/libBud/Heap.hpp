@@ -41,7 +41,7 @@ If you have questions concerning this license or the applicable additional terms
 enum memTag_t
 {
 #define MEM_TAG( x )	TAG_##x,
-#include "coreAllocTags.hpp"
+#include "AllocTags.hpp"
 	TAG_NUM_TAGS,
 };
 

@@ -1104,8 +1104,8 @@ add_executable(engine ${ENGINE_SOURCES})
 
 target_precompile_headers(engine PUBLIC Core/corePCH.hpp)
 
-target_link_libraries(engine 
-					Bud 
+target_link_libraries(engine
+					Bud
 					${OPENGL_LIBRARIES} 
 					pthread 
 					${RT_LIBRARY} 

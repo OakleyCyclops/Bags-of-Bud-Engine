@@ -58,6 +58,6 @@ SEPARATE_ARGUMENTS(_compiler_FLAGS)
 	
 include_directories(../Core/)
 
-add_library(Bud STATIC ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
+add_library(Bud SHARED ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
 
 target_precompile_headers(Bud PUBLIC libBudPCH.hpp)
