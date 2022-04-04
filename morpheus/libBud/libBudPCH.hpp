@@ -11,6 +11,12 @@
 #include "Threading.hpp"
 #include "Public.hpp"
 
+// Interface Headers
+#include "INTFcommon.hpp"
+#include "INTFcvarSystem.hpp"
+#include "INTFfileSystem.hpp"
+#include "INTFsys.hpp"
+
 // libBud
 #include "Lib.hpp"
 

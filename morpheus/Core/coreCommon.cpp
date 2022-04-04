@@ -70,8 +70,6 @@ budCVar com_updateLoadSize( "com_updateLoadSize", "0", CVAR_BOOL | CVAR_SYSTEM |
 
 budCVar com_productionMode( "com_productionMode", "0", CVAR_SYSTEM | CVAR_BOOL, "0 - no special behavior, 1 - building a production build, 2 - running a production build" );
 
-budCVar com_japaneseCensorship( "com_japaneseCensorship", "0", CVAR_NOCHEAT, "Enable Japanese censorship" );
-
 budCVar preload_CommonAssets( "preload_CommonAssets", "1", CVAR_SYSTEM | CVAR_BOOL, "preload common assets" );
 
 budCVar net_inviteOnly( "net_inviteOnly", "1", CVAR_BOOL | CVAR_ARCHIVE, "whether or not the private server you create allows friends to join or invite only" );
@@ -703,16 +701,6 @@ void budCommonLocal::CheckStartupStorageRequirements()
 #endif
 	// RB end
 	
-}
-
-/*
-===============
-budCommonLocal::JapaneseCensorship
-===============
-*/
-bool budCommonLocal::JapaneseCensorship() const
-{
-	return com_japaneseCensorship.GetBool() || com_isJapaneseSKU;
 }
 
 /*

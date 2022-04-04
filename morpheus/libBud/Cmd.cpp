@@ -26,7 +26,7 @@ If you have questions concerning this license or the applicable additional terms
 ===========================================================================
 */
 
-#include "corePCH.hpp"
+#include "libBudPCH.hpp"
 #pragma hdrstop
 
 #ifdef ID_RETAIL

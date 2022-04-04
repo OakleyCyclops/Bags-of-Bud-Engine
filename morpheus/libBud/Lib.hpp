@@ -328,6 +328,11 @@ public:
 #include "Callback.hpp"
 #include "ParallelJobList.hpp"
 
+// CVar and Cmd System
+#include "Cmd.hpp"
+#include "CmdArgs.hpp"
+#include "CVar.hpp"
+
 #include "SoftwareCache.hpp"
 
 #endif	/* !__LIB_H__ */

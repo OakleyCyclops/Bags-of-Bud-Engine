@@ -57,6 +57,7 @@ LIST(APPEND _compiler_FLAGS ${_directory_flags})
 SEPARATE_ARGUMENTS(_compiler_FLAGS)
 	
 include_directories(../Core/)
+include_directories(../Interfaces/)
 
 add_library(Bud SHARED ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
 

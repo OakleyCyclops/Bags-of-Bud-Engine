@@ -3,6 +3,12 @@
 #ifndef __CORE_PCH__
 #define __CORE_PCH__
 
+// Interface Headers
+#include "INTFcommon.hpp"
+#include "INTFcvarSystem.hpp"
+#include "INTFfileSystem.hpp"
+#include "INTFsys.hpp"
+
 // libBud
 #include "libBudPCH.hpp"
 
@@ -10,11 +16,8 @@
 // precompiled headers don't get preprocessed in the same way cpp files do
 
 // Core Framework
-
 #include "coreBuildVer.hpp"
 #include "coreLicense.hpp"
-#include "coreCmdSystem.hpp"
-#include "coreCVar.hpp"
 #include "coreCommon.hpp"
 #include "coreUnzip.hpp"
 #include "coreFile.hpp"

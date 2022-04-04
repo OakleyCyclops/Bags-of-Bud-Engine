@@ -1048,6 +1048,8 @@ file(GLOB RAPIDJSON_INCLUDES libs/rapidjson/include/*.h)
 file(GLOB MINIZIP_INCLUDES libs/zlib/minizip/*.h)
 file(GLOB MINIZIP_SOURCES libs/zlib/minizip/*.c libs/zlib/minizip/*.cpp)
 
+file(GLOB INTF_INCLUDES Interfaces/*.hpp)
+
 file(GLOB CORE_INCLUDES Core/*.hpp)
 file(GLOB CORE_SOURCES Core/*.cpp)
 
@@ -1065,6 +1067,8 @@ source_group("libs\\rapidjson" FILES ${RAPIDJSON_INCLUDES})
 source_group("libs\\zlib\\minizip" FILES ${MINIZIP_INCLUDES})
 source_group("libs\\zlib\\minizip" FILES ${MINIZIP_SOURCES})
 
+source_group("Interfaces" FILES ${INTF_INCLUDES})
+
 source_group("Core" FILES ${CORE_INCLUDES})
 source_group("Core" FILES ${CORE_SOURCES})
 
@@ -1081,6 +1085,7 @@ set(ENGINE_INCLUDES
 	${RAPIDJSON_INCLUDES}
 	${ZLIB_INCLUDES}
 	${MINIZIP_INCLUDES}
+	${INTF_INCLUDES}
 	${CORE_INCLUDES}
 	${UNIX_INCLUDES}
 	${COMMON_INCLUDES}
@@ -1097,6 +1102,7 @@ set(ENGINE_SOURCES
 add_subdirectory(libBud)
 
 include_directories(libBud)
+include_directories(Interfaces)
 include_directories(Core)
 include_directories(libs/rapidjson/include)
 
