@@ -25,7 +25,7 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
-#include "corePCH.hpp"
+#include "CorePCH.hpp"
 #include "unixPublic.hpp"
 
 #include <string.h>
@@ -121,7 +121,7 @@ static void sig_handler( int signum, siginfo_t* info, void* context )
 	
 	Posix_SetExit( signum );
 	
-	common->Quit();
+	// common->Quit();
 }
 
 /*

@@ -30,8 +30,8 @@ DG: The file was renamed from zip.c to zip.cpp so we can use C++ functions from 
 
 */
 
-// DG: add the corePCH.hpp beast..
-#include "corePCH.hpp"
+// DG: add the CorePCH.hpp beast..
+#include "CorePCH.hpp"
 #pragma hdrstop
 // DG end
 

@@ -1,31 +1,29 @@
-// libBudPCH.hpp - Precompiled libBud headers
+// CorePCH.hpp - Precompiled core engine headers
 
-#ifndef __LIBBUD_PCH__
-#define __LIBBUD_PCH__
+#ifndef __CORE_PCH__
+#define __CORE_PCH__
 
-#include "Macros.hpp"
-#include "Headers.hpp"
-#include "Types.hpp"
-#include "Public.hpp"
+// FYI Precompiled headers don't get preprocessed in the same way cpp files do
 
 // Interface Headers
 #include "INTFheart.hpp"
+#include "INTFconsole.hpp"
 #include "INTFcvarSystem.hpp"
 #include "INTFfileSystem.hpp"
 #include "INTFsys.hpp"
 
-// Containers
-#include "Containers/Array.hpp"
-#include "Containers/Singleton.hpp"
+// libBud
+#include "libBudPCH.hpp"
 
-// Core 
-#include "CorePCH.hpp"
+// The Core Framework
+#include "Console.hpp"
+#include "Heart.hpp" // You need to include everything else before the heart because there's no fucking preprocessor
 
 #undef min
 #undef max
 #include <algorithm>	// for min / max / swap
 
-#endif /* !__LIBBUD_PCH__ */
+#endif /* !__CORE_PCH__ */
 
 //                                  ...........................'........''......''''''........'''''''........''''''......''''''.''.'..''''..'...'''''''..'..''''''''''''''''''''''''''''''.............    
 //       ;llc. .cll,   .coxxdl;.  .....;oooooolc,.':dddddooc;'''cddddddl,'cdddddol:,.'cdddddooc,'''';oxxkkxdc,.''':oxkkxdl,'',lddddddc'',cdxkkxo:''''coxkkxdc,''',cdxkkxo:''':ddddddol;'''.'codxxoc'.....  

@@ -1,64 +1,37 @@
+file(GLOB ROOT_HEADERS *.hpp)
+file(GLOB ROOT_SOURCES *.cpp)
 
-add_definitions(-D__libBud__ -D__DOOM_DLL__)
+file(GLOB CONTAINER_HEADERS Containers/*.hpp)
+file(GLOB CONTAINER_SOURCES Containers/*.cpp)
 
-file(GLOB ID__INCLUDES *.h)
-file(GLOB ID__SOURCES *.cpp)
-file(GLOB ID_BV_INCLUDES bv/*.h)
-file(GLOB ID_BV_SOURCES bv/*.cpp)
-file(GLOB ID_CONTAINERS_INCLUDES containers/*.h)
-file(GLOB ID_CONTAINERS_SOURCES containers/*.cpp)
-file(GLOB ID_GEOMETRY_INCLUDES geometry/*.h)
-file(GLOB ID_GEOMETRY_SOURCES geometry/*.cpp)
-file(GLOB ID_HASHING_INCLUDES hashing/*.h)
-file(GLOB ID_HASHING_SOURCES hashing/*.cpp)
-file(GLOB ID_MATH_INCLUDES math/*.h)
-file(GLOB ID_MATH_SOURCES math/*.cpp)
+file(GLOB MATH_HEADERS Math/*.hpp)
+file(GLOB MATH_SOURCES Math/*.cpp)
 
-set(ID_INCLUDES_ALL
-			${ID__INCLUDES}
-			${ID_BV_INCLUDES}
-			${ID_CONTAINERS_INCLUDES}
-			${ID_GEOMETRY_INCLUDES}
-			${ID_HASHING_INCLUDES}
-			${ID_MATH_INCLUDES}
-			)
-			
-set(ID_SOURCES_ALL
-			${ID__SOURCES}
-			${ID_BV_SOURCES}
-			${ID_CONTAINERS_SOURCES}
-			${ID_GEOMETRY_SOURCES}
-			${ID_HASHING_SOURCES}
-			${ID_MATH_SOURCES}
-			)
-			
-source_group("" FILES ${ID__INCLUDES})
-source_group("" FILES ${ID__SOURCES})
-source_group("bv" FILES ${ID_BV_INCLUDES})
-source_group("bv" FILES ${ID_BV_SOURCES})
-source_group("containers" FILES ${ID_CONTAINERS_INCLUDES})
-source_group("containers" FILES ${ID_CONTAINERS_SOURCES})
-source_group("geometry" FILES ${ID_GEOMETRY_INCLUDES})
-source_group("geometry" FILES ${ID_GEOMETRY_SOURCES})
-source_group("hashing" FILES ${ID_HASHING_INCLUDES})
-source_group("hashing" FILES ${ID_HASHING_SOURCES})
-source_group("math" FILES ${ID_MATH_INCLUDES})
-source_group("math" FILES ${ID_MATH_SOURCES})
+set(LIB_HEADERS
+	${ROOT_HEADERS}
+	${CONTAINER_HEADERS}
+	${MATH_HEADERS}
+	)
 
-#if(STANDALONE)
-#	add_definitions(-DSTANDALONE)
-#endif()
+set(LIB_SOURCES
+	${ROOT_SOURCES}
+	${CONTAINER_SOURCES}
+	${MATH_SOURCES}
+	)
+
+source_group("" FILES ${ROOT_HEADERS})
+source_group("" FILES ${ROOT_SOURCES})
+
+source_group("Containers" FILES ${CONTAINER_HEADERS})
+source_group("Containers" FILES ${CONTAINER_SOURCES})
+
+source_group("Math" FILES ${MATH_HEADERS})
+source_group("Math" FILES ${MATH_SOURCES})
 
 include_directories(.)
-
-GET_DIRECTORY_PROPERTY(_directory_flags DEFINITIONS)
-LIST(APPEND _compiler_FLAGS ${_directory_flags})
-	
-SEPARATE_ARGUMENTS(_compiler_FLAGS)
-	
 include_directories(../Core/)
 include_directories(../Interfaces/)
 
-add_library(Bud SHARED ${ID_SOURCES_ALL} ${ID_INCLUDES_ALL})
+add_library(Bud SHARED ${LIB_HEADERS} ${LIB_SOURCES})
 
 target_precompile_headers(Bud PUBLIC libBudPCH.hpp)

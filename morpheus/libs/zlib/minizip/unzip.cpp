@@ -74,7 +74,7 @@ The file was renamed from unzip.c to unzip.cpp so we can use C++ functions from 
 
 */
 
-#include "corePCH.hpp"
+#include "CorePCH.hpp"
 #pragma hdrstop
 
 #if 0 // DG: these cvars were defined in the original d3 bfg code, probably for some debug purpose?

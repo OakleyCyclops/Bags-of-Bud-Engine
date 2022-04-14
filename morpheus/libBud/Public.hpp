@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SYS_PUBLIC__
 #define __SYS_PUBLIC__
 
-#include "CmdArgs.hpp"
+// #include "CmdArgs.hpp"
 
 /*
 ===============================================================================
@@ -481,7 +481,7 @@ const char* 	Sys_GetCmdLine();
 // DG: Sys_ReLaunch() doesn't need any options (and the old way is painful for POSIX systems)
 void			Sys_ReLaunch();
 // DG end
-void			Sys_Launch( const char* path, budCmdArgs& args,  void* launchData, unsigned int launchDataSize );
+// void			Sys_Launch( const char* path, budCmdArgs& args,  void* launchData, unsigned int launchDataSize );
 void			Sys_SetLanguageFromSystem();
 const char* 	Sys_DefaultLanguage();
 void			Sys_Quit();
