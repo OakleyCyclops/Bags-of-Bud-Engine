@@ -63,7 +63,7 @@ public:
 	void				Clear();
 	
 private:
-	budStr 				name;
+	String 				name;
 public:
 	const idEventDef*	eventdef;
 	idVarDef*			def;
@@ -73,7 +73,7 @@ public:
 	int 				parmTotal;
 	int 				locals; 			// total ints of parms + locals
 	int					filenum; 			// source file defined in
-	budList<int, TAG_SCRIPT>			parmSize;
+	List<int, TAG_SCRIPT>			parmSize;
 };
 
 typedef union eval_s
@@ -98,14 +98,14 @@ class idTypeDef
 {
 private:
 	etype_t						type;
-	budStr 						name;
+	String 						name;
 	int							size;
 	
 	// function types are more complex
 	idTypeDef*					auxType;					// return type
-	budList<idTypeDef*, TAG_SCRIPT>			parmTypes;
-	budStrList					parmNames;
-	budList<const function_t*, TAG_SCRIPT>	functions;
+	List<idTypeDef*, TAG_SCRIPT>			parmTypes;
+	StringList					parmNames;
+	List<const function_t*, TAG_SCRIPT>	functions;
 	
 public:
 	idVarDef*					def;						// a def that points to this type
@@ -283,8 +283,8 @@ sample the data for non-dynamic values.
 typedef idScriptVariable<int, ev_boolean, int>				idScriptBool;
 typedef idScriptVariable<float, ev_float, float>			idScriptFloat;
 typedef idScriptVariable<float, ev_float, int>				idScriptInt;
-typedef idScriptVariable<budVec3, ev_vector, budVec3>			idScriptVector;
-typedef idScriptVariable<budStr, ev_string, const char*>	idScriptString;
+typedef idScriptVariable<Vector3, ev_vector, Vector3>			idScriptVector;
+typedef idScriptVariable<String, ev_string, const char*>	idScriptString;
 
 /***********************************************************************
 
@@ -315,7 +315,7 @@ typedef union varEval_s
 	idScriptObject**			objectPtrPtr;
 	char*					stringPtr;
 	float*					floatPtr;
-	budVec3*					vectorPtr;
+	Vector3*					vectorPtr;
 	function_t*				functionPtr;
 	int*					 intPtr;
 	byte*					bytePtr;
@@ -419,7 +419,7 @@ public:
 	void					RemoveDef( idVarDef* def );
 	
 private:
-	budStr					name;
+	String					name;
 	idVarDef* 				defs;
 };
 
@@ -485,8 +485,8 @@ single idProgram.
 class idProgram
 {
 private:
-	budStrList									fileList;
-	budStr 										filename;
+	StringList									fileList;
+	String 										filename;
 	int											filenum;
 	
 	int											numVariables;
@@ -494,11 +494,11 @@ private:
 	budStaticList<byte, MAX_GLOBALS>				variableDefaults;
 	budStaticList<function_t, MAX_FUNCS>			functions;
 	budStaticList<statement_t, MAX_STATEMENTS>	statements;
-	budList<idTypeDef*, TAG_SCRIPT>				types;
+	List<idTypeDef*, TAG_SCRIPT>				types;
 	budHashIndex									typesHash;
-	budList<idVarDefName*, TAG_SCRIPT>			varDefNames;
+	List<idVarDefName*, TAG_SCRIPT>			varDefNames;
 	budHashIndex									varDefNameHash;
-	budList<idVarDef*, TAG_SCRIPT>				varDefs;
+	List<idVarDef*, TAG_SCRIPT>				varDefs;
 	
 	idVarDef*									sysDef;
 	
@@ -577,7 +577,7 @@ public:
 	
 	void										ReturnFloat( float value );
 	void										ReturnInteger( int value );
-	void										ReturnVector( budVec3 const& vec );
+	void										ReturnVector( Vector3 const& vec );
 	void										ReturnString( const char* string );
 	void										ReturnEntity( idEntity* ent );
 	
@@ -652,7 +652,7 @@ BUD_INLINE void idProgram::ReturnInteger( int value )
 idProgram::ReturnVector
 ================
 */
-BUD_INLINE void idProgram::ReturnVector( budVec3 const& vec )
+BUD_INLINE void idProgram::ReturnVector( Vector3 const& vec )
 {
 	*returnDef->value.vectorPtr = vec;
 }
@@ -664,7 +664,7 @@ idProgram::ReturnString
 */
 BUD_INLINE void idProgram::ReturnString( const char* string )
 {
-	budStr::Copynz( returnStringDef->value.stringPtr, string, MAX_STRING_LEN );
+	String::Copynz( returnStringDef->value.stringPtr, string, MAX_STRING_LEN );
 }
 
 /*

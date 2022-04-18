@@ -32,13 +32,13 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "RenderCommon.h"
 
-extern budCVar r_useAreasConnectedForShadowCulling;
-extern budCVar r_useParallelAddShadows;
-extern budCVar r_forceShadowCaps;
-extern budCVar r_useShadowPreciseInsideTest;
+extern CVar r_useAreasConnectedForShadowCulling;
+extern CVar r_useParallelAddShadows;
+extern CVar r_forceShadowCaps;
+extern CVar r_useShadowPreciseInsideTest;
 
-budCVar r_useAreasConnectedForShadowCulling( "r_useAreasConnectedForShadowCulling", "2", CVAR_RENDERER | CVAR_INTEGER, "cull entities cut off by doors" );
-budCVar r_useParallelAddLights( "r_useParallelAddLights", "1", CVAR_RENDERER | CVAR_BOOL, "aadd all lights in parallel with jobs" );
+CVar r_useAreasConnectedForShadowCulling( "r_useAreasConnectedForShadowCulling", "2", CVAR_RENDERER | CVAR_INTEGER, "cull entities cut off by doors" );
+CVar r_useParallelAddLights( "r_useParallelAddLights", "1", CVAR_RENDERER | CVAR_BOOL, "aadd all lights in parallel with jobs" );
 
 /*
 ============================
@@ -54,7 +54,7 @@ shadows, as they will all pass.
 Pure function.
 ============================
 */
-void R_ShadowBounds( const budBounds& modelBounds, const budBounds& lightBounds, const budVec3& lightOrigin, budBounds& shadowBounds )
+void R_ShadowBounds( const budBounds& modelBounds, const budBounds& lightBounds, const Vector3& lightOrigin, budBounds& shadowBounds )
 {
 	for( int i = 0; i < 3; i++ )
 	{
@@ -201,7 +201,7 @@ static void R_AddSingleLight( viewLight_t* vLight )
 						light->baseLightProject[2][1] - light->baseLightProject[3][1],
 						light->baseLightProject[2][2] - light->baseLightProject[3][2],
 						light->baseLightProject[2][3] - light->baseLightProject[3][3] );
-	const float planeScale = budMath::InvSqrt( fogPlane.Normal().LengthSqr() );
+	const float planeScale = Math::InvSqrt( fogPlane.Normal().LengthSqr() );
 	vLight->fogPlane[0] = fogPlane[0] * planeScale;
 	vLight->fogPlane[1] = fogPlane[1] * planeScale;
 	vLight->fogPlane[2] = fogPlane[2] * planeScale;
@@ -255,10 +255,10 @@ static void R_AddSingleLight( viewLight_t* vLight )
 		float screenHeight = ( float )viewDef->viewport.y2 - ( float )viewDef->viewport.y1;
 		
 		budScreenRect lightScissorRect;
-		lightScissorRect.x1 = budMath::Ftoi( projected[0][0] * screenWidth );
-		lightScissorRect.x2 = budMath::Ftoi( projected[1][0] * screenWidth );
-		lightScissorRect.y1 = budMath::Ftoi( projected[0][1] * screenHeight );
-		lightScissorRect.y2 = budMath::Ftoi( projected[1][1] * screenHeight );
+		lightScissorRect.x1 = Math::Ftoi( projected[0][0] * screenWidth );
+		lightScissorRect.x2 = Math::Ftoi( projected[1][0] * screenWidth );
+		lightScissorRect.y1 = Math::Ftoi( projected[0][1] * screenHeight );
+		lightScissorRect.y2 = Math::Ftoi( projected[1][1] * screenHeight );
 		lightScissorRect.Expand();
 		
 		vLight->scissorRect.Intersect( lightScissorRect );
@@ -279,7 +279,7 @@ static void R_AddSingleLight( viewLight_t* vLight )
 			
 			// compute projected bounding sphere
 			// and use that as a criteria for selecting LOD
-			budVec3 center = projected.GetCenter();
+			Vector3 center = projected.GetCenter();
 			projectedRadius = projected.GetRadius( center );
 			if( projectedRadius > 1.0f )
 			{
@@ -308,7 +308,7 @@ static void R_AddSingleLight( viewLight_t* vLight )
 				flod = 0;
 			}
 			
-			lod = budMath::Ftoi( flod );
+			lod = Math::Ftoi( flod );
 			
 			if( lod >= numLods )
 			{
@@ -561,7 +561,7 @@ static void R_AddSingleLight( viewLight_t* vLight )
 			shadowParms->shadowVolumeState = & shadowDrawSurf->shadowVolumeState;
 			
 			// the pre-light shadow volume "_prelight_light_3297" in "d3xpdm2" is malformed in that it contains the light origin so the precise inside test always fails
-			if( tr.primaryWorld->mapName.IcmpPath( "maps/game/mp/d3xpdm2.map" ) == 0 && budStr::Icmp( light->parms.prelightModel->Name(), "_prelight_light_3297" ) == 0 )
+			if( tr.primaryWorld->mapName.IcmpPath( "maps/game/mp/d3xpdm2.map" ) == 0 && String::Icmp( light->parms.prelightModel->Name(), "_prelight_light_3297" ) == 0 )
 			{
 				shadowParms->useShadowPreciseInsideTest = false;
 			}

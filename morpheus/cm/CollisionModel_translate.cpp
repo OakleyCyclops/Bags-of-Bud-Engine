@@ -55,7 +55,7 @@ budCollisionModelManagerLocal::TranslateEdgeThroughEdge
   calculates fraction of the translation completed at which the edges collide
 ================
 */
-BUD_INLINE int budCollisionModelManagerLocal::TranslateEdgeThroughEdge( budVec3& cross, idPluecker& l1, idPluecker& l2, float* fraction )
+BUD_INLINE int budCollisionModelManagerLocal::TranslateEdgeThroughEdge( Vector3& cross, idPluecker& l1, idPluecker& l2, float* fraction )
 {
 
 	float d, t;
@@ -170,7 +170,7 @@ BUD_INLINE int budCollisionModelManagerLocal::TranslateEdgeThroughEdge( budVec3&
 	
 	t = -l1.PermutedInnerProduct( l2 );
 	// if the lines cross each other to begin with
-	if( fabs( t ) < budMath::FLT_SMALLEST_NON_DENORMAL )
+	if( fabs( t ) < Math::FLT_SMALLEST_NON_DENORMAL )
 	{
 		*fraction = 0.0f;
 		return true;
@@ -244,7 +244,7 @@ void budCollisionModelManagerLocal::TranslateTrmEdgeThroughPolygon( cm_traceWork
 {
 	int i, edgeNum;
 	float f1, f2, dist, d1, d2;
-	budVec3 start, end, normal;
+	Vector3 start, end, normal;
 	cm_edge_t* edge;
 	cm_vertex_t* v1, *v2;
 	idPluecker* pl, epsPl;
@@ -358,7 +358,7 @@ void budCollisionModelManagerLocal::TranslateTrmEdgeThroughPolygon( cm_traceWork
 CM_TranslationPlaneFraction
 ================
 */
-float CM_TranslationPlaneFraction( const budPlane& plane, const budVec3& start, const budVec3& end )
+float CM_TranslationPlaneFraction( const budPlane& plane, const Vector3& start, const Vector3& end )
 {
 	const float d2 = plane.Distance( end );
 	// if the end point is closer to the plane than an epsilon we still take it for a collision
@@ -374,7 +374,7 @@ float CM_TranslationPlaneFraction( const budPlane& plane, const budVec3& start, 
 		return 1.0f;
 	}
 	// leaves polygon
-	if( d1 - d2 < budMath::FLT_SMALLEST_NON_DENORMAL )
+	if( d1 - d2 < Math::FLT_SMALLEST_NON_DENORMAL )
 	{
 		return 1.0f;
 	}
@@ -495,7 +495,7 @@ void budCollisionModelManagerLocal::TranslatePointThroughPolygon( cm_traceWork_t
 budCollisionModelManagerLocal::TranslateVertexThroughTrmPolygon
 ================
 */
-void budCollisionModelManagerLocal::TranslateVertexThroughTrmPolygon( cm_traceWork_t* tw, cm_trmPolygon_t* trmpoly, cm_polygon_t* poly, cm_vertex_t* v, budVec3& endp, idPluecker& pl )
+void budCollisionModelManagerLocal::TranslateVertexThroughTrmPolygon( cm_traceWork_t* tw, cm_trmPolygon_t* trmpoly, cm_polygon_t* poly, cm_vertex_t* v, Vector3& endp, idPluecker& pl )
 {
 	int i, edgeNum;
 	float f;
@@ -549,7 +549,7 @@ bool budCollisionModelManagerLocal::TranslateTrmThroughPolygon( cm_traceWork_t* 
 {
 	int i, j, k, edgeNum;
 	float fraction, d;
-	budVec3 endp;
+	Vector3 endp;
 	idPluecker* pl;
 	cm_trmVertex_t* bv;
 	cm_trmEdge_t* be;
@@ -584,14 +584,14 @@ bool budCollisionModelManagerLocal::TranslateTrmThroughPolygon( cm_traceWork_t* 
 	
 	// if the polygon is too far from the first heart plane
 	d = p->bounds.PlaneDistance( tw->heartPlane1 );
-	if( budMath::Fabs( d ) > tw->maxDistFromHeartPlane1 )
+	if( Math::Fabs( d ) > tw->maxDistFromHeartPlane1 )
 	{
 		return false;
 	}
 	
 	// if the polygon is too far from the second heart plane
 	d = p->bounds.PlaneDistance( tw->heartPlane2 );
-	if( budMath::Fabs( d ) > tw->maxDistFromHeartPlane2 )
+	if( Math::Fabs( d ) > tw->maxDistFromHeartPlane2 )
 	{
 		return false;
 	}
@@ -790,7 +790,7 @@ budCollisionModelManagerLocal::SetupTranslationHeartPlanes
 */
 void budCollisionModelManagerLocal::SetupTranslationHeartPlanes( cm_traceWork_t* tw )
 {
-	budVec3 dir, normal1, normal2;
+	Vector3 dir, normal1, normal2;
 	
 	// calculate trace heart planes
 	dir = tw->dir;
@@ -811,16 +811,16 @@ budCollisionModelManagerLocal::Translation
 static int entered = 0;
 #endif
 
-void budCollisionModelManagerLocal::Translation( trace_t* results, const budVec3& start, const budVec3& end,
-		const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-		cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+void budCollisionModelManagerLocal::Translation( trace_t* results, const Vector3& start, const Vector3& end,
+		const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+		cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 
 	int i, j;
 	float dist;
 	bool model_rotated, trm_rotated;
-	budVec3 dir1, dir2, dir;
-	budMat3 invModelAxis, tmpAxis;
+	Vector3 dir1, dir2, dir;
+	Matrix3 invModelAxis, tmpAxis;
 	cm_trmPolygon_t* poly;
 	cm_trmEdge_t* edge;
 	cm_trmVertex_t* vert;
@@ -963,7 +963,7 @@ void budCollisionModelManagerLocal::Translation( trace_t* results, const budVec3
 		results->fraction = 0.0f;
 		results->endpos = start;
 		results->endAxis = trmAxis;
-		results->c.normal = vec3_origin;
+		results->c.normal = Vector3_Origin;
 		results->c.material = NULL;
 		results->c.point = start;
 		if( common->RW() )
@@ -1125,13 +1125,13 @@ void budCollisionModelManagerLocal::Translation( trace_t* results, const budVec3
 			tw.bounds[0][i] = tw.end[i] + tw.size[0][i] - CM_BOX_EPSILON;
 			tw.bounds[1][i] = tw.start[i] + tw.size[1][i] + CM_BOX_EPSILON;
 		}
-		if( budMath::Fabs( tw.size[0][i] ) > budMath::Fabs( tw.size[1][i] ) )
+		if( Math::Fabs( tw.size[0][i] ) > Math::Fabs( tw.size[1][i] ) )
 		{
-			tw.extents[i] = budMath::Fabs( tw.size[0][i] ) + CM_BOX_EPSILON;
+			tw.extents[i] = Math::Fabs( tw.size[0][i] ) + CM_BOX_EPSILON;
 		}
 		else
 		{
-			tw.extents[i] = budMath::Fabs( tw.size[1][i] ) + CM_BOX_EPSILON;
+			tw.extents[i] = Math::Fabs( tw.size[1][i] ) + CM_BOX_EPSILON;
 		}
 	}
 	
@@ -1146,12 +1146,12 @@ void budCollisionModelManagerLocal::Translation( trace_t* results, const budVec3
 		{
 			continue;
 		}
-		dist = budMath::Fabs( tw.heartPlane1.Distance( vert->p ) );
+		dist = Math::Fabs( tw.heartPlane1.Distance( vert->p ) );
 		if( dist > tw.maxDistFromHeartPlane1 )
 		{
 			tw.maxDistFromHeartPlane1 = dist;
 		}
-		dist = budMath::Fabs( tw.heartPlane2.Distance( vert->p ) );
+		dist = Math::Fabs( tw.heartPlane2.Distance( vert->p ) );
 		if( dist > tw.maxDistFromHeartPlane2 )
 		{
 			tw.maxDistFromHeartPlane2 = dist;
@@ -1176,7 +1176,7 @@ void budCollisionModelManagerLocal::Translation( trace_t* results, const budVec3
 				tw.contacts[i].point *= modelAxis;
 			}
 		}
-		if( modelOrigin != vec3_origin )
+		if( modelOrigin != Vector3_Origin )
 		{
 			for( i = 0; i < tw.numContacts; i++ )
 			{

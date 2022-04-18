@@ -68,8 +68,8 @@ budPlayerIcon::Draw
 */
 void budPlayerIcon::Draw( budPlayer* player, jointHandle_t joint )
 {
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( joint == INVALID_JOINT )
 	{
@@ -88,7 +88,7 @@ void budPlayerIcon::Draw( budPlayer* player, jointHandle_t joint )
 budPlayerIcon::Draw
 ===============
 */
-void budPlayerIcon::Draw( budPlayer* player, const budVec3& origin )
+void budPlayerIcon::Draw( budPlayer* player, const Vector3& origin )
 {
 	budPlayer* localPlayer = gameLocal.GetLocalPlayer();
 	if( !localPlayer || !localPlayer->GetRenderView() )
@@ -97,7 +97,7 @@ void budPlayerIcon::Draw( budPlayer* player, const budVec3& origin )
 		return;
 	}
 	
-	budMat3 axis = localPlayer->GetRenderView()->viewaxis;
+	Matrix3 axis = localPlayer->GetRenderView()->viewaxis;
 	
 	if( player->isLagged && !player->spectating )
 	{
@@ -145,7 +145,7 @@ void budPlayerIcon::FreeIcon()
 budPlayerIcon::CreateIcon
 ===============
 */
-bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const budVec3& origin, const budMat3& axis )
+bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const Vector3& origin, const Matrix3& axis )
 {
 	assert( type < ICON_NONE );
 	const char* mtr = player->spawnArgs.GetString( iconKeys[ type ], "_default" );
@@ -157,7 +157,7 @@ bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const 
 budPlayerIcon::CreateIcon
 ===============
 */
-bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const char* mtr, const budVec3& origin, const budMat3& axis )
+bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const char* mtr, const Vector3& origin, const Matrix3& axis )
 {
 	assert( type != ICON_NONE );
 	
@@ -199,7 +199,7 @@ bool budPlayerIcon::CreateIcon( budPlayer* player, playerIconType_t type, const 
 budPlayerIcon::UpdateIcon
 ===============
 */
-void budPlayerIcon::UpdateIcon( budPlayer* player, const budVec3& origin, const budMat3& axis )
+void budPlayerIcon::UpdateIcon( budPlayer* player, const Vector3& origin, const Matrix3& axis )
 {
 	assert( iconHandle >= 0 );
 	

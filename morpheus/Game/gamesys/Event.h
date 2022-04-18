@@ -38,8 +38,8 @@ Event are used for scheduling tasks and for linking script commands.
 // running the game will then generate c:\doom\base\events.txt, the contents of which should be copied into the switch statement.
 
 // RB: from dhewm3
-// stack size of budVec3, aligned to native pointer size
-#define E_EVENT_SIZEOF_VEC			((sizeof(budVec3) + (sizeof(intptr_t) - 1)) & ~(sizeof(intptr_t) - 1))
+// stack size of Vector3, aligned to native pointer size
+#define E_EVENT_SIZEOF_VEC			((sizeof(Vector3) + (sizeof(intptr_t) - 1)) & ~(sizeof(intptr_t) - 1))
 // RB end
 
 #define D_EVENT_VOID				( ( char )0 )
@@ -103,7 +103,7 @@ private:
 	
 	idLinkList<idEvent>			eventNode;
 	
-	static idDynamicBlockAlloc<byte, 16 * 1024, 256> eventDataAllocator;
+	static DynamicBlockAlloc<byte, 16 * 1024, 256> eventDataAllocator;
 	
 	
 public:

@@ -202,7 +202,7 @@ void idMenuScreen_PDA_VideoDisks::ShowScreen( const mainMenuTransition_t transit
 			const budDeclVideo* video = player->GetVideo( i );
 			if( video != NULL )
 			{
-				budList< budStr > item;
+				List< String > item;
 				item.Append( video->GetVideoName() );
 				videoItems.Append( item );
 			}

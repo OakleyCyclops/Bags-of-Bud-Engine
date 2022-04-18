@@ -37,7 +37,7 @@ TODO:	Emit statistics to the logfile at the end of views and frames.
 ================================================================================================
 */
 
-budCVar r_logLevel( "r_logLevel", "2", CVAR_INTEGER, "1 = blocks only, 2 = everything", 1, 2 );
+CVar r_logLevel( "r_logLevel", "2", CVAR_INTEGER, "1 = blocks only, 2 = everything", 1, 2 );
 
 static const int LOG_LEVEL_BLOCKS_ONLY	= 1;
 static const int LOG_LEVEL_EVERYTHING	= 2;
@@ -85,7 +85,7 @@ struct pixEvent_t
 	uint64		gpuTime;
 };
 
-budCVar r_pix( "r_pix", "0", CVAR_INTEGER, "print GPU/CPU event timing" );
+CVar r_pix( "r_pix", "0", CVAR_INTEGER, "print GPU/CPU event timing" );
 
 #if !defined(USE_VULKAN)
 static const int	MAX_PIX_EVENTS = 256;
@@ -270,14 +270,14 @@ void budRenderLog::StartFrame()
 	
 	char qpath[128];
 	sprintf( qpath, "renderlogPC_%04i.txt", r_logFile.GetInteger() );
-	//budStr finalPath = fileSystem->RelativePathToOSPath( qpath );
+	//String finalPath = fileSystem->RelativePathToOSPath( qpath );
 	sprintf( ospath, "%s", qpath );
 	*/
 	/*
 	for ( int i = 0; i < 9999 ; i++ ) {
 		char qpath[128];
 		sprintf( qpath, "renderlog_%04i.txt", r_logFile.GetInteger() );
-		budStr finalPath = fileSystem->RelativePathToOSPath( qpath );
+		String finalPath = fileSystem->RelativePathToOSPath( qpath );
 		fileSystem->RelativePathToOSPath( qpath, ospath, MAX_OSPATH ,FSPATH_BASE );
 		if ( !fileSystem->FileExists( finalPath.c_str() ) ) {
 			break; // use this name
@@ -429,10 +429,10 @@ void budRenderLog::Printf( const char* fmt, ... )
 	va_list		marker;
 	char		msg[4096];
 	
-	budStr		out = indentString;
+	String		out = indentString;
 	
 	va_start( marker, fmt );
-	budStr::vsnPrintf( msg, sizeof( msg ), fmt, marker );
+	String::vsnPrintf( msg, sizeof( msg ), fmt, marker );
 	va_end( marker );
 	
 	msg[sizeof( msg ) - 1] = '\0';
@@ -481,10 +481,10 @@ void budRenderLog::LogOpenBlock( renderLogIndentLabel_t label, const char* fmt, 
 			va_list		marker;
 			char		msg[4096];
 			
-			budStr		out = indentString;
+			String		out = indentString;
 			
 			va_start( marker, fmt );
-			budStr::vsnPrintf( msg, sizeof( msg ), fmt, marker );
+			String::vsnPrintf( msg, sizeof( msg ), fmt, marker );
 			va_end( marker );
 			
 			msg[sizeof( msg ) - 1] = '\0';

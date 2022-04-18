@@ -214,7 +214,7 @@ This should only be used in very specific circumstances!  Most events should go 
 */
 bool idMenuWidget::ExecuteEvent( const idWidgetEvent& event )
 {
-	budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >* const actions = GetEventActions( event.type );
+	List< idWidgetAction, TAG_LIBBUD_LIST_MENU >* const actions = GetEventActions( event.type );
 	
 	if( actions != NULL )
 	{
@@ -287,7 +287,7 @@ void idMenuWidget::SetSpritePath( const char* arg1, const char* arg2, const char
 idMenuWidget::SetSpritePath
 ========================
 */
-void idMenuWidget::SetSpritePath( const budList< budStr >& spritePath_, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5 )
+void idMenuWidget::SetSpritePath( const List< String >& spritePath_, const char* arg1, const char* arg2, const char* arg3, const char* arg4, const char* arg5 )
 {
 	const char* args[] = { arg1, arg2, arg3, arg4, arg5 };
 	const int numArgs = sizeof( args ) / sizeof( args[ 0 ] );
@@ -587,7 +587,7 @@ bool idMenuWidget::HandleAction( idWidgetAction& action, const idWidgetEvent& ev
 idMenuWidget::GetEventActions
 ========================
 */
-budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >* idMenuWidget::GetEventActions( const widgetEvent_t eventType )
+List< idWidgetAction, TAG_LIBBUD_LIST_MENU >* idMenuWidget::GetEventActions( const widgetEvent_t eventType )
 {
 	if( eventActionLookup[ eventType ] == INVALID_ACTION_INDEX )
 	{

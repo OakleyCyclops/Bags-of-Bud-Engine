@@ -111,12 +111,12 @@ void idPush::RestorePushedEntityPositions()
 idPush::RotateEntityToAxial
 ============
 */
-bool idPush::RotateEntityToAxial( idEntity* ent, budVec3 rotationPoint )
+bool idPush::RotateEntityToAxial( idEntity* ent, Vector3 rotationPoint )
 {
 	int i;
 	trace_t trace;
-	budRotation rotation;
-	budMat3 axis;
+	Rotation rotation;
+	Matrix3 axis;
 	idPhysics* physics;
 	
 	physics = ent->GetPhysics();
@@ -288,7 +288,7 @@ bool idPush::IsFullyPushed( idEntity* ent )
 idPush::ClipTranslationAgainstPusher
 ============
 */
-bool idPush::ClipTranslationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const budVec3& translation )
+bool idPush::ClipTranslationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const Vector3& translation )
 {
 	int i, n;
 	trace_t t;
@@ -313,7 +313,7 @@ idPush::GetPushableEntitiesForTranslation
 ============
 */
 int idPush::GetPushableEntitiesForTranslation( idEntity* pusher, idEntity* initialPusher, const int flags,
-		const budVec3& translation, idEntity* entityList[], int maxEntities )
+		const Vector3& translation, idEntity* entityList[], int maxEntities )
 {
 	int i, n, l;
 	budBounds bounds, pushBounds;
@@ -351,7 +351,7 @@ idPush::ClipTranslationalPush
 ============
 */
 float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const int flags,
-									 const budVec3& newOrigin, const budVec3& translation )
+									 const Vector3& newOrigin, const Vector3& translation )
 {
 	int i, j, numListedEntities;
 	idEntity* curPusher, *ent, *entityList[ MAX_GENTITIES ];
@@ -359,7 +359,7 @@ float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const i
 	bool groundContact, blocked = false;
 	float totalMass;
 	trace_t trace;
-	budVec3 realTranslation, partialTranslation;
+	Vector3 realTranslation, partialTranslation;
 	
 	totalMass = 0.0f;
 	
@@ -368,7 +368,7 @@ float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const i
 	results.endAxis = pusher->GetPhysics()->GetAxis();
 	memset( results.c, 0, sizeof( results.c ) );
 	
-	if( translation == vec3_origin )
+	if( translation == Vector3_Origin )
 	{
 		return totalMass;
 	}
@@ -515,7 +515,7 @@ float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const i
 idPush::ClipRotationAgainstPusher
 ============
 */
-bool idPush::ClipRotationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const budRotation& rotation )
+bool idPush::ClipRotationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const Rotation& rotation )
 {
 	int i, n;
 	trace_t t;
@@ -540,7 +540,7 @@ idPush::GetPushableEntitiesForRotation
 ============
 */
 int idPush::GetPushableEntitiesForRotation( idEntity* pusher, idEntity* initialPusher, const int flags,
-		const budRotation& rotation, idEntity* entityList[], int maxEntities )
+		const Rotation& rotation, idEntity* entityList[], int maxEntities )
 {
 	int i, n, l;
 	budBounds bounds, pushBounds;
@@ -578,7 +578,7 @@ idPush::ClipRotationalPush
 ============
 */
 float idPush::ClipRotationalPush( trace_t& results, idEntity* pusher, const int flags,
-								  const budMat3& newAxis, const budRotation& rotation )
+								  const Matrix3& newAxis, const Rotation& rotation )
 {
 	int i, j, numListedEntities;
 	idEntity* curPusher, *ent, *entityList[ MAX_GENTITIES ];
@@ -586,8 +586,8 @@ float idPush::ClipRotationalPush( trace_t& results, idEntity* pusher, const int 
 	bool groundContact, blocked = false;
 	float totalMass;
 	trace_t trace;
-	budRotation realRotation, partialRotation;
-	budMat3 oldAxis;
+	Rotation realRotation, partialRotation;
+	Matrix3 oldAxis;
 	
 	totalMass = 0.0f;
 	
@@ -765,7 +765,7 @@ enum
 idPush::ClipEntityRotation
 ============
 */
-void idPush::ClipEntityRotation( trace_t& trace, const idEntity* ent, const budClipModel* clipModel, budClipModel* skip, const budRotation& rotation )
+void idPush::ClipEntityRotation( trace_t& trace, const idEntity* ent, const budClipModel* clipModel, budClipModel* skip, const Rotation& rotation )
 {
 
 	if( skip )
@@ -786,7 +786,7 @@ void idPush::ClipEntityRotation( trace_t& trace, const idEntity* ent, const budC
 idPush::ClipEntityTranslation
 ============
 */
-void idPush::ClipEntityTranslation( trace_t& trace, const idEntity* ent, const budClipModel* clipModel, budClipModel* skip, const budVec3& translation )
+void idPush::ClipEntityTranslation( trace_t& trace, const idEntity* ent, const budClipModel* clipModel, budClipModel* skip, const Vector3& translation )
 {
 
 	if( skip )
@@ -812,11 +812,11 @@ idPush::TryRotatePushEntity
 #endif
 
 int idPush::TryRotatePushEntity( trace_t& results, idEntity* check, budClipModel* clipModel, const int flags,
-								 const budMat3& newAxis, const budRotation& rotation )
+								 const Matrix3& newAxis, const Rotation& rotation )
 {
 	trace_t trace;
-	budVec3 rotationPoint;
-	budRotation newRotation;
+	Vector3 rotationPoint;
+	Rotation newRotation;
 	float checkAngle;
 	idPhysics* physics;
 	
@@ -970,7 +970,7 @@ int idPush::TryRotatePushEntity( trace_t& results, idEntity* check, budClipModel
 		{
 			// rotate actor view
 			budActor* actor = static_cast<budActor*>( check );
-			budAngles delta = actor->GetDeltaViewAngles();
+			Angles delta = actor->GetDeltaViewAngles();
 			delta.yaw += newRotation.ToMat3()[0].ToYaw();
 			actor->SetDeltaViewAngles( delta );
 		}
@@ -989,11 +989,11 @@ idPush::TryTranslatePushEntity
 #endif
 
 int idPush::TryTranslatePushEntity( trace_t& results, idEntity* check, budClipModel* clipModel, const int flags,
-									const budVec3& newOrigin, const budVec3& move )
+									const Vector3& newOrigin, const Vector3& move )
 {
 	trace_t		trace;
-	budVec3		checkMove;
-	budVec3		oldOrigin;
+	Vector3		checkMove;
+	Vector3		oldOrigin;
 	idPhysics*	physics;
 	
 	physics = check->GetPhysics();
@@ -1185,12 +1185,12 @@ idPush::ClipTranslationalPush
 ============
 */
 float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const int flags,
-									 const budVec3& newOrigin, const budVec3& translation )
+									 const Vector3& newOrigin, const Vector3& translation )
 {
 	int			i, listedEntities, res;
 	idEntity*	check, *entityList[ MAX_GENTITIES ];
 	budBounds	bounds, pushBounds;
-	budVec3		clipMove, clipOrigin, oldOrigin, dir, impulse;
+	Vector3		clipMove, clipOrigin, oldOrigin, dir, impulse;
 	trace_t		pushResults;
 	bool		wasEnabled;
 	float		totalMass;
@@ -1205,7 +1205,7 @@ float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const i
 	results.endAxis = clipModel->GetAxis();
 	memset( &results.c, 0, sizeof( results.c ) );
 	
-	if( translation == vec3_origin )
+	if( translation == Vector3_Origin )
 	{
 		return totalMass;
 	}
@@ -1336,7 +1336,7 @@ float idPush::ClipTranslationalPush( trace_t& results, idEntity* pusher, const i
 		// if blocking entities should be crushed
 		if( flags & PUSHFL_CRUSH )
 		{
-			check->Damage( clipModel->GetEntity(), clipModel->GetEntity(), vec3_origin, "damage_crush", 1.0f, CLIPMODEL_ID_TO_JOINT_HANDLE( pushResults.c.id ) );
+			check->Damage( clipModel->GetEntity(), clipModel->GetEntity(), Vector3_Origin, "damage_crush", 1.0f, CLIPMODEL_ID_TO_JOINT_HANDLE( pushResults.c.id ) );
 			continue;
 		}
 		
@@ -1387,13 +1387,13 @@ idPush::ClipRotationalPush
 ============
 */
 float idPush::ClipRotationalPush( trace_t& results, idEntity* pusher, const int flags,
-								  const budMat3& newAxis, const budRotation& rotation )
+								  const Matrix3& newAxis, const Rotation& rotation )
 {
 	int			i, listedEntities, res;
 	idEntity*	check, *entityList[ MAX_GENTITIES ];
 	budBounds	bounds, pushBounds;
-	budRotation	clipRotation;
-	budMat3		clipAxis, oldAxis;
+	Rotation	clipRotation;
+	Matrix3		clipAxis, oldAxis;
 	trace_t		pushResults;
 	bool		wasEnabled;
 	float		totalMass;
@@ -1503,7 +1503,7 @@ float idPush::ClipRotationalPush( trace_t& results, idEntity* pusher, const int 
 			clipModel->Link( gameLocal.clip, clipModel->GetEntity(), clipModel->GetId(), clipModel->GetOrigin(), oldAxis );
 			
 			// wake up this object
-			check->ApplyImpulse( clipModel->GetEntity(), clipModel->GetId(), clipModel->GetOrigin(), vec3_origin );
+			check->ApplyImpulse( clipModel->GetEntity(), clipModel->GetId(), clipModel->GetOrigin(), Vector3_Origin );
 			
 			// add mass of pushed entity
 			totalMass += physics->GetMass();
@@ -1525,7 +1525,7 @@ float idPush::ClipRotationalPush( trace_t& results, idEntity* pusher, const int 
 		// if blocking entities should be crushed
 		if( flags & PUSHFL_CRUSH )
 		{
-			check->Damage( clipModel->GetEntity(), clipModel->GetEntity(), vec3_origin, "damage_crush", 1.0f, CLIPMODEL_ID_TO_JOINT_HANDLE( pushResults.c.id ) );
+			check->Damage( clipModel->GetEntity(), clipModel->GetEntity(), Vector3_Origin, "damage_crush", 1.0f, CLIPMODEL_ID_TO_JOINT_HANDLE( pushResults.c.id ) );
 			continue;
 		}
 		
@@ -1573,11 +1573,11 @@ idPush::ClipPush
 ============
 */
 float idPush::ClipPush( trace_t& results, idEntity* pusher, const int flags,
-						const budVec3& oldOrigin, const budMat3& oldAxis,
-						budVec3& newOrigin, budMat3& newAxis )
+						const Vector3& oldOrigin, const Matrix3& oldAxis,
+						Vector3& newOrigin, Matrix3& newAxis )
 {
-	budVec3 translation;
-	budRotation rotation;
+	Vector3 translation;
+	Rotation rotation;
 	float mass;
 	
 	mass = 0.0f;
@@ -1591,7 +1591,7 @@ float idPush::ClipPush( trace_t& results, idEntity* pusher, const int flags,
 	translation = newOrigin - oldOrigin;
 	
 	// if the pusher translates
-	if( translation != vec3_origin )
+	if( translation != Vector3_Origin )
 	{
 	
 		mass += ClipTranslationalPush( results, pusher, flags, newOrigin, translation );

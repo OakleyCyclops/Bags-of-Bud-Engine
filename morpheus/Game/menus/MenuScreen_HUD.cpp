@@ -29,9 +29,9 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../Game_local.h"
 
-extern budCVar pm_stamina;
-extern budCVar in_useJoystick;
-extern budCVar flashlight_batteryDrainTimeMS;
+extern CVar pm_stamina;
+extern CVar in_useJoystick;
+extern CVar flashlight_batteryDrainTimeMS;
 
 /*
 ========================
@@ -335,7 +335,7 @@ void idMenuScreen_HUD::UpdateStamina( budPlayer* player )
 			else
 			{
 				stamSprite->SetVisible( true );
-				float staminaPercent = budMath::Ftoi( 100.0f * player->stamina / max_stamina );
+				float staminaPercent = Math::Ftoi( 100.0f * player->stamina / max_stamina );
 				stamSprite->StopFrame( staminaPercent + 1 );
 			}
 		}
@@ -392,9 +392,9 @@ void idMenuScreen_HUD::UpdateWeaponInfo( budPlayer* player )
 	else
 	{
 	
-		budStr totalAmmo;
-		budStr playerAmmo;
-		budStr playerClip;
+		String totalAmmo;
+		String playerAmmo;
+		String playerClip;
 		
 		bool showClip = true;
 		
@@ -581,7 +581,7 @@ void idMenuScreen_HUD::GiveWeapon( budPlayer* player, int weaponIndex )
 idMenuScreen_HUD::UpdateWeaponStates
 ========================
 */
-void idMenuScreen_HUD::UpdatePickupInfo( int index, const budStr& name )
+void idMenuScreen_HUD::UpdatePickupInfo( int index, const String& name )
 {
 
 	if( !pickupInfo )
@@ -692,7 +692,7 @@ void idMenuScreen_HUD::SetCursorState( budPlayer* player, cursorState_t state, i
 idMenuScreen_HUD::SetCursorText
 ========================
 */
-void idMenuScreen_HUD::SetCursorText( const budStr& action, const budStr& focus )
+void idMenuScreen_HUD::SetCursorText( const String& action, const String& focus )
 {
 	cursorAction = action;
 	cursorFocus = focus;
@@ -804,7 +804,7 @@ void idMenuScreen_HUD::UpdateCursorState()
 						{
 							txtAction->tooltip = true;
 							keyBindings_t bind = idKeyInput::KeyBindingsFromBinding( "_use", true );
-							budStr actionText = budLocalization::GetString( cursorAction );
+							String actionText = budLocalization::GetString( cursorAction );
 							if( !bind.mouse.IsEmpty() )
 							{
 								actionText.Append( " [" );
@@ -1033,7 +1033,7 @@ void idMenuScreen_HUD::UpdateWeaponStates( budPlayer* player, bool weaponChanged
 		return;
 	}
 	
-	budStr displayName;
+	String displayName;
 	if( common->IsMultiplayer() )
 	{
 	
@@ -1050,7 +1050,7 @@ void idMenuScreen_HUD::UpdateWeaponStates( budPlayer* player, bool weaponChanged
 			mpWeapons->GetSprite()->PlayFrame( "rollOn" );
 			
 			int weaponDefIndex = -1;
-			budList< budStr > weaponDefNames;
+			List< String > weaponDefNames;
 			// start at 1 so we skip the fists
 			for( int i = 1; i < MAX_WEAPONS; ++i )
 			{
@@ -1088,7 +1088,7 @@ void idMenuScreen_HUD::UpdateWeaponStates( budPlayer* player, bool weaponChanged
 			
 				bool hide = false;
 				
-				if( i < 0 && budMath::Abs( i ) > numLeftWeapons )
+				if( i < 0 && Math::Abs( i ) > numLeftWeapons )
 				{
 					hide = true;
 				}
@@ -1104,7 +1104,7 @@ void idMenuScreen_HUD::UpdateWeaponStates( budPlayer* player, bool weaponChanged
 				int index = i;
 				if( i < 0 )
 				{
-					index = 2 + budMath::Abs( i );
+					index = 2 + Math::Abs( i );
 				}
 				
 				budSWFSpriteInstance* topValid = mpWeapons->GetNestedSprite( "list", va( "weapon%i", index ), "topValid" );
@@ -1400,7 +1400,7 @@ void idMenuScreen_HUD::DownloadPDA( const budDeclPDA* pda, bool newSecurity )
 		
 		if( newPDAName && GetSWFObject() != NULL )
 		{
-			budStr pdaName = pda->GetPdaName();
+			String pdaName = pda->GetPdaName();
 			pdaName.RemoveColors();
 			GetSWFObject()->SetGlobal( "pdaNameDownload", pdaName );
 			newPDAName->SetStrokeInfo( true, 0.9f, 2.0f );
@@ -1761,7 +1761,7 @@ void  idMenuScreen_HUD::UpdateOxygen( bool show, int val )
 idMenuScreen_HUD::SetupObjective
 ========================
 */
-void idMenuScreen_HUD::SetupObjective( const budStr& title, const budStr& desc, const budMaterial* screenshot )
+void idMenuScreen_HUD::SetupObjective( const String& title, const String& desc, const budMaterial* screenshot )
 {
 	objTitle = title;
 	objDesc = desc;
@@ -1773,7 +1773,7 @@ void idMenuScreen_HUD::SetupObjective( const budStr& title, const budStr& desc, 
 idMenuScreen_HUD::SetupObjective
 ========================
 */
-void idMenuScreen_HUD::SetupObjectiveComplete( const budStr& title )
+void idMenuScreen_HUD::SetupObjectiveComplete( const String& title )
 {
 
 	objCompleteTitle = title;
@@ -2076,7 +2076,7 @@ void idMenuScreen_HUD::SetTeam( int team )
 idMenuScreen_HUD::TriggerHitTarget
 ========================
 */
-void idMenuScreen_HUD::TriggerHitTarget( bool show, const budStr& target, int color )
+void idMenuScreen_HUD::TriggerHitTarget( bool show, const String& target, int color )
 {
 
 	if( !mpHitInfo )
@@ -2154,7 +2154,7 @@ void idMenuScreen_HUD::UpdateGameTime( const char* time )
 idMenuScreen_HUD::UpdateMessage
 ========================
 */
-void idMenuScreen_HUD::UpdateMessage( bool show, const budStr& message )
+void idMenuScreen_HUD::UpdateMessage( bool show, const String& message )
 {
 
 	if( !mpMessage )
@@ -2339,10 +2339,10 @@ void idMenuScreen_HUD::UpdateChattingHud( budPlayer* player )
 							return budSWFScriptVar();
 						}
 						
-						budStr val = text->text;
+						String val = text->text;
 						val.Replace( "\'", "" );
 						val.Replace( "\"", "" );
-						budStr command;
+						String command;
 						if( player->isChatting == 2 )
 						{
 							command = va( "sayTeam %s\n", val.c_str() );

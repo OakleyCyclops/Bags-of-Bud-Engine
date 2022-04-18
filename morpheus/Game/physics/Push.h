@@ -52,14 +52,14 @@ public:
 	// If results.fraction < 1.0 the move was blocked by results.c.entityNum
 	// Returns total mass of all pushed entities.
 	float			ClipTranslationalPush( trace_t& results, idEntity* pusher, const int flags,
-										   const budVec3& newOrigin, const budVec3& move );
+										   const Vector3& newOrigin, const Vector3& move );
 										   
 	float			ClipRotationalPush( trace_t& results, idEntity* pusher, const int flags,
-										const budMat3& newAxis, const budRotation& rotation );
+										const Matrix3& newAxis, const Rotation& rotation );
 										
 	float			ClipPush( trace_t& results, idEntity* pusher, const int flags,
-							  const budVec3& oldOrigin, const budMat3& oldAxis,
-							  budVec3& newOrigin, budMat3& newAxis );
+							  const Vector3& oldOrigin, const Matrix3& oldAxis,
+							  Vector3& newOrigin, Matrix3& newAxis );
 							  
 	// initialize saving the positions of entities being pushed
 	void			InitSavingPushedEntityPositions();
@@ -81,7 +81,7 @@ private:
 	struct pushed_s
 	{
 		idEntity* 	ent;					// pushed entity
-		budAngles	deltaViewAngles;		// actor delta view angles
+		Angles	deltaViewAngles;		// actor delta view angles
 	}				pushed[MAX_GENTITIES];	// pushed entities
 	int				numPushed;				// number of pushed entities
 	
@@ -96,26 +96,26 @@ private:
 	
 private:
 	void			SaveEntityPosition( idEntity* ent );
-	bool			RotateEntityToAxial( idEntity* ent, budVec3 rotationPoint );
+	bool			RotateEntityToAxial( idEntity* ent, Vector3 rotationPoint );
 #ifdef NEW_PUSH
 	bool			CanPushEntity( idEntity* ent, idEntity* pusher, idEntity* initialPusher, const int flags );
 	void			AddEntityToPushedGroup( idEntity* ent, float fraction, bool groundContact );
 	bool			IsFullyPushed( idEntity* ent );
-	bool			ClipTranslationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const budVec3& translation );
+	bool			ClipTranslationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const Vector3& translation );
 	int				GetPushableEntitiesForTranslation( idEntity* pusher, idEntity* initialPusher, const int flags,
-			const budVec3& translation, idEntity* entityList[], int maxEntities );
-	bool			ClipRotationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const budRotation& rotation );
+			const Vector3& translation, idEntity* entityList[], int maxEntities );
+	bool			ClipRotationAgainstPusher( trace_t& results, idEntity* ent, idEntity* pusher, const Rotation& rotation );
 	int				GetPushableEntitiesForRotation( idEntity* pusher, idEntity* initialPusher, const int flags,
-			const budRotation& rotation, idEntity* entityList[], int maxEntities );
+			const Rotation& rotation, idEntity* entityList[], int maxEntities );
 #else
 	void			ClipEntityRotation( trace_t& trace, const idEntity* ent, const budClipModel* clipModel,
-										budClipModel* skip, const budRotation& rotation );
+										budClipModel* skip, const Rotation& rotation );
 	void			ClipEntityTranslation( trace_t& trace, const idEntity* ent, const budClipModel* clipModel,
-										   budClipModel* skip, const budVec3& translation );
+										   budClipModel* skip, const Vector3& translation );
 	int				TryTranslatePushEntity( trace_t& results, idEntity* check, budClipModel* clipModel, const int flags,
-											const budVec3& newOrigin, const budVec3& move );
+											const Vector3& newOrigin, const Vector3& move );
 	int				TryRotatePushEntity( trace_t& results, idEntity* check, budClipModel* clipModel, const int flags,
-										 const budMat3& newAxis, const budRotation& rotation );
+										 const Matrix3& newAxis, const Rotation& rotation );
 	int				DiscardEntities( idEntity* entityList[], int numEntities, int flags, idEntity* pusher );
 #endif
 };

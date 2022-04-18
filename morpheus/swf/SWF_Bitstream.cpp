@@ -78,7 +78,7 @@ budSWFBitStream& budSWFBitStream::operator=( budSWFBitStream& other )
 	if( other.free )
 	{
 		// this is actually quite dangerous, but we need to do this
-		// because these things are copied around inside budList
+		// because these things are copied around inside List
 		other.free = false;
 	}
 	return *this;
@@ -381,7 +381,7 @@ budSWFBitStream::ReadString
 */
 const char* budSWFBitStream::ReadString()
 {
-	return ( const char* )ReadData( budStr::Length( ( const char* )readp ) + 1 );
+	return ( const char* )ReadData( String::Length( ( const char* )readp ) + 1 );
 }
 
 /*

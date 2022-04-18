@@ -109,7 +109,7 @@ class idWeapon;
 const int MAX_GAME_MESSAGE_SIZE		= 8192;
 const int MAX_ENTITY_STATE_SIZE		= 512;
 const int ENTITY_PVS_SIZE			= ( ( MAX_GENTITIES + 31 ) >> 5 );
-const int NUM_RENDER_PORTAL_BITS	= budMath::BitsForInteger( PS_BLOCK_ALL );
+const int NUM_RENDER_PORTAL_BITS	= Math::BitsForInteger( PS_BLOCK_ALL );
 
 const int MAX_EVENT_PARAM_SIZE		= 128;
 
@@ -195,7 +195,7 @@ public:
 private:
 	entityNetEvent_t* 					start;
 	entityNetEvent_t* 					end;
-	idBlockAlloc<entityNetEvent_t, 32>	eventAllocator;
+	BlockAlloc<entityNetEvent_t, 32>	eventAllocator;
 };
 
 //============================================================================
@@ -291,10 +291,10 @@ public:
 
 	int						previousServerTime;		// time in msec of last frame on the server
 	int						serverTime;				// in msec. ( on the client ) the server time. ( on the server ) the actual game time.
-	idDict					serverInfo;				// all the tunable parameters, like numclients, etc
+	Dict					serverInfo;				// all the tunable parameters, like numclients, etc
 	int						numClients;				// pulled from serverInfo and verified
 	budArray< lobbyUserID_t, MAX_CLIENTS >	lobbyUserIDs;	// Maps from a client (player) number to a lobby user
-	idDict					persistentPlayerInfo[MAX_CLIENTS];
+	Dict					persistentPlayerInfo[MAX_CLIENTS];
 	idEntity* 				entities[MAX_GENTITIES];// index to entities
 	int						spawnIds[MAX_GENTITIES];// for use in idEntityPtr
 	budArray< int, 2 >		firstFreeEntityIndex;	// first free index in the entities array. [0] for replicated entities, [1] for non-replicated
@@ -307,7 +307,7 @@ public:
 	int						numEntitiesToDeactivate;// number of entities that became inactive in current frame
 	bool					sortPushers;			// true if active lists needs to be reordered to place pushers at the front
 	bool					sortTeamMasters;		// true if active lists needs to be reordered to place physics team masters before their slaves
-	idDict					persistentLevelInfo;	// contains args that are kept around between levels
+	Dict					persistentLevelInfo;	// contains args that are kept around between levels
 	
 	// can be used to automatically effect every material in the world that references globalParms
 	float					globalShaderParms[ MAX_GLOBAL_SHADER_PARMS ];
@@ -324,7 +324,7 @@ public:
 	idTestModel* 			testmodel;				// for development testing of models
 	idEntityFx* 			testFx;					// for development testing of fx
 	
-	budStr					sessionCommand;			// a target_sessionCommand can set this to return something to the session
+	String					sessionCommand;			// a target_sessionCommand can set this to return something to the session
 	
 	idMultiplayerGame		mpGame;					// handles rules for standard dm
 	
@@ -382,7 +382,7 @@ public:
 	void					QuickSlowmoReset();
 	
 	
-	void					Tokenize( budStrList& out, const char* in );
+	void					Tokenize( StringList& out, const char* in );
 	
 	// ---------------------- Public budGame Interface -------------------
 	
@@ -390,17 +390,17 @@ public:
 	
 	virtual void			Init();
 	virtual void			Shutdown();
-	virtual void			SetServerInfo( const idDict& serverInfo );
-	virtual const idDict& 	GetServerInfo();
+	virtual void			SetServerInfo( const Dict& serverInfo );
+	virtual const Dict& 	GetServerInfo();
 	
-	virtual const idDict& 	GetPersistentPlayerInfo( int clientNum );
-	virtual void			SetPersistentPlayerInfo( int clientNum, const idDict& playerInfo );
+	virtual const Dict& 	GetPersistentPlayerInfo( int clientNum );
+	virtual void			SetPersistentPlayerInfo( int clientNum, const Dict& playerInfo );
 	virtual void			InitFromNewMap( const char* mapName, budRenderWorld* renderWorld, budSoundWorld* soundWorld, int gameType, int randSeed );
 	virtual bool			InitFromSaveGame( const char* mapName, budRenderWorld* renderWorld, budSoundWorld* soundWorld, budFile* saveGameFile, budFile* stringTableFile, int saveGameVersion );
 	virtual void			SaveGame( budFile* saveGameFile, budFile* stringTableFile );
 	virtual void			GetSaveGameDetails( idSaveGameDetails& gameDetails );
 	virtual void			MapShutdown();
-	virtual void			CacheDictionaryMedia( const idDict* dict );
+	virtual void			CacheDictionaryMedia( const Dict* dict );
 	virtual void			Preload( const idPreloadManifest& manifest );
 	virtual void			RunFrame( budUserCmdMgr& cmdMgr, gameReturn_t& gameReturn );
 	void					RunAllUserCmdsForPlayer( budUserCmdMgr& cmdMgr, const int playerNumber );
@@ -426,7 +426,7 @@ public:
 	virtual int				MapPeerToClient( int peer ) const;
 	virtual int				GetLocalClientNum() const;
 	
-	virtual void			GetAimAssistAngles( budAngles& angles );
+	virtual void			GetAimAssistAngles( Angles& angles );
 	virtual float			GetAimAssistSensitivity();
 	
 	// ---------------------- Public budGameLocal Interface -------------------
@@ -442,7 +442,7 @@ public:
 	
 	void					LocalMapRestart();
 	void					MapRestart();
-	static void				MapRestart_f( const budCmdArgs& args );
+	static void				MapRestart_f( const CmdArgs& args );
 	
 	budMapFile* 				GetLevelMap();
 	const char* 			GetMapName() const;
@@ -457,21 +457,21 @@ public:
 	
 	bool					CheatsOk( bool requirePlayer = true );
 	gameState_t				GameState() const;
-	idEntity* 				SpawnEntityType( const idTypeInfo& classdef, const idDict* args = NULL, bool bIsClientReadSnapshot = false );
-	bool					SpawnEntityDef( const idDict& args, idEntity** ent = NULL, bool setDefaults = true );
+	idEntity* 				SpawnEntityType( const idTypeInfo& classdef, const Dict* args = NULL, bool bIsClientReadSnapshot = false );
+	bool					SpawnEntityDef( const Dict& args, idEntity** ent = NULL, bool setDefaults = true );
 	int						GetSpawnId( const idEntity* ent ) const;
 	
 	const budDeclEntityDef* 	FindEntityDef( const char* name, bool makeDefault = true ) const;
-	const idDict* 			FindEntityDefDict( const char* name, bool makeDefault = true ) const;
+	const Dict* 			FindEntityDefDict( const char* name, bool makeDefault = true ) const;
 	
-	void					RegisterEntity( idEntity* ent, int forceSpawnId, const idDict& spawnArgsToCopy );
+	void					RegisterEntity( idEntity* ent, int forceSpawnId, const Dict& spawnArgsToCopy );
 	void					UnregisterEntity( idEntity* ent );
-	const idDict& 			GetSpawnArgs() const
+	const Dict& 			GetSpawnArgs() const
 	{
 		return spawnArgs;
 	}
 	
-	bool					RequirementMet( idEntity* activator, const budStr& requires, int removeItem );
+	bool					RequirementMet( idEntity* activator, const String& requires, int removeItem );
 	
 	void					AlertAI( idEntity* ent );
 	budActor* 				GetAlertEntity();
@@ -490,29 +490,29 @@ public:
 	
 	void					AddEntityToHash( const char* name, idEntity* ent );
 	bool					RemoveEntityFromHash( const char* name, idEntity* ent );
-	int						GetTargets( const idDict& args, budList< idEntityPtr<idEntity> >& list, const char* ref ) const;
+	int						GetTargets( const Dict& args, List< idEntityPtr<idEntity> >& list, const char* ref ) const;
 	
 	// returns the master entity of a trace.  for example, if the trace entity is the player's head, it will return the player.
 	idEntity* 				GetTraceEntity( const trace_t& trace ) const;
 	
-	static void				ArgCompletion_EntityName( const budCmdArgs& args, void( *callback )( const char* s ) );
-	idEntity* 				FindTraceEntity( budVec3 start, budVec3 end, const idTypeInfo& c, const idEntity* skip ) const;
+	static void				ArgCompletion_EntityName( const CmdArgs& args, void( *callback )( const char* s ) );
+	idEntity* 				FindTraceEntity( Vector3 start, Vector3 end, const idTypeInfo& c, const idEntity* skip ) const;
 	idEntity* 				FindEntity( const char* name ) const;
 	idEntity* 				FindEntityUsingDef( idEntity* from, const char* match ) const;
-	int						EntitiesWithinRadius( const budVec3 org, float radius, idEntity** entityList, int maxCount ) const;
+	int						EntitiesWithinRadius( const Vector3 org, float radius, idEntity** entityList, int maxCount ) const;
 	
 	void					KillBox( idEntity* ent, bool catch_teleport = false );
-	void					RadiusDamage( const budVec3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignoreDamage, idEntity* ignorePush, const char* damageDefName, float dmgPower = 1.0f );
-	void					RadiusPush( const budVec3& origin, const float radius, const float push, const idEntity* inflictor, const idEntity* ignore, float inflictorScale, const bool quake );
-	void					RadiusPushClipModel( const budVec3& origin, const float push, const budClipModel* clipModel );
+	void					RadiusDamage( const Vector3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignoreDamage, idEntity* ignorePush, const char* damageDefName, float dmgPower = 1.0f );
+	void					RadiusPush( const Vector3& origin, const float radius, const float push, const idEntity* inflictor, const idEntity* ignore, float inflictorScale, const bool quake );
+	void					RadiusPushClipModel( const Vector3& origin, const float push, const budClipModel* clipModel );
 	
-	void					ProjectDecal( const budVec3& origin, const budVec3& dir, float depth, bool parallel, float size, const char* material, float angle = 0 );
-	void					BloodSplat( const budVec3& origin, const budVec3& dir, float size, const char* material );
+	void					ProjectDecal( const Vector3& origin, const Vector3& dir, float depth, bool parallel, float size, const char* material, float angle = 0 );
+	void					BloodSplat( const Vector3& origin, const Vector3& dir, float size, const char* material );
 	
 	void					CallFrameCommand( idEntity* ent, const function_t* frameCommand );
 	void					CallObjectFrameCommand( idEntity* ent, const char* frameCommand );
 	
-	const budVec3& 			GetGravity() const;
+	const Vector3& 			GetGravity() const;
 	
 	// added the following to assist licensees with merge issues
 	int						GetFrameNum() const
@@ -530,7 +530,7 @@ public:
 	budPlayer* 				GetLocalPlayer() const;
 	
 	void					SpreadLocations();
-	idLocationEntity* 		LocationForPoint( const budVec3& point );	// May return NULL
+	idLocationEntity* 		LocationForPoint( const Vector3& point );	// May return NULL
 	idEntity* 				SelectInitialSpawnPoint( budPlayer* player );
 	
 	void					SetPortalState( qhandle_t portal, int blockingBits );
@@ -629,7 +629,7 @@ public:
 private:
 	const static int		INITIAL_SPAWN_COUNT = 1;
 	
-	budStr					mapFileName;			// name of the map, empty string if no map loaded
+	String					mapFileName;			// name of the map, empty string if no map loaded
 	budMapFile* 				mapFile;				// will be NULL during the game unless in-game editing is used
 	bool					mapCycleLoaded;
 	
@@ -641,21 +641,21 @@ private:
 	idCamera* 				camera;
 	const budMaterial* 		globalMaterial;			// for overriding everything
 	
-	budList<budAAS*>			aasList;				// area system
+	List<budAAS*>			aasList;				// area system
 	
 	idMenuHandler_Shell* 	shellHandler;
 	
-	budStrList				aasNames;
+	StringList				aasNames;
 	
 	idEntityPtr<budActor>	lastAIAlertEntity;
 	int						lastAIAlertTime;
 	
-	idDict					spawnArgs;				// spawn args used during entity spawning  FIXME: shouldn't be necessary anymore
+	Dict					spawnArgs;				// spawn args used during entity spawning  FIXME: shouldn't be necessary anymore
 	
 	pvsHandle_t				playerPVS;				// merged pvs of all players
 	pvsHandle_t				playerConnectedAreas;	// all areas connected to any player area
 	
-	budVec3					gravity;				// global gravity vector
+	Vector3					gravity;				// global gravity vector
 	gameState_t				gamestate;				// keeps track of whether we're spawning, shutting down, or normal gameplay
 	bool					influenceActive;		// true when a phantasm is happening
 	int						nextGibTime;
@@ -689,7 +689,7 @@ private:
 	
 	netInterpolationInfo_t	netInterpolationInfo;
 	
-	idDict					newInfo;
+	Dict					newInfo;
 	
 	budArray< int, MAX_PLAYERS >	usercmdLastClientMilliseconds;	// The latest client time the server has run.
 	budArray< int, MAX_PLAYERS >	lastCmdRunTimeOnClient;
@@ -697,7 +697,7 @@ private:
 	
 	void					Clear();
 	// returns true if the entity shouldn't be spawned at all in this game type or difficulty level
-	bool					InhibitEntitySpawn( idDict& spawnArgs );
+	bool					InhibitEntitySpawn( Dict& spawnArgs );
 	// spawn entities from the map file
 	void					SpawnMapEntities();
 	// commons used by init, shutdown, and restart
@@ -868,7 +868,7 @@ typedef enum
 
 const float DEFAULT_GRAVITY			= 1066.0f;
 #define DEFAULT_GRAVITY_STRING		"1066"
-const budVec3 DEFAULT_GRAVITY_VEC3( 0, 0, -DEFAULT_GRAVITY );
+const Vector3 DEFAULT_GRAVITY_VEC3( 0, 0, -DEFAULT_GRAVITY );
 
 const int	CINEMATIC_SKIP_DELAY	= SEC2MS( 2.0f );
 

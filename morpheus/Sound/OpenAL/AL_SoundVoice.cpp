@@ -30,8 +30,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../snd_local.h"
 
-budCVar s_skipHardwareSets( "s_skipHardwareSets", "0", CVAR_BOOL, "Do all calculation, but skip XA2 calls" );
-budCVar s_debugHardware( "s_debugHardware", "0", CVAR_BOOL, "Print a message any time a hardware voice changes" );
+CVar s_skipHardwareSets( "s_skipHardwareSets", "0", CVAR_BOOL, "Do all calculation, but skip XA2 calls" );
+CVar s_debugHardware( "s_debugHardware", "0", CVAR_BOOL, "Print a message any time a hardware voice changes" );
 
 // The whole system runs at this sample rate
 static int SYSTEM_SAMPLE_RATE = 44100;
@@ -431,7 +431,7 @@ int idSoundVoice_OpenAL::SubmitBuffer( idSoundSample_OpenAL* sample, int bufferN
 				else if( alignedInputSamples[i] > 32767.0f )
 					( ( short* )alignedInputSamples )[i] = 32767;
 				else
-					( ( short* )alignedInputSamples )[i] = budMath::FtoiFast( alignedInputSamples[i] );
+					( ( short* )alignedInputSamples )[i] = Math::FtoiFast( alignedInputSamples[i] );
 			}
 			*/
 			
@@ -517,7 +517,7 @@ bool idSoundVoice_OpenAL::Update()
 	
 	pSourceVoice->SetOutputMatrix( soundSystemLocal.hardware.pMasterVoice, srcChannels, dstChannels, pLevelMatrix, OPERATION_SET );
 	
-	assert( budMath::Fabs( gain ) <= XAUDIO2_MAX_VOLUME_LEVEL );
+	assert( Math::Fabs( gain ) <= XAUDIO2_MAX_VOLUME_LEVEL );
 	pSourceVoice->SetVolume( gain, OPERATION_SET );
 	
 	SetSampleRate( sampleRate, OPERATION_SET );
@@ -710,16 +710,16 @@ void idSoundVoice_OpenAL::SetSampleRate( uint32 newSampleRate, uint32 operationS
 	}
 	else
 	{
-		filter.Frequency = 2.0f * budMath::Sin( budMath::PI * cutoffFrequency / ( float )sampleRate );
+		filter.Frequency = 2.0f * Math::Sin( Math::PI * cutoffFrequency / ( float )sampleRate );
 	}
 	assert( filter.Frequency >= 0.0f && filter.Frequency <= XAUDIO2_MAX_FILTER_FREQUENCY );
-	filter.Frequency = budMath::ClampFloat( 0.0f, XAUDIO2_MAX_FILTER_FREQUENCY, filter.Frequency );
+	filter.Frequency = Math::ClampFloat( 0.0f, XAUDIO2_MAX_FILTER_FREQUENCY, filter.Frequency );
 	
 	pSourceVoice->SetFilterParameters( &filter, operationSet );
 	
 	float freqRatio = pitch * ( float )sampleRate / ( float )sourceVoiceRate;
 	assert( freqRatio >= XAUDIO2_MIN_FREQ_RATIO && freqRatio <= XAUDIO2_MAX_FREQ_RATIO );
-	freqRatio = budMath::ClampFloat( XAUDIO2_MIN_FREQ_RATIO, XAUDIO2_MAX_FREQ_RATIO, freqRatio );
+	freqRatio = Math::ClampFloat( XAUDIO2_MIN_FREQ_RATIO, XAUDIO2_MAX_FREQ_RATIO, freqRatio );
 	
 	// if the value specified for maxFreqRatio is too high for the specified format, the call to CreateSourceVoice will fail
 	if( numChannels == 1 )

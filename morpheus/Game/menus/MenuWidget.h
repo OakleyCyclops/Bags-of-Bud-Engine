@@ -188,17 +188,17 @@ struct scoreboardInfo_t
 	{
 	}
 	
-	budList< budStr, TAG_LIBBUD_LIST_MENU> values;
+	List< String, TAG_LIBBUD_LIST_MENU> values;
 	int						index;
 	voiceStateDisplay_t		voiceState;
 };
 
 /*
 ================================================
-budSort_SavesByDate
+Sort_SavesByDate
 ================================================
 */
-class budSort_SavesByDate : public budSort_Quick< idSaveGameDetails, budSort_SavesByDate >
+class Sort_SavesByDate : public SortQuick< idSaveGameDetails, Sort_SavesByDate >
 {
 public:
 	int Compare( const idSaveGameDetails& a, const idSaveGameDetails& b ) const
@@ -390,7 +390,7 @@ private:
 	budSWFScriptFunction* 	scriptFunction;
 };
 
-typedef budList< idMenuWidget*, TAG_LIBBUD_LIST_MENU > idMenuWidgetList;
+typedef List< idMenuWidget*, TAG_LIBBUD_LIST_MENU > idMenuWidgetList;
 
 /*
 ================================================
@@ -478,8 +478,8 @@ public:
 	void								ClearSprite();
 	
 	void								SetSpritePath( const char* arg1, const char* arg2 = NULL, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL );
-	void								SetSpritePath( const budList< budStr >& spritePath_, const char* arg1 = NULL, const char* arg2 = NULL, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL );
-	budList< budStr, TAG_LIBBUD_LIST_MENU >& 					GetSpritePath()
+	void								SetSpritePath( const List< String >& spritePath_, const char* arg1 = NULL, const char* arg2 = NULL, const char* arg3 = NULL, const char* arg4 = NULL, const char* arg5 = NULL );
+	List< String, TAG_LIBBUD_LIST_MENU >& 					GetSpritePath()
 	{
 		return spritePath;
 	}
@@ -517,7 +517,7 @@ public:
 	// returns the list of actions for a given event, or NULL if no actions are registered for
 	// that event.  Events should not be directly added to the returned list.  Instead use
 	// AddEventAction for adding new events.
-	budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >* 			GetEventActions( const widgetEvent_t eventType );
+	List< idWidgetAction, TAG_LIBBUD_LIST_MENU >* 			GetEventActions( const widgetEvent_t eventType );
 	
 	// allocates an action for the given event
 	idWidgetAction& 					AddEventAction( const widgetEvent_t eventType );
@@ -612,12 +612,12 @@ protected:
 	budSWF* 								swfObj;
 	budSWFSpriteInstance* 				boundSprite;
 	idMenuWidget* 						parent;
-	budList< budStr, TAG_LIBBUD_LIST_MENU >						spritePath;
+	List< String, TAG_LIBBUD_LIST_MENU >						spritePath;
 	idMenuWidgetList											children;
 	idMenuWidgetList											observers;
 	
 	static const int INVALID_ACTION_INDEX = -1;
-	budList< budList< idWidgetAction, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		eventActions;
+	List< List< idWidgetAction, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		eventActions;
 	budStaticList< int, MAX_WIDGET_EVENT >	eventActionLookup;
 	
 	idMenuDataSource* 					dataSource;
@@ -665,16 +665,16 @@ public:
 	//---------------
 	// Model
 	//---------------
-	void					SetLabel( const budStr& label )
+	void					SetLabel( const String& label )
 	{
 		btnLabel = label;
 	}
-	const budStr& 			GetLabel() const
+	const String& 			GetLabel() const
 	{
 		return btnLabel;
 	}
-	void					SetValues( budList< budStr >& list );
-	const budStr& 			GetValue( int index ) const;
+	void					SetValues( List< String >& list );
+	const String& 			GetValue( int index ) const;
 	void					SetImg( const budMaterial* val )
 	{
 		img = val;
@@ -687,7 +687,7 @@ public:
 	{
 		description = desc_;
 	}
-	const budStr& 			GetDescription() const
+	const String& 			GetDescription() const
 	{
 		return description;
 	}
@@ -714,9 +714,9 @@ protected:
 	void					SetupTransitionInfo( widgetTransition_t& trans, const widgetState_t buttonState, const animState_t sourceAnimState, const animState_t destAnimState ) const;
 	void					AnimateToState( const animState_t targetState, const bool force = false );
 	
-	budList< budStr, TAG_LIBBUD_LIST_MENU >			values;
-	budStr					btnLabel;
-	budStr					description;
+	List< String, TAG_LIBBUD_LIST_MENU >			values;
+	String					btnLabel;
+	String					description;
 	animState_t				animState;
 	const budMaterial* 		img;
 	budSWFScriptFunction* 	scriptFunction;
@@ -737,14 +737,14 @@ public:
 	}
 	
 	virtual void			Update();
-	void					SetButtonInfo( budStr name_, voiceStateDisplay_t voiceState_ );
+	void					SetButtonInfo( String name_, voiceStateDisplay_t voiceState_ );
 	bool					IsValid()
 	{
 		return !name.IsEmpty();
 	}
 	
 protected:
-	budStr					name;
+	String					name;
 	voiceStateDisplay_t		voiceState;
 };
 
@@ -763,7 +763,7 @@ public:
 	}
 	
 	virtual void			Update();
-	void					SetButtonInfo( int index_, budList< budStr >& list, voiceStateDisplay_t voiceState_ );
+	void					SetButtonInfo( int index_, List< String >& list, voiceStateDisplay_t voiceState_ );
 	
 protected:
 	voiceStateDisplay_t		voiceState;
@@ -823,7 +823,7 @@ public:
 	}
 	
 	virtual void			Update();
-	void					SetButtonInfo( budStr name_, budStrId mapName_, budStr modeName_, int index_ = 0, int players_ = 0, int maxPlayers_ = 0, bool joinable_ = false, bool validMap_ = false );
+	void					SetButtonInfo( String name_, StringId mapName_, String modeName_, int index_ = 0, int players_ = 0, int maxPlayers_ = 0, bool joinable_ = false, bool validMap_ = false );
 	bool					IsValid()
 	{
 		return !serverName.IsEmpty();
@@ -834,14 +834,14 @@ public:
 	}
 	
 protected:
-	budStr					serverName;
+	String					serverName;
 	int						index;
 	int						players;
 	int						maxPlayers;
 	bool					joinable;
 	bool					validMap;
-	budStrId					mapName;
-	budStr					modeName;
+	StringId					mapName;
+	String					modeName;
 };
 
 /*
@@ -995,14 +995,14 @@ private:
 class idBrowserEntry_t
 {
 public:
-	budStr serverName;
+	String serverName;
 	int	index;
 	int players;
 	int maxPlayers;
 	bool joinable;
 	bool validMap;
-	budStrId mapName;
-	budStr modeName;
+	StringId mapName;
+	String modeName;
 };
 
 /*
@@ -1017,10 +1017,10 @@ public:
 	virtual bool				PrepareListElement( idMenuWidget& widget, const int childIndex );
 	virtual int					GetTotalNumberOfOptions() const;
 	void						ClearGames();
-	void						AddGame( budStr name_, budStrId mapName_, budStr modeName_, int index_ = 0, int players_ = 0, int maxPlayers_ = 0, bool joinable_ = false, bool validMap_ = false );
+	void						AddGame( String name_, StringId mapName_, String modeName_, int index_ = 0, int players_ = 0, int maxPlayers_ = 0, bool joinable_ = false, bool validMap_ = false );
 	int							GetServerIndex();
 private:
-	budList< idBrowserEntry_t >	games;
+	List< idBrowserEntry_t >	games;
 };
 
 /*
@@ -1083,7 +1083,7 @@ public:
 	{
 		return viewIndex;
 	}
-	void						SetListImages( budList<const budMaterial*>& list );
+	void						SetListImages( List<const budMaterial*>& list );
 	void						SetMoveDiff( int val )
 	{
 		moveDiff = val;
@@ -1105,7 +1105,7 @@ private:
 	int							moveDiff;
 	bool						fastScroll;
 	bool						scrollLeft;
-	budList<const budMaterial*>	imgList;
+	List<const budMaterial*>	imgList;
 	
 };
 
@@ -1123,8 +1123,8 @@ public:
 	virtual void ObserveEvent( const idMenuWidget& widget, const idWidgetEvent& event );
 	
 private:
-	budStr		lastFocusedMessage;		// message from last widget that had focus
-	budStr		lastHoveredMessage;		// message from last widget that was hovered over
+	String		lastFocusedMessage;		// message from last widget that had focus
+	String		lastHoveredMessage;		// message from last widget that was hovered over
 	bool		hideMessage;
 };
 
@@ -1155,7 +1155,7 @@ public:
 	
 	struct buttonInfo_t
 	{
-		budStr			label;			// empty labels are treated as hidden buttons
+		String			label;			// empty labels are treated as hidden buttons
 		idWidgetAction	action;
 	};
 	
@@ -1208,8 +1208,8 @@ public:
 	{
 		return numEntries;
 	}
-	void						SetEntryData( int index, budStr name, voiceStateDisplay_t voiceState );
-	void						SetHeadingInfo( budList< budStr >& list );
+	void						SetEntryData( int index, String name, voiceStateDisplay_t voiceState );
+	void						SetHeadingInfo( List< String >& list );
 	void						SetNumEntries( int num )
 	{
 		numEntries = num;
@@ -1220,7 +1220,7 @@ public:
 	}
 	void						SetRefreshFunction( const char* func );
 private:
-	budList< budStr, TAG_LIBBUD_LIST_MENU >	headings;
+	List< String, TAG_LIBBUD_LIST_MENU >	headings;
 	int							numEntries;
 };
 
@@ -1245,7 +1245,7 @@ public:
 	virtual bool				PrepareListElement( idMenuWidget& widget, const int childIndex );
 	
 	virtual void				Recalculate();
-	virtual void				SetListData( budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >& list );
+	virtual void				SetListData( List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >& list );
 	
 	void						SetControlList( bool val )
 	{
@@ -1257,7 +1257,7 @@ public:
 	}
 	
 protected:
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >	listItemInfo;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >	listItemInfo;
 	bool						controlList;
 	bool						ignoreColor;
 };
@@ -1307,12 +1307,12 @@ public:
 		selectedSpacer = sSpace;
 	}
 	virtual bool				PrepareListElement( idMenuWidget& widget, const int navIndex );
-	virtual void				SetListHeadings( budList< budStr >& list );
+	virtual void				SetListHeadings( List< String >& list );
 	virtual int					GetTotalNumberOfOptions() const;
 	
 private:
 
-	budList< budStr, TAG_LIBBUD_LIST_MENU >		headings;
+	List< String, TAG_LIBBUD_LIST_MENU >		headings;
 	float				initialPos;
 	float				buttonPos;
 	float				leftSpacer;
@@ -1346,12 +1346,12 @@ public:
 		rightSpacer = rSpace;
 	}
 	virtual bool				PrepareListElement( idMenuWidget& widget, const int navIndex );
-	virtual void				SetListHeadings( budList< budStr >& list );
+	virtual void				SetListHeadings( List< String >& list );
 	virtual int					GetTotalNumberOfOptions() const;
 	
 private:
 
-	budList< budStr, TAG_LIBBUD_LIST_MENU >				headings;
+	List< String, TAG_LIBBUD_LIST_MENU >				headings;
 	float						totalWidth;
 	float						buttonPos;
 	float						rightSpacer;
@@ -1423,11 +1423,11 @@ public:
 	virtual void	Update();
 	virtual bool	HandleAction( idWidgetAction& action, const idWidgetEvent& event, idMenuWidget* widget, bool forceHandled = false );
 	virtual void	ObserveEvent( const idMenuWidget& widget, const idWidgetEvent& event );
-	void			SetHeading( budStr val )
+	void			SetHeading( String val )
 	{
 		heading = val;
 	}
-	void			SetBody( budStr val )
+	void			SetBody( String val )
 	{
 		info = val;
 	}
@@ -1439,8 +1439,8 @@ public:
 	void			SetScrollbar( idMenuWidget_ScrollBar* bar );
 private:
 	idMenuWidget_ScrollBar* 	scrollbar;
-	budStr						heading;
-	budStr						info;
+	String						heading;
+	String						info;
 };
 
 /*
@@ -1504,7 +1504,7 @@ public:
 	virtual void	ObserveEvent( const idMenuWidget& widget, const idWidgetEvent& event );
 private:
 	int								pdaIndex;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		audioFileNames;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		audioFileNames;
 };
 
 /*
@@ -1537,7 +1537,7 @@ private:
 	idMenuWidget_DynamicList* 		emailList;
 	idMenuWidget_ScrollBar* 		scrollbar;
 	int								pdaIndex;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		emailInfo;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		emailInfo;
 };
 
 /*

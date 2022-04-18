@@ -42,7 +42,7 @@ public:
 	idSoundVoice_OpenAL();
 	~idSoundVoice_OpenAL();
 	
-	void					SetPosition( const budVec3& p )
+	void					SetPosition( const Vector3& p )
 	{
 		idSoundVoice_Base::SetPosition( p );
 		

@@ -92,8 +92,8 @@ A camera which follows a path defined by an animation.
 
 typedef struct
 {
-	idCQuat				q;
-	budVec3				t;
+	CMPQuat				q;
+	Vector3				t;
 	float				fov;
 } cameraFrame_t;
 
@@ -114,12 +114,12 @@ public:
 	
 private:
 	int						threadNum;
-	budVec3					offset;
+	Vector3					offset;
 	int						frameRate;
 	int						starttime;
 	int						cycle;
-	budList<int>				cameraCuts;
-	budList<cameraFrame_t>	camera;
+	List<int>				cameraCuts;
+	List<cameraFrame_t>	camera;
 	idEntityPtr<idEntity>	activator;
 	
 	void					Start();

@@ -75,8 +75,8 @@ public:
 	// repaints the cursor
 	virtual void				DrawCursor() = 0;
 	
-	// Provides read access to the idDict that holds this gui's state.
-	virtual const idDict& 		State() const = 0;
+	// Provides read access to the Dict that holds this gui's state.
+	virtual const Dict& 		State() const = 0;
 	
 	// Removes a gui state variable
 	virtual void				DeleteStateVar( const char* varName ) = 0;
@@ -93,7 +93,7 @@ public:
 	virtual int					GetStateInt( const char* varName, const char* defaultString = "0" ) const = 0;
 	virtual float				GetStateFloat( const char* varName, const char* defaultString = "0" ) const = 0;
 	
-	// The state has changed and the gui needs to update from the state idDict.
+	// The state has changed and the gui needs to update from the state Dict.
 	virtual void				StateChanged( int time, bool redraw = false ) = 0;
 	
 	// Activated the gui.
@@ -158,10 +158,10 @@ public:
 	virtual budUserInterface* 	FindDemoGui( const char* qpath ) = 0;
 	
 	// Allocates a new GUI list handler
-	virtual	budListGUI* 			AllocListGUI() const = 0;
+	virtual	ListGUI* 			AllocListGUI() const = 0;
 	
 	// De-allocates a list gui
-	virtual void				FreeListGUI( budListGUI* listgui ) = 0;
+	virtual void				FreeListGUI( ListGUI* listgui ) = 0;
 };
 
 extern budUserInterfaceManager* 	uiManager;

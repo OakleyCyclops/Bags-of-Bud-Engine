@@ -94,20 +94,20 @@ struct gfxImpParms_t
 
 struct debugLine_t
 {
-	budVec4		rgb;
-	budVec3		start;
-	budVec3		end;
+	Vector4		rgb;
+	Vector3		start;
+	Vector3		end;
 	bool		depthTest;
 	int			lifeTime;
 };
 
 struct debugText_t
 {
-	budStr		text;
-	budVec3		origin;
+	String		text;
+	Vector3		origin;
 	float		scale;
-	budVec4		color;
-	budMat3		viewAxis;
+	Vector4		color;
+	Matrix3		viewAxis;
 	int			align;
 	int			lifeTime;
 	bool		depthTest;
@@ -115,7 +115,7 @@ struct debugText_t
 
 struct debugPolygon_t
 {
-	budVec4		rgb;
+	Vector4		rgb;
 	idWinding	winding;
 	bool		depthTest;
 	int			lifeTime;
@@ -201,7 +201,7 @@ private:
 	void				FogAllLights();
 	
 	void				SetupInteractionStage( const shaderStage_t* surfaceStage, const float* surfaceRegs, const float lightColor[4],
-			budVec4 matrix[2], float color[4] );
+			Vector4 matrix[2], float color[4] );
 			
 	void				DrawInteractions( const viewDef_t* _viewDef );
 	void				DrawSingleInteraction( drawInteraction_t* din );
@@ -286,12 +286,12 @@ private:
 		GL_Color( r, g, b, 1.0f );
 	}
 	
-	BUD_INLINE void		GL_Color( const budVec3& color )
+	BUD_INLINE void		GL_Color( const Vector3& color )
 	{
 		GL_Color( color[0], color[1], color[2], 1.0f );
 	}
 	
-	BUD_INLINE void		GL_Color( const budVec4& color )
+	BUD_INLINE void		GL_Color( const Vector4& color )
 	{
 		GL_Color( color[0], color[1], color[2], color[3] );
 	}

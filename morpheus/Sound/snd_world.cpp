@@ -32,19 +32,19 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "snd_local.h"
 
-budCVar s_lockListener( "s_lockListener", "0", CVAR_BOOL, "lock listener updates" );
-budCVar s_constantAmplitude( "s_constantAmplitude", "-1", CVAR_FLOAT, "" );
-budCVar s_maxEmitterChannels( "s_maxEmitterChannels", "48", CVAR_INTEGER, "Can be set lower than the absolute max of MAX_HARDWARE_VOICES" );
-budCVar s_cushionFadeChannels( "s_cushionFadeChannels", "2", CVAR_INTEGER, "Ramp currentCushionDB so this many emitter channels should be silent" );
-budCVar s_cushionFadeRate( "s_cushionFadeRate", "60", CVAR_FLOAT, "DB / second change to currentCushionDB" );
-budCVar s_cushionFadeLimit( "s_cushionFadeLimit", "-30", CVAR_FLOAT, "Never cushion fade beyond this level" );
-budCVar s_cushionFadeOver( "s_cushionFadeOver", "10", CVAR_FLOAT, "DB above s_cushionFadeLimit to start ramp to silence" );
-budCVar s_unpauseFadeInTime( "s_unpauseFadeInTime", "250", CVAR_INTEGER, "When unpausing a sound world, milliseconds to fade sounds in over" );
-budCVar s_doorDistanceAdd( "s_doorDistanceAdd", "150", CVAR_FLOAT, "reduce sound volume with this distance when going through a door" );
-budCVar s_drawSounds( "s_drawSounds", "0", CVAR_INTEGER, "", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
-budCVar s_showVoices( "s_showVoices", "0", CVAR_BOOL, "show active voices" );
-budCVar s_volume_dB( "s_volume_dB", "0", CVAR_ARCHIVE | CVAR_FLOAT, "volume in dB" );
-extern budCVar s_noSound;
+CVar s_lockListener( "s_lockListener", "0", CVAR_BOOL, "lock listener updates" );
+CVar s_constantAmplitude( "s_constantAmplitude", "-1", CVAR_FLOAT, "" );
+CVar s_maxEmitterChannels( "s_maxEmitterChannels", "48", CVAR_INTEGER, "Can be set lower than the absolute max of MAX_HARDWARE_VOICES" );
+CVar s_cushionFadeChannels( "s_cushionFadeChannels", "2", CVAR_INTEGER, "Ramp currentCushionDB so this many emitter channels should be silent" );
+CVar s_cushionFadeRate( "s_cushionFadeRate", "60", CVAR_FLOAT, "DB / second change to currentCushionDB" );
+CVar s_cushionFadeLimit( "s_cushionFadeLimit", "-30", CVAR_FLOAT, "Never cushion fade beyond this level" );
+CVar s_cushionFadeOver( "s_cushionFadeOver", "10", CVAR_FLOAT, "DB above s_cushionFadeLimit to start ramp to silence" );
+CVar s_unpauseFadeInTime( "s_unpauseFadeInTime", "250", CVAR_INTEGER, "When unpausing a sound world, milliseconds to fade sounds in over" );
+CVar s_doorDistanceAdd( "s_doorDistanceAdd", "150", CVAR_FLOAT, "reduce sound volume with this distance when going through a door" );
+CVar s_drawSounds( "s_drawSounds", "0", CVAR_INTEGER, "", 0, 2, CmdSystem::ArgCompletion_Integer<0, 2> );
+CVar s_showVoices( "s_showVoices", "0", CVAR_BOOL, "show active voices" );
+CVar s_volume_dB( "s_volume_dB", "0", CVAR_ARCHIVE | CVAR_FLOAT, "volume in dB" );
+extern CVar s_noSound;
 
 extern void WriteDeclCache( budDemoFile* f, int demoCategory, int demoCode, declType_t  declType );
 
@@ -166,7 +166,7 @@ float budSoundWorldLocal::CurrentShakeAmplitude()
 budSoundWorldLocal::PlaceListener
 ========================
 */
-void budSoundWorldLocal::PlaceListener( const budVec3& origin, const budMat3& axis, const int id )
+void budSoundWorldLocal::PlaceListener( const Vector3& origin, const Matrix3& axis, const int id )
 {
 	if( writeDemo )
 	{
@@ -393,7 +393,7 @@ void budSoundWorldLocal::Update()
 			
 			// Calculate the sort key.
 			// VO can't be stopped and restarted accurately, so always keep VO channels by adding a large value to the sort key.
-			const int sortKey = budMath::Ftoi( channel->volumeDB * 100.0f + ( canMute ? 0.0f : 100000.0f ) );
+			const int sortKey = Math::Ftoi( channel->volumeDB * 100.0f + ( canMute ? 0.0f : 100000.0f ) );
 			
 			// Keep track of the total number of hardware channels.
 			// This is done after calculating the sort key to avoid a load-hit-store that
@@ -460,7 +460,7 @@ void budSoundWorldLocal::Update()
 	// ------------------
 	shakeAmp = 0.0f;
 	
-	budStr showVoiceTable;
+	String showVoiceTable;
 	bool showVoices = s_showVoices.GetBool();
 	if( showVoices )
 	{
@@ -475,7 +475,7 @@ void budSoundWorldLocal::Update()
 		
 		if( showVoices )
 		{
-			budStr voiceLine;
+			String voiceLine;
 			voiceLine.Format( "%5.1f db [%3i:%2i] %s", chan->volumeDB, chan->emitter->index, chan->logicalChannel, chan->CanMute() ? "" : " <CANT MUTE>\n" );
 			idSoundSample* leadinSample = chan->leadinSample;
 			idSoundSample* loopingSample = chan->loopingSample;
@@ -532,20 +532,20 @@ void budSoundWorldLocal::Update()
 			
 			budBounds ref;
 			ref.Clear();
-			ref.AddPoint( budVec3( -10.0f ) );
-			ref.AddPoint( budVec3( 10.0f ) );
+			ref.AddPoint( Vector3( -10.0f ) );
+			ref.AddPoint( Vector3( 10.0f ) );
 			
 			// draw a box
-			renderWorld->DebugBounds( budVec4( maxGain, maxGain, 1.0f, 1.0f ), ref, emitter->origin, lifetime );
+			renderWorld->DebugBounds( Vector4( maxGain, maxGain, 1.0f, 1.0f ), ref, emitter->origin, lifetime );
 			if( emitter->origin != emitter->spatializedOrigin )
 			{
-				renderWorld->DebugLine( budVec4( 1.0f, 0.0f, 0.0f, 1.0f ), emitter->origin, emitter->spatializedOrigin, lifetime );
+				renderWorld->DebugLine( Vector4( 1.0f, 0.0f, 0.0f, 1.0f ), emitter->origin, emitter->spatializedOrigin, lifetime );
 			}
 			
 			// draw the index
-			budVec3 textPos = emitter->origin;
+			Vector3 textPos = emitter->origin;
 			textPos.z -= 8;
-			renderWorld->DrawText( va( "%i", e ), textPos, 0.1f, budVec4( 1, 0, 0, 1 ), listener.axis, 1, lifetime );
+			renderWorld->DrawText( va( "%i", e ), textPos, 0.1f, Vector4( 1, 0, 0, 1 ), listener.axis, 1, lifetime );
 			textPos.z += 8;
 			
 			// run through all the channels
@@ -555,9 +555,9 @@ void budSoundWorldLocal::Update()
 				float	min = chan->parms.minDistance;
 				float	max = chan->parms.maxDistance;
 				const char* defaulted = chan->leadinSample->IsDefault() ? " *DEFAULTED*" : "";
-				budStr text;
-				text.Format( "%s (%i %i/%i)%s", chan->soundShader->GetName(), budMath::Ftoi( emitter->spatializedDistance ), budMath::Ftoi( min ), budMath::Ftoi( max ), defaulted );
-				renderWorld->DrawText( text, textPos, 0.1f, budVec4( 1, 0, 0, 1 ), listener.axis, 1, lifetime );
+				String text;
+				text.Format( "%s (%i %i/%i)%s", chan->soundShader->GetName(), Math::Ftoi( emitter->spatializedDistance ), Math::Ftoi( min ), Math::Ftoi( max ), defaulted );
+				renderWorld->DrawText( text, textPos, 0.1f, Vector4( 1, 0, 0, 1 ), listener.axis, 1, lifetime );
 				textPos.z += 8;
 			}
 		}
@@ -753,7 +753,7 @@ set at maxDistance
 */
 static const int MAX_PORTAL_TRACE_DEPTH = 10;
 
-void budSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTrace_t* prevStack, const int soundArea, const float dist, const budVec3& soundOrigin, idSoundEmitterLocal* def )
+void budSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTrace_t* prevStack, const int soundArea, const float dist, const Vector3& soundOrigin, idSoundEmitterLocal* def )
 {
 
 	if( dist >= def->spatializedDistance )
@@ -820,13 +820,13 @@ void budSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalT
 		}
 		
 		// pick a point on the portal to serve as our virtual sound origin
-		budVec3	source;
+		Vector3	source;
 		
 		budPlane	pl;
 		re.w->GetPlane( pl );
 		
 		float	scale;
-		budVec3	dir = listener.pos - soundOrigin;
+		Vector3	dir = listener.pos - soundOrigin;
 		if( !pl.RayIntersection( soundOrigin, dir, scale ) )
 		{
 			source = re.w->GetCenter();
@@ -839,12 +839,12 @@ void budSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalT
 			for( int i = 0 ; i < re.w->GetNumPoints() ; i++ )
 			{
 				int j = ( i + 1 ) % re.w->GetNumPoints();
-				budVec3	edgeDir = ( *( re.w ) )[j].ToVec3() - ( *( re.w ) )[i].ToVec3();
-				budVec3	edgeNormal;
+				Vector3	edgeDir = ( *( re.w ) )[j].ToVec3() - ( *( re.w ) )[i].ToVec3();
+				Vector3	edgeNormal;
 				
 				edgeNormal.Cross( pl.Normal(), edgeDir );
 				
-				budVec3	fromVert = source - ( *( re.w ) )[j].ToVec3();
+				Vector3	fromVert = source - ( *( re.w ) )[j].ToVec3();
 				
 				float d = edgeNormal * fromVert;
 				if( d > 0 )
@@ -858,7 +858,7 @@ void budSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalT
 			}
 		}
 		
-		budVec3 tlen = source - soundOrigin;
+		Vector3 tlen = source - soundOrigin;
 		float tlenLength = tlen.LengthFast();
 		
 		ResolveOrigin( stackDepth + 1, &newStack, otherArea, dist + tlenLength + occlusionDistance, source, def );
@@ -933,8 +933,8 @@ void budSoundWorldLocal::ProcessDemoCommand( budDemoFile* readDemo )
 			break;
 		case SCMD_PLACE_LISTENER:
 		{
-			budVec3	origin;
-			budMat3	axis;
+			Vector3	origin;
+			Matrix3	axis;
 			int		listenerId;
 			
 			readDemo->ReadVec3( origin );
@@ -966,7 +966,7 @@ void budSoundWorldLocal::ProcessDemoCommand( budDemoFile* readDemo )
 		break;
 		case SCMD_UPDATE:
 		{
-			budVec3 origin;
+			Vector3 origin;
 			int listenerId;
 			soundShaderParms_t parms;
 			
@@ -1191,7 +1191,7 @@ void budSoundWorldLocal::ReadFromSaveGame( budFile* savefile )
 	int numEmitters = 0;
 	savefile->ReadInt( numEmitters );
 	ClearAllSoundEmitters();
-	budStr shaderName;
+	String shaderName;
 	// Start at 1 because the local sound emitter is not saved
 	for( int e = 1; e < numEmitters; e++ )
 	{

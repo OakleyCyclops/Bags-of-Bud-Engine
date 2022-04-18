@@ -286,7 +286,7 @@ void BOBrick::ReadFromSaveGame( budFile* savefile, budGameBustOutWindow* game )
 BOBrick::SetColor
 ======================
 */
-void BOBrick::SetColor( budVec4 bcolor )
+void BOBrick::SetColor( Vector4 bcolor )
 {
 	ent->SetColor( bcolor.x, bcolor.y, bcolor.z, bcolor.w );
 }
@@ -296,9 +296,9 @@ void BOBrick::SetColor( budVec4 bcolor )
 BOBrick::checkCollision
 ======================
 */
-collideDir_t BOBrick::checkCollision( budVec2 pos, budVec2 vel )
+collideDir_t BOBrick::checkCollision( Vector2 pos, Vector2 vel )
 {
-	budVec2	ptA, ptB;
+	Vector2	ptA, ptB;
 	float	dist;
 	
 	collideDir_t	result = COLLIDE_NONE;
@@ -309,7 +309,7 @@ collideDir_t BOBrick::checkCollision( budVec2 pos, budVec2 vel )
 	}
 	
 	// Check for collision with each edge
-	budVec2 vec;
+	Vector2 vec;
 	
 	// Bottom
 	ptA.x = x;
@@ -340,7 +340,7 @@ collideDir_t BOBrick::checkCollision( budVec2 pos, budVec2 vel )
 				vec = pos - ptB;
 			}
 			
-			if( ( budMath::Fabs( vec.y ) > budMath::Fabs( vec.x ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
+			if( ( Math::Fabs( vec.y ) > Math::Fabs( vec.x ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
 			{
 				result = COLLIDE_DOWN;
 			}
@@ -375,7 +375,7 @@ collideDir_t BOBrick::checkCollision( budVec2 pos, budVec2 vel )
 					vec = pos - ptB;
 				}
 				
-				if( ( budMath::Fabs( vec.y ) > budMath::Fabs( vec.x ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
+				if( ( Math::Fabs( vec.y ) > Math::Fabs( vec.x ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
 				{
 					result = COLLIDE_UP;
 				}
@@ -413,7 +413,7 @@ collideDir_t BOBrick::checkCollision( budVec2 pos, budVec2 vel )
 						vec = pos - ptB;
 					}
 					
-					if( ( budMath::Fabs( vec.x ) >= budMath::Fabs( vec.y ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
+					if( ( Math::Fabs( vec.x ) >= Math::Fabs( vec.y ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
 					{
 						result = COLLIDE_LEFT;
 					}
@@ -448,7 +448,7 @@ collideDir_t BOBrick::checkCollision( budVec2 pos, budVec2 vel )
 							vec = pos - ptB;
 						}
 						
-						if( ( budMath::Fabs( vec.x ) >= budMath::Fabs( vec.y ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
+						if( ( Math::Fabs( vec.x ) >= Math::Fabs( vec.y ) ) && ( vec.LengthFast() < BALL_RADIUS ) )
 						{
 							result = COLLIDE_LEFT;
 						}
@@ -766,32 +766,32 @@ budGameBustOutWindow::ParseInternalVar
 */
 bool budGameBustOutWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "gamerunning" ) == 0 )
+	if( String::Icmp( _name, "gamerunning" ) == 0 )
 	{
 		gamerunning = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onFire" ) == 0 )
+	if( String::Icmp( _name, "onFire" ) == 0 )
 	{
 		onFire = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onContinue" ) == 0 )
+	if( String::Icmp( _name, "onContinue" ) == 0 )
 	{
 		onContinue = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onNewGame" ) == 0 )
+	if( String::Icmp( _name, "onNewGame" ) == 0 )
 	{
 		onNewGame = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onNewLevel" ) == 0 )
+	if( String::Icmp( _name, "onNewLevel" ) == 0 )
 	{
 		onNewLevel = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "numLevels" ) == 0 )
+	if( String::Icmp( _name, "numLevels" ) == 0 )
 	{
 		numLevels = src->ParseInt();
 		
@@ -812,23 +812,23 @@ idWinVar* budGameBustOutWindow::GetWinVarByName( const char* _name, bool winLook
 {
 	idWinVar* retVar = NULL;
 	
-	if( budStr::Icmp( _name, "gamerunning" ) == 0 )
+	if( String::Icmp( _name, "gamerunning" ) == 0 )
 	{
 		retVar = &gamerunning;
 	}
-	else 	if( budStr::Icmp( _name, "onFire" ) == 0 )
+	else 	if( String::Icmp( _name, "onFire" ) == 0 )
 	{
 		retVar = &onFire;
 	}
-	else 	if( budStr::Icmp( _name, "onContinue" ) == 0 )
+	else 	if( String::Icmp( _name, "onContinue" ) == 0 )
 	{
 		retVar = &onContinue;
 	}
-	else 	if( budStr::Icmp( _name, "onNewGame" ) == 0 )
+	else 	if( String::Icmp( _name, "onNewGame" ) == 0 )
 	{
 		retVar = &onNewGame;
 	}
-	else 	if( budStr::Icmp( _name, "onNewLevel" ) == 0 )
+	else 	if( String::Icmp( _name, "onNewLevel" ) == 0 )
 	{
 		retVar = &onNewLevel;
 	}
@@ -1002,7 +1002,7 @@ void budGameBustOutWindow::LoadBoardFiles()
 	for( i = 0; i < numLevels; i++ )
 	{
 		byte* pic;
-		budStr	name = "guis/assets/bustout/level";
+		String	name = "guis/assets/bustout/level";
 		name += ( i + 1 );
 		name += ".tga";
 		
@@ -1054,7 +1054,7 @@ void budGameBustOutWindow::SetCurrentBoard()
 			
 			if( currentBoard[pixelindex + 3] )
 			{
-				budVec4 bcolor;
+				Vector4 bcolor;
 				float pType = 0.f;
 				
 				BOEntity* bent = new( TAG_OLD_UI ) BOEntity( this );
@@ -1159,7 +1159,7 @@ budGameBustOutWindow::UpdatePowerups
 */
 void budGameBustOutWindow::UpdatePowerups()
 {
-	budVec2 pos;
+	Vector2 pos;
 	
 	for( int i = 0; i < powerUps.Num(); i++ )
 	{
@@ -1232,7 +1232,7 @@ budGameBustOutWindow::UpdatePaddle
 */
 void budGameBustOutWindow::UpdatePaddle()
 {
-	budVec2 cursorPos;
+	Vector2 cursorPos;
 	float  oldPos = paddle->x;
 	
 	cursorPos.x = gui->CursorX();
@@ -1311,14 +1311,14 @@ void budGameBustOutWindow::UpdateBall()
 		}
 		
 		// Check for Paddle collision
-		budVec2 ballCenter = ball->position + budVec2( BALL_RADIUS, BALL_RADIUS );
+		Vector2 ballCenter = ball->position + Vector2( BALL_RADIUS, BALL_RADIUS );
 		collideDir_t collision = paddle->checkCollision( ballCenter, ball->velocity );
 		
 		if( collision == COLLIDE_UP )
 		{
 			if( ball->velocity.y > 0 )
 			{
-				budVec2	paddleVec( paddleVelocity * 2, 0 );
+				Vector2	paddleVec( paddleVelocity * 2, 0 );
 				float	centerX;
 				
 				if( bigPaddleTime > gui->GetTime() )

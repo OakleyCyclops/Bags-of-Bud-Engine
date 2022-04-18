@@ -68,7 +68,7 @@ budBounds						cm_modelBounds;
 int								cm_vertexShift;
 
 
-budCVar preLoad_Collision( "preLoad_Collision", "1", CVAR_SYSTEM | CVAR_BOOL, "preload collision beginlevelload" );
+CVar preLoad_Collision( "preLoad_Collision", "1", CVAR_SYSTEM | CVAR_BOOL, "preload collision beginlevelload" );
 
 /*
 ===============================================================================
@@ -119,7 +119,7 @@ budCollisionModelManagerLocal::LoadProcBSP
 */
 void budCollisionModelManagerLocal::LoadProcBSP( const char* name )
 {
-	budStr filename;
+	String filename;
 	budToken token;
 	budLexer* src;
 	
@@ -533,7 +533,7 @@ void budCollisionModelManagerLocal::CalculateEdgeNormals( cm_model_t* model, cm_
 	cm_edge_t* edge;
 	float dot, s;
 	int i, edgeNum;
-	budVec3 dir;
+	Vector3 dir;
 	
 	while( 1 )
 	{
@@ -986,7 +986,7 @@ Optimisation, removal of polygons contained within brushes or solid
 budCollisionModelManagerLocal::R_ChoppedAwayByProcBSP
 ============
 */
-int budCollisionModelManagerLocal::R_ChoppedAwayByProcBSP( int nodeNum, budFixedWinding* w, const budVec3& normal, const budVec3& origin, const float radius )
+int budCollisionModelManagerLocal::R_ChoppedAwayByProcBSP( int nodeNum, budFixedWinding* w, const Vector3& normal, const Vector3& origin, const float radius )
 {
 	int res;
 	budFixedWinding back;
@@ -1065,7 +1065,7 @@ int budCollisionModelManagerLocal::ChoppedAwayByProcBSP( const budFixedWinding& 
 	budFixedWinding neww;
 	budBounds bounds;
 	float radius;
-	budVec3 origin;
+	Vector3 origin;
 	
 	// if the .proc file has no BSP tree
 	if( procNodes == NULL )
@@ -1354,8 +1354,8 @@ budFixedWinding* budCollisionModelManagerLocal::WindingOutsideBrushes( budFixedW
 	cm_windingList->origin = ( cm_windingList->bounds[1] - cm_windingList->bounds[0] ) * 0.5;
 	cm_windingList->radius = cm_windingList->origin.Length() + CHOP_EPSILON;
 	cm_windingList->origin = cm_windingList->bounds[0] + cm_windingList->origin;
-	cm_windingList->bounds[0] -= budVec3( CHOP_EPSILON, CHOP_EPSILON, CHOP_EPSILON );
-	cm_windingList->bounds[1] += budVec3( CHOP_EPSILON, CHOP_EPSILON, CHOP_EPSILON );
+	cm_windingList->bounds[0] -= Vector3( CHOP_EPSILON, CHOP_EPSILON, CHOP_EPSILON );
+	cm_windingList->bounds[1] += Vector3( CHOP_EPSILON, CHOP_EPSILON, CHOP_EPSILON );
 	
 	cm_windingList->w[0] = *w;
 	cm_windingList->numWindings = 1;
@@ -1495,7 +1495,7 @@ cm_polygon_t* budCollisionModelManagerLocal::TryMergePolygons( cm_model_t* model
 	int edgeNum, edgeNum1, edgeNum2, newEdgeNum1, newEdgeNum2;
 	cm_edge_t* edge;
 	cm_polygon_t* newp;
-	budVec3 delta, normal;
+	Vector3 delta, normal;
 	float dot;
 	bool keep1, keep2;
 	
@@ -1503,13 +1503,13 @@ cm_polygon_t* budCollisionModelManagerLocal::TryMergePolygons( cm_model_t* model
 	{
 		return NULL;
 	}
-	if( budMath::Fabs( p1->plane.Dist() - p2->plane.Dist() ) > NORMAL_EPSILON )
+	if( Math::Fabs( p1->plane.Dist() - p2->plane.Dist() ) > NORMAL_EPSILON )
 	{
 		return NULL;
 	}
 	for( i = 0; i < 3; i++ )
 	{
-		if( budMath::Fabs( p1->plane.Normal()[i] - p2->plane.Normal()[i] ) > NORMAL_EPSILON )
+		if( Math::Fabs( p1->plane.Normal()[i] - p2->plane.Normal()[i] ) > NORMAL_EPSILON )
 		{
 			return NULL;
 		}
@@ -1839,10 +1839,10 @@ Find internal edges
 budCollisionModelManagerLocal::PointInsidePolygon
 =============
 */
-bool budCollisionModelManagerLocal::PointInsidePolygon( cm_model_t* model, cm_polygon_t* p, budVec3& v )
+bool budCollisionModelManagerLocal::PointInsidePolygon( cm_model_t* model, cm_polygon_t* p, Vector3& v )
 {
 	int i, edgeNum;
-	budVec3* v1, *v2, dir1, dir2, vec;
+	Vector3* v1, *v2, dir1, dir2, vec;
 	cm_edge_t* edge;
 	
 	for( i = 0; i < p->numEdges; i++ )
@@ -1872,7 +1872,7 @@ void budCollisionModelManagerLocal::FindInternalEdgesOnPolygon( cm_model_t* mode
 {
 	int i, j, k, edgeNum;
 	cm_edge_t* edge;
-	budVec3* v1, *v2, dir1, dir2;
+	Vector3* v1, *v2, dir1, dir2;
 	float d;
 	
 	// bounds of polygons should overlap or touch
@@ -1950,12 +1950,12 @@ void budCollisionModelManagerLocal::FindInternalEdgesOnPolygon( cm_model_t* mode
 		{
 			// both vertices should be on the plane of the other polygon
 			d = p2->plane.Distance( *v1 );
-			if( budMath::Fabs( d ) > VERTEX_EPSILON )
+			if( Math::Fabs( d ) > VERTEX_EPSILON )
 			{
 				continue;
 			}
 			d = p2->plane.Distance( *v2 );
-			if( budMath::Fabs( d ) > VERTEX_EPSILON )
+			if( Math::Fabs( d ) > VERTEX_EPSILON )
 			{
 				continue;
 			}
@@ -2611,7 +2611,7 @@ void budCollisionModelManagerLocal::ClearHash( budBounds& bounds )
 budCollisionModelManagerLocal::HashVec
 ================
 */
-BUD_INLINE int budCollisionModelManagerLocal::HashVec( const budVec3& vec )
+BUD_INLINE int budCollisionModelManagerLocal::HashVec( const Vector3& vec )
 {
 	/*
 	int x, y;
@@ -2636,15 +2636,15 @@ BUD_INLINE int budCollisionModelManagerLocal::HashVec( const budVec3& vec )
 budCollisionModelManagerLocal::GetVertex
 ================
 */
-int budCollisionModelManagerLocal::GetVertex( cm_model_t* model, const budVec3& v, int* vertexNum )
+int budCollisionModelManagerLocal::GetVertex( cm_model_t* model, const Vector3& v, int* vertexNum )
 {
 	int i, hashKey, vn;
-	budVec3 vert, *p;
+	Vector3 vert, *p;
 	
 	for( i = 0; i < 3; i++ )
 	{
-		if( budMath::Fabs( v[i] - budMath::Rint( v[i] ) ) < INTEGRAL_EPSILON )
-			vert[i] = budMath::Rint( v[i] );
+		if( Math::Fabs( v[i] - Math::Rint( v[i] ) ) < INTEGRAL_EPSILON )
+			vert[i] = Math::Rint( v[i] );
 		else
 			vert[i] = v[i];
 	}
@@ -2655,9 +2655,9 @@ int budCollisionModelManagerLocal::GetVertex( cm_model_t* model, const budVec3& 
 	{
 		p = &model->vertices[vn].p;
 		// first compare z-axis because hash is based on x-y plane
-		if( budMath::Fabs( vert[2] - ( *p )[2] ) < VERTEX_EPSILON &&
-				budMath::Fabs( vert[0] - ( *p )[0] ) < VERTEX_EPSILON &&
-				budMath::Fabs( vert[1] - ( *p )[1] ) < VERTEX_EPSILON )
+		if( Math::Fabs( vert[2] - ( *p )[2] ) < VERTEX_EPSILON &&
+				Math::Fabs( vert[0] - ( *p )[0] ) < VERTEX_EPSILON &&
+				Math::Fabs( vert[1] - ( *p )[1] ) < VERTEX_EPSILON )
 		{
 			*vertexNum = vn;
 			return true;
@@ -2692,7 +2692,7 @@ int budCollisionModelManagerLocal::GetVertex( cm_model_t* model, const budVec3& 
 budCollisionModelManagerLocal::GetEdge
 ================
 */
-int budCollisionModelManagerLocal::GetEdge( cm_model_t* model, const budVec3& v1, const budVec3& v2, int* edgeNum, int v1num )
+int budCollisionModelManagerLocal::GetEdge( cm_model_t* model, const Vector3& v1, const Vector3& v2, int* edgeNum, int v1num )
 {
 	int v2num, hashKey, e;
 	int found, *vertexNum;
@@ -2917,7 +2917,7 @@ void budCollisionModelManagerLocal::CreatePatchPolygons( cm_model_t* model, idSu
 	int v1, v2, v3, v4;
 	budFixedWinding w;
 	budPlane plane;
-	budVec3 d1, d2;
+	Vector3 d1, d2;
 	
 	for( i = 0; i < mesh.GetWidth() - 1; i++ )
 	{
@@ -2937,7 +2937,7 @@ void budCollisionModelManagerLocal::CreatePatchPolygons( cm_model_t* model, idSu
 				plane.FitThroughPoint( mesh[v1].xyz );
 				dot = plane.Distance( mesh[v4].xyz );
 				// if we can turn it into a quad
-				if( budMath::Fabs( dot ) < 0.1f )
+				if( Math::Fabs( dot ) < 0.1f )
 				{
 					w.Clear();
 					w += mesh[v1].xyz;
@@ -3180,7 +3180,7 @@ void budCollisionModelManagerLocal::ConvertBrush( cm_model_t* model, const idMap
 // RB begin
 void budCollisionModelManagerLocal::ConvertMesh( cm_model_t* model, const MapPolygonMesh* mesh, int primitiveNum )
 {
-	const budList<budDrawVert>& verts = mesh->GetDrawVerts();
+	const List<budDrawVert>& verts = mesh->GetDrawVerts();
 	
 	int numVerts = 0;
 	
@@ -3191,7 +3191,7 @@ void budCollisionModelManagerLocal::ConvertMesh( cm_model_t* model, const MapPol
 		
 		const budMaterial* material = declManager->FindMaterial( poly.GetMaterial() );
 		
-		const budList<int>& indexes = poly.GetIndexes();
+		const List<int>& indexes = poly.GetIndexes();
 		
 		w.SetNumPoints( indexes.Num() );
 		
@@ -3555,9 +3555,9 @@ cm_model_t* budCollisionModelManagerLocal::LoadBinaryModelFromFile( budFile* fil
 	int numMaterials = 0;
 	file->ReadBig( numMaterials );
 	
-	budList< const budMaterial* > materials;
+	List< const budMaterial* > materials;
 	materials.SetNum( numMaterials );
-	budStr materialName;
+	String materialName;
 	for( int i = 0; i < materials.Num(); i++ )
 	{
 		file->ReadString( materialName );
@@ -3570,8 +3570,8 @@ cm_model_t* budCollisionModelManagerLocal::LoadBinaryModelFromFile( budFile* fil
 			materials[i] = declManager->FindMaterial( materialName );
 		}
 	}
-	budList< cm_polygon_t* > polys;
-	budList< cm_brush_t* > brushes;
+	List< cm_polygon_t* > polys;
+	List< cm_brush_t* > brushes;
 	polys.SetNum( model->numPolygons );
 	brushes.SetNum( model->numBrushes );
 	for( int i = 0; i < polys.Num(); i++ )
@@ -3606,7 +3606,7 @@ cm_model_t* budCollisionModelManagerLocal::LoadBinaryModelFromFile( budFile* fil
 	}
 	struct local
 	{
-		static void ReadNodeTree( budFile* file, cm_model_t* model, cm_node_t* node, budList< cm_polygon_t* >& polys, budList< cm_brush_t* >& brushes )
+		static void ReadNodeTree( budFile* file, cm_model_t* model, cm_node_t* node, List< cm_polygon_t* >& polys, List< cm_brush_t* >& brushes )
 		{
 			file->ReadBig( node->planeType );
 			file->ReadBig( node->planeDist );
@@ -3723,7 +3723,7 @@ void budCollisionModelManagerLocal::WriteBinaryModelToFile( cm_model_t* model, b
 	file->WriteBig( model->brushMemory );
 	struct local
 	{
-		static void BuildUniqueLists( cm_node_t* node, budList< cm_polygon_t* >& polys, budList< cm_brush_t* >& brushes )
+		static void BuildUniqueLists( cm_node_t* node, List< cm_polygon_t* >& polys, List< cm_brush_t* >& brushes )
 		{
 			for( cm_polygonRef_t* pr = node->polygons; pr != NULL; pr = pr->next )
 			{
@@ -3739,7 +3739,7 @@ void budCollisionModelManagerLocal::WriteBinaryModelToFile( cm_model_t* model, b
 				BuildUniqueLists( node->children[1], polys, brushes );
 			}
 		}
-		static void WriteNodeTree( budFile* file, cm_node_t* node, budList< cm_polygon_t* >& polys, budList< cm_brush_t* >& brushes )
+		static void WriteNodeTree( budFile* file, cm_node_t* node, List< cm_polygon_t* >& polys, List< cm_brush_t* >& brushes )
 		{
 			file->WriteBig( node->planeType );
 			file->WriteBig( node->planeDist );
@@ -3760,13 +3760,13 @@ void budCollisionModelManagerLocal::WriteBinaryModelToFile( cm_model_t* model, b
 			}
 		}
 	};
-	budList< cm_polygon_t* > polys;
-	budList< cm_brush_t* > brushes;
+	List< cm_polygon_t* > polys;
+	List< cm_brush_t* > brushes;
 	local::BuildUniqueLists( model->node, polys, brushes );
 	assert( polys.Num() == model->numPolygons );
 	assert( brushes.Num() == model->numBrushes );
 	
-	budList< const budMaterial* > materials;
+	List< const budMaterial* > materials;
 	for( int i = 0; i < polys.Num(); i++ )
 	{
 		materials.AddUnique( polys[i]->material );
@@ -3842,10 +3842,10 @@ cm_model_t* budCollisionModelManagerLocal::LoadRenderModel( const char* fileName
 	budPlane plane;
 	budBounds bounds;
 	bool collisionSurface;
-	budStr extension;
+	String extension;
 	
 	// only load ASE and LWO models
-	budStr( fileName ).ExtractFileExtension( extension );
+	String( fileName ).ExtractFileExtension( extension );
 	
 	// RB: DAE support
 	if( ( extension.Icmp( "ase" ) != 0 ) && ( extension.Icmp( "lwo" ) != 0 ) && ( extension.Icmp( "ma" ) != 0 ) && ( extension.Icmp( "dae" ) != 0 ) )
@@ -3859,7 +3859,7 @@ cm_model_t* budCollisionModelManagerLocal::LoadRenderModel( const char* fileName
 		return NULL;
 	}
 	
-	budStrStatic< MAX_OSPATH > generatedFileName = "generated/collision/";
+	StringStatic< MAX_OSPATH > generatedFileName = "generated/collision/";
 	generatedFileName.AppendPath( fileName );
 	generatedFileName.SetFileExtension( CMODEL_BINARYFILE_EXT );
 	
@@ -4308,7 +4308,7 @@ void budCollisionModelManagerLocal::Preload( const char* mapName )
 	{
 		return;
 	}
-	budStrStatic< MAX_OSPATH > manifestName = mapName;
+	StringStatic< MAX_OSPATH > manifestName = mapName;
 	manifestName.Replace( "game/", "maps/" );
 	manifestName.Replace( "maps/maps/", "maps/" );
 	manifestName.SetFileExtension( ".preload" );
@@ -4451,7 +4451,7 @@ bool budCollisionModelManagerLocal::GetModelContents( cmHandle_t model, int& con
 budCollisionModelManagerLocal::GetModelVertex
 ===================
 */
-bool budCollisionModelManagerLocal::GetModelVertex( cmHandle_t model, int vertexNum, budVec3& vertex ) const
+bool budCollisionModelManagerLocal::GetModelVertex( cmHandle_t model, int vertexNum, Vector3& vertex ) const
 {
 	if( model < 0 || model > MAX_SUBMODELS || model >= numModels || !models[model] )
 	{
@@ -4475,7 +4475,7 @@ bool budCollisionModelManagerLocal::GetModelVertex( cmHandle_t model, int vertex
 budCollisionModelManagerLocal::GetModelEdge
 ===================
 */
-bool budCollisionModelManagerLocal::GetModelEdge( cmHandle_t model, int edgeNum, budVec3& start, budVec3& end ) const
+bool budCollisionModelManagerLocal::GetModelEdge( cmHandle_t model, int edgeNum, Vector3& start, Vector3& end ) const
 {
 	if( model < 0 || model > MAX_SUBMODELS || model >= numModels || !models[model] )
 	{
@@ -4544,7 +4544,7 @@ cmHandle_t budCollisionModelManagerLocal::LoadModel( const char* modelName )
 		return 0;
 	}
 	
-	budStrStatic< MAX_OSPATH > generatedFileName = "generated/collision/";
+	StringStatic< MAX_OSPATH > generatedFileName = "generated/collision/";
 	generatedFileName.AppendPath( modelName );
 	generatedFileName.SetFileExtension( CMODEL_BINARYFILE_EXT );
 	

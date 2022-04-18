@@ -76,7 +76,7 @@ void idForce_Drag::Init( float damping )
 idForce_Drag::SetPhysics
 ================
 */
-void idForce_Drag::SetPhysics( idPhysics* phys, int id, const budVec3& p )
+void idForce_Drag::SetPhysics( idPhysics* phys, int id, const Vector3& p )
 {
 	this->physics = phys;
 	this->id = id;
@@ -88,7 +88,7 @@ void idForce_Drag::SetPhysics( idPhysics* phys, int id, const budVec3& p )
 idForce_Drag::SetDragPosition
 ================
 */
-void idForce_Drag::SetDragPosition( const budVec3& pos )
+void idForce_Drag::SetDragPosition( const Vector3& pos )
 {
 	this->dragPosition = pos;
 }
@@ -98,7 +98,7 @@ void idForce_Drag::SetDragPosition( const budVec3& pos )
 idForce_Drag::GetDragPosition
 ================
 */
-const budVec3& idForce_Drag::GetDragPosition() const
+const Vector3& idForce_Drag::GetDragPosition() const
 {
 	return this->dragPosition;
 }
@@ -108,7 +108,7 @@ const budVec3& idForce_Drag::GetDragPosition() const
 idForce_Drag::GetDraggedPosition
 ================
 */
-const budVec3 idForce_Drag::GetDraggedPosition() const
+const Vector3 idForce_Drag::GetDraggedPosition() const
 {
 	return ( physics->GetOrigin( id ) + p * physics->GetAxis( id ) );
 }
@@ -121,9 +121,9 @@ idForce_Drag::Evaluate
 void idForce_Drag::Evaluate( int time )
 {
 	float l1, l2, mass;
-	budVec3 dragOrigin, dir1, dir2, velocity, centerOfMass;
-	budMat3 inertiaTensor;
-	budRotation rotation;
+	Vector3 dragOrigin, dir1, dir2, velocity, centerOfMass;
+	Matrix3 inertiaTensor;
+	Rotation rotation;
 	budClipModel* clipModel;
 	
 	if( !physics )
@@ -149,7 +149,7 @@ void idForce_Drag::Evaluate( int time )
 	l1 = dir1.Normalize();
 	l2 = dir2.Normalize();
 	
-	rotation.Set( centerOfMass, dir2.Cross( dir1 ), RAD2DEG( budMath::ACos( dir1 * dir2 ) ) );
+	rotation.Set( centerOfMass, dir2.Cross( dir1 ), RAD2DEG( Math::ACos( dir1 * dir2 ) ) );
 	physics->SetAngularVelocity( rotation.ToAngularVelocity() / MS2SEC( gameLocal.time - gameLocal.previousTime ), id );
 	
 	velocity = physics->GetLinearVelocity( id ) * damping + dir1 * ( ( l1 - l2 ) * ( 1.0f - damping ) / MS2SEC( gameLocal.time - gameLocal.previousTime ) );

@@ -106,7 +106,7 @@ void idMenuWidget_PDA_AudioFiles::Update()
 		budSWFTextInstance* txtOwner = dataObj->GetNestedText( "txtOwner" );
 		if( txtOwner != NULL )
 		{
-			budStr ownerText = budLocalization::GetString( "#str_04203" );
+			String ownerText = budLocalization::GetString( "#str_04203" );
 			ownerText.Append( ": " );
 			ownerText.Append( pda->GetFullName() );
 			txtOwner->SetText( ownerText.c_str() );
@@ -118,7 +118,7 @@ void idMenuWidget_PDA_AudioFiles::Update()
 			audioFileNames.Clear();
 			if( pda->GetNumAudios() == 0 )
 			{
-				budList< budStr > audioName;
+				List< String > audioName;
 				audioName.Append( budLocalization::GetString( "#str_04168" ) );
 				audioList->GetChildByIndex( 0 ).SetState( WIDGET_STATE_DISABLED );
 				audioFileNames.Append( audioName );
@@ -129,7 +129,7 @@ void idMenuWidget_PDA_AudioFiles::Update()
 				const budDeclAudio* aud = NULL;
 				for( int index = 0; index < pda->GetNumAudios(); ++index )
 				{
-					budList< budStr > audioName;
+					List< String > audioName;
 					aud = pda->GetAudioByIndex( index );
 					if( aud != NULL )
 					{

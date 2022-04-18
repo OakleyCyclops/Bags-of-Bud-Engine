@@ -557,7 +557,7 @@ budActor::Spawn
 void budActor::Spawn()
 {
 	idEntity*		ent;
-	budStr			jointName;
+	String			jointName;
 	float			fovDegrees;
 	copyJoints_t	copyJoint;
 	
@@ -594,7 +594,7 @@ void budActor::Spawn()
 	const idKeyValue* kv = spawnArgs.MatchPrefix( "def_attach", NULL );
 	while( kv )
 	{
-		idDict args;
+		Dict args;
 		
 		args.Set( "classname", kv->GetValue().c_str() );
 		
@@ -739,7 +739,7 @@ budActor::SetupHead
 void budActor::SetupHead()
 {
 	budAFAttachment*		headEnt;
-	budStr				jointName;
+	String				jointName;
 	const char*			headModel;
 	jointHandle_t		joint;
 	jointHandle_t		damageJoint;
@@ -773,7 +773,7 @@ void budActor::SetupHead()
 		}
 		
 		// copy any sounds in case we have frame commands on the head
-		idDict	args;
+		Dict	args;
 		sndKV = spawnArgs.MatchPrefix( "snd_", NULL );
 		while( sndKV )
 		{
@@ -790,15 +790,15 @@ void budActor::SetupHead()
 		headEnt->SetBody( this, headModel, damageJoint );
 		head = headEnt;
 		
-		budStr xSkin;
+		String xSkin;
 		if( spawnArgs.GetString( "skin_head_xray", "", xSkin ) )
 		{
 			headEnt->xraySkin = declManager->FindSkin( xSkin.c_str() );
 			headEnt->UpdateModel();
 		}
 		
-		budVec3		origin;
-		budMat3		axis;
+		Vector3		origin;
+		Matrix3		axis;
 		budAttachInfo& attach = attachments.Alloc();
 		attach.channel = animator.GetChannelForJoint( joint );
 		animator.GetJointTransform( joint, gameLocal.time, origin, axis );
@@ -820,9 +820,9 @@ void budActor::CopyJointsFromBodyToHead()
 	idEntity*	headEnt = head.GetEntity();
 	budAnimator*	headAnimator;
 	int			i;
-	budMat3		mat;
-	budMat3		axis;
-	budVec3		pos;
+	Matrix3		mat;
+	Matrix3		axis;
+	Vector3		pos;
 	
 	if( !headEnt )
 	{
@@ -959,7 +959,7 @@ void budActor::Save( idSaveGame* savefile ) const
 	//FIXME: this is unneccesary
 	if( state )
 	{
-		budLexer src( state->Name(), budStr::Length( state->Name() ), "budAI::Save" );
+		budLexer src( state->Name(), String::Length( state->Name() ), "budAI::Save" );
 		
 		src.ReadTokenOnLine( &token );
 		src.ExpectTokenString( "::" );
@@ -974,7 +974,7 @@ void budActor::Save( idSaveGame* savefile ) const
 	
 	if( idealState )
 	{
-		budLexer src( idealState->Name(), budStr::Length( idealState->Name() ), "budAI::Save" );
+		budLexer src( idealState->Name(), String::Length( idealState->Name() ), "budAI::Save" );
 		
 		src.ReadTokenOnLine( &token );
 		src.ExpectTokenString( "::" );
@@ -1093,7 +1093,7 @@ void budActor::Restore( idRestoreGame* savefile )
 	
 	savefile->ReadBool( finalBoss );
 	
-	budStr statename;
+	String statename;
 	
 	savefile->ReadString( statename );
 	if( statename.Length() > 0 )
@@ -1191,7 +1191,7 @@ int	budActor::GetDefaultSurfaceType() const
 budActor::ProjectOverlay
 ================
 */
-void budActor::ProjectOverlay( const budVec3& origin, const budVec3& dir, float size, const char* material )
+void budActor::ProjectOverlay( const Vector3& origin, const Vector3& dir, float size, const char* material )
 {
 	idEntity* ent;
 	idEntity* next;
@@ -1218,7 +1218,7 @@ budActor::LoadAF
 */
 bool budActor::LoadAF()
 {
-	budStr fileName;
+	String fileName;
 	
 	if( !spawnArgs.GetString( "ragdoll", "*unknown*", fileName ) || !fileName.Length() )
 	{
@@ -1256,8 +1256,8 @@ void budActor::SetupBody()
 			int anim = headEnt->GetAnimator()->GetAnim( "idle" );
 			if( anim && ( leftEyeJoint != INVALID_JOINT ) )
 			{
-				budVec3 pos;
-				budMat3 axis;
+				Vector3 pos;
+				Matrix3 axis;
 				headEnt->GetAnimator()->PlayAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, 0 );
 				headEnt->GetAnimator()->GetJointTransform( leftEyeJoint, gameLocal.time, pos, axis );
 				headEnt->GetAnimator()->ClearAllAnims( gameLocal.time, 0 );
@@ -1288,8 +1288,8 @@ void budActor::SetupBody()
 			int anim = animator.GetAnim( "idle" );
 			if( anim && ( leftEyeJoint != INVALID_JOINT ) )
 			{
-				budVec3 pos;
-				budMat3 axis;
+				Vector3 pos;
+				Matrix3 axis;
 				animator.PlayAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, 0 );
 				animator.GetJointTransform( leftEyeJoint, gameLocal.time, pos, axis );
 				animator.ClearAllAnims( gameLocal.time, 0 );
@@ -1343,7 +1343,7 @@ void budActor::CheckBlink()
 budActor::GetPhysicsToVisualTransform
 ================
 */
-bool budActor::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
+bool budActor::GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis )
 {
 	if( af.IsActive() )
 	{
@@ -1360,7 +1360,7 @@ bool budActor::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 budActor::GetPhysicsToSoundTransform
 ================
 */
-bool budActor::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
+bool budActor::GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis )
 {
 	if( soundJoint != INVALID_JOINT )
 	{
@@ -1603,7 +1603,7 @@ float budActor::EyeHeight() const
 budActor::EyeOffset
 =====================
 */
-budVec3 budActor::EyeOffset() const
+Vector3 budActor::EyeOffset() const
 {
 	return GetPhysics()->GetGravityNormal() * -eyeOffset.z;
 }
@@ -1613,7 +1613,7 @@ budVec3 budActor::EyeOffset() const
 budActor::GetEyePosition
 =====================
 */
-budVec3 budActor::GetEyePosition() const
+Vector3 budActor::GetEyePosition() const
 {
 	return GetPhysics()->GetOrigin() + ( GetPhysics()->GetGravityNormal() * -eyeOffset.z );
 }
@@ -1623,7 +1623,7 @@ budVec3 budActor::GetEyePosition() const
 budActor::GetViewPos
 =====================
 */
-void budActor::GetViewPos( budVec3& origin, budMat3& axis ) const
+void budActor::GetViewPos( Vector3& origin, Matrix3& axis ) const
 {
 	origin = GetEyePosition();
 	axis = viewAxis;
@@ -1634,7 +1634,7 @@ void budActor::GetViewPos( budVec3& origin, budMat3& axis ) const
 budActor::CheckFOV
 =====================
 */
-bool budActor::CheckFOV( const budVec3& pos ) const
+bool budActor::CheckFOV( const Vector3& pos ) const
 {
 	if( fovDot == 1.0f )
 	{
@@ -1642,12 +1642,12 @@ bool budActor::CheckFOV( const budVec3& pos ) const
 	}
 	
 	float	dot;
-	budVec3	delta;
+	Vector3	delta;
 	
 	delta = pos - GetEyePosition();
 	
 	// get our gravity normal
-	const budVec3& gravityDir = GetPhysics()->GetGravityNormal();
+	const Vector3& gravityDir = GetPhysics()->GetGravityNormal();
 	
 	// infinite vertical vision, so project it onto our orientation plane
 	delta -= gravityDir * ( gravityDir * delta );
@@ -1666,8 +1666,8 @@ budActor::CanSee
 bool budActor::CanSee( idEntity* ent, bool useFov ) const
 {
 	trace_t		tr;
-	budVec3		eye;
-	budVec3		toPos;
+	Vector3		eye;
+	Vector3		toPos;
 	
 	if( ent->IsHidden() )
 	{
@@ -1704,10 +1704,10 @@ bool budActor::CanSee( idEntity* ent, bool useFov ) const
 budActor::PointVisible
 =====================
 */
-bool budActor::PointVisible( const budVec3& point ) const
+bool budActor::PointVisible( const Vector3& point ) const
 {
 	trace_t results;
-	budVec3 start, end;
+	Vector3 start, end;
 	
 	start = GetEyePosition();
 	end = point;
@@ -1724,7 +1724,7 @@ budActor::GetAIAimTargets
 Returns positions for the AI to aim at.
 =====================
 */
-void budActor::GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, budVec3& chestPos )
+void budActor::GetAIAimTargets( const Vector3& lastSightPos, Vector3& headPos, Vector3& chestPos )
 {
 	headPos = lastSightPos + EyeOffset();
 	chestPos = ( headPos + lastSightPos + GetPhysics()->GetBounds().GetCenter() ) * 0.5f;
@@ -1960,13 +1960,13 @@ budActor::Attach
 */
 void budActor::Attach( idEntity* ent )
 {
-	budVec3			origin;
-	budMat3			axis;
+	Vector3			origin;
+	Matrix3			axis;
 	jointHandle_t	joint;
-	budStr			jointName;
+	String			jointName;
 	budAttachInfo&	attach = attachments.Alloc();
-	budAngles		angleOffset;
-	budVec3			originOffset;
+	Angles		angleOffset;
+	Vector3			originOffset;
 	
 	jointName = ent->spawnArgs.GetString( "joint" );
 	joint = animator.GetJointHandle( jointName );
@@ -1983,8 +1983,8 @@ void budActor::Attach( idEntity* ent )
 	attach.ent = ent;
 	
 	ent->SetOrigin( origin + originOffset * renderEntity.axis );
-	budMat3 rotate = angleOffset.ToMat3();
-	budMat3 newAxis = rotate * axis;
+	Matrix3 rotate = angleOffset.ToMat3();
+	Matrix3 newAxis = rotate * axis;
 	ent->SetAxis( newAxis );
 	ent->BindToJoint( this, joint, true );
 	ent->cinematic = cinematic;
@@ -1995,10 +1995,10 @@ void budActor::Attach( idEntity* ent )
 budActor::Teleport
 ================
 */
-void budActor::Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination )
+void budActor::Teleport( const Vector3& origin, const Angles& angles, idEntity* destination )
 {
-	GetPhysics()->SetOrigin( origin + budVec3( 0, 0, CM_CLIP_EPSILON ) );
-	GetPhysics()->SetLinearVelocity( vec3_origin );
+	GetPhysics()->SetOrigin( origin + Vector3( 0, 0, CM_CLIP_EPSILON ) );
+	GetPhysics()->SetLinearVelocity( Vector3_Origin );
 	
 	viewAxis = angles.ToMat3();
 	
@@ -2016,7 +2016,7 @@ void budActor::Teleport( const budVec3& origin, const budAngles& angles, idEntit
 budActor::GetDeltaViewAngles
 ================
 */
-const budAngles& budActor::GetDeltaViewAngles() const
+const Angles& budActor::GetDeltaViewAngles() const
 {
 	return deltaViewAngles;
 }
@@ -2026,7 +2026,7 @@ const budAngles& budActor::GetDeltaViewAngles() const
 budActor::SetDeltaViewAngles
 ================
 */
-void budActor::SetDeltaViewAngles( const budAngles& delta )
+void budActor::SetDeltaViewAngles( const Angles& delta )
 {
 	deltaViewAngles = delta;
 }
@@ -2056,15 +2056,15 @@ bool budActor::HasEnemies() const
 budActor::ClosestEnemyToPoint
 ================
 */
-budActor* budActor::ClosestEnemyToPoint( const budVec3& pos )
+budActor* budActor::ClosestEnemyToPoint( const Vector3& pos )
 {
 	budActor*		ent;
 	budActor*		bestEnt;
 	float		bestDistSquared;
 	float		distSquared;
-	budVec3		delta;
+	Vector3		delta;
 	
-	bestDistSquared = budMath::INFINITY;
+	bestDistSquared = Math::INFINITY;
 	bestEnt = NULL;
 	for( ent = enemyList.Next(); ent != NULL; ent = ent->enemyNode.Next() )
 	{
@@ -2122,9 +2122,9 @@ bool budActor::OnLadder() const
 budActor::GetAASLocation
 ==============
 */
-void budActor::GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const
+void budActor::GetAASLocation( budAAS* aas, Vector3& pos, int& areaNum ) const
 {
-	budVec3		size;
+	Vector3		size;
 	budBounds	bounds;
 	
 	GetFloorPos( 64.0f, pos );
@@ -2426,7 +2426,7 @@ void budActor::SyncAnimChannels( int channel, int syncToChannel, int blendFrames
 budActor::Gib
 ============
 */
-void budActor::Gib( const budVec3& dir, const char* damageDefName )
+void budActor::Gib( const Vector3& dir, const char* damageDefName )
 {
 	// no gibbing in multiplayer - by self damage or by moving objects
 	if( common->IsMultiplayer() )
@@ -2466,8 +2466,8 @@ Bleeding wounds and surface overlays are applied in the collision code that
 calls Damage()
 ============
 */
-budCVar actor_noDamage(	"actor_noDamage",			"0",		CVAR_BOOL, "actors don't take damage -- for testing" );
-void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+CVar actor_noDamage(	"actor_noDamage",			"0",		CVAR_BOOL, "actors don't take damage -- for testing" );
+void budActor::Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir,
 					  const char* damageDefName, const float damageScale, const int location )
 {
 	if( !fl.takedamage || actor_noDamage.GetBool() )
@@ -2484,13 +2484,13 @@ void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 		attacker = gameLocal.world;
 	}
 	
-	if( finalBoss && budStr::FindText( GetEntityDefName(), "monster_boss_cyberdemon" ) == 0 && !inflictor->IsType( idSoulCubeMissile::Type ) )
+	if( finalBoss && String::FindText( GetEntityDefName(), "monster_boss_cyberdemon" ) == 0 && !inflictor->IsType( idSoulCubeMissile::Type ) )
 	{
 		return;
 	}
 	
 	// for killed by fists achievement
-	if( attacker->IsType( budPlayer::Type ) && budStr::Cmp( "damage_fists", damageDefName ) )
+	if( attacker->IsType( budPlayer::Type ) && String::Cmp( "damage_fists", damageDefName ) )
 	{
 		damageNotByFists = true;
 	}
@@ -2498,19 +2498,19 @@ void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 	SetTimeState ts( timeGroup );
 	
 	// Helltime boss is immune to all projectiles except the helltime killer
-	if( finalBoss && budStr::Icmp( GetEntityDefName(), "monster_hunter_helltime" ) == 0 &&  budStr::Icmp( inflictor->GetEntityDefName(), "projectile_helltime_killer" ) )
+	if( finalBoss && String::Icmp( GetEntityDefName(), "monster_hunter_helltime" ) == 0 &&  String::Icmp( inflictor->GetEntityDefName(), "projectile_helltime_killer" ) )
 	{
 		return;
 	}
 	
 	// Maledict is immume to the falling asteroids
-	if( !budStr::Icmp( GetEntityDefName(), "monster_boss_d3xp_maledict" ) &&
-			( !budStr::Icmp( damageDefName, "damage_maledict_asteroid" ) || !budStr::Icmp( damageDefName, "damage_maledict_asteroid_splash" ) ) )
+	if( !String::Icmp( GetEntityDefName(), "monster_boss_d3xp_maledict" ) &&
+			( !String::Icmp( damageDefName, "damage_maledict_asteroid" ) || !String::Icmp( damageDefName, "damage_maledict_asteroid_splash" ) ) )
 	{
 		return;
 	}
 	
-	const idDict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
+	const Dict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
 	if( damageDef == NULL )
 	{
 		gameLocal.Error( "Unknown damageDef '%s'", damageDefName );
@@ -2620,11 +2620,11 @@ void budActor::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 							{
 								player->GetAchievementManager().EventCompletesAchievement( ACHIEVEMENT_GRABBER_KILL_20_ENEMY );
 							}
-							if( renderEntity.hModel && budStr::Icmp( renderEntity.hModel->Name(), "models/md5/monsters/imp/imp.md5mesh" ) == 0 )
+							if( renderEntity.hModel && String::Icmp( renderEntity.hModel->Name(), "models/md5/monsters/imp/imp.md5mesh" ) == 0 )
 							{
-								if( budStr::FindText( inflictor->GetName(), "shotgun" ) > -1 )
+								if( String::FindText( inflictor->GetName(), "shotgun" ) > -1 )
 								{
-									budStr impName;
+									String impName;
 									int	  lastKilledImpTime = player->GetAchievementManager().GetLastImpKilledTime();
 									if( ( gameLocal.GetTime() - lastKilledImpTime ) <= 100 && ( impName.Icmp( name ) != 0 ) )
 									{
@@ -2686,7 +2686,7 @@ void budActor::ClearPain()
 budActor::Pain
 =====================
 */
-bool budActor::Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+bool budActor::Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	if( af.IsLoaded() )
 	{
@@ -2734,7 +2734,7 @@ bool budActor::Pain( idEntity* inflictor, idEntity* attacker, int damage, const 
 	}
 	
 	// set the pain anim
-	budStr damageGroup = GetDamageGroup( location );
+	String damageGroup = GetDamageGroup( location );
 	
 	painAnim = "";
 	if( animPrefix.Length() )
@@ -2793,7 +2793,7 @@ bool budActor::Pain( idEntity* inflictor, idEntity* attacker, int damage, const 
 budActor::SpawnGibs
 =====================
 */
-void budActor::SpawnGibs( const budVec3& dir, const char* damageDefName )
+void budActor::SpawnGibs( const Vector3& dir, const char* damageDefName )
 {
 	budAFEntity_Gibbable::SpawnGibs( dir, damageDefName );
 	RemoveAttachments();
@@ -2810,8 +2810,8 @@ void budActor::SetupDamageGroups()
 {
 	int						i;
 	const idKeyValue*		arg;
-	budStr					groupname;
-	budList<jointHandle_t>	jointList;
+	String					groupname;
+	List<jointHandle_t>	jointList;
 	int						jointnum;
 	float					scale;
 	
@@ -3856,7 +3856,7 @@ void budActor::Event_NextEnemy( idEntity* ent )
 budActor::Event_ClosestEnemyToPoint
 ================
 */
-void budActor::Event_ClosestEnemyToPoint( const budVec3& pos )
+void budActor::Event_ClosestEnemyToPoint( const Vector3& pos )
 {
 	budActor* bestEnt = ClosestEnemyToPoint( pos );
 	idThread::ReturnEntity( bestEnt );

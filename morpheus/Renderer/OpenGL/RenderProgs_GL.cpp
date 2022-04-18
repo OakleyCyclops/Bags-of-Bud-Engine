@@ -34,8 +34,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "../RenderCommon.h"
 
 
-budCVar r_displayGLSLCompilerMessages( "r_displayGLSLCompilerMessages", "1", CVAR_BOOL | CVAR_ARCHIVE, "Show info messages the GPU driver outputs when compiling the shaders" );
-budCVar r_alwaysExportGLSL( "r_alwaysExportGLSL", "1", CVAR_BOOL, "" );
+CVar r_displayGLSLCompilerMessages( "r_displayGLSLCompilerMessages", "1", CVAR_BOOL | CVAR_ARCHIVE, "Show info messages the GPU driver outputs when compiling the shaders" );
+CVar r_alwaysExportGLSL( "r_alwaysExportGLSL", "1", CVAR_BOOL, "" );
 
 /*
 ========================
@@ -99,10 +99,10 @@ budRenderProgManager::LoadGLSLShader
 */
 void budRenderProgManager::LoadShader( shader_t& shader )
 {
-	budStr inFile;
-	budStr outFileHLSL;
-	budStr outFileGLSL;
-	budStr outFileUniforms;
+	String inFile;
+	String outFileHLSL;
+	String outFileGLSL;
+	String outFileUniforms;
 	
 	// RB: replaced backslashes
 	inFile.Format( "renderprogs/%s", shader.name.c_str() );
@@ -162,8 +162,8 @@ void budRenderProgManager::LoadShader( shader_t& shader )
 	int glslFileLength = fileSystem->ReadFile( outFileGLSL.c_str(), NULL, &glslTimeStamp );
 	
 	// if the glsl file doesn't exist or we have a newer HLSL file we need to recreate the glsl file.
-	budStr programGLSL;
-	budStr programUniforms;
+	String programGLSL;
+	String programUniforms;
 	if( ( glslFileLength <= 0 ) || ( hlslTimeStamp != FILE_NOT_FOUND_TIMESTAMP && hlslTimeStamp > glslTimeStamp ) || r_alwaysExportGLSL.GetBool() )
 	{
 		const char* hlslFileBuffer = NULL;
@@ -189,13 +189,13 @@ void budRenderProgManager::LoadShader( shader_t& shader )
 			return;
 		}
 		
-		budStrList compileMacros;
+		StringList compileMacros;
 		for( int j = 0; j < MAX_SHADER_MACRO_NAMES; j++ )
 		{
 			if( BIT( j ) & shader.shaderFeatures )
 			{
 				const char* macroName = GetGLSLMacroName( ( shaderFeature_t ) j );
-				compileMacros.Append( budStr( macroName ) );
+				compileMacros.Append( String( macroName ) );
 			}
 		}
 		
@@ -203,16 +203,16 @@ void budRenderProgManager::LoadShader( shader_t& shader )
 		// point we directly load a binary and the program source code is not available on the consoles
 		bool hasGPUSkinning = false;
 		
-		if(	budStr::Icmp( shader.name.c_str(), "heatHaze" ) == 0 ||
-				budStr::Icmp( shader.name.c_str(), "heatHazeWithMask" ) == 0 ||
-				budStr::Icmp( shader.name.c_str(), "heatHazeWithMaskAndVertex" ) == 0 ||
+		if(	String::Icmp( shader.name.c_str(), "heatHaze" ) == 0 ||
+				String::Icmp( shader.name.c_str(), "heatHazeWithMask" ) == 0 ||
+				String::Icmp( shader.name.c_str(), "heatHazeWithMaskAndVertex" ) == 0 ||
 				( BIT( USE_GPU_SKINNING ) & shader.shaderFeatures ) )
 		{
 			hasGPUSkinning = true;
 		}
 		
-		budStr hlslCode( hlslFileBuffer );
-		budStr programHLSL = StripDeadCode( hlslCode, inFile, compileMacros, shader.builtin );
+		String hlslCode( hlslFileBuffer );
+		String programHLSL = StripDeadCode( hlslCode, inFile, compileMacros, shader.builtin );
 		programGLSL = ConvertCG2GLSL( programHLSL, inFile.c_str(), shader.stage, programUniforms, false, hasGPUSkinning );
 		
 		fileSystem->WriteFile( outFileHLSL, programHLSL.c_str(), programHLSL.Length(), "fs_savepath" );
@@ -292,7 +292,7 @@ void budRenderProgManager::LoadShader( shader_t& shader )
 		glGetShaderiv( shader.progId, GL_INFO_LOG_LENGTH, &infologLength );
 		if( infologLength > 1 )
 		{
-			idTempArray<char> infoLog( infologLength );
+			TempArray<char> infoLog( infologLength );
 			int charsWritten = 0;
 			glGetShaderInfoLog( shader.progId, infologLength, &charsWritten, infoLog.Ptr() );
 			
@@ -307,9 +307,9 @@ void budRenderProgManager::LoadShader( shader_t& shader )
 				libBud::Printf( "While compiling %s program %s\n", ( shader.stage == SHADER_STAGE_FRAGMENT ) ? "fragment" : "vertex" , inFile.c_str() );
 				
 				const char separator = '\n';
-				budList<budStr> lines;
+				List<String> lines;
 				lines.Clear();
-				budStr source( programGLSL );
+				String source( programGLSL );
 				lines.Append( source );
 				for( int index = 0, ofs = lines[index].Find( separator ); ofs != -1; index++, ofs = lines[index].Find( separator ) )
 				{
@@ -464,14 +464,14 @@ void budRenderProgManager::LoadGLSLProgram( const int programIndex, const int ve
 		}
 	}
 	
-	budStr programName = shaders[ vertexShaderIndex ].name;
+	String programName = shaders[ vertexShaderIndex ].name;
 	programName.StripFileExtension();
 	prog.name = programName;
 	prog.progId = program;
 	prog.fragmentShaderIndex = fragmentShaderIndex;
 	prog.vertexShaderIndex = vertexShaderIndex;
 	
-	// RB: removed budStr::Icmp( name, "heatHaze.vfp" ) == 0  hack
+	// RB: removed String::Icmp( name, "heatHaze.vfp" ) == 0  hack
 	// this requires r_useUniformArrays 1
 	for( int i = 0; i < shaders[vertexShaderIndex].uniforms.Num(); i++ )
 	{
@@ -498,9 +498,9 @@ void budRenderProgManager::CommitUniforms( uint64 stateBits )
 	
 	//GL_CheckErrors();
 	
-	ALIGNTYPE16 budVec4 localVectors[RENDERPARM_TOTAL];
+	ALIGNTYPE16 Vector4 localVectors[RENDERPARM_TOTAL];
 	
-	auto commitarray = [&]( budVec4( &vectors )[ RENDERPARM_TOTAL ] , shader_t& shader )
+	auto commitarray = [&]( Vector4( &vectors )[ RENDERPARM_TOTAL ] , shader_t& shader )
 	{
 		const int numUniforms = shader.uniforms.Num();
 		if( shader.uniformArray != -1 && numUniforms > 0 )

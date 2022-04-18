@@ -154,7 +154,7 @@ void idMenuWidget_Carousel::Update()
 idMenuWidget_Carousel::SetListImages
 ========================
 */
-void idMenuWidget_Carousel::SetListImages( budList<const budMaterial*>& list )
+void idMenuWidget_Carousel::SetListImages( List<const budMaterial*>& list )
 {
 	imgList.Clear();
 	for( int i = 0; i < list.Num(); ++i )

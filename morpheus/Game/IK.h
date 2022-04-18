@@ -50,12 +50,12 @@ public:
 	
 	bool					IsInitialized() const;
 	
-	virtual bool			Init( idEntity* self, const char* anim, const budVec3& modelOffset );
+	virtual bool			Init( idEntity* self, const char* anim, const Vector3& modelOffset );
 	virtual void			Evaluate();
 	virtual void			ClearJointMods();
 	
-	bool					SolveTwoBones( const budVec3& startPos, const budVec3& endPos, const budVec3& dir, float len0, float len1, budVec3& jointPos );
-	float					GetBoneAxis( const budVec3& startPos, const budVec3& endPos, const budVec3& dir, budMat3& axis );
+	bool					SolveTwoBones( const Vector3& startPos, const Vector3& endPos, const Vector3& dir, float len0, float len1, Vector3& jointPos );
+	float					GetBoneAxis( const Vector3& startPos, const Vector3& endPos, const Vector3& dir, Matrix3& axis );
 	
 protected:
 	bool					initialized;
@@ -63,7 +63,7 @@ protected:
 	idEntity* 				self;				// entity using the animated model
 	budAnimator* 			animator;			// animator on entity
 	int						modifiedAnim;		// animation modified by the IK
-	budVec3					modelOffset;
+	Vector3					modelOffset;
 };
 
 
@@ -85,7 +85,7 @@ public:
 	void					Save( idSaveGame* savefile ) const;
 	void					Restore( idRestoreGame* savefile );
 	
-	virtual bool			Init( idEntity* self, const char* anim, const budVec3& modelOffset );
+	virtual bool			Init( idEntity* self, const char* anim, const Vector3& modelOffset );
 	virtual void			Evaluate();
 	virtual void			ClearJointMods();
 	
@@ -108,14 +108,14 @@ private:
 	jointHandle_t			dirJoints[MAX_LEGS];
 	jointHandle_t			waistJoint;
 	
-	budVec3					hipForward[MAX_LEGS];
-	budVec3					kneeForward[MAX_LEGS];
+	Vector3					hipForward[MAX_LEGS];
+	Vector3					kneeForward[MAX_LEGS];
 	
 	float					upperLegLength[MAX_LEGS];
 	float					lowerLegLength[MAX_LEGS];
 	
-	budMat3					upperLegToHipJoint[MAX_LEGS];
-	budMat3					lowerLegToKneeJoint[MAX_LEGS];
+	Matrix3					upperLegToHipJoint[MAX_LEGS];
+	Matrix3					lowerLegToKneeJoint[MAX_LEGS];
 	
 	float					smoothing;
 	float					waistSmoothing;
@@ -131,11 +131,11 @@ private:
 	// state
 	int						pivotFoot;
 	float					pivotYaw;
-	budVec3					pivotPos;
+	Vector3					pivotPos;
 	bool					oldHeightsValid;
 	float					oldWaistHeight;
 	float					oldAnkleHeights[MAX_LEGS];
-	budVec3					waistOffset;
+	Vector3					waistOffset;
 };
 
 
@@ -157,7 +157,7 @@ public:
 	void					Save( idSaveGame* savefile ) const;
 	void					Restore( idRestoreGame* savefile );
 	
-	virtual bool			Init( idEntity* self, const char* anim, const budVec3& modelOffset );
+	virtual bool			Init( idEntity* self, const char* anim, const Vector3& modelOffset );
 	virtual void			Evaluate();
 	virtual void			ClearJointMods();
 	
@@ -172,14 +172,14 @@ private:
 	jointHandle_t			shoulderJoints[MAX_ARMS];
 	jointHandle_t			dirJoints[MAX_ARMS];
 	
-	budVec3					shoulderForward[MAX_ARMS];
-	budVec3					elbowForward[MAX_ARMS];
+	Vector3					shoulderForward[MAX_ARMS];
+	Vector3					elbowForward[MAX_ARMS];
 	
 	float					upperArmLength[MAX_ARMS];
 	float					lowerArmLength[MAX_ARMS];
 	
-	budMat3					upperArmToShoulderJoint[MAX_ARMS];
-	budMat3					lowerArmToElbowJoint[MAX_ARMS];
+	Matrix3					upperArmToShoulderJoint[MAX_ARMS];
+	Matrix3					lowerArmToElbowJoint[MAX_ARMS];
 };
 
 #endif /* !__GAME_IK_H__ */

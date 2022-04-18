@@ -71,7 +71,7 @@ public:
 	void					Restore( idRestoreGame* savefile );
 	
 	void					Spawn();
-	void					GetAttributes( idDict& attributes ) const;
+	void					GetAttributes( Dict& attributes ) const;
 	virtual bool			GiveToPlayer( budPlayer* player, unsigned int giveFlags );
 	virtual bool			Pickup( budPlayer* player );
 	virtual void			Think();
@@ -104,7 +104,7 @@ protected:
 	}
 	
 private:
-	budVec3					orgOrigin;
+	Vector3					orgOrigin;
 	bool					spin;
 	bool					pulse;
 	bool					canPickUp;
@@ -163,7 +163,7 @@ public:
 	void					Spawn();
 	
 private:
-	budVec3					playerPos;
+	Vector3					playerPos;
 	const budMaterial* 		screenshot;
 	
 	void					Event_Trigger( idEntity* activator );
@@ -201,11 +201,11 @@ public:
 	void					Spawn();
 	virtual void			Think();
 	void					ClientThink( const int curTime, const float fraction, const bool predict );
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
 	virtual bool			Pickup( budPlayer* player );
 	
-	static void				DropItems( budAnimatedEntity* ent, const char* type, budList<idEntity*>* list );
-	static idEntity*			DropItem( const char* classname, const budVec3& origin, const budMat3& axis, const budVec3& velocity, int activateDelay, int removeDelay );
+	static void				DropItems( budAnimatedEntity* ent, const char* type, List<idEntity*>* list );
+	static idEntity*			DropItem( const char* classname, const Vector3& origin, const Matrix3& axis, const Vector3& velocity, int activateDelay, int removeDelay );
 	
 	virtual void			WriteToSnapshot( budBitMsg& msg ) const;
 	virtual void			ReadFromSnapshot( const budBitMsg& msg );
@@ -219,7 +219,7 @@ protected:
 	int						nextSoundTime;
 	bool					repeatSmoke;	// never stop updating the particles
 	
-	void					Gib( const budVec3& dir, const char* damageDefName );
+	void					Gib( const Vector3& dir, const char* damageDefName );
 	
 	void					Event_DropToFloor();
 	void					Event_Gib( const char* damageDefName );
@@ -256,8 +256,8 @@ public:
 	bool					dropped;			// was it dropped?
 	
 private:
-	budVec3					returnOrigin;
-	budMat3					returnAxis;
+	Vector3					returnOrigin;
+	Matrix3					returnAxis;
 	int						lastDrop;
 	
 	const budDeclSkin* 		skinDefault;
@@ -284,7 +284,7 @@ private:
 	void					PrivateReturn();
 	function_t* 			LoadScript( const char* script );
 	
-	void					SpawnNugget( budVec3 pos );
+	void					SpawnNugget( Vector3 pos );
 	void                    UpdateGuis();
 };
 
@@ -329,7 +329,7 @@ public:
 	void					Spawn();
 	
 private:
-	budVec3					playerPos;
+	Vector3					playerPos;
 	
 	void					Event_Trigger( idEntity* activator );
 	void					Event_HideObjective( idEntity* e );

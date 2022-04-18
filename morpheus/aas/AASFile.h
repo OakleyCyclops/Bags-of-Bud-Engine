@@ -96,8 +96,8 @@ public:
 	int							travelType;			// type of travel required to get to the area
 	short						toAreaNum;			// number of the reachable area
 	short						fromAreaNum;		// number of area the reachability starts
-	budVec3						start;				// start point of inter area movement
-	budVec3						end;				// end point of inter area movement
+	Vector3						start;				// start point of inter area movement
+	Vector3						end;				// end point of inter area movement
 	int							edgeNum;			// edge crossed by this reachability
 	unsigned short				travelTime;			// travel time of the inter area movement
 	byte						number;				// reachability number within the fromAreaNum (must be < 256)
@@ -136,14 +136,14 @@ class idReachability_Fly : public idReachability
 class idReachability_Special : public idReachability
 {
 public:
-	idDict						dict;
+	Dict						dict;
 };
 
 // index
 typedef int aasIndex_t;
 
 // vertex
-typedef budVec3 aasVertex_t;
+typedef Vector3 aasVertex_t;
 
 // edge
 typedef struct aasEdge_s
@@ -167,7 +167,7 @@ typedef struct aasArea_s
 	int							numFaces;			// number of faces used for the boundary of the area
 	int							firstFace;			// first face in the face index used for the boundary of the area
 	budBounds					bounds;				// bounds of the area
-	budVec3						center;				// center of the area an AI can move towards
+	Vector3						center;				// center of the area an AI can move towards
 	unsigned short				flags;				// several area flags
 	unsigned short				contents;			// contents of the area
 	short						cluster;			// cluster the area belongs to, if negative it's a portal
@@ -212,13 +212,13 @@ typedef struct aasTrace_s
 	int							getOutOfSolid;		// trace out of solid if the trace starts in solid
 	// output
 	float						fraction;			// fraction of trace completed
-	budVec3						endpos;				// end position of trace
+	Vector3						endpos;				// end position of trace
 	int							planeNum;			// plane hit
 	int							lastAreaNum;		// number of last area the trace went through
 	int							blockingAreaNum;	// area that could not be entered
 	int							numAreas;			// number of areas the trace went through
 	int* 						areas;				// array to store areas the trace went through
-	budVec3* 					points;				// points where the trace entered each new area
+	Vector3* 					points;				// points where the trace entered each new area
 	aasTrace_s()
 	{
 		areas = NULL;
@@ -241,11 +241,11 @@ public:
 	bool						noOptimize;
 	bool						allowSwimReachabilities;
 	bool						allowFlyReachabilities;
-	budStr						fileExtension;
+	String						fileExtension;
 	// physics settings
-	budVec3						gravity;
-	budVec3						gravityDir;
-	budVec3						invGravityDir;
+	Vector3						gravity;
+	Vector3						gravityDir;
+	Vector3						invGravityDir;
 	float						gravityValue;
 	float						maxStepHeight;
 	float						maxBarrierHeight;
@@ -261,9 +261,9 @@ public:
 public:
 	budAASSettings();
 	
-	bool						FromFile( const budStr& fileName );
+	bool						FromFile( const String& fileName );
 	bool						FromParser( budLexer& src );
-	bool						FromDict( const char* name, const idDict* dict );
+	bool						FromDict( const char* name, const Dict* dict );
 	bool						WriteToFile( budFile* fp ) const;
 	bool						ValidForBounds( const budBounds& bounds ) const;
 	bool						ValidEntity( const char* classname ) const;
@@ -272,7 +272,7 @@ private:
 	bool						ParseBool( budLexer& src, bool& b );
 	bool						ParseInt( budLexer& src, int& i );
 	bool						ParseFloat( budLexer& src, float& f );
-	bool						ParseVector( budLexer& src, budVec3& vec );
+	bool						ParseVector( budLexer& src, Vector3& vec );
 	bool						ParseBBoxes( budLexer& src );
 };
 
@@ -422,36 +422,36 @@ public:
 		areas[index].travelFlags &= ~flag;
 	}
 	
-	virtual budVec3				EdgeCenter( int edgeNum ) const = 0;
-	virtual budVec3				FaceCenter( int faceNum ) const = 0;
-	virtual budVec3				AreaCenter( int areaNum ) const = 0;
+	virtual Vector3				EdgeCenter( int edgeNum ) const = 0;
+	virtual Vector3				FaceCenter( int faceNum ) const = 0;
+	virtual Vector3				AreaCenter( int areaNum ) const = 0;
 	
 	virtual budBounds			EdgeBounds( int edgeNum ) const = 0;
 	virtual budBounds			FaceBounds( int faceNum ) const = 0;
 	virtual budBounds			AreaBounds( int areaNum ) const = 0;
 	
-	virtual int					PointAreaNum( const budVec3& origin ) const = 0;
-	virtual int					PointReachableAreaNum( const budVec3& origin, const budBounds& searchBounds, const int areaFlags, const int excludeTravelFlags ) const = 0;
+	virtual int					PointAreaNum( const Vector3& origin ) const = 0;
+	virtual int					PointReachableAreaNum( const Vector3& origin, const budBounds& searchBounds, const int areaFlags, const int excludeTravelFlags ) const = 0;
 	virtual int					BoundsReachableAreaNum( const budBounds& bounds, const int areaFlags, const int excludeTravelFlags ) const = 0;
-	virtual void				PushPointIntoAreaNum( int areaNum, budVec3& point ) const = 0;
-	virtual bool				Trace( aasTrace_t& trace, const budVec3& start, const budVec3& end ) const = 0;
+	virtual void				PushPointIntoAreaNum( int areaNum, Vector3& point ) const = 0;
+	virtual bool				Trace( aasTrace_t& trace, const Vector3& start, const Vector3& end ) const = 0;
 	virtual void				PrintInfo() const = 0;
 	
 protected:
-	budStr						name;
+	String						name;
 	unsigned int				crc;
 	
 	budPlaneSet					planeList;
-	budList<aasVertex_t, TAG_AAS>			vertices;
-	budList<aasEdge_t, TAG_AAS>			edges;
-	budList<aasIndex_t, TAG_AAS>			edgeIndex;
-	budList<aasFace_t, TAG_AAS>			faces;
-	budList<aasIndex_t, TAG_AAS>			faceIndex;
-	budList<aasArea_t, TAG_AAS>			areas;
-	budList<aasNode_t, TAG_AAS>			nodes;
-	budList<aasPortal_t, TAG_AAS>			portals;
-	budList<aasIndex_t, TAG_AAS>			portalIndex;
-	budList<aasCluster_t, TAG_AAS>		clusters;
+	List<aasVertex_t, TAG_AAS>			vertices;
+	List<aasEdge_t, TAG_AAS>			edges;
+	List<aasIndex_t, TAG_AAS>			edgeIndex;
+	List<aasFace_t, TAG_AAS>			faces;
+	List<aasIndex_t, TAG_AAS>			faceIndex;
+	List<aasArea_t, TAG_AAS>			areas;
+	List<aasNode_t, TAG_AAS>			nodes;
+	List<aasPortal_t, TAG_AAS>			portals;
+	List<aasIndex_t, TAG_AAS>			portalIndex;
+	List<aasCluster_t, TAG_AAS>		clusters;
 	budAASSettings				settings;
 };
 

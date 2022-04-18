@@ -52,10 +52,10 @@ occupied leaf
 */
 void LeakFile( tree_t* tree )
 {
-	budVec3	mid;
+	Vector3	mid;
 	FILE*	linefile;
-	budStr	filename;
-	budStr	ospath;
+	String	filename;
+	String	ospath;
 	node_t*	node;
 	int		count;
 	

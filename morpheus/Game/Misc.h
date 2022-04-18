@@ -165,7 +165,7 @@ public:
 	void				Restore( idRestoreGame* savefile );
 	
 	void				Spawn();
-	void				Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	void				Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	
 	virtual void		Hide();
 	virtual void		Show();
@@ -222,8 +222,8 @@ private:
 	idEntity* 			ent2;
 	int					id1;
 	int					id2;
-	budVec3				p1;
-	budVec3				p2;
+	Vector3				p1;
+	Vector3				p2;
 	idForce_Spring		spring;
 	
 	void				Event_LinkSpring();
@@ -283,7 +283,7 @@ public:
 	void					Spawn();
 	virtual bool			LoadAF();
 	bool					StartRagdoll();
-	virtual bool			GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis );
+	virtual bool			GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis );
 	
 private:
 	int						num_anims;
@@ -331,7 +331,7 @@ public:
 	void				ShowEditingDialog();
 	virtual void		Hide();
 	virtual void		Show();
-	void				Fade( const budVec4& to, float fadeTime );
+	void				Fade( const Vector4& to, float fadeTime );
 	virtual void		Think();
 	
 	virtual void		WriteToSnapshot( budBitMsg& msg ) const;
@@ -342,8 +342,8 @@ private:
 	
 	int					spawnTime;
 	bool				active;
-	budVec4				fadeFrom;
-	budVec4				fadeTo;
+	Vector4				fadeFrom;
+	Vector4				fadeTo;
 	int					fadeStart;
 	int					fadeEnd;
 	bool				runGui;
@@ -410,8 +410,8 @@ private:
 	int							mRespawnDelay;
 	int							mRespawnTime;
 	float						mShootSpeed;
-	budVec3						mShootDir;
-	budStr						mEntityDefName;
+	Vector3						mShootDir;
+	String						mEntityDefName;
 	idEntityPtr< idEntity >		mLastProjectile;
 	
 };
@@ -491,7 +491,7 @@ public:
 	virtual void		Think();
 	
 private:
-	budStr				text;
+	String				text;
 	bool				playerOriented;
 };
 
@@ -578,7 +578,7 @@ public:
 	virtual void		Think();
 	
 	void				SetMaster( idBeam* masterbeam );
-	void				SetBeamTarget( const budVec3& origin );
+	void				SetBeamTarget( const Vector3& origin );
 	
 	virtual void		Show();
 	
@@ -824,13 +824,13 @@ private:
 	int					end_time;
 	float				throw_time;
 	float				shake_time;
-	budVec3				shake_ang;
+	Vector3				shake_ang;
 	float				speed;
 	int					min_wait;
 	int					max_wait;
 	idEntityPtr<budActor>target;
-	budList<int>			targetTime;
-	budList<budVec3>		lastTargetPos;
+	List<int>			targetTime;
+	List<Vector3>		lastTargetPos;
 };
 
 /*
@@ -924,13 +924,13 @@ private:
 	idEntity*			turret;
 	
 	// the muzzle bone's position, used for launching projectiles and trailing smoke
-	budVec3				muzzleOrigin;
-	budMat3				muzzleAxis;
+	Vector3				muzzleOrigin;
+	Matrix3				muzzleAxis;
 	
 	float				weaponLastFireTime;
 	float				weaponFireDelay;
 	
-	const idDict* 		projectile;
+	const Dict* 		projectile;
 	
 	const idSoundShader*	soundFireWeapon;
 	

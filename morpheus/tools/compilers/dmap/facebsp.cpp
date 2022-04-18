@@ -39,7 +39,7 @@ extern	int	c_nodes;
 
 void RemovePortalFromNode( uPortal_t* portal, node_t* l );
 
-node_t* NodeForPoint( node_t* node, const budVec3& origin )
+node_t* NodeForPoint( node_t* node, const Vector3& origin )
 {
 	while( node->planenum != PLANENUM_LEAF )
 	{
@@ -207,7 +207,7 @@ int SelectSplitPlaneNum( node_t* node, bspface_t* list )
 	int			planenum;
 	bool	havePortals;
 	float		dist;
-	budVec3		halfSize;
+	Vector3		halfSize;
 	
 	// if it is crossing a 1k block boundary, force a split
 	// this prevents epsilon problems from extending an
@@ -396,7 +396,7 @@ void	BuildFaceTree_r( node_t* node, bspface_t* list )
 	// split the bounds if we have a nice axial plane
 	for( i = 0 ; i < 3 ; i++ )
 	{
-		if( budMath::Fabs( plane[i] - 1.0 ) < 0.001 )
+		if( Math::Fabs( plane[i] - 1.0 ) < 0.001 )
 		{
 			node->children[0]->bounds[0][i] = plane.Dist();
 			node->children[1]->bounds[1][i] = plane.Dist();
@@ -502,9 +502,9 @@ bspface_t*	MakeStructuralBspFaceList( primitive_t* list )
 				
 				//w = new idWinding( 3 );
 				//w->SetNumPoints( 3 );
-				//( *w )[0] = budVec5( tri->v[0].xyz, tri->v[0].GetTexCoord() );
-				//( *w )[1] = budVec5( tri->v[1].xyz, tri->v[1].GetTexCoord() );
-				//( *w )[2] = budVec5( tri->v[2].xyz, tri->v[2].GetTexCoord() );
+				//( *w )[0] = Vector5( tri->v[0].xyz, tri->v[0].GetTexCoord() );
+				//( *w )[1] = Vector5( tri->v[1].xyz, tri->v[1].GetTexCoord() );
+				//( *w )[2] = Vector5( tri->v[2].xyz, tri->v[2].GetTexCoord() );
 				
 				w = WindingForTri( tri );
 				//w->ReverseSelf();

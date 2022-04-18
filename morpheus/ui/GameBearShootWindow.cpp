@@ -40,8 +40,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #define MAX_WINDFORCE 100.f
 
-budCVar bearTurretAngle( "bearTurretAngle", "0", CVAR_FLOAT, "" );
-budCVar bearTurretForce( "bearTurretForce", "200", CVAR_FLOAT, "" );
+CVar bearTurretAngle( "bearTurretAngle", "0", CVAR_FLOAT, "" );
+CVar bearTurretForce( "bearTurretForce", "200", CVAR_FLOAT, "" );
 
 /*
 *****************************************************************************
@@ -489,22 +489,22 @@ budGameBearShootWindow::ParseInternalVar
 */
 bool budGameBearShootWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "gamerunning" ) == 0 )
+	if( String::Icmp( _name, "gamerunning" ) == 0 )
 	{
 		gamerunning = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onFire" ) == 0 )
+	if( String::Icmp( _name, "onFire" ) == 0 )
 	{
 		onFire = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onContinue" ) == 0 )
+	if( String::Icmp( _name, "onContinue" ) == 0 )
 	{
 		onContinue = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "onNewGame" ) == 0 )
+	if( String::Icmp( _name, "onNewGame" ) == 0 )
 	{
 		onNewGame = src->ParseBool();
 		return true;
@@ -522,19 +522,19 @@ idWinVar* budGameBearShootWindow::GetWinVarByName( const char* _name, bool winLo
 {
 	idWinVar* retVar = NULL;
 	
-	if( budStr::Icmp( _name, "gamerunning" ) == 0 )
+	if( String::Icmp( _name, "gamerunning" ) == 0 )
 	{
 		retVar = &gamerunning;
 	}
-	else 	if( budStr::Icmp( _name, "onFire" ) == 0 )
+	else 	if( String::Icmp( _name, "onFire" ) == 0 )
 	{
 		retVar = &onFire;
 	}
-	else 	if( budStr::Icmp( _name, "onContinue" ) == 0 )
+	else 	if( String::Icmp( _name, "onContinue" ) == 0 )
 	{
 		retVar = &onContinue;
 	}
-	else 	if( budStr::Icmp( _name, "onNewGame" ) == 0 )
+	else 	if( String::Icmp( _name, "onNewGame" ) == 0 )
 	{
 		retVar = &onNewGame;
 	}
@@ -592,9 +592,9 @@ budGameBearShootWindow::UpdateTurret
 */
 void budGameBearShootWindow::UpdateTurret()
 {
-	budVec2	pt;
-	budVec2	turretOrig;
-	budVec2	right;
+	Vector2	pt;
+	Vector2	turretOrig;
+	Vector2	right;
 	float	dot, angle;
 	
 	pt.x = gui->CursorX();
@@ -611,7 +611,7 @@ void budGameBearShootWindow::UpdateTurret()
 	
 	angle = RAD2DEG( acosf( dot ) );
 	
-	turretAngle = budMath::ClampFloat( 0.f, 90.f, angle );
+	turretAngle = Math::ClampFloat( 0.f, 90.f, angle );
 }
 
 /*
@@ -633,7 +633,7 @@ void budGameBearShootWindow::UpdateBear()
 	// Check for collisions
 	if( !bearHitTarget && !gameOver )
 	{
-		budVec2 bearCenter;
+		Vector2 bearCenter;
 		bool	collision = false;
 		
 		bearCenter.x = bear->position.x + bear->width / 2;
@@ -692,7 +692,7 @@ void budGameBearShootWindow::UpdateBear()
 	
 	// Bear rotation is based on velocity
 	float angle;
-	budVec2 dir;
+	Vector2 dir;
 	
 	dir = bear->velocity;
 	dir.NormalizeFast();
@@ -807,7 +807,7 @@ void budGameBearShootWindow::UpdateButtons()
 
 	if( onFire )
 	{
-		budVec2 vec;
+		Vector2 vec;
 		
 		gui->HandleNamedEvent( "DisableFireButton" );
 		common->SW()->PlayShaderDirectly( "arcade_sargeshoot" );
@@ -816,9 +816,9 @@ void budGameBearShootWindow::UpdateButtons()
 		bearScale = 1.f;
 		bear->SetSize( BEAR_SIZE, BEAR_SIZE );
 		
-		vec.x = budMath::Cos( DEG2RAD( turretAngle ) );
+		vec.x = Math::Cos( DEG2RAD( turretAngle ) );
 		vec.x += ( 1 - vec.x ) * 0.18f;
-		vec.y = -budMath::Sin( DEG2RAD( turretAngle ) );
+		vec.y = -Math::Sin( DEG2RAD( turretAngle ) );
 		
 		turretForce = bearTurretForce.GetFloat();
 		
@@ -945,7 +945,7 @@ void budGameBearShootWindow::UpdateGame()
 				wind->rotation = 180;
 			}
 			
-			scale = 1.f - ( ( MAX_WINDFORCE - budMath::Fabs( windForce ) ) / MAX_WINDFORCE );
+			scale = 1.f - ( ( MAX_WINDFORCE - Math::Fabs( windForce ) ) / MAX_WINDFORCE );
 			width = 100 * scale;
 			
 			if( windForce < 0 )
@@ -975,7 +975,7 @@ void budGameBearShootWindow::UpdateGame()
 		
 		// Update countdown timer
 		timeRemaining -= timeSlice;
-		timeRemaining = budMath::ClampFloat( 0.f, 99999.f, timeRemaining );
+		timeRemaining = Math::ClampFloat( 0.f, 99999.f, timeRemaining );
 		gui->SetStateString( "time_remaining", va( "%2.1f", timeRemaining ) );
 		
 		if( timeRemaining <= 0.f && !gameOver )

@@ -93,7 +93,7 @@ typedef enum
 
 // FIXME: At some point we may want to just limit it to one thread per signal, but
 // for now, I'm allowing multiple threads.  We should reevaluate this later in the project
-#define MAX_SIGNAL_THREADS 16		// probably overkill, but budList uses a granularity of 16
+#define MAX_SIGNAL_THREADS 16		// probably overkill, but List uses a granularity of 16
 
 struct signal_t
 {
@@ -104,7 +104,7 @@ struct signal_t
 class signalList_t
 {
 public:
-	budList<signal_t, TAG_ENTITY> signal[ NUM_SIGNALS ];
+	List<signal_t, TAG_ENTITY> signal[ NUM_SIGNALS ];
 };
 
 
@@ -161,14 +161,14 @@ typedef idNetEvent< 7 > netBoolEvent_t;
 
 inline void	WriteToBitMsg( const netBoolEvent_t& netEvent, budBitMsg& msg )
 {
-	msg.WriteBits( netEvent.count, budMath::BitsForInteger( netBoolEvent_t::Maximum ) );
+	msg.WriteBits( netEvent.count, Math::BitsForInteger( netBoolEvent_t::Maximum ) );
 	
 	assert( netEvent.count <= netBoolEvent_t::Maximum );
 }
 
 inline void	ReadFromBitMsg( netBoolEvent_t& netEvent, const budBitMsg& msg )
 {
-	netEvent.count = msg.ReadBits( budMath::BitsForInteger( netBoolEvent_t::Maximum ) );
+	netEvent.count = msg.ReadBits( Math::BitsForInteger( netBoolEvent_t::Maximum ) );
 	
 	assert( netEvent.count <= netBoolEvent_t::Maximum );
 }
@@ -192,8 +192,8 @@ public:
 	int						snapshotBits;			// number of bits this entity occupied in the last snapshot
 	bool					snapshotStale;			// Set to true if this entity is considered stale in the snapshot
 	
-	budStr					name;					// name of entity
-	idDict					spawnArgs;				// key/value pairs used to spawn and initialize entity
+	String					name;					// name of entity
+	Dict					spawnArgs;				// key/value pairs used to spawn and initialize entity
 	idScriptObject			scriptObject;			// contains all script defined data for this entity
 	
 	int						thinkFlags;				// TH_? flags
@@ -203,7 +203,7 @@ public:
 	renderView_t* 			renderView;				// for camera views from this entity
 	idEntity* 				cameraTarget;			// any remoteRenderMap shaders will use this
 	
-	budList< idEntityPtr<idEntity>, TAG_ENTITY >	targets;		// when this entity is activated these entities entity are activated
+	List< idEntityPtr<idEntity>, TAG_ENTITY >	targets;		// when this entity is activated these entities entity are activated
 	
 	int						health;					// FIXME: do all objects really need health?
 	
@@ -252,7 +252,7 @@ public:
 	const char* 			GetEntityDefName() const;
 	void					SetName( const char* name );
 	const char* 			GetName() const;
-	virtual void			UpdateChangeableSpawnArgs( const idDict* source );
+	virtual void			UpdateChangeableSpawnArgs( const Dict* source );
 	int						GetEntityNumber() const
 	{
 		return entityNumber;
@@ -270,7 +270,7 @@ public:
 	bool					IsActive() const;
 	void					BecomeActive( int flags );
 	void					BecomeInactive( int flags );
-	void					UpdatePVSAreas( const budVec3& pos );
+	void					UpdatePVSAreas( const Vector3& pos );
 	void					BecomeReplicated();
 	
 	// visuals
@@ -282,10 +282,10 @@ public:
 	const budDeclSkin* 		GetSkin() const;
 	void					SetShaderParm( int parmnum, float value );
 	virtual void			SetColor( float red, float green, float blue );
-	virtual void			SetColor( const budVec3& color );
-	virtual void			GetColor( budVec3& out ) const;
-	virtual void			SetColor( const budVec4& color );
-	virtual void			GetColor( budVec4& out ) const;
+	virtual void			SetColor( const Vector3& color );
+	virtual void			GetColor( Vector3& out ) const;
+	virtual void			SetColor( const Vector4& color );
+	virtual void			GetColor( Vector4& out ) const;
 	virtual void			FreeModelDef();
 	virtual void			FreeLightDef();
 	virtual void			Hide();
@@ -294,7 +294,7 @@ public:
 	void					UpdateVisuals();
 	void					UpdateModel();
 	void					UpdateModelTransform();
-	virtual void			ProjectOverlay( const budVec3& origin, const budVec3& dir, float size, const char* material );
+	virtual void			ProjectOverlay( const Vector3& origin, const Vector3& dir, float size, const char* material );
 	int						GetNumPVSAreas();
 	const int* 				GetPVSAreas();
 	void					ClearPVSAreas();
@@ -335,13 +335,13 @@ public:
 	int						GetBindBody() const;
 	idEntity* 				GetTeamMaster() const;
 	idEntity* 				GetNextTeamEntity() const;
-	void					ConvertLocalToWorldTransform( budVec3& offset, budMat3& axis );
-	budVec3					GetLocalVector( const budVec3& vec ) const;
-	budVec3					GetLocalCoordinates( const budVec3& vec ) const;
-	budVec3					GetWorldVector( const budVec3& vec ) const;
-	budVec3					GetWorldCoordinates( const budVec3& vec ) const;
-	bool					GetMasterPosition( budVec3& masterOrigin, budMat3& masterAxis ) const;
-	void					GetWorldVelocities( budVec3& linearVelocity, budVec3& angularVelocity ) const;
+	void					ConvertLocalToWorldTransform( Vector3& offset, Matrix3& axis );
+	Vector3					GetLocalVector( const Vector3& vec ) const;
+	Vector3					GetLocalCoordinates( const Vector3& vec ) const;
+	Vector3					GetWorldVector( const Vector3& vec ) const;
+	Vector3					GetWorldCoordinates( const Vector3& vec ) const;
+	bool					GetMasterPosition( Vector3& masterOrigin, Matrix3& masterAxis ) const;
+	void					GetWorldVelocities( Vector3& linearVelocity, Vector3& angularVelocity ) const;
 	
 	// physics
 	// set a new physics object to be used by this entity
@@ -357,25 +357,25 @@ public:
 	// InterpolatePhysics actually calls evaluate, this version doesn't.
 	void					InterpolatePhysicsOnly( const float fraction, bool updateTeam = false );
 	// set the origin of the physics object (relative to bindMaster if not NULL)
-	void					SetOrigin( const budVec3& org );
+	void					SetOrigin( const Vector3& org );
 	// set the axis of the physics object (relative to bindMaster if not NULL)
-	void					SetAxis( const budMat3& axis );
+	void					SetAxis( const Matrix3& axis );
 	// use angles to set the axis of the physics object (relative to bindMaster if not NULL)
-	void					SetAngles( const budAngles& ang );
+	void					SetAngles( const Angles& ang );
 	// get the floor position underneath the physics object
-	bool					GetFloorPos( float max_dist, budVec3& floorpos ) const;
+	bool					GetFloorPos( float max_dist, Vector3& floorpos ) const;
 	// retrieves the transformation going from the physics origin/axis to the visual origin/axis
-	virtual bool			GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis );
+	virtual bool			GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis );
 	// retrieves the transformation going from the physics origin/axis to the sound origin/axis
-	virtual bool			GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis );
+	virtual bool			GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis );
 	// called from the physics object when colliding, should return true if the physics simulation should stop
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
 	// retrieves impact information, 'ent' is the entity retrieving the info
-	virtual void			GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info );
+	virtual void			GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info );
 	// apply an impulse to the physics object, 'ent' is the entity applying the impulse
-	virtual void			ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse );
+	virtual void			ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse );
 	// add a force to the physics object, 'ent' is the entity adding the force
-	virtual void			AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force );
+	virtual void			AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force );
 	// activate the physics object, 'ent' is the entity activating this entity
 	virtual void			ActivatePhysics( idEntity* ent );
 	// returns true if the physics object is at rest
@@ -389,17 +389,17 @@ public:
 	
 	// damage
 	// returns true if this entity can be damaged from the given origin
-	virtual bool			CanDamage( const budVec3& origin, budVec3& damagePoint ) const;
+	virtual bool			CanDamage( const Vector3& origin, Vector3& damagePoint ) const;
 	// applies damage to this entity
-	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir, const char* damageDefName, const float damageScale, const int location );
+	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir, const char* damageDefName, const float damageScale, const int location );
 	// adds a damage effect like overlays, blood, sparks, debris etc.
-	virtual void			AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName );
+	virtual void			AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName );
 	// callback function for when another entity received damage from this entity.  damage can be adjusted and returned to the caller.
 	virtual void			DamageFeedback( idEntity* victim, idEntity* inflictor, int& damage );
 	// notifies this entity that it is in pain
-	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	// notifies this entity that is has been killed
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	
 	// scripting
 	virtual bool			ShouldConstructScriptObjectAtSpawn() const;
@@ -423,9 +423,9 @@ public:
 	void					ActivateTargets( idEntity* activator ) const;
 	
 	// misc
-	virtual void			Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination );
+	virtual void			Teleport( const Vector3& origin, const Angles& angles, idEntity* destination );
 	bool					TouchTriggers() const;
-	idCurve_Spline<budVec3>* GetSpline() const;
+	idCurve_Spline<Vector3>* GetSpline() const;
 	virtual void			ShowEditingDialog();
 	
 	enum
@@ -474,7 +474,7 @@ public:
 		return  GetEntityNumber() < ENTITYNUM_FIRST_NON_REPLICATED;
 	}
 	
-	void					CreateDeltasFromOldOriginAndAxis( const budVec3& oldOrigin, const budMat3& oldAxis );
+	void					CreateDeltasFromOldOriginAndAxis( const Vector3& oldOrigin, const Matrix3& oldAxis );
 	void					DecayOriginAndAxisDelta();
 	uint32					GetPredictedKey()
 	{
@@ -514,11 +514,11 @@ protected:
 	int						modelDefHandle;						// handle to static renderer model
 	refSound_t				refSound;							// used to present sound to the audio engine
 	
-	budVec3					GetOriginDelta() const
+	Vector3					GetOriginDelta() const
 	{
 		return originDelta;
 	}
-	budMat3					GetAxisDelta() const
+	Matrix3					GetAxisDelta() const
 	{
 		return axisDelta;
 	}
@@ -543,8 +543,8 @@ private:
 	
 	// Delta values that are set when the server or client disagree on where the render model should be. If this happens,
 	// they resolve it through DecayOriginAndAxisDelta()
-	budVec3					originDelta;
-	budMat3					axisDelta;
+	Vector3					originDelta;
+	Matrix3					axisDelta;
 	
 	interpolationBehavior_t	interpolationBehavior;
 	unsigned int			snapshotsReceived;
@@ -556,7 +556,7 @@ private:
 	
 	// physics
 	// initialize the default physics
-	void					InitDefaultPhysics( const budVec3& origin, const budMat3& axis );
+	void					InitDefaultPhysics( const Vector3& origin, const Matrix3& axis );
 	// update visual position from the physics
 	void					UpdateFromPhysics( bool moveBack );
 	// get physics timestep
@@ -601,16 +601,16 @@ private:
 	void					Event_StartSound( const char* soundName, int channel, int netSync );
 	void					Event_FadeSound( int channel, float to, float over );
 	void					Event_GetWorldOrigin();
-	void					Event_SetWorldOrigin( budVec3 const& org );
+	void					Event_SetWorldOrigin( Vector3 const& org );
 	void					Event_GetOrigin();
-	void					Event_SetOrigin( const budVec3& org );
+	void					Event_SetOrigin( const Vector3& org );
 	void					Event_GetAngles();
-	void					Event_SetAngles( const budAngles& ang );
-	void					Event_SetLinearVelocity( const budVec3& velocity );
+	void					Event_SetAngles( const Angles& ang );
+	void					Event_SetLinearVelocity( const Vector3& velocity );
 	void					Event_GetLinearVelocity();
-	void					Event_SetAngularVelocity( const budVec3& velocity );
+	void					Event_SetAngularVelocity( const Vector3& velocity );
 	void					Event_GetAngularVelocity();
-	void					Event_SetSize( const budVec3& mins, const budVec3& maxs );
+	void					Event_SetSize( const Vector3& mins, const Vector3& maxs );
 	void					Event_GetSize();
 	void					Event_GetMins();
 	void					Event_GetMaxs();
@@ -627,7 +627,7 @@ private:
 	void					Event_RestorePosition();
 	void					Event_UpdateCameraTarget();
 	void					Event_DistanceTo( idEntity* ent );
-	void					Event_DistanceToPoint( const budVec3& point );
+	void					Event_DistanceToPoint( const Vector3& point );
 	void					Event_StartFx( const char* fx );
 	void					Event_WaitFrame();
 	void					Event_Wait( float time );
@@ -652,8 +652,8 @@ private:
 typedef struct damageEffect_s
 {
 	jointHandle_t			jointNum;
-	budVec3					localOrigin;
-	budVec3					localNormal;
+	Vector3					localOrigin;
+	Vector3					localNormal;
 	int						time;
 	const budDeclParticle*	type;
 	struct damageEffect_s* 	next;
@@ -679,12 +679,12 @@ public:
 	virtual budAnimator* 	GetAnimator();
 	virtual void			SetModel( const char* modelname );
 	
-	bool					GetJointWorldTransform( jointHandle_t jointHandle, int currentTime, budVec3& offset, budMat3& axis );
-	bool					GetJointTransformForAnim( jointHandle_t jointHandle, int animNum, int currentTime, budVec3& offset, budMat3& axis ) const;
+	bool					GetJointWorldTransform( jointHandle_t jointHandle, int currentTime, Vector3& offset, Matrix3& axis );
+	bool					GetJointTransformForAnim( jointHandle_t jointHandle, int animNum, int currentTime, Vector3& offset, Matrix3& axis ) const;
 	
 	virtual int				GetDefaultSurfaceType() const;
-	virtual void			AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName );
-	void					AddLocalDamageEffect( jointHandle_t jointNum, const budVec3& localPoint, const budVec3& localNormal, const budVec3& localDir, const budDeclEntityDef* def, const budMaterial* collisionMaterial );
+	virtual void			AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName );
+	void					AddLocalDamageEffect( jointHandle_t jointNum, const Vector3& localPoint, const Vector3& localNormal, const Vector3& localDir, const budDeclEntityDef* def, const budMaterial* collisionMaterial );
 	void					UpdateDamageEffects();
 	
 	virtual bool			ClientReceiveEvent( int event, int time, const budBitMsg& msg );
@@ -703,8 +703,8 @@ private:
 	void					Event_GetJointHandle( const char* jointname );
 	void 					Event_ClearAllJoints();
 	void 					Event_ClearJoint( jointHandle_t jointnum );
-	void 					Event_SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const budVec3& pos );
-	void 					Event_SetJointAngle( jointHandle_t jointnum, jointModTransform_t transform_type, const budAngles& angles );
+	void 					Event_SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const Vector3& pos );
+	void 					Event_SetJointAngle( jointHandle_t jointnum, jointModTransform_t transform_type, const Angles& angles );
 	void 					Event_GetJointPos( jointHandle_t jointnum );
 	void 					Event_GetJointAngle( jointHandle_t jointnum );
 };

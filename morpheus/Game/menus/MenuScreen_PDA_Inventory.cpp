@@ -101,7 +101,7 @@ void idMenuScreen_PDA_Inventory::ShowScreen( const mainMenuTransition_t transiti
 		int numItems = player->GetInventory().items.Num();
 		for( int j = 0; j < numItems; j++ )
 		{
-			idDict* item = player->GetInventory().items[j];
+			Dict* item = player->GetInventory().items[j];
 			if( !item->GetBool( "inv_pda" ) )
 			{
 				const char* iname = item->GetString( "inv_name" );
@@ -118,7 +118,7 @@ void idMenuScreen_PDA_Inventory::ShowScreen( const mainMenuTransition_t transiti
 			}
 		}
 		
-		budList<const budMaterial*> weaponIcons;
+		List<const budMaterial*> weaponIcons;
 		for( int j = 0; j < MAX_WEAPONS; j++ )
 		{
 		
@@ -244,8 +244,8 @@ void idMenuScreen_PDA_Inventory::Update()
 		
 		if( validIndex == itemList.GetMoveToIndex() )
 		{
-			budStr itemName = weaponDef->dict.GetString( "display_name" );
-			budStr itemDesc = weaponDef->dict.GetString( "inv_desc" );
+			String itemName = weaponDef->dict.GetString( "display_name" );
+			String itemDesc = weaponDef->dict.GetString( "inv_desc" );
 			infoBox.SetHeading( budLocalization::GetString( itemName.c_str() ) );
 			infoBox.SetBody( budLocalization::GetString( itemDesc.c_str() ) );
 			break;

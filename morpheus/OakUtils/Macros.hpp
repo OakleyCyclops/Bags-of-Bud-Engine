@@ -37,6 +37,16 @@ If you have questions concerning this license or the applicable additional terms
 ================================================================================================
 */
 
+// Platform macros
+#ifdef __MINGW64__
+  #define USING_WINDOWS
+#endif
+
+#ifdef __linux__ || __FreeBSD__ || __NetBSD__ || __OpenBSD__
+  #define USING_UNIX
+#endif
+
+
 // Win32
 #if defined(WIN32) || defined(_WIN32)
 

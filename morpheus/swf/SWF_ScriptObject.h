@@ -201,12 +201,12 @@ private:
 		
 		int							index;
 		int							hashNext;
-		budStr						name;
+		String						name;
 		budSWFScriptVar				value;
 		budSWFScriptNativeVariable* 	native;
 		int							flags;
 	};
-	budList< swfNamedVar_t, TAG_SWF >	variables;
+	List< swfNamedVar_t, TAG_SWF >	variables;
 	
 	static const int VARIABLE_HASH_BUCKETS = 16;
 	int	variablesHash[VARIABLE_HASH_BUCKETS];

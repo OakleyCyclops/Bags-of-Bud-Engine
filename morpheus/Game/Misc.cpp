@@ -323,7 +323,7 @@ void budActivator::Spawn()
 	spawnArgs.GetBool( "stay_on", "0", stay_on );
 	spawnArgs.GetBool( "start_off", "0", start_off );
 	
-	GetPhysics()->SetClipBox( budBounds( vec3_origin ).Expand( 4 ), 1.0f );
+	GetPhysics()->SetClipBox( budBounds( Vector3_Origin ).Expand( 4 ), 1.0f );
 	GetPhysics()->SetContents( 0 );
 	
 	if( !start_off )
@@ -400,7 +400,7 @@ idPathCorner::DrawDebugInfo
 void idPathCorner::DrawDebugInfo()
 {
 	idEntity* ent;
-	budBounds bnds( budVec3( -4.0, -4.0f, -8.0f ), budVec3( 4.0, 4.0f, 64.0f ) );
+	budBounds bnds( Vector3( -4.0, -4.0f, -8.0f ), Vector3( 4.0, 4.0f, 64.0f ) );
 	
 	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() )
 	{
@@ -409,7 +409,7 @@ void idPathCorner::DrawDebugInfo()
 			continue;
 		}
 		
-		budVec3 org = ent->GetPhysics()->GetOrigin();
+		Vector3 org = ent->GetPhysics()->GetOrigin();
 		gameRenderWorld->DebugBounds( colorRed, bnds, org, 0 );
 	}
 }
@@ -518,7 +518,7 @@ idDamagable::Spawn
 */
 void idDamagable::Spawn()
 {
-	budStr broken;
+	String broken;
 	
 	health = spawnArgs.GetInt( "health", "5" );
 	spawnArgs.GetInt( "count", "1", count );
@@ -567,7 +567,7 @@ void idDamagable::BecomeBroken( idEntity* activator )
 		}
 	}
 	
-	budStr	broken;
+	String	broken;
 	
 	spawnArgs.GetString( "broken", "", broken );
 	if( broken.Length() )
@@ -617,7 +617,7 @@ void idDamagable::BecomeBroken( idEntity* activator )
 idDamagable::Killed
 ================
 */
-void idDamagable::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idDamagable::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	if( gameLocal.time < nextTriggerTime )
 	{
@@ -744,8 +744,8 @@ idSpring::Think
 */
 void idSpring::Think()
 {
-	budVec3 start, end, origin;
-	budMat3 axis;
+	Vector3 start, end, origin;
+	Matrix3 axis;
 	
 	// run physics
 	RunPhysics();
@@ -771,7 +771,7 @@ void idSpring::Think()
 			end = origin + p2 * axis;
 		}
 		
-		gameRenderWorld->DebugLine( budVec4( 1, 1, 0, 1 ), start, end, 0, true );
+		gameRenderWorld->DebugLine( Vector4( 1, 1, 0, 1 ), start, end, 0, true );
 	}
 	
 	Present();
@@ -784,7 +784,7 @@ idSpring::Event_LinkSpring
 */
 void idSpring::Event_LinkSpring()
 {
-	budStr name1, name2;
+	String name1, name2;
 	
 	spawnArgs.GetString( "ent1", "", name1 );
 	spawnArgs.GetString( "ent2", "", name2 );
@@ -936,7 +936,7 @@ idForceField::Spawn
 */
 void idForceField::Spawn()
 {
-	budVec3 uniform;
+	Vector3 uniform;
 	float explosion, implosion, randomTorque;
 	
 	if( spawnArgs.GetVector( "uniform", "0 0 0", uniform ) )
@@ -1126,7 +1126,7 @@ budAnimated::Spawn
 */
 void budAnimated::Spawn()
 {
-	budStr		animname;
+	String		animname;
 	int			anim2;
 	float		wait;
 	const char*	joint;
@@ -1215,7 +1215,7 @@ budAnimated::LoadAF
 */
 bool budAnimated::LoadAF()
 {
-	budStr fileName;
+	String fileName;
 	
 	if( !spawnArgs.GetString( "ragdoll", "*unknown*", fileName ) )
 	{
@@ -1230,7 +1230,7 @@ bool budAnimated::LoadAF()
 budAnimated::GetPhysicsToSoundTransform
 ===============
 */
-bool budAnimated::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
+bool budAnimated::GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis )
 {
 	animator.GetJointTransform( soundJoint, gameLocal.time, origin, axis );
 	axis = renderEntity.axis;
@@ -1485,13 +1485,13 @@ budAnimated::Event_LaunchMissilesUpdate
 */
 void budAnimated::Event_LaunchMissilesUpdate( int launchjoint, int targetjoint, int numshots, int framedelay )
 {
-	budVec3			launchPos;
-	budVec3			targetPos;
-	budMat3			axis;
-	budVec3			dir;
+	Vector3			launchPos;
+	Vector3			targetPos;
+	Matrix3			axis;
+	Vector3			dir;
 	idEntity* 		ent;
 	idProjectile* 	projectile;
-	const idDict* 	projectileDef;
+	const Dict* 	projectileDef;
 	const char* 	projectilename;
 	
 	projectilename = spawnArgs.GetString( "projectilename" );
@@ -1521,7 +1521,7 @@ void budAnimated::Event_LaunchMissilesUpdate( int launchjoint, int targetjoint, 
 	}
 	projectile = ( idProjectile* )ent;
 	projectile->Create( this, launchPos, dir );
-	projectile->Launch( launchPos, dir, vec3_origin );
+	projectile->Launch( launchPos, dir, Vector3_Origin );
 	
 	if( numshots > 0 )
 	{
@@ -1536,7 +1536,7 @@ budAnimated::Event_LaunchMissiles
 */
 void budAnimated::Event_LaunchMissiles( const char* projectilename, const char* sound, const char* launchjoint, const char* targetjoint, int numshots, int framedelay )
 {
-	const idDict* 	projectileDef;
+	const Dict* 	projectileDef;
 	jointHandle_t	launch;
 	jointHandle_t	target;
 	
@@ -1696,7 +1696,7 @@ void idStaticEntity::Spawn()
 	spawnTime = gameLocal.time;
 	active = false;
 	
-	budStr model = spawnArgs.GetString( "model" );
+	String model = spawnArgs.GetString( "model" );
 	if( model.Find( ".prt" ) >= 0 )
 	{
 		// we want the parametric particles out of sync with each other
@@ -1755,7 +1755,7 @@ void idStaticEntity::Think()
 		}
 		if( fadeEnd > 0 )
 		{
-			budVec4 color;
+			Vector4 color;
 			if( gameLocal.time < fadeEnd )
 			{
 				color.Lerp( fadeFrom, fadeTo, ( float )( gameLocal.time - fadeStart ) / ( float )( fadeEnd - fadeStart ) );
@@ -1776,7 +1776,7 @@ void idStaticEntity::Think()
 idStaticEntity::Fade
 ================
 */
-void idStaticEntity::Fade( const budVec4& to, float fadeTime )
+void idStaticEntity::Fade( const Vector4& to, float fadeTime )
 {
 	GetColor( fadeFrom );
 	fadeTo = to;
@@ -1817,7 +1817,7 @@ idStaticEntity::Event_Activate
 */
 void idStaticEntity::Event_Activate( idEntity* activator )
 {
-	budStr activateGui;
+	String activateGui;
 	
 	spawnTime = gameLocal.time;
 	active = !active;
@@ -2024,7 +2024,7 @@ idFuncShootProjectile::idFuncShootProjectile()
 	mRespawnDelay = 1000;
 	mRespawnTime = 0;
 	mShootSpeed = 1000;
-	mShootDir = budVec3( 0.0f, 0.0f, 1.0f );
+	mShootDir = Vector3( 0.0f, 0.0f, 1.0f );
 }
 
 /*
@@ -2048,14 +2048,14 @@ void idFuncShootProjectile::Think()
 		// time to spawn a new projectile?
 		if( mRespawnTime > 0 && mRespawnTime <= gameLocal.GetTime() )
 		{
-			const idDict* dict = gameLocal.FindEntityDefDict( mEntityDefName );
+			const Dict* dict = gameLocal.FindEntityDefDict( mEntityDefName );
 			idEntity* ent = NULL;
 			gameLocal.SpawnEntityDef( *dict, &ent );
 			if( ent != NULL )
 			{
 				idProjectile* proj = static_cast<idProjectile*>( ent );
 				
-				budVec3 pushVel = mShootDir * mShootSpeed;
+				Vector3 pushVel = mShootDir * mShootSpeed;
 				proj->Create( this, GetPhysics()->GetOrigin(), mShootDir );
 				proj->Launch( GetPhysics()->GetOrigin(), mShootDir, pushVel );
 				if( mShootSpeed == 0.0f )
@@ -2596,7 +2596,7 @@ void idVacuumEntity::Spawn()
 		return;
 	}
 	
-	budVec3 org = spawnArgs.GetVector( "origin" );
+	Vector3 org = spawnArgs.GetVector( "origin" );
 	
 	gameLocal.vacuumAreaNum = gameRenderWorld->PointInArea( org );
 }
@@ -2620,7 +2620,7 @@ idLocationEntity::Spawn
 */
 void idLocationEntity::Spawn()
 {
-	budStr realName;
+	String realName;
 	
 	// this just holds dict information
 	
@@ -2726,7 +2726,7 @@ void idBeam::Think()
 	masterEnt = master.GetEntity();
 	if( masterEnt )
 	{
-		const budVec3& origin = GetPhysics()->GetOrigin();
+		const Vector3& origin = GetPhysics()->GetOrigin();
 		masterEnt->SetBeamTarget( origin );
 	}
 	Present();
@@ -2747,7 +2747,7 @@ void idBeam::SetMaster( idBeam* masterbeam )
 idBeam::SetBeamTarget
 ================
 */
-void idBeam::SetBeamTarget( const budVec3& origin )
+void idBeam::SetBeamTarget( const Vector3& origin )
 {
 	if( ( renderEntity.shaderParms[ SHADERPARM_BEAM_END_X ] != origin.x ) || ( renderEntity.shaderParms[ SHADERPARM_BEAM_END_Y ] != origin.y ) || ( renderEntity.shaderParms[ SHADERPARM_BEAM_END_Z ] != origin.z ) )
 	{
@@ -2772,7 +2772,7 @@ void idBeam::Show()
 	targetEnt = target.GetEntity();
 	if( targetEnt )
 	{
-		const budVec3& origin = targetEnt->GetPhysics()->GetOrigin();
+		const Vector3& origin = targetEnt->GetPhysics()->GetOrigin();
 		SetBeamTarget( origin );
 	}
 }
@@ -2933,7 +2933,7 @@ void idLiquid::Event_Touch( idEntity* other, trace_t* trace )
 			return;
 		}
 	
-		budVec3 pos;
+		Vector3 pos;
 	
 		pos = other->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
 		model->IntersectBounds( other->GetPhysics()->GetBounds().Translate( pos ), -10.0f );
@@ -3015,7 +3015,7 @@ idShaking::BeginShaking
 void idShaking::BeginShaking()
 {
 	int			phase;
-	budAngles	shake;
+	Angles	shake;
 	int			period;
 	
 	active = true;
@@ -3697,7 +3697,7 @@ void idPhantomObjects::Event_Activate( idEntity* activator )
 	targetTime.SetNum( targets.Num() );
 	lastTargetPos.SetNum( targets.Num() );
 	
-	const budVec3& toPos = target.GetEntity()->GetEyePosition();
+	const Vector3& toPos = target.GetEntity()->GetEyePosition();
 	
 	// calculate the relative times of all the objects
 	time = 0.0f;
@@ -3730,8 +3730,8 @@ void idPhantomObjects::Think()
 	int			i;
 	int			num;
 	float		time;
-	budVec3		vel;
-	budVec3		ang;
+	Vector3		vel;
+	Vector3		ang;
 	idEntity*	ent;
 	budActor*		targetEnt;
 	idPhysics*	entPhys;
@@ -3756,7 +3756,7 @@ void idPhantomObjects::Think()
 		return;
 	}
 	
-	const budVec3& toPos = targetEnt->GetEyePosition();
+	const Vector3& toPos = targetEnt->GetEyePosition();
 	
 	num = 0;
 	for( i = 0; i < targets.Num(); i++ )
@@ -3788,7 +3788,7 @@ void idPhantomObjects::Think()
 		}
 		
 		entPhys = ent->GetPhysics();
-		const budVec3& entOrg = entPhys->GetOrigin();
+		const Vector3& entOrg = entPhys->GetOrigin();
 		
 		gameLocal.clip.TracePoint( tr, entOrg, toPos, MASK_OPAQUE, ent );
 		if( tr.fraction >= 1.0f || ( gameLocal.GetTraceEntity( tr ) == targetEnt ) )
@@ -3965,7 +3965,7 @@ void idShockwave::Think()
 		newSize = startSize + u * ( endSize - startSize );
 		
 		// Find all clipmodels between currentSize and newSize
-		budVec3		pos, end;
+		Vector3		pos, end;
 		budClipModel* clipModelList[ MAX_GENTITIES ];
 		budClipModel* clip;
 		idEntity*	ent;
@@ -3985,14 +3985,14 @@ void idShockwave::Think()
 		}
 		
 		//Expand in a sphere
-		end = pos + budVec3( newSize, newSize, zVal );
+		end = pos + Vector3( newSize, newSize, zVal );
 		budBounds bounds( end );
-		end = pos + budVec3( -newSize, -newSize, -zVal );
+		end = pos + Vector3( -newSize, -newSize, -zVal );
 		bounds.AddPoint( end );
 		
 		if( g_debugShockwave.GetBool() )
 		{
-			gameRenderWorld->DebugBounds( colorRed,  bounds, vec3_origin );
+			gameRenderWorld->DebugBounds( colorRed,  bounds, Vector3_Origin );
 		}
 		
 		listedClipModels = gameLocal.clip.ClipModelsTouchingBounds( bounds, -1, clipModelList, MAX_GENTITIES );
@@ -4012,8 +4012,8 @@ void idShockwave::Think()
 				continue;
 			}
 			
-			budVec3 point = ent->GetPhysics()->GetOrigin();
-			budVec3 force = point - pos;
+			Vector3 point = ent->GetPhysics()->GetOrigin();
+			Vector3 force = point - pos;
 			
 			float dist = force.Normalize();
 			
@@ -4027,13 +4027,13 @@ void idShockwave::Think()
 					if( dist <= newSize && dist > newSize - playerDamageSize )
 					{
 					
-						budStr damageDef = spawnArgs.GetString( "def_player_damage", "" );
+						String damageDef = spawnArgs.GetString( "def_player_damage", "" );
 						if( damageDef.Length() > 0 && !playerDamaged )
 						{
 						
 							playerDamaged = true;	//Only damage once per shockwave
 							budPlayer* player = static_cast< budPlayer* >( ent );
-							budVec3 dir = ent->GetPhysics()->GetOrigin() - pos;
+							Vector3 dir = ent->GetPhysics()->GetOrigin() - pos;
 							dir.NormalizeFast();
 							player->Damage( NULL, NULL, dir, damageDef, 1.0f, INVALID_JOINT );
 						}
@@ -4149,7 +4149,7 @@ void idFuncMountedObject::Spawn()
 	spawnArgs.GetInt( "varc", "30", varc );
 	
 	// Get script function
-	budStr funcName = spawnArgs.GetString( "call", "" );
+	String funcName = spawnArgs.GetString( "call", "" );
 	if( funcName.Length() )
 	{
 		scriptFunction = gameLocal.program.FindFunction( funcName );
@@ -4180,17 +4180,17 @@ idFuncMountedObject::GetViewInfo
 */
 void idFuncMountedObject::GetAngleRestrictions( int& yaw_min, int& yaw_max, int& pitch )
 {
-	budMat3		axis;
-	budAngles	angs;
+	Matrix3		axis;
+	Angles	angs;
 	
 	axis = GetPhysics()->GetAxis();
 	angs = axis.ToAngles();
 	
 	yaw_min = angs.yaw - harc;
-	yaw_min = budMath::AngleNormalize180( yaw_min );
+	yaw_min = Math::AngleNormalize180( yaw_min );
 	
 	yaw_max = angs.yaw + harc;
-	yaw_max = budMath::AngleNormalize180( yaw_max );
+	yaw_max = Math::AngleNormalize180( yaw_max );
 	
 	pitch = varc;
 }
@@ -4293,7 +4293,7 @@ void idFuncMountedWeapon::Spawn()
 	weaponFireDelay = 1000.f / firerate;
 	
 	// Get the firing sound
-	budStr fireSound;
+	String fireSound;
 	spawnArgs.GetString( "snd_fire", "", fireSound );
 	soundFireWeapon = declManager->FindSound( fireSound );
 	
@@ -4305,8 +4305,8 @@ void idFuncMountedWeapon::Think()
 
 	if( isMounted && turret )
 	{
-		budVec3		vec = mountedPlayer->viewAngles.ToForward();
-		budAngles	ang = mountedPlayer->GetLocalVector( vec ).ToAngles();
+		Vector3		vec = mountedPlayer->viewAngles.ToForward();
+		Angles	ang = mountedPlayer->GetLocalVector( vec ).ToAngles();
 		
 		turret->GetPhysics()->SetAxis( ang.ToMat3() );
 		turret->UpdateVisuals();
@@ -4318,7 +4318,7 @@ void idFuncMountedWeapon::Think()
 			idEntity*		ent;
 			idProjectile*	proj;
 			budBounds		projBounds;
-			budVec3			dir;
+			Vector3			dir;
 			
 			gameLocal.SpawnEntityDef( *projectile, &ent );
 			if( !ent || !ent->IsType( idProjectile::Type ) )
@@ -4339,7 +4339,7 @@ void idFuncMountedWeapon::Think()
 			
 			projBounds = proj->GetPhysics()->GetBounds().Rotate( proj->GetPhysics()->GetAxis() );
 			
-			proj->Launch( muzzleOrigin, dir, vec3_origin );
+			proj->Launch( muzzleOrigin, dir, Vector3_Origin );
 			StartSoundShader( soundFireWeapon, SND_CHANNEL_WEAPON, SSF_GLOBAL, false, NULL );
 			
 			weaponLastFireTime = gameLocal.time;

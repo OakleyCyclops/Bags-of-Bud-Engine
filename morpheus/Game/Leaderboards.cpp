@@ -107,7 +107,7 @@ LeaderboardLocal_Init
 void LeaderboardLocal_Init()
 {
 
-	const budList< mpMap_t > maps = common->GetMapList();
+	const List< mpMap_t > maps = common->GetMapList();
 	
 	const char** gameModes = NULL;
 	const char** gameModesDisplay = NULL;
@@ -238,7 +238,7 @@ void LeaderboardLocal_Upload( lobbyUserID_t lobbyUserID, int gameType, leaderboa
 	}
 	
 	const budMatchParameters& matchParameters = session->GetActingGameStateLobbyBase().GetMatchParms();
-	const budList< mpMap_t > maps = common->GetMapList();
+	const List< mpMap_t > maps = common->GetMapList();
 	
 	// need to find the map Index number
 	for( mapIdx = 0; mapIdx < maps.Num(); mapIdx++ )

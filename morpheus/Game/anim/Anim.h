@@ -97,8 +97,8 @@ typedef enum
 typedef struct
 {
 	jointHandle_t			jointnum;
-	budMat3					mat;
-	budVec3					pos;
+	Matrix3					mat;
+	Vector3					pos;
 	jointModTransform_t		transform_pos;
 	jointModTransform_t		transform_axis;
 } jointMod_t;
@@ -175,7 +175,7 @@ typedef struct
 typedef struct
 {
 	frameCommandType_t		type;
-	budStr*					string;
+	String*					string;
 	
 	union
 	{
@@ -210,12 +210,12 @@ private:
 	int						animLength;
 	int						numJoints;
 	int						numAnimatedComponents;
-	budList<budBounds, TAG_MD5_ANIM>		bounds;
-	budList<jointAnimInfo_t, TAG_MD5_ANIM>	jointInfo;
-	budList<budJointQuat, TAG_MD5_ANIM>		baseFrame;
-	budList<float, TAG_MD5_ANIM>			componentFrames;
-	budStr					name;
-	budVec3					totaldelta;
+	List<budBounds, TAG_MD5_ANIM>		bounds;
+	List<jointAnimInfo_t, TAG_MD5_ANIM>	jointInfo;
+	List<budJointQuat, TAG_MD5_ANIM>		baseFrame;
+	List<float, TAG_MD5_ANIM>			componentFrames;
+	String					name;
+	Vector3					totaldelta;
 	mutable int				ref_count;
 	
 public:
@@ -243,14 +243,14 @@ public:
 	int						Length() const;
 	int						NumFrames() const;
 	int						NumJoints() const;
-	const budVec3&			TotalMovementDelta() const;
+	const Vector3&			TotalMovementDelta() const;
 	const char*				Name() const;
 	
 	void					GetFrameBlend( int framenum, frameBlend_t& frame ) const;	// frame 1 is first frame
 	void					ConvertTimeToFrame( int time, int cyclecount, frameBlend_t& frame ) const;
 	
-	void					GetOrigin( budVec3& offset, int currentTime, int cyclecount ) const;
-	void					GetOriginRotation( idQuat& rotation, int time, int cyclecount ) const;
+	void					GetOrigin( Vector3& offset, int currentTime, int cyclecount ) const;
+	void					GetOriginRotation( Quat& rotation, int time, int cyclecount ) const;
 	void					GetBounds( budBounds& bounds, int currentTime, int cyclecount ) const;
 };
 
@@ -268,10 +268,10 @@ private:
 	const class budDeclModelDef*	modelDef;
 	const budMD5Anim*				anims[ ANIM_MaxSyncedAnims ];
 	int							numAnims;
-	budStr						name;
-	budStr						realname;
-	budList<frameLookup_t, TAG_ANIM>		frameLookup;
-	budList<frameCommand_t, TAG_ANIM>		frameCommands;
+	String						name;
+	String						realname;
+	List<frameLookup_t, TAG_ANIM>		frameLookup;
+	List<frameCommand_t, TAG_ANIM>		frameCommands;
 	animFlags_t					flags;
 	
 public:
@@ -287,11 +287,11 @@ public:
 	int							Length() const;
 	int							NumFrames() const;
 	int							NumAnims() const;
-	const budVec3&				TotalMovementDelta() const;
-	bool						GetOrigin( budVec3& offset, int animNum, int time, int cyclecount ) const;
-	bool						GetOriginRotation( idQuat& rotation, int animNum, int currentTime, int cyclecount ) const;
+	const Vector3&				TotalMovementDelta() const;
+	bool						GetOrigin( Vector3& offset, int animNum, int time, int cyclecount ) const;
+	bool						GetOriginRotation( Quat& rotation, int animNum, int currentTime, int cyclecount ) const;
 	bool						GetBounds( budBounds& bounds, int animNum, int time, int cyclecount ) const;
-	const char*					AddFrameCommand( const class budDeclModelDef* modelDef, int framenum, budLexer& src, const idDict* def );
+	const char*					AddFrameCommand( const class budDeclModelDef* modelDef, int framenum, budLexer& src, const Dict* def );
 	void						CallFrameCommands( idEntity* ent, int from, int to ) const;
 	bool						HasFrameCommands() const;
 	
@@ -326,7 +326,7 @@ public:
 	const budJointQuat* 			GetDefaultPose() const;
 	void						SetupJoints( int* numJoints, budJointMat** jointList, budBounds& frameBounds, bool removeOriginOffset ) const;
 	budRenderModel* 				ModelHandle() const;
-	void						GetJointList( const char* jointnames, budList<jointHandle_t>& jointList ) const;
+	void						GetJointList( const char* jointnames, List<jointHandle_t>& jointList ) const;
 	const jointInfo_t* 			FindJoint( const char* name ) const;
 	
 	int							NumAnims() const;
@@ -336,7 +336,7 @@ public:
 	bool						HasAnim( const char* name ) const;
 	const budDeclSkin* 			GetSkin() const;
 	const char* 				GetModelName() const;
-	const budList<jointInfo_t>& 	Joints() const;
+	const List<jointInfo_t>& 	Joints() const;
 	const int* 					JointParents() const;
 	int							NumJoints() const;
 	const jointInfo_t* 			GetJoint( int jointHandle ) const;
@@ -344,19 +344,19 @@ public:
 	int							NumJointsOnChannel( int channel ) const;
 	const int* 					GetChannelJoints( int channel ) const;
 	
-	const budVec3& 				GetVisualOffset() const;
+	const Vector3& 				GetVisualOffset() const;
 	
 private:
 	void						CopyDecl( const budDeclModelDef* decl );
 	bool						ParseAnim( budLexer& src, int numDefaultAnims );
 	
 private:
-	budVec3						offset;
-	budList<jointInfo_t, TAG_ANIM>			joints;
-	budList<int, TAG_ANIM>					jointParents;
-	budList<int, TAG_ANIM>					channelJoints[ ANIM_NumAnimChannels ];
+	Vector3						offset;
+	List<jointInfo_t, TAG_ANIM>			joints;
+	List<int, TAG_ANIM>					jointParents;
+	List<int, TAG_ANIM>					channelJoints[ ANIM_NumAnimChannels ];
 	budRenderModel* 				modelHandle;
-	budList<budAnim*, TAG_ANIM>			anims;
+	List<budAnim*, TAG_ANIM>			anims;
 	const budDeclSkin* 			skin;
 };
 
@@ -397,9 +397,9 @@ private:
 	void						CycleAnim( const budDeclModelDef* modelDef, int animnum, int currenttime, int blendtime );
 	void						PlayAnim( const budDeclModelDef* modelDef, int animnum, int currenttime, int blendtime );
 	bool						BlendAnim( int currentTime, int channel, int numJoints, budJointQuat* blendFrame, float& blendWeight, bool removeOrigin, bool overrideBlend, bool printInfo ) const;
-	void						BlendOrigin( int currentTime, budVec3& blendPos, float& blendWeight, bool removeOriginOffset ) const;
-	void						BlendDelta( int fromtime, int totime, budVec3& blendDelta, float& blendWeight ) const;
-	void						BlendDeltaRotation( int fromtime, int totime, idQuat& blendDelta, float& blendWeight ) const;
+	void						BlendOrigin( int currentTime, Vector3& blendPos, float& blendWeight, bool removeOriginOffset ) const;
+	void						BlendDelta( int fromtime, int totime, Vector3& blendDelta, float& blendWeight ) const;
+	void						BlendDeltaRotation( int fromtime, int totime, Quat& blendDelta, float& blendWeight ) const;
 	bool						AddBounds( int currentTime, budBounds& bounds, bool removeOriginOffset ) const;
 	
 public:
@@ -455,8 +455,8 @@ public:
 	budAFPoseJointMod();
 	
 	AFJointModType_t			mod;
-	budMat3						axis;
-	budVec3						origin;
+	Matrix3						axis;
+	Vector3						origin;
 };
 
 BUD_INLINE budAFPoseJointMod::budAFPoseJointMod()
@@ -491,7 +491,7 @@ public:
 	void						RemoveOriginOffset( bool remove );
 	bool						RemoveOrigin() const;
 	
-	void						GetJointList( const char* jointnames, budList<jointHandle_t>& jointList ) const;
+	void						GetJointList( const char* jointnames, List<jointHandle_t>& jointList ) const;
 	
 	int							NumAnims() const;
 	const budAnim*				GetAnim( int index ) const;
@@ -514,9 +514,9 @@ public:
 	void						ClearForceUpdate();
 	bool						CreateFrame( int animtime, bool force );
 	bool						FrameHasChanged( int animtime ) const;
-	void						GetDelta( int fromtime, int totime, budVec3& delta ) const;
-	bool						GetDeltaRotation( int fromtime, int totime, budMat3& delta ) const;
-	void						GetOrigin( int currentTime, budVec3& pos ) const;
+	void						GetDelta( int fromtime, int totime, Vector3& delta ) const;
+	bool						GetDeltaRotation( int fromtime, int totime, Matrix3& delta ) const;
+	void						GetOrigin( int currentTime, Vector3& pos ) const;
 	bool						GetBounds( int currentTime, budBounds& bounds );
 	
 	budAnimBlend*					CurrentAnim( int channelNum );
@@ -529,13 +529,13 @@ public:
 	// the copied anim will have frame commands disabled to avoid executing them twice.
 	void						SyncAnimChannels( int channelNum, int fromChannelNum, int currenttime, int blendTime );
 	
-	void						SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const budVec3& pos );
-	void						SetJointAxis( jointHandle_t jointnum, jointModTransform_t transform_type, const budMat3& mat );
+	void						SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const Vector3& pos );
+	void						SetJointAxis( jointHandle_t jointnum, jointModTransform_t transform_type, const Matrix3& mat );
 	void						ClearJoint( jointHandle_t jointnum );
 	void						ClearAllJoints();
 	
 	void						InitAFPose();
-	void						SetAFPoseJointMod( const jointHandle_t jointNum, const AFJointModType_t mod, const budMat3& axis, const budVec3& origin );
+	void						SetAFPoseJointMod( const jointHandle_t jointNum, const AFJointModType_t mod, const Matrix3& axis, const Vector3& origin );
 	void						FinishAFPose( int animnum, const budBounds& bounds, const int time );
 	void						SetAFPoseBlendWeight( float blendWeight );
 	bool						BlendAFPose( budJointQuat* blendFrame ) const;
@@ -546,8 +546,8 @@ public:
 	jointHandle_t				GetJointHandle( const char* name ) const;
 	const char* 				GetJointName( jointHandle_t handle ) const;
 	int							GetChannelForJoint( jointHandle_t joint ) const;
-	bool						GetJointTransform( jointHandle_t jointHandle, int currenttime, budVec3& offset, budMat3& axis );
-	bool						GetJointLocalTransform( jointHandle_t jointHandle, int currentTime, budVec3& offset, budMat3& axis );
+	bool						GetJointTransform( jointHandle_t jointHandle, int currenttime, Vector3& offset, Matrix3& axis );
+	bool						GetJointLocalTransform( jointHandle_t jointHandle, int currentTime, Vector3& offset, Matrix3& axis );
 	
 	const animFlags_t			GetAnimFlags( int animnum ) const;
 	int							NumFrames( int animnum ) const;
@@ -555,7 +555,7 @@ public:
 	const char*					AnimName( int animnum ) const;
 	const char*					AnimFullName( int animnum ) const;
 	int							AnimLength( int animnum ) const;
-	const budVec3&				TotalMovementDelta( int animnum ) const;
+	const Vector3&				TotalMovementDelta( int animnum ) const;
 	
 private:
 	void						FreeData();
@@ -566,7 +566,7 @@ private:
 	idEntity* 					entity;
 	
 	budAnimBlend					channels[ ANIM_NumAnimChannels ][ ANIM_MaxAnimsPerChannel ];
-	budList<jointMod_t*, TAG_ANIM>		jointMods;
+	List<jointMod_t*, TAG_ANIM>		jointMods;
 	int							numJoints;
 	budJointMat* 				joints;
 	
@@ -578,9 +578,9 @@ private:
 	budBounds					frameBounds;
 	
 	float						AFPoseBlendWeight;
-	budList<int, TAG_ANIM>					AFPoseJoints;
-	budList<budAFPoseJointMod, TAG_ANIM>	AFPoseJointMods;
-	budList<budJointQuat, TAG_ANIM>			AFPoseJointFrame;
+	List<int, TAG_ANIM>					AFPoseJoints;
+	List<budAFPoseJointMod, TAG_ANIM>	AFPoseJointMods;
+	List<budJointQuat, TAG_ANIM>			AFPoseJointFrame;
 	budBounds					AFPoseBounds;
 	int							AFPoseTime;
 };
@@ -614,7 +614,7 @@ public:
 	
 private:
 	budHashTable<budMD5Anim*>	animations;
-	budStrList					jointnames;
+	StringList					jointnames;
 	budHashIndex					jointnamesHash;
 };
 

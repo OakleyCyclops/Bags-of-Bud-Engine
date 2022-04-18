@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 //#include "../../renderer/ImageTools/ImageProcess.h"
 #include <jpeglib.h>
 
-budCVar swf_useChannelScale( "swf_useChannelScale", "0", CVAR_BOOL, "compress texture atlas colors" );
+CVar swf_useChannelScale( "swf_useChannelScale", "0", CVAR_BOOL, "compress texture atlas colors" );
 
 /*
 ========================
@@ -183,12 +183,12 @@ Now that all images have been found, allocate them in an atlas
 and write it out.
 ========================
 */
-void RectAllocator( const budList<budVec2i>& inputSizes, budList<budVec2i>& outputPositions, budVec2i& totalSize );
-float RectPackingFraction( const budList<budVec2i>& inputSizes, const budVec2i totalSize );
+void RectAllocator( const List<Vector2i>& inputSizes, List<Vector2i>& outputPositions, Vector2i& totalSize );
+float RectPackingFraction( const List<Vector2i>& inputSizes, const Vector2i totalSize );
 
 void budSWF::WriteSwfImageAtlas( const char* filename )
 {
-	budList<budVec2i>	inputSizes;
+	List<Vector2i>	inputSizes;
 	inputSizes.SetNum( packImages.Num() );
 	for( int i = 0 ; i < packImages.Num() ; i++ )
 	{
@@ -196,8 +196,8 @@ void budSWF::WriteSwfImageAtlas( const char* filename )
 		inputSizes[i] = packImages[i].allocSize;
 	}
 	
-	budList<budVec2i>	outputPositions;
-	budVec2i	totalSize;
+	List<Vector2i>	outputPositions;
+	Vector2i	totalSize;
 	// smart allocator
 	RectAllocator( inputSizes, outputPositions, totalSize );
 	
@@ -212,7 +212,7 @@ void budSWF::WriteSwfImageAtlas( const char* filename )
 	// will always align, but a single image won't necessarily be.
 	atlasWidth = ( atlasWidth + 127 ) & ~127;
 	
-	idTempArray<byte> swfAtlas( atlasWidth * atlasHeight * 4 );
+	TempArray<byte> swfAtlas( atlasWidth * atlasHeight * 4 );
 	
 	// fill everything with solid red
 	for( int i = 0; i < atlasWidth * atlasHeight; i++ )
@@ -474,7 +474,7 @@ void budSWF::DefineBitsJPEG3( budSWFBitStream& bitstream )
 	}
 	
 	{
-		idTempArray<byte> alphaMap( width * height );
+		TempArray<byte> alphaMap( width * height );
 		
 		int alphaSize = bitstream.Length() - jpegSize - sizeof( characterID ) - sizeof( jpegSize );
 		if( !Inflate( bitstream.ReadData( alphaSize ), alphaSize, alphaMap.Ptr(), ( int )alphaMap.Size() ) )
@@ -506,14 +506,14 @@ void budSWF::DefineBitsLossless( budSWFBitStream& bitstream )
 	uint16 width = bitstream.ReadU16();
 	uint16 height = bitstream.ReadU16();
 	
-	idTempArray< byte > buf( width * height * 4 );
+	TempArray< byte > buf( width * height * 4 );
 	byte* imageData = buf.Ptr();
 	
 	if( format == 3 )
 	{
 		uint32 paddedWidth = ( width + 3 ) & ~3;
 		uint32 colorTableSize = ( bitstream.ReadU8() + 1 ) * 3;
-		idTempArray<byte> colorMapData( colorTableSize + ( paddedWidth * height ) );
+		TempArray<byte> colorMapData( colorTableSize + ( paddedWidth * height ) );
 		uint32 colorDataSize = bitstream.Length() - bitstream.Tell();
 		if( !Inflate( bitstream.ReadData( colorDataSize ), colorDataSize, colorMapData.Ptr(), ( int )colorMapData.Size() ) )
 		{
@@ -537,7 +537,7 @@ void budSWF::DefineBitsLossless( budSWFBitStream& bitstream )
 	else if( format == 4 )
 	{
 		uint32 paddedWidth = ( width + 1 ) & 1;
-		idTempArray<uint16> bitmapData( paddedWidth * height * 2 );
+		TempArray<uint16> bitmapData( paddedWidth * height * 2 );
 		uint32 colorDataSize = bitstream.Length() - bitstream.Tell();
 		if( !Inflate( bitstream.ReadData( colorDataSize ), colorDataSize, ( byte* )bitmapData.Ptr(), ( int )bitmapData.Size() ) )
 		{
@@ -560,7 +560,7 @@ void budSWF::DefineBitsLossless( budSWFBitStream& bitstream )
 	}
 	else if( format == 5 )
 	{
-		idTempArray<uint32> bitmapData( width * height );
+		TempArray<uint32> bitmapData( width * height );
 		uint32 colorDataSize = bitstream.Length() - bitstream.Tell();
 		if( !Inflate( bitstream.ReadData( colorDataSize ), colorDataSize, ( byte* )bitmapData.Ptr(), ( int )bitmapData.Size() ) )
 		{
@@ -602,14 +602,14 @@ void budSWF::DefineBitsLossless2( budSWFBitStream& bitstream )
 	uint16 width = bitstream.ReadU16();
 	uint16 height = bitstream.ReadU16();
 	
-	idTempArray< byte > buf( width * height * 4 );
+	TempArray< byte > buf( width * height * 4 );
 	byte* imageData = buf.Ptr();
 	
 	if( format == 3 )
 	{
 		uint32 paddedWidth = ( width + 3 ) & ~3;
 		uint32 colorTableSize = ( bitstream.ReadU8() + 1 ) * 4;
-		idTempArray<byte> colorMapData( colorTableSize + ( paddedWidth * height ) );
+		TempArray<byte> colorMapData( colorTableSize + ( paddedWidth * height ) );
 		uint32 colorDataSize = bitstream.Length() - bitstream.Tell();
 		if( !Inflate( bitstream.ReadData( colorDataSize ), colorDataSize, colorMapData.Ptr(), ( int )colorMapData.Size() ) )
 		{
@@ -632,7 +632,7 @@ void budSWF::DefineBitsLossless2( budSWFBitStream& bitstream )
 	}
 	else if( format == 5 )
 	{
-		idTempArray<uint32> bitmapData( width * height );
+		TempArray<uint32> bitmapData( width * height );
 		uint32 colorDataSize = bitstream.Length() - bitstream.Tell();
 		if( !Inflate( bitstream.ReadData( colorDataSize ), colorDataSize, ( byte* )bitmapData.Ptr(), ( int )bitmapData.Size() ) )
 		{

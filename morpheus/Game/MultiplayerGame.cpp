@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 // could be a problem if players manage to go down sudden deaths till this .. oh well
 #define LASTMAN_NOLIVES -20
 
-extern budCVar ui_skinIndex;
+extern CVar ui_skinIndex;
 
 const char* idMultiplayerGame::teamNames[] = { "#str_02499", "#str_02500" };
 const char* idMultiplayerGame::skinNames[] =
@@ -48,30 +48,30 @@ const char* idMultiplayerGame::skinNames[] =
 	"skins/characters/player/marine_mp_grey",
 	"skins/characters/player/marine_mp_orange"
 };
-const budVec3 idMultiplayerGame::skinColors[] =
+const Vector3 idMultiplayerGame::skinColors[] =
 {
-	budVec3( 0.25f, 0.25f, 0.25f ), // light grey
-	budVec3( 1.00f, 0.00f, 0.00f ), // red
-	budVec3( 0.20f, 0.50f, 0.80f ), // blue
-	budVec3( 0.00f, 0.80f, 0.10f ), // green
-	budVec3( 1.00f, 0.80f, 0.10f ), // yellow
-	budVec3( 0.39f, 0.199f, 0.3f ), // purple
-	budVec3( 0.425f, 0.484f, 0.445f ), // dark grey
-	budVec3( 0.484f, 0.312f, 0.074f ) // orange
+	Vector3( 0.25f, 0.25f, 0.25f ), // light grey
+	Vector3( 1.00f, 0.00f, 0.00f ), // red
+	Vector3( 0.20f, 0.50f, 0.80f ), // blue
+	Vector3( 0.00f, 0.80f, 0.10f ), // green
+	Vector3( 1.00f, 0.80f, 0.10f ), // yellow
+	Vector3( 0.39f, 0.199f, 0.3f ), // purple
+	Vector3( 0.425f, 0.484f, 0.445f ), // dark grey
+	Vector3( 0.484f, 0.312f, 0.074f ) // orange
 };
 const int idMultiplayerGame::numSkins = sizeof( idMultiplayerGame::skinNames ) / sizeof( idMultiplayerGame::skinNames[0] );
 
 const char* 	idMultiplayerGame::GetTeamName( int team ) const
 {
-	return teamNames[budMath::ClampInt( 0, 1, team )];
+	return teamNames[Math::ClampInt( 0, 1, team )];
 }
 const char* 	idMultiplayerGame::GetSkinName( int skin ) const
 {
-	return skinNames[budMath::ClampInt( 0, numSkins - 1, skin )];
+	return skinNames[Math::ClampInt( 0, numSkins - 1, skin )];
 }
-const budVec3& 	idMultiplayerGame::GetSkinColor( int skin ) const
+const Vector3& 	idMultiplayerGame::GetSkinColor( int skin ) const
 {
-	return skinColors[budMath::ClampInt( 0, numSkins - 1, skin )];
+	return skinColors[Math::ClampInt( 0, numSkins - 1, skin )];
 }
 
 // make CTF not included in game modes for consoles
@@ -88,7 +88,7 @@ compile_time_assert( GAME_TDM == 2 );
 compile_time_assert( GAME_LASTMAN == 3 );
 compile_time_assert( GAME_CTF == 4 );
 
-budCVar g_spectatorChat( "g_spectatorChat", "0", CVAR_GAME | CVAR_ARCHIVE | CVAR_BOOL, "let spectators talk to everyone during game" );
+CVar g_spectatorChat( "g_spectatorChat", "0", CVAR_GAME | CVAR_ARCHIVE | CVAR_BOOL, "let spectators talk to everyone during game" );
 
 // global sounds transmitted by index - 0 .. SND_COUNT
 // sounds in this list get precached on MP start
@@ -379,7 +379,7 @@ void idMultiplayerGame::UpdatePlayerRanks()
 idMultiplayerGame::UpdateRankColor
 ================
 */
-void idMultiplayerGame::UpdateRankColor( budUserInterface* gui, const char* mask, int i, const budVec3& vec )
+void idMultiplayerGame::UpdateRankColor( budUserInterface* gui, const char* mask, int i, const Vector3& vec )
 {
 	for( int j = 1; j < 4; j++ )
 	{
@@ -437,7 +437,7 @@ void idMultiplayerGame::UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, 
 	int blueScore = 0;
 	
 	idLobbyBase& lobby = session->GetActingGameStateLobbyBase();
-	budList< mpScoreboardInfo > scoreboardInfo;
+	List< mpScoreboardInfo > scoreboardInfo;
 	for( int i = 0; i < MAX_CLIENTS; ++i )
 	{
 	
@@ -455,8 +455,8 @@ void idMultiplayerGame::UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, 
 				continue;
 			}
 			
-			budStr spectateData;
-			budStr playerName;
+			String spectateData;
+			String playerName;
 			int score = 0;
 			int wins = 0;
 			int ping = 0;
@@ -478,7 +478,7 @@ void idMultiplayerGame::UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, 
 				}
 			}
 			
-			score = budMath::ClampInt( MP_PLAYER_MINFRAGS, MP_PLAYER_MAXFRAGS, playerState[ playerNum ].fragCount );
+			score = Math::ClampInt( MP_PLAYER_MINFRAGS, MP_PLAYER_MAXFRAGS, playerState[ playerNum ].fragCount );
 			
 			// HACK -
 			if( gameLocal.gameType == GAME_LASTMAN && score == LASTMAN_NOLIVES )
@@ -486,7 +486,7 @@ void idMultiplayerGame::UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, 
 				score = 0;
 			}
 			
-			wins = budMath::ClampInt( 0, MP_PLAYER_MAXWINS, playerState[ playerNum ].wins );
+			wins = Math::ClampInt( 0, MP_PLAYER_MAXWINS, playerState[ playerNum ].wins );
 			ping = playerState[ playerNum ].ping;
 			
 			if( gameState == WARMUP )
@@ -560,7 +560,7 @@ void idMultiplayerGame::UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, 
 		}
 	}
 	
-	budStr gameInfo;
+	String gameInfo;
 	if( gameState == GAMEREVIEW )
 	{
 		int timeRemaining = nextStateSwitch - gameLocal.serverTime;
@@ -568,12 +568,12 @@ void idMultiplayerGame::UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, 
 		if( ms == 1 )
 		{
 			gameInfo = budLocalization::GetString( "#str_online_game_starts_in_second" );
-			gameInfo.Replace( "<DNT_VAL>", budStr( ms ) );
+			gameInfo.Replace( "<DNT_VAL>", String( ms ) );
 		}
 		else if( ms > 0 && ms < 30 )
 		{
 			gameInfo = budLocalization::GetString( "#str_online_game_starts_in_seconds" );
-			gameInfo.Replace( "<DNT_VAL>", budStr( ms ) );
+			gameInfo.Replace( "<DNT_VAL>", String( ms ) );
 		}
 	}
 	else
@@ -678,7 +678,7 @@ const char* idMultiplayerGame::GameTime()
 		t = s / 10;
 		s -= t * 10;
 		
-		budStr::snPrintf( buff, sizeof( buff ), "%i:%i%i", m, t, s );
+		String::snPrintf( buff, sizeof( buff ), "%i:%i%i", m, t, s );
 	}
 	return &buff[0];
 }
@@ -1279,7 +1279,7 @@ void idMultiplayerGame::PlayerStats( int clientNum, char* data, const int len )
 		return;
 	}
 	
-	budStr::snPrintf( data, len, "team=%d score=%ld tks=%ld", team, playerState[ clientNum ].fragCount, playerState[ clientNum ].teamFragCount );
+	String::snPrintf( data, len, "team=%d score=%ld tks=%ld", team, playerState[ clientNum ].fragCount, playerState[ clientNum ].teamFragCount );
 	
 	return;
 	
@@ -2038,7 +2038,7 @@ bool idMultiplayerGame::Draw( int clientNum )
 	// use the hud of the local player
 	viewPlayer->playerView.RenderPlayerView( player->hudManager );
 	
-	budStr spectatetext[ 2 ];
+	String spectatetext[ 2 ];
 	GetSpectateText( player, spectatetext, true );
 	
 	if( scoreboardManager != NULL )
@@ -2057,7 +2057,7 @@ bool idMultiplayerGame::Draw( int clientNum )
 idMultiplayerGame::GetSpectateText
 ================
 */
-void idMultiplayerGame::GetSpectateText( budPlayer* player, budStr spectatetext[ 2 ], bool scoreboard )
+void idMultiplayerGame::GetSpectateText( budPlayer* player, String spectatetext[ 2 ], bool scoreboard )
 {
 	if( !player->spectating )
 	{
@@ -2275,7 +2275,7 @@ idMultiplayerGame::AddChatLine
 */
 void idMultiplayerGame::AddChatLine( const char* fmt, ... )
 {
-	budStr temp;
+	String temp;
 	va_list argptr;
 	
 	va_start( argptr, fmt );
@@ -2345,9 +2345,9 @@ void idMultiplayerGame::DrawChat( budPlayer* player )
 }
 
 //D3XP: Adding one to frag count to allow for the negative flag in numbers greater than 255
-const int ASYNC_PLAYER_FRAG_BITS = -( budMath::BitsForInteger( MP_PLAYER_MAXFRAGS - MP_PLAYER_MINFRAGS ) + 1 );	// player can have negative frags
-const int ASYNC_PLAYER_WINS_BITS = budMath::BitsForInteger( MP_PLAYER_MAXWINS );
-const int ASYNC_PLAYER_PING_BITS = budMath::BitsForInteger( MP_PLAYER_MAXPING );
+const int ASYNC_PLAYER_FRAG_BITS = -( Math::BitsForInteger( MP_PLAYER_MAXFRAGS - MP_PLAYER_MINFRAGS ) + 1 );	// player can have negative frags
+const int ASYNC_PLAYER_WINS_BITS = Math::BitsForInteger( MP_PLAYER_MAXWINS );
+const int ASYNC_PLAYER_PING_BITS = Math::BitsForInteger( MP_PLAYER_MAXPING );
 
 /*
 ================
@@ -2373,13 +2373,13 @@ void idMultiplayerGame::WriteToSnapshot( budBitMsg& msg ) const
 	for( i = 0; i < MAX_CLIENTS; i++ )
 	{
 		// clamp all values to min/max possible value that we can send over
-		value = budMath::ClampInt( MP_PLAYER_MINFRAGS, MP_PLAYER_MAXFRAGS, playerState[i].fragCount );
+		value = Math::ClampInt( MP_PLAYER_MINFRAGS, MP_PLAYER_MAXFRAGS, playerState[i].fragCount );
 		msg.WriteBits( value, ASYNC_PLAYER_FRAG_BITS );
-		value = budMath::ClampInt( MP_PLAYER_MINFRAGS, MP_PLAYER_MAXFRAGS, playerState[i].teamFragCount );
+		value = Math::ClampInt( MP_PLAYER_MINFRAGS, MP_PLAYER_MAXFRAGS, playerState[i].teamFragCount );
 		msg.WriteBits( value, ASYNC_PLAYER_FRAG_BITS );
-		value = budMath::ClampInt( 0, MP_PLAYER_MAXWINS, playerState[i].wins );
+		value = Math::ClampInt( 0, MP_PLAYER_MAXWINS, playerState[i].wins );
 		msg.WriteBits( value, ASYNC_PLAYER_WINS_BITS );
-		value = budMath::ClampInt( 0, MP_PLAYER_MAXPING, playerState[i].ping );
+		value = Math::ClampInt( 0, MP_PLAYER_MAXPING, playerState[i].ping );
 		msg.WriteBits( value, ASYNC_PLAYER_PING_BITS );
 	}
 	
@@ -2901,7 +2901,7 @@ void idMultiplayerGame::DropWeapon( int clientNum )
 idMultiplayerGame::DropWeapon_f
 ================
 */
-void idMultiplayerGame::DropWeapon_f( const budCmdArgs& args )
+void idMultiplayerGame::DropWeapon_f( const CmdArgs& args )
 {
 	if( !common->IsMultiplayer() )
 	{
@@ -2917,7 +2917,7 @@ void idMultiplayerGame::DropWeapon_f( const budCmdArgs& args )
 idMultiplayerGame::MessageMode_f
 ================
 */
-void idMultiplayerGame::MessageMode_f( const budCmdArgs& args )
+void idMultiplayerGame::MessageMode_f( const CmdArgs& args )
 {
 	if( !common->IsMultiplayer() )
 	{
@@ -2931,7 +2931,7 @@ void idMultiplayerGame::MessageMode_f( const budCmdArgs& args )
 idMultiplayerGame::MessageMode
 ================
 */
-void idMultiplayerGame::MessageMode( const budCmdArgs& args )
+void idMultiplayerGame::MessageMode( const CmdArgs& args )
 {
 	idEntity* ent = gameLocal.entities[ gameLocal.GetLocalClientNum() ];
 	if( !ent || !ent->IsType( budPlayer::Type ) )
@@ -3222,7 +3222,7 @@ void idMultiplayerGame::ProcessChatMessage( int clientNum, bool team, const char
 	int			i;
 	idEntity*	 ent;
 	budPlayer*	pfrom;
-	budStr		prefixed_name;
+	String		prefixed_name;
 	
 	assert( !common->IsClient() );
 	
@@ -3348,7 +3348,7 @@ void idMultiplayerGame::Precache()
 	// skins
 	for( int i = 0; i < numSkins; i++ )
 	{
-		budStr baseSkinName = skinNames[ i ];
+		String baseSkinName = skinNames[ i ];
 		declManager->FindSkin( baseSkinName, false );
 		declManager->FindSkin( baseSkinName + "_berserk", false );
 		declManager->FindSkin( baseSkinName + "_invuln", false );
@@ -3412,7 +3412,7 @@ bool idMultiplayerGame::WantRespawn( budPlayer* p )
 idMultiplayerGame::VoiceChat
 ================
 */
-void idMultiplayerGame::VoiceChat_f( const budCmdArgs& args )
+void idMultiplayerGame::VoiceChat_f( const CmdArgs& args )
 {
 	gameLocal.mpGame.VoiceChat( args, false );
 }
@@ -3422,7 +3422,7 @@ void idMultiplayerGame::VoiceChat_f( const budCmdArgs& args )
 idMultiplayerGame::VoiceChatTeam
 ================
 */
-void idMultiplayerGame::VoiceChatTeam_f( const budCmdArgs& args )
+void idMultiplayerGame::VoiceChatTeam_f( const CmdArgs& args )
 {
 	gameLocal.mpGame.VoiceChat( args, true );
 }
@@ -3432,12 +3432,12 @@ void idMultiplayerGame::VoiceChatTeam_f( const budCmdArgs& args )
 idMultiplayerGame::VoiceChat
 ================
 */
-void idMultiplayerGame::VoiceChat( const budCmdArgs& args, bool team )
+void idMultiplayerGame::VoiceChat( const CmdArgs& args, bool team )
 {
 	budBitMsg			outMsg;
 	byte				msgBuf[128];
 	const char*			voc;
-	const idDict*		spawnArgs;
+	const Dict*		spawnArgs;
 	const idKeyValue*	keyval;
 	int					index;
 	
@@ -3496,11 +3496,11 @@ idMultiplayerGame::ProcessVoiceChat
 */
 void idMultiplayerGame::ProcessVoiceChat( int clientNum, bool team, int index )
 {
-	const idDict*		spawnArgs;
+	const Dict*		spawnArgs;
 	const idKeyValue*	keyval;
-	budStr				name;
-	budStr				snd_key;
-	budStr				text_key;
+	String				name;
+	String				snd_key;
+	String				text_key;
 	budPlayer*			p;
 	
 	p = static_cast< budPlayer* >( gameLocal.entities[ clientNum ] );

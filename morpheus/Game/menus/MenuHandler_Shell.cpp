@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "../Game_local.h"
 
 
-extern budCVar g_demoMode;
+extern CVar g_demoMode;
 
 static const int PEER_UPDATE_INTERVAL = 500;
 static const int MAX_MENU_OPTIONS = 6;
@@ -350,7 +350,7 @@ bool idMenuHandler_Shell::HandleGuiEvent( const sysEvent_t* sev )
 			else
 			{
 			
-				if( budStr::Icmp( idKeyInput::GetBinding( sev->evValue ), "" ) == 0 )  	// no existing binding found
+				if( String::Icmp( idKeyInput::GetBinding( sev->evValue ), "" ) == 0 )  	// no existing binding found
 				{
 				
 					idKeyInput::SetBinding( sev->evValue, waitBind );
@@ -372,7 +372,7 @@ bool idMenuHandler_Shell::HandleGuiEvent( const sysEvent_t* sev )
 				
 					const char* curBind = idKeyInput::GetBinding( sev->evValue );
 					
-					if( budStr::Icmp( waitBind, curBind ) == 0 )
+					if( String::Icmp( waitBind, curBind ) == 0 )
 					{
 						idKeyInput::SetBinding( sev->evValue, "" );
 						idMenuScreen_Shell_Bindings* bindScreen = dynamic_cast< idMenuScreen_Shell_Bindings* >( menuScreens[ SHELL_AREA_KEYBOARD ] );
@@ -566,7 +566,7 @@ void idMenuHandler_Shell::Initialize( const char* swfFile, budSoundWorld* sw )
 	}
 	else
 	{
-		budStrStatic< MAX_OSPATH > shortMapName = gameLocal.GetMapFileName();
+		StringStatic< MAX_OSPATH > shortMapName = gameLocal.GetMapFileName();
 		shortMapName.StripFileExtension();
 		shortMapName.StripLeading( "maps/" );
 		shortMapName.StripLeading( "game/" );
@@ -950,13 +950,13 @@ void idMenuHandler_Shell::HandleExitGameBtn()
 	};
 	
 	budStaticList< budSWFScriptFunction*, 4 > callbacks;
-	budStaticList< budStrId, 4 > optionText;
+	budStaticList< StringId, 4 > optionText;
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_QuitDialog( GDM_QUIT_GAME, 1 ) );
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_QuitDialog( GDM_QUIT_GAME, 0 ) );
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_QuitDialog( GDM_QUIT_GAME, -1 ) );
-	optionText.Append( budStrId( "#STR_SWF_ACCEPT" ) );
-	optionText.Append( budStrId( "#STR_SWF_CANCEL" ) );
-	optionText.Append( budStrId( "#str_swf_change_game" ) );
+	optionText.Append( StringId( "#STR_SWF_ACCEPT" ) );
+	optionText.Append( StringId( "#STR_SWF_CANCEL" ) );
+	optionText.Append( StringId( "#str_swf_change_game" ) );
 	
 	common->Dialog().AddDynamicDialog( GDM_QUIT_GAME, callbacks, optionText, true, "" );
 }
@@ -1321,7 +1321,7 @@ void idMenuHandler_Shell::UpdateLeaderboard( const idLeaderboardCallback* callba
 idMenuManager_Shell::ShowPacifier
 ========================
 */
-void idMenuHandler_Shell::ShowPacifier( const budStr& msg )
+void idMenuHandler_Shell::ShowPacifier( const String& msg )
 {
 	if( GetPacifier() != NULL && gui != NULL )
 	{
@@ -1451,7 +1451,7 @@ void idMenuHandler_Shell::ShowDoomIntro()
 		introGui->Activate( true );
 		
 		int numTextFields = NUM_DOOM_INTRO_LINES;
-		budStr textEntries[NUM_DOOM_INTRO_LINES] = { va( "%s %s", budLocalization::GetString( "#str_04052" ), budLocalization::GetString( "#str_04053" ) ),
+		String textEntries[NUM_DOOM_INTRO_LINES] = { va( "%s %s", budLocalization::GetString( "#str_04052" ), budLocalization::GetString( "#str_04053" ) ),
 													va( "%s %s", budLocalization::GetString( "#str_04054" ), budLocalization::GetString( "#str_04055" ) ),
 													budLocalization::GetString( "#str_03012" ),
 													budLocalization::GetString( "#str_04056" ),
@@ -1643,7 +1643,7 @@ void idMenuHandler_Shell::ShowROEIntro()
 		introGui->Activate( true );
 		
 		int numTextFields = NUM_ROE_INTRO_LINES;
-		budStr textEntries[NUM_ROE_INTRO_LINES] =
+		String textEntries[NUM_ROE_INTRO_LINES] =
 		{
 			budLocalization::GetString( "#str_00100870" ),
 			budLocalization::GetString( "#str_00100854" ),
@@ -1815,7 +1815,7 @@ void idMenuHandler_Shell::ShowLEIntro()
 	{
 		introGui->Activate( true );
 		
-		budStr textEntry = va( "%s\n%s\n%s", budLocalization::GetString( "#str_00200071" ), budLocalization::GetString( "#str_00200072" ), budLocalization::GetString( "#str_00200073" ) );
+		String textEntry = va( "%s\n%s\n%s", budLocalization::GetString( "#str_00200071" ), budLocalization::GetString( "#str_00200072" ), budLocalization::GetString( "#str_00200073" ) );
 		budSWFTextInstance* txtVal = introGui->GetRootObject().GetNestedText( "info0", "txtInfo", "txtVal" );
 		if( txtVal != NULL )
 		{

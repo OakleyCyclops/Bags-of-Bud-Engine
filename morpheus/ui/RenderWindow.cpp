@@ -55,10 +55,10 @@ void budRenderWindow::CommonInit()
 {
 	world = renderSystem->AllocRenderWorld();
 	needsRender = true;
-	lightOrigin = budVec4( -128.0f, 0.0f, 0.0f, 1.0f );
-	lightColor = budVec4( 1.0f, 1.0f, 1.0f, 1.0f );
+	lightOrigin = Vector4( -128.0f, 0.0f, 0.0f, 1.0f );
+	lightColor = Vector4( 1.0f, 1.0f, 1.0f, 1.0f );
 	modelOrigin.Zero();
-	viewOffset = budVec4( -128.0f, 0.0f, 0.0f, 1.0f );
+	viewOffset = Vector4( -128.0f, 0.0f, 0.0f, 1.0f );
 	modelAnim = NULL;
 	animLength = 0;
 	animEndTime = -1;
@@ -95,7 +95,7 @@ void budRenderWindow::PreRender()
 	if( needsRender )
 	{
 		world->InitFromMap( NULL );
-		idDict spawnArgs;
+		Dict spawnArgs;
 		spawnArgs.Set( "classname", "light" );
 		spawnArgs.Set( "name", "light_1" );
 		spawnArgs.Set( "origin", lightOrigin.ToVec3().ToString() );
@@ -114,7 +114,7 @@ void budRenderWindow::PreRender()
 		gameEdit->ParseSpawnArgsToRenderEntity( &spawnArgs, &worldEntity );
 		if( worldEntity.hModel )
 		{
-			budVec3 v = modelRotate.ToVec3();
+			Vector3 v = modelRotate.ToVec3();
 			worldEntity.axis = v.ToMat3();
 			worldEntity.shaderParms[0] = 1;
 			worldEntity.shaderParms[1] = 1;
@@ -145,9 +145,9 @@ void budRenderWindow::Render( int time )
 			{
 				animEndTime = time + animLength;
 			}
-			gameEdit->ANIM_CreateAnimFrame( worldEntity.hModel, modelAnim, worldEntity.numJoints, worldEntity.joints, animLength - ( animEndTime - time ), vec3_origin, false );
+			gameEdit->ANIM_CreateAnimFrame( worldEntity.hModel, modelAnim, worldEntity.numJoints, worldEntity.joints, animLength - ( animEndTime - time ), Vector3_Origin, false );
 		}
-		worldEntity.axis = budAngles( modelRotate.x(), modelRotate.y(), modelRotate.z() ).ToMat3();
+		worldEntity.axis = Angles( modelRotate.x(), modelRotate.y(), modelRotate.z() ).ToMat3();
 		world->UpdateEntityDef( modelDef, &worldEntity );
 	}
 }
@@ -171,7 +171,7 @@ void budRenderWindow::Draw( int time, float x, float y )
 	refdef.shaderParms[3] = 1;
 	
 	refdef.fov_x = 90;
-	refdef.fov_y = 2 * atan( ( float )drawRect.h / drawRect.w ) * budMath::M_RAD2DEG;
+	refdef.fov_y = 2 * atan( ( float )drawRect.h / drawRect.w ) * Math::M_RAD2DEG;
 	
 	refdef.time[0] = time;
 	refdef.time[1] = time;
@@ -188,35 +188,35 @@ void budRenderWindow::PostParse()
 idWinVar* budRenderWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
 {
 //
-	if( budStr::Icmp( _name, "model" ) == 0 )
+	if( String::Icmp( _name, "model" ) == 0 )
 	{
 		return &modelName;
 	}
-	if( budStr::Icmp( _name, "anim" ) == 0 )
+	if( String::Icmp( _name, "anim" ) == 0 )
 	{
 		return &animName;
 	}
-	if( budStr::Icmp( _name, "lightOrigin" ) == 0 )
+	if( String::Icmp( _name, "lightOrigin" ) == 0 )
 	{
 		return &lightOrigin;
 	}
-	if( budStr::Icmp( _name, "lightColor" ) == 0 )
+	if( String::Icmp( _name, "lightColor" ) == 0 )
 	{
 		return &lightColor;
 	}
-	if( budStr::Icmp( _name, "modelOrigin" ) == 0 )
+	if( String::Icmp( _name, "modelOrigin" ) == 0 )
 	{
 		return &modelOrigin;
 	}
-	if( budStr::Icmp( _name, "modelRotate" ) == 0 )
+	if( String::Icmp( _name, "modelRotate" ) == 0 )
 	{
 		return &modelRotate;
 	}
-	if( budStr::Icmp( _name, "viewOffset" ) == 0 )
+	if( String::Icmp( _name, "viewOffset" ) == 0 )
 	{
 		return &viewOffset;
 	}
-	if( budStr::Icmp( _name, "needsRender" ) == 0 )
+	if( String::Icmp( _name, "needsRender" ) == 0 )
 	{
 		return &needsRender;
 	}
@@ -229,7 +229,7 @@ idWinVar* budRenderWindow::GetWinVarByName( const char* _name, bool fixup, drawW
 
 bool budRenderWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "animClass" ) == 0 )
+	if( String::Icmp( _name, "animClass" ) == 0 )
 	{
 		ParseString( src, animClass );
 		return true;

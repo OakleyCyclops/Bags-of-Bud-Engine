@@ -61,8 +61,8 @@ typedef enum
 typedef struct
 {
 	contactType_t			type;			// contact type
-	budVec3					point;			// point of contact
-	budVec3					normal;			// contact plane normal
+	Vector3					point;			// point of contact
+	Vector3					normal;			// contact plane normal
 	float					dist;			// contact plane distance
 	int						contents;		// contents at other side of surface
 	const budMaterial* 		material;		// surface material
@@ -76,8 +76,8 @@ typedef struct
 typedef struct trace_s
 {
 	float					fraction;		// fraction of movement completed, 1.0 = didn't hit anything
-	budVec3					endpos;			// final position of trace model
-	budMat3					endAxis;		// final axis of trace model
+	Vector3					endpos;			// final position of trace model
+	Matrix3					endAxis;		// final axis of trace model
 	contactInfo_t			c;				// contact information, only valid if fraction < 1.0
 } trace_t;
 
@@ -113,34 +113,34 @@ public:
 	// Gets all contents flags of brushes and polygons of a model ored together.
 	virtual bool			GetModelContents( cmHandle_t model, int& contents ) const = 0;
 	// Gets a vertex of a model.
-	virtual bool			GetModelVertex( cmHandle_t model, int vertexNum, budVec3& vertex ) const = 0;
+	virtual bool			GetModelVertex( cmHandle_t model, int vertexNum, Vector3& vertex ) const = 0;
 	// Gets an edge of a model.
-	virtual bool			GetModelEdge( cmHandle_t model, int edgeNum, budVec3& start, budVec3& end ) const = 0;
+	virtual bool			GetModelEdge( cmHandle_t model, int edgeNum, Vector3& start, Vector3& end ) const = 0;
 	// Gets a polygon of a model.
 	virtual bool			GetModelPolygon( cmHandle_t model, int polygonNum, budFixedWinding& winding ) const = 0;
 	
 	// Translates a trace model and reports the first collision if any.
-	virtual void			Translation( trace_t* results, const budVec3& start, const budVec3& end,
-										 const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-										 cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis ) = 0;
+	virtual void			Translation( trace_t* results, const Vector3& start, const Vector3& end,
+										 const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+										 cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis ) = 0;
 	// Rotates a trace model and reports the first collision if any.
-	virtual void			Rotation( trace_t* results, const budVec3& start, const budRotation& rotation,
-									  const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-									  cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis ) = 0;
+	virtual void			Rotation( trace_t* results, const Vector3& start, const Rotation& rotation,
+									  const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+									  cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis ) = 0;
 	// Returns the contents touched by the trace model or 0 if the trace model is in free space.
-	virtual int				Contents( const budVec3& start,
-									  const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-									  cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis ) = 0;
+	virtual int				Contents( const Vector3& start,
+									  const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+									  cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis ) = 0;
 	// Stores all contact points of the trace model with the model, returns the number of contacts.
-	virtual int				Contacts( contactInfo_t* contacts, const int maxContacts, const budVec3& start, const budVec6& dir, const float depth,
-									  const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-									  cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis ) = 0;
+	virtual int				Contacts( contactInfo_t* contacts, const int maxContacts, const Vector3& start, const Vector6& dir, const float depth,
+									  const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+									  cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis ) = 0;
 									  
 	// Tests collision detection.
-	virtual void			DebugOutput( const budVec3& origin ) = 0;
+	virtual void			DebugOutput( const Vector3& origin ) = 0;
 	// Draws a model.
-	virtual void			DrawModel( cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis,
-									   const budVec3& viewOrigin, const float radius ) = 0;
+	virtual void			DrawModel( cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis,
+									   const Vector3& viewOrigin, const float radius ) = 0;
 	// Prints model information, use -1 handle for accumulated model info.
 	virtual void			ModelInfo( cmHandle_t model ) = 0;
 	// Lists all loaded models.

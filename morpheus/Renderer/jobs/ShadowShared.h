@@ -40,11 +40,11 @@ const float INSIDE_SHADOW_VOLUME_EXTRA_STRETCH = 4.0f;	// in theory, should vary
 #define TEMP_ROUND4( x )				( ( x + 3 ) & ~3 )	// round up to a multiple of 4 for SIMD
 #define TEMP_CULLBITS( numVerts )		TEMP_ROUND4( numVerts )
 
-bool R_ViewPotentiallyInsideInfiniteShadowVolume( const budBounds& occluderBounds, const budVec3& localLight, const budVec3& localView, const float znear );
+bool R_ViewPotentiallyInsideInfiniteShadowVolume( const budBounds& occluderBounds, const Vector3& localLight, const Vector3& localView, const float znear );
 
-bool R_LineIntersectsTriangleExpandedWithSphere( const budVec3& lineStart, const budVec3& lineEnd, const budVec3& lineDir, const float lineLength,
-		const float sphereRadius, const budVec3& triVert0, const budVec3& triVert1, const budVec3& triVert2 );
+bool R_LineIntersectsTriangleExpandedWithSphere( const Vector3& lineStart, const Vector3& lineEnd, const Vector3& lineDir, const float lineLength,
+		const float sphereRadius, const Vector3& triVert0, const Vector3& triVert1, const Vector3& triVert2 );
 bool R_ViewInsideShadowVolume( byte* cullBits, const idShadowVert* verts, int numVerts, const triIndex_t* indexes, int numIndexes,
-							   const budVec3& localLightOrigin, const budVec3& localViewOrigin, const float zNear );
+							   const Vector3& localLightOrigin, const Vector3& localViewOrigin, const float zNear );
 
 #endif // !__SHADOWSHARED_H__

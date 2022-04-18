@@ -61,7 +61,7 @@ public:
 	
 	int										lastTime;
 	int										startIndex;
-	budList< idLeaderboardCallback::row_t >	rows;
+	List< idLeaderboardCallback::row_t >	rows;
 };
 
 enum leaderboardFilterMode_t
@@ -103,7 +103,7 @@ public:
 	{
 		return filter;
 	}
-	budStr									GetFilterStrType();
+	String									GetFilterStrType();
 	bool									Scroll( int amount );
 	bool									ScrollOffset( int amount );
 	idLBRowBlock* 							FindFreeRowBlock();
@@ -327,7 +327,7 @@ private:
 	idMenuWidget_ScrollBar		scrollbar;
 	idMenuWidget_DynamicList 		pdaVideoList;
 	idMenuWidget_PDA_VideoInfo 	videoDetails;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU>, TAG_LIBBUD_LIST_MENU >		videoItems;
+	List< List< String, TAG_LIBBUD_LIST_MENU>, TAG_LIBBUD_LIST_MENU >		videoItems;
 	const budDeclVideo* 				activeVideo;
 };
 
@@ -548,7 +548,7 @@ struct creditInfo_t
 	}
 	
 	int type;
-	budStr entry;
+	String entry;
 };
 
 //*
@@ -575,7 +575,7 @@ public:
 	
 private:
 	idMenuWidget_Button*			btnBack;
-	budList< creditInfo_t >		creditList;
+	List< creditInfo_t >		creditList;
 	int							creditIndex;
 };
 
@@ -629,7 +629,7 @@ private:
 		int fullscreen;
 		int vidmode;
 	};
-	budList<optionData_t>		optionData;
+	List<optionData_t>		optionData;
 	
 	optionData_t				originalOption;
 	
@@ -770,7 +770,7 @@ public:
 	void						UpdateLeaderboard( const idLeaderboardCallback* callback );
 	void						PumpLBCache();
 	void						RefreshLeaderboard();
-	void						ShowMessage( bool show, budStr message, bool spinner );
+	void						ShowMessage( bool show, String message, bool spinner );
 	void						ClearLeaderboard();
 	void 						SetLeaderboardIndex();
 	
@@ -779,16 +779,16 @@ protected:
 	struct	doomLeaderboard_t
 	{
 		doomLeaderboard_t() : lb( NULL ) { }
-		doomLeaderboard_t( const leaderboardDefinition_t* _lb, budStr _name )
+		doomLeaderboard_t( const leaderboardDefinition_t* _lb, String _name )
 		{
 			lb = _lb;
 			name = _name;
 		}
 		const leaderboardDefinition_t* 	lb;
-		budStr					name;
+		String					name;
 	};
 	
-	budList< doomLeaderboard_t >	leaderboards;
+	List< doomLeaderboard_t >	leaderboards;
 	
 	idMenuWidget_DynamicList* 	options;
 	idMenuWidget_Button*			btnBack;
@@ -888,7 +888,7 @@ public:
 private:
 	idMenuWidget_DynamicList* 	options;
 	idMenuWidget_Button*			btnBack;
-	budList< devOption_t, TAG_LIBBUD_LIST_MENU >		devOptions;
+	List< devOption_t, TAG_LIBBUD_LIST_MENU >		devOptions;
 };
 
 //*
@@ -1115,8 +1115,8 @@ public:
 		
 	private:
 	
-		void						GetModeName( int index, budStr& name );
-		void						GetMapName( int index, budStr& name );
+		void						GetModeName( int index, String& name );
+		void						GetMapName( int index, String& name );
 		
 		budStaticList< budSWFScriptVar, MAX_MATCH_FIELDS >	fields;
 		budStaticList< budSWFScriptVar, MAX_MATCH_FIELDS >	originalFields;
@@ -1402,7 +1402,7 @@ public:
 		int originalShadowMapping;
 		// RB end
 		
-		budList<vidMode_t>			modeList;
+		List<vidMode_t>			modeList;
 	};
 	
 	idMenuScreen_Shell_SystemOptions() :
@@ -1528,7 +1528,7 @@ private:
 	idMenuWidget_DynamicList* 		options;
 	idMenuWidget_LobbyList* 		lobby;
 	idMenuWidget_Button*				btnBack;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 };
 
 //*
@@ -1573,7 +1573,7 @@ private:
 	idMenuWidget_DynamicList* 		options;
 	idMenuWidget_LobbyList* 		lobby;
 	idMenuWidget_Button*				btnBack;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 };
 
 //*
@@ -1668,16 +1668,16 @@ public:
 	void					UpdateAudioLog( bool show );
 	void					UpdateCommunication( bool show, budPlayer* player );
 	void					UpdateOxygen( bool show, int val = 0 );
-	void					SetupObjective( const budStr& title, const budStr& desc, const budMaterial* screenshot );
-	void					SetupObjectiveComplete( const budStr& title );
+	void					SetupObjective( const String& title, const String& desc, const budMaterial* screenshot );
+	void					SetupObjectiveComplete( const String& title );
 	void					ShowObjective( bool complete );
 	void					HideObjective( bool complete );
 	void					GiveWeapon( budPlayer* player, int weaponIndex );
-	void					UpdatePickupInfo( int index, const budStr& name );
+	void					UpdatePickupInfo( int index, const String& name );
 	bool					IsPickupListReady();
 	void					ShowPickups();
 	void					SetCursorState( budPlayer* player, cursorState_t state, int set );
-	void					SetCursorText( const budStr& action, const budStr& focus );
+	void					SetCursorText( const String& action, const String& focus );
 	void					UpdateCursorState();
 	void					CombatCursorFlash();
 	void					UpdateSoulCube( bool ready );
@@ -1693,10 +1693,10 @@ public:
 	void					SetFlagState( int team, int state );
 	void					SetTeamScore( int team, int score );
 	void					SetTeam( int team );
-	void					TriggerHitTarget( bool show, const budStr& target, int color = 0 );
+	void					TriggerHitTarget( bool show, const String& target, int color = 0 );
 	void					ToggleLagged( bool show );
 	void					UpdateGameTime( const char* time );
-	void					UpdateMessage( bool show, const budStr& message );
+	void					UpdateMessage( bool show, const String& message );
 	void					ShowNewItem( const char* name, const char* icon );
 	void					UpdateFlashlight( budPlayer* player );
 	void					UpdateChattingHud( budPlayer* player );
@@ -1760,10 +1760,10 @@ private:
 	bool					oxygenComm;
 	bool					inVaccuum;
 	
-	budStr					objTitle;
-	budStr					objDesc;
+	String					objTitle;
+	String					objDesc;
 	const budMaterial* 		objScreenshot;
-	budStr					objCompleteTitle;
+	String					objCompleteTitle;
 	
 	cursorState_t			cursorState;
 	int						cursorInCombat;
@@ -1771,8 +1771,8 @@ private:
 	int						cursorItem;
 	int						cursorGrabber;
 	int						cursorNone;
-	budStr					cursorAction;
-	budStr					cursorFocus;
+	String					cursorAction;
+	String					cursorFocus;
 	
 	bool					showSoulCubeInfoOnLoad;
 };
@@ -1797,10 +1797,10 @@ public:
 	virtual void				ShowScreen( const mainMenuTransition_t transitionType );
 	virtual bool				HandleAction( idWidgetAction& action, const idWidgetEvent& event, idMenuWidget* widget, bool forceHandled = false );
 	
-	virtual void				SetPlayerData( budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > data );
+	virtual void				SetPlayerData( List< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > data );
 	virtual void				UpdateTeamScores( int r, int b );
-	virtual void				UpdateGameInfo( budStr gameInfo );
-	virtual void				UpdateSpectating( budStr spectating, budStr follow );
+	virtual void				UpdateGameInfo( String gameInfo );
+	virtual void				UpdateSpectating( String spectating, String follow );
 	virtual void				UpdateHighlight();
 	
 protected:

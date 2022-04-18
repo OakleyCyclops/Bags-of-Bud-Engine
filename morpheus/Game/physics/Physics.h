@@ -68,9 +68,9 @@ class idEntity;
 typedef struct impactInfo_s
 {
 	float						invMass;			// inverse mass
-	budMat3						invInertiaTensor;	// inverse inertia tensor
-	budVec3						position;			// impact position relative to center of mass
-	budVec3						velocity;			// velocity at the impact position
+	Matrix3						invInertiaTensor;	// inverse inertia tensor
+	Vector3						position;			// impact position relative to center of mass
+	Vector3						velocity;			// velocity at the impact position
 } impactInfo_t;
 
 
@@ -113,15 +113,15 @@ public:	// common physics interface
 	// returns true if the object moved.
 	virtual bool				Interpolate( const float fraction ) = 0;
 	// resets the prev and next states to the parameters.
-	virtual void				ResetInterpolationState( const budVec3& origin, const budMat3& axis ) = 0;
+	virtual void				ResetInterpolationState( const Vector3& origin, const Matrix3& axis ) = 0;
 	// update the time without moving
 	virtual void				UpdateTime( int endTimeMSec ) = 0;
 	// get the last physics update time
 	virtual int					GetTime() const = 0;
 	// collision interaction between different physics objects
-	virtual void				GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const = 0;
-	virtual void				ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse ) = 0;
-	virtual void				AddForce( const int id, const budVec3& point, const budVec3& force ) = 0;
+	virtual void				GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const = 0;
+	virtual void				ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse ) = 0;
+	virtual void				AddForce( const int id, const Vector3& point, const Vector3& force ) = 0;
 	virtual void				Activate() = 0;
 	virtual void				PutToRest() = 0;
 	virtual bool				IsAtRest() const = 0;
@@ -131,27 +131,27 @@ public:	// common physics interface
 	virtual void				SaveState() = 0;
 	virtual void				RestoreState() = 0;
 	// set the position and orientation in master space or world space if no master set
-	virtual void				SetOrigin( const budVec3& newOrigin, int id = -1 ) = 0;
-	virtual void				SetAxis( const budMat3& newAxis, int id = -1 ) = 0;
+	virtual void				SetOrigin( const Vector3& newOrigin, int id = -1 ) = 0;
+	virtual void				SetAxis( const Matrix3& newAxis, int id = -1 ) = 0;
 	// translate or rotate the physics object in world space
-	virtual void				Translate( const budVec3& translation, int id = -1 ) = 0;
-	virtual void				Rotate( const budRotation& rotation, int id = -1 ) = 0;
+	virtual void				Translate( const Vector3& translation, int id = -1 ) = 0;
+	virtual void				Rotate( const Rotation& rotation, int id = -1 ) = 0;
 	// get the position and orientation in world space
-	virtual const budVec3& 		GetOrigin( int id = 0 ) const = 0;
-	virtual const budMat3& 		GetAxis( int id = 0 ) const = 0;
+	virtual const Vector3& 		GetOrigin( int id = 0 ) const = 0;
+	virtual const Matrix3& 		GetAxis( int id = 0 ) const = 0;
 	// set linear and angular velocity
-	virtual void				SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 ) = 0;
-	virtual void				SetAngularVelocity( const budVec3& newAngularVelocity, int id = 0 ) = 0;
+	virtual void				SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 ) = 0;
+	virtual void				SetAngularVelocity( const Vector3& newAngularVelocity, int id = 0 ) = 0;
 	// get linear and angular velocity
-	virtual const budVec3& 		GetLinearVelocity( int id = 0 ) const = 0;
-	virtual const budVec3& 		GetAngularVelocity( int id = 0 ) const = 0;
+	virtual const Vector3& 		GetLinearVelocity( int id = 0 ) const = 0;
+	virtual const Vector3& 		GetAngularVelocity( int id = 0 ) const = 0;
 	// gravity
-	virtual void				SetGravity( const budVec3& newGravity ) = 0;
-	virtual const budVec3& 		GetGravity() const = 0;
-	virtual const budVec3& 		GetGravityNormal() const = 0;
+	virtual void				SetGravity( const Vector3& newGravity ) = 0;
+	virtual const Vector3& 		GetGravity() const = 0;
+	virtual const Vector3& 		GetGravityNormal() const = 0;
 	// get first collision when translating or rotating this physics object
-	virtual void				ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const = 0;
-	virtual void				ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const = 0;
+	virtual void				ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const = 0;
+	virtual void				ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const = 0;
 	virtual int					ClipContents( const budClipModel* model ) const = 0;
 	// disable/enable the clip models contained by this physics object
 	virtual void				DisableClip() = 0;
@@ -174,8 +174,8 @@ public:	// common physics interface
 	virtual void				SetMaster( idEntity* master, const bool orientated = true ) = 0;
 	// set pushed state
 	virtual void				SetPushed( int deltaTime ) = 0;
-	virtual const budVec3& 		GetPushedLinearVelocity( const int id = 0 ) const = 0;
-	virtual const budVec3& 		GetPushedAngularVelocity( const int id = 0 ) const = 0;
+	virtual const Vector3& 		GetPushedLinearVelocity( const int id = 0 ) const = 0;
+	virtual const Vector3& 		GetPushedAngularVelocity( const int id = 0 ) const = 0;
 	// get blocking info, returns NULL if the object is not blocked
 	virtual const trace_t* 		GetBlockingInfo() const = 0;
 	virtual idEntity* 			GetBlockingEntity() const = 0;

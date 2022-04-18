@@ -151,6 +151,6 @@ private:
 	void					Unlink();
 };
 
-void R_ShowInteractionMemory_f( const budCmdArgs& args );
+void R_ShowInteractionMemory_f( const CmdArgs& args );
 
 #endif /* !__INTERACTION_H__ */

@@ -478,10 +478,19 @@ void			Sys_Init();
 void			Sys_Shutdown();
 void			Sys_Error( const char* error, ... );
 const char* 	Sys_GetCmdLine();
+
+#ifdef USING_UNIX
+	const bool  isTerminal = isatty(STDOUT_FILENO);
+#endif
+
+#ifdef USING_WINDOWS
+	const bool	isTerminal = _isatty(_fileno(stdout);
+#endif
+
 // DG: Sys_ReLaunch() doesn't need any options (and the old way is painful for POSIX systems)
 void			Sys_ReLaunch();
 // DG end
-// void			Sys_Launch( const char* path, budCmdArgs& args,  void* launchData, unsigned int launchDataSize );
+// void			Sys_Launch( const char* path, CmdArgs& args,  void* launchData, unsigned int launchDataSize );
 void			Sys_SetLanguageFromSystem();
 const char* 	Sys_DefaultLanguage();
 void			Sys_Quit();

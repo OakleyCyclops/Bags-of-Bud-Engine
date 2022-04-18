@@ -216,7 +216,7 @@ void idMenuScreen_PDA_UserEmails::Update()
 							const budDeclPDA* pda = player->GetInventory().pdas[ pdaIndex ];
 							if( pda != NULL && pdaInbox.GetEmailList() != NULL )
 							{
-								budStr pdaFullName = pda->GetFullName();
+								String pdaFullName = pda->GetFullName();
 								int emailIndex = pdaInbox.GetEmailList()->GetViewIndex();
 								if( emailIndex < pda->GetNumEmails() )
 								{
@@ -306,7 +306,7 @@ void idMenuScreen_PDA_UserEmails::UpdateEmail()
 		const budDeclPDA* pda = player->GetInventory().pdas[ pdaIndex ];
 		if( pda != NULL && pdaInbox.GetEmailList() != NULL )
 		{
-			budStr pdaFullName = pda->GetFullName();
+			String pdaFullName = pda->GetFullName();
 			int emailIndex = pdaInbox.GetEmailList()->GetViewIndex();
 			if( emailIndex < pda->GetNumEmails() )
 			{

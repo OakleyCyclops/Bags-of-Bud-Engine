@@ -30,25 +30,25 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../renderer/RenderCommon.h"
 
-budCVar swf_timescale( "swf_timescale", "1", CVAR_FLOAT, "timescale for swf files" );
-budCVar swf_stopat( "swf_stopat", "0", CVAR_FLOAT, "stop at a specific frame" );
+CVar swf_timescale( "swf_timescale", "1", CVAR_FLOAT, "timescale for swf files" );
+CVar swf_stopat( "swf_stopat", "0", CVAR_FLOAT, "stop at a specific frame" );
 
-budCVar swf_titleSafe( "swf_titleSafe", "0.005", CVAR_FLOAT, "space between UI elements and screen edge", 0.0f, 0.075f );
+CVar swf_titleSafe( "swf_titleSafe", "0.005", CVAR_FLOAT, "space between UI elements and screen edge", 0.0f, 0.075f );
 
-budCVar swf_forceAlpha( "swf_forceAlpha", "0", CVAR_FLOAT, "force an alpha value on all elements, useful to show invisible animating elements", 0.0f, 1.0f );
+CVar swf_forceAlpha( "swf_forceAlpha", "0", CVAR_FLOAT, "force an alpha value on all elements, useful to show invisible animating elements", 0.0f, 1.0f );
 
 // RB begin
-budCVar swf_skipSolids( "swf_skipSolids", "0", CVAR_BOOL, "" );
-budCVar swf_skipGradients( "swf_skipGradients", "0", CVAR_BOOL, "" );
-budCVar swf_skipLineDraws( "swf_skipLineDraws", "0", CVAR_BOOL, "" );
-budCVar swf_skipBitmaps( "swf_skipBitmaps", "0", CVAR_BOOL, "" );
+CVar swf_skipSolids( "swf_skipSolids", "0", CVAR_BOOL, "" );
+CVar swf_skipGradients( "swf_skipGradients", "0", CVAR_BOOL, "" );
+CVar swf_skipLineDraws( "swf_skipLineDraws", "0", CVAR_BOOL, "" );
+CVar swf_skipBitmaps( "swf_skipBitmaps", "0", CVAR_BOOL, "" );
 
-budCVar swf_show( "swf_show", "0", CVAR_INTEGER, "" );
+CVar swf_show( "swf_show", "0", CVAR_INTEGER, "" );
 // RB end
 
-extern budCVar swf_textStrokeSize;
-extern budCVar swf_textStrokeSizeGlyphSpacer;
-extern budCVar in_useJoystick;
+extern CVar swf_textStrokeSize;
+extern CVar swf_textStrokeSizeGlyphSpacer;
+extern CVar in_useJoystick;
 
 #define ALPHA_EPSILON	0.001f
 
@@ -70,13 +70,13 @@ void budSWF::DrawStretchPic( float x, float y, float w, float h, float s1, float
 budSWF::DrawStretchPic
 ========================
 */
-void budSWF::DrawStretchPic( const budVec4& topLeft, const budVec4& topRight, const budVec4& bottomRight, const budVec4& bottomLeft, const budMaterial* material )
+void budSWF::DrawStretchPic( const Vector4& topLeft, const Vector4& topRight, const Vector4& bottomRight, const Vector4& bottomLeft, const budMaterial* material )
 {
 	renderSystem->DrawStretchPic(
-		budVec4( topLeft.x * scaleToVirtual.x, topLeft.y * scaleToVirtual.y, topLeft.z, topLeft.w ),
-		budVec4( topRight.x * scaleToVirtual.x, topRight.y * scaleToVirtual.y, topRight.z, topRight.w ),
-		budVec4( bottomRight.x * scaleToVirtual.x, bottomRight.y * scaleToVirtual.y, bottomRight.z, bottomRight.w ),
-		budVec4( bottomLeft.x * scaleToVirtual.x, bottomLeft.y * scaleToVirtual.y, bottomLeft.z, bottomLeft.w ),
+		Vector4( topLeft.x * scaleToVirtual.x, topLeft.y * scaleToVirtual.y, topLeft.z, topLeft.w ),
+		Vector4( topRight.x * scaleToVirtual.x, topRight.y * scaleToVirtual.y, topRight.z, topRight.w ),
+		Vector4( bottomRight.x * scaleToVirtual.x, bottomRight.y * scaleToVirtual.y, bottomRight.z, bottomRight.w ),
+		Vector4( bottomLeft.x * scaleToVirtual.x, bottomLeft.y * scaleToVirtual.y, bottomLeft.z, bottomLeft.w ),
 		material );
 }
 
@@ -122,7 +122,7 @@ void budSWF::Render( budRenderSystem* gui, int time, bool isSplitscreen )
 		{
 			float deltaTime = ( currentTime - lastRenderTime );
 			float fr = ( ( float )frameRate / 256.0f ) * swf_timescale.GetFloat();
-			framesToRun = budMath::Ftoi( ( fr * deltaTime ) / 1000.0f );
+			framesToRun = Math::Ftoi( ( fr * deltaTime ) / 1000.0f );
 			lastRenderTime += ( framesToRun * ( 1000.0f / fr ) );
 			if( framesToRun > 10 )
 			{
@@ -160,13 +160,13 @@ void budSWF::Render( budRenderSystem* gui, int time, bool isSplitscreen )
 		float barHeight = renderState.matrix.ty + 0.5f;
 		if( barWidth > 0.0f )
 		{
-			gui->SetColor( budVec4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+			gui->SetColor( Vector4( 0.0f, 0.0f, 0.0f, 1.0f ) );
 			DrawStretchPic( 0.0f, 0.0f, barWidth, sysHeight, 0, 0, 1, 1, white );
 			DrawStretchPic( sysWidth - barWidth, 0.0f, barWidth, sysHeight, 0, 0, 1, 1, white );
 		}
 		if( barHeight > 0.0f )
 		{
-			gui->SetColor( budVec4( 0.0f, 0.0f, 0.0f, 1.0f ) );
+			gui->SetColor( Vector4( 0.0f, 0.0f, 0.0f, 1.0f ) );
 			DrawStretchPic( 0.0f, 0.0f, sysWidth, barHeight, 0, 0, 1, 1, white );
 			DrawStretchPic( 0.0f, sysHeight - barHeight, sysWidth, barHeight, 0, 0, 1, 1, white );
 		}
@@ -175,8 +175,8 @@ void budSWF::Render( budRenderSystem* gui, int time, bool isSplitscreen )
 	if( isMouseInClientArea && ( mouseEnabled && useMouse ) && ( InhibitControl() || ( !InhibitControl() && !useInhibtControl ) ) )
 	{
 		gui->SetGLState( GLS_SRCBLEND_SRC_ALPHA | GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA );
-		gui->SetColor( budVec4( 1.0f, 1.0f, 1.0f, 1.0f ) );
-		budVec2 mouse = renderState.matrix.Transform( budVec2( mouseX - 1, mouseY - 2 ) );
+		gui->SetColor( Vector4( 1.0f, 1.0f, 1.0f, 1.0f ) );
+		Vector2 mouse = renderState.matrix.Transform( Vector2( mouseX - 1, mouseY - 2 ) );
 		//budSWFScriptObject * hitObject = HitTest( mainspriteInstance, swfRenderState_t(), mouseX, mouseY, NULL );
 		if( !hasHitObject )    //hitObject == NULL ) {
 		{
@@ -363,7 +363,7 @@ void budSWF::RenderSprite( budRenderSystem* gui, budSWFSpriteInstance* spriteIns
 					xOffset = ( ( renderState2.matrix.tx - prevX ) / renderState.matrix.xx );
 					display.spriteInstance->SetAlignment( spriteInstance->xOffset + xOffset, spriteInstance->yOffset + yOffset );
 				}
-				else if( budStr::FindText( display.spriteInstance->name, "_absLeft", false ) >= 0 )
+				else if( String::FindText( display.spriteInstance->name, "_absLeft", false ) >= 0 )
 				{
 					float prevX = renderState2.matrix.tx;
 					renderState2.matrix.tx = display.matrix.tx * renderState.matrix.xx;
@@ -406,7 +406,7 @@ void budSWF::RenderSprite( budRenderSystem* gui, budSWFSpriteInstance* spriteIns
 					xOffset = ( ( renderState2.matrix.tx - prevX ) / renderState.matrix.xx );
 					display.spriteInstance->SetAlignment( spriteInstance->xOffset + xOffset, spriteInstance->yOffset + yOffset );
 				}
-				else if( budStr::FindText( display.spriteInstance->name, "_absRight", true ) >= 0 )
+				else if( String::FindText( display.spriteInstance->name, "_absRight", true ) >= 0 )
 				{
 					float prevX = renderState2.matrix.tx;
 					renderState2.matrix.tx = ( ( float )sysWidth - ( ( ( float )frameWidth - display.matrix.tx ) * renderState.matrix.xx ) );
@@ -474,14 +474,14 @@ void budSWF::RenderSprite( budRenderSystem* gui, budSWFSpriteInstance* spriteIns
 		
 		if( swf_show.GetInteger() > 1 )
 		{
-			budVec4 color = colorWhite;
+			Vector4 color = colorWhite;
 			
 			if( spriteInstance->parent != NULL && spriteInstance->parent == mainspriteInstance )
 			{
 				color = colorCyan;
 			}
 			
-			budStr str;
+			String str;
 			//str = display.spriteInstance->name.c_str();
 			sprintf( str, "%s\n%s", spriteInstance->name.c_str(), GetName() );
 			
@@ -574,8 +574,8 @@ void budSWF::RenderMorphShape( budRenderSystem* gui, const budSWFShape* shape, c
 		else if( fill.style.type == 0 )
 		{
 			material = guiSolid;
-			budVec4 startColor = fill.style.startColor.ToVec4();
-			budVec4 endColor = fill.style.endColor.ToVec4();
+			Vector4 startColor = fill.style.startColor.ToVec4();
+			Vector4 endColor = fill.style.endColor.ToVec4();
 			color.mul = Lerp( startColor, endColor, renderState.ratio );
 		}
 		else if( fill.style.type == 4 && fill.style.bitmapID != 65535 )
@@ -597,12 +597,12 @@ void budSWF::RenderMorphShape( budRenderSystem* gui, const budSWFShape* shape, c
 			continue;
 		}
 		uint32 packedColorM = LittleLong( PackColor( color.mul ) );
-		uint32 packedColorA = LittleLong( PackColor( ( color.add * 0.5f ) + budVec4( 0.5f ) ) ); // Compress from -1..1 to 0..1
+		uint32 packedColorA = LittleLong( PackColor( ( color.add * 0.5f ) + Vector4( 0.5f ) ) ); // Compress from -1..1 to 0..1
 		
 		swfRect_t bounds;
 		bounds.tl = Lerp( shape->startBounds.tl, shape->endBounds.tl, renderState.ratio );
 		bounds.br = Lerp( shape->startBounds.br, shape->endBounds.br, renderState.ratio );
-		budVec2 size( material->GetImageWidth(), material->GetImageHeight() );
+		Vector2 size( material->GetImageWidth(), material->GetImageHeight() );
 		if( renderState.materialWidth > 0 )
 		{
 			size.x = renderState.materialWidth;
@@ -611,7 +611,7 @@ void budSWF::RenderMorphShape( budRenderSystem* gui, const budSWFShape* shape, c
 		{
 			size.y = renderState.materialHeight;
 		}
-		budVec2 oneOverSize( 1.0f / size.x, 1.0f / size.y );
+		Vector2 oneOverSize( 1.0f / size.x, 1.0f / size.y );
 		
 		swfMatrix_t styleMatrix;
 		styleMatrix.xx = Lerp( fill.style.startMatrix.xx, fill.style.endMatrix.xx, renderState.ratio );
@@ -633,12 +633,12 @@ void budSWF::RenderMorphShape( budRenderSystem* gui, const budSWFShape* shape, c
 		
 		for( int j = 0; j < fill.startVerts.Num(); j++ )
 		{
-			budVec2 xy = Lerp( fill.startVerts[j], fill.endVerts[j], renderState.ratio );
+			Vector2 xy = Lerp( fill.startVerts[j], fill.endVerts[j], renderState.ratio );
 			
-			budVec2 st;
+			Vector2 st;
 			st.x = ( ( xy.x - bounds.tl.x ) * oneOverSize.x ) * 20.0f;
 			st.y = ( ( xy.y - bounds.tl.y ) * oneOverSize.y ) * 20.0f;
-			budVec2 adjust( 0.5f * oneOverSize.x, 0.5f * oneOverSize.y );
+			Vector2 adjust( 0.5f * oneOverSize.x, 0.5f * oneOverSize.y );
 			
 			ALIGNTYPE16 budDrawVert tempVert;
 			
@@ -674,11 +674,11 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 		swfColorXform_t color;
 		
 		swfMatrix_t invMatrix;
-		budVec2	atlasScale( 0.0f, 0.0f );
-		budVec2	atlasBias( 0.0f, 0.0f );
+		Vector2	atlasScale( 0.0f, 0.0f );
+		Vector2	atlasBias( 0.0f, 0.0f );
 		bool	useAtlas = false;
 		
-		budVec2 size( 1.0f, 1.0f );
+		Vector2 size( 1.0f, 1.0f );
 		
 		if( renderState.material != NULL )
 		{
@@ -709,7 +709,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 			// everything in a single image atlas
 			budSWFDictionaryEntry* entry = &dictionary[ fill.style.bitmapID ];
 			material = atlasMaterial;
-			budVec2i	atlasSize( material->GetImageWidth(), material->GetImageHeight() );
+			Vector2i	atlasSize( material->GetImageWidth(), material->GetImageHeight() );
 			for( int i = 0 ; i < 2 ; i++ )
 			{
 				size[i] = entry->imageSize[i];
@@ -746,7 +746,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 		}
 		
 		uint32 packedColorM = LittleLong( PackColor( color.mul ) );
-		uint32 packedColorA = LittleLong( PackColor( ( color.add * 0.5f ) + budVec4( 0.5f ) ) ); // Compress from -1..1 to 0..1
+		uint32 packedColorA = LittleLong( PackColor( ( color.add * 0.5f ) + Vector4( 0.5f ) ) ); // Compress from -1..1 to 0..1
 		
 		const swfRect_t& bounds = shape->startBounds;
 		if( renderState.materialWidth > 0 )
@@ -757,7 +757,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 		{
 			size.y = renderState.materialHeight;
 		}
-		budVec2 oneOverSize( 1.0f / size.x, 1.0f / size.y );
+		Vector2 oneOverSize( 1.0f / size.x, 1.0f / size.y );
 		
 		gui->SetGLState( GLStateForRenderState( renderState ) );
 		
@@ -770,7 +770,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 		ALIGNTYPE16 budDrawVert tempVerts[4];
 		for( int j = 0; j < fill.startVerts.Num(); j++ )
 		{
-			const budVec2& xy = fill.startVerts[j];
+			const Vector2& xy = fill.startVerts[j];
 			
 			budDrawVert& vert = tempVerts[j & 3];
 			
@@ -786,7 +786,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 			// Forcing the texcoords to zero fixes it.
 			if( fill.style.type != 0 )
 			{
-				budVec2 st;
+				Vector2 st;
 				// all the swf vertexes have an implicit scale of 1/20 for some reason...
 				st.x = ( ( xy.x - bounds.tl.x ) * oneOverSize.x ) * 20.0f;
 				st.y = ( ( xy.y - bounds.tl.y ) * oneOverSize.y ) * 20.0f;
@@ -798,8 +798,8 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 				
 				// inset the tc - the gui may use a vmtr and the tc might end up
 				// crossing page boundaries if using [0.0,1.0]
-				st.x = budMath::ClampFloat( 0.001f, 0.999f, st.x );
-				st.y = budMath::ClampFloat( 0.001f, 0.999f, st.y );
+				st.x = Math::ClampFloat( 0.001f, 0.999f, st.x );
+				st.y = Math::ClampFloat( 0.001f, 0.999f, st.y );
 				vert.SetTexCoord( st );
 			}
 			
@@ -832,7 +832,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 				continue;
 			}
 			uint32 packedColorM = LittleLong( PackColor( color.mul ) );
-			uint32 packedColorA = LittleLong( PackColor( ( color.add * 0.5f ) + budVec4( 0.5f ) ) ); // Compress from -1..1 to 0..1
+			uint32 packedColorA = LittleLong( PackColor( ( color.add * 0.5f ) + Vector4( 0.5f ) ) ); // Compress from -1..1 to 0..1
 			
 			gui->SetGLState( GLStateForRenderState( renderState ) | GLS_POLYMODE_LINE );
 			
@@ -844,7 +844,7 @@ void budSWF::RenderShape( budRenderSystem* gui, const budSWFShape* shape, const 
 			
 			for( int j = 0; j < line.startVerts.Num(); j++ )
 			{
-				const budVec2& xy = line.startVerts[j];
+				const Vector2& xy = line.startVerts[j];
 				
 				ALIGNTYPE16 budDrawVert tempVert;
 				
@@ -869,11 +869,11 @@ budSWF::DrawEditCursor
 */
 void budSWF::DrawEditCursor( budRenderSystem* gui, float x, float y, float w, float h, const swfMatrix_t& matrix )
 {
-	budVec2 topl = matrix.Transform( budVec2( x, y ) );
-	budVec2 topr = matrix.Transform( budVec2( x + w, y ) );
-	budVec2 br = matrix.Transform( budVec2( x + w, y + h ) );
-	budVec2 bl = matrix.Transform( budVec2( x, y + h ) );
-	DrawStretchPic( budVec4( topl.x, topl.y, 0.0f, 0.0f ), budVec4( topr.x, topr.y, 1.0f, 0.0f ), budVec4( br.x, br.y, 1.0f, 1.0f ), budVec4( bl.x, bl.y, 0.0f, 1.0f ), white );
+	Vector2 topl = matrix.Transform( Vector2( x, y ) );
+	Vector2 topr = matrix.Transform( Vector2( x + w, y ) );
+	Vector2 br = matrix.Transform( Vector2( x + w, y + h ) );
+	Vector2 bl = matrix.Transform( Vector2( x, y + h ) );
+	DrawStretchPic( Vector4( topl.x, topl.y, 0.0f, 0.0f ), Vector4( topr.x, topr.y, 1.0f, 0.0f ), Vector4( br.x, br.y, 1.0f, 1.0f ), Vector4( bl.x, bl.y, 0.0f, 1.0f ), white );
 }
 
 /*
@@ -896,7 +896,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 	
 	const budSWFEditText* shape = textInstance->editText;
 	
-	budStr text;
+	String text;
 	
 	if( textInstance->variable.IsEmpty() )
 	{
@@ -980,8 +980,8 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 		SwapValues( selStart, selEnd );
 	}
 	
-	budVec2 xScaleVec = renderState.matrix.Scale( budVec2( 1.0f, 0.0f ) );
-	budVec2 yScaleVec = renderState.matrix.Scale( budVec2( 0.0f, 1.0f ) );
+	Vector2 xScaleVec = renderState.matrix.Scale( Vector2( 1.0f, 0.0f ) );
+	Vector2 yScaleVec = renderState.matrix.Scale( Vector2( 0.0f, 1.0f ) );
 	
 	float xScale = xScaleVec.Length();
 	float yScale = yScaleVec.Length();
@@ -1016,7 +1016,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 	float imageScale = postTransformHeight / 24.0f;
 	textInstance->glyphScale = glyphScale;
 	
-	budVec4 defaultColor = textInstance->color.ToVec4();
+	Vector4 defaultColor = textInstance->color.ToVec4();
 	defaultColor = defaultColor.Multiply( renderState.cxf.mul ) + renderState.cxf.add;
 	if( swf_forceAlpha.GetFloat() > 0.0f )
 	{
@@ -1027,7 +1027,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 		return;
 	}
 	
-	budVec4 selColor( defaultColor );
+	Vector4 selColor( defaultColor );
 	selColor.w *= 0.5f;
 	
 	gui->SetColor( defaultColor );
@@ -1079,7 +1079,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 	float x = bounds.tl.x;
 	float y = bounds.tl.y;
 	
-	int maxLines = budMath::Ftoi( ( bounds.br.y - bounds.tl.y ) / linespacing );
+	int maxLines = Math::Ftoi( ( bounds.br.y - bounds.tl.y ) / linespacing );
 	if( maxLines == 0 )
 	{
 		maxLines = 1;
@@ -1087,8 +1087,8 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 	
 	textInstance->maxLines = maxLines;
 	
-	budList< budStr > textLines;
-	budStr* currentLine = &textLines.Alloc();
+	List< String > textLines;
+	String* currentLine = &textLines.Alloc();
 	
 	// tracks the last breakable character we found
 	int lastbreak = 0;
@@ -1168,7 +1168,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 					if( lastbreak > 0 )
 					{
 						int curLineIndex = currentLine - &textLines[0];
-						budStr* newline = &textLines.Alloc();
+						String* newline = &textLines.Alloc();
 						currentLine = &textLines[ curLineIndex ];
 						if( maxLines == 1 )
 						{
@@ -1264,7 +1264,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 			
 			textInstance->SetSubEndIndex( newEndChar, time );
 			
-			budStr subText = textLines[0].Left( newEndChar - textInstance->GetSubStartIndex() );
+			String subText = textLines[0].Left( newEndChar - textInstance->GetSubStartIndex() );
 			budSWFParmList parms;
 			parms.Append( subText );
 			parms.Append( textInstance->GetSpeaker().c_str() );
@@ -1329,12 +1329,12 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 	int strokeXOffsets[] = { -1, 1, -1, 1 };
 	int strokeYOffsets[] = { -1, -1, 1, 1 };
 	
-	budStr inputText;
+	String inputText;
 	if( inputField )
 	{
 		if( textLines.Num() > 0 )
 		{
-			budStr& text = textLines[0];
+			String& text = textLines[0];
 			float left = bounds.tl.x;
 			
 			int startCheckIndex = textInstance->GetInputStartChar();
@@ -1414,7 +1414,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 		
 		if( t < textLine )
 		{
-			budStr& text = textLines[t];
+			String& text = textLines[t];
 			c += text.Length();
 			startCharacter = endCharacter;
 			endCharacter = startCharacter + text.Length();
@@ -1443,7 +1443,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 		
 		startCharacter = endCharacter;
 		
-		budStr& text = textLines[textLine];
+		String& text = textLines[textLine];
 		int lastChar = text.Length();
 		if( textInstance->IsSubtitle() )
 		{
@@ -1602,7 +1602,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 		
 		i = 0;
 		int overallLineIndex = 0;
-		budVec4 textColor = defaultColor;
+		Vector4 textColor = defaultColor;
 		while( i < lastChar )
 		{
 		
@@ -1616,7 +1616,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 			{
 				if( text[ i ] == C_COLOR_ESCAPE )
 				{
-					if( budStr::IsColor( text.c_str() + i++ ) )
+					if( String::IsColor( text.c_str() + i++ ) )
 					{
 						if( text[ i ] == C_COLOR_DEFAULT )
 						{
@@ -1625,7 +1625,7 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 						}
 						else
 						{
-							textColor = budStr::ColorForIndex( text[ i++ ] );
+							textColor = String::ColorForIndex( text[ i++ ] );
 							textColor.w = defaultColor.w;
 						}
 						continue;
@@ -1683,10 +1683,10 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 				float imageW = icon.imageWidth * imageScale;
 				float imageH = icon.imageHeight * imageScale;
 				
-				budVec2 topl = matrix.Transform( budVec2( imageX, imageY ) );
-				budVec2 topr = matrix.Transform( budVec2( imageX + imageW, imageY ) );
-				budVec2 br = matrix.Transform( budVec2( imageX + imageW, imageY + imageH ) );
-				budVec2 bl = matrix.Transform( budVec2( imageX, imageY + imageH ) );
+				Vector2 topl = matrix.Transform( Vector2( imageX, imageY ) );
+				Vector2 topr = matrix.Transform( Vector2( imageX + imageW, imageY ) );
+				Vector2 br = matrix.Transform( Vector2( imageX + imageW, imageY + imageH ) );
+				Vector2 bl = matrix.Transform( Vector2( imageX, imageY + imageH ) );
 				
 				float s1 = 0.0f;
 				float t1 = 0.0f;
@@ -1694,10 +1694,10 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 				float t2 = 1.0f;
 				
 				//uint32 color = gui->GetColor();
-				budVec4 imgColor = colorWhite;
+				Vector4 imgColor = colorWhite;
 				imgColor.w = defaultColor.w;
 				gui->SetColor( imgColor );
-				DrawStretchPic( budVec4( topl.x, topl.y, s1, t1 ), budVec4( topr.x, topr.y, s2, t1 ), budVec4( br.x, br.y, s2, t2 ), budVec4( bl.x, bl.y, s1, t2 ), icon.material );
+				DrawStretchPic( Vector4( topl.x, topl.y, s1, t1 ), Vector4( topr.x, topr.y, s2, t1 ), Vector4( br.x, br.y, s2, t2 ), Vector4( bl.x, bl.y, s1, t2 ), icon.material );
 				gui->SetColor( defaultColor );
 				
 				x += icon.imageWidth * imageScale;
@@ -1734,10 +1734,10 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 			float glyphY = baseLine - glyph.top;
 			float glyphX = x + glyph.left;
 			
-			budVec2 topl = matrix.Transform( budVec2( glyphX, glyphY ) );
-			budVec2 topr = matrix.Transform( budVec2( glyphX + glyphW, glyphY ) );
-			budVec2 br = matrix.Transform( budVec2( glyphX + glyphW, glyphY + glyphH ) );
-			budVec2 bl = matrix.Transform( budVec2( glyphX, glyphY + glyphH ) );
+			Vector2 topl = matrix.Transform( Vector2( glyphX, glyphY ) );
+			Vector2 topr = matrix.Transform( Vector2( glyphX + glyphW, glyphY ) );
+			Vector2 br = matrix.Transform( Vector2( glyphX + glyphW, glyphY + glyphH ) );
+			Vector2 bl = matrix.Transform( Vector2( glyphX, glyphY + glyphH ) );
 			
 			float s1 = glyph.s1;
 			float t1 = glyph.t1;
@@ -1745,12 +1745,12 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 			float t2 = glyph.t2;
 			if( c > selStart && c <= selEnd )
 			{
-				budVec2 topl = matrix.Transform( budVec2( x, y ) );
-				budVec2 topr = matrix.Transform( budVec2( x + glyphSkip, y ) );
-				budVec2 br = matrix.Transform( budVec2( x + glyphSkip, y + linespacing ) );
-				budVec2 bl = matrix.Transform( budVec2( x, y + linespacing ) );
+				Vector2 topl = matrix.Transform( Vector2( x, y ) );
+				Vector2 topr = matrix.Transform( Vector2( x + glyphSkip, y ) );
+				Vector2 br = matrix.Transform( Vector2( x + glyphSkip, y + linespacing ) );
+				Vector2 bl = matrix.Transform( Vector2( x, y + linespacing ) );
 				gui->SetColor( selColor );
-				DrawStretchPic( budVec4( topl.x, topl.y, 0, 0 ), budVec4( topr.x, topr.y, 1, 0 ), budVec4( br.x, br.y, 1, 1 ), budVec4( bl.x, bl.y, 0, 1 ), white );
+				DrawStretchPic( Vector4( topl.x, topl.y, 0, 0 ), Vector4( topr.x, topr.y, 1, 0 ), Vector4( br.x, br.y, 1, 1 ), Vector4( bl.x, bl.y, 0, 1 ), white );
 				gui->SetColor( textColor );
 			}
 			
@@ -1760,37 +1760,37 @@ void budSWF::RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInsta
 				float dsY = glyphY + glyphScale * 2.0f;
 				float dsX = glyphX + glyphScale * 2.0f;
 				
-				budVec2 dstopl = matrix.Transform( budVec2( dsX, dsY ) );
-				budVec2 dstopr = matrix.Transform( budVec2( dsX + glyphW, dsY ) );
-				budVec2 dsbr = matrix.Transform( budVec2( dsX + glyphW, dsY + glyphH ) );
-				budVec2 dsbl = matrix.Transform( budVec2( dsX, dsY + glyphH ) );
+				Vector2 dstopl = matrix.Transform( Vector2( dsX, dsY ) );
+				Vector2 dstopr = matrix.Transform( Vector2( dsX + glyphW, dsY ) );
+				Vector2 dsbr = matrix.Transform( Vector2( dsX + glyphW, dsY + glyphH ) );
+				Vector2 dsbl = matrix.Transform( Vector2( dsX, dsY + glyphH ) );
 				
-				budVec4 dsColor = colorBlack;
+				Vector4 dsColor = colorBlack;
 				dsColor.w = defaultColor.w;
 				gui->SetColor( dsColor );
-				DrawStretchPic( budVec4( dstopl.x, dstopl.y, s1, t1 ), budVec4( dstopr.x, dstopr.y, s2, t1 ), budVec4( dsbr.x, dsbr.y, s2, t2 ), budVec4( dsbl.x, dsbl.y, s1, t2 ), glyph.material );
+				DrawStretchPic( Vector4( dstopl.x, dstopl.y, s1, t1 ), Vector4( dstopr.x, dstopr.y, s2, t1 ), Vector4( dsbr.x, dsbr.y, s2, t2 ), Vector4( dsbl.x, dsbl.y, s1, t2 ), glyph.material );
 				gui->SetColor( textColor );
 			}
 			else if( textInstance->HasStroke() )
 			{
 			
-				budVec4 strokeColor = colorBlack;
+				Vector4 strokeColor = colorBlack;
 				strokeColor.w = textInstance->GetStrokeStrength() * defaultColor.w;
 				gui->SetColor( strokeColor );
 				for( int index = 0; index < 4; ++index )
 				{
 					float xPos = glyphX + ( ( strokeXOffsets[ index ] * textInstance->GetStrokeWeight() ) * glyphScale );
 					float yPos = glyphY + ( ( strokeYOffsets[ index ] * textInstance->GetStrokeWeight() ) * glyphScale );
-					budVec2 topLeft = matrix.Transform( budVec2( xPos, yPos ) );
-					budVec2 topRight = matrix.Transform( budVec2( xPos + glyphW, yPos ) );
-					budVec2 botRight = matrix.Transform( budVec2( xPos + glyphW, yPos + glyphH ) );
-					budVec2 botLeft = matrix.Transform( budVec2( xPos, yPos + glyphH ) );
-					DrawStretchPic( budVec4( topLeft.x, topLeft.y, s1, t1 ), budVec4( topRight.x, topRight.y, s2, t1 ), budVec4( botRight.x, botRight.y, s2, t2 ), budVec4( botLeft.x, botLeft.y, s1, t2 ), glyph.material );
+					Vector2 topLeft = matrix.Transform( Vector2( xPos, yPos ) );
+					Vector2 topRight = matrix.Transform( Vector2( xPos + glyphW, yPos ) );
+					Vector2 botRight = matrix.Transform( Vector2( xPos + glyphW, yPos + glyphH ) );
+					Vector2 botLeft = matrix.Transform( Vector2( xPos, yPos + glyphH ) );
+					DrawStretchPic( Vector4( topLeft.x, topLeft.y, s1, t1 ), Vector4( topRight.x, topRight.y, s2, t1 ), Vector4( botRight.x, botRight.y, s2, t2 ), Vector4( botLeft.x, botLeft.y, s1, t2 ), glyph.material );
 				}
 				gui->SetColor( textColor );
 			}
 			
-			DrawStretchPic( budVec4( topl.x, topl.y, s1, t1 ), budVec4( topr.x, topr.y, s2, t1 ), budVec4( br.x, br.y, s2, t2 ), budVec4( bl.x, bl.y, s1, t2 ), glyph.material );
+			DrawStretchPic( Vector4( topl.x, topl.y, s1, t1 ), Vector4( topr.x, topr.y, s2, t1 ), Vector4( br.x, br.y, s2, t2 ), Vector4( bl.x, bl.y, s1, t2 ), glyph.material );
 			x += glyphSkip;
 			x += extraSpace;
 			if( cursorPos == c )
@@ -1813,7 +1813,7 @@ budSWF::FindTooltipIcons
 This replaces text like "_use" with platform specific text like "<JOY1>"
 ========================
 */
-void budSWF::FindTooltipIcons( budStr* text )
+void budSWF::FindTooltipIcons( String* text )
 {
 
 	tooltipIconList.Clear();
@@ -1822,12 +1822,12 @@ void budSWF::FindTooltipIcons( budStr* text )
 	{
 		//for ( userCmdString_t * ucs = userCmdStrings ; ucs->string ; ucs++ ) {
 		userCmdString_t ucs = userCmdStrings[i];
-		if( ucs.string && budStr::FindText( text->c_str(), ucs.string, false ) != budStr::INVALID_POSITION )
+		if( ucs.string && String::FindText( text->c_str(), ucs.string, false ) != String::INVALID_POSITION )
 		{
-			budStr replacement;
+			String replacement;
 			
 			keyBindings_t bind = idKeyInput::KeyBindingsFromBinding( ucs.string, true );
-			budStr gamepad = "<";
+			String gamepad = "<";
 			gamepad.Append( bind.gamepad );
 			gamepad.Append( ">" );
 			
@@ -1844,7 +1844,7 @@ void budSWF::FindTooltipIcons( budStr* text )
 				}
 				if( replacement.IsEmpty() )
 				{
-					text->Replace( ucs.string, budStrId( "#str_swf_unbound" ).GetLocalizedString() );
+					text->Replace( ucs.string, StringId( "#str_swf_unbound" ).GetLocalizedString() );
 				}
 			}
 			else
@@ -1862,11 +1862,11 @@ void budSWF::FindTooltipIcons( budStr* text )
 	for( int count = 0; count < tooltipButtonImage.Num(); ++count )
 	{
 		int index = -1;
-		while( ( index = budStr::FindText( text->c_str(), tooltipButtonImage[count].key, false, index + 1 ) ) != budStr::INVALID_POSITION )
+		while( ( index = String::FindText( text->c_str(), tooltipButtonImage[count].key, false, index + 1 ) ) != String::INVALID_POSITION )
 		{
 			tooltipIcon_t icon;
 			icon.startIndex = index;
-			icon.endIndex = index + budStr::Length( tooltipButtonImage[count].key );
+			icon.endIndex = index + String::Length( tooltipButtonImage[count].key );
 			
 			icon.material = declManager->FindMaterial( tooltipButtonImage[count].xbImage );
 			
@@ -1966,9 +1966,9 @@ swfRect_t budSWF::CalcRect( const budSWFSpriteInstance* spriteInstance, const sw
 				
 				for( int j = 0; j < fill.startVerts.Num(); j++ )
 				{
-					const budVec2& xy = fill.startVerts[j];
+					const Vector2& xy = fill.startVerts[j];
 					
-					budVec2 p = renderState.matrix.Transform( xy );//.Scale( scaleToVirtual );
+					Vector2 p = renderState.matrix.Transform( xy );//.Scale( scaleToVirtual );
 					
 					if( p.x < bounds.tl.x )
 					{
@@ -2008,7 +2008,7 @@ swfRect_t budSWF::CalcRect( const budSWFSpriteInstance* spriteInstance, const sw
 	return bounds;
 }
 
-void budSWF::DrawRect( budRenderSystem* gui, const swfRect_t& rect, const budVec4& color )
+void budSWF::DrawRect( budRenderSystem* gui, const swfRect_t& rect, const Vector4& color )
 {
 	renderSystem->SetColor( color );
 	
@@ -2026,7 +2026,7 @@ void budSWF::DrawRect( budRenderSystem* gui, const swfRect_t& rect, const budVec
 }
 
 static triIndex_t quadPicIndexes[6] = { 3, 0, 2, 2, 0, 1 };
-int budSWF::DrawText( budRenderSystem* gui, float x, float y, float scale, budVec4 color, const char* text, float adjust, int limit, int style )
+int budSWF::DrawText( budRenderSystem* gui, float x, float y, float scale, Vector4 color, const char* text, float adjust, int limit, int style )
 {
 	/*
 	if( !matIsIdentity || cursor != -1 )
@@ -2036,7 +2036,7 @@ int budSWF::DrawText( budRenderSystem* gui, float x, float y, float scale, budVe
 	}
 	*/
 	
-	budStr drawText = text;
+	String drawText = text;
 	
 	if( drawText.Length() == 0 )
 	{
@@ -2064,7 +2064,7 @@ int budSWF::DrawText( budRenderSystem* gui, float x, float y, float scale, budVe
 		{
 			// I'm not sure if inline text color codes are used anywhere in the game,
 			// they may only be needed for multi-color user names
-			budVec4		newColor;
+			Vector4		newColor;
 			uint32 colorIndex = drawText.UTF8Char( charIndex );
 			if( colorIndex == C_COLOR_DEFAULT )
 			{
@@ -2072,7 +2072,7 @@ int budSWF::DrawText( budRenderSystem* gui, float x, float y, float scale, budVe
 			}
 			else
 			{
-				newColor = budStr::ColorForIndex( colorIndex );
+				newColor = String::ColorForIndex( colorIndex );
 				newColor[3] = color[3];
 			}
 			renderSystem->SetColor( newColor );
@@ -2142,7 +2142,7 @@ int budSWF::DrawText( budRenderSystem* gui, float x, float y, float scale, budVe
 	return drawText.Length();
 }
 
-int budSWF::DrawText( budRenderSystem* gui, const char* text, float textScale, int textAlign, budVec4 color, const swfRect_t& rectDraw, bool wrap, int cursor, bool calcOnly, budList<int>* breaks, int limit )
+int budSWF::DrawText( budRenderSystem* gui, const char* text, float textScale, int textAlign, Vector4 color, const swfRect_t& rectDraw, bool wrap, int cursor, bool calcOnly, List<int>* breaks, int limit )
 {
 	int			count = 0;
 	int			charIndex = 0;
@@ -2151,8 +2151,8 @@ int budSWF::DrawText( budRenderSystem* gui, const char* text, float textScale, i
 	float		textWidth = 0.0f;
 	float		textWidthAtLastBreak = 0.0f;
 	
-	float		charSkip = budMath::Ftoi( debugFont->GetMaxCharWidth( textScale ) ) + 1;
-	float		lineSkip = budMath::Ftoi( debugFont->GetMaxCharWidth( textScale ) );
+	float		charSkip = Math::Ftoi( debugFont->GetMaxCharWidth( textScale ) ) + 1;
+	float		lineSkip = Math::Ftoi( debugFont->GetMaxCharWidth( textScale ) );
 	
 	bool		lineBreak = false;
 	bool		wordBreak = false;
@@ -2160,8 +2160,8 @@ int budSWF::DrawText( budRenderSystem* gui, const char* text, float textScale, i
 	float		rectWidth = fabs( rectDraw.br.x - rectDraw.tl.x );
 	float		rectHeight = fabs( rectDraw.br.y - rectDraw.tl.y );
 	
-	budStr drawText = text;
-	budStr textBuffer;
+	String drawText = text;
+	String textBuffer;
 	
 	if( !calcOnly && !( text && *text ) )
 	{
@@ -2170,7 +2170,7 @@ int budSWF::DrawText( budRenderSystem* gui, const char* text, float textScale, i
 		//	renderSystem->SetColor( color );
 		//	DrawEditCursor( rectDraw.tl.x, lineSkip + rectDraw.y, textScale );
 		//}
-		return budMath::Ftoi( rectWidth / charSkip );
+		return Math::Ftoi( rectWidth / charSkip );
 	}
 	
 	y = lineSkip + rectDraw.y();
@@ -2334,5 +2334,5 @@ int budSWF::DrawText( budRenderSystem* gui, const char* text, float textScale, i
 		}
 	}
 	
-	return budMath::Ftoi( rectWidth / charSkip );
+	return Math::Ftoi( rectWidth / charSkip );
 }

@@ -49,14 +49,14 @@ Calculates two axis for the surface such that a point dotted against
 the axis will give a 0.0 to 1.0 range in S and T when inside the gui surface
 ================
 */
-void R_SurfaceToTextureAxis( const srfTriangles_t* tri, budVec3& origin, budVec3 axis[3] )
+void R_SurfaceToTextureAxis( const srfTriangles_t* tri, Vector3& origin, Vector3 axis[3] )
 {
 	// find the bounds of the texture
-	budVec2 boundsMin( 999999.0f, 999999.0f );
-	budVec2 boundsMax( -999999.0f, -999999.0f );
+	Vector2 boundsMin( 999999.0f, 999999.0f );
+	Vector2 boundsMax( -999999.0f, -999999.0f );
 	for( int i = 0 ; i < tri->numVerts ; i++ )
 	{
-		const budVec2 uv = tri->verts[i].GetTexCoord();
+		const Vector2 uv = tri->verts[i].GetTexCoord();
 		boundsMin.x = Min( uv.x, boundsMin.x );
 		boundsMax.x = Max( uv.x, boundsMax.x );
 		boundsMin.y = Min( uv.y, boundsMin.y );
@@ -66,7 +66,7 @@ void R_SurfaceToTextureAxis( const srfTriangles_t* tri, budVec3& origin, budVec3
 	// use the floor of the midpoint as the origin of the
 	// surface, which will prevent a slight misalignment
 	// from throwing it an entire cycle off
-	const budVec2 boundsOrg( floor( ( boundsMin.x + boundsMax.x ) * 0.5f ), floor( ( boundsMin.y + boundsMax.y ) * 0.5f ) );
+	const Vector2 boundsOrg( floor( ( boundsMin.x + boundsMax.x ) * 0.5f ), floor( ( boundsMin.y + boundsMax.y ) * 0.5f ) );
 	
 	// determine the world S and T vectors from the first drawSurf triangle
 	
@@ -74,13 +74,13 @@ void R_SurfaceToTextureAxis( const srfTriangles_t* tri, budVec3& origin, budVec3
 	const budJointMat* joints = ( tri->staticModelWithJoints != NULL && r_useGPUSkinning.GetBool() && glConfig.gpuSkinningAvailable ) ? tri->staticModelWithJoints->jointsInverted : NULL;
 	// RB end
 	
-	const budVec3 aXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[0] ], joints );
-	const budVec3 bXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[1] ], joints );
-	const budVec3 cXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[2] ], joints );
+	const Vector3 aXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[0] ], joints );
+	const Vector3 bXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[1] ], joints );
+	const Vector3 cXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[2] ], joints );
 	
-	const budVec2 aST = tri->verts[ tri->indexes[0] ].GetTexCoord();
-	const budVec2 bST = tri->verts[ tri->indexes[1] ].GetTexCoord();
-	const budVec2 cST = tri->verts[ tri->indexes[2] ].GetTexCoord();
+	const Vector2 aST = tri->verts[ tri->indexes[0] ].GetTexCoord();
+	const Vector2 bST = tri->verts[ tri->indexes[1] ].GetTexCoord();
+	const Vector2 cST = tri->verts[ tri->indexes[2] ].GetTexCoord();
 	
 	float d0[5];
 	d0[0] = bXYZ[0] - aXYZ[0];
@@ -152,7 +152,7 @@ static void R_RenderGuiSurf( budUserInterface* gui, const drawSurf_t* drawSurf )
 	tr.pc.c_guiSurfs++;
 	
 	// create the new matrix to draw on this surface
-	budVec3 origin, axis[3];
+	Vector3 origin, axis[3];
 	R_SurfaceToTextureAxis( drawSurf->frontEndGeo, origin, axis );
 	
 	float guiModelMatrix[16];
@@ -242,11 +242,11 @@ if they are not out of date.
 Should we also reload the map models?
 ================
 */
-void R_ReloadGuis_f( const budCmdArgs& args )
+void R_ReloadGuis_f( const CmdArgs& args )
 {
 	bool all;
 	
-	if( !budStr::Icmp( args.Argv( 1 ), "all" ) )
+	if( !String::Icmp( args.Argv( 1 ), "all" ) )
 	{
 		all = true;
 		common->Printf( "Reloading all gui files...\n" );
@@ -265,7 +265,7 @@ void R_ReloadGuis_f( const budCmdArgs& args )
 R_ListGuis_f
 ================
 */
-void R_ListGuis_f( const budCmdArgs& args )
+void R_ListGuis_f( const CmdArgs& args )
 {
 	uiManager->ListGuis();
 }

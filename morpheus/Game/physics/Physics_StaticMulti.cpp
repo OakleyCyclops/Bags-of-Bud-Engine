@@ -428,8 +428,8 @@ idPhysics_StaticMulti::Evaluate
 bool idPhysics_StaticMulti::Evaluate( int timeStepMSec, int endTimeMSec )
 {
 	int i;
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( hasMaster )
 	{
@@ -509,7 +509,7 @@ int idPhysics_StaticMulti::GetTime() const
 idPhysics_StaticMulti::GetImpactInfo
 ================
 */
-void idPhysics_StaticMulti::GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const
+void idPhysics_StaticMulti::GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const
 {
 	memset( info, 0, sizeof( *info ) );
 }
@@ -519,7 +519,7 @@ void idPhysics_StaticMulti::GetImpactInfo( const int id, const budVec3& point, i
 idPhysics_StaticMulti::ApplyImpulse
 ================
 */
-void idPhysics_StaticMulti::ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse )
+void idPhysics_StaticMulti::ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse )
 {
 }
 
@@ -528,7 +528,7 @@ void idPhysics_StaticMulti::ApplyImpulse( const int id, const budVec3& point, co
 idPhysics_StaticMulti::AddForce
 ================
 */
-void idPhysics_StaticMulti::AddForce( const int id, const budVec3& point, const budVec3& force )
+void idPhysics_StaticMulti::AddForce( const int id, const Vector3& point, const Vector3& force )
 {
 }
 
@@ -603,10 +603,10 @@ void idPhysics_StaticMulti::RestoreState()
 idPhysics_StaticMulti::SetOrigin
 ================
 */
-void idPhysics_StaticMulti::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_StaticMulti::SetOrigin( const Vector3& newOrigin, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( id >= 0 && id < clipModels.Num() )
 	{
@@ -644,10 +644,10 @@ void idPhysics_StaticMulti::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics_StaticMulti::SetAxis
 ================
 */
-void idPhysics_StaticMulti::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_StaticMulti::SetAxis( const Matrix3& newAxis, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( id >= 0 && id < clipModels.Num() )
 	{
@@ -668,8 +668,8 @@ void idPhysics_StaticMulti::SetAxis( const budMat3& newAxis, int id )
 	}
 	else if( id == -1 )
 	{
-		budMat3 axis;
-		budRotation rotation;
+		Matrix3 axis;
+		Rotation rotation;
 		
 		if( hasMaster )
 		{
@@ -692,7 +692,7 @@ void idPhysics_StaticMulti::SetAxis( const budMat3& newAxis, int id )
 idPhysics_StaticMulti::Translate
 ================
 */
-void idPhysics_StaticMulti::Translate( const budVec3& translation, int id )
+void idPhysics_StaticMulti::Translate( const Vector3& translation, int id )
 {
 	int i;
 	
@@ -726,11 +726,11 @@ void idPhysics_StaticMulti::Translate( const budVec3& translation, int id )
 idPhysics_StaticMulti::Rotate
 ================
 */
-void idPhysics_StaticMulti::Rotate( const budRotation& rotation, int id )
+void idPhysics_StaticMulti::Rotate( const Rotation& rotation, int id )
 {
 	int i;
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( id >= 0 && id < clipModels.Num() )
 	{
@@ -786,7 +786,7 @@ void idPhysics_StaticMulti::Rotate( const budRotation& rotation, int id )
 idPhysics_StaticMulti::GetOrigin
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetOrigin( int id ) const
+const Vector3& idPhysics_StaticMulti::GetOrigin( int id ) const
 {
 	if( id >= 0 && id < clipModels.Num() )
 	{
@@ -798,7 +798,7 @@ const budVec3& idPhysics_StaticMulti::GetOrigin( int id ) const
 	}
 	else
 	{
-		return vec3_origin;
+		return Vector3_Origin;
 	}
 }
 
@@ -807,7 +807,7 @@ const budVec3& idPhysics_StaticMulti::GetOrigin( int id ) const
 idPhysics_StaticMulti::GetAxis
 ================
 */
-const budMat3& idPhysics_StaticMulti::GetAxis( int id ) const
+const Matrix3& idPhysics_StaticMulti::GetAxis( int id ) const
 {
 	if( id >= 0 && id < clipModels.Num() )
 	{
@@ -828,7 +828,7 @@ const budMat3& idPhysics_StaticMulti::GetAxis( int id ) const
 idPhysics_StaticMulti::SetLinearVelocity
 ================
 */
-void idPhysics_StaticMulti::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_StaticMulti::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
 }
 
@@ -837,7 +837,7 @@ void idPhysics_StaticMulti::SetLinearVelocity( const budVec3& newLinearVelocity,
 idPhysics_StaticMulti::SetAngularVelocity
 ================
 */
-void idPhysics_StaticMulti::SetAngularVelocity( const budVec3& newAngularVelocity, int id )
+void idPhysics_StaticMulti::SetAngularVelocity( const Vector3& newAngularVelocity, int id )
 {
 }
 
@@ -846,9 +846,9 @@ void idPhysics_StaticMulti::SetAngularVelocity( const budVec3& newAngularVelocit
 idPhysics_StaticMulti::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_StaticMulti::GetLinearVelocity( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -856,9 +856,9 @@ const budVec3& idPhysics_StaticMulti::GetLinearVelocity( int id ) const
 idPhysics_StaticMulti::GetAngularVelocity
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetAngularVelocity( int id ) const
+const Vector3& idPhysics_StaticMulti::GetAngularVelocity( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -866,7 +866,7 @@ const budVec3& idPhysics_StaticMulti::GetAngularVelocity( int id ) const
 idPhysics_StaticMulti::SetGravity
 ================
 */
-void idPhysics_StaticMulti::SetGravity( const budVec3& newGravity )
+void idPhysics_StaticMulti::SetGravity( const Vector3& newGravity )
 {
 }
 
@@ -875,9 +875,9 @@ void idPhysics_StaticMulti::SetGravity( const budVec3& newGravity )
 idPhysics_StaticMulti::GetGravity
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetGravity() const
+const Vector3& idPhysics_StaticMulti::GetGravity() const
 {
-	static budVec3 gravity( 0, 0, -g_gravity.GetFloat() );
+	static Vector3 gravity( 0, 0, -g_gravity.GetFloat() );
 	return gravity;
 }
 
@@ -886,9 +886,9 @@ const budVec3& idPhysics_StaticMulti::GetGravity() const
 idPhysics_StaticMulti::GetGravityNormal
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetGravityNormal() const
+const Vector3& idPhysics_StaticMulti::GetGravityNormal() const
 {
-	static budVec3 gravity( 0, 0, -1 );
+	static Vector3 gravity( 0, 0, -1 );
 	return gravity;
 }
 
@@ -897,7 +897,7 @@ const budVec3& idPhysics_StaticMulti::GetGravityNormal() const
 idPhysics_StaticMulti::ClipTranslation
 ================
 */
-void idPhysics_StaticMulti::ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const
+void idPhysics_StaticMulti::ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const
 {
 	memset( &results, 0, sizeof( trace_t ) );
 	gameLocal.Warning( "idPhysics_StaticMulti::ClipTranslation called" );
@@ -908,7 +908,7 @@ void idPhysics_StaticMulti::ClipTranslation( trace_t& results, const budVec3& tr
 idPhysics_StaticMulti::ClipRotation
 ================
 */
-void idPhysics_StaticMulti::ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const
+void idPhysics_StaticMulti::ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const
 {
 	memset( &results, 0, sizeof( trace_t ) );
 	gameLocal.Warning( "idPhysics_StaticMulti::ClipRotation called" );
@@ -1117,9 +1117,9 @@ void idPhysics_StaticMulti::SetPushed( int deltaTime )
 idPhysics_StaticMulti::GetPushedLinearVelocity
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetPushedLinearVelocity( const int id ) const
+const Vector3& idPhysics_StaticMulti::GetPushedLinearVelocity( const int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -1127,9 +1127,9 @@ const budVec3& idPhysics_StaticMulti::GetPushedLinearVelocity( const int id ) co
 idPhysics_StaticMulti::GetPushedAngularVelocity
 ================
 */
-const budVec3& idPhysics_StaticMulti::GetPushedAngularVelocity( const int id ) const
+const Vector3& idPhysics_StaticMulti::GetPushedAngularVelocity( const int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -1140,8 +1140,8 @@ idPhysics_StaticMulti::SetMaster
 void idPhysics_StaticMulti::SetMaster( idEntity* master, const bool orientated )
 {
 	int i;
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( master )
 	{
@@ -1222,7 +1222,7 @@ idPhysics_StaticMulti::WriteToSnapshot
 void idPhysics_StaticMulti::WriteToSnapshot( budBitMsg& msg ) const
 {
 	int i;
-	idCQuat quat, localQuat;
+	CMPQuat quat, localQuat;
 	
 	msg.WriteByte( current.Num() );
 	
@@ -1254,7 +1254,7 @@ idPhysics_StaticMulti::ReadFromSnapshot
 void idPhysics_StaticMulti::ReadFromSnapshot( const budBitMsg& msg )
 {
 	int i, num;
-	idCQuat quat, localQuat;
+	CMPQuat quat, localQuat;
 	
 	num = msg.ReadByte();
 	assert( num == current.Num() );

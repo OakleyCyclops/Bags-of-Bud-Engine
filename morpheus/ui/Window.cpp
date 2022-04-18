@@ -49,12 +49,12 @@ bool idWindow::registerIsTemporary[MAX_EXPRESSION_REGISTERS];		// statics to ass
 //float idWindow::shaderRegisters[MAX_EXPRESSION_REGISTERS];
 //wexpOp_t idWindow::shaderOps[MAX_EXPRESSION_OPS];
 
-budCVar idWindow::gui_debug( "gui_debug", "0", CVAR_GUI | CVAR_BOOL, "" );
-budCVar idWindow::gui_edit( "gui_edit", "0", CVAR_GUI | CVAR_BOOL, "" );
+CVar idWindow::gui_debug( "gui_debug", "0", CVAR_GUI | CVAR_BOOL, "" );
+CVar idWindow::gui_edit( "gui_edit", "0", CVAR_GUI | CVAR_BOOL, "" );
 
-budCVar hud_titlesafe( "hud_titlesafe", "0.0", CVAR_GUI | CVAR_FLOAT, "fraction of the screen to leave around hud for titlesafe area" );
+CVar hud_titlesafe( "hud_titlesafe", "0.0", CVAR_GUI | CVAR_FLOAT, "fraction of the screen to leave around hud for titlesafe area" );
 
-extern budCVar r_skipGuiShaders;		// 1 = don't render any gui elements on surfaces
+extern CVar r_skipGuiShaders;		// 1 = don't render any gui elements on surfaces
 
 //  made RegisterVars a member of idWindow
 const idRegEntry idWindow::RegisterVars[] =
@@ -134,9 +134,9 @@ void idWindow::CommonInit()
 	shear.Zero();
 	textScale = 0.35f;
 	backColor.Zero();
-	foreColor = budVec4( 1, 1, 1, 1 );
-	hoverColor = budVec4( 1, 1, 1, 1 );
-	matColor = budVec4( 1, 1, 1, 1 );
+	foreColor = Vector4( 1, 1, 1, 1 );
+	hoverColor = Vector4( 1, 1, 1, 1 );
+	matColor = Vector4( 1, 1, 1, 1 );
 	borderColor.Zero();
 	background = NULL;
 	backGroundName = "";
@@ -338,7 +338,7 @@ void idWindow::Draw( int time, float x, float y )
 	}
 	if( textShadow )
 	{
-		budStr shadowText = text;
+		String shadowText = text;
 		idRectangle shadowRect = textRect;
 		
 		shadowText.RemoveColors();
@@ -475,7 +475,7 @@ idWindow::RouteMouseCoords
 */
 const char* idWindow::RouteMouseCoords( float xd, float yd )
 {
-	budStr str;
+	String str;
 	if( GetCaptureChild() )
 	{
 		//FIXME: unkludge this whole mechanism
@@ -523,7 +523,7 @@ const char* idWindow::RouteMouseCoords( float xd, float yd )
 idWindow::Activate
 ================
 */
-void idWindow::Activate( bool activate,	budStr& act )
+void idWindow::Activate( bool activate,	String& act )
 {
 
 	int n = ( activate ) ? ON_ACTIVATE : ON_DEACTIVATE;
@@ -755,7 +755,7 @@ idWindow::AddCommand
 */
 void idWindow::AddCommand( const char* _cmd )
 {
-	budStr str = cmd;
+	String str = cmd;
 	if( str.Length() )
 	{
 		str += " ; ";
@@ -1133,7 +1133,7 @@ void idWindow::DebugDraw( int time, float x, float y )
 		else if( gui_debug.GetInteger() == 2 )
 		{
 			char out[1024];
-			budStr str;
+			String str;
 			str = text.c_str();
 			
 			if( str.Length() )
@@ -1355,23 +1355,23 @@ idWindow::SetupTransforms
 */
 void idWindow::SetupTransforms( float x, float y )
 {
-	static budMat3 trans;
-	static budVec3 org;
+	static Matrix3 trans;
+	static Vector3 org;
 	
 	trans.Identity();
 	org.Set( origin.x + x, origin.y + y, 0 );
 	
 	if( rotate )
 	{
-		static budRotation rot;
-		static budVec3 vec( 0, 0, 1 );
+		static Rotation rot;
+		static Vector3 vec( 0, 0, 1 );
 		rot.Set( org, vec, rotate );
 		trans = rot.ToMat3();
 	}
 	
 	if( shear.x || shear.y )
 	{
-		static budMat3 smat;
+		static Matrix3 smat;
 		smat.Identity();
 		smat[0][1] = shear.x;
 		smat[1][0] = shear.y;
@@ -1415,7 +1415,7 @@ idWindow::Redraw
 */
 void idWindow::Redraw( float x, float y, bool hud )
 {
-	budStr str;
+	String str;
 	
 	if( r_skipGuiShaders.GetInteger() == 1 || dc == NULL )
 	{
@@ -1476,8 +1476,8 @@ void idWindow::Redraw( float x, float y, bool hud )
 	actualX = drawRect.x;
 	actualY = drawRect.y;
 	
-	budVec3	oldOrg;
-	budMat3	oldTrans;
+	Vector3	oldOrg;
+	Matrix3	oldTrans;
 	
 	dc->GetTransformInfo( oldOrg, oldTrans );
 	
@@ -1523,7 +1523,7 @@ void idWindow::Redraw( float x, float y, bool hud )
 	
 	if( gui_edit.GetBool()  || ( flags & WIN_DESKTOP && !( flags & WIN_NOCURSOR )  && !hideCursor && ( gui->Active() || ( flags & WIN_MENUGUI ) ) ) )
 	{
-		dc->SetTransformInfo( vec3_origin, mat3_identity );
+		dc->SetTransformInfo( Vector3_Origin, mat3_identity );
 		gui->DrawCursor();
 	}
 	
@@ -1546,7 +1546,7 @@ void idWindow::Redraw( float x, float y, bool hud )
 idWindow::ArchiveToDictionary
 ================
 */
-void idWindow::ArchiveToDictionary( idDict* dict, bool useNames )
+void idWindow::ArchiveToDictionary( Dict* dict, bool useNames )
 {
 	//FIXME: rewrite without state
 	int c = children.Num();
@@ -1561,7 +1561,7 @@ void idWindow::ArchiveToDictionary( idDict* dict, bool useNames )
 idWindow::InitFromDictionary
 ================
 */
-void idWindow::InitFromDictionary( idDict* dict, bool byName )
+void idWindow::InitFromDictionary( Dict* dict, bool byName )
 {
 	//FIXME: rewrite without state
 	int c = children.Num();
@@ -1654,7 +1654,7 @@ idWindow::SetupFromState
 */
 void idWindow::SetupFromState()
 {
-	budStr str;
+	String str;
 	background = NULL;
 	
 	SetupBackground();
@@ -1971,7 +1971,7 @@ bool idWindow::ParseScriptEntry( const char* name, budTokenParser* src )
 {
 	for( int i = 0; i < SCRIPT_COUNT; i++ )
 	{
-		if( budStr::Icmp( name, ScriptNames[i] ) == 0 )
+		if( String::Icmp( name, ScriptNames[i] ) == 0 )
 		{
 			delete scripts[i];
 			scripts[i] = new( TAG_OLD_UI ) budGuiScriptList;
@@ -1997,10 +1997,10 @@ void idWindow::DisableRegister( const char* _name )
 
 /*
 ================================
-budSort_TimeLine
+Sort_TimeLine
 ================================
 */
-class budSort_TimeLine : public budSort_Quick< idTimeLineEvent*, budSort_TimeLine >
+class Sort_TimeLine : public SortQuick< idTimeLineEvent*, Sort_TimeLine >
 {
 public:
 	int Compare( idTimeLineEvent* const& a, idTimeLineEvent* const& b ) const
@@ -2017,7 +2017,7 @@ idWindow::PostParse
 void idWindow::PostParse()
 {
 	// Sort timeline events
-	budSort_TimeLine sorter;
+	Sort_TimeLine sorter;
 	timeLineEvents.SortWithTemplate( sorter );
 }
 
@@ -2121,73 +2121,73 @@ idWinVar* idWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** 
 		*owner = NULL;
 	}
 	
-	if( budStr::Icmp( _name, "notime" ) == 0 )
+	if( String::Icmp( _name, "notime" ) == 0 )
 	{
 		retVar = &noTime;
 	}
-	if( budStr::Icmp( _name, "background" ) == 0 )
+	if( String::Icmp( _name, "background" ) == 0 )
 	{
 		retVar = &backGroundName;
 	}
-	if( budStr::Icmp( _name, "visible" ) == 0 )
+	if( String::Icmp( _name, "visible" ) == 0 )
 	{
 		retVar = &visible;
 	}
-	if( budStr::Icmp( _name, "rect" ) == 0 )
+	if( String::Icmp( _name, "rect" ) == 0 )
 	{
 		retVar = &rect;
 	}
-	if( budStr::Icmp( _name, "backColor" ) == 0 )
+	if( String::Icmp( _name, "backColor" ) == 0 )
 	{
 		retVar = &backColor;
 	}
-	if( budStr::Icmp( _name, "matColor" ) == 0 )
+	if( String::Icmp( _name, "matColor" ) == 0 )
 	{
 		retVar = &matColor;
 	}
-	if( budStr::Icmp( _name, "foreColor" ) == 0 )
+	if( String::Icmp( _name, "foreColor" ) == 0 )
 	{
 		retVar = &foreColor;
 	}
-	if( budStr::Icmp( _name, "hoverColor" ) == 0 )
+	if( String::Icmp( _name, "hoverColor" ) == 0 )
 	{
 		retVar = &hoverColor;
 	}
-	if( budStr::Icmp( _name, "borderColor" ) == 0 )
+	if( String::Icmp( _name, "borderColor" ) == 0 )
 	{
 		retVar = &borderColor;
 	}
-	if( budStr::Icmp( _name, "textScale" ) == 0 )
+	if( String::Icmp( _name, "textScale" ) == 0 )
 	{
 		retVar = &textScale;
 	}
-	if( budStr::Icmp( _name, "rotate" ) == 0 )
+	if( String::Icmp( _name, "rotate" ) == 0 )
 	{
 		retVar = &rotate;
 	}
-	if( budStr::Icmp( _name, "noEvents" ) == 0 )
+	if( String::Icmp( _name, "noEvents" ) == 0 )
 	{
 		retVar = &noEvents;
 	}
-	if( budStr::Icmp( _name, "text" ) == 0 )
+	if( String::Icmp( _name, "text" ) == 0 )
 	{
 		retVar = &text;
 	}
-	if( budStr::Icmp( _name, "backGroundName" ) == 0 )
+	if( String::Icmp( _name, "backGroundName" ) == 0 )
 	{
 		retVar = &backGroundName;
 	}
-	if( budStr::Icmp( _name, "hidecursor" ) == 0 )
+	if( String::Icmp( _name, "hidecursor" ) == 0 )
 	{
 		retVar = &hideCursor;
 	}
 	
-	budStr key = _name;
+	String key = _name;
 	bool guiVar = ( key.Find( VAR_GUIPREFIX ) >= 0 );
 	int c = definedVars.Num();
 	for( int i = 0; i < c; i++ )
 	{
-		if( budStr::Icmp( _name, ( guiVar ) ? va( "%s", definedVars[i]->GetName() ) : definedVars[i]->GetName() ) == 0 )
+		if( String::Icmp( _name, ( guiVar ) ? va( "%s", definedVars[i]->GetName() ) : definedVars[i]->GetName() ) == 0 )
 		{
 			retVar = definedVars[i];
 			break;
@@ -2222,8 +2222,8 @@ idWinVar* idWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** 
 		int n = key.Find( "::" );
 		if( n > 0 )
 		{
-			budStr winName = key.Left( n );
-			budStr var = key.Right( key.Length() - n - 2 );
+			String winName = key.Left( n );
+			String var = key.Right( key.Length() - n - 2 );
 			drawWin_t* win = GetGui()->GetDesktop()->FindChildByName( winName );
 			if( win )
 			{
@@ -2250,7 +2250,7 @@ idWinVar* idWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** 
 idWindow::ParseString
 ================
 */
-void idWindow::ParseString( budTokenParser* src, budStr& out )
+void idWindow::ParseString( budTokenParser* src, String& out )
 {
 	budToken tok;
 	if( src->ReadToken( &tok ) )
@@ -2264,7 +2264,7 @@ void idWindow::ParseString( budTokenParser* src, budStr& out )
 idWindow::ParseVec4
 ================
 */
-void idWindow::ParseVec4( budTokenParser* src, budVec4& out )
+void idWindow::ParseVec4( budTokenParser* src, Vector4& out )
 {
 	budToken tok;
 	src->ReadToken( &tok );
@@ -2288,7 +2288,7 @@ idWindow::ParseInternalVar
 bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
 
-	if( budStr::Icmp( _name, "showtime" ) == 0 )
+	if( String::Icmp( _name, "showtime" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2296,7 +2296,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "showcoords" ) == 0 )
+	if( String::Icmp( _name, "showcoords" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2304,32 +2304,32 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "forceaspectwidth" ) == 0 )
+	if( String::Icmp( _name, "forceaspectwidth" ) == 0 )
 	{
 		forceAspectWidth = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "forceaspectheight" ) == 0 )
+	if( String::Icmp( _name, "forceaspectheight" ) == 0 )
 	{
 		forceAspectHeight = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "matscalex" ) == 0 )
+	if( String::Icmp( _name, "matscalex" ) == 0 )
 	{
 		matScalex = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "matscaley" ) == 0 )
+	if( String::Icmp( _name, "matscaley" ) == 0 )
 	{
 		matScaley = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "bordersize" ) == 0 )
+	if( String::Icmp( _name, "bordersize" ) == 0 )
 	{
 		borderSize = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "nowrap" ) == 0 )
+	if( String::Icmp( _name, "nowrap" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2337,27 +2337,27 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "shadow" ) == 0 )
+	if( String::Icmp( _name, "shadow" ) == 0 )
 	{
 		textShadow = src->ParseInt();
 		return true;
 	}
-	if( budStr::Icmp( _name, "textalign" ) == 0 )
+	if( String::Icmp( _name, "textalign" ) == 0 )
 	{
 		textAlign = src->ParseInt();
 		return true;
 	}
-	if( budStr::Icmp( _name, "textalignx" ) == 0 )
+	if( String::Icmp( _name, "textalignx" ) == 0 )
 	{
 		textAlignx = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "textaligny" ) == 0 )
+	if( String::Icmp( _name, "textaligny" ) == 0 )
 	{
 		textAligny = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "shear" ) == 0 )
+	if( String::Icmp( _name, "shear" ) == 0 )
 	{
 		shear.x = src->ParseFloat();
 		budToken tok;
@@ -2370,7 +2370,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		shear.y = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "wantenter" ) == 0 )
+	if( String::Icmp( _name, "wantenter" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2378,7 +2378,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "naturalmatscale" ) == 0 )
+	if( String::Icmp( _name, "naturalmatscale" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2386,7 +2386,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "noclip" ) == 0 )
+	if( String::Icmp( _name, "noclip" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2394,7 +2394,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "nocursor" ) == 0 )
+	if( String::Icmp( _name, "nocursor" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2402,7 +2402,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "menugui" ) == 0 )
+	if( String::Icmp( _name, "menugui" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2410,7 +2410,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "modal" ) == 0 )
+	if( String::Icmp( _name, "modal" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2418,7 +2418,7 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "invertrect" ) == 0 )
+	if( String::Icmp( _name, "invertrect" ) == 0 )
 	{
 		if( src->ParseBool() )
 		{
@@ -2426,26 +2426,26 @@ bool idWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "name" ) == 0 )
+	if( String::Icmp( _name, "name" ) == 0 )
 	{
 		ParseString( src, name );
 		return true;
 	}
-	if( budStr::Icmp( _name, "play" ) == 0 )
+	if( String::Icmp( _name, "play" ) == 0 )
 	{
 		common->Warning( "play encountered during gui parse.. see Robert\n" );
-		budStr playStr;
+		String playStr;
 		ParseString( src, playStr );
 		return true;
 	}
-	if( budStr::Icmp( _name, "comment" ) == 0 )
+	if( String::Icmp( _name, "comment" ) == 0 )
 	{
 		ParseString( src, comment );
 		return true;
 	}
-	if( budStr::Icmp( _name, "font" ) == 0 )
+	if( String::Icmp( _name, "font" ) == 0 )
 	{
-		budStr fontName;
+		String fontName;
 		ParseString( src, fontName );
 		font = renderSystem->RegisterFont( fontName );
 		return true;
@@ -2460,7 +2460,7 @@ idWindow::ParseRegEntry
 */
 bool idWindow::ParseRegEntry( const char* name, budTokenParser* src )
 {
-	budStr work;
+	String work;
 	work = name;
 	work.ToLower();
 	
@@ -2471,7 +2471,7 @@ bool idWindow::ParseRegEntry( const char* name, budTokenParser* src )
 	{
 		for( int i = 0; i < NumRegisterVars; i++ )
 		{
-			if( budStr::Icmp( work, RegisterVars[i].name ) == 0 )
+			if( String::Icmp( work, RegisterVars[i].name ) == 0 )
 			{
 				regList.AddReg( work, RegisterVars[i].type, src, this, var );
 				return true;
@@ -2481,7 +2481,7 @@ bool idWindow::ParseRegEntry( const char* name, budTokenParser* src )
 	
 	// not predefined so just read the next token and add it to the state
 	budToken tok;
-	budVec4 v;
+	Vector4 v;
 	idWinInt* vari;
 	idWinFloat* varf;
 	idWinStr* vars;
@@ -2554,7 +2554,7 @@ idWindow::Parse
 bool idWindow::Parse( budTokenParser* src, bool rebuild )
 {
 	budToken token, token2, token3, token4, token5, token6, token7;
-	budStr work;
+	String work;
 	
 	if( rebuild )
 	{
@@ -2674,7 +2674,7 @@ bool idWindow::Parse( budTokenParser* src, bool rebuild )
 		}
 		else if( token == "listDef" )
 		{
-			budListWindow* win = new( TAG_OLD_UI ) budListWindow( gui );
+			ListWindow* win = new( TAG_OLD_UI ) ListWindow( gui );
 			SaveExpressionParseState();
 			win->Parse( src, rebuild );
 			RestoreExpressionParseState();
@@ -2889,7 +2889,7 @@ idSimpleWindow* idWindow::FindSimpleWinByName( const char* _name )
 		{
 			continue;
 		}
-		if( budStr::Icmp( drawWindows[i].simp->name, _name ) == 0 )
+		if( String::Icmp( drawWindows[i].simp->name, _name ) == 0 )
 		{
 			return drawWindows[i].simp;
 		}
@@ -2905,7 +2905,7 @@ idWindow::FindChildByName
 drawWin_t* idWindow::FindChildByName( const char* _name )
 {
 	static drawWin_t dw;
-	if( budStr::Icmp( name, _name ) == 0 )
+	if( String::Icmp( name, _name ) == 0 )
 	{
 		dw.simp = NULL;
 		dw.win = this;
@@ -2916,7 +2916,7 @@ drawWin_t* idWindow::FindChildByName( const char* _name )
 	{
 		if( drawWindows[i].win )
 		{
-			if( budStr::Icmp( drawWindows[i].win->name, _name ) == 0 )
+			if( String::Icmp( drawWindows[i].win->name, _name ) == 0 )
 			{
 				return &drawWindows[i];
 			}
@@ -2928,7 +2928,7 @@ drawWin_t* idWindow::FindChildByName( const char* _name )
 		}
 		else
 		{
-			if( budStr::Icmp( drawWindows[i].simp->name, _name ) == 0 )
+			if( String::Icmp( drawWindows[i].simp->name, _name ) == 0 )
 			{
 				return &drawWindows[i];
 			}
@@ -2942,7 +2942,7 @@ drawWin_t* idWindow::FindChildByName( const char* _name )
 idWindow::GetStrPtrByName
 ================
 */
-budStr* idWindow::GetStrPtrByName( const char* _name )
+String* idWindow::GetStrPtrByName( const char* _name )
 {
 	return NULL;
 }
@@ -2952,7 +2952,7 @@ budStr* idWindow::GetStrPtrByName( const char* _name )
 idWindow::AddTransition
 ================
 */
-void idWindow::AddTransition( idWinVar* dest, budVec4 from, budVec4 to, int time, float accelTime, float decelTime )
+void idWindow::AddTransition( idWinVar* dest, Vector4 from, Vector4 to, int time, float accelTime, float decelTime )
 {
 	idTransitionData data;
 	data.data = dest;
@@ -3459,7 +3459,7 @@ void idWindow::EvaluateRegisters( float* registers )
 {
 	int		i, b;
 	wexpOp_t*	op;
-	budVec4 v;
+	Vector4 v;
 	
 	int erc = expressionRegisters.Num();
 	int oc = ops.Num();
@@ -3549,7 +3549,7 @@ void idWindow::EvaluateRegisters( float* registers )
 				{
 					// grabs vector components
 					idWinVec4* var = ( idWinVec4* )( op->a );
-					registers[op->c] = ( ( budVec4& )var )[registers[op->b]];
+					registers[op->c] = ( ( Vector4& )var )[registers[op->b]];
 				}
 				else
 				{
@@ -3661,7 +3661,7 @@ void idWindow::ReadFromDemoFile( class budDemoFile* f, bool rebuild )
 	f->ReadFloat( yOffset );
 	int i, c;
 	
-	budStr work;
+	String work;
 	if( rebuild )
 	{
 		f->SetLog( true, ( work + "-scripts" ) );
@@ -3707,7 +3707,7 @@ void idWindow::ReadFromDemoFile( class budDemoFile* f, bool rebuild )
 		f->ReadInt( td.offset );
 	
 		float startTime, accelTime, linearTime, decelTime;
-		budVec4 startValue, endValue;
+		Vector4 startValue, endValue;
 		f->ReadFloat( startTime );
 		f->ReadFloat( accelTime );
 		f->ReadFloat( linearTime );
@@ -3720,9 +3720,9 @@ void idWindow::ReadFromDemoFile( class budDemoFile* f, bool rebuild )
 		// the extrapolate is correctly initialized through the above Init call
 		int extrapolationType;
 		float duration;
-		budVec4 baseSpeed, speed;
+		Vector4 baseSpeed, speed;
 		float currentTime;
-		budVec4 currentValue;
+		Vector4 currentValue;
 		f->ReadInt( extrapolationType );
 		f->ReadFloat( startTime );
 		f->ReadFloat( duration );
@@ -3828,7 +3828,7 @@ void idWindow::WriteToDemoFile( class budDemoFile* f )
 	f->WriteFloat( textRect.h );
 	f->WriteFloat( xOffset );
 	f->WriteFloat( yOffset );
-	budStr work;
+	String work;
 	f->SetLog( true, work );
 	
 	int i, c;
@@ -3903,7 +3903,7 @@ idWindow::WriteSaveGameTransition
 void idWindow::WriteSaveGameTransition( idTransitionData& trans, budFile* savefile )
 {
 	drawWin_t dw, *fdw;
-	budStr winName( "" );
+	String winName( "" );
 	dw.simp = NULL;
 	dw.win = NULL;
 	int offset = gui->GetDesktop()->GetWinVarOffset( trans.data, &dw );
@@ -3937,7 +3937,7 @@ void idWindow::ReadSaveGameTransition( idTransitionData& trans, budFile* savefil
 	savefile->Read( &offset, sizeof( offset ) );
 	if( offset != -1 )
 	{
-		budStr winName;
+		String winName;
 		ReadSaveGameString( winName, savefile );
 		savefile->Read( &trans.interp, sizeof( trans.interp ) );
 		trans.data = NULL;
@@ -4106,7 +4106,7 @@ void idWindow::WriteToSaveGame( budFile* savefile )
 idWindow::ReadSaveGameString
 ===============
 */
-void idWindow::ReadSaveGameString( budStr& string, budFile* savefile )
+void idWindow::ReadSaveGameString( String& string, budFile* savefile )
 {
 	int len;
 	
@@ -4162,7 +4162,7 @@ void idWindow::ReadFromSaveGame( budFile* savefile )
 	savefile->Read( &shear, sizeof( shear ) );
 	
 //	if ( savefile->GetFileVersion() >= BUILD_NUMBER_8TH_ANNIVERSARY_1 ) {
-	budStr fontName;
+	String fontName;
 	savefile->ReadString( fontName );
 	font = renderSystem->RegisterFont( fontName );
 //	}
@@ -4811,9 +4811,9 @@ void idWindow::SetDefaults()
 	shear.Zero();
 	textScale = 0.35f;
 	backColor.Zero();
-	foreColor = budVec4( 1, 1, 1, 1 );
-	hoverColor = budVec4( 1, 1, 1, 1 );
-	matColor = budVec4( 1, 1, 1, 1 );
+	foreColor = Vector4( 1, 1, 1, 1 );
+	hoverColor = Vector4( 1, 1, 1, 1 );
+	matColor = Vector4( 1, 1, 1, 1 );
 	borderColor.Zero();
 	text = "";
 	
@@ -4830,7 +4830,7 @@ values of the dictionary onto the window is for the window to interpret the
 dictionary as if were a file being parsed.
 ================
 */
-bool idWindow::UpdateFromDictionary( idDict& dict )
+bool idWindow::UpdateFromDictionary( Dict& dict )
 {
 	const idKeyValue*	kv;
 	int					i;

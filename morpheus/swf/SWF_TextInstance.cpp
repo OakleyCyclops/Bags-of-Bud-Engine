@@ -31,17 +31,17 @@ If you have questions concerning this license or the applicable additional terms
 
 budSWFScriptObject_TextInstancePrototype textInstanceScriptObjectPrototype;
 
-budCVar swf_textScrollSpeed( "swf_textScrollSpeed", "80", CVAR_INTEGER, "scroll speed for text" );
-budCVar swf_textRndLetterSpeed( "swf_textRndLetterSpeed", "8", CVAR_INTEGER, "scroll speed for text" );
-budCVar swf_textRndLetterDelay( "swf_textRndLetterDelay", "100", CVAR_INTEGER, "scroll speed for text" );
-budCVar swf_textParagraphSpeed( "swf_textParagraphSpeed", "15", CVAR_INTEGER, "scroll speed for text" );
-budCVar swf_textParagraphInc( "swf_textParagraphInc", "1.3", CVAR_FLOAT, "scroll speed for text" );
-budCVar swf_subtitleExtraTime( "swf_subtitleExtraTime", "3500", CVAR_INTEGER, "time after subtitles vo is complete" );
-budCVar swf_subtitleEarlyTrans( "swf_subtitleEarlyTrans", "3500", CVAR_INTEGER, "early time out to switch the line" );
-budCVar swf_subtitleLengthGuess( "swf_subtitleLengthGuess", "10000", CVAR_INTEGER, "early time out to switch the line" );
-budCVar swf_textMaxInputLength( "swf_textMaxInputLength", "104", CVAR_INTEGER, "max number of characters that can go into the input line" );
-budCVar swf_textStrokeSize( "swf_textStrokeSize", "1.65f", CVAR_FLOAT, "size of font glyph stroke", 0.0f, 2.0f );
-budCVar swf_textStrokeSizeGlyphSpacer( "swf_textStrokeSizeGlyphSpacer", "1.5f", CVAR_FLOAT, "additional space for spacing glyphs using stroke" );
+CVar swf_textScrollSpeed( "swf_textScrollSpeed", "80", CVAR_INTEGER, "scroll speed for text" );
+CVar swf_textRndLetterSpeed( "swf_textRndLetterSpeed", "8", CVAR_INTEGER, "scroll speed for text" );
+CVar swf_textRndLetterDelay( "swf_textRndLetterDelay", "100", CVAR_INTEGER, "scroll speed for text" );
+CVar swf_textParagraphSpeed( "swf_textParagraphSpeed", "15", CVAR_INTEGER, "scroll speed for text" );
+CVar swf_textParagraphInc( "swf_textParagraphInc", "1.3", CVAR_FLOAT, "scroll speed for text" );
+CVar swf_subtitleExtraTime( "swf_subtitleExtraTime", "3500", CVAR_INTEGER, "time after subtitles vo is complete" );
+CVar swf_subtitleEarlyTrans( "swf_subtitleEarlyTrans", "3500", CVAR_INTEGER, "early time out to switch the line" );
+CVar swf_subtitleLengthGuess( "swf_subtitleLengthGuess", "10000", CVAR_INTEGER, "early time out to switch the line" );
+CVar swf_textMaxInputLength( "swf_textMaxInputLength", "104", CVAR_INTEGER, "max number of characters that can go into the input line" );
+CVar swf_textStrokeSize( "swf_textStrokeSize", "1.65f", CVAR_FLOAT, "size of font glyph stroke", 0.0f, 2.0f );
+CVar swf_textStrokeSizeGlyphSpacer( "swf_textStrokeSizeGlyphSpacer", "1.5f", CVAR_FLOAT, "additional space for spacing glyphs using stroke" );
 
 
 /*
@@ -156,7 +156,7 @@ float budSWFTextInstance::GetTextLength()
 		return textLength;
 	}
 	
-	budStr txtLengthCheck = "";
+	String txtLengthCheck = "";
 	
 	float len = 0.0f;
 	if( verify( swf != NULL ) )
@@ -256,7 +256,7 @@ void budSWFTextInstance::StartParagraphText( int time )
 budSWFTextInstance::GetParagraphText
 ========================
 */
-budStr budSWFTextInstance::GetParagraphText( int time )
+String budSWFTextInstance::GetParagraphText( int time )
 {
 	if( triggerGenerate )
 	{
@@ -345,7 +345,7 @@ void budSWFTextInstance::StartRandomText( int time )
 budSWFTextInstance::GetRandomText
 ========================
 */
-budStr budSWFTextInstance::GetRandomText( int time )
+String budSWFTextInstance::GetRandomText( int time )
 {
 
 	if( triggerGenerate )
@@ -763,7 +763,7 @@ int budSWFTextInstance::CalcMaxScroll( int numLines )
 		return 0;
 	}
 	
-	budStr textCheck;
+	String textCheck;
 	if( variable.IsEmpty() )
 	{
 		textCheck = budLocalization::GetString( text );
@@ -781,8 +781,8 @@ int budSWFTextInstance::CalcMaxScroll( int numLines )
 	float x = bounds.tl.x;
 	float y = bounds.tl.y;
 	
-	budList< budStr > textLines;
-	budStr* currentLine = &textLines.Alloc();
+	List< String > textLines;
+	String* currentLine = &textLines.Alloc();
 	
 	// tracks the last breakable character we found
 	int lastbreak = 0;
@@ -830,7 +830,7 @@ int budSWFTextInstance::CalcMaxScroll( int numLines )
 				if( lastbreak > 0 )
 				{
 					int curLineIndex = currentLine - &textLines[0];
-					budStr* newline = &textLines.Alloc();
+					String* newline = &textLines.Alloc();
 					currentLine = &textLines[ curLineIndex ];
 					if( maxLines == 1 )
 					{
@@ -893,7 +893,7 @@ int budSWFTextInstance::CalcNumLines()
 		return 1;
 	}
 	
-	budStr textCheck;
+	String textCheck;
 	
 	if( variable.IsEmpty() )
 	{
@@ -933,7 +933,7 @@ int budSWFTextInstance::CalcNumLines()
 	}
 	
 	float x = bounds.tl.x;
-	int maxLines = budMath::Ftoi( ( bounds.br.y - bounds.tl.y ) / linespacing );
+	int maxLines = Math::Ftoi( ( bounds.br.y - bounds.tl.y ) / linespacing );
 	if( maxLines == 0 )
 	{
 		maxLines = 1;
@@ -1158,7 +1158,7 @@ SWF_TEXT_NATIVE_VAR_DEFINE_GET( _alpha )
 SWF_TEXT_NATIVE_VAR_DEFINE_SET( _alpha )
 {
 	SWF_TEXT_PTHIS_SET( "_alpha" );
-	pThis->color.a = budMath::Ftob( value.ToFloat() * 255.0f );
+	pThis->color.a = Math::Ftob( value.ToFloat() * 255.0f );
 }
 SWF_TEXT_NATIVE_VAR_DEFINE_GET( _visible )
 {
@@ -1369,8 +1369,8 @@ SWF_TEXT_FUNCTION_DEFINE( onKey )
 				}
 				int start = Min( pThis->selectionStart, pThis->selectionEnd );
 				int end = Max( pThis->selectionStart, pThis->selectionEnd );
-				budStr left = pThis->text.Left( Max( start, 0 ) );
-				budStr right = pThis->text.Right( Max( pThis->text.Length() - end, 0 ) );
+				String left = pThis->text.Left( Max( start, 0 ) );
+				String right = pThis->text.Right( Max( pThis->text.Length() - end, 0 ) );
 				pThis->text = left + right;
 				pThis->selectionStart = start;
 				pThis->selectionEnd = start;
@@ -1451,8 +1451,8 @@ SWF_TEXT_FUNCTION_DEFINE( onChar )
 	{
 		int start = Min( pThis->selectionStart, pThis->selectionEnd );
 		int end = Max( pThis->selectionStart, pThis->selectionEnd );
-		budStr left = pThis->text.Left( Max( start, 0 ) );
-		budStr right = pThis->text.Right( Max( pThis->text.Length() - end, 0 ) );
+		String left = pThis->text.Left( Max( start, 0 ) );
+		String right = pThis->text.Right( Max( pThis->text.Length() - end, 0 ) );
 		pThis->text = left + right;
 		pThis->selectionStart = start;
 		
@@ -1593,7 +1593,7 @@ SWF_TEXT_FUNCTION_DEFINE( terminateSubtitle )
 SWF_TEXT_FUNCTION_DEFINE( subLastLine )
 {
 	SWF_TEXT_PTHIS_FUNC( "subLastLine" );
-	budStr lastLine;
+	String lastLine;
 	int len = pThis->subCharEndIndex - pThis->subCharStartIndex;
 	pThis->text.Mid( pThis->subCharStartIndex, len, lastLine );
 	return lastLine;

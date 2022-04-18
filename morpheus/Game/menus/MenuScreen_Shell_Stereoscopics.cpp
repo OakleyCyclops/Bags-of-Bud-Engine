@@ -231,12 +231,12 @@ void idMenuScreen_Shell_Stereoscopics::HideScreen( const mainMenuTransition_t tr
 			bool restart;
 		};
 		budStaticList<budSWFScriptFunction*, 4> callbacks;
-		budStaticList<budStrId, 4> optionText;
+		budStaticList<StringId, 4> optionText;
 		callbacks.Append( new budSWFScriptFunction_Restart( GDM_GAME_RESTART_REQUIRED, false ) );
 		callbacks.Append( new budSWFScriptFunction_Restart( GDM_GAME_RESTART_REQUIRED, true ) );
-		optionText.Append( budStrId( "#str_00100113" ) ); // Continue
-		optionText.Append( budStrId( "#str_02487" ) ); // Restart Now
-		common->Dialog().AddDynamicDialog( GDM_GAME_RESTART_REQUIRED, callbacks, optionText, true, budStr() );
+		optionText.Append( StringId( "#str_00100113" ) ); // Continue
+		optionText.Append( StringId( "#str_02487" ) ); // Restart Now
+		common->Dialog().AddDynamicDialog( GDM_GAME_RESTART_REQUIRED, callbacks, optionText, true, String() );
 	}
 	if( stereoData.IsDataChanged() )
 	{
@@ -326,8 +326,8 @@ bool idMenuScreen_Shell_Stereoscopics::HandleAction( idWidgetAction& action, con
 // SCREEN SETTINGS
 /////////////////////////////////
 
-extern budCVar stereoRender_interOccularCentimeters;
-extern budCVar stereoRender_swapEyes;
+extern CVar stereoRender_interOccularCentimeters;
+extern CVar stereoRender_swapEyes;
 
 /*
 ========================
@@ -408,7 +408,7 @@ void idMenuScreen_Shell_Stereoscopics::idMenuDataSource_StereoSettings::AdjustFi
 	else if( fieldIndex == STEREO_FIELD_SEPERATION )
 	{
 	
-		float newValue = budMath::ClampFloat( 0.0f, 100.0f, fields[ fieldIndex ].ToFloat() + adjustAmount );
+		float newValue = Math::ClampFloat( 0.0f, 100.0f, fields[ fieldIndex ].ToFloat() + adjustAmount );
 		fields[ fieldIndex ].SetFloat( newValue );
 		
 		stereoRender_interOccularCentimeters.SetFloat( ( fields[ STEREO_FIELD_SEPERATION ].ToFloat() / 100.0f ) * MAX_INTEROCCULAR_DISTANCE );

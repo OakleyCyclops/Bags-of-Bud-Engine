@@ -59,9 +59,9 @@ typedef struct
 class WarpPolygon_t
 {
 public:
-	budVec4					outer1;
-	budVec4					outer2;
-	budVec4					center;
+	Vector4					outer1;
+	Vector4					outer2;
+	Vector4					center;
 };
 
 class Warp_t
@@ -73,12 +73,12 @@ public:
 	int						startTime;
 	float					initialRadius;
 	
-	budVec3					worldOrigin;
-	budVec2					screenOrigin;
+	Vector3					worldOrigin;
+	Vector2					screenOrigin;
 	
 	int						durationMsec;
 	
-	budList<WarpPolygon_t, TAG_LIBBUD_LIST_PLAYER>	polys;
+	List<WarpPolygon_t, TAG_LIBBUD_LIST_PLAYER>	polys;
 };
 
 
@@ -147,7 +147,7 @@ FullscreenFX
 class FullscreenFX
 {
 protected:
-	budStr					name;
+	String					name;
 	FxFader					fader;
 	FullscreenFXManager*		fxman;
 	
@@ -168,11 +168,11 @@ public:
 		return false;
 	};
 	
-	void					SetName( budStr n )
+	void					SetName( String n )
 	{
 		name = n;
 	};
-	budStr					GetName()
+	String					GetName()
 	{
 		return name;
 	};
@@ -356,12 +356,12 @@ FullscreenFXManager
 */
 class FullscreenFXManager
 {
-	budList<FullscreenFX*, TAG_FX>	fx;
+	List<FullscreenFX*, TAG_FX>	fx;
 	
 	budPlayerView* 			playerView;
 	const budMaterial*		blendBackMaterial;
 	
-	void					CreateFX( budStr name, budStr fxtype, int fade );
+	void					CreateFX( String name, String fxtype, int fade );
 	
 public:
 	FullscreenFXManager();
@@ -389,7 +389,7 @@ public:
 	{
 		return fx[index];
 	};
-	FullscreenFX*			FindFX( budStr name );
+	FullscreenFX*			FindFX( String name );
 	
 	void					Save( idSaveGame* savefile );
 	void					Restore( idRestoreGame* savefile );
@@ -417,13 +417,13 @@ public:
 	
 	void				ClearEffects();
 	
-	void				DamageImpulse( budVec3 localKickDir, const idDict* damageDef );
+	void				DamageImpulse( Vector3 localKickDir, const Dict* damageDef );
 	
-	void				WeaponFireFeedback( const idDict* weaponDef );
+	void				WeaponFireFeedback( const Dict* weaponDef );
 	
-	budAngles			AngleOffset() const;			// returns the current kick angle
+	Angles			AngleOffset() const;			// returns the current kick angle
 	
-	budMat3				ShakeAxis() const;			// returns the current shake angle
+	Matrix3				ShakeAxis() const;			// returns the current shake angle
 	
 	void				CalculateShake();
 	
@@ -432,9 +432,9 @@ public:
 	void				RenderPlayerView( idMenuHandler_HUD* hudManager );
 	void				EmitStereoEyeView( const int eye, idMenuHandler_HUD* hudManager );
 	
-	void				Fade( budVec4 color, int time );
+	void				Fade( Vector4 color, int time );
 	
-	void				Flash( budVec4 color, int time );
+	void				Flash( Vector4 color, int time );
 	
 	// temp for view testing
 	void				EnableBFGVision( bool b )
@@ -454,7 +454,7 @@ public:
 	int					dvFinishTime;		// double vision will be stopped at this time
 	
 	int					kickFinishTime;		// view kick will be stopped at this time
-	budAngles			kickAngles;
+	Angles			kickAngles;
 	
 	bool				bfgVision;			//
 	
@@ -466,13 +466,13 @@ public:
 	const budMaterial* 	bfgMaterial;		// when targeted with BFG
 	float				lastDamageTime;		// accentuate the tunnel effect for a while
 	
-	budVec4				fadeColor;			// fade color
-	budVec4				fadeToColor;		// color to fade to
-	budVec4				fadeFromColor;		// color to fade from
+	Vector4				fadeColor;			// fade color
+	Vector4				fadeToColor;		// color to fade to
+	Vector4				fadeFromColor;		// color to fade from
 	float				fadeRate;			// fade rate
 	int					fadeTime;			// fade time
 	
-	budAngles			shakeAng;			// from the sound sources
+	Angles			shakeAng;			// from the sound sources
 	
 	budPlayer* 			player;
 	renderView_t		view;
@@ -480,7 +480,7 @@ public:
 	FullscreenFXManager*	fxManager;
 	
 public:
-	int					AddWarp( budVec3 worldOrigin, float centerx, float centery, float initialRadius, float durationMsec );
+	int					AddWarp( Vector3 worldOrigin, float centerx, float centery, float initialRadius, float durationMsec );
 	void				FreeWarp( int id );
 };
 

@@ -35,8 +35,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "../RenderCommon.h"
 #include "../simplex.h"	// line font definition
 
-budCVar r_showCenterOfProjection( "r_showCenterOfProjection", "0", CVAR_RENDERER | CVAR_BOOL, "Draw a cross to show the center of projection" );
-budCVar r_showLines( "r_showLines", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = draw alternate horizontal lines, 2 = draw alternate vertical lines" );
+CVar r_showCenterOfProjection( "r_showCenterOfProjection", "0", CVAR_RENDERER | CVAR_BOOL, "Draw a cross to show the center of projection" );
+CVar r_showLines( "r_showLines", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = draw alternate horizontal lines, 2 = draw alternate vertical lines" );
 
 
 
@@ -52,7 +52,7 @@ debugPolygon_t	rb_debugPolygons[ MAX_DEBUG_POLYGONS ];
 int				rb_numDebugPolygons = 0;
 int				rb_debugPolygonTime = 0;
 
-static void RB_DrawText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align );
+static void RB_DrawText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align );
 
 void RB_SetMVP( const budRenderMatrix& mvp );
 
@@ -266,16 +266,16 @@ stencil buffer.  Stencil of 0 = black, 1 = red, 2 = green,
 void budRenderBackend::DBG_ColorByStencilBuffer()
 {
 	int		i;
-	static budVec3	colors[8] =
+	static Vector3	colors[8] =
 	{
-		budVec3( 0, 0, 0 ),
-		budVec3( 1, 0, 0 ),
-		budVec3( 0, 1, 0 ),
-		budVec3( 0, 0, 1 ),
-		budVec3( 0, 1, 1 ),
-		budVec3( 1, 0, 1 ),
-		budVec3( 1, 1, 0 ),
-		budVec3( 1, 1, 1 ),
+		Vector3( 0, 0, 0 ),
+		Vector3( 1, 0, 0 ),
+		Vector3( 0, 1, 0 ),
+		Vector3( 0, 0, 1 ),
+		Vector3( 0, 1, 1 ),
+		Vector3( 1, 0, 1 ),
+		Vector3( 1, 1, 0 ),
+		Vector3( 1, 1, 1 ),
 	};
 	
 	// clear color buffer to white (>6 passes)
@@ -757,14 +757,14 @@ void budRenderBackend::DBG_ShowTris( drawSurf_t** drawSurfs, int numDrawSurfs )
 {
 
 	modelTrace_t mt;
-	budVec3 end;
+	Vector3 end;
 	
 	if( r_showTris.GetInteger() == 0 )
 	{
 		return;
 	}
 	
-	budVec4 color( 1, 1, 1, 1 );
+	Vector4 color( 1, 1, 1, 1 );
 	
 	GL_PolygonOffset( -1.0f, -2.0f );
 	
@@ -807,8 +807,8 @@ Debugging tool
 */
 
 
-static budStr surfModelName, surfMatName;
-static budVec3 surfPoint;
+static String surfModelName, surfMatName;
+static Vector3 surfPoint;
 static bool surfTraced = false;
 
 
@@ -816,7 +816,7 @@ void budRenderSystemLocal::OnFrame()
 {
 	// Do tracing at a safe time to avoid threading issues.
 	modelTrace_t mt;
-	budVec3 start, end;
+	Vector3 start, end;
 	
 	surfTraced = false;
 	
@@ -874,7 +874,7 @@ void budRenderBackend::DBG_ShowSurfaceInfo( drawSurf_t** drawSurfs, int numDrawS
 	GL_PolygonOffset( scale, bias );
 	GL_State( GLS_DEPTHFUNC_ALWAYS | GLS_POLYMODE_LINE | GLS_POLYGON_OFFSET );
 	
-	// budVec3	trans[3];
+	// Vector3	trans[3];
 	// float	matrix[16];
 	
 	// transform the object verts into global space
@@ -936,7 +936,7 @@ void budRenderBackend::DBG_ShowViewEntitys( viewEntity_t* vModels )
 		
 		// draw the model bounds in white if directly visible,
 		// or, blue if it is only-for-sahdow
-		budVec4	color;
+		Vector4	color;
 		if( edef->IsDirectlyVisible() )
 		{
 			color.Set( 1, 1, 1, 1 );
@@ -951,7 +951,7 @@ void budRenderBackend::DBG_ShowViewEntitys( viewEntity_t* vModels )
 		// transform the upper bounds corner into global space
 		if( r_showViewEntitys.GetInteger() >= 2 )
 		{
-			budVec3 corner;
+			Vector3 corner;
 			R_LocalPointToGlobal( vModel->modelMatrix, edef->localReferenceBounds[1], corner );
 			
 			tr.primaryWorld->DrawText(
@@ -1025,9 +1025,9 @@ void budRenderBackend::DBG_ShowTexturePolarity( drawSurf_t** drawSurfs, int numD
 			b = tri->verts + tri->indexes[j + 1];
 			c = tri->verts + tri->indexes[j + 2];
 			
-			const budVec2 aST = a->GetTexCoord();
-			const budVec2 bST = b->GetTexCoord();
-			const budVec2 cST = c->GetTexCoord();
+			const Vector2 aST = a->GetTexCoord();
+			const Vector2 bST = b->GetTexCoord();
+			const Vector2 cST = c->GetTexCoord();
 			
 			d0[3] = bST[0] - aST[0];
 			d0[4] = bST[1] - aST[1];
@@ -1037,7 +1037,7 @@ void budRenderBackend::DBG_ShowTexturePolarity( drawSurf_t** drawSurfs, int numD
 			
 			area = d0[3] * d1[4] - d0[4] * d1[3];
 			
-			if( budMath::Fabs( area ) < 0.0001 )
+			if( Math::Fabs( area ) < 0.0001 )
 			{
 				GL_Color( 0, 0, 1, 0.5 );
 			}
@@ -1161,19 +1161,19 @@ void budRenderBackend::DBG_ShowTangentSpace( drawSurf_t** drawSurfs, int numDraw
 			
 			if( r_showTangentSpace.GetInteger() == 1 )
 			{
-				const budVec3 vertexTangent = v->GetTangent();
+				const Vector3 vertexTangent = v->GetTangent();
 				GL_Color( 0.5 + 0.5 * vertexTangent[0],  0.5 + 0.5 * vertexTangent[1],
 						  0.5 + 0.5 * vertexTangent[2], 0.5 );
 			}
 			else if( r_showTangentSpace.GetInteger() == 2 )
 			{
-				const budVec3 vertexBiTangent = v->GetBiTangent();
+				const Vector3 vertexBiTangent = v->GetBiTangent();
 				GL_Color( 0.5 + 0.5 * vertexBiTangent[0],  0.5 + 0.5 * vertexBiTangent[1],
 						  0.5 + 0.5 * vertexBiTangent[2], 0.5 );
 			}
 			else
 			{
-				const budVec3 vertexNormal = v->GetNormal();
+				const Vector3 vertexNormal = v->GetNormal();
 				GL_Color( 0.5 + 0.5 * vertexNormal[0],  0.5 + 0.5 * vertexNormal[1],
 						  0.5 + 0.5 * vertexNormal[2], 0.5 );
 			}
@@ -1250,11 +1250,11 @@ void budRenderBackend::DBG_ShowNormals( drawSurf_t** drawSurfs, int numDrawSurfs
 {
 	int			i, j;
 	drawSurf_t*	drawSurf;
-	budVec3		end;
+	Vector3		end;
 	const srfTriangles_t*	tri;
 	float		size;
 	bool		showNumbers;
-	budVec3		pos;
+	Vector3		pos;
 	
 	if( r_showNormals.GetFloat() == 0.0f )
 	{
@@ -1299,9 +1299,9 @@ void budRenderBackend::DBG_ShowNormals( drawSurf_t** drawSurfs, int numDrawSurfs
 		glBegin( GL_LINES );
 		for( j = 0; j < tri->numVerts; j++ )
 		{
-			const budVec3 normal = tri->verts[j].GetNormal();
-			const budVec3 tangent = tri->verts[j].GetTangent();
-			const budVec3 bitangent = tri->verts[j].GetBiTangent();
+			const Vector3 normal = tri->verts[j].GetNormal();
+			const Vector3 tangent = tri->verts[j].GetTangent();
+			const Vector3 bitangent = tri->verts[j].GetBiTangent();
 			
 			glColor3f( 0, 0, 1 );
 			glVertex3fv( tri->verts[j].xyz.ToFloatPtr() );
@@ -1338,15 +1338,15 @@ void budRenderBackend::DBG_ShowNormals( drawSurf_t** drawSurfs, int numDrawSurfs
 			
 			for( j = 0; j < tri->numVerts; j++ )
 			{
-				const budVec3 normal = tri->verts[j].GetNormal();
-				const budVec3 tangent = tri->verts[j].GetTangent();
+				const Vector3 normal = tri->verts[j].GetNormal();
+				const Vector3 tangent = tri->verts[j].GetTangent();
 				R_LocalPointToGlobal( drawSurf->space->modelMatrix, tri->verts[j].xyz + tangent + normal * 0.2f, pos );
 				RB_DrawText( va( "%d", j ), pos, 0.01f, colorWhite, viewDef->renderView.viewaxis, 1 );
 			}
 			
 			for( j = 0; j < tri->numIndexes; j += 3 )
 			{
-				const budVec3 normal = tri->verts[ tri->indexes[ j + 0 ] ].GetNormal();
+				const Vector3 normal = tri->verts[ tri->indexes[ j + 0 ] ].GetNormal();
 				R_LocalPointToGlobal( drawSurf->space->modelMatrix, ( tri->verts[ tri->indexes[ j + 0 ] ].xyz + tri->verts[ tri->indexes[ j + 1 ] ].xyz + tri->verts[ tri->indexes[ j + 2 ] ].xyz ) * ( 1.0f / 3.0f ) + normal * 0.2f, pos );
 				RB_DrawText( va( "%d", j / 3 ), pos, 0.01f, colorCyan, viewDef->renderView.viewaxis, 1 );
 			}
@@ -1389,8 +1389,8 @@ void budRenderBackend::DBG_ShowTextureVectors( drawSurf_t** drawSurfs, int numDr
 		for( int j = 0; j < tri->numIndexes; j += 3 )
 		{
 			float d0[5], d1[5];
-			budVec3 temp;
-			budVec3 tangents[2];
+			Vector3 temp;
+			Vector3 tangents[2];
 			
 			const budDrawVert* a = &tri->verts[tri->indexes[j + 0]];
 			const budDrawVert* b = &tri->verts[tri->indexes[j + 1]];
@@ -1399,12 +1399,12 @@ void budRenderBackend::DBG_ShowTextureVectors( drawSurf_t** drawSurfs, int numDr
 			const budPlane plane( a->xyz, b->xyz, c->xyz );
 			
 			// make the midpoint slightly above the triangle
-			const budVec3 mid = ( a->xyz + b->xyz + c->xyz ) * ( 1.0f / 3.0f ) + 0.1f * plane.Normal();
+			const Vector3 mid = ( a->xyz + b->xyz + c->xyz ) * ( 1.0f / 3.0f ) + 0.1f * plane.Normal();
 			
 			// calculate the texture vectors
-			const budVec2 aST = a->GetTexCoord();
-			const budVec2 bST = b->GetTexCoord();
-			const budVec2 cST = c->GetTexCoord();
+			const Vector2 aST = a->GetTexCoord();
+			const Vector2 bST = b->GetTexCoord();
+			const Vector2 cST = c->GetTexCoord();
 			
 			d0[0] = b->xyz[0] - a->xyz[0];
 			d0[1] = b->xyz[1] - a->xyz[1];
@@ -1500,7 +1500,7 @@ void budRenderBackend::DBG_ShowDominantTris( drawSurf_t** drawSurfs, int numDraw
 		for( j = 0; j < tri->numVerts; j++ )
 		{
 			const budDrawVert* a, *b, *c;
-			budVec3		mid;
+			Vector3		mid;
 			
 			// find the midpoint of the dominant tri
 			
@@ -1726,7 +1726,7 @@ void budRenderBackend::DBG_ShowShadowMapLODs()
 		{
 			GL_State( GLS_DEPTHFUNC_ALWAYS | GLS_SRCBLEND_SRC_ALPHA | GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA | GLS_DEPTHMASK );
 			
-			budVec4 c;
+			Vector4 c;
 			if( vLight->shadowLOD == 0 )
 			{
 				c = colorRed;
@@ -1895,7 +1895,7 @@ void RB_ClearDebugText( int time )
 RB_AddDebugText
 ================
 */
-void RB_AddDebugText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align, const int lifetime, const bool depthTest )
+void RB_AddDebugText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align, const int lifetime, const bool depthTest )
 {
 	debugText_t* debugText;
 	
@@ -1970,7 +1970,7 @@ RB_DrawText
   align can be 0-left, 1-center (default), 2-right
 ================
 */
-static void RB_DrawText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align )
+static void RB_DrawText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align )
 {
 	renderProgManager.BindShader_Color();
 	
@@ -1981,7 +1981,7 @@ static void RB_DrawText( const char* text, const budVec3& origin, float scale, c
 	
 	int i, j, len, num, index, charIndex, line;
 	float textLen = 1.0f, spacing = 1.0f;
-	budVec3 org, p1, p2;
+	Vector3 org, p1, p2;
 	
 	if( text && *text )
 	{
@@ -2173,7 +2173,7 @@ void RB_ClearDebugLines( int time )
 RB_AddDebugLine
 ================
 */
-void RB_AddDebugLine( const budVec4& color, const budVec3& start, const budVec3& end, const int lifeTime, const bool depthTest )
+void RB_AddDebugLine( const Vector4& color, const Vector3& start, const Vector3& end, const int lifeTime, const bool depthTest )
 {
 	debugLine_t* line;
 	
@@ -2314,7 +2314,7 @@ void RB_ClearDebugPolygons( int time )
 RB_AddDebugPolygon
 ================
 */
-void RB_AddDebugPolygon( const budVec4& color, const idWinding& winding, const int lifeTime, const bool depthTest )
+void RB_AddDebugPolygon( const Vector4& color, const idWinding& winding, const int lifeTime, const bool depthTest )
 {
 	debugPolygon_t* poly;
 	
@@ -2870,15 +2870,15 @@ void budRenderBackend::DBG_ShowShadowMaps()
 RB_DrawExpandedTriangles
 =================
 */
-static void RB_DrawExpandedTriangles( const srfTriangles_t* tri, const float radius, const budVec3& vieworg )
+static void RB_DrawExpandedTriangles( const srfTriangles_t* tri, const float radius, const Vector3& vieworg )
 {
 	int i, j, k;
-	budVec3 dir[6], normal, point;
+	Vector3 dir[6], normal, point;
 	
 	for( i = 0; i < tri->numIndexes; i += 3 )
 	{
 	
-		budVec3 p[3] = { tri->verts[ tri->indexes[ i + 0 ] ].xyz, tri->verts[ tri->indexes[ i + 1 ] ].xyz, tri->verts[ tri->indexes[ i + 2 ] ].xyz };
+		Vector3 p[3] = { tri->verts[ tri->indexes[ i + 0 ] ].xyz, tri->verts[ tri->indexes[ i + 1 ] ].xyz, tri->verts[ tri->indexes[ i + 2 ] ].xyz };
 		
 		dir[0] = p[0] - p[1];
 		dir[1] = p[1] - p[2];
@@ -2948,8 +2948,8 @@ void budRenderBackend::DBG_ShowTrace( drawSurf_t** drawSurfs, int numDrawSurfs )
 	int						i;
 	const srfTriangles_t*	tri;
 	const drawSurf_t*		surf;
-	budVec3					start, end;
-	budVec3					localStart, localEnd;
+	Vector3					start, end;
+	Vector3					localStart, localEnd;
 	localTrace_t			hit;
 	float					radius;
 	

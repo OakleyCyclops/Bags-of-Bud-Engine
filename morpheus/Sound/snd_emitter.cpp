@@ -33,13 +33,13 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "snd_local.h"
 
-budCVar s_singleEmitter( "s_singleEmitter", "0", CVAR_INTEGER, "mute all sounds but this emitter" );
-budCVar s_showStartSound( "s_showStartSound", "0", CVAR_BOOL, "print a message every time a sound starts/stops" );
-budCVar s_useOcclusion( "s_useOcclusion", "1", CVAR_BOOL, "Attenuate sounds based on walls" );
-budCVar s_centerFractionVO( "s_centerFractionVO", "0.75", CVAR_FLOAT, "Portion of VO sounds routed to the center channel" );
+CVar s_singleEmitter( "s_singleEmitter", "0", CVAR_INTEGER, "mute all sounds but this emitter" );
+CVar s_showStartSound( "s_showStartSound", "0", CVAR_BOOL, "print a message every time a sound starts/stops" );
+CVar s_useOcclusion( "s_useOcclusion", "1", CVAR_BOOL, "Attenuate sounds based on walls" );
+CVar s_centerFractionVO( "s_centerFractionVO", "0.75", CVAR_FLOAT, "Portion of VO sounds routed to the center channel" );
 
-extern budCVar s_playDefaultSound;
-extern budCVar s_noSound;
+extern CVar s_playDefaultSound;
+extern CVar s_noSound;
 
 /*
 ================================================================================================
@@ -391,11 +391,11 @@ void idSoundChannel::UpdateHardware( float volumeAdd, int currentTime )
 		hardwareVoice->SetCenterChannel( 0.0f );
 	}
 	
-	extern budCVar timescale;
+	extern CVar timescale;
 	
 	hardwareVoice->SetGain( volume );
 	hardwareVoice->SetInnerRadius( parms.minDistance * METERS_TO_DOOM );
-	hardwareVoice->SetPitch( soundWorld->slowmoSpeed * budMath::ClampFloat( 0.2f, 5.0f, timescale.GetFloat() ) );
+	hardwareVoice->SetPitch( soundWorld->slowmoSpeed * Math::ClampFloat( 0.2f, 5.0f, timescale.GetFloat() ) );
 	
 	if( soundWorld->enviroSuitActive )
 	{
@@ -716,7 +716,7 @@ void idSoundEmitterLocal::Free( bool immediate )
 idSoundEmitterLocal::UpdateEmitter
 ========================
 */
-void idSoundEmitterLocal::UpdateEmitter( const budVec3& origin, int listenerId, const soundShaderParms_t* parms )
+void idSoundEmitterLocal::UpdateEmitter( const Vector3& origin, int listenerId, const soundShaderParms_t* parms )
 {
 	assert( soundWorld != NULL );
 	assert( soundWorld->emitters[this->index] == this );
@@ -896,7 +896,7 @@ int idSoundEmitterLocal::StartSound( const idSoundShader* shader, const s_channe
 				// pick a sound from the list based on the passed diversity
 				choice = ( int )( diversity * shader->entries.Num() );
 			}
-			choice = budMath::ClampInt( 0, shader->entries.Num() - 1, choice );
+			choice = Math::ClampInt( 0, shader->entries.Num() - 1, choice );
 			leadinSample = shader->entries[choice];
 			leadinSample->SetLastPlayedTime( soundWorld->GetSoundTime() );
 		}

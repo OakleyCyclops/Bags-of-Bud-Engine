@@ -29,8 +29,8 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 #include "PCH.hpp"
 
-budCVar swf_debug( "swf_debug", "0", CVAR_INTEGER | CVAR_ARCHIVE, "debug swf scripts.  1 shows traces/errors.  2 also shows warnings.  3 also shows disassembly.  4 shows parameters in the disassembly." );
-budCVar swf_debugInvoke( "swf_debugInvoke", "0", CVAR_INTEGER, "debug swf functions being called from game." );
+CVar swf_debug( "swf_debug", "0", CVAR_INTEGER | CVAR_ARCHIVE, "debug swf scripts.  1 shows traces/errors.  2 also shows warnings.  3 also shows disassembly.  4 shows parameters in the disassembly." );
+CVar swf_debugInvoke( "swf_debugInvoke", "0", CVAR_INTEGER, "debug swf functions being called from game." );
 
 budSWFConstantPool::budSWFConstantPool()
 {
@@ -92,7 +92,7 @@ budSWFScriptFunction_Script::~budSWFScriptFunction_Script()
 budSWFScriptFunction_Script::Call
 ========================
 */
-void budSWFScriptFunction_Script::SetScope( budList<budSWFScriptObject*>& newScope )
+void budSWFScriptFunction_Script::SetScope( List<budSWFScriptObject*>& newScope )
 {
 	assert( scope.Num() == 0 );
 	for( int i = 0; i < scope.Num(); i++ )
@@ -267,7 +267,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Call( budSWFScriptObject* thisObjec
 }
 
 // RB begin
-budStr budSWFScriptFunction_Script::CallToScript( budSWFScriptObject* thisObject, const budSWFParmList& parms, const char* filename, int characterID, int actionID )
+String budSWFScriptFunction_Script::CallToScript( budSWFScriptObject* thisObject, const budSWFParmList& parms, const char* filename, int characterID, int actionID )
 {
 	budSWFBitStream bitstream( data, length, false );
 	
@@ -397,7 +397,7 @@ budStr budSWFScriptFunction_Script::CallToScript( budSWFScriptObject* thisObject
 	scope.Append( locals );
 	locals->AddRef();
 	
-	budStr retVal = ExportToScript( thisObject, stack, bitstream, filename, characterID, actionID );
+	String retVal = ExportToScript( thisObject, stack, bitstream, filename, characterID, actionID );
 	
 	assert( scope.Num() == scopeSize + 1 );
 	for( int i = scopeSize; i < scope.Num(); i++ )
@@ -967,7 +967,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			}
 			case Action_GetVariable:
 			{
-				budStr variableName = stack.A().ToString();
+				String variableName = stack.A().ToString();
 				for( int i = scope.Num() - 1; i >= 0; i-- )
 				{
 					stack.A() = scope[i]->Get( variableName );
@@ -984,7 +984,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			}
 			case Action_SetVariable:
 			{
-				budStr variableName = stack.B().ToString();
+				String variableName = stack.B().ToString();
 				bool found = false;
 				for( int i = scope.Num() - 1; i >= 0; i-- )
 				{
@@ -1087,7 +1087,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 				break;
 			case Action_CallFunction:
 			{
-				budStr functionName = stack.A().ToString();
+				String functionName = stack.A().ToString();
 				budSWFScriptVar function;
 				budSWFScriptObject* object = NULL;
 				for( int i = scope.Num() - 1; i >= 0; i-- )
@@ -1124,7 +1124,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			}
 			case Action_CallMethod:
 			{
-				budStr functionName = stack.A().ToString();
+				String functionName = stack.A().ToString();
 				// If the top stack is undefined but there is an object, it's calling the constructor
 				if( functionName.IsEmpty() || stack.A().IsUndefined() || stack.A().IsNULL() )
 				{
@@ -1179,7 +1179,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			}
 			case Action_DefineFunction:
 			{
-				budStr functionName = bitstream.ReadString();
+				String functionName = bitstream.ReadString();
 				
 				budSWFScriptFunction_Script* newFunction = budSWFScriptFunction_Script::Alloc();
 				newFunction->SetScope( scope );
@@ -1208,7 +1208,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			}
 			case Action_DefineFunction2:
 			{
-				budStr functionName = bitstream.ReadString();
+				String functionName = bitstream.ReadString();
 				
 				budSWFScriptFunction_Script* newFunction = budSWFScriptFunction_Script::Alloc();
 				newFunction->SetScope( scope );
@@ -1258,7 +1258,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			}
 			case Action_Enumerate:
 			{
-				budStr variableName = stack.A().ToString();
+				String variableName = stack.A().ToString();
 				for( int i = scope.Num() - 1; i >= 0; i-- )
 				{
 					stack.A() = scope[i]->Get( variableName );
@@ -1339,7 +1339,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 				}
 				else if( stack.B().IsString() )
 				{
-					budStr propertyName = stack.A().ToString();
+					String propertyName = stack.A().ToString();
 					if( propertyName.Cmp( "length" ) == 0 )
 					{
 						stack.B().SetInteger( stack.B().ToString().Length() );
@@ -1355,7 +1355,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 				}
 				else if( stack.B().IsFunction() )
 				{
-					budStr propertyName = stack.A().ToString();
+					String propertyName = stack.A().ToString();
 					if( propertyName.Cmp( "prototype" ) == 0 )
 					{
 						// if this is a function, it's a class definition function, and it just wants the prototype object
@@ -1445,7 +1445,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 			{
 				budSWFScriptObject* object = budSWFScriptObject::Alloc();
 				
-				budStr functionName = stack.A().ToString();
+				String functionName = stack.A().ToString();
 				stack.Pop( 1 );
 				
 				if( functionName.Cmp( "Array" ) == 0 )
@@ -1527,7 +1527,7 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 					}
 					else
 					{
-						budStr dotName = object->GetSprite()->name.c_str();
+						String dotName = object->GetSprite()->name.c_str();
 						for( budSWFSpriteInstance* target = object->GetSprite()->parent; target != NULL; target = target->parent )
 						{
 							dotName = target->name + "." + dotName;
@@ -1724,9 +1724,9 @@ budSWFScriptVar budSWFScriptFunction_Script::Run( budSWFScriptObject* thisObject
 }
 
 // RB begin
-budStr budSWFScriptFunction_Script::UpdateIndent( int indentLevel ) const
+String budSWFScriptFunction_Script::UpdateIndent( int indentLevel ) const
 {
-	budStr indent;
+	String indent;
 	for( int i = 0; i < indentLevel; i++ )
 	{
 		indent += '\t';
@@ -1735,14 +1735,14 @@ budStr budSWFScriptFunction_Script::UpdateIndent( int indentLevel ) const
 	return indent;
 }
 
-void budSWFScriptFunction_Script::AddLine( const budStr& line )
+void budSWFScriptFunction_Script::AddLine( const String& line )
 {
 	ActionBlock& block = currentBlock->blocks.Alloc();
 	block.parent = currentBlock;
 	block.line = line;
 }
 
-void budSWFScriptFunction_Script::AddBlock( const budStr& line )
+void budSWFScriptFunction_Script::AddBlock( const String& line )
 {
 	ActionBlock& block = currentBlock->blocks.Alloc();
 	block.parent = currentBlock;
@@ -1759,11 +1759,11 @@ void budSWFScriptFunction_Script::QuitCurrentBlock()
 	}
 }
 
-budStr budSWFScriptFunction_Script::BuildActionCode( const budList<ActionBlock>& blocks, int level )
+String budSWFScriptFunction_Script::BuildActionCode( const List<ActionBlock>& blocks, int level )
 {
-	budStr ret;
+	String ret;
 	
-	budStr prefix = UpdateIndent( level );
+	String prefix = UpdateIndent( level );
 	
 	for( int i = 0; i < blocks.Num(); i++ )
 	{
@@ -1785,7 +1785,7 @@ budStr budSWFScriptFunction_Script::BuildActionCode( const budList<ActionBlock>&
 	return ret;
 }
 
-budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObject, budSWFStack& stack, budSWFBitStream& bitstream, const char* filename, int characterID, int actionID )
+String budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObject, budSWFStack& stack, budSWFBitStream& bitstream, const char* filename, int characterID, int actionID )
 {
 	static int callstackLevel = -1;
 	budSWFSpriteInstance* thisSprite = thisObject->GetSprite();
@@ -1798,14 +1798,14 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 	
 	callstackLevel++;
 	
-//	budStr actionScript;
+//	String actionScript;
 
 	actionBlocks.Clear();
 	currentBlock = &actionBlocks.Alloc();
 	currentBlock->line = va( "function sprite%i_action%i()", characterID, actionID );
 	
 	//int indentLevel = 0;
-	//budStr indent;
+	//String indent;
 	
 	while( bitstream.Tell() < bitstream.Length() )
 	{
@@ -2052,7 +2052,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			}
 			case Action_GetVariable:
 			{
-				budStr variableName = stack.A().ToString();
+				String variableName = stack.A().ToString();
 				
 				/*
 				for( int i = scope.Num() - 1; i >= 0; i-- )
@@ -2078,7 +2078,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			}
 			case Action_SetVariable:
 			{
-				budStr variableName = stack.B().ToString();
+				String variableName = stack.B().ToString();
 				/*
 				bool found = false;
 				for( int i = scope.Num() - 1; i >= 0; i-- )
@@ -2179,7 +2179,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 				break;
 			case Action_CallFunction:
 			{
-				budStr functionName = stack.A().ToString();
+				String functionName = stack.A().ToString();
 				budSWFScriptVar function;
 				budSWFScriptObject* object = NULL;
 				for( int i = scope.Num() - 1; i >= 0; i-- )
@@ -2193,7 +2193,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 				}
 				stack.Pop( 1 );
 				
-				budStr line = va( "%s( ", functionName.c_str() );
+				String line = va( "%s( ", functionName.c_str() );
 				
 				budSWFParmList parms;
 				parms.SetNum( stack.A().ToInteger() );
@@ -2231,7 +2231,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			}
 			case Action_CallMethod:
 			{
-				budStr functionName = stack.A().ToString();
+				String functionName = stack.A().ToString();
 				// If the top stack is undefined but there is an object, it's calling the constructor
 				if( functionName.IsEmpty() || stack.A().IsUndefined() || stack.A().IsNULL() )
 				{
@@ -2253,7 +2253,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 					libBud::PrintfIf( swf_debug.GetInteger() > 1, "SWF: NULL object for method %s\n", functionName.c_str() );
 				}
 				
-				budStr line = va( "%s.%s( ", stack.B().ToString().c_str(), functionName.c_str() );
+				String line = va( "%s.%s( ", stack.B().ToString().c_str(), functionName.c_str() );
 				
 				stack.Pop( 2 );
 				
@@ -2302,14 +2302,14 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			}
 			case Action_DefineFunction:
 			{
-				budStr functionName = bitstream.ReadString();
+				String functionName = bitstream.ReadString();
 				
 				budSWFScriptFunction_Script* newFunction = budSWFScriptFunction_Script::Alloc();
 				newFunction->SetScope( scope );
 				newFunction->SetConstants( constants );
 				newFunction->SetDefaultSprite( defaultSprite );
 				
-				budStr line;
+				String line;
 				if( functionName.IsEmpty() )
 				{
 					line = "function( ";
@@ -2363,7 +2363,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			}
 			case Action_DefineFunction2:
 			{
-				budStr functionName = bitstream.ReadString();
+				String functionName = bitstream.ReadString();
 				
 				budSWFScriptFunction_Script* newFunction = budSWFScriptFunction_Script::Alloc();
 				newFunction->SetScope( scope );
@@ -2385,7 +2385,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 				newFunction->AllocRegisters( numRegs );
 				newFunction->SetFlags( flags );
 				
-				budStr line;
+				String line;
 				if( functionName.IsEmpty() )
 				{
 					line = "function( ";
@@ -2443,7 +2443,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			}
 			case Action_Enumerate:
 			{
-				budStr variableName = stack.A().ToString();
+				String variableName = stack.A().ToString();
 				for( int i = scope.Num() - 1; i >= 0; i-- )
 				{
 					stack.A() = scope[i]->Get( variableName );
@@ -2530,7 +2530,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 				}
 				else if( stack.B().IsString() )
 				{
-					budStr propertyName = stack.A().ToString();
+					String propertyName = stack.A().ToString();
 					if( propertyName.Cmp( "length" ) == 0 )
 					{
 						stack.B().SetInteger( stack.B().ToString().Length() );
@@ -2546,7 +2546,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 				}
 				else if( stack.B().IsFunction() )
 				{
-					budStr propertyName = stack.A().ToString();
+					String propertyName = stack.A().ToString();
 					if( propertyName.Cmp( "prototype" ) == 0 )
 					{
 						// if this is a function, it's a class definition function, and it just wants the prototype object
@@ -2584,7 +2584,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 				//actionScript += line;
 				//line.Empty();
 				
-				const budStr& member = stack.A().ToString();
+				const String& member = stack.A().ToString();
 				//if( stack.A().IsString() )
 				//{
 				//	stack.B().SetResult( va( "%s[\"%s\"]", stack.B().ToString().c_str(), stack.A().ToString().c_str() ) );
@@ -2669,7 +2669,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 			{
 				budSWFScriptObject* object = budSWFScriptObject::Alloc();
 				
-				budStr functionName = stack.A().ToString();
+				String functionName = stack.A().ToString();
 				stack.Pop( 1 );
 				
 				if( functionName.Cmp( "Array" ) == 0 )
@@ -2751,7 +2751,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 					}
 					else
 					{
-						budStr dotName = object->GetSprite()->name.c_str();
+						String dotName = object->GetSprite()->name.c_str();
 						for( budSWFSpriteInstance* target = object->GetSprite()->parent; target != NULL; target = target->parent )
 						{
 							dotName = target->name + "." + dotName;
@@ -2995,7 +2995,7 @@ budStr budSWFScriptFunction_Script::ExportToScript( budSWFScriptObject* thisObje
 	callstackLevel--;
 	
 finish:
-	budStr actionScript = BuildActionCode( actionBlocks, 0 );
+	String actionScript = BuildActionCode( actionBlocks, 0 );
 	
 	libBud::Printf( "%s.Sprite%i script:\n%s\n", filename, characterID, actionScript.c_str() );
 	

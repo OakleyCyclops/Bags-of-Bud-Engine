@@ -211,7 +211,7 @@ const int BIGCHAR_HEIGHT		= 16;
 const int SCREEN_WIDTH			= 640;
 const int SCREEN_HEIGHT			= 480;
 
-extern budCVar r_useVirtualScreenResolution;
+extern CVar r_useVirtualScreenResolution;
 
 class budRenderWorld;
 
@@ -282,32 +282,32 @@ public:
 	virtual class budFont* 	RegisterFont( const char* fontName ) = 0;
 	virtual void			ResetFonts() = 0;
 	
-	virtual void			SetColor( const budVec4& rgba ) = 0;
+	virtual void			SetColor( const Vector4& rgba ) = 0;
 	virtual void			SetColor4( float r, float g, float b, float a )
 	{
-		SetColor( budVec4( r, g, b, a ) );
+		SetColor( Vector4( r, g, b, a ) );
 	}
 	
 	virtual uint32			GetColor() = 0;
 	
 	virtual void			SetGLState( const uint64 glState ) = 0;
 	
-	virtual void			DrawFilled( const budVec4& color, float x, float y, float w, float h ) = 0;
+	virtual void			DrawFilled( const Vector4& color, float x, float y, float w, float h ) = 0;
 	virtual void			DrawStretchPic( float x, float y, float w, float h, float s1, float t1, float s2, float t2, const budMaterial* material ) = 0;
-	void			DrawStretchPic( const budVec4& rect, const budVec4& st, const budMaterial* material )
+	void			DrawStretchPic( const Vector4& rect, const Vector4& st, const budMaterial* material )
 	{
 		DrawStretchPic( rect.x, rect.y, rect.z, rect.w, st.x, st.y, st.z, st.w, material );
 	}
-	virtual void			DrawStretchPic( const budVec4& topLeft, const budVec4& topRight, const budVec4& bottomRight, const budVec4& bottomLeft, const budMaterial* material ) = 0;
-	virtual void			DrawStretchTri( const budVec2& p1, const budVec2& p2, const budVec2& p3, const budVec2& t1, const budVec2& t2, const budVec2& t3, const budMaterial* material ) = 0;
+	virtual void			DrawStretchPic( const Vector4& topLeft, const Vector4& topRight, const Vector4& bottomRight, const Vector4& bottomLeft, const budMaterial* material ) = 0;
+	virtual void			DrawStretchTri( const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& t1, const Vector2& t2, const Vector2& t3, const budMaterial* material ) = 0;
 	virtual budDrawVert* 	AllocTris( int numVerts, const triIndex_t* indexes, int numIndexes, const budMaterial* material, const stereoDepthType_t stereoType = STEREO_DEPTH_TYPE_NONE ) = 0;
 	
 	virtual void			PrintMemInfo( MemInfo_t* mi ) = 0;
 	
 	virtual void			DrawSmallChar( int x, int y, int ch ) = 0;
-	virtual void			DrawSmallStringExt( int x, int y, const char* string, const budVec4& setColor, bool forceColor ) = 0;
+	virtual void			DrawSmallStringExt( int x, int y, const char* string, const Vector4& setColor, bool forceColor ) = 0;
 	virtual void			DrawBigChar( int x, int y, int ch ) = 0;
-	virtual void			DrawBigStringExt( int x, int y, const char* string, const budVec4& setColor, bool forceColor ) = 0;
+	virtual void			DrawBigStringExt( int x, int y, const char* string, const Vector4& setColor, bool forceColor ) = 0;
 	
 	// dump all 2D drawing so far this frame to the demo file
 	virtual void			WriteDemoPics() = 0;
@@ -381,9 +381,9 @@ extern budRenderSystem* 			renderSystem;
 //
 
 // for use by dmap to do the carving-on-light-boundaries and for the editor for display
-void R_LightProjectionMatrix( const budVec3& origin, const budPlane& rearPlane, budVec4 mat[4] );
+void R_LightProjectionMatrix( const Vector3& origin, const budPlane& rearPlane, Vector4 mat[4] );
 
 // used by the view shot taker
-void R_ScreenshotFilename( int& lastNumber, const char* base, budStr& fileName );
+void R_ScreenshotFilename( int& lastNumber, const char* base, String& fileName );
 
 #endif /* !__RENDERER_H__ */

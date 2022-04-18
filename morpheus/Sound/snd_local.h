@@ -70,11 +70,11 @@ LinearToDB
 */
 BUD_INLINE_EXTERN float DBtoLinear( float db )
 {
-	return budMath::Pow( 2.0f, db * ( 1.0f / 6.0f ) );
+	return Math::Pow( 2.0f, db * ( 1.0f / 6.0f ) );
 }
 BUD_INLINE_EXTERN float LinearToDB( float linear )
 {
-	return ( linear > 0.0f ) ? ( budMath::Log( linear ) * ( 6.0f / 0.693147181f ) ) : -999.0f;
+	return ( linear > 0.0f ) ? ( Math::Log( linear ) * ( 6.0f / 0.693147181f ) ) : -999.0f;
 }
 
 // demo sound commands
@@ -133,8 +133,8 @@ BUD_INLINE_EXTERN ALCenum CheckALCErrors_( ALCdevice* device, const char* filena
 //------------------------
 struct listener_t
 {
-	budMat3	axis;		// orientation of the listener
-	budVec3	pos;		// position in meters
+	Matrix3	axis;		// orientation of the listener
+	Vector3	pos;		// position in meters
 	int		id;			// the entity number, used to detect when a sound is local
 	int		area;		// area number the listener is in
 };
@@ -243,7 +243,7 @@ public:
 	virtual float			CurrentShakeAmplitude();
 	
 	// where is the camera
-	virtual void			PlaceListener( const budVec3& origin, const budMat3& axis, const int listenerId );
+	virtual void			PlaceListener( const Vector3& origin, const Matrix3& axis, const int listenerId );
 	
 	virtual void			WriteSoundShaderLoad( const idSoundShader* snd );
 	
@@ -308,12 +308,12 @@ public:
 	float				shakeAmp;			// last calculated shake amplitude
 	
 	listener_t			listener;
-	budList<idSoundEmitterLocal*, TAG_AUDIO>	emitters;
+	List<idSoundEmitterLocal*, TAG_AUDIO>	emitters;
 	
 	idSoundEmitter* 	localSound;			// for PlayShaderDirectly()
 	
-	idBlockAlloc<idSoundEmitterLocal, 16>	emitterAllocator;
-	idBlockAlloc<idSoundChannel, 16>		channelAllocator;
+	BlockAlloc<idSoundEmitterLocal, 16>	emitterAllocator;
+	BlockAlloc<idSoundChannel, 16>		channelAllocator;
 	
 	idSoundFade				pauseFade;
 	int						pausedTime;
@@ -330,7 +330,7 @@ public:
 		const soundPortalTrace_t* prevStack;
 	};
 	
-	void			ResolveOrigin( const int stackDepth, const soundPortalTrace_t* prevStack, const int soundArea, const float dist, const budVec3& soundOrigin, idSoundEmitterLocal* def );
+	void			ResolveOrigin( const int stackDepth, const soundPortalTrace_t* prevStack, const int soundArea, const float dist, const Vector3& soundOrigin, idSoundEmitterLocal* def );
 };
 
 
@@ -346,7 +346,7 @@ public:
 	
 	virtual void	Reset();
 	
-	virtual void	UpdateEmitter( const budVec3& origin, int listenerId, const soundShaderParms_t* parms );
+	virtual void	UpdateEmitter( const Vector3& origin, int listenerId, const soundShaderParms_t* parms );
 	
 	virtual int		StartSound( const idSoundShader* shader, const s_channelType channel, float diversity = 0, int shaderFlags = 0, bool allowSlow = true );
 	
@@ -384,7 +384,7 @@ public:
 	budStaticList<idSoundChannel*, MAX_CHANNELS_PER_EMITTER> channels;
 	
 	//----- set by UpdateEmitter -----
-	budVec3				origin;
+	Vector3				origin;
 	soundShaderParms_t	parms;
 	int					emitterId;						// sounds will be full volume when emitterId == listenerId
 	
@@ -392,7 +392,7 @@ public:
 	int			lastValidPortalArea;
 	float		directDistance;
 	float		spatializedDistance;
-	budVec3		spatializedOrigin;
+	Vector3		spatializedOrigin;
 	
 	// sound emitters are only allocated by the soundWorld block allocator
 	idSoundEmitterLocal();
@@ -520,7 +520,7 @@ public:
 	budSoundWorldLocal* 			currentSoundWorld;
 	budStaticList<budSoundWorldLocal*, 32>	soundWorlds;
 	
-	budList<idSoundSample*, TAG_AUDIO>		samples;
+	List<idSoundSample*, TAG_AUDIO>		samples;
 	budHashIndex					sampleHash;
 	
 	idSoundHardware				hardware;

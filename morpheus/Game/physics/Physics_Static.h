@@ -41,21 +41,21 @@ class budBitMsg;
 
 typedef struct staticPState_s
 {
-	budVec3					origin;
-	budMat3					axis;
-	budVec3					localOrigin;
-	budMat3					localAxis;
+	Vector3					origin;
+	Matrix3					axis;
+	Vector3					localOrigin;
+	Matrix3					localAxis;
 } staticPState_t;
 
 // Storing the state used for interpolation with quaternions
 // means I don't have to do a bunch of conversions between
-// budMat3s and idQuats every frame.
+// Matrix3s and Quats every frame.
 struct staticInterpolatePState_t
 {
-	budVec3					origin;
-	idQuat					axis;
-	budVec3					localOrigin;
-	idQuat					localAxis;
+	Vector3					origin;
+	Quat					axis;
+	Vector3					localOrigin;
+	Quat					localAxis;
 };
 
 /*
@@ -100,13 +100,13 @@ public:	// common physics interface
 	
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
 	bool					Interpolate( const float fraction );
-	void					ResetInterpolationState( const budVec3& origin, const budMat3& axis ) {}
+	void					ResetInterpolationState( const Vector3& origin, const Matrix3& axis ) {}
 	void					UpdateTime( int endTimeMSec );
 	int						GetTime() const;
 	
-	void					GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const;
-	void					ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse );
-	void					AddForce( const int id, const budVec3& point, const budVec3& force );
+	void					GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const;
+	void					ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse );
+	void					AddForce( const int id, const Vector3& point, const Vector3& force );
 	void					Activate();
 	void					PutToRest();
 	bool					IsAtRest() const;
@@ -116,27 +116,27 @@ public:	// common physics interface
 	void					SaveState();
 	void					RestoreState();
 	
-	void					SetOrigin( const budVec3& newOrigin, int id = -1 );
-	void					SetAxis( const budMat3& newAxis, int id = -1 );
+	void					SetOrigin( const Vector3& newOrigin, int id = -1 );
+	void					SetAxis( const Matrix3& newAxis, int id = -1 );
 	
-	void					Translate( const budVec3& translation, int id = -1 );
-	void					Rotate( const budRotation& rotation, int id = -1 );
+	void					Translate( const Vector3& translation, int id = -1 );
+	void					Rotate( const Rotation& rotation, int id = -1 );
 	
-	const budVec3& 			GetOrigin( int id = 0 ) const;
-	const budMat3& 			GetAxis( int id = 0 ) const;
+	const Vector3& 			GetOrigin( int id = 0 ) const;
+	const Matrix3& 			GetAxis( int id = 0 ) const;
 	
-	void					SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 );
-	void					SetAngularVelocity( const budVec3& newAngularVelocity, int id = 0 );
+	void					SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 );
+	void					SetAngularVelocity( const Vector3& newAngularVelocity, int id = 0 );
 	
-	const budVec3& 			GetLinearVelocity( int id = 0 ) const;
-	const budVec3& 			GetAngularVelocity( int id = 0 ) const;
+	const Vector3& 			GetLinearVelocity( int id = 0 ) const;
+	const Vector3& 			GetAngularVelocity( int id = 0 ) const;
 	
-	void					SetGravity( const budVec3& newGravity );
-	const budVec3& 			GetGravity() const;
-	const budVec3& 			GetGravityNormal() const;
+	void					SetGravity( const Vector3& newGravity );
+	const Vector3& 			GetGravity() const;
+	const Vector3& 			GetGravityNormal() const;
 	
-	void					ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const;
-	void					ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const;
+	void					ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const;
+	void					ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const;
 	int						ClipContents( const budClipModel* model ) const;
 	
 	void					DisableClip();
@@ -157,8 +157,8 @@ public:	// common physics interface
 	bool					IsGroundClipModel( int entityNum, int id ) const;
 	
 	void					SetPushed( int deltaTime );
-	const budVec3& 			GetPushedLinearVelocity( const int id = 0 ) const;
-	const budVec3& 			GetPushedAngularVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedLinearVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedAngularVelocity( const int id = 0 ) const;
 	
 	void					SetMaster( idEntity* master, const bool orientated = true );
 	

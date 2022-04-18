@@ -166,7 +166,7 @@ void idMenuScreen_Shell_Controls::Update()
 		budSWFTextInstance* heading = GetSprite()->GetScriptObject()->GetNestedText( "info", "txtHeading" );
 		if( heading != NULL )
 		{
-			budStr controls( budLocalization::GetString( "#str_04158" ) );
+			String controls( budLocalization::GetString( "#str_04158" ) );
 			controls.ToUpper();
 			heading->SetText( controls );	// CONTROLS
 			heading->SetStrokeInfo( true, 0.75f, 1.75f );
@@ -343,9 +343,9 @@ bool idMenuScreen_Shell_Controls::HandleAction( idWidgetAction& action, const id
 // SCREEN SETTINGS
 /////////////////////////////////
 
-extern budCVar in_mouseInvertLook;
-extern budCVar in_mouseSpeed;
-extern budCVar in_useJoystick;
+extern CVar in_mouseInvertLook;
+extern CVar in_mouseSpeed;
+extern CVar in_useJoystick;
 
 /*
 ========================
@@ -405,7 +405,7 @@ void idMenuScreen_Shell_Controls::idMenuDataSource_ControlSettings::AdjustField(
 	}
 	else if( fieldIndex == CONTROLS_FIELD_MOUSE_SENS )
 	{
-		float newValue = budMath::ClampFloat( 0.0f, 100.0f, fields[ fieldIndex ].ToFloat() + adjustAmount );
+		float newValue = Math::ClampFloat( 0.0f, 100.0f, fields[ fieldIndex ].ToFloat() + adjustAmount );
 		fields[ fieldIndex ].SetFloat( newValue );
 	}
 }

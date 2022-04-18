@@ -44,7 +44,7 @@ static const int tabBorder = 4;
 // Time in milliseconds between clicks to register as a double-click
 static const int doubleClickSpeed = 300;
 
-void budListWindow::CommonInit()
+void ListWindow::CommonInit()
 {
 	typed = "";
 	typedTime = 0;
@@ -57,19 +57,19 @@ void budListWindow::CommonInit()
 	multipleSel = false;
 }
 
-budListWindow::budListWindow( budUserInterfaceLocal* g ) : idWindow( g )
+ListWindow::ListWindow( budUserInterfaceLocal* g ) : idWindow( g )
 {
 	gui = g;
 	CommonInit();
 }
 
-void budListWindow::SetCurrentSel( int sel )
+void ListWindow::SetCurrentSel( int sel )
 {
 	currentSel.Clear();
 	currentSel.Append( sel );
 }
 
-void budListWindow::ClearSelection( int sel )
+void ListWindow::ClearSelection( int sel )
 {
 	int cur = currentSel.FindIndex( sel );
 	if( cur >= 0 )
@@ -78,22 +78,22 @@ void budListWindow::ClearSelection( int sel )
 	}
 }
 
-void budListWindow::AddCurrentSel( int sel )
+void ListWindow::AddCurrentSel( int sel )
 {
 	currentSel.Append( sel );
 }
 
-int budListWindow::GetCurrentSel()
+int ListWindow::GetCurrentSel()
 {
 	return ( currentSel.Num() ) ? currentSel[0] : 0;
 }
 
-bool budListWindow::IsSelected( int index )
+bool ListWindow::IsSelected( int index )
 {
 	return ( currentSel.FindIndex( index ) >= 0 );
 }
 
-const char* budListWindow::HandleEvent( const sysEvent_t* event, bool* updateVisuals )
+const char* ListWindow::HandleEvent( const sysEvent_t* event, bool* updateVisuals )
 {
 	// need to call this to allow proper focus and capturing on embedded children
 	const char* ret = idWindow::HandleEvent( event, updateVisuals );
@@ -202,7 +202,7 @@ const char* budListWindow::HandleEvent( const sysEvent_t* event, bool* updateVis
 	}
 	else if( event->evType == SE_CHAR )
 	{
-		if( !budStr::CharIsPrintable( key ) )
+		if( !String::CharIsPrintable( key ) )
 		{
 			return ret;
 		}
@@ -216,7 +216,7 @@ const char* budListWindow::HandleEvent( const sysEvent_t* event, bool* updateVis
 		
 		for( int i = 0; i < listItems.Num(); i++ )
 		{
-			if( budStr::Icmpn( typed, listItems[i], typed.Length() ) == 0 )
+			if( String::Icmpn( typed, listItems[i], typed.Length() ) == 0 )
 			{
 				SetCurrentSel( i );
 				break;
@@ -293,58 +293,58 @@ const char* budListWindow::HandleEvent( const sysEvent_t* event, bool* updateVis
 }
 
 
-bool budListWindow::ParseInternalVar( const char* _name, budTokenParser* src )
+bool ListWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "horizontal" ) == 0 )
+	if( String::Icmp( _name, "horizontal" ) == 0 )
 	{
 		horizontal = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "listname" ) == 0 )
+	if( String::Icmp( _name, "listname" ) == 0 )
 	{
 		ParseString( src, listName );
 		return true;
 	}
-	if( budStr::Icmp( _name, "tabstops" ) == 0 )
+	if( String::Icmp( _name, "tabstops" ) == 0 )
 	{
 		ParseString( src, tabStopStr );
 		return true;
 	}
-	if( budStr::Icmp( _name, "tabaligns" ) == 0 )
+	if( String::Icmp( _name, "tabaligns" ) == 0 )
 	{
 		ParseString( src, tabAlignStr );
 		return true;
 	}
-	if( budStr::Icmp( _name, "multipleSel" ) == 0 )
+	if( String::Icmp( _name, "multipleSel" ) == 0 )
 	{
 		multipleSel = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "tabvaligns" ) == 0 )
+	if( String::Icmp( _name, "tabvaligns" ) == 0 )
 	{
 		ParseString( src, tabVAlignStr );
 		return true;
 	}
-	if( budStr::Icmp( _name, "tabTypes" ) == 0 )
+	if( String::Icmp( _name, "tabTypes" ) == 0 )
 	{
 		ParseString( src, tabTypeStr );
 		return true;
 	}
-	if( budStr::Icmp( _name, "tabIconSizes" ) == 0 )
+	if( String::Icmp( _name, "tabIconSizes" ) == 0 )
 	{
 		ParseString( src, tabIconSizeStr );
 		return true;
 	}
-	if( budStr::Icmp( _name, "tabIconVOffset" ) == 0 )
+	if( String::Icmp( _name, "tabIconVOffset" ) == 0 )
 	{
 		ParseString( src, tabIconVOffsetStr );
 		return true;
 	}
 	
-	budStr strName = _name;
-	if( budStr::Icmp( strName.Left( 4 ), "mtr_" ) == 0 )
+	String strName = _name;
+	if( String::Icmp( strName.Left( 4 ), "mtr_" ) == 0 )
 	{
-		budStr matName;
+		String matName;
 		const budMaterial* mat;
 		
 		ParseString( src, matName );
@@ -360,19 +360,19 @@ bool budListWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 	return idWindow::ParseInternalVar( _name, src );
 }
 
-idWinVar* budListWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
+idWinVar* ListWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
 {
 	return idWindow::GetWinVarByName( _name, fixup, owner );
 }
 
-void budListWindow::PostParse()
+void ListWindow::PostParse()
 {
 	idWindow::PostParse();
 	
 	InitScroller( horizontal );
 	
-	budList<int> tabStops;
-	budList<int> tabAligns;
+	List<int> tabStops;
+	List<int> tabAligns;
 	if( tabStopStr.Length() )
 	{
 		budParser src( tabStopStr, tabStopStr.Length(), "tabstops", LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS );
@@ -399,7 +399,7 @@ void budListWindow::PostParse()
 			tabAligns.Append( atoi( tok ) );
 		}
 	}
-	budList<int> tabVAligns;
+	List<int> tabVAligns;
 	if( tabVAlignStr.Length() )
 	{
 		budParser src( tabVAlignStr, tabVAlignStr.Length(), "tabvaligns", LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS );
@@ -414,7 +414,7 @@ void budListWindow::PostParse()
 		}
 	}
 	
-	budList<int> tabTypes;
+	List<int> tabTypes;
 	if( tabTypeStr.Length() )
 	{
 		budParser src( tabTypeStr, tabTypeStr.Length(), "tabtypes", LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS );
@@ -428,7 +428,7 @@ void budListWindow::PostParse()
 			tabTypes.Append( atoi( tok ) );
 		}
 	}
-	budList<budVec2> tabSizes;
+	List<Vector2> tabSizes;
 	if( tabIconSizeStr.Length() )
 	{
 		budParser src( tabIconSizeStr, tabIconSizeStr.Length(), "tabiconsizes", LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS );
@@ -439,7 +439,7 @@ void budListWindow::PostParse()
 			{
 				continue;
 			}
-			budVec2 size;
+			Vector2 size;
 			size.x = atoi( tok );
 			
 			src.ReadToken( &tok );	//","
@@ -450,7 +450,7 @@ void budListWindow::PostParse()
 		}
 	}
 	
-	budList<float> tabIconVOffsets;
+	List<float> tabIconVOffsets;
 	if( tabIconVOffsetStr.Length() )
 	{
 		budParser src( tabIconVOffsetStr, tabIconVOffsetStr.Length(), "tabiconvoffsets", LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS );
@@ -512,12 +512,12 @@ void budListWindow::PostParse()
 
 /*
 ================
-budListWindow::InitScroller
+ListWindow::InitScroller
 
 This is the same as in idEditWindow
 ================
 */
-void budListWindow::InitScroller( bool horizontal )
+void ListWindow::InitScroller( bool horizontal )
 {
 	const char* thumbImage = "guis/assets/scrollbar_thumb.tga";
 	const char* barImage = "guis/assets/scrollbarv.tga";
@@ -555,10 +555,10 @@ void budListWindow::InitScroller( bool horizontal )
 	scroller->SetBuddy( this );
 }
 
-void budListWindow::Draw( int time, float x, float y )
+void ListWindow::Draw( int time, float x, float y )
 {
-	budVec4 color;
-	budStr work;
+	Vector4 color;
+	String work;
 	int count = listItems.Num();
 	idRectangle rect = textRect;
 	float scale = textScale;
@@ -593,7 +593,7 @@ void budListWindow::Draw( int time, float x, float y )
 			dc->DrawFilledRect( rect.x, rect.y + pixelOffset, rect.w, rect.h, borderColor );
 			if( flags & WIN_FOCUS )
 			{
-				budVec4 color = borderColor;
+				Vector4 color = borderColor;
 				color.w = 1.0f;
 				dc->DrawRect( rect.x, rect.y + pixelOffset, rect.w, rect.h, 1.0f, color );
 			}
@@ -620,7 +620,7 @@ void budListWindow::Draw( int time, float x, float y )
 			{
 				if( tab >= tabInfo.Num() )
 				{
-					common->Warning( "budListWindow::Draw: gui '%s' window '%s' tabInfo.Num() exceeded", gui->GetSourceFile(), name.c_str() );
+					common->Warning( "ListWindow::Draw: gui '%s' window '%s' tabInfo.Num() exceeded", gui->GetSourceFile(), name.c_str() );
 					break;
 				}
 				listItems[i].Mid( start, stop - start, work );
@@ -682,7 +682,7 @@ void budListWindow::Draw( int time, float x, float y )
 							iconRect.y = rect.y + rect.h - iconRect.h + tabInfo[tab].iconVOffset;
 						}
 						
-						dc->DrawMaterial( iconRect.x, iconRect.y, iconRect.w, iconRect.h, iconMat, budVec4( 1.0f, 1.0f, 1.0f, 1.0f ), 1.0f, 1.0f );
+						dc->DrawMaterial( iconRect.x, iconRect.y, iconRect.w, iconRect.h, iconMat, Vector4( 1.0f, 1.0f, 1.0f, 1.0f ), 1.0f, 1.0f );
 						
 					}
 				}
@@ -712,7 +712,7 @@ void budListWindow::Draw( int time, float x, float y )
 	}
 }
 
-void budListWindow::Activate( bool activate, budStr& act )
+void ListWindow::Activate( bool activate, String& act )
 {
 	idWindow::Activate( activate, act );
 	
@@ -722,14 +722,14 @@ void budListWindow::Activate( bool activate, budStr& act )
 	}
 }
 
-void budListWindow::HandleBuddyUpdate( idWindow* buddy )
+void ListWindow::HandleBuddyUpdate( idWindow* buddy )
 {
 	top = scroller->GetValue();
 }
 
-void budListWindow::UpdateList()
+void ListWindow::UpdateList()
 {
-	budStr str, strName;
+	String str, strName;
 	listItems.Clear();
 	for( int i = 0; i < MAX_LIST_ITEMS; i++ )
 	{
@@ -775,7 +775,7 @@ void budListWindow::UpdateList()
 	typed = "";
 }
 
-void budListWindow::StateChanged( bool redraw )
+void ListWindow::StateChanged( bool redraw )
 {
 	UpdateList();
 }

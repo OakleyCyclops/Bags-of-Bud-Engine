@@ -54,20 +54,20 @@ public:
 	void			Save( idSaveGame* savefile ) const;					// archives object for save game file
 	void			Restore( idRestoreGame* savefile );					// unarchives object from save game file
 	
-	virtual void	UpdateChangeableSpawnArgs( const idDict* source );
+	virtual void	UpdateChangeableSpawnArgs( const Dict* source );
 	virtual void	Think();
 	virtual void	ClientThink( const int curTime, const float fraction, const bool predict );
 	virtual void	FreeLightDef();
-	virtual bool	GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis );
+	virtual bool	GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis );
 	void			Present();
 	
-	void			SaveState( idDict* args );
+	void			SaveState( Dict* args );
 	virtual void	SetColor( float red, float green, float blue );
-	virtual void	SetColor( const budVec4& color );
-	void			SetColor( const budVec3& color );
-	virtual void	GetColor( budVec3& out ) const;
-	virtual void	GetColor( budVec4& out ) const;
-	const budVec3& 	GetBaseColor() const
+	virtual void	SetColor( const Vector4& color );
+	void			SetColor( const Vector3& color );
+	virtual void	GetColor( Vector3& out ) const;
+	virtual void	GetColor( Vector4& out ) const;
+	const Vector3& 	GetBaseColor() const
 	{
 		return baseColor;
 	}
@@ -78,10 +78,10 @@ public:
 	void			SetRadius( float radius );
 	void			On();
 	void			Off();
-	void			Fade( const budVec4& to, float fadeTime );
+	void			Fade( const Vector4& to, float fadeTime );
 	void			FadeOut( float time );
 	void			FadeIn( float time );
-	void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	void			BecomeBroken( idEntity* activator );
 	qhandle_t		GetLightDefHandle() const
 	{
@@ -108,24 +108,24 @@ public:
 	
 private:
 	renderLight_t	renderLight;				// light presented to the renderer
-	budVec3			localLightOrigin;			// light origin relative to the physics origin
-	budMat3			localLightAxis;				// light axis relative to physics axis
+	Vector3			localLightOrigin;			// light origin relative to the physics origin
+	Matrix3			localLightAxis;				// light axis relative to physics axis
 	qhandle_t		lightDefHandle;				// handle to renderer light def
-	budStr			brokenModel;
+	String			brokenModel;
 	int				levels;
 	int				currentLevel;
-	budVec3			baseColor;
+	Vector3			baseColor;
 	
 	// Colors used for client-side interpolation.
-	budVec3			previousBaseColor;
-	budVec3			nextBaseColor;
+	Vector3			previousBaseColor;
+	Vector3			nextBaseColor;
 	
 	bool			breakOnTrigger;
 	int				count;
 	int				triggercount;
 	idEntity* 		lightParent;
-	budVec4			fadeFrom;
-	budVec4			fadeTo;
+	Vector4			fadeFrom;
+	Vector4			fadeTo;
 	int				fadeStart;
 	int				fadeEnd;
 	bool			soundWasPlaying;

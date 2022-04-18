@@ -336,7 +336,7 @@ void idTypeDef::AddFunctionParm( idTypeDef* parmtype, const char* name )
 	}
 	
 	parmTypes.Append( parmtype );
-	budStr& parmName = parmNames.Alloc();
+	String& parmName = parmNames.Alloc();
 	parmName = name;
 }
 
@@ -359,7 +359,7 @@ void idTypeDef::AddField( idTypeDef* fieldtype, const char* name )
 	}
 	
 	parmTypes.Append( fieldtype );
-	budStr& parmName = parmNames.Alloc();
+	String& parmName = parmNames.Alloc();
 	parmName = name;
 	
 	if( fieldtype->FieldType()->Inherits( &type_object ) )
@@ -807,7 +807,7 @@ void idVarDef::SetValue( const eval_t& _value, bool constant )
 			break;
 			
 		case ev_string :
-			budStr::Copynz( value.stringPtr, _value.stringPtr, MAX_STRING_LEN );
+			String::Copynz( value.stringPtr, _value.stringPtr, MAX_STRING_LEN );
 			break;
 			
 		case ev_float :
@@ -859,7 +859,7 @@ void idVarDef::SetString( const char* string, bool constant )
 	}
 	
 	assert( typeDef && ( typeDef->Type() == ev_string ) );
-	budStr::Copynz( value.stringPtr, string, MAX_STRING_LEN );
+	String::Copynz( value.stringPtr, string, MAX_STRING_LEN );
 }
 
 /*
@@ -921,7 +921,7 @@ void idVarDef::PrintInfo( budFile* file, int instructionPointer ) const
 						ch = value.stringPtr;
 						for( i = 0; i < len; i++, ch++ )
 						{
-							if( budStr::CharIsPrintable( *ch ) )
+							if( String::CharIsPrintable( *ch ) )
 							{
 								file->Printf( "%c", *ch );
 							}
@@ -1086,7 +1086,7 @@ idScriptObject::Restore
 */
 void idScriptObject::Restore( idRestoreGame* savefile )
 {
-	budStr typeName;
+	String typeName;
 	// RB: 64 bit fix, changed size_t to int
 	int size;
 	// RB end
@@ -1322,7 +1322,7 @@ idProgram::AllocType
 idTypeDef* idProgram::AllocType( idTypeDef& type )
 {
 	idTypeDef* newtype	= new( TAG_SCRIPT ) idTypeDef( type );
-	typesHash.Add( budStr::Hash( type.Name() ), types.Append( newtype ) );
+	typesHash.Add( String::Hash( type.Name() ), types.Append( newtype ) );
 	return newtype;
 }
 
@@ -1334,7 +1334,7 @@ idProgram::AllocType
 idTypeDef* idProgram::AllocType( etype_t etype, idVarDef* edef, const char* ename, int esize, idTypeDef* aux )
 {
 	idTypeDef* newtype	= new( TAG_SCRIPT ) idTypeDef( etype, edef, ename, esize, aux );
-	typesHash.Add( budStr::Hash( ename ), types.Append( newtype ) );
+	typesHash.Add( String::Hash( ename ), types.Append( newtype ) );
 	return newtype;
 }
 
@@ -1349,7 +1349,7 @@ a new one and copies it out.
 idTypeDef* idProgram::GetType( idTypeDef& type, bool allocate )
 {
 
-	for( int i = typesHash.First( budStr::Hash( type.Name() ) ); i != -1; i = typesHash.Next( i ) )
+	for( int i = typesHash.First( String::Hash( type.Name() ) ); i != -1; i = typesHash.Next( i ) )
 	{
 		if( types[ i ]->MatchesType( type ) && !strcmp( types[ i ]->Name(), type.Name() ) )
 		{
@@ -1376,7 +1376,7 @@ Returns a preexisting complex type that matches the name, or returns NULL if not
 idTypeDef* idProgram::FindType( const char* name )
 {
 
-	for( int i = typesHash.First( budStr::Hash( name ) ); i != -1; i = typesHash.Next( i ) )
+	for( int i = typesHash.First( String::Hash( name ) ); i != -1; i = typesHash.Next( i ) )
 	{
 		idTypeDef* check = types[ i ];
 		if( !strcmp( check->Name(), name ) )
@@ -1400,7 +1400,7 @@ idVarDef* idProgram::GetDefList( const char* name ) const
 	hash = varDefNameHash.GenerateKey( name, true );
 	for( i = varDefNameHash.First( hash ); i != -1; i = varDefNameHash.Next( i ) )
 	{
-		if( budStr::Cmp( varDefNames[i]->Name(), name ) == 0 )
+		if( String::Cmp( varDefNames[i]->Name(), name ) == 0 )
 		{
 			return varDefNames[i]->GetDefs();
 		}
@@ -1420,7 +1420,7 @@ void idProgram::AddDefToNameList( idVarDef* def, const char* name )
 	hash = varDefNameHash.GenerateKey( name, true );
 	for( i = varDefNameHash.First( hash ); i != -1; i = varDefNameHash.Next( i ) )
 	{
-		if( budStr::Cmp( varDefNames[i]->Name(), name ) == 0 )
+		if( String::Cmp( varDefNames[i]->Name(), name ) == 0 )
 		{
 			break;
 		}
@@ -1478,7 +1478,7 @@ idProgram::AllocDef
 idVarDef* idProgram::AllocDef( idTypeDef* type, const char* name, idVarDef* scope, bool constant )
 {
 	idVarDef*	def;
-	budStr		element;
+	String		element;
 	idVarDef*	def_x;
 	idVarDef*	def_y;
 	idVarDef*	def_z;
@@ -1680,7 +1680,7 @@ void idProgram::FreeDef( idVarDef* def, const idVarDef* scope )
 	
 	if( def->Type() == ev_vector )
 	{
-		budStr name;
+		String name;
 		
 		sprintf( name, "%s_x", def->Name() );
 		e = GetDef( NULL, name, scope );
@@ -1766,7 +1766,7 @@ function_t* idProgram::FindFunction( const char* name ) const
 	
 	assert( name );
 	
-	budStr fullname = name;
+	String fullname = name;
 	start = 0;
 	namespaceDef = &def_namespace;
 	do
@@ -1777,7 +1777,7 @@ function_t* idProgram::FindFunction( const char* name ) const
 			break;
 		}
 		
-		budStr namespaceName = fullname.Mid( start, pos - start );
+		String namespaceName = fullname.Mid( start, pos - start );
 		def = GetDef( NULL, namespaceName, namespaceDef );
 		if( !def )
 		{
@@ -1791,7 +1791,7 @@ function_t* idProgram::FindFunction( const char* name ) const
 	}
 	while( def->Type() == ev_namespace );
 	
-	budStr funcName = fullname.Right( fullname.Length() - start );
+	String funcName = fullname.Right( fullname.Length() - start );
 	def = GetDef( NULL, funcName, namespaceDef );
 	if( !def )
 	{
@@ -1879,7 +1879,7 @@ idProgram::SetEntity
 void idProgram::SetEntity( const char* name, idEntity* ent )
 {
 	idVarDef*	def;
-	budStr		defName( "$" );
+	String		defName( "$" );
 	
 	defName += name;
 	
@@ -2131,7 +2131,7 @@ bool idProgram::CompileText( const char* source, const char* text, bool console 
 	idCompiler	compiler;
 	int			i;
 	idVarDef*	def;
-	budStr		ospath;
+	String		ospath;
 	
 	// use a full os path for GetFilenum since it calls OSPathToRelativePath to convert filenames from the parser
 	ospath = fileSystem->RelativePathToOSPath( source );
@@ -2355,7 +2355,7 @@ bool idProgram::Restore( idRestoreGame* savefile )
 {
 	int i, num, index;
 	bool result = true;
-	budStr scriptname;
+	String scriptname;
 	
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
@@ -2481,7 +2481,7 @@ void idProgram::Restart()
 	typesHash.Free();
 	for( i = 0; i < types.Num(); i++ )
 	{
-		typesHash.Add( budStr::Hash( types[i]->Name() ), i );
+		typesHash.Add( String::Hash( types[i]->Name() ), i );
 	}
 	
 	for( i = top_defs; i < varDefs.Num(); i++ )
@@ -2520,7 +2520,7 @@ int idProgram::GetFilenum( const char* name )
 		return filenum;
 	}
 	
-	budStr strippedName;
+	String strippedName;
 	strippedName = fileSystem->OSPathToRelativePath( name );
 	if( !strippedName.Length() )
 	{

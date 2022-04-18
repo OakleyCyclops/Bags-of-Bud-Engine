@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "Window.h"
 #include "UserInterfaceLocal.h"
 
-extern budCVar r_skipGuiShaders;		// 1 = don't render any gui elements on surfaces
+extern CVar r_skipGuiShaders;		// 1 = don't render any gui elements on surfaces
 
 budUserInterfaceManagerLocal	uiManagerLocal;
 budUserInterfaceManager* 	uiManager = &uiManagerLocal;
@@ -43,9 +43,9 @@ budUserInterfaceManager* 	uiManager = &uiManagerLocal;
 // Made a global so it can be switched out dynamically to test optimized versions.
 idDeviceContext* dc;
 
-budCVar g_useNewGuiCode(	"g_useNewGuiCode",	"1", CVAR_GAME | CVAR_INTEGER, "use optimized device context code, 2 = toggle on/off every frame" );
+CVar g_useNewGuiCode(	"g_useNewGuiCode",	"1", CVAR_GAME | CVAR_INTEGER, "use optimized device context code, 2 = toggle on/off every frame" );
 
-extern budCVar sys_lang;
+extern CVar sys_lang;
 
 
 
@@ -270,7 +270,7 @@ budUserInterface* budUserInterfaceManagerLocal::FindGui( const char* qpath, bool
 			continue;
 		}
 		
-		if( !budStr::Icmp( gui->GetSourceFile(), qpath ) )
+		if( !String::Icmp( gui->GetSourceFile(), qpath ) )
 		{
 			if( !forceNOTUnique && ( needUnique || guis[i]->IsInteractive() ) )
 			{
@@ -307,7 +307,7 @@ budUserInterface* budUserInterfaceManagerLocal::FindDemoGui( const char* qpath )
 	int c = demoGuis.Num();
 	for( int i = 0; i < c; i++ )
 	{
-		if( !budStr::Icmp( demoGuis[i]->GetSourceFile(), qpath ) )
+		if( !String::Icmp( demoGuis[i]->GetSourceFile(), qpath ) )
 		{
 			return demoGuis[i];
 		}
@@ -315,12 +315,12 @@ budUserInterface* budUserInterfaceManagerLocal::FindDemoGui( const char* qpath )
 	return NULL;
 }
 
-budListGUI* 	budUserInterfaceManagerLocal::AllocListGUI() const
+ListGUI* 	budUserInterfaceManagerLocal::AllocListGUI() const
 {
-	return new( TAG_OLD_UI ) budListGUILocal();
+	return new( TAG_OLD_UI ) ListGUILocal();
 }
 
-void budUserInterfaceManagerLocal::FreeListGUI( budListGUI* listgui )
+void budUserInterfaceManagerLocal::FreeListGUI( ListGUI* listgui )
 {
 	delete listgui;
 }
@@ -400,7 +400,7 @@ bool budUserInterfaceLocal::InitFromFile( const char* qpath, bool rebuild, bool 
 	for( int i = 0; i < 2; i++ )
 	{
 		source = qpath;
-		budStr trySource = qpath;
+		String trySource = qpath;
 		trySource.ToLower();
 		trySource.BackSlashesToSlashes();
 		if( i == 0 )
@@ -433,7 +433,7 @@ bool budUserInterfaceLocal::InitFromFile( const char* qpath, bool rebuild, bool 
 		budToken token;
 		while( bsrc.ReadToken( &token ) )
 		{
-			if( budStr::Icmp( token, "windowDef" ) == 0 )
+			if( String::Icmp( token, "windowDef" ) == 0 )
 			{
 				if( desktop->Parse( &bsrc, rebuild ) )
 				{
@@ -453,8 +453,8 @@ bool budUserInterfaceLocal::InitFromFile( const char* qpath, bool rebuild, bool 
 		desktop->text = va( "Invalid GUI: %s", qpath );
 		desktop->rect = idRectangle( 0.0f, 0.0f, 640.0f, 480.0f );
 		desktop->drawRect = desktop->rect;
-		desktop->foreColor = budVec4( 1.0f, 1.0f, 1.0f, 1.0f );
-		desktop->backColor = budVec4( 0.0f, 0.0f, 0.0f, 1.0f );
+		desktop->foreColor = Vector4( 1.0f, 1.0f, 1.0f, 1.0f );
+		desktop->backColor = Vector4( 0.0f, 0.0f, 0.0f, 1.0f );
 		desktop->SetupFromState();
 		common->Warning( "Couldn't load gui: '%s'", source.c_str() );
 	}
@@ -534,7 +534,7 @@ void budUserInterfaceLocal::DrawCursor()
 	}
 }
 
-const idDict& budUserInterfaceLocal::State() const
+const Dict& budUserInterfaceLocal::State() const
 {
 	return state;
 }
@@ -632,7 +632,7 @@ void budUserInterfaceLocal::Trigger( int _time )
 
 void budUserInterfaceLocal::ReadFromDemoFile( class budDemoFile* f )
 {
-	budStr work;
+	String work;
 	f->ReadDict( state );
 	source = state.GetString( "name" );
 	
@@ -671,7 +671,7 @@ void budUserInterfaceLocal::ReadFromDemoFile( class budDemoFile* f )
 
 void budUserInterfaceLocal::WriteToDemoFile( class budDemoFile* f )
 {
-	budStr work;
+	String work;
 	f->WriteDict( state );
 	if( desktop )
 	{
@@ -731,8 +731,8 @@ bool budUserInterfaceLocal::ReadFromSaveGame( budFile* savefile )
 {
 	int num;
 	int i, len;
-	budStr key;
-	budStr value;
+	String key;
+	String value;
 	
 	savefile->Read( &num, sizeof( num ) );
 	

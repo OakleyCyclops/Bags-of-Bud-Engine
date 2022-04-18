@@ -31,19 +31,19 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "snd_local.h"
 
-budCVar s_noSound( "s_noSound", "0", CVAR_BOOL, "returns NULL for all sounds loaded and does not update the sound rendering" );
+CVar s_noSound( "s_noSound", "0", CVAR_BOOL, "returns NULL for all sounds loaded and does not update the sound rendering" );
 
 #ifdef ID_RETAIL
-budCVar s_useCompression( "s_useCompression", "1", CVAR_BOOL, "Use compressed sound files (mp3/xma)" );
-budCVar s_playDefaultSound( "s_playDefaultSound", "0", CVAR_BOOL, "play a beep for missing sounds" );
-budCVar s_maxSamples( "s_maxSamples", "5", CVAR_INTEGER, "max samples to load per shader" );
+CVar s_useCompression( "s_useCompression", "1", CVAR_BOOL, "Use compressed sound files (mp3/xma)" );
+CVar s_playDefaultSound( "s_playDefaultSound", "0", CVAR_BOOL, "play a beep for missing sounds" );
+CVar s_maxSamples( "s_maxSamples", "5", CVAR_INTEGER, "max samples to load per shader" );
 #else
-budCVar s_useCompression( "s_useCompression", "1", CVAR_BOOL, "Use compressed sound files (mp3/xma)" );
-budCVar s_playDefaultSound( "s_playDefaultSound", "1", CVAR_BOOL, "play a beep for missing sounds" );
-budCVar s_maxSamples( "s_maxSamples", "5", CVAR_INTEGER, "max samples to load per shader" );
+CVar s_useCompression( "s_useCompression", "1", CVAR_BOOL, "Use compressed sound files (mp3/xma)" );
+CVar s_playDefaultSound( "s_playDefaultSound", "1", CVAR_BOOL, "play a beep for missing sounds" );
+CVar s_maxSamples( "s_maxSamples", "5", CVAR_INTEGER, "max samples to load per shader" );
 #endif
 
-budCVar preLoad_Samples( "preLoad_Samples", "1", CVAR_SYSTEM | CVAR_BOOL, "preload samples during beginlevelload" );
+CVar preLoad_Samples( "preLoad_Samples", "1", CVAR_SYSTEM | CVAR_BOOL, "preload samples during beginlevelload" );
 
 idSoundSystemLocal soundSystemLocal;
 idSoundSystem* soundSystem = &soundSystemLocal;
@@ -63,7 +63,7 @@ TestSound_f
 This is called from the main thread.
 ========================
 */
-void TestSound_f( const budCmdArgs& args )
+void TestSound_f( const CmdArgs& args )
 {
 	if( args.Argc() != 2 )
 	{
@@ -81,7 +81,7 @@ void TestSound_f( const budCmdArgs& args )
 RestartSound_f
 ========================
 */
-void RestartSound_f( const budCmdArgs& args )
+void RestartSound_f( const CmdArgs& args )
 {
 	soundSystemLocal.Restart();
 }
@@ -92,7 +92,7 @@ ListSamples_f
 
 ========================
 */
-void ListSamples_f( const budCmdArgs& args )
+void ListSamples_f( const CmdArgs& args )
 {
 	libBud::Printf( "Sound samples\n-------------\n" );
 	int totSize = 0;
@@ -158,7 +158,7 @@ void idSoundSystemLocal::Init()
 		InitStreamBuffers();
 	}
 	
-	cmdSystem->AddCommand( "testSound", TestSound_f, 0, "tests a sound", budCmdSystem::ArgCompletion_SoundName );
+	cmdSystem->AddCommand( "testSound", TestSound_f, 0, "tests a sound", CmdSystem::ArgCompletion_SoundName );
 	cmdSystem->AddCommand( "s_restart", RestartSound_f, 0, "restart sound system" );
 	cmdSystem->AddCommand( "listSamples", ListSamples_f, 0, "lists all loaded sound samples" );
 	
@@ -444,14 +444,14 @@ idSoundSystemLocal::LoadSample
 */
 idSoundSample* idSoundSystemLocal::LoadSample( const char* name )
 {
-	budStrStatic< MAX_OSPATH > canonical = name;
+	StringStatic< MAX_OSPATH > canonical = name;
 	canonical.ToLower();
 	canonical.BackSlashesToSlashes();
 	canonical.StripFileExtension();
-	int hashKey = budStr::Hash( canonical );
+	int hashKey = String::Hash( canonical );
 	for( int i = sampleHash.First( hashKey ); i != -1; i = sampleHash.Next( i ) )
 	{
-		if( budStr::Cmp( samples[i]->GetName(), canonical ) == 0 )
+		if( String::Cmp( samples[i]->GetName(), canonical ) == 0 )
 		{
 			samples[i]->SetLevelLoadReferenced();
 			return samples[i];
@@ -559,12 +559,12 @@ idSoundSystemLocal::Preload
 void idSoundSystemLocal::Preload( idPreloadManifest& manifest )
 {
 
-	budStrStatic< MAX_OSPATH > filename;
+	StringStatic< MAX_OSPATH > filename;
 	
 	int	start = Sys_Milliseconds();
 	int numLoaded = 0;
 	
-	budList< preloadSort_t > preloadSort;
+	List< preloadSort_t > preloadSort;
 	preloadSort.Resize( manifest.NumResources() );
 	for( int i = 0; i < manifest.NumResources(); i++ )
 	{
@@ -590,7 +590,7 @@ void idSoundSystemLocal::Preload( idPreloadManifest& manifest )
 		}
 	}
 	
-	preloadSort.SortWithTemplate( budSort_Preload() );
+	preloadSort.SortWithTemplate( Sort_Preload() );
 	
 	for( int i = 0; i < preloadSort.Num(); i++ )
 	{
@@ -627,7 +627,7 @@ void idSoundSystemLocal::EndLevelLoad()
 	int		keepCount = 0;
 	int		loadCount = 0;
 	
-	budList< preloadSort_t > preloadSort;
+	List< preloadSort_t > preloadSort;
 	preloadSort.Resize( samples.Num() );
 	
 	for( int i = 0; i < samples.Num(); i++ )
@@ -646,7 +646,7 @@ void idSoundSystemLocal::EndLevelLoad()
 		}
 		if( samples[i]->GetLevelLoadReferenced() )
 		{
-			budStrStatic< MAX_OSPATH > filename  = "generated/";
+			StringStatic< MAX_OSPATH > filename  = "generated/";
 			filename += samples[ i ]->GetName();
 			filename.SetFileExtension( "idwav" );
 			preloadSort_t ps = {};
@@ -664,7 +664,7 @@ void idSoundSystemLocal::EndLevelLoad()
 			loadCount++;
 		}
 	}
-	preloadSort.SortWithTemplate( budSort_Preload() );
+	preloadSort.SortWithTemplate( Sort_Preload() );
 	for( int i = 0; i < preloadSort.Num(); i++ )
 	{
 		common->UpdateLevelLoadPacifier();

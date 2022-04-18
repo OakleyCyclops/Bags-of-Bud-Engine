@@ -37,7 +37,7 @@ public:
 	idSliderWindow( budUserInterfaceLocal* gui );
 	virtual				~idSliderWindow();
 	
-	void				InitWithDefaults( const char* _name, const idRectangle& rect, const budVec4& foreColor, const budVec4& matColor, const char* _background, const char* thumbShader, bool _vertical, bool _scrollbar );
+	void				InitWithDefaults( const char* _name, const idRectangle& rect, const Vector4& foreColor, const Vector4& matColor, const char* _background, const char* thumbShader, bool _vertical, bool _scrollbar );
 	
 	void				SetRange( float _low, float _high, float _step );
 	float				GetLow()
@@ -65,7 +65,7 @@ public:
 	virtual void		Draw( int time, float x, float y );
 	virtual void		DrawBackground( const idRectangle& drawRect );
 	virtual const char* RouteMouseCoords( float xd, float yd );
-	virtual void		Activate( bool activate, budStr& act );
+	virtual void		Activate( bool activate, String& act );
 	virtual void		SetBuddy( idWindow* buddy );
 	
 	void				RunNamedEvent( const char* eventName );
@@ -92,10 +92,10 @@ private:
 	bool				verticalFlip;
 	bool				scrollbar;
 	idWindow* 			buddyWin;
-	budStr				thumbShader;
+	String				thumbShader;
 	
 	idWinStr			cvarStr;
-	budCVar* 			cvar;
+	CVar* 			cvar;
 	bool				cvar_init;
 	idWinBool			liveUpdate;
 	idWinStr			cvarGroup;

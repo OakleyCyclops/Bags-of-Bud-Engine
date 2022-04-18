@@ -274,7 +274,7 @@ static void R_SortDrawSurfs( drawSurf_t** drawSurfs, const int numDrawSurfs )
 			float min = 0.0f;
 			float max = 1.0f;
 			budRenderMatrix::DepthBoundsForBounds( min, max, drawSurfs[i]->space->mvp, drawSurfs[i]->frontEndGeo->bounds );
-			dist = budMath::Ftoui16( min * 0xFFFF );
+			dist = Math::Ftoui16( min * 0xFFFF );
 		}
 		
 		indices[i] = ( ( numDrawSurfs - i ) & 0xFFFF ) | ( dist << 16 ) | ( ( uint64 )( *( uint32* )&sort ) << 32 );
@@ -387,7 +387,7 @@ static void R_SortDrawSurfs( drawSurf_t** drawSurfs, const int numDrawSurfs )
 // RB begin
 static void R_SetupSplitFrustums( viewDef_t* viewDef )
 {
-	budVec3			planeOrigin;
+	Vector3			planeOrigin;
 	
 	const float zNearStart = ( viewDef->renderView.cramZNear ) ? ( r_znear.GetFloat() * 0.25f ) : r_znear.GetFloat();
 	float zFarEnd = 10000;
@@ -400,7 +400,7 @@ static void R_SetupSplitFrustums( viewDef_t* viewDef )
 	
 	for( int i = 0; i < 6; i++ )
 	{
-		tr.viewDef->frustumSplitDistances[i] = budMath::INFINITY;
+		tr.viewDef->frustumSplitDistances[i] = Math::INFINITY;
 	}
 	
 	for( int i = 1; i <= ( r_shadowMapSplits.GetInteger() + 1 ) && i < MAX_FRUSTUMS; i++ )

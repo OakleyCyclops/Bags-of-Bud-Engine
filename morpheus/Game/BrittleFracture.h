@@ -43,9 +43,9 @@ typedef struct shard_s
 {
 	budClipModel* 				clipModel;
 	budFixedWinding				winding;
-	budList<budFixedWinding*, TAG_PHYSICS_BRITTLE>	decals;
-	budList<bool>				edgeHasNeighbour;
-	budList<struct shard_s*, TAG_PHYSICS_BRITTLE>	neighbours;
+	List<budFixedWinding*, TAG_PHYSICS_BRITTLE>	decals;
+	List<bool>				edgeHasNeighbour;
+	List<struct shard_s*, TAG_PHYSICS_BRITTLE>	neighbours;
 	idPhysics_RigidBody			physicsObj;
 	int							droppedTime;
 	bool						atEdge;
@@ -69,12 +69,12 @@ public:
 	
 	virtual void				Present();
 	virtual void				Think();
-	virtual void				ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse );
-	virtual void				AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force );
-	virtual void				AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName );
-	virtual void				Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual void				ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse );
+	virtual void				AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force );
+	virtual void				AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName );
+	virtual void				Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	
-	void						ProjectDecal( const budVec3& point, const budVec3& dir, const int time, const char* damageDefName );
+	void						ProjectDecal( const Vector3& point, const Vector3& dir, const int time, const char* damageDefName );
 	bool						IsBroken() const;
 	
 	enum
@@ -102,22 +102,22 @@ private:
 	float						density;
 	float						friction;
 	float						bouncyness;
-	budStr						fxFracture;
+	String						fxFracture;
 	
 	struct fractureEvent_s
 	{
 		int				eventType;
-		budVec3			point;
-		budVec3			vector;
+		Vector3			point;
+		Vector3			vector;
 	};
-	budList<fractureEvent_s>		storedEvents;
+	List<fractureEvent_s>		storedEvents;
 	bool						processStoredEvents;
 	budRenderModel* 				defaultRenderModel;
 	bool						isXraySurface;
 	
 	// state
 	idPhysics_StaticMulti		physicsObj;
-	budList<shard_t*, TAG_PHYSICS_BRITTLE>	shards;
+	List<shard_t*, TAG_PHYSICS_BRITTLE>	shards;
 	budBounds					bounds;
 	bool						disableFracture;
 	
@@ -130,9 +130,9 @@ private:
 	
 	void						AddShard( budClipModel* clipModel, budFixedWinding& w );
 	void						RemoveShard( int index );
-	void						DropShard( shard_t* shard, const budVec3& point, const budVec3& dir, const float impulse, const int time );
-	void						Shatter( const budVec3& point, const budVec3& impulse, const int time );
-	void						DropFloatingIslands( const budVec3& point, const budVec3& impulse, const int time );
+	void						DropShard( shard_t* shard, const Vector3& point, const Vector3& dir, const float impulse, const int time );
+	void						Shatter( const Vector3& point, const Vector3& impulse, const int time );
+	void						DropFloatingIslands( const Vector3& point, const Vector3& impulse, const int time );
 	void						Break();
 	void						Fracture_r( budFixedWinding& w, idRandom2& random );
 	void						CreateFractures( const budRenderModel* renderModel );

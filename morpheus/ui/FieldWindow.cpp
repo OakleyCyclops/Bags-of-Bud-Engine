@@ -57,12 +57,12 @@ idFieldWindow::~idFieldWindow()
 
 bool idFieldWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "cursorvar" ) == 0 )
+	if( String::Icmp( _name, "cursorvar" ) == 0 )
 	{
 		ParseString( src, cursorVar );
 		return true;
 	}
-	if( budStr::Icmp( _name, "showcursor" ) == 0 )
+	if( String::Icmp( _name, "showcursor" ) == 0 )
 	{
 		showCursor = src->ParseBool();
 		return true;

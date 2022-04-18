@@ -169,7 +169,7 @@ void	R_SetAlphaNormalDivergence( byte* in, int width, int height )
 		{
 			// the divergence is the smallest dot product of any of the eight surrounding texels
 			byte*	pic_p = in + ( y * width + x ) * 4;
-			budVec3	center;
+			Vector3	center;
 			center[0] = ( pic_p[0] - 128 ) / 127;
 			center[1] = ( pic_p[1] - 128 ) / 127;
 			center[2] = ( pic_p[2] - 128 ) / 127;
@@ -187,7 +187,7 @@ void	R_SetAlphaNormalDivergence( byte* in, int width, int height )
 						continue;
 					}
 					byte*	corner_p = in + ( ( ( y + yy ) & ( height - 1 ) ) * width + ( ( x + xx )&width - 1 ) ) * 4;
-					budVec3	corner;
+					Vector3	corner;
 					corner[0] = ( corner_p[0] - 128 ) / 127;
 					corner[1] = ( corner_p[1] - 128 ) / 127;
 					corner[2] = ( corner_p[2] - 128 ) / 127;
@@ -269,7 +269,7 @@ byte* R_MipMapWithAlphaSpecularity( const byte* in, int width, int height )
 	{
 		for( j = 0 ; j < newWidth ; j++, out_p += 4 )
 		{
-			budVec3	total;
+			Vector3	total;
 			float	totalSpec;
 			
 			total.Zero();
@@ -373,10 +373,10 @@ byte* R_MipMapWithGamma( const byte* in, int width, int height )
 		width += height;	// get largest
 		for( i = 0 ; i < width ; i++, out_p += 4, in_p += 8 )
 		{
-			out_p[0] = budMath::Ftob( 255.0f * budMath::Pow( 0.5f * ( mip_gammaTable[in_p[0]] + mip_gammaTable[in_p[4]] ), 1.0f / 2.2f ) );
-			out_p[1] = budMath::Ftob( 255.0f * budMath::Pow( 0.5f * ( mip_gammaTable[in_p[1]] + mip_gammaTable[in_p[5]] ), 1.0f / 2.2f ) );
-			out_p[2] = budMath::Ftob( 255.0f * budMath::Pow( 0.5f * ( mip_gammaTable[in_p[2]] + mip_gammaTable[in_p[6]] ), 1.0f / 2.2f ) );
-			out_p[3] = budMath::Ftob( 255.0f * budMath::Pow( 0.5f * ( mip_gammaTable[in_p[3]] + mip_gammaTable[in_p[7]] ), 1.0f / 2.2f ) );
+			out_p[0] = Math::Ftob( 255.0f * Math::Pow( 0.5f * ( mip_gammaTable[in_p[0]] + mip_gammaTable[in_p[4]] ), 1.0f / 2.2f ) );
+			out_p[1] = Math::Ftob( 255.0f * Math::Pow( 0.5f * ( mip_gammaTable[in_p[1]] + mip_gammaTable[in_p[5]] ), 1.0f / 2.2f ) );
+			out_p[2] = Math::Ftob( 255.0f * Math::Pow( 0.5f * ( mip_gammaTable[in_p[2]] + mip_gammaTable[in_p[6]] ), 1.0f / 2.2f ) );
+			out_p[3] = Math::Ftob( 255.0f * Math::Pow( 0.5f * ( mip_gammaTable[in_p[3]] + mip_gammaTable[in_p[7]] ), 1.0f / 2.2f ) );
 		}
 		return out;
 	}
@@ -384,10 +384,10 @@ byte* R_MipMapWithGamma( const byte* in, int width, int height )
 	{
 		for( j = 0 ; j < width ; j++, out_p += 4, in_p += 8 )
 		{
-			out_p[0] = budMath::Ftob( 255.0f * budMath::Pow( 0.25f * ( mip_gammaTable[in_p[0]] + mip_gammaTable[in_p[4]] + mip_gammaTable[in_p[row + 0]] + mip_gammaTable[in_p[row + 4]] ), 1.0f / 2.2f ) );
-			out_p[1] = budMath::Ftob( 255.0f * budMath::Pow( 0.25f * ( mip_gammaTable[in_p[1]] + mip_gammaTable[in_p[5]] + mip_gammaTable[in_p[row + 1]] + mip_gammaTable[in_p[row + 5]] ), 1.0f / 2.2f ) );
-			out_p[2] = budMath::Ftob( 255.0f * budMath::Pow( 0.25f * ( mip_gammaTable[in_p[2]] + mip_gammaTable[in_p[6]] + mip_gammaTable[in_p[row + 2]] + mip_gammaTable[in_p[row + 6]] ), 1.0f / 2.2f ) );
-			out_p[3] = budMath::Ftob( 255.0f * budMath::Pow( 0.25f * ( mip_gammaTable[in_p[3]] + mip_gammaTable[in_p[7]] + mip_gammaTable[in_p[row + 3]] + mip_gammaTable[in_p[row + 7]] ), 1.0f / 2.2f ) );
+			out_p[0] = Math::Ftob( 255.0f * Math::Pow( 0.25f * ( mip_gammaTable[in_p[0]] + mip_gammaTable[in_p[4]] + mip_gammaTable[in_p[row + 0]] + mip_gammaTable[in_p[row + 4]] ), 1.0f / 2.2f ) );
+			out_p[1] = Math::Ftob( 255.0f * Math::Pow( 0.25f * ( mip_gammaTable[in_p[1]] + mip_gammaTable[in_p[5]] + mip_gammaTable[in_p[row + 1]] + mip_gammaTable[in_p[row + 5]] ), 1.0f / 2.2f ) );
+			out_p[2] = Math::Ftob( 255.0f * Math::Pow( 0.25f * ( mip_gammaTable[in_p[2]] + mip_gammaTable[in_p[6]] + mip_gammaTable[in_p[row + 2]] + mip_gammaTable[in_p[row + 6]] ), 1.0f / 2.2f ) );
+			out_p[3] = Math::Ftob( 255.0f * Math::Pow( 0.25f * ( mip_gammaTable[in_p[3]] + mip_gammaTable[in_p[7]] + mip_gammaTable[in_p[row + 3]] + mip_gammaTable[in_p[row + 7]] ), 1.0f / 2.2f ) );
 		}
 	}
 	

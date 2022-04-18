@@ -34,18 +34,18 @@ If you have questions concerning this license or the applicable additional terms
 #include "../RenderCommon.h"
 #include "../../framework/Common_local.h"
 
-budCVar r_drawFlickerBox( "r_drawFlickerBox", "0", CVAR_RENDERER | CVAR_BOOL, "visual test for dropping frames" );
-budCVar stereoRender_warp( "stereoRender_warp", "0", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_BOOL, "use the optical warping renderprog instead of stereoDeGhost" );
-budCVar stereoRender_warpStrength( "stereoRender_warpStrength", "1.45", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_FLOAT, "amount of pre-distortion" );
+CVar r_drawFlickerBox( "r_drawFlickerBox", "0", CVAR_RENDERER | CVAR_BOOL, "visual test for dropping frames" );
+CVar stereoRender_warp( "stereoRender_warp", "0", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_BOOL, "use the optical warping renderprog instead of stereoDeGhost" );
+CVar stereoRender_warpStrength( "stereoRender_warpStrength", "1.45", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_FLOAT, "amount of pre-distortion" );
 
-budCVar stereoRender_warpCenterX( "stereoRender_warpCenterX", "0.5", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "center for left eye, right eye will be 1.0 - this" );
-budCVar stereoRender_warpCenterY( "stereoRender_warpCenterY", "0.5", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "center for both eyes" );
-budCVar stereoRender_warpParmZ( "stereoRender_warpParmZ", "0", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "development parm" );
-budCVar stereoRender_warpParmW( "stereoRender_warpParmW", "0", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "development parm" );
-budCVar stereoRender_warpTargetFraction( "stereoRender_warpTargetFraction", "1.0", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "fraction of half-width the through-lens view covers" );
+CVar stereoRender_warpCenterX( "stereoRender_warpCenterX", "0.5", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "center for left eye, right eye will be 1.0 - this" );
+CVar stereoRender_warpCenterY( "stereoRender_warpCenterY", "0.5", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "center for both eyes" );
+CVar stereoRender_warpParmZ( "stereoRender_warpParmZ", "0", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "development parm" );
+CVar stereoRender_warpParmW( "stereoRender_warpParmW", "0", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "development parm" );
+CVar stereoRender_warpTargetFraction( "stereoRender_warpTargetFraction", "1.0", CVAR_RENDERER | CVAR_FLOAT | CVAR_ARCHIVE, "fraction of half-width the through-lens view covers" );
 
-budCVar r_showSwapBuffers( "r_showSwapBuffers", "0", CVAR_BOOL, "Show timings from GL_BlockingSwapBuffers" );
-budCVar r_syncEveryFrame( "r_syncEveryFrame", "1", CVAR_BOOL, "Don't let the GPU buffer execution past swapbuffers" );
+CVar r_showSwapBuffers( "r_showSwapBuffers", "0", CVAR_BOOL, "Show timings from GL_BlockingSwapBuffers" );
+CVar r_syncEveryFrame( "r_syncEveryFrame", "1", CVAR_BOOL, "Don't let the GPU buffer execution past swapbuffers" );
 
 static int		swapIndex;		// 0 or 1 into renderSync
 static GLsync	renderSync[2];
@@ -106,7 +106,7 @@ bool GL_CheckErrors_( const char* filename, int line )
 				strcpy( s, "GL_OUT_OF_MEMORY" );
 				break;
 			default:
-				budStr::snPrintf( s, sizeof( s ), "%i", err );
+				String::snPrintf( s, sizeof( s ), "%i", err );
 				break;
 		}
 		
@@ -160,23 +160,23 @@ static void R_CheckPortableExtensions()
 		libBud::FatalError( "%s", badVideoCard );
 	}
 	
-	if( budStr::Icmpn( glConfig.renderer_string, "ATI ", 4 ) == 0 || budStr::Icmpn( glConfig.renderer_string, "AMD ", 4 ) == 0 )
+	if( String::Icmpn( glConfig.renderer_string, "ATI ", 4 ) == 0 || String::Icmpn( glConfig.renderer_string, "AMD ", 4 ) == 0 )
 	{
 		glConfig.vendor = VENDOR_AMD;
 	}
-	else if( budStr::Icmpn( glConfig.renderer_string, "NVIDIA", 6 ) == 0 )
+	else if( String::Icmpn( glConfig.renderer_string, "NVIDIA", 6 ) == 0 )
 	{
 		glConfig.vendor = VENDOR_NVIDIA;
 	}
-	else if( budStr::Icmpn( glConfig.renderer_string, "Intel", 5 ) == 0 )
+	else if( String::Icmpn( glConfig.renderer_string, "Intel", 5 ) == 0 )
 	{
 		glConfig.vendor = VENDOR_INTEL;
 	}
 	
 	// RB: Mesa support
-	if( budStr::Icmpn( glConfig.renderer_string, "Mesa", 4 ) == 0 || budStr::Icmpn( glConfig.renderer_string, "X.org", 5 ) == 0 || budStr::Icmpn( glConfig.renderer_string, "Gallium", 7 ) == 0 ||
+	if( String::Icmpn( glConfig.renderer_string, "Mesa", 4 ) == 0 || String::Icmpn( glConfig.renderer_string, "X.org", 5 ) == 0 || String::Icmpn( glConfig.renderer_string, "Gallium", 7 ) == 0 ||
 			strcmp( glConfig.vendor_string, "X.Org" ) == 0 ||
-			budStr::Icmpn( glConfig.renderer_string, "llvmpipe", 8 ) == 0 )
+			String::Icmpn( glConfig.renderer_string, "llvmpipe", 8 ) == 0 )
 	{
 		if( glConfig.driverType == GLDRV_OPENGL32_CORE_PROFILE )
 		{
@@ -437,7 +437,7 @@ static void R_CheckPortableExtensions()
 }
 // RB end
 
-budStr extensions_string;
+String extensions_string;
 
 /*
 ==================
@@ -1243,10 +1243,10 @@ budRenderBackend::GL_Color
 void budRenderBackend::GL_Color( float r, float g, float b, float a )
 {
 	float parm[4];
-	parm[0] = budMath::ClampFloat( 0.0f, 1.0f, r );
-	parm[1] = budMath::ClampFloat( 0.0f, 1.0f, g );
-	parm[2] = budMath::ClampFloat( 0.0f, 1.0f, b );
-	parm[3] = budMath::ClampFloat( 0.0f, 1.0f, a );
+	parm[0] = Math::ClampFloat( 0.0f, 1.0f, r );
+	parm[1] = Math::ClampFloat( 0.0f, 1.0f, g );
+	parm[2] = Math::ClampFloat( 0.0f, 1.0f, b );
+	parm[3] = Math::ClampFloat( 0.0f, 1.0f, a );
 	renderProgManager.SetRenderParm( RENDERPARM_COLOR, parm );
 }
 
@@ -1429,7 +1429,7 @@ STENCIL SHADOW RENDERING
 
 ==============================================================================================
 */
-extern budCVar r_useStencilShadowPreload;
+extern CVar r_useStencilShadowPreload;
 
 /*
 ==================
@@ -1654,7 +1654,7 @@ void budRenderBackend::SetBuffer( const void* data )
 	// clear screen for debugging
 	// automatically enable this with several other debug tools
 	// that might leave unrendered portions of the screen
-	if( r_clear.GetFloat() || budStr::Length( r_clear.GetString() ) != 1 || r_singleArea.GetBool() || r_showOverDraw.GetBool() )
+	if( r_clear.GetFloat() || String::Length( r_clear.GetString() ) != 1 || r_singleArea.GetBool() || r_showOverDraw.GetBool() )
 	{
 		float c[3];
 		if( sscanf( r_clear.GetString(), "%f %f %f", &c[0], &c[1], &c[2] ) == 3 )
@@ -2010,7 +2010,7 @@ void budRenderBackend::StereoRenderExecuteBackEndCommands( const emptyCommand_t*
 							pixelDimensions, pixelDimensions );
 				glScissor( 0, 0, glConfig.nativeScreenWidth >> 1, glConfig.nativeScreenHeight );
 				
-				budVec4	color( stereoRender_warpCenterX.GetFloat(), stereoRender_warpCenterY.GetFloat(), stereoRender_warpParmZ.GetFloat(), stereoRender_warpParmW.GetFloat() );
+				Vector4	color( stereoRender_warpCenterX.GetFloat(), stereoRender_warpCenterY.GetFloat(), stereoRender_warpParmZ.GetFloat(), stereoRender_warpParmW.GetFloat() );
 				// don't use GL_Color(), because we don't want to clamp
 				renderProgManager.SetRenderParm( RENDERPARM_COLOR, color.ToFloatPtr() );
 				
@@ -2020,7 +2020,7 @@ void budRenderBackend::StereoRenderExecuteBackEndCommands( const emptyCommand_t*
 				glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER );
 				DrawElementsWithCounters( &unitSquareSurface );
 				
-				budVec4	color2( stereoRender_warpCenterX.GetFloat(), stereoRender_warpCenterY.GetFloat(), stereoRender_warpParmZ.GetFloat(), stereoRender_warpParmW.GetFloat() );
+				Vector4	color2( stereoRender_warpCenterX.GetFloat(), stereoRender_warpCenterY.GetFloat(), stereoRender_warpParmZ.GetFloat(), stereoRender_warpParmW.GetFloat() );
 				// don't use GL_Color(), because we don't want to clamp
 				renderProgManager.SetRenderParm( RENDERPARM_COLOR, color2.ToFloatPtr() );
 				

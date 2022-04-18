@@ -51,8 +51,8 @@ public:
 	virtual void			Think();
 	
 	virtual renderView_t* 	GetRenderView();
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
-	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
+	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	virtual void			Present();
 	
 	
@@ -75,7 +75,7 @@ private:
 	float					stopSweeping;
 	float					scanFovCos;
 	
-	budVec3					viewOffset;
+	Vector3					viewOffset;
 	
 	int						pvsArea;
 	idPhysics_RigidBody		physicsObj;
@@ -85,7 +85,7 @@ private:
 	bool					CanSeePlayer();
 	void					SetAlertMode( int status );
 	void					DrawFov();
-	const budVec3			GetAxis() const;
+	const Vector3			GetAxis() const;
 	float					SweepSpeed() const;
 	
 	void					Event_ReverseSweep();

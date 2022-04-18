@@ -55,8 +55,8 @@ class idLedge
 {
 
 public:
-	budVec3					start;
-	budVec3					end;
+	Vector3					start;
+	Vector3					end;
 	idBrushBSPNode* 		node;
 	int						numExpandedPlanes;
 	int						numSplitPlanes;
@@ -65,12 +65,12 @@ public:
 	
 public:
 	idLedge();
-	idLedge( const budVec3& v1, const budVec3& v2, const budVec3& gravityDir, idBrushBSPNode* n );
-	void					AddPoint( const budVec3& v );
-	void					CreateBevels( const budVec3& gravityDir );
+	idLedge( const Vector3& v1, const Vector3& v2, const Vector3& gravityDir, idBrushBSPNode* n );
+	void					AddPoint( const Vector3& v );
+	void					CreateBevels( const Vector3& gravityDir );
 	void					Expand( const budBounds& bounds, float maxStepHeight );
 	idWinding* 				ChopWinding( const idWinding* winding ) const;
-	bool					PointBetweenBounds( const budVec3& v ) const;
+	bool					PointBetweenBounds( const Vector3& v ) const;
 };
 
 
@@ -80,8 +80,8 @@ class budAASBuild
 public:
 	budAASBuild();
 	~budAASBuild();
-	bool					Build( const budStr& fileName, const budAASSettings* settings );
-	bool					BuildReachability( const budStr& fileName, const budAASSettings* settings );
+	bool					Build( const String& fileName, const budAASSettings* settings );
+	bool					BuildReachability( const String& fileName, const budAASSettings* settings );
 	void					Shutdown();
 	
 private:
@@ -92,21 +92,21 @@ private:
 	int						numGravitationalSubdivisions;
 	int						numMergedLeafNodes;
 	int						numLedgeSubdivisions;
-	budList<idLedge>			ledgeList;
+	List<idLedge>			ledgeList;
 	idBrushMap* 			ledgeMap;
 	
 private:	// map loading
 	void					ParseProcNodes( budLexer* src );
 	bool					LoadProcBSP( const char* name, ID_TIME_T minFileTime );
 	void					DeleteProcBSP();
-	bool					ChoppedAwayByProcBSP( int nodeNum, budFixedWinding* w, const budVec3& normal, const budVec3& origin, const float radius );
+	bool					ChoppedAwayByProcBSP( int nodeNum, budFixedWinding* w, const Vector3& normal, const Vector3& origin, const float radius );
 	void					ClipBrushSidesWithProcBSP( idBrushList& brushList );
 	int						ContentsForAAS( int contents );
-	idBrushList				AddBrushesForMapBrush( const idMapBrush* mapBrush, const budVec3& origin, const budMat3& axis, int entityNum, int primitiveNum, idBrushList brushList );
-	idBrushList				AddBrushesForMapPatch( const idMapPatch* mapPatch, const budVec3& origin, const budMat3& axis, int entityNum, int primitiveNum, idBrushList brushList );
+	idBrushList				AddBrushesForMapBrush( const idMapBrush* mapBrush, const Vector3& origin, const Matrix3& axis, int entityNum, int primitiveNum, idBrushList brushList );
+	idBrushList				AddBrushesForMapPatch( const idMapPatch* mapPatch, const Vector3& origin, const Matrix3& axis, int entityNum, int primitiveNum, idBrushList brushList );
 	idBrushList				AddBrushesForMapEntity( const idMapEntity* mapEnt, int entityNum, idBrushList brushList );
 	idBrushList				AddBrushesForMapFile( const budMapFile* mapFile, idBrushList brushList );
-	bool					CheckForEntities( const budMapFile* mapFile, budStrList& entityClassNames ) const;
+	bool					CheckForEntities( const budMapFile* mapFile, StringList& entityClassNames ) const;
 	void					ChangeMultipleBoundingBoxContents_r( idBrushBSPNode* node, int mask );
 	
 private:	// gravitational subdivision
@@ -120,12 +120,12 @@ private:	// ledge subdivision
 	void					LedgeSubdivFlood_r( idBrushBSPNode* node, const idLedge* ledge );
 	void					LedgeSubdivLeafNodes_r( idBrushBSPNode* node, const idLedge* ledge );
 	void					LedgeSubdiv( idBrushBSPNode* root );
-	bool					IsLedgeSide_r( idBrushBSPNode* node, budFixedWinding* w, const budPlane& plane, const budVec3& normal, const budVec3& origin, const float radius );
-	void					AddLedge( const budVec3& v1, const budVec3& v2, idBrushBSPNode* node );
+	bool					IsLedgeSide_r( idBrushBSPNode* node, budFixedWinding* w, const budPlane& plane, const Vector3& normal, const Vector3& origin, const float radius );
+	void					AddLedge( const Vector3& v1, const Vector3& v2, idBrushBSPNode* node );
 	void					FindLeafNodeLedges( idBrushBSPNode* root, idBrushBSPNode* node );
 	void					FindLedges_r( idBrushBSPNode* root, idBrushBSPNode* node );
 	void					LedgeSubdivision( idBrushBSP& bsp );
-	void					WriteLedgeMap( const budStr& fileName, const budStr& ext );
+	void					WriteLedgeMap( const String& fileName, const String& ext );
 	
 private:	// merging
 	bool					AllGapsLeadToOtherNode( idBrushBSPNode* nodeWithGaps, idBrushBSPNode* otherNode );
@@ -137,9 +137,9 @@ private:	// storing file
 	void					SetupHash();
 	void					ShutdownHash();
 	void					ClearHash( const budBounds& bounds );
-	int						HashVec( const budVec3& vec );
-	bool					GetVertex( const budVec3& v, int* vertexNum );
-	bool					GetEdge( const budVec3& v1, const budVec3& v2, int* edgeNum, int v1num );
+	int						HashVec( const Vector3& vec );
+	bool					GetVertex( const Vector3& v, int* vertexNum );
+	bool					GetEdge( const Vector3& v1, const Vector3& v2, int* edgeNum, int v1num );
 	bool					GetFaceForPortal( idBrushBSPPortal* portal, int side, int* faceNum );
 	bool					GetAreaForLeafNode( idBrushBSPNode* node, int* areaNum );
 	int						StoreTree_r( idBrushBSPNode* node );

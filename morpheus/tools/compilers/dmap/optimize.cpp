@@ -361,7 +361,7 @@ VertexBetween
 */
 static bool VertexBetween( const optVertex_t* p1, const optVertex_t* v1, const optVertex_t* v2 )
 {
-	budVec3	d1, d2;
+	Vector3	d1, d2;
 	float	d;
 	
 	d1 = p1->pv - v1->pv;
@@ -390,7 +390,7 @@ static	optVertex_t* EdgeIntersection( const optVertex_t* p1, const optVertex_t* 
 {
 	float	f;
 	budDrawVert*	v;
-	budVec3	dir1, dir2, cross1, cross2;
+	Vector3	dir1, dir2, cross1, cross2;
 	
 	dir1 = p1->pv - l1->pv;
 	dir2 = p1->pv - l2->pv;
@@ -412,11 +412,11 @@ static	optVertex_t* EdgeIntersection( const optVertex_t* p1, const optVertex_t* 
 	memset( v, 0, sizeof( *v ) );
 	
 	v->xyz = p1->v.xyz * ( 1.0 - f ) + p2->v.xyz * f;
-	budVec3 normal = p1->v.GetNormal() * ( 1.0 - f ) + p2->v.GetNormal() * f;
+	Vector3 normal = p1->v.GetNormal() * ( 1.0 - f ) + p2->v.GetNormal() * f;
 	normal.Normalize();
 	v->SetNormal( normal );
 	
-	budVec2 st;
+	Vector2 st;
 	st.x = p1->v.GetTexCoordS() * ( 1.0 - f ) + p2->v.GetTexCoordS() * f;
 	st.y = p1->v.GetTexCoordT() * ( 1.0 - f ) + p2->v.GetTexCoordT() * f;
 	v->SetTexCoord( st );
@@ -642,7 +642,7 @@ static	void AddInteriorEdges( optIsland_t* island )
 		}
 		for( vert2 = vert->islandLink ; vert2 ; vert2 = vert2->islandLink )
 		{
-			budVec3		dir;
+			Vector3		dir;
 			
 			if( !vert2->edges )
 			{
@@ -694,10 +694,10 @@ static	void RemoveIfColinear( optVertex_t* ov, optIsland_t* island )
 {
 	optEdge_t*	e, *e1, *e2;
 	optVertex_t* v1 = NULL, *v2 = NULL, *v3 = NULL;
-	budVec3		dir1, dir2;
+	Vector3		dir1, dir2;
 	float		len, dist;
-	budVec3		point;
-	budVec3		offset;
+	Vector3		point;
+	Vector3		offset;
 	float		off;
 	
 	v2 = ov;
@@ -935,7 +935,7 @@ consider it invalid if any one of the possibilities is invalid.
 */
 static bool IsTriangleValid( const optVertex_t* v1, const optVertex_t* v2, const optVertex_t* v3 )
 {
-	budVec3	d1, d2, normal;
+	Vector3	d1, d2, normal;
 	
 	d1 = v2->pv - v1->pv;
 	d2 = v3->pv - v1->pv;
@@ -975,7 +975,7 @@ Returns false if it is either front or back facing
 static bool IsTriangleDegenerate( const optVertex_t* v1, const optVertex_t* v2, const optVertex_t* v3 )
 {
 #if 1
-	budVec3	d1, d2, normal;
+	Vector3	d1, d2, normal;
 	
 	d1 = v2->pv - v1->pv;
 	d2 = v3->pv - v1->pv;
@@ -998,9 +998,9 @@ PointInTri
 Tests if a 2D point is inside an original triangle
 ==================
 */
-static bool PointInTri( const budVec3& p, const mapTri_t* tri, optIsland_t* island )
+static bool PointInTri( const Vector3& p, const mapTri_t* tri, optIsland_t* island )
 {
-	budVec3	d1, d2, normal;
+	Vector3	d1, d2, normal;
 	
 	// the normal[2] == 0 case is not uncommon when a square is triangulated in
 	// the opposite manner to the original

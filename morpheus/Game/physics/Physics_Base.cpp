@@ -261,7 +261,7 @@ bool idPhysics_Base::Interpolate( const float fraction )
 idPhysics_Base::ResetInterpolationState
 ================
 */
-void idPhysics_Base::ResetInterpolationState( const budVec3& origin, const budMat3& axis )
+void idPhysics_Base::ResetInterpolationState( const Vector3& origin, const Matrix3& axis )
 {
 
 }
@@ -290,7 +290,7 @@ int idPhysics_Base::GetTime() const
 idPhysics_Base::GetImpactInfo
 ================
 */
-void idPhysics_Base::GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const
+void idPhysics_Base::GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const
 {
 	memset( info, 0, sizeof( *info ) );
 }
@@ -300,7 +300,7 @@ void idPhysics_Base::GetImpactInfo( const int id, const budVec3& point, impactIn
 idPhysics_Base::ApplyImpulse
 ================
 */
-void idPhysics_Base::ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse )
+void idPhysics_Base::ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse )
 {
 }
 
@@ -309,7 +309,7 @@ void idPhysics_Base::ApplyImpulse( const int id, const budVec3& point, const bud
 idPhysics_Base::AddForce
 ================
 */
-void idPhysics_Base::AddForce( const int id, const budVec3& point, const budVec3& force )
+void idPhysics_Base::AddForce( const int id, const Vector3& point, const Vector3& force )
 {
 }
 
@@ -384,7 +384,7 @@ void idPhysics_Base::RestoreState()
 idPhysics_Base::SetOrigin
 ================
 */
-void idPhysics_Base::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_Base::SetOrigin( const Vector3& newOrigin, int id )
 {
 }
 
@@ -393,7 +393,7 @@ void idPhysics_Base::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics_Base::SetAxis
 ================
 */
-void idPhysics_Base::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_Base::SetAxis( const Matrix3& newAxis, int id )
 {
 }
 
@@ -402,7 +402,7 @@ void idPhysics_Base::SetAxis( const budMat3& newAxis, int id )
 idPhysics_Base::Translate
 ================
 */
-void idPhysics_Base::Translate( const budVec3& translation, int id )
+void idPhysics_Base::Translate( const Vector3& translation, int id )
 {
 }
 
@@ -411,7 +411,7 @@ void idPhysics_Base::Translate( const budVec3& translation, int id )
 idPhysics_Base::Rotate
 ================
 */
-void idPhysics_Base::Rotate( const budRotation& rotation, int id )
+void idPhysics_Base::Rotate( const Rotation& rotation, int id )
 {
 }
 
@@ -420,9 +420,9 @@ void idPhysics_Base::Rotate( const budRotation& rotation, int id )
 idPhysics_Base::GetOrigin
 ================
 */
-const budVec3& idPhysics_Base::GetOrigin( int id ) const
+const Vector3& idPhysics_Base::GetOrigin( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -430,7 +430,7 @@ const budVec3& idPhysics_Base::GetOrigin( int id ) const
 idPhysics_Base::GetAxis
 ================
 */
-const budMat3& idPhysics_Base::GetAxis( int id ) const
+const Matrix3& idPhysics_Base::GetAxis( int id ) const
 {
 	return mat3_identity;
 }
@@ -440,7 +440,7 @@ const budMat3& idPhysics_Base::GetAxis( int id ) const
 idPhysics_Base::SetLinearVelocity
 ================
 */
-void idPhysics_Base::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_Base::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
 }
 
@@ -449,7 +449,7 @@ void idPhysics_Base::SetLinearVelocity( const budVec3& newLinearVelocity, int id
 idPhysics_Base::SetAngularVelocity
 ================
 */
-void idPhysics_Base::SetAngularVelocity( const budVec3& newAngularVelocity, int id )
+void idPhysics_Base::SetAngularVelocity( const Vector3& newAngularVelocity, int id )
 {
 }
 
@@ -458,9 +458,9 @@ void idPhysics_Base::SetAngularVelocity( const budVec3& newAngularVelocity, int 
 idPhysics_Base::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_Base::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_Base::GetLinearVelocity( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -468,9 +468,9 @@ const budVec3& idPhysics_Base::GetLinearVelocity( int id ) const
 idPhysics_Base::GetAngularVelocity
 ================
 */
-const budVec3& idPhysics_Base::GetAngularVelocity( int id ) const
+const Vector3& idPhysics_Base::GetAngularVelocity( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -478,7 +478,7 @@ const budVec3& idPhysics_Base::GetAngularVelocity( int id ) const
 idPhysics_Base::SetGravity
 ================
 */
-void idPhysics_Base::SetGravity( const budVec3& newGravity )
+void idPhysics_Base::SetGravity( const Vector3& newGravity )
 {
 	gravityVector = newGravity;
 	gravityNormal = newGravity;
@@ -490,7 +490,7 @@ void idPhysics_Base::SetGravity( const budVec3& newGravity )
 idPhysics_Base::GetGravity
 ================
 */
-const budVec3& idPhysics_Base::GetGravity() const
+const Vector3& idPhysics_Base::GetGravity() const
 {
 	return gravityVector;
 }
@@ -500,7 +500,7 @@ const budVec3& idPhysics_Base::GetGravity() const
 idPhysics_Base::GetGravityNormal
 ================
 */
-const budVec3& idPhysics_Base::GetGravityNormal() const
+const Vector3& idPhysics_Base::GetGravityNormal() const
 {
 	return gravityNormal;
 }
@@ -510,7 +510,7 @@ const budVec3& idPhysics_Base::GetGravityNormal() const
 idPhysics_Base::ClipTranslation
 ================
 */
-void idPhysics_Base::ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const
+void idPhysics_Base::ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const
 {
 	memset( &results, 0, sizeof( trace_t ) );
 }
@@ -520,7 +520,7 @@ void idPhysics_Base::ClipTranslation( trace_t& results, const budVec3& translati
 idPhysics_Base::ClipRotation
 ================
 */
-void idPhysics_Base::ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const
+void idPhysics_Base::ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const
 {
 	memset( &results, 0, sizeof( trace_t ) );
 }
@@ -748,9 +748,9 @@ void idPhysics_Base::SetPushed( int deltaTime )
 idPhysics_Base::GetPushedLinearVelocity
 ================
 */
-const budVec3& idPhysics_Base::GetPushedLinearVelocity( const int id ) const
+const Vector3& idPhysics_Base::GetPushedLinearVelocity( const int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -758,9 +758,9 @@ const budVec3& idPhysics_Base::GetPushedLinearVelocity( const int id ) const
 idPhysics_Base::GetPushedAngularVelocity
 ================
 */
-const budVec3& idPhysics_Base::GetPushedAngularVelocity( const int id ) const
+const Vector3& idPhysics_Base::GetPushedAngularVelocity( const int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -819,14 +819,14 @@ idPhysics_Base::AddGroundContacts
 */
 void idPhysics_Base::AddGroundContacts( const budClipModel* clipModel )
 {
-	budVec6 dir;
+	Vector6 dir;
 	int index, num;
 	
 	index = contacts.Num();
 	contacts.SetNum( index + 10 );
 	
 	dir.SubVec3( 0 ) = gravityNormal;
-	dir.SubVec3( 1 ) = vec3_origin;
+	dir.SubVec3( 1 ) = Vector3_Origin;
 	num = gameLocal.clip.Contacts( &contacts[index], 10, clipModel->GetOrigin(),
 								   dir, CONTACT_EPSILON, clipModel, clipModel->GetAxis(), clipMask, self );
 	contacts.SetNum( index + num );
@@ -897,8 +897,8 @@ idPhysics_Base::DrawVelocity
 */
 void idPhysics_Base::DrawVelocity( int id, float linearScale, float angularScale ) const
 {
-	budVec3 dir, org, vec, start, end;
-	budMat3 axis;
+	Vector3 dir, org, vec, start, end;
+	Matrix3 axis;
 	float length, a;
 	
 	dir = GetLinearVelocity( id );
@@ -925,7 +925,7 @@ void idPhysics_Base::DrawVelocity( int id, float linearScale, float angularScale
 		}
 		axis = GetAxis( id );
 		vec = axis[2];
-		if( budMath::Fabs( dir * vec ) > 0.99f )
+		if( Math::Fabs( dir * vec ) > 0.99f )
 		{
 			vec = axis[0];
 		}
@@ -935,11 +935,11 @@ void idPhysics_Base::DrawVelocity( int id, float linearScale, float angularScale
 		start = org + vec;
 		for( a = 20.0f; a < length; a += 20.0f )
 		{
-			end = org + budRotation( vec3_origin, dir, -a ).ToMat3() * vec;
+			end = org + Rotation( Vector3_Origin, dir, -a ).ToMat3() * vec;
 			gameRenderWorld->DebugLine( colorBlue, start, end, 1 );
 			start = end;
 		}
-		end = org + budRotation( vec3_origin, dir, -length ).ToMat3() * vec;
+		end = org + Rotation( Vector3_Origin, dir, -length ).ToMat3() * vec;
 		gameRenderWorld->DebugArrow( colorBlue, start, end, 1 );
 	}
 }

@@ -83,6 +83,6 @@ private:
 	int							numVerts;
 	int							numIndexes;
 	
-	budList<guiModelSurface_t, TAG_MODEL>	surfaces;
+	List<guiModelSurface_t, TAG_MODEL>	surfaces;
 };
 

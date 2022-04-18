@@ -79,7 +79,7 @@ void budSWFSpriteInstance::Init( budSWFSprite* _sprite, budSWFSpriteInstance* _p
 	
 	actionScript = budSWFScriptFunction_Script::Alloc();
 	
-	budList<budSWFScriptObject*, TAG_SWF> scope;
+	List<budSWFScriptObject*, TAG_SWF> scope;
 	scope.Append( sprite->swf->globals );
 	scope.Append( scriptObject );
 	actionScript->SetScope( scope );
@@ -215,10 +215,10 @@ void budSWFSpriteInstance::RemoveDisplayEntry( int depth )
 
 /*
 ================================================
-budSort_SpriteDepth
+Sort_SpriteDepth
 ================================================
 */
-class budSort_SpriteDepth : public budSort_Quick< swfDisplayEntry_t, budSort_SpriteDepth >
+class Sort_SpriteDepth : public SortQuick< swfDisplayEntry_t, Sort_SpriteDepth >
 {
 public:
 	int Compare( const swfDisplayEntry_t& a, const swfDisplayEntry_t& b ) const
@@ -251,7 +251,7 @@ void budSWFSpriteInstance::SwapDepths( int depth1, int depth2 )
 		}
 	}
 	
-	displayList.SortWithTemplate( budSort_SpriteDepth() );
+	displayList.SortWithTemplate( Sort_SpriteDepth() );
 }
 
 /*
@@ -520,7 +520,7 @@ budSWFSpriteInstance* budSWFSpriteInstance::ResolveTarget( const char* targetNam
 		}
 		c++;
 	}
-	budStrList spriteNames;
+	StringList spriteNames;
 	spriteNames.Append( c );
 	for( int index = 0, ofs = spriteNames[index].Find( '/' ); ofs != -1; index++, ofs = spriteNames[index].Find( '/' ) )
 	{
@@ -838,11 +838,11 @@ void budSWFSpriteInstance::SetRotation( float rot )
 	}
 	
 	swfMatrix_t& matrix = thisDisplayEntry->matrix;
-	float xscale = matrix.Scale( budVec2( 1.0f, 0.0f ) ).Length();
-	float yscale = matrix.Scale( budVec2( 0.0f, 1.0f ) ).Length();
+	float xscale = matrix.Scale( Vector2( 1.0f, 0.0f ) ).Length();
+	float yscale = matrix.Scale( Vector2( 0.0f, 1.0f ) ).Length();
 	
 	float s, c;
-	budMath::SinCos( DEG2RAD( rot ), s, c );
+	Math::SinCos( DEG2RAD( rot ), s, c );
 	matrix.xx = c * xscale;
 	matrix.yx = s * xscale;
 	matrix.xy = -s * yscale;
@@ -869,7 +869,7 @@ void budSWFSpriteInstance::SetScale( float x, float y )
 	
 	float newScale = x / 100.0f;
 	// this is done funky to maintain the current rotation
-	budVec2 currentScale = thisDisplayEntry->matrix.Scale( budVec2( 1.0f, 0.0f ) );
+	Vector2 currentScale = thisDisplayEntry->matrix.Scale( Vector2( 1.0f, 0.0f ) );
 	if( currentScale.Normalize() == 0.0f )
 	{
 		thisDisplayEntry->matrix.xx = newScale;
@@ -883,7 +883,7 @@ void budSWFSpriteInstance::SetScale( float x, float y )
 	
 	newScale = y / 100.0f;
 	// this is done funky to maintain the current rotation
-	currentScale = thisDisplayEntry->matrix.Scale( budVec2( 0.0f, 1.0f ) );
+	currentScale = thisDisplayEntry->matrix.Scale( Vector2( 0.0f, 1.0f ) );
 	if( currentScale.Normalize() == 0.0f )
 	{
 		thisDisplayEntry->matrix.yy = newScale;
@@ -927,8 +927,8 @@ bool budSWFSpriteInstance::UpdateMoveToScale( float speed )
 	}
 	
 	swfMatrix_t& matrix = thisDisplayEntry->matrix;
-	float xscale = matrix.Scale( budVec2( 1.0f, 0.0f ) ).Length() * 100.0f;
-	float yscale = matrix.Scale( budVec2( 0.0f, 1.0f ) ).Length() * 100.0f;
+	float xscale = matrix.Scale( Vector2( 1.0f, 0.0f ) ).Length() * 100.0f;
+	float yscale = matrix.Scale( Vector2( 0.0f, 1.0f ) ).Length() * 100.0f;
 	
 	float toX = xscale;
 	if( moveToXScale >= 0.0f )
@@ -942,10 +942,10 @@ bool budSWFSpriteInstance::UpdateMoveToScale( float speed )
 		toY = moveToYScale * 100.0f;
 	}
 	
-	int rXTo = budMath::Ftoi( toX + 0.5f );
-	int rYTo = budMath::Ftoi( toY + 0.5f );
-	int rXScale = budMath::Ftoi( xscale + 0.5f );
-	int rYScale = budMath::Ftoi( yscale + 0.5f );
+	int rXTo = Math::Ftoi( toX + 0.5f );
+	int rYTo = Math::Ftoi( toY + 0.5f );
+	int rXScale = Math::Ftoi( xscale + 0.5f );
+	int rYScale = Math::Ftoi( yscale + 0.5f );
 	
 	if( rXTo == rXScale && rYTo == rYScale )
 	{
@@ -960,12 +960,12 @@ bool budSWFSpriteInstance::UpdateMoveToScale( float speed )
 		if( toX < xscale )
 		{
 			newXScale -= speed;
-			newXScale = budMath::ClampFloat( toX, 100.0f, newXScale );
+			newXScale = Math::ClampFloat( toX, 100.0f, newXScale );
 		}
 		else if( toX > xscale )
 		{
 			newXScale += speed;
-			newXScale = budMath::ClampFloat( 0.0f, toX, newXScale );
+			newXScale = Math::ClampFloat( 0.0f, toX, newXScale );
 		}
 	}
 	
@@ -974,12 +974,12 @@ bool budSWFSpriteInstance::UpdateMoveToScale( float speed )
 		if( toY < yscale )
 		{
 			newYScale -= speed;
-			newYScale = budMath::ClampFloat( toY, 100.0f, newYScale );
+			newYScale = Math::ClampFloat( toY, 100.0f, newYScale );
 		}
 		else if( toY > yscale )
 		{
 			newYScale += speed;
-			newYScale = budMath::ClampFloat( 0.0f, toY, newYScale );
+			newYScale = Math::ClampFloat( 0.0f, toY, newYScale );
 		}
 	}
 	
@@ -1143,7 +1143,7 @@ SWF_SPRITE_FUNCTION_DEFINE( duplicateMovieClip )
 	display->matrix = matrix;
 	display->cxf = cxf;
 	
-	budStr name = parms[0].ToString();
+	String name = parms[0].ToString();
 	pThis->parent->scriptObject->Set( name, display->spriteInstance->scriptObject );
 	display->spriteInstance->name = name;
 	display->spriteInstance->RunTo( 1 );
@@ -1273,7 +1273,7 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_GET( _xscale )
 		libBud::Warning( "_xscale: Couldn't find our display entry in our parents display list" );
 		return 1.0f;
 	}
-	return thisDisplayEntry->matrix.Scale( budVec2( 1.0f, 0.0f ) ).Length() * 100.0f;
+	return thisDisplayEntry->matrix.Scale( Vector2( 1.0f, 0.0f ) ).Length() * 100.0f;
 }
 
 SWF_SPRITE_NATIVE_VAR_DEFINE_SET( _xscale )
@@ -1291,7 +1291,7 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_SET( _xscale )
 	}
 	float newScale = value.ToFloat() / 100.0f;
 	// this is done funky to maintain the current rotation
-	budVec2 currentScale = thisDisplayEntry->matrix.Scale( budVec2( 1.0f, 0.0f ) );
+	Vector2 currentScale = thisDisplayEntry->matrix.Scale( Vector2( 1.0f, 0.0f ) );
 	if( currentScale.Normalize() == 0.0f )
 	{
 		thisDisplayEntry->matrix.xx = newScale;
@@ -1317,7 +1317,7 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_GET( _yscale )
 		libBud::Warning( "_yscale: Couldn't find our display entry in our parents display list" );
 		return 1.0f;
 	}
-	return thisDisplayEntry->matrix.Scale( budVec2( 0.0f, 1.0f ) ).Length() * 100.0f;
+	return thisDisplayEntry->matrix.Scale( Vector2( 0.0f, 1.0f ) ).Length() * 100.0f;
 }
 
 SWF_SPRITE_NATIVE_VAR_DEFINE_SET( _yscale )
@@ -1335,7 +1335,7 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_SET( _yscale )
 	}
 	float newScale = value.ToFloat() / 100.0f;
 	// this is done funky to maintain the current rotation
-	budVec2 currentScale = thisDisplayEntry->matrix.Scale( budVec2( 0.0f, 1.0f ) );
+	Vector2 currentScale = thisDisplayEntry->matrix.Scale( Vector2( 0.0f, 1.0f ) );
 	if( currentScale.Normalize() == 0.0f )
 	{
 		thisDisplayEntry->matrix.yy = newScale;
@@ -1386,8 +1386,8 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_GET( _brightness )
 	}
 	// This works as long as the user only used the "brightess" control in the editor
 	// If they used anything else (tint/advanced) then this will return fairly random values
-	const budVec4& mul = thisDisplayEntry->cxf.mul;
-	const budVec4& add = thisDisplayEntry->cxf.add;
+	const Vector4& mul = thisDisplayEntry->cxf.mul;
+	const Vector4& add = thisDisplayEntry->cxf.add;
 	float avgMul = ( mul.x + mul.y + mul.z ) / 3.0f;
 	float avgAdd = ( add.x + add.y + add.z ) / 3.0f;
 	if( avgAdd > 1.0f )
@@ -1458,9 +1458,9 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_GET( _rotation )
 		libBud::Warning( "_rotation: Couldn't find our display entry in our parents display list" );
 		return 0.0f;
 	}
-	budVec2 scale = thisDisplayEntry->matrix.Scale( budVec2( 0.0f, 1.0f ) );
+	Vector2 scale = thisDisplayEntry->matrix.Scale( Vector2( 0.0f, 1.0f ) );
 	scale.Normalize();
-	float rotation = RAD2DEG( budMath::ACos( scale.y ) );
+	float rotation = RAD2DEG( Math::ACos( scale.y ) );
 	if( scale.x < 0.0f )
 	{
 		rotation = -rotation;
@@ -1482,11 +1482,11 @@ SWF_SPRITE_NATIVE_VAR_DEFINE_SET( _rotation )
 		return;
 	}
 	swfMatrix_t& matrix = thisDisplayEntry->matrix;
-	float xscale = matrix.Scale( budVec2( 1.0f, 0.0f ) ).Length();
-	float yscale = matrix.Scale( budVec2( 0.0f, 1.0f ) ).Length();
+	float xscale = matrix.Scale( Vector2( 1.0f, 0.0f ) ).Length();
+	float yscale = matrix.Scale( Vector2( 0.0f, 1.0f ) ).Length();
 	
 	float s, c;
-	budMath::SinCos( DEG2RAD( value.ToFloat() ), s, c );
+	Math::SinCos( DEG2RAD( value.ToFloat() ), s, c );
 	matrix.xx = c * xscale;
 	matrix.yx = s * xscale;
 	matrix.xy = -s * yscale;

@@ -269,8 +269,8 @@ idPhysics_Static::Evaluate
 */
 bool idPhysics_Static::Evaluate( int timeStepMSec, int endTimeMSec )
 {
-	budVec3 masterOrigin, oldOrigin;
-	budMat3 masterAxis, oldAxis;
+	Vector3 masterOrigin, oldOrigin;
+	Matrix3 masterAxis, oldAxis;
 	
 	
 	if( hasMaster )
@@ -339,7 +339,7 @@ int idPhysics_Static::GetTime() const
 idPhysics_Static::GetImpactInfo
 ================
 */
-void idPhysics_Static::GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const
+void idPhysics_Static::GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const
 {
 	memset( info, 0, sizeof( *info ) );
 }
@@ -349,7 +349,7 @@ void idPhysics_Static::GetImpactInfo( const int id, const budVec3& point, impact
 idPhysics_Static::ApplyImpulse
 ================
 */
-void idPhysics_Static::ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse )
+void idPhysics_Static::ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse )
 {
 }
 
@@ -358,7 +358,7 @@ void idPhysics_Static::ApplyImpulse( const int id, const budVec3& point, const b
 idPhysics_Static::AddForce
 ================
 */
-void idPhysics_Static::AddForce( const int id, const budVec3& point, const budVec3& force )
+void idPhysics_Static::AddForce( const int id, const Vector3& point, const Vector3& force )
 {
 }
 
@@ -433,10 +433,10 @@ void idPhysics_Static::RestoreState()
 idPhysics_Static::SetOrigin
 ================
 */
-void idPhysics_Static::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_Static::SetOrigin( const Vector3& newOrigin, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localOrigin = newOrigin;
 	
@@ -464,10 +464,10 @@ void idPhysics_Static::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics_Static::SetAxis
 ================
 */
-void idPhysics_Static::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_Static::SetAxis( const Matrix3& newAxis, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localAxis = newAxis;
 	
@@ -497,7 +497,7 @@ void idPhysics_Static::SetAxis( const budMat3& newAxis, int id )
 idPhysics_Static::Translate
 ================
 */
-void idPhysics_Static::Translate( const budVec3& translation, int id )
+void idPhysics_Static::Translate( const Vector3& translation, int id )
 {
 	current.localOrigin += translation;
 	current.origin += translation;
@@ -513,10 +513,10 @@ void idPhysics_Static::Translate( const budVec3& translation, int id )
 idPhysics_Static::Rotate
 ================
 */
-void idPhysics_Static::Rotate( const budRotation& rotation, int id )
+void idPhysics_Static::Rotate( const Rotation& rotation, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.origin *= rotation;
 	current.axis *= rotation.ToMat3();
@@ -544,7 +544,7 @@ void idPhysics_Static::Rotate( const budRotation& rotation, int id )
 idPhysics_Static::GetOrigin
 ================
 */
-const budVec3& idPhysics_Static::GetOrigin( int id ) const
+const Vector3& idPhysics_Static::GetOrigin( int id ) const
 {
 	return current.origin;
 }
@@ -554,7 +554,7 @@ const budVec3& idPhysics_Static::GetOrigin( int id ) const
 idPhysics_Static::GetAxis
 ================
 */
-const budMat3& idPhysics_Static::GetAxis( int id ) const
+const Matrix3& idPhysics_Static::GetAxis( int id ) const
 {
 	return current.axis;
 }
@@ -564,7 +564,7 @@ const budMat3& idPhysics_Static::GetAxis( int id ) const
 idPhysics_Static::SetLinearVelocity
 ================
 */
-void idPhysics_Static::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_Static::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
 }
 
@@ -573,7 +573,7 @@ void idPhysics_Static::SetLinearVelocity( const budVec3& newLinearVelocity, int 
 idPhysics_Static::SetAngularVelocity
 ================
 */
-void idPhysics_Static::SetAngularVelocity( const budVec3& newAngularVelocity, int id )
+void idPhysics_Static::SetAngularVelocity( const Vector3& newAngularVelocity, int id )
 {
 }
 
@@ -582,9 +582,9 @@ void idPhysics_Static::SetAngularVelocity( const budVec3& newAngularVelocity, in
 idPhysics_Static::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_Static::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_Static::GetLinearVelocity( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -592,9 +592,9 @@ const budVec3& idPhysics_Static::GetLinearVelocity( int id ) const
 idPhysics_Static::GetAngularVelocity
 ================
 */
-const budVec3& idPhysics_Static::GetAngularVelocity( int id ) const
+const Vector3& idPhysics_Static::GetAngularVelocity( int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -602,7 +602,7 @@ const budVec3& idPhysics_Static::GetAngularVelocity( int id ) const
 idPhysics_Static::SetGravity
 ================
 */
-void idPhysics_Static::SetGravity( const budVec3& newGravity )
+void idPhysics_Static::SetGravity( const Vector3& newGravity )
 {
 }
 
@@ -611,9 +611,9 @@ void idPhysics_Static::SetGravity( const budVec3& newGravity )
 idPhysics_Static::GetGravity
 ================
 */
-const budVec3& idPhysics_Static::GetGravity() const
+const Vector3& idPhysics_Static::GetGravity() const
 {
-	static budVec3 gravity( 0, 0, -g_gravity.GetFloat() );
+	static Vector3 gravity( 0, 0, -g_gravity.GetFloat() );
 	return gravity;
 }
 
@@ -622,9 +622,9 @@ const budVec3& idPhysics_Static::GetGravity() const
 idPhysics_Static::GetGravityNormal
 ================
 */
-const budVec3& idPhysics_Static::GetGravityNormal() const
+const Vector3& idPhysics_Static::GetGravityNormal() const
 {
-	static budVec3 gravity( 0, 0, -1 );
+	static Vector3 gravity( 0, 0, -1 );
 	return gravity;
 }
 
@@ -633,7 +633,7 @@ const budVec3& idPhysics_Static::GetGravityNormal() const
 idPhysics_Static::ClipTranslation
 ================
 */
-void idPhysics_Static::ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const
+void idPhysics_Static::ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const
 {
 	if( model )
 	{
@@ -652,7 +652,7 @@ void idPhysics_Static::ClipTranslation( trace_t& results, const budVec3& transla
 idPhysics_Static::ClipRotation
 ================
 */
-void idPhysics_Static::ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const
+void idPhysics_Static::ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const
 {
 	if( model )
 	{
@@ -842,9 +842,9 @@ void idPhysics_Static::SetPushed( int deltaTime )
 idPhysics_Static::GetPushedLinearVelocity
 ================
 */
-const budVec3& idPhysics_Static::GetPushedLinearVelocity( const int id ) const
+const Vector3& idPhysics_Static::GetPushedLinearVelocity( const int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -852,9 +852,9 @@ const budVec3& idPhysics_Static::GetPushedLinearVelocity( const int id ) const
 idPhysics_Static::GetPushedAngularVelocity
 ================
 */
-const budVec3& idPhysics_Static::GetPushedAngularVelocity( const int id ) const
+const Vector3& idPhysics_Static::GetPushedAngularVelocity( const int id ) const
 {
-	return vec3_origin;
+	return Vector3_Origin;
 }
 
 /*
@@ -864,8 +864,8 @@ idPhysics_Static::SetMaster
 */
 void idPhysics_Static::SetMaster( idEntity* master, const bool orientated )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( master )
 	{
@@ -942,7 +942,7 @@ idPhysics_Static::WriteToSnapshot
 */
 void idPhysics_Static::WriteToSnapshot( budBitMsg& msg ) const
 {
-	idCQuat quat, localQuat;
+	CMPQuat quat, localQuat;
 	
 	quat = current.axis.ToCQuat();
 	localQuat = current.localAxis.ToCQuat();
@@ -968,7 +968,7 @@ idPhysics_Base::ReadFromSnapshot
 */
 void idPhysics_Static::ReadFromSnapshot( const budBitMsg& msg )
 {
-	idCQuat quat, localQuat;
+	CMPQuat quat, localQuat;
 	
 	previous = next;
 	
@@ -1018,8 +1018,8 @@ staticInterpolatePState_t ReadStaticInterpolatePStateFromSnapshot( const budBitM
 {
 	staticInterpolatePState_t state;
 	
-	state.origin = ReadFloatArray< budVec3 >( msg );
-	const idCQuat cAxis = ReadFloatArray< idCQuat >( msg );
+	state.origin = ReadFloatArray< Vector3 >( msg );
+	const CMPQuat cAxis = ReadFloatArray< CMPQuat >( msg );
 	state.localOrigin = ReadDeltaFloatArray( msg, state.origin );
 	state.localAxis = ReadDeltaFloatArray( msg, cAxis ).ToQuat();
 	
@@ -1038,10 +1038,10 @@ staticPState_t InterpolateStaticPState( const staticInterpolatePState_t& previou
 	staticPState_t result;
 	
 	result.origin = Lerp( previous.origin, next.origin, fraction );
-	result.axis = idQuat().Slerp( previous.axis, next.axis, fraction ).ToMat3();
+	result.axis = Quat().Slerp( previous.axis, next.axis, fraction ).ToMat3();
 	
 	result.localOrigin = Lerp( previous.localOrigin, next.localOrigin, fraction );
-	result.localAxis = idQuat().Slerp( previous.localAxis, next.localAxis, fraction ).ToMat3();
+	result.localAxis = Quat().Slerp( previous.localAxis, next.localAxis, fraction ).ToMat3();
 	
 	return result;
 }

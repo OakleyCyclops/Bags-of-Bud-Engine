@@ -346,7 +346,7 @@ public:
 	
 	bool				IsLoaded() const;
 	
-	static void	GetGeneratedName( budStr& _name, const textureUsage_t& _usage, const cubeFiles_t& _cube );
+	static void	GetGeneratedName( String& _name, const textureUsage_t& _usage, const cubeFiles_t& _cube );
 	
 	// used by callback functions to specify the actual data
 	// data goes from the bottom to the top line of the image, as OpenGL expects it
@@ -372,7 +372,7 @@ private:
 	void		SetSamplerState( textureFilter_t tf, textureRepeat_t tr );
 	
 	// parameters that define this image
-	budStr				imgName;				// game path, including extension (except for cube maps), may be an image program
+	String				imgName;				// game path, including extension (except for cube maps), may be an image program
 	cubeFiles_t			cubeFiles;				// If this is a cube map, and if so, what kind
 	void	( *generatorFunction )( budImage* image );	// NULL for files
 	textureUsage_t		usage;					// Used to determine the type of compression to use
@@ -516,7 +516,7 @@ public:
 	
 	bool				ExcludePreloadImage( const char* name );
 	
-	budList<budImage*, TAG_LIBBUD_LIST_IMAGE>	images;
+	List<budImage*, TAG_LIBBUD_LIST_IMAGE>	images;
 	budHashIndex			imageHash;
 	
 	bool				insideLevelLoad;			// don't actually load images now

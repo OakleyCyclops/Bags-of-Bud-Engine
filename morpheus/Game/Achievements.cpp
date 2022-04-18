@@ -30,8 +30,8 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "Game_local.h"
 
-budCVar achievements_Verbose( "achievements_Verbose", "1", CVAR_BOOL, "debug spam" );
-budCVar g_demoMode( "g_demoMode", "0", CVAR_INTEGER, "this is a demo" );
+CVar achievements_Verbose( "achievements_Verbose", "1", CVAR_BOOL, "debug spam" );
+CVar g_demoMode( "g_demoMode", "0", CVAR_INTEGER, "this is a demo" );
 
 bool budAchievementManager::cheatingDialogShown = false;
 
@@ -299,7 +299,7 @@ void budAchievementManager::IncrementHellTimeKills()
 budAchievementManager::SavePersistentData
 ========================
 */
-void budAchievementManager::SavePersistentData( idDict& playerInfo )
+void budAchievementManager::SavePersistentData( Dict& playerInfo )
 {
 	for( int i = 0; i < ACHIEVEMENTS_NUM; ++i )
 	{
@@ -312,7 +312,7 @@ void budAchievementManager::SavePersistentData( idDict& playerInfo )
 budAchievementManager::RestorePersistentData
 ========================
 */
-void budAchievementManager::RestorePersistentData( const idDict& spawnArgs )
+void budAchievementManager::RestorePersistentData( const Dict& spawnArgs )
 {
 	for( int i = 0; i < ACHIEVEMENTS_NUM; ++i )
 	{

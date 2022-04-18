@@ -32,12 +32,12 @@ If you have questions concerning this license or the applicable additional terms
 
 const static int NUM_SYSTEM_OPTIONS_OPTIONS = 8;
 
-extern budCVar r_antiAliasing;
-extern budCVar r_motionBlur;
-extern budCVar r_swapInterval;
-extern budCVar s_volume_dB;
-extern budCVar r_exposure; // RB: use this to control HDR exposure or brightness in LDR mode
-extern budCVar r_lightScale;
+extern CVar r_antiAliasing;
+extern CVar r_motionBlur;
+extern CVar r_swapInterval;
+extern CVar s_volume_dB;
+extern CVar r_exposure; // RB: use this to control HDR exposure or brightness in LDR mode
+extern CVar r_lightScale;
 
 /*
 ========================
@@ -256,12 +256,12 @@ void idMenuScreen_Shell_SystemOptions::HideScreen( const mainMenuTransition_t tr
 			bool restart;
 		};
 		budStaticList<budSWFScriptFunction*, 4> callbacks;
-		budStaticList<budStrId, 4> optionText;
+		budStaticList<StringId, 4> optionText;
 		callbacks.Append( new budSWFScriptFunction_Restart( GDM_GAME_RESTART_REQUIRED, false ) );
 		callbacks.Append( new budSWFScriptFunction_Restart( GDM_GAME_RESTART_REQUIRED, true ) );
-		optionText.Append( budStrId( "#str_00100113" ) ); // Continue
-		optionText.Append( budStrId( "#str_02487" ) ); // Restart Now
-		common->Dialog().AddDynamicDialog( GDM_GAME_RESTART_REQUIRED, callbacks, optionText, true, budStr() );
+		optionText.Append( StringId( "#str_00100113" ) ); // Continue
+		optionText.Append( StringId( "#str_02487" ) ); // Restart Now
+		common->Dialog().AddDynamicDialog( GDM_GAME_RESTART_REQUIRED, callbacks, optionText, true, String() );
 	}
 	
 	if( systemData.IsDataChanged() )
@@ -541,7 +541,7 @@ void idMenuScreen_Shell_SystemOptions::idMenuDataSource_SystemSettings::AdjustFi
 		{
 			const float percent = LinearAdjust( r_lodBias.GetFloat(), -1.0f, 1.0f, 0.0f, 100.0f );
 			const float adjusted = percent + ( float )adjustAmount * 5.0f;
-			const float clamped = budMath::ClampFloat( 0.0f, 100.0f, adjusted );
+			const float clamped = Math::ClampFloat( 0.0f, 100.0f, adjusted );
 			r_lodBias.SetFloat( LinearAdjust( clamped, 0.0f, 100.0f, -1.0f, 1.0f ) );
 			break;
 		}*/
@@ -550,7 +550,7 @@ void idMenuScreen_Shell_SystemOptions::idMenuDataSource_SystemSettings::AdjustFi
 		{
 			const float percent = LinearAdjust( r_exposure.GetFloat(), 0.0f, 1.0f, 0.0f, 100.0f );
 			const float adjusted = percent + ( float )adjustAmount;
-			const float clamped = budMath::ClampFloat( 0.0f, 100.0f, adjusted );
+			const float clamped = Math::ClampFloat( 0.0f, 100.0f, adjusted );
 			
 			r_exposure.SetFloat( LinearAdjust( clamped, 0.0f, 100.0f, 0.0f, 1.0f ) );
 			r_lightScale.SetFloat( LinearAdjust( clamped, 0.0f, 100.0f, 2.0f, 4.0f ) );
@@ -560,8 +560,8 @@ void idMenuScreen_Shell_SystemOptions::idMenuDataSource_SystemSettings::AdjustFi
 		{
 			const float percent = 100.0f * Square( 1.0f - ( s_volume_dB.GetFloat() / DB_SILENCE ) );
 			const float adjusted = percent + ( float )adjustAmount;
-			const float clamped = budMath::ClampFloat( 0.0f, 100.0f, adjusted );
-			s_volume_dB.SetFloat( DB_SILENCE - ( budMath::Sqrt( clamped / 100.0f ) * DB_SILENCE ) );
+			const float clamped = Math::ClampFloat( 0.0f, 100.0f, adjusted );
+			s_volume_dB.SetFloat( DB_SILENCE - ( Math::Sqrt( clamped / 100.0f ) * DB_SILENCE ) );
 			break;
 		}
 	}
@@ -639,7 +639,7 @@ budSWFScriptVar idMenuScreen_Shell_SystemOptions::idMenuDataSource_SystemSetting
 			{
 				return "#str_swf_disabled";
 			}
-			return va( "%dx", budMath::IPow( 2, r_motionBlur.GetInteger() ) );
+			return va( "%dx", Math::IPow( 2, r_motionBlur.GetInteger() ) );
 		// RB begin
 		case SYSTEM_FIELD_SHADOWMAPPING:
 			if( r_useShadowMapping.GetInteger() == 1 )

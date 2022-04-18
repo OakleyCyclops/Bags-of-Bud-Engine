@@ -79,24 +79,24 @@ private:
 	
 	// frameOffsets contains offsets into the commands list for each frame
 	// the first command for frame 3 is frameOffsets[2] and the last command is frameOffsets[3]
-	budList< uint32, TAG_SWF >	frameOffsets;
+	List< uint32, TAG_SWF >	frameOffsets;
 	
 	struct swfFrameLabel_t
 	{
-		budStr frameLabel;
+		String frameLabel;
 		uint32 frameNum;
 	};
-	budList< swfFrameLabel_t, TAG_SWF > frameLabels;
+	List< swfFrameLabel_t, TAG_SWF > frameLabels;
 	
 	struct swfSpriteCommand_t
 	{
 		swfTag_t		tag;
 		budSWFBitStream	stream;
 	};
-	budList< swfSpriteCommand_t, TAG_SWF > commands;
+	List< swfSpriteCommand_t, TAG_SWF > commands;
 	
 	//// [ES-BrianBugh 1/16/10] - There can be multiple DoInitAction tags, and all need to be executed.
-	budList<budSWFBitStream, TAG_SWF> doInitActions;
+	List<budSWFBitStream, TAG_SWF> doInitActions;
 	
 	byte* commandBuffer;
 	

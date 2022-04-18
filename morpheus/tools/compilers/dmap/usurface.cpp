@@ -68,7 +68,7 @@ static void AddTriListToArea( uEntity_t* e, mapTri_t* triList, int planeNum, int
 			{
 				for( j = 0 ; j < 3 ; j++ )
 				{
-					if( budMath::Fabs( texVec->v[i][j] - group->texVec.v[i][j] ) > TEXTURE_VECTOR_EQUAL_EPSILON )
+					if( Math::Fabs( texVec->v[i][j] - group->texVec.v[i][j] ) > TEXTURE_VECTOR_EQUAL_EPSILON )
 					{
 						break;
 					}
@@ -77,7 +77,7 @@ static void AddTriListToArea( uEntity_t* e, mapTri_t* triList, int planeNum, int
 				{
 					break;
 				}
-				if( budMath::Fabs( texVec->v[i][3] - group->texVec.v[i][3] ) > TEXTURE_OFFSET_EQUAL_EPSILON )
+				if( Math::Fabs( texVec->v[i][3] - group->texVec.v[i][3] ) > TEXTURE_OFFSET_EQUAL_EPSILON )
 				{
 					break;
 				}
@@ -117,8 +117,8 @@ TexVecForTri
 static void TexVecForTri( textureVectors_t* texVec, mapTri_t* tri )
 {
 	float	area, inva;
-	budVec3	temp;
-	budVec5	d0, d1;
+	Vector3	temp;
+	Vector5	d0, d1;
 	budDrawVert*	a, *b, *c;
 	
 	a = &tri->v[0];
@@ -130,8 +130,8 @@ static void TexVecForTri( textureVectors_t* texVec, mapTri_t* tri )
 	d0[2] = b->xyz[2] - a->xyz[2];
 	
 	// RB begin
-	const budVec2 aST = a->GetTexCoord();
-	const budVec2 bST = b->GetTexCoord();
+	const Vector2 aST = a->GetTexCoord();
+	const Vector2 bST = b->GetTexCoord();
 	d0[3] = bST.x - aST.x;
 	d0[4] = bST.y - aST.y;
 	
@@ -139,7 +139,7 @@ static void TexVecForTri( textureVectors_t* texVec, mapTri_t* tri )
 	d1[1] = c->xyz[1] - a->xyz[1];
 	d1[2] = c->xyz[2] - a->xyz[2];
 	
-	const budVec2 cST = c->GetTexCoord();
+	const Vector2 cST = c->GetTexCoord();
 	d1[3] = cST.x - aST.x;
 	d1[4] = cST.y - aST.y;
 	
@@ -177,7 +177,7 @@ mapTri_t* TriListForSide( const side_t* s, const idWinding* w )
 	int				i, j;
 	budDrawVert*		dv;
 	mapTri_t*		tri, *triList;
-	const budVec3*		vec;
+	const Vector3*		vec;
 	const budMaterial*	si;
 	
 	si = s->material;
@@ -234,7 +234,7 @@ mapTri_t* TriListForSide( const side_t* s, const idWinding* w )
 #endif
 				
 				// calculate texture s/t from brush primitive texture matrix
-				budVec2 st;
+				Vector2 st;
 				st.x = ( dv->xyz * s->texVec.v[0].ToVec3() ) + s->texVec.v[0][3];
 				st.y = ( dv->xyz * s->texVec.v[1].ToVec3() ) + s->texVec.v[1][3];
 				
@@ -256,7 +256,7 @@ mapTri_t* TriListForSide( const side_t* s, const idWinding* w )
 		triList = NULL;
 		for( i = 0 ; i < w->GetNumPoints() ; i++ )
 		{
-			budVec3	midPoint;
+			Vector3	midPoint;
 			
 			tri = AllocTri();
 			tri->material = si;
@@ -282,7 +282,7 @@ mapTri_t* TriListForSide( const side_t* s, const idWinding* w )
 				dv = tri->v + j;
 				dv->xyz = *vec;
 				
-				budVec2 st;
+				Vector2 st;
 				st.x = ( dv->xyz * s->texVec.v[0].ToVec3() ) + s->texVec.v[0][3];
 				st.y = ( dv->xyz * s->texVec.v[1].ToVec3() ) + s->texVec.v[1][3];
 				dv->SetTexCoord( st );
@@ -753,7 +753,7 @@ void PutPrimitivesInAreas( uEntity_t* e )
 		{
 			uEntity_t* entity = &dmapGlobals.uEntities[eNum];
 			const char* className = entity->mapEntity->epairs.GetString( "classname" );
-			if( budStr::Icmp( className, "func_static" ) )
+			if( String::Icmp( className, "func_static" ) )
 			{
 				continue;
 			}
@@ -770,14 +770,14 @@ void PutPrimitivesInAreas( uEntity_t* e )
 			
 			common->Printf( "inlining %s.\n", entity->mapEntity->epairs.GetString( "name" ) );
 			
-			budMat3	axis;
+			Matrix3	axis;
 			// get the rotation matrix in either full form, or single angle form
 			if( !entity->mapEntity->epairs.GetMatrix( "rotation", "1 0 0 0 1 0 0 0 1", axis ) )
 			{
 				float angle = entity->mapEntity->epairs.GetFloat( "angle" );
 				if( angle != 0.0f )
 				{
-					axis = budAngles( 0.0f, angle, 0.0f ).ToMat3();
+					axis = Angles( 0.0f, angle, 0.0f ).ToMat3();
 				}
 				else
 				{
@@ -785,7 +785,7 @@ void PutPrimitivesInAreas( uEntity_t* e )
 				}
 			}
 			
-			budVec3	origin = entity->mapEntity->epairs.GetVector( "origin" );
+			Vector3	origin = entity->mapEntity->epairs.GetVector( "origin" );
 			
 			for( i = 0 ; i < model->NumSurfaces() ; i++ )
 			{
@@ -804,7 +804,7 @@ void PutPrimitivesInAreas( uEntity_t* e )
 				{
 					for( int k = 0 ; k < 3 ; k++ )
 					{
-						budVec3 v = tri->verts[tri->indexes[j + k]].xyz;
+						Vector3 v = tri->verts[tri->indexes[j + k]].xyz;
 						
 						mapTri.v[k].xyz = v * axis + origin;
 						

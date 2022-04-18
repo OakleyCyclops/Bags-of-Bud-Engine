@@ -61,23 +61,23 @@ private:
 	struct swfSPLineLoop_t
 	{
 		bool hole;
-		budList< uint16, TAG_SWF > vindex1;
-		budList< uint16, TAG_SWF > vindex2;
+		List< uint16, TAG_SWF > vindex1;
+		List< uint16, TAG_SWF > vindex2;
 	};
 	struct swfSPDrawFill_t
 	{
 		swfFillStyle_t style;
-		budList< swfSPMorphEdge_t, TAG_SWF > edges;
-		budList< swfSPLineLoop_t, TAG_SWF > loops;
+		List< swfSPMorphEdge_t, TAG_SWF > edges;
+		List< swfSPLineLoop_t, TAG_SWF > loops;
 	};
 	struct swfSPDrawLine_t
 	{
 		swfLineStyle_t style;
-		budList< swfSPMorphEdge_t, TAG_SWF > edges;
+		List< swfSPMorphEdge_t, TAG_SWF > edges;
 	};
-	budList< budVec2, TAG_SWF > verts;
-	budList< swfSPDrawFill_t, TAG_SWF > fillDraws;
-	budList< swfSPDrawLine_t, TAG_SWF > lineDraws;
+	List< Vector2, TAG_SWF > verts;
+	List< swfSPDrawFill_t, TAG_SWF > fillDraws;
+	List< swfSPDrawLine_t, TAG_SWF > lineDraws;
 	
 	
 private:
@@ -88,7 +88,7 @@ private:
 	void TriangulateSoup( budSWFShape& shape );
 	void TriangulateSoup( budSWFFontGlyph& shape );
 	int FindEarVert( const swfSPLineLoop_t& loop );
-	void AddUniqueVert( budSWFShapeDrawFill& drawFill, const budVec2& start, const budVec2& end );
+	void AddUniqueVert( budSWFShapeDrawFill& drawFill, const Vector2& start, const Vector2& end );
 	
 };
 

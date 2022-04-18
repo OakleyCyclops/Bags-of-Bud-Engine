@@ -117,7 +117,7 @@ idInterpreter::Restore
 void idInterpreter::Restore( idRestoreGame* savefile )
 {
 	int i;
-	budStr funcname;
+	String funcname;
 	int func_index;
 	
 	savefile->ReadInt( callStackDepth );
@@ -208,7 +208,7 @@ used primarily for the debugger and debugging
 //FIXME:  This is pretty much wrong.  won't access data in most situations.
 ================
 */
-bool idInterpreter::GetRegisterValue( const char* name, budStr& out, int scopeDepth )
+bool idInterpreter::GetRegisterValue( const char* name, String& out, int scopeDepth )
 {
 	varEval_t		reg;
 	idVarDef*		d;
@@ -239,7 +239,7 @@ bool idInterpreter::GetRegisterValue( const char* name, budStr& out, int scopeDe
 		return false;
 	}
 	
-	budStr::Copynz( funcObject, func->Name(), sizeof( funcObject ) );
+	String::Copynz( funcObject, func->Name(), sizeof( funcObject ) );
 	funcName = strstr( funcObject, "::" );
 	if( funcName )
 	{
@@ -890,7 +890,7 @@ void idInterpreter::CallEvent( const function_t* func, int argsize )
 				
 			case D_EVENT_VECTOR :
 				var.intPtr = ( int* )&localstack[ start + pos ];
-				( *( budVec3** )&data[ i ] ) = var.vectorPtr;
+				( *( Vector3** )&data[ i ] ) = var.vectorPtr;
 				break;
 				
 			case D_EVENT_STRING :
@@ -1039,7 +1039,7 @@ void idInterpreter::CallSysEvent( const function_t* func, int argsize )
 				
 			case D_EVENT_VECTOR :
 				source.intPtr = ( int* )&localstack[ start + pos ];
-				*( budVec3** )&data[ i ] = source.vectorPtr;
+				*( Vector3** )&data[ i ] = source.vectorPtr;
 				break;
 				
 			case D_EVENT_STRING :
@@ -1306,7 +1306,7 @@ bool idInterpreter::Execute()
 				if( *var_b.floatPtr == 0.0f )
 				{
 					Warning( "Divide by zero" );
-					*var_c.floatPtr = budMath::INFINITY;
+					*var_c.floatPtr = Math::INFINITY;
 				}
 				else
 				{
@@ -1493,7 +1493,7 @@ bool idInterpreter::Execute()
 				var_a = GetVariable( st->a );
 				var_b = GetVariable( st->b );
 				var_c = GetVariable( st->c );
-				*var_c.floatPtr = ( budStr::Cmp( GetString( st->a ), GetString( st->b ) ) == 0 );
+				*var_c.floatPtr = ( String::Cmp( GetString( st->a ), GetString( st->b ) ) == 0 );
 				break;
 				
 			case OP_EQ_E:
@@ -1522,7 +1522,7 @@ bool idInterpreter::Execute()
 				
 			case OP_NE_S:
 				var_c = GetVariable( st->c );
-				*var_c.floatPtr = ( budStr::Cmp( GetString( st->a ), GetString( st->b ) ) != 0 );
+				*var_c.floatPtr = ( String::Cmp( GetString( st->a ), GetString( st->b ) ) != 0 );
 				break;
 				
 			case OP_NE_E:
@@ -1578,7 +1578,7 @@ bool idInterpreter::Execute()
 				if( *var_a.floatPtr == 0.0f )
 				{
 					Warning( "Divide by zero" );
-					*var_b.floatPtr = budMath::INFINITY;
+					*var_b.floatPtr = Math::INFINITY;
 				}
 				else
 				{
@@ -1593,7 +1593,7 @@ bool idInterpreter::Execute()
 				if( *var_a.floatPtr == 0.0f )
 				{
 					Warning( "Divide by zero" );
-					var_b.vectorPtr->Set( budMath::INFINITY, budMath::INFINITY, budMath::INFINITY );
+					var_b.vectorPtr->Set( Math::INFINITY, Math::INFINITY, Math::INFINITY );
 				}
 				else
 				{
@@ -1792,7 +1792,7 @@ bool idInterpreter::Execute()
 				var_b = GetVariable( st->b );
 				if( var_b.evalPtr && var_b.evalPtr->stringPtr )
 				{
-					budStr::Copynz( var_b.evalPtr->stringPtr, GetString( st->a ), MAX_STRING_LEN );
+					String::Copynz( var_b.evalPtr->stringPtr, GetString( st->a ), MAX_STRING_LEN );
 				}
 				break;
 				
@@ -1810,7 +1810,7 @@ bool idInterpreter::Execute()
 				if( var_b.evalPtr && var_b.evalPtr->stringPtr )
 				{
 					var_a = GetVariable( st->a );
-					budStr::Copynz( var_b.evalPtr->stringPtr, FloatToString( *var_a.floatPtr ), MAX_STRING_LEN );
+					String::Copynz( var_b.evalPtr->stringPtr, FloatToString( *var_a.floatPtr ), MAX_STRING_LEN );
 				}
 				break;
 				
@@ -1821,11 +1821,11 @@ bool idInterpreter::Execute()
 					var_a = GetVariable( st->a );
 					if( *var_a.floatPtr != 0.0f )
 					{
-						budStr::Copynz( var_b.evalPtr->stringPtr, "true", MAX_STRING_LEN );
+						String::Copynz( var_b.evalPtr->stringPtr, "true", MAX_STRING_LEN );
 					}
 					else
 					{
-						budStr::Copynz( var_b.evalPtr->stringPtr, "false", MAX_STRING_LEN );
+						String::Copynz( var_b.evalPtr->stringPtr, "false", MAX_STRING_LEN );
 					}
 				}
 				break;
@@ -1835,7 +1835,7 @@ bool idInterpreter::Execute()
 				if( var_b.evalPtr && var_b.evalPtr->stringPtr )
 				{
 					var_a = GetVariable( st->a );
-					budStr::Copynz( var_b.evalPtr->stringPtr, var_a.vectorPtr->ToString(), MAX_STRING_LEN );
+					String::Copynz( var_b.evalPtr->stringPtr, var_a.vectorPtr->ToString(), MAX_STRING_LEN );
 				}
 				break;
 				

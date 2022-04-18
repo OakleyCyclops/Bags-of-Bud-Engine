@@ -118,8 +118,8 @@ public:
 	const char* 			Description() const;
 	
 	virtual void			SetModel( const char* modelname );
-	bool					GetGlobalJointTransform( bool viewModel, const jointHandle_t jointHandle, budVec3& offset, budMat3& axis );
-	void					SetPushVelocity( const budVec3& pushVelocity );
+	bool					GetGlobalJointTransform( bool viewModel, const jointHandle_t jointHandle, Vector3& offset, Matrix3& axis );
+	void					SetPushVelocity( const Vector3& pushVelocity );
 	bool					UpdateSkin();
 	
 	// State control/player interface
@@ -140,7 +140,7 @@ public:
 	bool					IsReloading() const;
 	bool					IsHolstered() const;
 	bool					ShowCrosshair() const;
-	idEntity* 				DropItem( const budVec3& velocity, int activateDelay, int removeDelay, bool died );
+	idEntity* 				DropItem( const Vector3& velocity, int activateDelay, int removeDelay, bool died );
 	bool					CanDrop() const;
 	void					WeaponStolen();
 	void					ForceAmmoInClip();
@@ -213,9 +213,9 @@ public:
 	// Get a global origin and axis suitable for the laser sight or bullet tracing
 	// Returns false for hands, grenades, and chainsaw.
 	// Can't be const because a frame may need to be created.
-	bool					GetMuzzlePositionWithHacks( budVec3& origin, budMat3& axis );
+	bool					GetMuzzlePositionWithHacks( Vector3& origin, Matrix3& axis );
 	
-	void					GetProjectileLaunchOriginAndAxis( budVec3& origin, budMat3& axis );
+	void					GetProjectileLaunchOriginAndAxis( Vector3& origin, Matrix3& axis );
 	
 	const budDeclEntityDef* GetDeclEntityDef()
 	{
@@ -234,8 +234,8 @@ private:
 	idScriptBool			WEAPON_LOWERWEAPON;
 	weaponStatus_t			status;
 	idThread* 				thread;
-	budStr					state;
-	budStr					idealState;
+	String					state;
+	String					idealState;
 	int						animBlendFrames;
 	int						animDoneTime;
 	bool					isLinked;
@@ -261,33 +261,33 @@ private:
 	int						berserk;
 	
 	// these are the player render view parms, which include bobbing
-	budVec3					playerViewOrigin;
-	budMat3					playerViewAxis;
+	Vector3					playerViewOrigin;
+	Matrix3					playerViewAxis;
 	
 	// the view weapon render entity parms
-	budVec3					viewWeaponOrigin;
-	budMat3					viewWeaponAxis;
+	Vector3					viewWeaponOrigin;
+	Matrix3					viewWeaponAxis;
 	
 	// the muzzle bone's position, used for launching projectiles and trailing smoke
-	budVec3					muzzleOrigin;
-	budMat3					muzzleAxis;
+	Vector3					muzzleOrigin;
+	Matrix3					muzzleAxis;
 	
-	budVec3					pushVelocity;
+	Vector3					pushVelocity;
 	
 	// weapon definition
 	// we maintain local copies of the projectile and brass dictionaries so they
 	// do not have to be copied across the DLL boundary when entities are spawned
 	const budDeclEntityDef* 	weaponDef;
 	const budDeclEntityDef* 	meleeDef;
-	idDict					projectileDict;
+	Dict					projectileDict;
 	float					meleeDistance;
-	budStr					meleeDefName;
-	idDict					brassDict;
+	String					meleeDefName;
+	Dict					brassDict;
 	int						brassDelay;
-	budStr					icon;
-	budStr					pdaIcon;
-	budStr					displayName;
-	budStr					itemDesc;
+	String					icon;
+	String					pdaIcon;
+	String					displayName;
+	String					itemDesc;
 	
 	// view weapon gui light
 	renderLight_t			guiLight;
@@ -303,7 +303,7 @@ private:
 	float					fraccos;
 	float					fraccos2;
 	
-	budVec3					flashColor;
+	Vector3					flashColor;
 	int						muzzleFlashEnd;
 	int						flashTime;
 	bool					lightOn;
@@ -317,8 +317,8 @@ private:
 	int						kick_endtime;
 	int						muzzle_kick_time;
 	int						muzzle_kick_maxtime;
-	budAngles				muzzle_kick_angles;
-	budVec3					muzzle_kick_offset;
+	Angles				muzzle_kick_angles;
+	Vector3					muzzle_kick_offset;
 	
 	// ammo management
 	ammo_t					ammoType;
@@ -359,8 +359,8 @@ private:
 	bool					continuousSmoke;		// if smoke is continuous ( chainsaw )
 	const budDeclParticle*   strikeSmoke;			// striking something in melee
 	int						strikeSmokeStartTime;	// timing
-	budVec3					strikePos;				// position of last melee strike
-	budMat3					strikeAxis;				// axis of last melee strike
+	Vector3					strikePos;				// position of last melee strike
+	Matrix3					strikeAxis;				// axis of last melee strike
 	int						nextStrikeFx;			// used for sound and decal ( may use for strike smoke too )
 	
 	// nozzle effects
@@ -371,7 +371,7 @@ private:
 	renderLight_t			nozzleGlow;			// nozzle light
 	int						nozzleGlowHandle;	// handle for nozzle light
 	
-	budVec3					nozzleGlowColor;	// color of the nozzle glow
+	Vector3					nozzleGlowColor;	// color of the nozzle glow
 	const budMaterial* 		nozzleGlowShader;	// shader for glow light
 	float					nozzleGlowRadius;	// radius of glow light
 	
@@ -387,7 +387,7 @@ private:
 	
 	// Visual presentation
 	void					InitWorldModel( const budDeclEntityDef* def );
-	void					MuzzleRise( budVec3& origin, budMat3& axis );
+	void					MuzzleRise( Vector3& origin, Matrix3& axis );
 	void					UpdateNozzleFx();
 	void					UpdateFlashPosition();
 	

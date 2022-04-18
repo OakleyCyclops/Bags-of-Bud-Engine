@@ -84,7 +84,7 @@ idIK::Restore
 */
 void idIK::Restore( idRestoreGame* savefile )
 {
-	budStr anim;
+	String anim;
 	
 	savefile->ReadBool( initialized );
 	savefile->ReadBool( ik_activate );
@@ -130,7 +130,7 @@ bool idIK::IsInitialized() const
 idIK::Init
 ================
 */
-bool idIK::Init( idEntity* self, const char* anim, const budVec3& modelOffset )
+bool idIK::Init( idEntity* self, const char* anim, const Vector3& modelOffset )
 {
 	budRenderModel* model;
 	
@@ -198,18 +198,18 @@ void idIK::ClearJointMods()
 idIK::SolveTwoBones
 ================
 */
-bool idIK::SolveTwoBones( const budVec3& startPos, const budVec3& endPos, const budVec3& dir, float len0, float len1, budVec3& jointPos )
+bool idIK::SolveTwoBones( const Vector3& startPos, const Vector3& endPos, const Vector3& dir, float len0, float len1, Vector3& jointPos )
 {
 	float length, lengthSqr, lengthInv, x, y;
-	budVec3 vec0, vec1;
+	Vector3 vec0, vec1;
 	
 	vec0 = endPos - startPos;
 	lengthSqr = vec0.LengthSqr();
-	lengthInv = budMath::InvSqrt( lengthSqr );
+	lengthInv = Math::InvSqrt( lengthSqr );
 	length = lengthInv * lengthSqr;
 	
 	// if the start and end position are too far out or too close to each other
-	if( length > len0 + len1 || length < budMath::Fabs( len0 - len1 ) )
+	if( length > len0 + len1 || length < Math::Fabs( len0 - len1 ) )
 	{
 		jointPos = startPos + 0.5f * vec0;
 		return false;
@@ -220,7 +220,7 @@ bool idIK::SolveTwoBones( const budVec3& startPos, const budVec3& endPos, const 
 	vec1.Normalize();
 	
 	x = ( length * length + len0 * len0 - len1 * len1 ) * ( 0.5f * lengthInv );
-	y = budMath::Sqrt( len0 * len0 - x * x );
+	y = Math::Sqrt( len0 * len0 - x * x );
 	
 	jointPos = startPos + x * vec0 + y * vec1;
 	
@@ -232,7 +232,7 @@ bool idIK::SolveTwoBones( const budVec3& startPos, const budVec3& endPos, const 
 idIK::GetBoneAxis
 ================
 */
-float idIK::GetBoneAxis( const budVec3& startPos, const budVec3& endPos, const budVec3& dir, budMat3& axis )
+float idIK::GetBoneAxis( const Vector3& startPos, const Vector3& endPos, const Vector3& dir, Matrix3& axis )
 {
 	float length;
 	axis[0] = endPos - startPos;
@@ -450,22 +450,22 @@ void idIK_Walk::Restore( idRestoreGame* savefile )
 idIK_Walk::Init
 ================
 */
-bool idIK_Walk::Init( idEntity* self, const char* anim, const budVec3& modelOffset )
+bool idIK_Walk::Init( idEntity* self, const char* anim, const Vector3& modelOffset )
 {
 	int i;
 	float footSize;
-	budVec3 verts[4];
+	Vector3 verts[4];
 	budTraceModel trm;
 	const char* jointName;
-	budVec3 dir, ankleOrigin, kneeOrigin, hipOrigin, dirOrigin;
-	budMat3 axis, ankleAxis, kneeAxis, hipAxis;
+	Vector3 dir, ankleOrigin, kneeOrigin, hipOrigin, dirOrigin;
+	Matrix3 axis, ankleAxis, kneeAxis, hipAxis;
 	
-	static budVec3 footWinding[4] =
+	static Vector3 footWinding[4] =
 	{
-		budVec3( 1.0f,  1.0f, 0.0f ),
-		budVec3( -1.0f,  1.0f, 0.0f ),
-		budVec3( -1.0f, -1.0f, 0.0f ),
-		budVec3( 1.0f, -1.0f, 0.0f )
+		Vector3( 1.0f,  1.0f, 0.0f ),
+		Vector3( -1.0f,  1.0f, 0.0f ),
+		Vector3( -1.0f, -1.0f, 0.0f ),
+		Vector3( 1.0f, -1.0f, 0.0f )
 	};
 	
 	if( !self )
@@ -612,10 +612,10 @@ void idIK_Walk::Evaluate()
 	int i, newPivotFoot = -1;
 	float modelHeight, jointHeight, lowestHeight, floorHeights[MAX_LEGS];
 	float shift, smallestShift, newHeight, step, newPivotYaw, height, largestAnkleHeight;
-	budVec3 modelOrigin, normal, hipDir, kneeDir, start, end, jointOrigins[MAX_LEGS];
-	budVec3 footOrigin, ankleOrigin, kneeOrigin, hipOrigin, waistOrigin;
-	budMat3 modelAxis, waistAxis, axis;
-	budMat3 hipAxis[MAX_LEGS], kneeAxis[MAX_LEGS], ankleAxis[MAX_LEGS];
+	Vector3 modelOrigin, normal, hipDir, kneeDir, start, end, jointOrigins[MAX_LEGS];
+	Vector3 footOrigin, ankleOrigin, kneeOrigin, hipOrigin, waistOrigin;
+	Matrix3 modelAxis, waistAxis, axis;
+	Matrix3 hipAxis[MAX_LEGS], kneeAxis[MAX_LEGS], ankleAxis[MAX_LEGS];
 	trace_t results;
 	
 	if( !self || !gameLocal.isNewFrame )
@@ -640,7 +640,7 @@ void idIK_Walk::Evaluate()
 	animator->CreateFrame( gameLocal.time, false );
 	
 	// get the joint positions for the feet
-	lowestHeight = budMath::INFINITY;
+	lowestHeight = Math::INFINITY;
 	for( i = 0; i < numLegs; i++ )
 	{
 		animator->GetJointTransform( footJoints[i], gameLocal.time, footOrigin, axis );
@@ -659,7 +659,7 @@ void idIK_Walk::Evaluate()
 		newPivotYaw = modelAxis[0].ToYaw();
 		
 		// change pivot foot
-		if( newPivotFoot != pivotFoot || budMath::Fabs( budMath::AngleNormalize180( newPivotYaw - pivotYaw ) ) > 30.0f )
+		if( newPivotFoot != pivotFoot || Math::Fabs( Math::AngleNormalize180( newPivotYaw - pivotYaw ) ) > 30.0f )
 		{
 			pivotFoot = newPivotFoot;
 			pivotYaw = newPivotYaw;
@@ -714,8 +714,8 @@ void idIK_Walk::Evaluate()
 	}
 	
 	// adjust heights of the ankles
-	smallestShift = budMath::INFINITY;
-	largestAnkleHeight = -budMath::INFINITY;
+	smallestShift = Math::INFINITY;
+	largestAnkleHeight = -Math::INFINITY;
 	for( i = 0; i < numLegs; i++ )
 	{
 	
@@ -862,7 +862,7 @@ void idIK_Walk::ClearJointMods()
 	}
 	
 	animator->SetJointAxis( waistJoint, JOINTMOD_NONE, mat3_identity );
-	animator->SetJointPos( waistJoint, JOINTMOD_NONE, vec3_origin );
+	animator->SetJointPos( waistJoint, JOINTMOD_NONE, Vector3_Origin );
 	for( i = 0; i < numLegs; i++ )
 	{
 		animator->SetJointAxis( hipJoints[i], JOINTMOD_NONE, mat3_identity );
@@ -1039,13 +1039,13 @@ void idIK_Reach::Restore( idRestoreGame* savefile )
 idIK_Reach::Init
 ================
 */
-bool idIK_Reach::Init( idEntity* self, const char* anim, const budVec3& modelOffset )
+bool idIK_Reach::Init( idEntity* self, const char* anim, const Vector3& modelOffset )
 {
 	int i;
 	const char* jointName;
 	budTraceModel trm;
-	budVec3 dir, handOrigin, elbowOrigin, shoulderOrigin, dirOrigin;
-	budMat3 axis, handAxis, elbowAxis, shoulderAxis;
+	Vector3 dir, handOrigin, elbowOrigin, shoulderOrigin, dirOrigin;
+	Matrix3 axis, handAxis, elbowAxis, shoulderAxis;
 	
 	if( !self )
 	{
@@ -1151,9 +1151,9 @@ idIK_Reach::Evaluate
 void idIK_Reach::Evaluate()
 {
 	int i;
-	budVec3 modelOrigin, shoulderOrigin, elbowOrigin, handOrigin, shoulderDir, elbowDir;
-	budMat3 modelAxis, axis;
-	budMat3 shoulderAxis[MAX_ARMS], elbowAxis[MAX_ARMS];
+	Vector3 modelOrigin, shoulderOrigin, elbowOrigin, handOrigin, shoulderDir, elbowDir;
+	Matrix3 modelAxis, axis;
+	Matrix3 shoulderAxis[MAX_ARMS], elbowAxis[MAX_ARMS];
 	trace_t trace;
 	
 	modelOrigin = self->GetRenderEntity()->origin;

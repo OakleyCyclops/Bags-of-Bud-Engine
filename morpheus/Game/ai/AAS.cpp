@@ -76,7 +76,7 @@ budAASLocal::~budAASLocal()
 budAASLocal::Init
 ============
 */
-bool budAASLocal::Init( const budStr& mapName, unsigned int mapFileCRC )
+bool budAASLocal::Init( const String& mapName, unsigned int mapFileCRC )
 {
 	if( file && mapName.Icmp( file->GetName() ) == 0 && mapFileCRC == file->GetCRC() )
 	{
@@ -149,7 +149,7 @@ const budAASSettings* budAASLocal::GetSettings() const
 budAASLocal::PointAreaNum
 ============
 */
-int budAASLocal::PointAreaNum( const budVec3& origin ) const
+int budAASLocal::PointAreaNum( const Vector3& origin ) const
 {
 	if( !file )
 	{
@@ -163,7 +163,7 @@ int budAASLocal::PointAreaNum( const budVec3& origin ) const
 budAASLocal::PointReachableAreaNum
 ============
 */
-int budAASLocal::PointReachableAreaNum( const budVec3& origin, const budBounds& searchBounds, const int areaFlags ) const
+int budAASLocal::PointReachableAreaNum( const Vector3& origin, const budBounds& searchBounds, const int areaFlags ) const
 {
 	if( !file )
 	{
@@ -193,7 +193,7 @@ int budAASLocal::BoundsReachableAreaNum( const budBounds& bounds, const int area
 budAASLocal::PushPointIntoAreaNum
 ============
 */
-void budAASLocal::PushPointIntoAreaNum( int areaNum, budVec3& origin ) const
+void budAASLocal::PushPointIntoAreaNum( int areaNum, Vector3& origin ) const
 {
 	if( !file )
 	{
@@ -207,11 +207,11 @@ void budAASLocal::PushPointIntoAreaNum( int areaNum, budVec3& origin ) const
 budAASLocal::AreaCenter
 ============
 */
-budVec3 budAASLocal::AreaCenter( int areaNum ) const
+Vector3 budAASLocal::AreaCenter( int areaNum ) const
 {
 	if( !file )
 	{
-		return vec3_origin;
+		return Vector3_Origin;
 	}
 	return file->GetArea( areaNum ).center;
 }
@@ -249,7 +249,7 @@ int budAASLocal::AreaTravelFlags( int areaNum ) const
 budAASLocal::Trace
 ============
 */
-bool budAASLocal::Trace( aasTrace_t& trace, const budVec3& start, const budVec3& end ) const
+bool budAASLocal::Trace( aasTrace_t& trace, const Vector3& start, const Vector3& end ) const
 {
 	if( !file )
 	{
@@ -298,7 +298,7 @@ void budAASLocal::GetEdgeVertexNumbers( int edgeNum, int verts[2] ) const
 budAASLocal::GetEdge
 ============
 */
-void budAASLocal::GetEdge( int edgeNum, budVec3& start, budVec3& end ) const
+void budAASLocal::GetEdge( int edgeNum, Vector3& start, Vector3& end ) const
 {
 	if( !file )
 	{

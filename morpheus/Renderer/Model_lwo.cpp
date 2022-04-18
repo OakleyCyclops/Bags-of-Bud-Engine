@@ -601,7 +601,7 @@ static float bez2_time( float x0, float x1, float x2, float x3, float time,
 	
 	t = *t0 + ( *t1 - *t0 ) * 0.5f;
 	v = bezier( x0, x1, x2, x3, t );
-	if( budMath::Fabs( time - v ) > .0001f )
+	if( Math::Fabs( time - v ) > .0001f )
 	{
 		if( v > time )
 			*t1 = t;
@@ -695,7 +695,7 @@ static float outgoing( lwKey* key0, lwKey* key1 )
 			
 		case ID_BEZ2:
 			out = key0->param[ 3 ] * ( key1->time - key0->time );
-			if( budMath::Fabs( key0->param[ 2 ] ) > 1e-5f )
+			if( Math::Fabs( key0->param[ 2 ] ) > 1e-5f )
 				out /= key0->param[ 2 ];
 			else
 				out *= 1e5f;
@@ -763,7 +763,7 @@ static float incoming( lwKey* key0, lwKey* key1 )
 			
 		case ID_BEZ2:
 			in = key1->param[ 1 ] * ( key1->time - key0->time );
-			if( budMath::Fabs( key1->param[ 0 ] ) > 1e-5f )
+			if( Math::Fabs( key1->param[ 0 ] ) > 1e-5f )
 				in /= key1->param[ 0 ];
 			else
 				in *= 1e5f;
@@ -4134,7 +4134,7 @@ void normalize( float v[] )
 {
 	float r;
 	
-	r = ( float ) budMath::Sqrt( dot( v, v ) );
+	r = ( float ) Math::Sqrt( dot( v, v ) );
 	if( r > 0 )
 	{
 		v[ 0 ] /= r;

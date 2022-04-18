@@ -430,8 +430,8 @@ budScreenRect budRenderWorldLocal::ScreenRectFromWinding( const idWinding* w, co
 	r.Clear();
 	for( int i = 0; i < w->GetNumPoints(); i++ )
 	{
-		budVec3 v;
-		budVec3 ndc;
+		Vector3 v;
+		Vector3 ndc;
 		R_LocalPointToGlobal( space->modelMatrix, ( *w )[i].ToVec3(), v );
 		R_GlobalToNormalizedDeviceCoordinates( v, ndc );
 		
@@ -507,7 +507,7 @@ bool budRenderWorldLocal::PortalIsFoggedOut( const portal_t* p )
 budRenderWorldLocal::FloodViewThroughArea_r
 ===================
 */
-void budRenderWorldLocal::FloodViewThroughArea_r( const budVec3& origin, int areaNum, const portalStack_t* ps )
+void budRenderWorldLocal::FloodViewThroughArea_r( const Vector3& origin, int areaNum, const portalStack_t* ps )
 {
 	portalArea_t* area = &portalAreas[ areaNum ];
 	
@@ -619,8 +619,8 @@ void budRenderWorldLocal::FloodViewThroughArea_r( const budVec3& origin, int are
 				j = 0;
 			}
 			
-			const budVec3& v1 = origin - w[i].ToVec3();
-			const budVec3& v2 = origin - w[j].ToVec3();
+			const Vector3& v1 = origin - w[i].ToVec3();
+			const Vector3& v2 = origin - w[j].ToVec3();
 			
 			newStack.portalPlanes[newStack.numPortalPlanes].Normal().Cross( v2, v1 );
 			
@@ -651,7 +651,7 @@ portals that the origin point can see into. The planes array defines a volume wi
 the planes pointing outside the volume. Zero planes assumes an unbounded volume.
 =======================
 */
-void budRenderWorldLocal::FlowViewThroughPortals( const budVec3& origin, int numPlanes, const budPlane* planes )
+void budRenderWorldLocal::FlowViewThroughPortals( const Vector3& origin, int numPlanes, const budPlane* planes )
 {
 	portalStack_t ps;
 	ps.next = NULL;
@@ -839,7 +839,7 @@ void budRenderWorldLocal::FloodLightThroughArea_r( budRenderLightLocal* light, i
 	const portalStack_t*	check = NULL, *firstPortalStack = NULL;
 	portalStack_t	newStack;
 	int				i, j;
-	budVec3			v1, v2;
+	Vector3			v1, v2;
 	int				addPlanes;
 	budFixedWinding	w;		// we won't overflow because MAX_PORTAL_PLANES = 20
 	

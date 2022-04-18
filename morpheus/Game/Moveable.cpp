@@ -98,7 +98,7 @@ void idMoveable::Spawn()
 	budTraceModel trm;
 	float density, friction, bouncyness, mass;
 	int clipShrink;
-	budStr clipModelName;
+	String clipModelName;
 	
 	// check if a clip model is set
 	spawnArgs.GetString( "clipmodel", "", clipModelName );
@@ -122,11 +122,11 @@ void idMoveable::Spawn()
 	
 	// get rigid body properties
 	spawnArgs.GetFloat( "density", "0.5", density );
-	density = budMath::ClampFloat( 0.001f, 1000.0f, density );
+	density = Math::ClampFloat( 0.001f, 1000.0f, density );
 	spawnArgs.GetFloat( "friction", "0.05", friction );
-	friction = budMath::ClampFloat( 0.0f, 1.0f, friction );
+	friction = Math::ClampFloat( 0.0f, 1.0f, friction );
 	spawnArgs.GetFloat( "bouncyness", "0.6", bouncyness );
-	bouncyness = budMath::ClampFloat( 0.0f, 1.0f, bouncyness );
+	bouncyness = Math::ClampFloat( 0.0f, 1.0f, bouncyness );
 	explode = spawnArgs.GetBool( "explode" );
 	unbindOnDeath = spawnArgs.GetBool( "unbindondeath" );
 	
@@ -294,16 +294,16 @@ void idMoveable::Show()
 idMoveable::Collide
 =================
 */
-bool idMoveable::Collide( const trace_t& collision, const budVec3& velocity )
+bool idMoveable::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	float v, f;
-	budVec3 dir;
+	Vector3 dir;
 	idEntity* ent;
 	
 	v = -( velocity * collision.c.normal );
 	if( v > BOUNCE_SOUND_MIN_VELOCITY && gameLocal.time > nextSoundTime )
 	{
-		f = v > BOUNCE_SOUND_MAX_VELOCITY ? 1.0f : budMath::Sqrt( v - BOUNCE_SOUND_MIN_VELOCITY ) * ( 1.0f / budMath::Sqrt( BOUNCE_SOUND_MAX_VELOCITY - BOUNCE_SOUND_MIN_VELOCITY ) );
+		f = v > BOUNCE_SOUND_MAX_VELOCITY ? 1.0f : Math::Sqrt( v - BOUNCE_SOUND_MIN_VELOCITY ) * ( 1.0f / Math::Sqrt( BOUNCE_SOUND_MAX_VELOCITY - BOUNCE_SOUND_MIN_VELOCITY ) );
 		if( StartSound( "snd_bounce", SND_CHANNEL_ANY, 0, false, NULL ) )
 		{
 			// don't set the volume unless there is a bounce sound as it overrides the entire channel
@@ -324,7 +324,7 @@ bool idMoveable::Collide( const trace_t& collision, const budVec3& velocity )
 			ent = gameLocal.entities[ collision.c.entityNum ];
 			if( ent && v > minDamageVelocity )
 			{
-				f = v > maxDamageVelocity ? 1.0f : budMath::Sqrt( v - minDamageVelocity ) * ( 1.0f / budMath::Sqrt( maxDamageVelocity - minDamageVelocity ) );
+				f = v > maxDamageVelocity ? 1.0f : Math::Sqrt( v - minDamageVelocity ) * ( 1.0f / Math::Sqrt( maxDamageVelocity - minDamageVelocity ) );
 				dir = velocity;
 				dir.NormalizeFast();
 				if( ent->IsType( budAI::Type ) && hasMonsterDamage )
@@ -385,7 +385,7 @@ bool idMoveable::Collide( const trace_t& collision, const budVec3& velocity )
 idMoveable::Killed
 ============
 */
-void idMoveable::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idMoveable::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	if( unbindOnDeath )
 	{
@@ -490,15 +490,15 @@ bool idMoveable::FollowInitialSplinePath()
 	{
 		if( gameLocal.time < initialSpline->GetTime( initialSpline->GetNumValues() - 1 ) )
 		{
-			budVec3 splinePos = initialSpline->GetCurrentValue( gameLocal.time );
-			budVec3 linearVelocity = ( splinePos - physicsObj.GetOrigin() ) * com_engineHz_latched;
+			Vector3 splinePos = initialSpline->GetCurrentValue( gameLocal.time );
+			Vector3 linearVelocity = ( splinePos - physicsObj.GetOrigin() ) * com_engineHz_latched;
 			physicsObj.SetLinearVelocity( linearVelocity );
 			
-			budVec3 splineDir = initialSpline->GetCurrentFirstDerivative( gameLocal.time );
-			budVec3 dir = initialSplineDir * physicsObj.GetAxis();
-			budVec3 angularVelocity = dir.Cross( splineDir );
+			Vector3 splineDir = initialSpline->GetCurrentFirstDerivative( gameLocal.time );
+			Vector3 dir = initialSplineDir * physicsObj.GetAxis();
+			Vector3 angularVelocity = dir.Cross( splineDir );
 			angularVelocity.Normalize();
-			angularVelocity *= budMath::ACos16( dir * splineDir / splineDir.Length() ) * com_engineHz_latched;
+			angularVelocity *= Math::ACos16( dir * splineDir / splineDir.Length() ) * com_engineHz_latched;
 			physicsObj.SetAngularVelocity( angularVelocity );
 			return true;
 		}
@@ -609,7 +609,7 @@ idMoveable::Event_Activate
 void idMoveable::Event_Activate( idEntity* activator )
 {
 	float delay;
-	budVec3 init_velocity, init_avelocity;
+	Vector3 init_velocity, init_avelocity;
 	
 	Show();
 	
@@ -653,7 +653,7 @@ idMoveable::Event_SetOwnerFromSpawnArgs
 */
 void idMoveable::Event_SetOwnerFromSpawnArgs()
 {
-	budStr owner;
+	String owner;
 	
 	if( spawnArgs.GetString( "owner", "", owner ) )
 	{
@@ -751,8 +751,8 @@ void idBarrel::BarrelThink()
 {
 	bool wasAtRest, onGround;
 	float movedDistance, rotatedDistance, angle;
-	budVec3 curOrigin, gravityNormal, dir;
-	budMat3 curAxis, axis;
+	Vector3 curOrigin, gravityNormal, dir;
+	Matrix3 curAxis, axis;
 	
 	wasAtRest = IsAtRest();
 	
@@ -778,17 +778,17 @@ void idBarrel::BarrelThink()
 			movedDistance = dir.LengthSqr();
 			
 			// if the barrel moved and the barrel is not aligned with the gravity direction
-			if( movedDistance > 0.0f && budMath::Fabs( gravityNormal * curAxis[barrelAxis] ) < 0.7f )
+			if( movedDistance > 0.0f && Math::Fabs( gravityNormal * curAxis[barrelAxis] ) < 0.7f )
 			{
 			
 				// barrel movement since last think frame orthogonal to the barrel axis
-				movedDistance = budMath::Sqrt( movedDistance );
+				movedDistance = Math::Sqrt( movedDistance );
 				dir *= 1.0f / movedDistance;
-				movedDistance = ( 1.0f - budMath::Fabs( dir * curAxis[barrelAxis] ) ) * movedDistance;
+				movedDistance = ( 1.0f - Math::Fabs( dir * curAxis[barrelAxis] ) ) * movedDistance;
 				
 				// get rotation about barrel axis since last think frame
 				angle = lastAxis[( barrelAxis + 1 ) % 3] * curAxis[( barrelAxis + 1 ) % 3];
-				angle = budMath::ACos( angle );
+				angle = Math::ACos( angle );
 				// distance along cylinder hull
 				rotatedDistance = angle * radius;
 				
@@ -798,7 +798,7 @@ void idBarrel::BarrelThink()
 				
 					// additional rotation of the visual model to make it look
 					// like the barrel rolls instead of slides
-					angle = 180.0f * ( movedDistance - rotatedDistance ) / ( radius * budMath::PI );
+					angle = 180.0f * ( movedDistance - rotatedDistance ) / ( radius * Math::PI );
 					if( gravityNormal.Cross( curAxis[barrelAxis] ) * dir < 0.0f )
 					{
 						additionalRotation += angle;
@@ -807,9 +807,9 @@ void idBarrel::BarrelThink()
 					{
 						additionalRotation -= angle;
 					}
-					dir = vec3_origin;
+					dir = Vector3_Origin;
 					dir[barrelAxis] = 1.0f;
-					additionalAxis = budRotation( vec3_origin, dir, additionalRotation ).ToMat3();
+					additionalAxis = Rotation( Vector3_Origin, dir, additionalRotation ).ToMat3();
 				}
 			}
 		}
@@ -845,9 +845,9 @@ void idBarrel::Think()
 idBarrel::GetPhysicsToVisualTransform
 ================
 */
-bool idBarrel::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
+bool idBarrel::GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis )
 {
-	origin = vec3_origin;
+	origin = Vector3_Origin;
 	axis = additionalAxis;
 	return true;
 }
@@ -1256,7 +1256,7 @@ void idExplodingBarrel::ExplodingEffects()
 idExplodingBarrel::Killed
 ================
 */
-void idExplodingBarrel::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idExplodingBarrel::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 
 	if( IsHidden() || state == EXPLODING || state == BURNING )
@@ -1310,11 +1310,11 @@ void idExplodingBarrel::Killed( idEntity* inflictor, idEntity* attacker, int dam
 	// bool first = true;
 	while( kv != NULL )
 	{
-		const idDict* debris_args = gameLocal.FindEntityDefDict( kv->GetValue(), false );
+		const Dict* debris_args = gameLocal.FindEntityDefDict( kv->GetValue(), false );
 		if( debris_args )
 		{
 			idEntity* ent;
-			budVec3 dir;
+			Vector3 dir;
 			idDebris* debris;
 			//if ( first ) {
 			dir = physicsObj.GetAxis()[1];
@@ -1375,11 +1375,11 @@ void idExplodingBarrel::Killed( idEntity* inflictor, idEntity* attacker, int dam
 idExplodingBarrel::Damage
 ================
 */
-void idExplodingBarrel::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+void idExplodingBarrel::Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir,
 								const char* damageDefName, const float damageScale, const int location )
 {
 
-	const idDict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
+	const Dict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
 	if( damageDef == NULL )
 	{
 		gameLocal.Error( "Unknown damageDef '%s'\n", damageDefName );
@@ -1437,7 +1437,7 @@ void idExplodingBarrel::Event_Respawn()
 			{
 				continue;
 			}
-			budVec3 v = gameLocal.entities[ i ]->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
+			Vector3 v = gameLocal.entities[ i ]->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
 			float dist = v.Length();
 			if( minDist < 0 || dist < minDist )
 			{
@@ -1473,7 +1473,7 @@ idMoveable::Event_Activate
 */
 void idExplodingBarrel::Event_Activate( idEntity* activator )
 {
-	Killed( activator, activator, 0, vec3_origin, 0 );
+	Killed( activator, activator, 0, Vector3_Origin, 0 );
 }
 
 /*

@@ -52,7 +52,7 @@ idTarget_EndLevel::Spawn
 */
 void idTarget_EndLevel::Spawn( void )
 {
-	budStr		guiName;
+	String		guiName;
 	
 	gui = NULL;
 	noGui = spawnArgs.GetBool( "noGui" );
@@ -103,7 +103,7 @@ void idTarget_EndLevel::Event_Trigger( idEntity* activator )
 	budPlayer* player = ( budPlayer* )( activator );
 	
 	initialViewOrg = player->GetEyePosition();
-	initialViewAngles = budVec3( player->viewAngles[0], player->viewAngles[1], player->viewAngles[2] );
+	initialViewAngles = Vector3( player->viewAngles[0], player->viewAngles[1], player->viewAngles[2] );
 	
 	// kill all the sounds
 	gameSoundWorld->StopAllSounds();
@@ -142,7 +142,7 @@ void idTarget_EndLevel::Draw()
 	
 #if 0
 	renderView.vieworg = initialViewOrg;
-	renderView.viewaxis = budAngles( initialViewAngles ).toMat3();
+	renderView.viewaxis = Angles( initialViewAngles ).toMat3();
 #else
 	renderView.vieworg = renderEntity.origin;
 	renderView.viewaxis = renderEntity.axis;
@@ -187,7 +187,7 @@ const char* idTarget_EndLevel::ExitCommand()
 		return NULL;
 	}
 	
-	budStr nextMap;
+	String nextMap;
 	
 	if( spawnArgs.GetString( "nextMap", "", nextMap ) )
 	{

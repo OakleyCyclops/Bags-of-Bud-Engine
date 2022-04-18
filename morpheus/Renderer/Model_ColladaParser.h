@@ -136,7 +136,7 @@ protected:
 //	void ReadSamplerProperties( Collada::Sampler& pSampler );
 
 	/** Reads an effect entry containing a color or a texture defining that color */
-//	void ReadEffectColor( budVec4& pColor, Collada::Sampler& pSampler );
+//	void ReadEffectColor( Vector4& pColor, Collada::Sampler& pSampler );
 
 	/** Reads an effect entry containing a float */
 //	void ReadEffectFloat( float& pFloat );
@@ -166,7 +166,7 @@ protected:
 	/** Reads an accessor and stores it in the global library under the given ID -
 	 * accessors use the ID of the parent <source> element
 	 */
-	void ReadAccessor( const budStr& pID );
+	void ReadAccessor( const String& pID );
 	
 	/** Reads input declarations of per-vertex mesh data into the given mesh */
 	void ReadVertexData( Collada::Mesh* pMesh );
@@ -175,11 +175,11 @@ protected:
 	void ReadIndexData( Collada::Mesh* pMesh );
 	
 	/** Reads a single input channel element and stores it in the given array, if valid */
-	void ReadInputChannel( budList<Collada::InputChannel>& poChannels );
+	void ReadInputChannel( List<Collada::InputChannel>& poChannels );
 	
 	/** Reads a <p> primitive index list and assembles the mesh data into the given mesh */
-	void ReadPrimitives( Collada::Mesh* pMesh, budList<Collada::InputChannel>& pPerIndexChannels,
-						 size_t pNumPrimitives, const budList<size_t>& pVCount, Collada::PrimitiveType pPrimType );
+	void ReadPrimitives( Collada::Mesh* pMesh, List<Collada::InputChannel>& pPerIndexChannels,
+						 size_t pNumPrimitives, const List<size_t>& pVCount, Collada::PrimitiveType pPrimType );
 						 
 	/** Extracts a single object from an input channel and stores it in the appropriate mesh data array */
 	void ExtractDataObjectFromChannel( const Collada::InputChannel& pInput, size_t pLocalIndex, Collada::Mesh* pMesh );
@@ -204,7 +204,7 @@ protected:
 	
 protected:
 	/** Aborts the file reading with an exception */
-	void ThrowException( const budStr& pError ) const;
+	void ThrowException( const String& pError ) const;
 	
 	/** Skips all data until the end node of the current element */
 	void SkipElement();
@@ -246,18 +246,18 @@ protected:
 	float ReadFloatFromTextContent();
 	
 	/** Calculates the resulting transformation from all the given transform steps */
-	budMat4 CalculateResultTransform( const budList<Collada::Transform>& pTransforms ) const;
+	Matrix4 CalculateResultTransform( const List<Collada::Transform>& pTransforms ) const;
 	
 	/** Determines the input data type for the given semantic string */
-	Collada::InputType GetTypeForSemantic( const budStr& pSemantic );
+	Collada::InputType GetTypeForSemantic( const String& pSemantic );
 	
 	/** Finds the item in the given library by its reference, throws if not found */
 	template <typename Type> const Type* ResolveLibraryReference(
-		const budHashTable<Type>& pLibrary, const budStr& pURL ) const;
+		const budHashTable<Type>& pLibrary, const String& pURL ) const;
 		
 protected:
 	/** Filename, for a verbose error message */
-	budStr mFileName;
+	String mFileName;
 	
 	/** XML reader, member for everyday use */
 	irr::io::IrrXMLReader* mReader;
@@ -325,7 +325,7 @@ protected:
 inline bool ColladaParser::IsElement( const char* pName ) const
 {
 	assert( mReader->getNodeType() == irr::io::EXN_ELEMENT );
-	return budStr::Cmp( mReader->getNodeName(), pName ) == 0;
+	return String::Cmp( mReader->getNodeName(), pName ) == 0;
 }
 
 inline bool ColladaParser::SkipSpacesAndLineEnd( const char* in, const char** out )
@@ -339,7 +339,7 @@ inline bool ColladaParser::SkipSpacesAndLineEnd( const char* in, const char** ou
 // ------------------------------------------------------------------------------------------------
 // Finds the item in the given library by its reference, throws if not found
 template <typename Type>
-const Type* ColladaParser::ResolveLibraryReference( const budHashTable<Type>& pLibrary, const budStr& pURL ) const
+const Type* ColladaParser::ResolveLibraryReference( const budHashTable<Type>& pLibrary, const String& pURL ) const
 {
 	Type* element = NULL;
 	

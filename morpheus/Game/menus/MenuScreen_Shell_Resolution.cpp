@@ -158,15 +158,15 @@ void idMenuScreen_Shell_Resolution::ShowScreen( const mainMenuTransition_t trans
 	originalOption.fullscreen = r_fullscreen.GetInteger();
 	originalOption.vidmode = r_vidMode.GetInteger();
 	
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	menuOptions.Alloc().Alloc() = "#str_swf_disabled";
 	optionData.Append( optionData_t( 0, 0 ) );
 	
 	int viewIndex = 0;
-	budList< budList<vidMode_t> > displays;
+	List< List<vidMode_t> > displays;
 	for( int displayNum = 0 ; ; displayNum++ )
 	{
-		budList<vidMode_t>& modeList = displays.Alloc();
+		List<vidMode_t>& modeList = displays.Alloc();
 		if( !R_GetModeListForDisplay( displayNum, modeList ) )
 		{
 			displays.RemoveIndex( displays.Num() - 1 );
@@ -175,7 +175,7 @@ void idMenuScreen_Shell_Resolution::ShowScreen( const mainMenuTransition_t trans
 	}
 	for( int displayNum = 0 ; displayNum < displays.Num(); displayNum++ )
 	{
-		budList<vidMode_t>& modeList = displays[displayNum];
+		List<vidMode_t>& modeList = displays[displayNum];
 		for( int i = 0; i < modeList.Num(); i++ )
 		{
 			const optionData_t thisOption( displayNum + 1, i );
@@ -183,7 +183,7 @@ void idMenuScreen_Shell_Resolution::ShowScreen( const mainMenuTransition_t trans
 			{
 				viewIndex = menuOptions.Num();
 			}
-			budStr str;
+			String str;
 			if( displays.Num() > 1 )
 			{
 				str.Append( va( "%s %i: ", budLocalization::GetString( "#str_swf_monitor" ), displayNum + 1 ) );

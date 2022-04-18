@@ -43,19 +43,19 @@ struct idTabRect
 	int align;
 	int valign;
 	int	type;
-	budVec2 iconSize;
+	Vector2 iconSize;
 	float iconVOffset;
 };
 
-class budListWindow : public idWindow
+class ListWindow : public idWindow
 {
 public:
-	budListWindow( budUserInterfaceLocal* gui );
+	ListWindow( budUserInterfaceLocal* gui );
 	
 	virtual const char*	HandleEvent( const sysEvent_t* event, bool* updateVisuals );
 	virtual void		PostParse();
 	virtual void		Draw( int time, float x, float y );
-	virtual void		Activate( bool activate, budStr& act );
+	virtual void		Activate( bool activate, String& act );
 	virtual void		HandleBuddyUpdate( idWindow* buddy );
 	virtual void		StateChanged( bool redraw = false );
 	virtual size_t		Allocated()
@@ -76,28 +76,28 @@ private:
 	bool				IsSelected( int index );
 	void				ClearSelection( int sel );
 	
-	budList<idTabRect, TAG_OLD_UI>	tabInfo;
+	List<idTabRect, TAG_OLD_UI>	tabInfo;
 	int					top;
 	float				sizeBias;
 	bool				horizontal;
-	budStr				tabStopStr;
-	budStr				tabAlignStr;
-	budStr				tabVAlignStr;
-	budStr				tabTypeStr;
-	budStr				tabIconSizeStr;
-	budStr				tabIconVOffsetStr;
+	String				tabStopStr;
+	String				tabAlignStr;
+	String				tabVAlignStr;
+	String				tabTypeStr;
+	String				tabIconSizeStr;
+	String				tabIconVOffsetStr;
 	budHashTable<const budMaterial*> iconMaterials;
 	bool				multipleSel;
 	
-	budStrList			listItems;
+	StringList			listItems;
 	idSliderWindow*		scroller;
-	budList<int, TAG_OLD_UI>			currentSel;
-	budStr				listName;
+	List<int, TAG_OLD_UI>			currentSel;
+	String				listName;
 	
 	int					clickTime;
 	
 	int					typedTime;
-	budStr				typed;
+	String				typed;
 };
 
 #endif // __LISTWINDOW_H

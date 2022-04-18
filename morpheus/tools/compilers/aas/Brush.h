@@ -179,10 +179,10 @@ public:
 	{
 		return savedPlaneSide;
 	}
-	bool					FromSides( budList<idBrushSide*>& sideList );
+	bool					FromSides( List<idBrushSide*>& sideList );
 	bool					FromWinding( const idWinding& w, const budPlane& windingPlane );
 	bool					FromBounds( const budBounds& bounds );
-	void					Transform( const budVec3& origin, const budMat3& axis );
+	void					Transform( const Vector3& origin, const Matrix3& axis );
 	idBrush* 				Copy() const;
 	bool					TryMerge( const idBrush* brush, const budPlaneSet& planeList );
 	// returns true if the brushes did intersect
@@ -207,7 +207,7 @@ private:
 	int						planeSide;			// side of a plane this brush is on
 	int						savedPlaneSide;		// saved plane side
 	budBounds				bounds;				// brush bounds
-	budList<idBrushSide*>	sides;				// list with sides
+	List<idBrushSide*>	sides;				// list with sides
 	
 private:
 	bool					CreateWindings();
@@ -282,7 +282,7 @@ public:
 	// get a list with planes for all brushes in the list
 	void					CreatePlaneList( budPlaneSet& planeList ) const;
 	// write a brush map with the brushes in the list
-	void					WriteBrushMap( const budStr& fileName, const budStr& ext ) const;
+	void					WriteBrushMap( const String& fileName, const String& ext ) const;
 	
 private:
 	idBrush* 				head;
@@ -302,9 +302,9 @@ class idBrushMap
 {
 
 public:
-	idBrushMap( const budStr& fileName, const budStr& ext );
+	idBrushMap( const String& fileName, const String& ext );
 	~idBrushMap();
-	void					SetTexture( const budStr& textureName )
+	void					SetTexture( const String& textureName )
 	{
 		texture = textureName;
 	}
@@ -313,7 +313,7 @@ public:
 	
 private:
 	budFile* 				fp;
-	budStr					texture;
+	String					texture;
 	int						brushCount;
 };
 

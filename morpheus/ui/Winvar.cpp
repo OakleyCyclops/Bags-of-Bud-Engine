@@ -46,7 +46,7 @@ idWinVar::~idWinVar()
 	name = NULL;
 }
 
-void idWinVar::SetGuiInfo( idDict* gd, const char* _name )
+void idWinVar::SetGuiInfo( Dict* gd, const char* _name )
 {
 	guiDict = gd;
 	SetName( _name );
@@ -55,7 +55,7 @@ void idWinVar::SetGuiInfo( idDict* gd, const char* _name )
 
 void idWinVar::Init( const char* _name, idWindow* win )
 {
-	budStr key = _name;
+	String key = _name;
 	guiDict = NULL;
 	int len = key.Length();
 	if( len > 5 && key[0] == 'g' && key[1] == 'u' && key[2] == 'i' && key[3] == ':' )
@@ -86,7 +86,7 @@ void idMultiWinVar::Update()
 	}
 }
 
-void idMultiWinVar::SetGuiInfo( idDict* dict )
+void idMultiWinVar::SetGuiInfo( Dict* dict )
 {
 	for( int i = 0; i < Num(); i++ )
 	{

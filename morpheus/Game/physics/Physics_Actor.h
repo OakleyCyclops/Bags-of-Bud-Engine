@@ -76,14 +76,14 @@ public:	// common physics interface
 	
 	bool					IsPushable() const;
 	
-	const budVec3& 			GetOrigin( int id = 0 ) const;
-	const budMat3& 			GetAxis( int id = 0 ) const;
+	const Vector3& 			GetOrigin( int id = 0 ) const;
+	const Matrix3& 			GetAxis( int id = 0 ) const;
 	
-	void					SetGravity( const budVec3& newGravity );
-	const budMat3& 			GetGravityAxis() const;
+	void					SetGravity( const Vector3& newGravity );
+	const Matrix3& 			GetGravityAxis() const;
 	
-	void					ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const;
-	void					ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const;
+	void					ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const;
+	void					ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const;
 	int						ClipContents( const budClipModel* model ) const;
 	
 	void					DisableClip();
@@ -96,7 +96,7 @@ public:	// common physics interface
 	
 protected:
 	budClipModel* 			clipModel;			// clip model used for collision detection
-	budMat3					clipModelAxis;		// axis of clip model aligned with gravity direction
+	Matrix3					clipModelAxis;		// axis of clip model aligned with gravity direction
 	
 	// derived properties
 	float					mass;

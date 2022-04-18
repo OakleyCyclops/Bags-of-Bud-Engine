@@ -77,11 +77,11 @@ this is the canonical renderLight parm parsing,
 which should be used by dmap and the editor
 ================
 */
-void budGameEdit::ParseSpawnArgsToRenderLight( const idDict* args, renderLight_t* renderLight )
+void budGameEdit::ParseSpawnArgsToRenderLight( const Dict* args, renderLight_t* renderLight )
 {
 	bool	gotTarget, gotUp, gotRight;
 	const char*	texture;
-	budVec3	color;
+	Vector3	color;
 	
 	memset( renderLight, 0, sizeof( *renderLight ) );
 	
@@ -125,15 +125,15 @@ void budGameEdit::ParseSpawnArgsToRenderLight( const idDict* args, renderLight_t
 	}
 	
 	// get the rotation matrix in either full form, or single angle form
-	budAngles angles;
-	budMat3 mat;
+	Angles angles;
+	Matrix3 mat;
 	if( !args->GetMatrix( "light_rotation", "1 0 0 0 1 0 0 0 1", mat ) )
 	{
 		if( !args->GetMatrix( "rotation", "1 0 0 0 1 0 0 0 1", mat ) )
 		{
 			args->GetFloat( "angle", "0", angles[ 1 ] );
 			angles[ 0 ] = 0;
-			angles[ 1 ] = budMath::AngleNormalize360( angles[ 1 ] );
+			angles[ 1 ] = Math::AngleNormalize360( angles[ 1 ] );
 			angles[ 2 ] = 0;
 			mat = angles.ToMat3();
 		}
@@ -175,7 +175,7 @@ void budGameEdit::ParseSpawnArgsToRenderLight( const idDict* args, renderLight_t
 idLight::UpdateChangeableSpawnArgs
 ================
 */
-void idLight::UpdateChangeableSpawnArgs( const idDict* source )
+void idLight::UpdateChangeableSpawnArgs( const Dict* source )
 {
 
 	idEntity::UpdateChangeableSpawnArgs( source );
@@ -407,7 +407,7 @@ void idLight::Spawn()
 	// if we have a health make light breakable
 	if( health )
 	{
-		budStr model = spawnArgs.GetString( "model" );		// get the visual model
+		String model = spawnArgs.GetString( "model" );		// get the visual model
 		if( !model.Length() )
 		{
 			gameLocal.Error( "Breakable light without a model set on entity #%d(%s)", entityNumber, name.c_str() );
@@ -470,7 +470,7 @@ idLight::SetLightLevel
 */
 void idLight::SetLightLevel()
 {
-	budVec3	color;
+	Vector3	color;
 	float	intensity;
 	
 	intensity = ( float )currentLevel / ( float )levels;
@@ -490,7 +490,7 @@ void idLight::SetLightLevel()
 idLight::GetColor
 ================
 */
-void idLight::GetColor( budVec3& out ) const
+void idLight::GetColor( Vector3& out ) const
 {
 	out[ 0 ] = renderLight.shaderParms[ SHADERPARM_RED ];
 	out[ 1 ] = renderLight.shaderParms[ SHADERPARM_GREEN ];
@@ -502,7 +502,7 @@ void idLight::GetColor( budVec3& out ) const
 idLight::GetColor
 ================
 */
-void idLight::GetColor( budVec4& out ) const
+void idLight::GetColor( Vector4& out ) const
 {
 	out[ 0 ] = renderLight.shaderParms[ SHADERPARM_RED ];
 	out[ 1 ] = renderLight.shaderParms[ SHADERPARM_GREEN ];
@@ -526,7 +526,7 @@ void idLight::SetColor( float red, float green, float blue )
 idLight::SetColor
 ================
 */
-void idLight::SetColor( const budVec4& color )
+void idLight::SetColor( const Vector4& color )
 {
 	baseColor = color.ToVec3();
 	renderLight.shaderParms[ SHADERPARM_ALPHA ]		= color[ 3 ];
@@ -539,7 +539,7 @@ void idLight::SetColor( const budVec4& color )
 idLight::SetColor
 ================
 */
-void idLight::SetColor( const budVec3& color )
+void idLight::SetColor( const Vector3& color )
 {
 	baseColor = color;
 	SetLightLevel();
@@ -659,7 +659,7 @@ void idLight::Off()
 idLight::Fade
 ================
 */
-void idLight::Fade( const budVec4& to, float fadeTime )
+void idLight::Fade( const Vector4& to, float fadeTime )
 {
 	GetColor( fadeFrom );
 	fadeTo = to;
@@ -685,8 +685,8 @@ idLight::FadeIn
 */
 void idLight::FadeIn( float time )
 {
-	budVec3 color;
-	budVec4 color4;
+	Vector3 color;
+	Vector4 color4;
 	
 	currentLevel = levels;
 	spawnArgs.GetVector( "_color", "1 1 1", color );
@@ -699,7 +699,7 @@ void idLight::FadeIn( float time )
 idLight::Killed
 ================
 */
-void idLight::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idLight::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	BecomeBroken( attacker );
 }
@@ -738,7 +738,7 @@ void idLight::BecomeBroken( idEntity* activator )
 		
 		if( spawnArgs.GetString( "def_damage", "", &damageDefName ) )
 		{
-			budVec3 origin = renderEntity.origin + renderEntity.bounds.GetCenter() * renderEntity.axis;
+			Vector3 origin = renderEntity.origin + renderEntity.bounds.GetCenter() * renderEntity.axis;
 			gameLocal.RadiusDamage( origin, activator, activator, this, this, damageDefName );
 		}
 		
@@ -862,7 +862,7 @@ idLight::Think
 */
 void idLight::Think()
 {
-	budVec4 color;
+	Vector4 color;
 	
 	if( thinkFlags & TH_THINK )
 	{
@@ -911,7 +911,7 @@ void idLight::ClientThink( const int curTime, const float fraction, const bool p
 idLight::GetPhysicsToSoundTransform
 ================
 */
-bool idLight::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
+bool idLight::GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis )
 {
 	origin = localLightOrigin + renderLight.lightCenter;
 	axis = localLightAxis * GetPhysics()->GetAxis();
@@ -937,7 +937,7 @@ void idLight::FreeLightDef()
 idLight::SaveState
 ================
 */
-void idLight::SaveState( idDict* args )
+void idLight::SaveState( Dict* args )
 {
 	int i, c = spawnArgs.GetNumKeyVals();
 	for( i = 0; i < c; i++ )
@@ -1205,7 +1205,7 @@ void idLight::WriteToSnapshot( budBitMsg& msg ) const
 	msg.WriteFloat( renderLight.lightRadius[1], 5, 10 );
 	msg.WriteFloat( renderLight.lightRadius[2], 5, 10 );
 	
-	msg.WriteLong( PackColor( budVec4( renderLight.shaderParms[SHADERPARM_RED],
+	msg.WriteLong( PackColor( Vector4( renderLight.shaderParms[SHADERPARM_RED],
 									  renderLight.shaderParms[SHADERPARM_GREEN],
 									  renderLight.shaderParms[SHADERPARM_BLUE],
 									  renderLight.shaderParms[SHADERPARM_ALPHA] ) ) );
@@ -1225,9 +1225,9 @@ idLight::ReadFromSnapshot
 */
 void idLight::ReadFromSnapshot( const budBitMsg& msg )
 {
-	budVec4	shaderColor;
+	Vector4	shaderColor;
 	int		oldCurrentLevel = currentLevel;
-	budVec3	oldBaseColor = baseColor;
+	Vector3	oldBaseColor = baseColor;
 	
 	previousBaseColor = nextBaseColor;
 	

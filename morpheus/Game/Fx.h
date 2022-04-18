@@ -80,7 +80,7 @@ public:
 	virtual void			ClientThink( const int curTime, const float fraction, const bool predict );
 	virtual void			ClientPredictionThink();
 	
-	static idEntityFx* 		StartFx( const char* fx, const budVec3* useOrigin, const budMat3* useAxis, idEntity* ent, bool bind );
+	static idEntityFx* 		StartFx( const char* fx, const Vector3* useOrigin, const Matrix3* useAxis, idEntity* ent, bool bind );
 	
 protected:
 	void					Event_Trigger( idEntity* activator );
@@ -93,8 +93,8 @@ protected:
 	int						started;
 	int						nextTriggerTime;
 	const budDeclFX* 		fxEffect;				// GetFX() should be called before using fxEffect as a pointer
-	budList<idFXLocalAction, TAG_FX>	actions;
-	budStr					systemName;
+	List<idFXLocalAction, TAG_FX>	actions;
+	String					systemName;
 };
 
 class idTeleporter : public idEntityFx

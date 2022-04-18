@@ -103,13 +103,13 @@ idTestModel::Spawn
 */
 void idTestModel::Spawn()
 {
-	budVec3				size;
+	Vector3				size;
 	budBounds			bounds;
 	const char*			headModel;
 	jointHandle_t		joint;
-	budStr				jointName;
-	budVec3				origin, modelOffset;
-	budMat3				axis;
+	String				jointName;
+	Vector3				origin, modelOffset;
+	Matrix3				axis;
 	const idKeyValue*	kv;
 	copyJoints_t		copyJoint;
 	
@@ -156,7 +156,7 @@ void idTestModel::Spawn()
 		else
 		{
 			// copy any sounds in case we have frame commands on the head
-			idDict				args;
+			Dict				args;
 			const idKeyValue*	sndKV = spawnArgs.MatchPrefix( "snd_", NULL );
 			while( sndKV )
 			{
@@ -274,9 +274,9 @@ idTestModel::Think
 */
 void idTestModel::Think()
 {
-	budVec3 pos;
-	budMat3 axis;
-	budAngles ang;
+	Vector3 pos;
+	Matrix3 axis;
+	Angles ang;
 	int	i;
 	
 	if( thinkFlags & TH_THINK )
@@ -395,7 +395,7 @@ void idTestModel::Think()
 			{
 				if( copyJoints[ i ].mod == JOINTMOD_WORLD_OVERRIDE )
 				{
-					budMat3 mat = head.GetEntity()->GetPhysics()->GetAxis().Transpose();
+					Matrix3 mat = head.GetEntity()->GetPhysics()->GetAxis().Transpose();
 					GetJointWorldTransform( copyJoints[ i ].from, gameLocal.time, pos, axis );
 					pos -= head.GetEntity()->GetPhysics()->GetOrigin();
 					headAnimator->SetJointPos( copyJoints[ i ].to, copyJoints[ i ].mod, pos * mat );
@@ -414,13 +414,13 @@ void idTestModel::Think()
 		RunPhysics();
 		
 		physicsObj.GetAngles( ang );
-		physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.time, 0, ang, budAngles( 0, g_testModelRotate.GetFloat() * 360.0f / 60.0f, 0 ), ang_zero );
+		physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.time, 0, ang, Angles( 0, g_testModelRotate.GetFloat() * 360.0f / 60.0f, 0 ), ang_zero );
 		
 		budClipModel* clip = physicsObj.GetClipModel();
 		if( clip != NULL && animator.ModelDef() )
 		{
-			budVec3 neworigin;
-			budMat3 axis;
+			Vector3 neworigin;
+			Matrix3 axis;
 			jointHandle_t joint;
 			
 			joint = animator.GetJointHandle( "origin" );
@@ -454,7 +454,7 @@ void idTestModel::Think()
 idTestModel::NextAnim
 ================
 */
-void idTestModel::NextAnim( const budCmdArgs& args )
+void idTestModel::NextAnim( const CmdArgs& args )
 {
 	if( !animator.NumAnims() )
 	{
@@ -503,7 +503,7 @@ void idTestModel::NextAnim( const budCmdArgs& args )
 idTestModel::PrevAnim
 ================
 */
-void idTestModel::PrevAnim( const budCmdArgs& args )
+void idTestModel::PrevAnim( const CmdArgs& args )
 {
 	if( !animator.NumAnims() )
 	{
@@ -551,7 +551,7 @@ void idTestModel::PrevAnim( const budCmdArgs& args )
 idTestModel::NextFrame
 ================
 */
-void idTestModel::NextFrame( const budCmdArgs& args )
+void idTestModel::NextFrame( const CmdArgs& args )
 {
 	if( !anim || ( ( g_testModelAnimate.GetInteger() != 3 ) && ( g_testModelAnimate.GetInteger() != 5 ) ) )
 	{
@@ -575,7 +575,7 @@ void idTestModel::NextFrame( const budCmdArgs& args )
 idTestModel::PrevFrame
 ================
 */
-void idTestModel::PrevFrame( const budCmdArgs& args )
+void idTestModel::PrevFrame( const CmdArgs& args )
 {
 	if( !anim || ( ( g_testModelAnimate.GetInteger() != 3 ) && ( g_testModelAnimate.GetInteger() != 5 ) ) )
 	{
@@ -599,9 +599,9 @@ void idTestModel::PrevFrame( const budCmdArgs& args )
 idTestModel::TestAnim
 ================
 */
-void idTestModel::TestAnim( const budCmdArgs& args )
+void idTestModel::TestAnim( const CmdArgs& args )
 {
-	budStr			name;
+	String			name;
 	int				animNum;
 	const budAnim*	newanim;
 	
@@ -657,7 +657,7 @@ void idTestModel::TestAnim( const budCmdArgs& args )
 idTestModel::BlendAnim
 =====================
 */
-void idTestModel::BlendAnim( const budCmdArgs& args )
+void idTestModel::BlendAnim( const CmdArgs& args )
 {
 	int anim1;
 	int anim2;
@@ -704,7 +704,7 @@ Makes the current test model permanent, allowing you to place
 multiple test models
 =================
 */
-void idTestModel::KeepTestModel_f( const budCmdArgs& args )
+void idTestModel::KeepTestModel_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -724,12 +724,12 @@ idTestModel::TestSkin_f
 Sets a skin on an existing testModel
 =================
 */
-void idTestModel::TestSkin_f( const budCmdArgs& args )
+void idTestModel::TestSkin_f( const CmdArgs& args )
 {
-	budVec3		offset;
-	budStr		name;
+	Vector3		offset;
+	String		name;
 	budPlayer* 	player;
-	idDict		dict;
+	Dict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -762,12 +762,12 @@ idTestModel::TestShaderParm_f
 Sets a shaderParm on an existing testModel
 =================
 */
-void idTestModel::TestShaderParm_f( const budCmdArgs& args )
+void idTestModel::TestShaderParm_f( const CmdArgs& args )
 {
-	budVec3		offset;
-	budStr		name;
+	Vector3		offset;
+	String		name;
 	budPlayer* 	player;
-	idDict		dict;
+	Dict		dict;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -796,7 +796,7 @@ void idTestModel::TestShaderParm_f( const budCmdArgs& args )
 	}
 	
 	float	value;
-	if( !budStr::Icmp( args.Argv( 2 ), "time" ) )
+	if( !String::Icmp( args.Argv( 2 ), "time" ) )
 	{
 		value = gameLocal.time * -0.001;
 	}
@@ -816,13 +816,13 @@ Creates a static modelDef in front of the current position, which
 can then be moved around
 =================
 */
-void idTestModel::TestModel_f( const budCmdArgs& args )
+void idTestModel::TestModel_f( const CmdArgs& args )
 {
-	budVec3			offset;
-	budStr			name;
+	Vector3			offset;
+	String			name;
 	budPlayer* 		player;
-	const idDict* 	entityDef;
-	idDict			dict;
+	const Dict* 	entityDef;
+	Dict			dict;
 	
 	player = gameLocal.GetLocalPlayer();
 	if( !player || !gameLocal.CheatsOk() )
@@ -885,19 +885,19 @@ void idTestModel::TestModel_f( const budCmdArgs& args )
 idTestModel::ArgCompletion_TestModel
 =====================
 */
-void idTestModel::ArgCompletion_TestModel( const budCmdArgs& args, void( *callback )( const char* s ) )
+void idTestModel::ArgCompletion_TestModel( const CmdArgs& args, void( *callback )( const char* s ) )
 {
 	int i, num;
 	
 	num = declManager->GetNumDecls( DECL_ENTITYDEF );
 	for( i = 0; i < num; i++ )
 	{
-		callback( budStr( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( DECL_ENTITYDEF, i , false )->GetName() );
+		callback( String( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( DECL_ENTITYDEF, i , false )->GetName() );
 	}
 	num = declManager->GetNumDecls( DECL_MODELDEF );
 	for( i = 0; i < num; i++ )
 	{
-		callback( budStr( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( DECL_MODELDEF, i , false )->GetName() );
+		callback( String( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( DECL_MODELDEF, i , false )->GetName() );
 	}
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "models/", false, ".lwo", ".ase", ".md5mesh", ".ma", ".mb", NULL );
 }
@@ -907,7 +907,7 @@ void idTestModel::ArgCompletion_TestModel( const budCmdArgs& args, void( *callba
 idTestModel::TestParticleStopTime_f
 =====================
 */
-void idTestModel::TestParticleStopTime_f( const budCmdArgs& args )
+void idTestModel::TestParticleStopTime_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -924,7 +924,7 @@ void idTestModel::TestParticleStopTime_f( const budCmdArgs& args )
 idTestModel::TestAnim_f
 =====================
 */
-void idTestModel::TestAnim_f( const budCmdArgs& args )
+void idTestModel::TestAnim_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -941,7 +941,7 @@ void idTestModel::TestAnim_f( const budCmdArgs& args )
 idTestModel::ArgCompletion_TestAnim
 =====================
 */
-void idTestModel::ArgCompletion_TestAnim( const budCmdArgs& args, void( *callback )( const char* s ) )
+void idTestModel::ArgCompletion_TestAnim( const CmdArgs& args, void( *callback )( const char* s ) )
 {
 	if( gameLocal.testmodel )
 	{
@@ -958,7 +958,7 @@ void idTestModel::ArgCompletion_TestAnim( const budCmdArgs& args, void( *callbac
 idTestModel::TestBlend_f
 =====================
 */
-void idTestModel::TestBlend_f( const budCmdArgs& args )
+void idTestModel::TestBlend_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -974,7 +974,7 @@ void idTestModel::TestBlend_f( const budCmdArgs& args )
 idTestModel::TestModelNextAnim_f
 =====================
 */
-void idTestModel::TestModelNextAnim_f( const budCmdArgs& args )
+void idTestModel::TestModelNextAnim_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -990,7 +990,7 @@ void idTestModel::TestModelNextAnim_f( const budCmdArgs& args )
 idTestModel::TestModelPrevAnim_f
 =====================
 */
-void idTestModel::TestModelPrevAnim_f( const budCmdArgs& args )
+void idTestModel::TestModelPrevAnim_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -1006,7 +1006,7 @@ void idTestModel::TestModelPrevAnim_f( const budCmdArgs& args )
 idTestModel::TestModelNextFrame_f
 =====================
 */
-void idTestModel::TestModelNextFrame_f( const budCmdArgs& args )
+void idTestModel::TestModelNextFrame_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{
@@ -1022,7 +1022,7 @@ void idTestModel::TestModelNextFrame_f( const budCmdArgs& args )
 idTestModel::TestModelPrevFrame_f
 =====================
 */
-void idTestModel::TestModelPrevFrame_f( const budCmdArgs& args )
+void idTestModel::TestModelPrevFrame_f( const CmdArgs& args )
 {
 	if( !gameLocal.testmodel )
 	{

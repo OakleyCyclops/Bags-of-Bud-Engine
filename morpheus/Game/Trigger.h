@@ -95,7 +95,7 @@ protected:
 	float				delay;
 	float				random_delay;
 	int					nextTriggerTime;
-	budStr				requires;
+	String				requires;
 	int					removeItem;
 	bool				touchClient;
 	bool				touchOther;
@@ -137,7 +137,7 @@ private:
 	float				random_delay;
 	int					nextTriggerTime;
 	bool				triggerFirst;
-	budStr				entityName;
+	String				entityName;
 	bool				testPartialName;
 	
 	void				TriggerAction( idEntity* activator );
@@ -174,8 +174,8 @@ private:
 	float				wait;
 	bool				on;
 	float				delay;
-	budStr				onName;
-	budStr				offName;
+	String				onName;
+	String				offName;
 	
 	void				Event_Timer();
 	void				Event_Use( idEntity* activator );

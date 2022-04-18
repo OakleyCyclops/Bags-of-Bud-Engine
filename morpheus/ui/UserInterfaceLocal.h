@@ -43,7 +43,7 @@ public:
 	virtual void				HandleNamedEvent( const char* namedEvent );
 	virtual void				Redraw( int time, bool hud );
 	virtual void				DrawCursor();
-	virtual const idDict& 		State() const;
+	virtual const Dict& 		State() const;
 	virtual void				DeleteStateVar( const char* varName );
 	virtual void				SetStateString( const char* varName, const char* value );
 	virtual void				SetStateBool( const char* varName, const bool value );
@@ -85,7 +85,7 @@ public:
 	
 	size_t						Size();
 	
-	idDict* 					GetStateDict()
+	Dict* 					GetStateDict()
 	{
 		return &state;
 	}
@@ -134,11 +134,11 @@ public:
 	}
 	
 	void						RecurseSetKeyBindingNames( idWindow* window );
-	budStr&						GetPendingCmd()
+	String&						GetPendingCmd()
 	{
 		return pendingCmd;
 	};
-	budStr&						GetReturnCmd()
+	String&						GetReturnCmd()
 	{
 		return returnCmd;
 	};
@@ -149,14 +149,14 @@ private:
 	bool						interactive;
 	bool						uniqued;
 	
-	idDict						state;
+	Dict						state;
 	idWindow* 					desktop;
 	idWindow* 					bindHandler;
 	
-	budStr						source;
-	budStr						activateStr;
-	budStr						pendingCmd;
-	budStr						returnCmd;
+	String						source;
+	String						activateStr;
+	String						pendingCmd;
+	String						returnCmd;
 	ID_TIME_T						timeStamp;
 	
 	float						cursorX;
@@ -190,8 +190,8 @@ public:
 	virtual void				DeAlloc( budUserInterface* gui );
 	virtual budUserInterface* 	FindGui( const char* qpath, bool autoLoad = false, bool needInteractive = false, bool forceUnique = false );
 	virtual budUserInterface* 	FindDemoGui( const char* qpath );
-	virtual	budListGUI* 			AllocListGUI() const;
-	virtual void				FreeListGUI( budListGUI* listgui );
+	virtual	ListGUI* 			AllocListGUI() const;
+	virtual void				FreeListGUI( ListGUI* listgui );
 	budTokenParser& 				GetBinaryParser()
 	{
 		return mapParser;
@@ -201,8 +201,8 @@ private:
 	idDeviceContext				dcOld;
 	idDeviceContextOptimized	dcOptimized;
 	
-	budList<budUserInterfaceLocal*> guis;
-	budList<budUserInterfaceLocal*> demoGuis;
+	List<budUserInterfaceLocal*> guis;
+	List<budUserInterfaceLocal*> demoGuis;
 	
 	budTokenParser				mapParser;
 };

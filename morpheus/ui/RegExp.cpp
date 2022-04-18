@@ -44,9 +44,9 @@ idRegister::SetToRegs
 void idRegister::SetToRegs( float* registers )
 {
 	int i;
-	budVec4 v;
-	budVec2 v2;
-	budVec3 v3;
+	Vector4 v;
+	Vector2 v2;
+	Vector3 v3;
 	idRectangle rect;
 	
 	if( !enabled || var == NULL || ( var && ( var->GetDict() || !var->GetEval() ) ) )
@@ -116,7 +116,7 @@ idRegister::GetFromRegs
 */
 void idRegister::GetFromRegs( float* registers )
 {
-	budVec4 v;
+	Vector4 v;
 	idRectangle rect;
 	
 	if( !enabled || var == NULL || ( var && ( var->GetDict() || !var->GetEval() ) ) )
@@ -255,7 +255,7 @@ void idRegister::ReadFromSaveGame( budFile* savefile )
 idRegisterList::AddReg
 ====================
 */
-void idRegisterList::AddReg( const char* name, int type, budVec4 data, idWindow* win, idWinVar* var )
+void idRegisterList::AddReg( const char* name, int type, Vector4 data, idWindow* win, idWinVar* var )
 {
 	if( FindReg( name ) == NULL )
 	{

@@ -33,30 +33,30 @@ If you have questions concerning this license or the applicable additional terms
 #include "../framework/Common_local.h"
 #include "PredictedValue_impl.h"
 
-budCVar flashlight_batteryDrainTimeMS( "flashlight_batteryDrainTimeMS", "30000", CVAR_INTEGER, "amount of time (in MS) it takes for full battery to drain (-1 == no battery drain)" );
-budCVar flashlight_batteryChargeTimeMS( "flashlight_batteryChargeTimeMS", "3000", CVAR_INTEGER, "amount of time (in MS) it takes to fully recharge battery" );
-budCVar flashlight_minActivatePercent( "flashlight_minActivatePercent", ".25", CVAR_FLOAT, "( 0.0 - 1.0 ) minimum amount of battery (%) needed to turn on flashlight" );
-budCVar flashlight_batteryFlickerPercent( "flashlight_batteryFlickerPercent", ".1", CVAR_FLOAT, "chance of flickering when battery is low" );
+CVar flashlight_batteryDrainTimeMS( "flashlight_batteryDrainTimeMS", "30000", CVAR_INTEGER, "amount of time (in MS) it takes for full battery to drain (-1 == no battery drain)" );
+CVar flashlight_batteryChargeTimeMS( "flashlight_batteryChargeTimeMS", "3000", CVAR_INTEGER, "amount of time (in MS) it takes to fully recharge battery" );
+CVar flashlight_minActivatePercent( "flashlight_minActivatePercent", ".25", CVAR_FLOAT, "( 0.0 - 1.0 ) minimum amount of battery (%) needed to turn on flashlight" );
+CVar flashlight_batteryFlickerPercent( "flashlight_batteryFlickerPercent", ".1", CVAR_FLOAT, "chance of flickering when battery is low" );
 
 // No longer userinfo, but I don't want to rename the cvar
-budCVar ui_showGun( "ui_showGun", "1", CVAR_GAME | CVAR_ARCHIVE | CVAR_BOOL, "show gun" );
+CVar ui_showGun( "ui_showGun", "1", CVAR_GAME | CVAR_ARCHIVE | CVAR_BOOL, "show gun" );
 
 // Client-authoritative stuff
-budCVar pm_clientAuthoritative_debug( "pm_clientAuthoritative_debug", "0", CVAR_BOOL, "" );
-budCVar pm_controllerShake_damageMaxMag( "pm_controllerShake_damageMaxMag", "60.0f", CVAR_FLOAT, "" );
-budCVar pm_controllerShake_damageMaxDur( "pm_controllerShake_damageMaxDur", "60.0f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_debug( "pm_clientAuthoritative_debug", "0", CVAR_BOOL, "" );
+CVar pm_controllerShake_damageMaxMag( "pm_controllerShake_damageMaxMag", "60.0f", CVAR_FLOAT, "" );
+CVar pm_controllerShake_damageMaxDur( "pm_controllerShake_damageMaxDur", "60.0f", CVAR_FLOAT, "" );
 
-budCVar pm_clientAuthoritative_warnDist( "pm_clientAuthoritative_warnDist", "100.0f", CVAR_FLOAT, "" );
-budCVar pm_clientAuthoritative_minDistZ( "pm_clientAuthoritative_minDistZ", "1.0f", CVAR_FLOAT, "" );
-budCVar pm_clientAuthoritative_minDist( "pm_clientAuthoritative_minDist", "-1.0f", CVAR_FLOAT, "" );
-budCVar pm_clientAuthoritative_Lerp( "pm_clientAuthoritative_Lerp", "0.9f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_warnDist( "pm_clientAuthoritative_warnDist", "100.0f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_minDistZ( "pm_clientAuthoritative_minDistZ", "1.0f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_minDist( "pm_clientAuthoritative_minDist", "-1.0f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_Lerp( "pm_clientAuthoritative_Lerp", "0.9f", CVAR_FLOAT, "" );
 
-budCVar pm_clientAuthoritative_Divergence( "pm_clientAuthoritative_Divergence", "200.0f", CVAR_FLOAT, "" );
-budCVar pm_clientInterpolation_Divergence( "pm_clientInterpolation_Divergence", "5000.0f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_Divergence( "pm_clientAuthoritative_Divergence", "200.0f", CVAR_FLOAT, "" );
+CVar pm_clientInterpolation_Divergence( "pm_clientInterpolation_Divergence", "5000.0f", CVAR_FLOAT, "" );
 
-budCVar pm_clientAuthoritative_minSpeedSquared( "pm_clientAuthoritative_minSpeedSquared", "1000.0f", CVAR_FLOAT, "" );
+CVar pm_clientAuthoritative_minSpeedSquared( "pm_clientAuthoritative_minSpeedSquared", "1000.0f", CVAR_FLOAT, "" );
 
-extern budCVar g_demoMode;
+extern CVar g_demoMode;
 
 /*
 ===============================================================================
@@ -244,12 +244,12 @@ void idInventory::ClearPowerUps()
 idInventory::GetPersistantData
 ==============
 */
-void idInventory::GetPersistantData( idDict& dict )
+void idInventory::GetPersistantData( Dict& dict )
 {
 	int		i;
 	int		num;
-	idDict*	item;
-	budStr	key;
+	Dict*	item;
+	String	key;
 	const idKeyValue* kv;
 	const char* name;
 	
@@ -349,13 +349,13 @@ void idInventory::GetPersistantData( idDict& dict )
 idInventory::RestoreInventory
 ==============
 */
-void idInventory::RestoreInventory( budPlayer* owner, const idDict& dict )
+void idInventory::RestoreInventory( budPlayer* owner, const Dict& dict )
 {
 	int			i;
 	int			num;
-	idDict*		item;
-	budStr		key;
-	budStr		itemname;
+	Dict*		item;
+	String		key;
+	String		itemname;
 	const idKeyValue* kv;
 	const char*	name;
 	
@@ -392,7 +392,7 @@ void idInventory::RestoreInventory( budPlayer* owner, const idDict& dict )
 	items.SetNum( num );
 	for( i = 0; i < num; i++ )
 	{
-		item = new( TAG_ENTITY ) idDict();
+		item = new( TAG_ENTITY ) Dict();
 		items[ i ] = item;
 		sprintf( itemname, "item_%i ", i );
 		kv = dict.MatchPrefix( itemname );
@@ -622,7 +622,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
 	{
-		idDict* itemdict = new( TAG_ENTITY ) idDict;
+		Dict* itemdict = new( TAG_ENTITY ) Dict;
 		
 		savefile->ReadDict( itemdict );
 		items.Append( itemdict );
@@ -643,7 +643,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
 	{
-		budStr strPda;
+		String strPda;
 		savefile->ReadString( strPda );
 		pdas.Append( static_cast<const budDeclPDA*>( declManager->FindType( DECL_PDA, strPda ) ) );
 	}
@@ -652,7 +652,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
 	{
-		budStr invName;
+		String invName;
 		savefile->ReadString( invName );
 		pdaSecurity.Append( invName );
 	}
@@ -661,7 +661,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
 	{
-		budStr strVideo;
+		String strVideo;
 		savefile->ReadString( strVideo );
 		videos.Append( static_cast<const budDeclVideo*>( declManager->FindType( DECL_VIDEO, strVideo ) ) );
 	}
@@ -670,7 +670,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
 	{
-		budStr strEmail;
+		String strEmail;
 		savefile->ReadString( strEmail );
 		emails.Append( static_cast<const budDeclEmail*>( declManager->FindType( DECL_EMAIL, strEmail ) ) );
 	}
@@ -681,7 +681,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 	savefile->ReadInt( num );
 	for( i = 0; i < num; i++ )
 	{
-		budStr itemName;
+		String itemName;
 		savefile->ReadString( itemName );
 		pickupItemNames.Append( itemName );
 	}
@@ -718,7 +718,7 @@ void idInventory::Restore( idRestoreGame* savefile )
 		savefile->ReadInt( rechargeAmmo[i].ammo );
 		savefile->ReadInt( rechargeAmmo[i].rechargeTime );
 		
-		budStr name;
+		String name;
 		savefile->ReadString( name );
 		strcpy( rechargeAmmo[i].ammoName, name );
 	}
@@ -760,7 +760,7 @@ idInventory::WeaponIndexForAmmoClass
 mapping could be prepared in the constructor
 ==============
 */
-int idInventory::WeaponIndexForAmmoClass( const idDict& spawnArgs, const char* ammo_classname ) const
+int idInventory::WeaponIndexForAmmoClass( const Dict& spawnArgs, const char* ammo_classname ) const
 {
 	int i;
 	const char* weapon_classname;
@@ -776,7 +776,7 @@ int idInventory::WeaponIndexForAmmoClass( const idDict& spawnArgs, const char* a
 		{
 			continue;
 		}
-		if( !budStr::Icmp( ammo_classname, decl->dict.GetString( "ammoType" ) ) )
+		if( !String::Icmp( ammo_classname, decl->dict.GetString( "ammoType" ) ) )
 		{
 			return i;
 		}
@@ -815,7 +815,7 @@ void idInventory::AddPickupName( const char* name, budPlayer* owner )     //_D3X
 	int num = pickupItemNames.Num();
 	if( ( num == 0 ) || ( pickupItemNames[ num - 1 ].Icmp( name ) != 0 ) )
 	{
-		if( budStr::Cmpn( name, STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
+		if( String::Cmpn( name, STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
 		{
 			pickupItemNames.Append( budLocalization::GetString( name ) );
 		}
@@ -831,21 +831,21 @@ void idInventory::AddPickupName( const char* name, budPlayer* owner )     //_D3X
 idInventory::Give
 ==============
 */
-bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value,
+bool idInventory::Give( budPlayer* owner, const Dict& spawnArgs, const char* statname, const char* value,
 						idPredictedValue< int >* idealWeapon, bool updateHud, unsigned int giveFlags )
 {
 	int						i;
 	const char*				pos;
 	const char*				end;
 	int						len;
-	budStr					weaponString;
+	String					weaponString;
 	int						max;
 	const budDeclEntityDef*	weaponDecl;
 	bool					tookWeapon;
 	int						amount;
 	const char*				name;
 	
-	if( !budStr::Icmp( statname, "ammo_bloodstone" ) )
+	if( !String::Icmp( statname, "ammo_bloodstone" ) )
 	{
 		i = AmmoIndexForAmmoClass( statname );
 		max = MaxAmmoForAmmoClass( owner, statname );
@@ -880,7 +880,7 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 			}
 		}
 	}
-	else if( !budStr::Icmpn( statname, "ammo_", 5 ) )
+	else if( !String::Icmpn( statname, "ammo_", 5 ) )
 	{
 		i = AmmoIndexForAmmoClass( statname );
 		max = MaxAmmoForAmmoClass( owner, statname );
@@ -905,13 +905,13 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 			}
 			
 			name = AmmoPickupNameForIndex( i );
-			if( budStr::Length( name ) )
+			if( String::Length( name ) )
 			{
 				AddPickupName( name, owner ); //_D3XP
 			}
 		}
 	}
-	else if( !budStr::Icmp( statname, "armor" ) )
+	else if( !String::Icmp( statname, "armor" ) )
 	{
 		if( armor >= maxarmor )
 		{
@@ -932,11 +932,11 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 			}
 		}
 	}
-	else if( budStr::FindText( statname, "inclip_" ) == 0 )
+	else if( String::FindText( statname, "inclip_" ) == 0 )
 	{
 		if( giveFlags & ITEM_GIVE_UPDATE_STATE )
 		{
-			budStr temp = statname;
+			String temp = statname;
 			i = atoi( temp.Mid( 7, 2 ) );
 			if( i != -1 )
 			{
@@ -945,40 +945,40 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 			}
 		}
 	}
-	else if( !budStr::Icmp( statname, "invulnerability" ) )
+	else if( !String::Icmp( statname, "invulnerability" ) )
 	{
 		owner->GivePowerUp( INVULNERABILITY, SEC2MS( atof( value ) ), giveFlags );
 	}
-	else if( !budStr::Icmp( statname, "helltime" ) )
+	else if( !String::Icmp( statname, "helltime" ) )
 	{
 		owner->GivePowerUp( HELLTIME, SEC2MS( atof( value ) ), giveFlags );
 	}
-	else if( !budStr::Icmp( statname, "envirosuit" ) )
+	else if( !String::Icmp( statname, "envirosuit" ) )
 	{
 		owner->GivePowerUp( ENVIROSUIT, SEC2MS( atof( value ) ), giveFlags );
 		owner->GivePowerUp( ENVIROTIME, SEC2MS( atof( value ) ), giveFlags );
 	}
-	else if( !budStr::Icmp( statname, "berserk" ) )
+	else if( !String::Icmp( statname, "berserk" ) )
 	{
 		owner->GivePowerUp( BERSERK, SEC2MS( atof( value ) ), giveFlags );
-		//} else if ( !budStr::Icmp( statname, "haste" ) ) {
+		//} else if ( !String::Icmp( statname, "haste" ) ) {
 		//	owner->GivePowerUp( HASTE, SEC2MS( atof( value ) ) );
 	}
-	else if( !budStr::Icmp( statname, "adrenaline" ) )
+	else if( !String::Icmp( statname, "adrenaline" ) )
 	{
 		if( giveFlags & ITEM_GIVE_UPDATE_STATE )
 		{
 			GivePowerUp( owner, ADRENALINE, SEC2MS( atof( value ) ) );
 		}
 	}
-	else if( !budStr::Icmp( statname, "mega" ) )
+	else if( !String::Icmp( statname, "mega" ) )
 	{
 		if( giveFlags & ITEM_GIVE_UPDATE_STATE )
 		{
 			GivePowerUp( owner, MEGAHEALTH, SEC2MS( atof( value ) ) );
 		}
 	}
-	else if( !budStr::Icmp( statname, "weapon" ) )
+	else if( !String::Icmp( statname, "weapon" ) )
 	{
 		tookWeapon = false;
 		for( pos = value; pos != NULL; pos = end )
@@ -994,7 +994,7 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 				len = strlen( pos );
 			}
 			
-			budStr weaponName( pos, 0, len );
+			String weaponName( pos, 0, len );
 			
 			// find the number of the matching weapon name
 			for( i = 0; i < MAX_WEAPONS; i++ )
@@ -1071,7 +1071,7 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 		}
 		return tookWeapon;
 	}
-	else if( !budStr::Icmp( statname, "item" ) || !budStr::Icmp( statname, "icon" ) || !budStr::Icmp( statname, "name" ) )
+	else if( !String::Icmp( statname, "item" ) || !String::Icmp( statname, "icon" ) || !String::Icmp( statname, "name" ) )
 	{
 		// ignore these as they're handled elsewhere
 		return false;
@@ -1091,7 +1091,7 @@ bool idInventory::Give( budPlayer* owner, const idDict& spawnArgs, const char* s
 idInventoy::Drop
 ===============
 */
-void idInventory::Drop( const idDict& spawnArgs, const char* weapon_classname, int weapon_index )
+void idInventory::Drop( const Dict& spawnArgs, const char* weapon_classname, int weapon_index )
 {
 	// remove the weapon bit
 	// also remove the ammo associated with the weapon as we pushed it in the item
@@ -1100,7 +1100,7 @@ void idInventory::Drop( const idDict& spawnArgs, const char* weapon_classname, i
 	{
 		for( weapon_index = 0; weapon_index < MAX_WEAPONS; weapon_index++ )
 		{
-			if( !budStr::Icmp( weapon_classname, spawnArgs.GetString( va( "def_weapon%d", weapon_index ) ) ) )
+			if( !String::Icmp( weapon_classname, spawnArgs.GetString( va( "def_weapon%d", weapon_index ) ) ) )
 			{
 				break;
 			}
@@ -1268,8 +1268,8 @@ void idInventory::InitRechargeAmmo( budPlayer* owner )
 	const idKeyValue* kv = owner->spawnArgs.MatchPrefix( "ammorecharge_" );
 	while( kv )
 	{
-		budStr key = kv->GetKey();
-		budStr ammoname = key.Right( key.Length() - strlen( "ammorecharge_" ) );
+		String key = kv->GetKey();
+		String ammoname = key.Right( key.Length() - strlen( "ammorecharge_" ) );
 		int ammoType = AmmoIndexForAmmoClass( ammoname );
 		rechargeAmmo[ammoType].ammo = ( atof( kv->GetValue().c_str() ) * 1000 );
 		strcpy( rechargeAmmo[ammoType].ammoName, ammoname );
@@ -1320,10 +1320,10 @@ void idInventory::RechargeAmmo( budPlayer* owner )
 idInventory::CanGive
 ===============
 */
-bool idInventory::CanGive( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value )
+bool idInventory::CanGive( budPlayer* owner, const Dict& spawnArgs, const char* statname, const char* value )
 {
 
-	if( !budStr::Icmp( statname, "ammo_bloodstone" ) )
+	if( !String::Icmp( statname, "ammo_bloodstone" ) )
 	{
 		int max = MaxAmmoForAmmoClass( owner, statname );
 		int i = AmmoIndexForAmmoClass( statname );
@@ -1344,7 +1344,7 @@ bool idInventory::CanGive( budPlayer* owner, const idDict& spawnArgs, const char
 			return true;
 		}
 	}
-	else if( !budStr::Icmp( statname, "item" ) || !budStr::Icmp( statname, "icon" ) || !budStr::Icmp( statname, "name" ) )
+	else if( !String::Icmp( statname, "item" ) || !String::Icmp( statname, "icon" ) || !String::Icmp( statname, "name" ) )
 	{
 		// ignore these as they're handled elsewhere
 		//These items should not be considered as succesful gives because it messes up the max ammo items
@@ -2006,7 +2006,7 @@ Prepare any resources used by the player.
 */
 void budPlayer::Spawn()
 {
-	budStr		temp;
+	String		temp;
 	budBounds	bounds;
 	
 	if( entityNumber >= MAX_CLIENTS )
@@ -2218,7 +2218,7 @@ void budPlayer::Spawn()
 		WeaponToggle_t newToggle;
 		strcpy( newToggle.name, kv->GetKey().c_str() );
 		
-		budStr toggleData = kv->GetValue();
+		String toggleData = kv->GetValue();
 		
 		budLexer src;
 		budToken token;
@@ -2855,7 +2855,7 @@ void budPlayer::Restore( idRestoreGame* savefile )
 		WeaponToggle_t newToggle;
 		memset( &newToggle, 0, sizeof( newToggle ) );
 		
-		budStr name;
+		String name;
 		savefile->ReadString( name );
 		strcpy( newToggle.name, name.c_str() );
 		
@@ -3056,10 +3056,10 @@ Try to find a spawn point marked 'initial', otherwise
 use normal spawn selection.
 ============
 */
-void budPlayer::SelectInitialSpawnPoint( budVec3& origin, budAngles& angles )
+void budPlayer::SelectInitialSpawnPoint( Vector3& origin, Angles& angles )
 {
 	idEntity* spot;
-	budStr skin;
+	String skin;
 	
 	spot = gameLocal.SelectInitialSpawnPoint( this );
 	
@@ -3086,8 +3086,8 @@ Chooses a spawn location and spawns the player
 */
 void budPlayer::SpawnFromSpawnSpot()
 {
-	budVec3		spawn_origin;
-	budAngles	spawn_angles;
+	Vector3		spawn_origin;
+	Angles	spawn_angles;
 	
 	SelectInitialSpawnPoint( spawn_origin, spawn_angles );
 	SpawnToPoint( spawn_origin, spawn_angles );
@@ -3104,9 +3104,9 @@ Initializes all non-persistant parts of playerState
 when called here with spectating set to true, just place yourself and init
 ============
 */
-void budPlayer::SpawnToPoint( const budVec3& spawn_origin, const budAngles& spawn_angles )
+void budPlayer::SpawnToPoint( const Vector3& spawn_origin, const Angles& spawn_angles )
 {
-	budVec3 spec_origin;
+	Vector3 spec_origin;
 	
 	assert( !common->IsClient() );
 	
@@ -3130,7 +3130,7 @@ void budPlayer::SpawnToPoint( const budVec3& spawn_origin, const budAngles& spaw
 		SetCombatContents( true );
 	}
 	
-	physicsObj.SetLinearVelocity( vec3_origin );
+	physicsObj.SetLinearVelocity( Vector3_Origin );
 	
 	// setup our initial view
 	if( !spectating )
@@ -3246,7 +3246,7 @@ Saves any inventory and player stats when changing levels.
 */
 void budPlayer::SavePersistantInfo()
 {
-	idDict& playerInfo = gameLocal.persistentPlayerInfo[entityNumber];
+	Dict& playerInfo = gameLocal.persistentPlayerInfo[entityNumber];
 	
 	playerInfo.Clear();
 	inventory.GetPersistantData( playerInfo );
@@ -3307,13 +3307,13 @@ void budPlayer::UpdateSkinSetup()
 	skin = declManager->FindSkin( baseSkinName, false );
 	if( PowerUpActive( BERSERK ) )
 	{
-		budStr powerSkinName = baseSkinName;
+		String powerSkinName = baseSkinName;
 		powerSkinName.Append( "_berserk" );
 		powerUpSkin = declManager->FindSkin( powerSkinName );
 	}
 	else if( PowerUpActive( INVULNERABILITY ) )
 	{
-		budStr powerSkinName = baseSkinName;
+		String powerSkinName = baseSkinName;
 		powerSkinName.Append( "_invuln" );
 		powerUpSkin = declManager->FindSkin( powerSkinName );
 	}
@@ -3448,7 +3448,7 @@ void budPlayer::UpdateSpectatingText()
 		return;
 	}
 	
-	budStr spectatetext[ 2 ];
+	String spectatetext[ 2 ];
 	if( !gameLocal.mpGame.IsScoreboardActive() )
 	{
 		gameLocal.mpGame.GetSpectateText( p, spectatetext, false );
@@ -3476,7 +3476,7 @@ void budPlayer::UpdateSpectatingText()
 budPlayer::UpdateMpMessages
 ===============
 */
-void budPlayer::AddChatMessage( int index, int alpha, const budStr& message )
+void budPlayer::AddChatMessage( int index, int alpha, const String& message )
 {
 
 	if( mpMessages == NULL || !mpMessages->IsActive() )
@@ -3656,7 +3656,7 @@ void budPlayer::EnterCinematic()
 	{
 		hudManager->SetRadioMessage( false );
 	}
-	physicsObj.SetLinearVelocity( vec3_origin );
+	physicsObj.SetLinearVelocity( Vector3_Origin );
 	
 	SetState( "EnterCinematic" );
 	UpdateScript();
@@ -3729,7 +3729,7 @@ budPlayer::UpdateConditions
 */
 void budPlayer::UpdateConditions()
 {
-	budVec3	velocity;
+	Vector3	velocity;
 	float	fallspeed;
 	float	forwardspeed;
 	float	sidespeed;
@@ -3780,7 +3780,7 @@ WeaponFireFeedback
 Called when a weapon fires, generates head twitches, etc
 ==================
 */
-void budPlayer::WeaponFireFeedback( const idDict* weaponDef )
+void budPlayer::WeaponFireFeedback( const Dict* weaponDef )
 {
 	// force a blink
 	blink_time = 0;
@@ -3825,12 +3825,12 @@ void budPlayer::StopFiring()
 budPlayer::FireWeapon
 ===============
 */
-budCVar g_infiniteAmmo( "g_infiniteAmmo", "0", CVAR_GAME | CVAR_BOOL, "infinite ammo" );
-extern budCVar ui_autoSwitch;
+CVar g_infiniteAmmo( "g_infiniteAmmo", "0", CVAR_GAME | CVAR_BOOL, "infinite ammo" );
+extern CVar ui_autoSwitch;
 void budPlayer::FireWeapon()
 {
-	budMat3 axis;
-	budVec3 muzzle;
+	Matrix3 axis;
+	Vector3 muzzle;
 	
 	if( privateCameraView )
 	{
@@ -3918,7 +3918,7 @@ budPlayer::CacheWeapons
 */
 void budPlayer::CacheWeapons()
 {
-	budStr	weap;
+	String	weap;
 	int		w;
 	
 	// check if we have any weapons
@@ -3989,7 +3989,7 @@ bool budPlayer::Give( const char* statname, const char* value, unsigned int give
 		return false;
 	}
 	
-	if( !budStr::Icmp( statname, "health" ) )
+	if( !String::Icmp( statname, "health" ) )
 	{
 		if( health >= inventory.maxHealth )
 		{
@@ -4009,7 +4009,7 @@ bool budPlayer::Give( const char* statname, const char* value, unsigned int give
 			}
 		}
 	}
-	else if( !budStr::Icmp( statname, "stamina" ) )
+	else if( !String::Icmp( statname, "stamina" ) )
 	{
 		if( stamina >= 100 )
 		{
@@ -4024,7 +4024,7 @@ bool budPlayer::Give( const char* statname, const char* value, unsigned int give
 			}
 		}
 	}
-	else if( !budStr::Icmp( statname, "heartRate" ) )
+	else if( !String::Icmp( statname, "heartRate" ) )
 	{
 		if( giveFlags & ITEM_GIVE_UPDATE_STATE )
 		{
@@ -4035,7 +4035,7 @@ bool budPlayer::Give( const char* statname, const char* value, unsigned int give
 			}
 		}
 	}
-	else if( !budStr::Icmp( statname, "air" ) )
+	else if( !String::Icmp( statname, "air" ) )
 	{
 		if( airMsec >= pm_airMsec.GetInteger() )
 		{
@@ -4050,7 +4050,7 @@ bool budPlayer::Give( const char* statname, const char* value, unsigned int give
 			}
 		}
 	}
-	else if( !budStr::Icmp( statname, "enviroTime" ) )
+	else if( !String::Icmp( statname, "enviroTime" ) )
 	{
 		if( ( giveFlags & ITEM_GIVE_UPDATE_STATE ) && PowerUpActive( ENVIROTIME ) )
 		{
@@ -4107,7 +4107,7 @@ bool budPlayer::GiveItem( idItem* item, unsigned int giveFlags )
 {
 	int					i;
 	const idKeyValue*	arg;
-	idDict				attr;
+	Dict				attr;
 	bool				gave;
 	int					numPickup;
 	
@@ -4116,12 +4116,12 @@ bool budPlayer::GiveItem( idItem* item, unsigned int giveFlags )
 		return false;
 	}
 	
-	if( budStr::FindText( item->GetName(), "weapon_flashlight_new" ) > -1 )
+	if( String::FindText( item->GetName(), "weapon_flashlight_new" ) > -1 )
 	{
 		return false;
 	}
 	
-	if( budStr::FindText( item->GetName(), "weapon_flashlight" ) > -1 )
+	if( String::FindText( item->GetName(), "weapon_flashlight" ) > -1 )
 	{
 		// don't allow flashlight weapon unless classic mode is enabled
 		return false;
@@ -4382,10 +4382,10 @@ bool budPlayer::GivePowerUp( int powerup, int time, unsigned int giveFlags )
 				if( giveFlags & ITEM_GIVE_UPDATE_STATE )
 				{
 					// Put the helmet and lights on the player
-					idDict	args;
+					Dict	args;
 					
 					// Light
-					const idDict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
+					const Dict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
 					if( lightDef )
 					{
 						idEntity* temp;
@@ -4544,12 +4544,12 @@ void budPlayer::UpdatePowerUps()
 					{
 						if( enviroSuitLight.IsValid() )
 						{
-							budAngles lightAng = firstPersonViewAxis.ToAngles();
-							budVec3 lightOrg = firstPersonViewOrigin;
-							const idDict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
+							Angles lightAng = firstPersonViewAxis.ToAngles();
+							Vector3 lightOrg = firstPersonViewOrigin;
+							const Dict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
 							
-							budVec3 enviroOffset = lightDef->GetVector( "enviro_offset" );
-							budVec3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
+							Vector3 enviroOffset = lightDef->GetVector( "enviro_offset" );
+							Vector3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
 							
 							lightOrg += ( enviroOffset.x * firstPersonViewAxis[0] );
 							lightOrg += ( enviroOffset.y * firstPersonViewAxis[1] );
@@ -4662,7 +4662,7 @@ void budPlayer::ClearPowerUps()
 budPlayer::GiveInventoryItem
 ===============
 */
-bool budPlayer::GiveInventoryItem( idDict* item, unsigned int giveFlags )
+bool budPlayer::GiveInventoryItem( Dict* item, unsigned int giveFlags )
 {
 	if( common->IsMultiplayer() && spectating )
 	{
@@ -4671,14 +4671,14 @@ bool budPlayer::GiveInventoryItem( idDict* item, unsigned int giveFlags )
 	
 	if( giveFlags & ITEM_GIVE_UPDATE_STATE )
 	{
-		inventory.items.Append( new( TAG_ENTITY ) idDict( *item ) );
+		inventory.items.Append( new( TAG_ENTITY ) Dict( *item ) );
 	}
 	
 	const char* itemName = item->GetString( "inv_name" );
 	
 	if( giveFlags & ITEM_GIVE_FEEDBACK )
 	{
-		if( budStr::Cmpn( itemName, STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
+		if( String::Cmpn( itemName, STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
 		{
 			inventory.pickupItemNames.Append( budLocalization::GetString( itemName ) );
 		}
@@ -4701,7 +4701,7 @@ bool budPlayer::GiveInventoryItem( idDict* item, unsigned int giveFlags )
 		int powerCellCount = 0;
 		for( int j = 0; j < inventory.items.Num(); j++ )
 		{
-			idDict* item = inventory.items[ j ];
+			Dict* item = inventory.items[ j ];
 			if( item->GetInt( "inv_powercell" ) )
 			{
 				powerCellCount++;
@@ -4720,7 +4720,7 @@ budPlayer::GiveInventoryItem
 */
 bool budPlayer::GiveInventoryItem( const char* name )
 {
-	idDict args;
+	Dict args;
 	
 	args.Set( "classname", name );
 	args.Set( "owner", this->name.c_str() );
@@ -4760,7 +4760,7 @@ void budPlayer::CompleteObjective( const char* title )
 	int c = inventory.objectiveNames.Num();
 	for( int i = 0;  i < c; i++ )
 	{
-		if( budStr::Icmp( inventory.objectiveNames[i].title, title ) == 0 )
+		if( String::Icmp( inventory.objectiveNames[i].title, title ) == 0 )
 		{
 			inventory.objectiveNames.RemoveIndex( i );
 			break;
@@ -4864,7 +4864,7 @@ void budPlayer::GivePDA( const budDeclPDA* pda, const char* securityItem )
 	// Just to make sure they want the default player spawn defined pda.
 	// Some what of a hack, so i dont have to change any map scripts that initially give
 	// the player "personal" pda.
-	if( pda == NULL || budStr::Icmp( pda->GetName(), "personal" ) == 0 )
+	if( pda == NULL || String::Icmp( pda->GetName(), "personal" ) == 0 )
 	{
 		pda = static_cast<const budDeclPDA*>( declManager->FindType( DECL_PDA, spawnArgs.GetString( "pda_name", "personal" ) ) );
 	}
@@ -4931,14 +4931,14 @@ void budPlayer::GivePDA( const budDeclPDA* pda, const char* securityItem )
 budPlayer::FindInventoryItem
 ===============
 */
-idDict* budPlayer::FindInventoryItem( const char* name )
+Dict* budPlayer::FindInventoryItem( const char* name )
 {
 	for( int i = 0; i < inventory.items.Num(); i++ )
 	{
 		const char* iname = inventory.items[i]->GetString( "inv_name" );
 		if( iname != NULL && *iname != '\0' )
 		{
-			if( budStr::Icmp( name, iname ) == 0 )
+			if( String::Icmp( name, iname ) == 0 )
 			{
 				return inventory.items[i];
 			}
@@ -4952,7 +4952,7 @@ idDict* budPlayer::FindInventoryItem( const char* name )
 budPlayer::FindInventoryItem
 ===============
 */
-idDict* budPlayer::FindInventoryItem( int index )
+Dict* budPlayer::FindInventoryItem( int index )
 {
 	if( index <= inventory.items.Num() )
 	{
@@ -4979,11 +4979,11 @@ budPlayer::RemoveInventoryItem
 void budPlayer::RemoveInventoryItem( const char* name )
 {
 	//Hack for localization
-	if( !budStr::Icmp( name, "Pwr Cell" ) )
+	if( !String::Icmp( name, "Pwr Cell" ) )
 	{
 		name = budLocalization::GetString( "#str_00101056" );
 	}
-	idDict* item = FindInventoryItem( name );
+	Dict* item = FindInventoryItem( name );
 	if( item )
 	{
 		RemoveInventoryItem( item );
@@ -4995,7 +4995,7 @@ void budPlayer::RemoveInventoryItem( const char* name )
 budPlayer::RemoveInventoryItem
 ===============
 */
-void budPlayer::RemoveInventoryItem( idDict* item )
+void budPlayer::RemoveInventoryItem( Dict* item )
 {
 	inventory.items.Remove( item );
 	
@@ -5005,7 +5005,7 @@ void budPlayer::RemoveInventoryItem( idDict* item )
 		int powerCellCount = 0;
 		for( int j = 0; j < inventory.items.Num(); j++ )
 		{
-			idDict* item = inventory.items[ j ];
+			Dict* item = inventory.items[ j ];
 			if( item->GetInt( "inv_powercell" ) )
 			{
 				powerCellCount++;
@@ -5024,7 +5024,7 @@ budPlayer::GiveItem
 */
 void budPlayer::GiveItem( const char* itemname )
 {
-	idDict args;
+	Dict args;
 	
 	args.Set( "classname", itemname );
 	args.Set( "owner", name.c_str() );
@@ -5043,7 +5043,7 @@ int budPlayer::SlotForWeapon( const char* weaponName )
 	for( i = 0; i < MAX_WEAPONS; i++ )
 	{
 		const char* weap = spawnArgs.GetString( va( "def_weapon%d", i ) );
-		if( !budStr::Cmp( weap, weaponName ) )
+		if( !String::Cmp( weap, weaponName ) )
 		{
 			return i;
 		}
@@ -5378,7 +5378,7 @@ budPlayer::DropWeapon
 */
 void budPlayer::DropWeapon( bool died )
 {
-	budVec3 forward, up;
+	Vector3 forward, up;
 	int inclip, ammoavailable;
 	
 	if( died == false )
@@ -5403,7 +5403,7 @@ void budPlayer::DropWeapon( bool died )
 	inclip = weapon.GetEntity()->AmmoInClip();
 	
 	// don't drop a grenade if we have none left
-	if( !budStr::Icmp( idWeapon::GetAmmoNameForNum( weapon.GetEntity()->GetAmmoType() ), "ammo_grenades" ) && ( ammoavailable - inclip <= 0 ) )
+	if( !String::Icmp( idWeapon::GetAmmoNameForNum( weapon.GetEntity()->GetAmmoType() ), "ammo_grenades" ) && ( ammoavailable - inclip <= 0 ) )
 	{
 		return;
 	}
@@ -5424,7 +5424,7 @@ void budPlayer::DropWeapon( bool died )
 	if( died )
 	{
 		// ain't gonna throw you no weapon if I'm dead
-		item = weapon.GetEntity()->DropItem( vec3_origin, 0, WEAPON_DROP_TIME, died );
+		item = weapon.GetEntity()->DropItem( Vector3_Origin, 0, WEAPON_DROP_TIME, died );
 	}
 	else
 	{
@@ -5440,7 +5440,7 @@ void budPlayer::DropWeapon( bool died )
 	if( keyval )
 	{
 		item->spawnArgs.SetInt( keyval->GetKey(), ammoavailable );
-		budStr inclipKey = keyval->GetKey();
+		String inclipKey = keyval->GetKey();
 		inclipKey.Insert( "inclip_", 4 );
 		inclipKey.Insert( va( "%.2d", currentWeapon ), 11 );
 		item->spawnArgs.SetInt( inclipKey, inclip );
@@ -5967,12 +5967,12 @@ void budPlayer::UpdateFlashlight()
 	
 	// this positions the third person flashlight model! (as seen in the mirror)
 	budAnimatedEntity* worldModel = flashlight.GetEntity()->GetWorldModel();
-	static const budVec3 fl_pos = budVec3( 3.0f, 9.0f, 2.0f );
+	static const Vector3 fl_pos = Vector3( 3.0f, 9.0f, 2.0f );
 	worldModel->GetPhysics()->SetOrigin( fl_pos );
 	static float fl_pitch = 0.0f;
 	static float fl_yaw = 0.0f;
 	static float fl_roll = 0.0f;
-	static budAngles ang = ang_zero;
+	static Angles ang = ang_zero;
 	ang.Set( fl_pitch, fl_yaw, fl_roll );
 	worldModel->GetPhysics()->SetAxis( ang.ToMat3() );
 	
@@ -6011,7 +6011,7 @@ void budPlayer::FlashlightOn()
 	{
 		return;
 	}
-	if( flashlightBattery < budMath::Ftoi( flashlight_minActivatePercent.GetFloat() * flashlight_batteryDrainTimeMS.GetFloat() ) )
+	if( flashlightBattery < Math::Ftoi( flashlight_minActivatePercent.GetFloat() * flashlight_batteryDrainTimeMS.GetFloat() ) )
 	{
 		return;
 	}
@@ -6061,9 +6061,9 @@ budPlayer::SpectateFreeFly
 void budPlayer::SpectateFreeFly( bool force )
 {
 	budPlayer*	player;
-	budVec3		newOrig;
-	budVec3		spawn_origin;
-	budAngles	spawn_angles;
+	Vector3		newOrig;
+	Vector3		spawn_origin;
+	Angles	spawn_angles;
 	
 	player = gameLocal.GetClientByNum( spectator );
 	if( force || gameLocal.time > lastSpectateChange )
@@ -6081,15 +6081,15 @@ void budPlayer::SpectateFreeFly( bool force )
 				newOrig[ 2 ] += pm_normalviewheight.GetFloat();
 			}
 			newOrig[ 2 ] += SPECTATE_RAISE;
-			budBounds b = budBounds( vec3_origin ).Expand( pm_spectatebbox.GetFloat() * 0.5f );
-			budVec3 start = player->GetPhysics()->GetOrigin();
+			budBounds b = budBounds( Vector3_Origin ).Expand( pm_spectatebbox.GetFloat() * 0.5f );
+			Vector3 start = player->GetPhysics()->GetOrigin();
 			start[2] += pm_spectatebbox.GetFloat() * 0.5f;
 			trace_t t;
 			// assuming spectate bbox is inside stand or crouch box
 			gameLocal.clip.TraceBounds( t, start, newOrig, b, MASK_PLAYERSOLID, player );
 			newOrig.Lerp( start, newOrig, t.fraction );
 			SetOrigin( newOrig );
-			budAngles angle = player->viewAngles;
+			Angles angle = player->viewAngles;
 			angle[ 2 ] = 0;
 			SetViewAngles( angle );
 		}
@@ -6304,7 +6304,7 @@ void budPlayer::EndVideoDisk()
 budPlayer::Collide
 ==============
 */
-bool budPlayer::Collide( const trace_t& collision, const budVec3& velocity )
+bool budPlayer::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	idEntity* other;
 	
@@ -6388,7 +6388,7 @@ void budPlayer::UpdateFocus()
 	int			oldTalkCursor;
 	budAFEntity_Vehicle* oldVehicle;
 	int			i, j;
-	budVec3		start, end;
+	Vector3		start, end;
 	bool		allowFocus;
 	const char* command;
 	trace_t		trace;
@@ -6436,7 +6436,7 @@ void budPlayer::UpdateFocus()
 	// player identification -> names to the hud
 	if( common->IsMultiplayer() && IsLocallyControlled() )
 	{
-		budVec3 end = start + viewAngles.ToForward() * 768.0f;
+		Vector3 end = start + viewAngles.ToForward() * 768.0f;
 		gameLocal.clip.TracePoint( trace, start, end, MASK_SHOT_BOUNDINGBOX, this );
 		int iclient = -1;
 		if( ( trace.fraction < 1.0f ) && ( trace.c.entityNum < MAX_CLIENTS ) )
@@ -6570,7 +6570,7 @@ void budPlayer::UpdateFocus()
 				focusUI->SetStateInt( "inv_count", inventory.items.Num() );
 				for( j = 0; j < inventory.items.Num(); j++ )
 				{
-					idDict* item = inventory.items[ j ];
+					Dict* item = inventory.items[ j ];
 					const char* iname = item->GetString( "inv_name" );
 					const char* iicon = item->GetString( "inv_icon" );
 					const char* itext = item->GetString( "inv_text" );
@@ -6599,7 +6599,7 @@ void budPlayer::UpdateFocus()
 				int powerCellCount = 0;
 				for( j = 0; j < inventory.items.Num(); j++ )
 				{
-					idDict* item = inventory.items[ j ];
+					Dict* item = inventory.items[ j ];
 					if( item->GetInt( "inv_powercell" ) )
 					{
 						powerCellCount++;
@@ -6679,10 +6679,10 @@ budPlayer::CrashLand
 Check for hard landings that generate sound events
 =================
 */
-void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity )
+void budPlayer::CrashLand( const Vector3& oldOrigin, const Vector3& oldVelocity )
 {
-	budVec3		origin, velocity;
-	budVec3		gravityVector, gravityNormal;
+	Vector3		origin, velocity;
+	Vector3		gravityVector, gravityNormal;
 	float		delta;
 	float		hardDelta, fatalDelta, softDelta;
 	float		dist;
@@ -6747,7 +6747,7 @@ void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity 
 	{
 		return;
 	}
-	t = ( -b - budMath::Sqrt( den ) ) / ( 2.0f * a );
+	t = ( -b - Math::Sqrt( den ) ) / ( 2.0f * a );
 	
 	delta = vel + t * acc;
 	delta = delta * delta * 0.0001;
@@ -6789,7 +6789,7 @@ void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity 
 		if( !noDamage )
 		{
 			pain_debounce_time = gameLocal.time + pain_delay + 1;  // ignore pain since we'll play our landing anim
-			Damage( NULL, NULL, budVec3( 0, 0, -1 ), "damage_fatalfall", 1.0f, 0 );
+			Damage( NULL, NULL, Vector3( 0, 0, -1 ), "damage_fatalfall", 1.0f, 0 );
 		}
 	}
 	else if( delta > hardDelta )
@@ -6800,7 +6800,7 @@ void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity 
 		if( !noDamage )
 		{
 			pain_debounce_time = gameLocal.time + pain_delay + 1;  // ignore pain since we'll play our landing anim
-			Damage( NULL, NULL, budVec3( 0, 0, -1 ), "damage_hardfall", 1.0f, 0 );
+			Damage( NULL, NULL, Vector3( 0, 0, -1 ), "damage_hardfall", 1.0f, 0 );
 		}
 	}
 	else if( delta > softDelta )
@@ -6811,7 +6811,7 @@ void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity 
 		if( !noDamage )
 		{
 			pain_debounce_time = gameLocal.time + pain_delay + 1;  // ignore pain since we'll play our landing anim
-			Damage( NULL, NULL, budVec3( 0, 0, -1 ), "damage_softfall", 1.0f, 0 );
+			Damage( NULL, NULL, Vector3( 0, 0, -1 ), "damage_softfall", 1.0f, 0 );
 		}
 	}
 	else if( delta > 7 )
@@ -6831,12 +6831,12 @@ void budPlayer::CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity 
 budPlayer::BobCycle
 ===============
 */
-void budPlayer::BobCycle( const budVec3& pushVelocity )
+void budPlayer::BobCycle( const Vector3& pushVelocity )
 {
 	float		bobmove;
 	int			old, deltaTime;
-	budVec3		vel, gravityDir, velocity;
-	budMat3		viewaxis;
+	Vector3		vel, gravityDir, velocity;
+	Matrix3		viewaxis;
 	float		bob;
 	float		delta;
 	float		speed;
@@ -6892,7 +6892,7 @@ void budPlayer::BobCycle( const budVec3& pushVelocity )
 		old = bobCycle;
 		bobCycle = ( int )( old + bobmove * ( gameLocal.time - gameLocal.previousTime ) ) & 255;
 		bobFoot = ( bobCycle & 128 ) >> 7;
-		bobfracsin = budMath::Fabs( sin( ( bobCycle & 127 ) / 127.0 * budMath::PI ) );
+		bobfracsin = Math::Fabs( sin( ( bobCycle & 127 ) / 127.0 * Math::PI ) );
 	}
 	
 	// calculate angles for view bobbing
@@ -6951,7 +6951,7 @@ void budPlayer::BobCycle( const budVec3& pushVelocity )
 		stepUpTime = gameLocal.time;
 	}
 	
-	budVec3 gravity = physicsObj.GetGravityNormal();
+	Vector3 gravity = physicsObj.GetGravityNormal();
 	
 	// if the player stepped up recently
 	deltaTime = gameLocal.time - stepUpTime;
@@ -6988,10 +6988,10 @@ void budPlayer::BobCycle( const budVec3& pushVelocity )
 budPlayer::UpdateDeltaViewAngles
 ================
 */
-void budPlayer::UpdateDeltaViewAngles( const budAngles& angles )
+void budPlayer::UpdateDeltaViewAngles( const Angles& angles )
 {
 	// set the delta angle
-	budAngles delta;
+	Angles delta;
 	for( int i = 0; i < 3; i++ )
 	{
 		delta[ i ] = angles[ i ] - SHORT2ANGLE( usercmd.angles[ i ] );
@@ -7004,7 +7004,7 @@ void budPlayer::UpdateDeltaViewAngles( const budAngles& angles )
 budPlayer::SetViewAngles
 ================
 */
-void budPlayer::SetViewAngles( const budAngles& angles )
+void budPlayer::SetViewAngles( const Angles& angles )
 {
 	UpdateDeltaViewAngles( angles );
 	viewAngles = angles;
@@ -7018,7 +7018,7 @@ budPlayer::UpdateViewAngles
 void budPlayer::UpdateViewAngles()
 {
 	int i;
-	budAngles delta;
+	Angles delta;
 	
 	if( !noclip && ( gameLocal.inCinematic || privateCameraView || gameLocal.GetCamera() || influenceActive == INFLUENCE_LEVEL2 || objectiveSystemOpen ) )
 	{
@@ -7053,11 +7053,11 @@ void budPlayer::UpdateViewAngles()
 		cmdAngles[i] = SHORT2ANGLE( usercmd.angles[i] );
 		if( influenceActive == INFLUENCE_LEVEL3 )
 		{
-			viewAngles[i] += budMath::ClampFloat( -1.0f, 1.0f, budMath::AngleDelta( budMath::AngleNormalize180( SHORT2ANGLE( usercmd.angles[i] ) + deltaViewAngles[i] ) , viewAngles[i] ) );
+			viewAngles[i] += Math::ClampFloat( -1.0f, 1.0f, Math::AngleDelta( Math::AngleNormalize180( SHORT2ANGLE( usercmd.angles[i] ) + deltaViewAngles[i] ) , viewAngles[i] ) );
 		}
 		else
 		{
-			viewAngles[i] = budMath::AngleNormalize180( SHORT2ANGLE( usercmd.angles[i] ) + deltaViewAngles[i] );
+			viewAngles[i] = Math::AngleNormalize180( SHORT2ANGLE( usercmd.angles[i] ) + deltaViewAngles[i] );
 		}
 	}
 	if( !centerView.IsDone( gameLocal.time ) )
@@ -7087,20 +7087,20 @@ void budPlayer::UpdateViewAngles()
 		
 		if( yaw_min < yaw_max )
 		{
-			viewAngles.yaw = budMath::ClampFloat( yaw_min, yaw_max, viewAngles.yaw );
+			viewAngles.yaw = Math::ClampFloat( yaw_min, yaw_max, viewAngles.yaw );
 		}
 		else
 		{
 			if( viewAngles.yaw < 0 )
 			{
-				viewAngles.yaw = budMath::ClampFloat( -180.f, yaw_max, viewAngles.yaw );
+				viewAngles.yaw = Math::ClampFloat( -180.f, yaw_max, viewAngles.yaw );
 			}
 			else
 			{
-				viewAngles.yaw = budMath::ClampFloat( yaw_min, 180.f, viewAngles.yaw );
+				viewAngles.yaw = Math::ClampFloat( yaw_min, 180.f, viewAngles.yaw );
 			}
 		}
-		viewAngles.pitch = budMath::ClampFloat( -varc, varc, viewAngles.pitch );
+		viewAngles.pitch = Math::ClampFloat( -varc, varc, viewAngles.pitch );
 	}
 	else
 	{
@@ -7114,7 +7114,7 @@ void budPlayer::UpdateViewAngles()
 	UpdateDeltaViewAngles( viewAngles );
 	
 	// orient the model towards the direction we're looking
-	SetAngles( budAngles( 0, viewAngles.yaw, 0 ) );
+	SetAngles( Angles( 0, viewAngles.yaw, 0 ) );
 	
 	// save in the log for analyzing weapon angle offsets
 	loggedViewAngles[ gameLocal.framenum & ( NUM_LOGGED_VIEW_ANGLES - 1 ) ] = viewAngles;
@@ -7174,8 +7174,8 @@ budPlayer::GetBaseHeartRate
 */
 int budPlayer::GetBaseHeartRate()
 {
-	int base = budMath::Ftoi( ( BASE_HEARTRATE + LOWHEALTH_HEARTRATE_ADJ ) - ( ( float )health / 100.0f ) * LOWHEALTH_HEARTRATE_ADJ );
-	int rate = budMath::Ftoi( base + ( ZEROSTAMINA_HEARTRATE - base ) * ( 1.0f - stamina / pm_stamina.GetFloat() ) );
+	int base = Math::Ftoi( ( BASE_HEARTRATE + LOWHEALTH_HEARTRATE_ADJ ) - ( ( float )health / 100.0f ) * LOWHEALTH_HEARTRATE_ADJ );
+	int rate = Math::Ftoi( base + ( ZEROSTAMINA_HEARTRATE - base ) * ( 1.0f - stamina / pm_stamina.GetFloat() ) );
 	int diff = ( lastDmgTime ) ? gameLocal.time - lastDmgTime : 99999;
 	rate += ( diff < 5000 ) ? ( diff < 2500 ) ? ( diff < 1000 ) ? 15 : 10 : 5 : 0;
 	return rate;
@@ -7189,7 +7189,7 @@ budPlayer::SetCurrentHeartRate
 void budPlayer::SetCurrentHeartRate()
 {
 
-	int base = budMath::Ftoi( ( BASE_HEARTRATE + LOWHEALTH_HEARTRATE_ADJ ) - ( ( float ) health / 100.0f ) * LOWHEALTH_HEARTRATE_ADJ );
+	int base = Math::Ftoi( ( BASE_HEARTRATE + LOWHEALTH_HEARTRATE_ADJ ) - ( ( float ) health / 100.0f ) * LOWHEALTH_HEARTRATE_ADJ );
 	
 	if( PowerUpActive( ADRENALINE ) )
 	{
@@ -7197,7 +7197,7 @@ void budPlayer::SetCurrentHeartRate()
 	}
 	else
 	{
-		heartRate = budMath::Ftoi( heartInfo.GetCurrentValue( gameLocal.time ) );
+		heartRate = Math::Ftoi( heartInfo.GetCurrentValue( gameLocal.time ) );
 		int currentRate = GetBaseHeartRate();
 		if( health >= 0 && gameLocal.time > lastHeartAdjust + 2500 )
 		{
@@ -7205,7 +7205,7 @@ void budPlayer::SetCurrentHeartRate()
 		}
 	}
 	
-	int bps = budMath::Ftoi( 60.0f / heartRate * 1000.0f );
+	int bps = Math::Ftoi( 60.0f / heartRate * 1000.0f );
 	if( gameLocal.time - lastHeartBeat > bps )
 	{
 		int dmgVol = DMG_VOLUME;
@@ -7301,11 +7301,11 @@ void budPlayer::UpdateAir()
 		{
 			airMsec = 0;
 			// check for damage
-			const idDict* damageDef = gameLocal.FindEntityDefDict( "damage_noair", false );
+			const Dict* damageDef = gameLocal.FindEntityDefDict( "damage_noair", false );
 			int dmgTiming = 1000 * ( ( damageDef ) ? damageDef->GetFloat( "delay", "3.0" ) : 3.0f );
 			if( gameLocal.time > lastAirDamage + dmgTiming )
 			{
-				Damage( NULL, NULL, vec3_origin, "damage_noair", 1.0f, 0 );
+				Damage( NULL, NULL, Vector3_Origin, "damage_noair", 1.0f, 0 );
 				lastAirDamage = gameLocal.time;
 			}
 		}
@@ -7369,7 +7369,7 @@ void budPlayer::UpdatePowerupHud()
 		if( PowerUpActive( hudPowerup ) )
 		{
 			//int remaining = inventory.powerupEndTime[ hudPowerup ] - gameLocal.time;
-			//int filledbar = budMath::ClampInt( 0, hudPowerupDuration, remaining );
+			//int filledbar = Math::ClampInt( 0, hudPowerupDuration, remaining );
 			
 			// TODO_SPARTY: powerups??
 			//if ( hud ) {
@@ -7496,7 +7496,7 @@ void budPlayer::SetClipModel()
 	
 	if( spectating )
 	{
-		bounds = budBounds( vec3_origin ).Expand( pm_spectatebbox.GetFloat() * 0.5f );
+		bounds = budBounds( Vector3_Origin ).Expand( pm_spectatebbox.GetFloat() * 0.5f );
 	}
 	else
 	{
@@ -7528,7 +7528,7 @@ budPlayer::UseVehicle
 void budPlayer::UseVehicle()
 {
 	trace_t	trace;
-	budVec3 start, end;
+	Vector3 start, end;
 	idEntity* ent;
 	
 	if( GetBindMaster() && GetBindMaster()->IsType( budAFEntity_Vehicle::Type ) )
@@ -7560,7 +7560,7 @@ budPlayer::PerformImpulse
 */
 void budPlayer::PerformImpulse( int impulse )
 {
-	bool isIntroMap = ( budStr::FindText( gameLocal.GetMapFileName(), "mars_city1" ) >= 0 );
+	bool isIntroMap = ( String::FindText( gameLocal.GetMapFileName(), "mars_city1" ) >= 0 );
 	
 	// Normal 1 - 0 Keys.
 	if( impulse >= IMPULSE_0 && impulse <= IMPULSE_12 && !isIntroMap )
@@ -7664,15 +7664,15 @@ void budPlayer::PerformImpulse( int impulse )
 				}
 				else
 				{
-					const idDict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
+					const Dict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
 					if( lightDef )
 					{
 						idEntity* temp = static_cast<idEntity*>( enviroSuitLight.GetEntity() );
-						budAngles lightAng = firstPersonViewAxis.ToAngles();
-						budVec3 lightOrg = firstPersonViewOrigin;
+						Angles lightAng = firstPersonViewAxis.ToAngles();
+						Vector3 lightOrg = firstPersonViewOrigin;
 						
-						budVec3 enviroOffset = lightDef->GetVector( "enviro_offset" );
-						budVec3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
+						Vector3 enviroOffset = lightDef->GetVector( "enviro_offset" );
+						Vector3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
 						
 						gameLocal.SpawnEntityDef( *lightDef, &temp, false );
 						enviroSuitLight = static_cast<idLight*>( temp );
@@ -7835,8 +7835,8 @@ budPlayer::AdjustBodyAngles
 */
 void budPlayer::AdjustBodyAngles()
 {
-	budMat3	lookAxis;
-	budMat3	legsAxis;
+	Matrix3	lookAxis;
+	Matrix3	legsAxis;
 	bool	blend;
 	float	diff;
 	float	frac;
@@ -7858,23 +7858,23 @@ void budPlayer::AdjustBodyAngles()
 	}
 	else if( usercmd.forwardmove < 0 )
 	{
-		idealLegsYaw = budMath::AngleNormalize180( budVec3( -usercmd.forwardmove, usercmd.rightmove, 0.0f ).ToYaw() );
+		idealLegsYaw = Math::AngleNormalize180( Vector3( -usercmd.forwardmove, usercmd.rightmove, 0.0f ).ToYaw() );
 		legsForward = false;
 	}
 	else if( usercmd.forwardmove > 0 )
 	{
-		idealLegsYaw = budMath::AngleNormalize180( budVec3( usercmd.forwardmove, -usercmd.rightmove, 0.0f ).ToYaw() );
+		idealLegsYaw = Math::AngleNormalize180( Vector3( usercmd.forwardmove, -usercmd.rightmove, 0.0f ).ToYaw() );
 		legsForward = true;
 	}
 	else if( ( usercmd.rightmove != 0 ) && physicsObj.IsCrouching() )
 	{
 		if( !legsForward )
 		{
-			idealLegsYaw = budMath::AngleNormalize180( budVec3( budMath::Abs( usercmd.rightmove ), usercmd.rightmove, 0.0f ).ToYaw() );
+			idealLegsYaw = Math::AngleNormalize180( Vector3( Math::Abs( usercmd.rightmove ), usercmd.rightmove, 0.0f ).ToYaw() );
 		}
 		else
 		{
-			idealLegsYaw = budMath::AngleNormalize180( budVec3( budMath::Abs( usercmd.rightmove ), -usercmd.rightmove, 0.0f ).ToYaw() );
+			idealLegsYaw = Math::AngleNormalize180( Vector3( Math::Abs( usercmd.rightmove ), -usercmd.rightmove, 0.0f ).ToYaw() );
 		}
 	}
 	else if( usercmd.rightmove != 0 )
@@ -7885,8 +7885,8 @@ void budPlayer::AdjustBodyAngles()
 	else
 	{
 		legsForward = true;
-		diff = budMath::Fabs( idealLegsYaw - legsYaw );
-		idealLegsYaw = idealLegsYaw - budMath::AngleNormalize180( viewAngles.yaw - oldViewYaw );
+		diff = Math::Fabs( idealLegsYaw - legsYaw );
+		idealLegsYaw = idealLegsYaw - Math::AngleNormalize180( viewAngles.yaw - oldViewYaw );
 		if( diff < 0.1f )
 		{
 			legsYaw = idealLegsYaw;
@@ -7920,7 +7920,7 @@ void budPlayer::AdjustBodyAngles()
 	{
 		legsYaw = legsYaw * 0.9f + idealLegsYaw * 0.1f;
 	}
-	legsAxis = budAngles( 0.0f, legsYaw, 0.0f ).ToMat3();
+	legsAxis = Angles( 0.0f, legsYaw, 0.0f ).ToMat3();
 	animator.SetJointAxis( hipJoint, JOINTMOD_WORLD, legsAxis );
 	
 	// calculate the blending between down, straight, and up
@@ -7956,10 +7956,10 @@ void budPlayer::InitAASLocation()
 {
 	int		i;
 	int		num;
-	budVec3	size;
+	Vector3	size;
 	budBounds bounds;
 	budAAS*	aas;
-	budVec3	origin;
+	Vector3	origin;
 	
 	GetFloorPos( 64.0f, origin );
 	
@@ -7992,10 +7992,10 @@ void budPlayer::SetAASLocation()
 {
 	int		i;
 	int		areaNum;
-	budVec3	size;
+	Vector3	size;
 	budBounds bounds;
 	budAAS*	aas;
-	budVec3	origin;
+	Vector3	origin;
 	
 	if( !GetFloorPos( 64.0f, origin ) )
 	{
@@ -8029,7 +8029,7 @@ void budPlayer::SetAASLocation()
 budPlayer::GetAASLocation
 ==============
 */
-void budPlayer::GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const
+void budPlayer::GetAASLocation( budAAS* aas, Vector3& pos, int& areaNum ) const
 {
 	int i;
 	
@@ -8059,9 +8059,9 @@ void budPlayer::Move_Interpolated( float fraction )
 {
 
 	float newEyeOffset;
-	budVec3 oldOrigin;
-	budVec3 oldVelocity;
-	budVec3 pushVelocity;
+	Vector3 oldOrigin;
+	Vector3 oldVelocity;
+	Vector3 pushVelocity;
 	
 	// save old origin and velocity for crashlanding
 	oldOrigin = physicsObj.GetOrigin();
@@ -8119,8 +8119,8 @@ void budPlayer::Move_Interpolated( float fraction )
 	physicsObj.SetDebugLevel( g_debugMove.GetBool() );
 	
 	{
-		budVec3	org;
-		budMat3	axis;
+		Vector3	org;
+		Matrix3	axis;
 		GetViewPos( org, axis );
 		
 		physicsObj.SetPlayerInput( usercmd, axis[0] );
@@ -8201,9 +8201,9 @@ budPlayer::Move
 void budPlayer::Move()
 {
 	float newEyeOffset;
-	budVec3 oldOrigin;
-	budVec3 oldVelocity;
-	budVec3 pushVelocity;
+	Vector3 oldOrigin;
+	Vector3 oldVelocity;
+	Vector3 pushVelocity;
 	
 	// save old origin and velocity for crashlanding
 	oldOrigin = physicsObj.GetOrigin();
@@ -8261,8 +8261,8 @@ void budPlayer::Move()
 	physicsObj.SetDebugLevel( g_debugMove.GetBool() );
 	
 	{
-		budVec3	org;
-		budMat3	axis;
+		Vector3	org;
+		Matrix3	axis;
 		GetViewPos( org, axis );
 		
 		physicsObj.SetPlayerInput( usercmd, axis[0] );
@@ -8327,7 +8327,7 @@ void budPlayer::Move()
 		idEntity* groundEnt = physicsObj.GetGroundEntity();
 		if( groundEnt != NULL && groundEnt->IsType( budAI::Type ) )
 		{
-			budVec3 vel = physicsObj.GetLinearVelocity();
+			Vector3 vel = physicsObj.GetLinearVelocity();
 			if( vel.ToVec2().LengthSqr() < 0.1f )
 			{
 				vel.ToVec2() = physicsObj.GetOrigin().ToVec2() - groundEnt->GetPhysics()->GetAbsBounds().GetCenter().ToVec2();
@@ -8407,10 +8407,10 @@ void budPlayer::RunPhysics_RemoteClientCorrection()
 	{
 	
 		// Check and see how far we've diverged.
-		budVec3 cmdPos( usercmd.pos[0], usercmd.pos[1], usercmd.pos[2] );
-		budVec3 newOrigin = physicsObj.GetOrigin();
+		Vector3 cmdPos( usercmd.pos[0], usercmd.pos[1], usercmd.pos[2] );
+		Vector3 newOrigin = physicsObj.GetOrigin();
 		
-		budVec3 divergeVec = cmdPos - newOrigin;
+		Vector3 divergeVec = cmdPos - newOrigin;
 		libBud::Printf( "Client Divergence: %s Length: %2f\n", divergeVec.ToString( 3 ), divergeVec.Length() );
 		
 		// if the client Diverges over a certain amount, snap him back
@@ -8430,15 +8430,15 @@ void budPlayer::RunPhysics_RemoteClientCorrection()
 	
 	// Correction
 	{
-		budVec3 newOrigin = physicsObj.GetOrigin();
-		budVec3 cmdPos( usercmd.pos[0], usercmd.pos[1], usercmd.pos[2] );
-		budVec3 desiredPos = cmdPos;
+		Vector3 newOrigin = physicsObj.GetOrigin();
+		Vector3 cmdPos( usercmd.pos[0], usercmd.pos[1], usercmd.pos[2] );
+		Vector3 desiredPos = cmdPos;
 		
 		float delta = ( desiredPos - newOrigin ).Length();
 		// ignore small differences in Z: this can cause player to not have proper ground contacts which messes up
 		// velocity/acceleration calculation. If this hack doesn't work out, will may need more precision for at least
 		// the Z component of the client's origin.
-		if( budMath::Fabs( desiredPos.z - newOrigin.z ) < pm_clientAuthoritative_minDistZ.GetFloat() )
+		if( Math::Fabs( desiredPos.z - newOrigin.z ) < pm_clientAuthoritative_minDistZ.GetFloat() )
 		{
 			if( pm_clientAuthoritative_debug.GetBool() )
 			{
@@ -8453,8 +8453,8 @@ void budPlayer::RunPhysics_RemoteClientCorrection()
 		
 			if( pm_clientAuthoritative_Lerp.GetFloat() > 0.0f )
 			{
-				desiredPos.x = budMath::LerpToWithScale( newOrigin.x, desiredPos.x, pm_clientAuthoritative_Lerp.GetFloat() );
-				desiredPos.y = budMath::LerpToWithScale( newOrigin.y, desiredPos.y, pm_clientAuthoritative_Lerp.GetFloat() );
+				desiredPos.x = Math::LerpToWithScale( newOrigin.x, desiredPos.x, pm_clientAuthoritative_Lerp.GetFloat() );
+				desiredPos.y = Math::LerpToWithScale( newOrigin.y, desiredPos.y, pm_clientAuthoritative_Lerp.GetFloat() );
 			}
 			
 			// Set corrected position immediately if non deferred
@@ -8479,7 +8479,7 @@ void budPlayer::RunPhysics_RemoteClientCorrection()
 		
 		if( fabsf( serverSpeedSquared - clientSpeedSquared ) > pm_clientAuthoritative_minSpeedSquared.GetFloat() )
 		{
-			budVec3 normalizedVelocity = physicsObj.GetLinearVelocity();
+			Vector3 normalizedVelocity = physicsObj.GetLinearVelocity();
 			
 			const float VELOCITY_EPSILON = 0.001f;
 			if( normalizedVelocity.LengthSqr() > VELOCITY_EPSILON )
@@ -8487,7 +8487,7 @@ void budPlayer::RunPhysics_RemoteClientCorrection()
 				normalizedVelocity.Normalize();
 			}
 			
-			physicsObj.SetLinearVelocity( normalizedVelocity * budMath::Sqrt( clientSpeedSquared ) );
+			physicsObj.SetLinearVelocity( normalizedVelocity * Math::Sqrt( clientSpeedSquared ) );
 		}
 	}
 }
@@ -8710,8 +8710,8 @@ budPlayer::StartFxOnBone
 */
 void budPlayer::StartFxOnBone( const char* fx, const char* bone )
 {
-	budVec3 offset;
-	budMat3 axis;
+	Vector3 offset;
+	Matrix3 axis;
 	jointHandle_t jointHandle = GetAnimator()->GetJointHandle( bone );
 	
 	if( jointHandle == INVALID_JOINT )
@@ -8757,13 +8757,13 @@ bool budPlayer::HandleGuiEvents( const sysEvent_t* ev )
 budPlayer::UpdateLaserSight
 ==============
 */
-budCVar	g_laserSightWidth( "g_laserSightWidth", "2.0", CVAR_FLOAT | CVAR_ARCHIVE, "laser sight beam width" );
-budCVar	g_laserSightLength( "g_laserSightLength", "250", CVAR_FLOAT | CVAR_ARCHIVE, "laser sight beam length" );
+CVar	g_laserSightWidth( "g_laserSightWidth", "2.0", CVAR_FLOAT | CVAR_ARCHIVE, "laser sight beam width" );
+CVar	g_laserSightLength( "g_laserSightLength", "250", CVAR_FLOAT | CVAR_ARCHIVE, "laser sight beam length" );
 
 void budPlayer::UpdateLaserSight()
 {
-	budVec3	muzzleOrigin;
-	budMat3	muzzleAxis;
+	Vector3	muzzleOrigin;
+	Matrix3	muzzleAxis;
 	
 	// In Multiplayer, weapon might not have been spawned yet.
 	if( weapon.GetEntity() ==  NULL )
@@ -8797,7 +8797,7 @@ void budPlayer::UpdateLaserSight()
 	laserSightRenderEntity.axis.Identity();
 	
 	laserSightRenderEntity.origin = muzzleOrigin - muzzleAxis[0] * 2.0f;
-	budVec3&	target = *reinterpret_cast<budVec3*>( &laserSightRenderEntity.shaderParms[SHADERPARM_BEAM_END_X] );
+	Vector3&	target = *reinterpret_cast<Vector3*>( &laserSightRenderEntity.shaderParms[SHADERPARM_BEAM_END_X] );
 	target = muzzleOrigin + muzzleAxis[0] * g_laserSightLength.GetFloat();
 	
 	laserSightRenderEntity.shaderParms[SHADERPARM_BEAM_WIDTH] = g_laserSightWidth.GetFloat();
@@ -9015,12 +9015,12 @@ void budPlayer::Think()
 		
 		if( enviroSuitLight.IsValid() )
 		{
-			budAngles lightAng = firstPersonViewAxis.ToAngles();
-			budVec3 lightOrg = firstPersonViewOrigin;
-			const idDict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
+			Angles lightAng = firstPersonViewAxis.ToAngles();
+			Vector3 lightOrg = firstPersonViewOrigin;
+			const Dict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
 			
-			budVec3 enviroOffset = lightDef->GetVector( "enviro_offset" );
-			budVec3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
+			Vector3 enviroOffset = lightDef->GetVector( "enviro_offset" );
+			Vector3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
 			
 			lightOrg += ( enviroOffset.x * firstPersonViewAxis[0] );
 			lightOrg += ( enviroOffset.y * firstPersonViewAxis[1] );
@@ -9179,7 +9179,7 @@ void budPlayer::StopHealthRecharge()
 budPlayer::GetCurrentWeapon
 =================
 */
-budStr budPlayer::GetCurrentWeapon()
+String budPlayer::GetCurrentWeapon()
 {
 	const char* weapon;
 	
@@ -9206,7 +9206,7 @@ bool budPlayer::CanGive( const char* statname, const char* value )
 		return false;
 	}
 	
-	if( !budStr::Icmp( statname, "health" ) )
+	if( !String::Icmp( statname, "health" ) )
 	{
 		if( health >= inventory.maxHealth )
 		{
@@ -9214,7 +9214,7 @@ bool budPlayer::CanGive( const char* statname, const char* value )
 		}
 		return true;
 	}
-	else if( !budStr::Icmp( statname, "stamina" ) )
+	else if( !String::Icmp( statname, "stamina" ) )
 	{
 		if( stamina >= 100 )
 		{
@@ -9223,12 +9223,12 @@ bool budPlayer::CanGive( const char* statname, const char* value )
 		return true;
 		
 	}
-	else if( !budStr::Icmp( statname, "heartRate" ) )
+	else if( !String::Icmp( statname, "heartRate" ) )
 	{
 		return true;
 		
 	}
-	else if( !budStr::Icmp( statname, "air" ) )
+	else if( !String::Icmp( statname, "air" ) )
 	{
 		if( airMsec >= pm_airMsec.GetInteger() )
 		{
@@ -9351,7 +9351,7 @@ budPlayer::LookAtKiller
 */
 void budPlayer::LookAtKiller( idEntity* inflictor, idEntity* attacker )
 {
-	budVec3 dir;
+	Vector3 dir;
 	
 	if( attacker && attacker != this )
 	{
@@ -9366,7 +9366,7 @@ void budPlayer::LookAtKiller( idEntity* inflictor, idEntity* attacker )
 		dir = viewAxis[ 0 ];
 	}
 	
-	budAngles ang( 0, dir.ToYaw(), 0 );
+	Angles ang( 0, dir.ToYaw(), 0 );
 	SetViewAngles( ang );
 }
 
@@ -9392,7 +9392,7 @@ void budPlayer::Kill( bool delayRespawn, bool nodamage )
 		}
 		else
 		{
-			Damage( this, this, vec3_origin, "damage_suicide", 1.0f, INVALID_JOINT );
+			Damage( this, this, Vector3_Origin, "damage_suicide", 1.0f, INVALID_JOINT );
 			if( delayRespawn )
 			{
 				forceRespawn = false;
@@ -9409,7 +9409,7 @@ void budPlayer::Kill( bool delayRespawn, bool nodamage )
 budPlayer::Killed
 ==================
 */
-void budPlayer::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void budPlayer::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	float delay;
 	
@@ -9525,11 +9525,11 @@ budPlayer::GetAIAimTargets
 Returns positions for the AI to aim at.
 =====================
 */
-void budPlayer::GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, budVec3& chestPos )
+void budPlayer::GetAIAimTargets( const Vector3& lastSightPos, Vector3& headPos, Vector3& chestPos )
 {
-	budVec3 offset;
-	budMat3 axis;
-	budVec3 origin;
+	Vector3 offset;
+	Matrix3 axis;
+	Vector3 origin;
 	
 	origin = lastSightPos - physicsObj.GetOrigin();
 	
@@ -9588,7 +9588,7 @@ doesn't actually do anything with them.  This is used to tell when an attack
 would have killed the player, possibly allowing a "saving throw"
 =================
 */
-void budPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const idDict* damageDef,
+void budPlayer::CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const Dict* damageDef,
 								 const float damageScale, const int location, int* health, int* armor )
 {
 	int		damage;
@@ -9722,9 +9722,9 @@ void budPlayer::ControllerShakeFromDamage( int damage )
 		// determine rumble
 		// >= 100 damage - will be 300 Mag
 		float highMag = ( Max( damage, 100 ) / 100.0f ) * maxMagScale;
-		int highDuration = budMath::Ftoi( ( Max( damage, 100 ) / 100.0f ) * maxDurScale );
+		int highDuration = Math::Ftoi( ( Max( damage, 100 ) / 100.0f ) * maxDurScale );
 		float lowMag = highMag * 0.75f;
-		int lowDuration = budMath::Ftoi( highDuration );
+		int lowDuration = Math::Ftoi( highDuration );
 		
 		SetControllerShake( highMag, highDuration, lowMag, lowDuration );
 	}
@@ -9788,7 +9788,7 @@ sound effects happen elsewhere so that clients can get instant
 feedback and hide lag.
 ============
 */
-void budPlayer::ServerDealDamage( int damage, idEntity& inflictor, idEntity& attacker, const budVec3& dir, const char* damageDefName, const int location )
+void budPlayer::ServerDealDamage( int damage, idEntity& inflictor, idEntity& attacker, const Vector3& dir, const char* damageDefName, const int location )
 {
 	assert( !common->IsClient() );
 	
@@ -9800,8 +9800,8 @@ void budPlayer::ServerDealDamage( int damage, idEntity& inflictor, idEntity& att
 	}
 	
 	// move the world direction vector to local coordinates
-	budVec3		damage_from;
-	budVec3		localDamageVector;
+	Vector3		damage_from;
+	Vector3		localDamageVector;
 	
 	damage_from = dir;
 	damage_from.Normalize();
@@ -9881,15 +9881,15 @@ attacker	entity that caused the inflictor to damage targ
 
 dir			direction of the attack for knockback in global space
 
-damageDef	an idDict with all the options for damage effects
+damageDef	an Dict with all the options for damage effects
 
 inflictor, attacker, dir, and point can be NULL for environmental effects
 ============
 */
-void budPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+void budPlayer::Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir,
 					   const char* damageDefName, const float damageScale, const int location )
 {
-	budVec3		kick;
+	Vector3		kick;
 	int			damage;
 	int			armorSave;
 	
@@ -9951,13 +9951,13 @@ void budPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& 
 			attackerPushScale = 1.0f;
 		}
 		
-		budVec3 kick = dir;
+		Vector3 kick = dir;
 		kick.Normalize();
 		kick *= g_knockback.GetFloat() * knockback * attackerPushScale / 200.0f;
 		physicsObj.SetLinearVelocity( physicsObj.GetLinearVelocity() + kick );
 		
 		// set the timer so that the player can't cancel out the movement immediately
-		physicsObj.SetKnockBack( budMath::ClampInt( 50, 200, knockback * 2 ) );
+		physicsObj.SetKnockBack( Math::ClampInt( 50, 200, knockback * 2 ) );
 		
 		if( common->IsServer() )
 		{
@@ -9968,7 +9968,7 @@ void budPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& 
 			msg.WriteFloat( physicsObj.GetLinearVelocity()[0] );
 			msg.WriteFloat( physicsObj.GetLinearVelocity()[1] );
 			msg.WriteFloat( physicsObj.GetLinearVelocity()[2] );
-			msg.WriteByte( budMath::ClampInt( 50, 200, knockback * 2 ) );
+			msg.WriteByte( Math::ClampInt( 50, 200, knockback * 2 ) );
 			ServerSendEvent( budPlayer::EVENT_KNOCKBACK, &msg, false );
 		}
 	}
@@ -10070,16 +10070,16 @@ void budPlayer::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& 
 budPlayer::Teleport
 ============
 */
-void budPlayer::Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination )
+void budPlayer::Teleport( const Vector3& origin, const Angles& angles, idEntity* destination )
 {
-	budVec3 org;
+	Vector3 org;
 	
 	if( weapon.GetEntity() )
 	{
 		weapon.GetEntity()->LowerWeapon();
 	}
 	
-	SetOrigin( origin + budVec3( 0, 0, CM_CLIP_EPSILON ) );
+	SetOrigin( origin + Vector3( 0, 0, CM_CLIP_EPSILON ) );
 	if( !common->IsMultiplayer() && GetFloorPos( 16.0f, org ) )
 	{
 		SetOrigin( org );
@@ -10088,7 +10088,7 @@ void budPlayer::Teleport( const budVec3& origin, const budAngles& angles, idEnti
 	// clear the ik heights so model doesn't appear in the wrong place
 	walkIK.EnableAll();
 	
-	GetPhysics()->SetLinearVelocity( vec3_origin );
+	GetPhysics()->SetLinearVelocity( Vector3_Origin );
 	
 	SetViewAngles( angles );
 	
@@ -10225,9 +10225,9 @@ generate a rotational offset for the gun based on the view angle
 history in loggedViewAngles
 ==============
 */
-budAngles budPlayer::GunTurningOffset()
+Angles budPlayer::GunTurningOffset()
 {
-	budAngles	a;
+	Angles	a;
 	
 	a.Zero();
 	
@@ -10236,9 +10236,9 @@ budAngles budPlayer::GunTurningOffset()
 		return a;
 	}
 	
-	budAngles current = loggedViewAngles[ gameLocal.framenum & ( NUM_LOGGED_VIEW_ANGLES - 1 ) ];
+	Angles current = loggedViewAngles[ gameLocal.framenum & ( NUM_LOGGED_VIEW_ANGLES - 1 ) ];
 	
-	budAngles	av, base;
+	Angles	av, base;
 	int weaponAngleOffsetAverages;
 	float weaponAngleOffsetScale, weaponAngleOffsetMax;
 	
@@ -10249,9 +10249,9 @@ budAngles budPlayer::GunTurningOffset()
 	// calcualte this so the wrap arounds work properly
 	for( int j = 1 ; j < weaponAngleOffsetAverages ; j++ )
 	{
-		budAngles a2 = loggedViewAngles[( gameLocal.framenum - j ) & ( NUM_LOGGED_VIEW_ANGLES - 1 ) ];
+		Angles a2 = loggedViewAngles[( gameLocal.framenum - j ) & ( NUM_LOGGED_VIEW_ANGLES - 1 ) ];
 		
-		budAngles delta = a2 - current;
+		Angles delta = a2 - current;
 		
 		if( delta[1] > 180 )
 		{
@@ -10290,9 +10290,9 @@ generate a positional offset for the gun based on the movement
 history in loggedAccelerations
 ==============
 */
-budVec3	budPlayer::GunAcceleratingOffset()
+Vector3	budPlayer::GunAcceleratingOffset()
 {
-	budVec3	ofs;
+	Vector3	ofs;
 	
 	float weaponOffsetTime, weaponOffsetScale;
 	
@@ -10317,7 +10317,7 @@ budVec3	budPlayer::GunAcceleratingOffset()
 		}
 		
 		f = t / weaponOffsetTime;
-		f = ( cos( f * 2.0f * budMath::PI ) - 1.0f ) * 0.5f;
+		f = ( cos( f * 2.0f * Math::PI ) - 1.0f ) * 0.5f;
 		ofs += f * weaponOffsetScale * acc->dir;
 	}
 	
@@ -10331,22 +10331,22 @@ budPlayer::CalculateViewWeaponPos
 Calculate the bobbing position of the view weapon
 ==============
 */
-void budPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
+void budPlayer::CalculateViewWeaponPos( Vector3& origin, Matrix3& axis )
 {
 	float		scale;
 	float		fracsin;
-	budAngles	angles;
+	Angles	angles;
 	int			delta;
 	
 	// CalculateRenderView must have been called first
-	const budVec3& viewOrigin = firstPersonViewOrigin;
-	const budMat3& viewAxis = firstPersonViewAxis;
+	const Vector3& viewOrigin = firstPersonViewOrigin;
+	const Matrix3& viewAxis = firstPersonViewAxis;
 	
 	// these cvars are just for hand tweaking before moving a value to the weapon def
-	budVec3	gunpos( g_gun_x.GetFloat(), g_gun_y.GetFloat(), g_gun_z.GetFloat() );
+	Vector3	gunpos( g_gun_x.GetFloat(), g_gun_y.GetFloat(), g_gun_z.GetFloat() );
 	
 	// as the player changes direction, the gun will take a small lag
-	budVec3	gunOfs = GunAcceleratingOffset();
+	Vector3	gunOfs = GunAcceleratingOffset();
 	origin = viewOrigin + ( gunpos + gunOfs ) * viewAxis;
 	
 	// on odd legs, invert some angles
@@ -10367,7 +10367,7 @@ void budPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
 	// gun angles from turning
 	if( common->IsMultiplayer() )
 	{
-		budAngles offset = GunTurningOffset();
+		Angles offset = GunTurningOffset();
 		offset *= g_mpWeaponAngleScale.GetFloat();
 		angles += offset;
 	}
@@ -10376,7 +10376,7 @@ void budPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
 		angles += GunTurningOffset();
 	}
 	
-	budVec3 gravity = physicsObj.GetGravityNormal();
+	Vector3 gravity = physicsObj.GetGravityNormal();
 	
 	// drop the weapon when landing after a jump / fall
 	delta = gameLocal.time - landTime;
@@ -10399,8 +10399,8 @@ void budPlayer::CalculateViewWeaponPos( budVec3& origin, budMat3& axis )
 	// decoupled weapon aiming in head mounted displays
 	angles.pitch += independentWeaponPitchAngle;
 	
-	const budMat3	anglesMat = angles.ToMat3();
-	const budMat3	scaledMat = anglesMat * g_gunScale.GetFloat();
+	const Matrix3	anglesMat = angles.ToMat3();
+	const Matrix3	scaledMat = anglesMat * g_gunScale.GetFloat();
 	
 	axis = scaledMat * viewAxis;
 }
@@ -10412,15 +10412,15 @@ budPlayer::OffsetThirdPersonView
 */
 void budPlayer::OffsetThirdPersonView( float angle, float range, float height, bool clip )
 {
-	budVec3			view;
-	budVec3			focusAngles;
+	Vector3			view;
+	Vector3			focusAngles;
 	trace_t			trace;
-	budVec3			focusPoint;
+	Vector3			focusPoint;
 	float			focusDist;
 	float			forwardScale, sideScale;
-	budVec3			origin;
-	budAngles		angles;
-	budMat3			axis;
+	Vector3			origin;
+	Angles		angles;
+	Matrix3			axis;
 	budBounds		bounds;
 	
 	angles = viewAngles;
@@ -10444,7 +10444,7 @@ void budPlayer::OffsetThirdPersonView( float angle, float range, float height, b
 	angles.pitch *= 0.5f;
 	renderView->viewaxis = angles.ToMat3() * physicsObj.GetGravityAxis();
 	
-	budMath::SinCos( DEG2RAD( angle ), sideScale, forwardScale );
+	Math::SinCos( DEG2RAD( angle ), sideScale, forwardScale );
 	view -= range * forwardScale * renderView->viewaxis[ 0 ];
 	view += range * sideScale * renderView->viewaxis[ 1 ];
 	
@@ -10452,7 +10452,7 @@ void budPlayer::OffsetThirdPersonView( float angle, float range, float height, b
 	{
 		// trace a ray from the origin to the viewpoint to make sure the view isn't
 		// in a solid block.  Use an 8 by 8 block to prevent the view from near clipping anything
-		bounds = budBounds( budVec3( -4, -4, -4 ), budVec3( 4, 4, 4 ) );
+		bounds = budBounds( Vector3( -4, -4, -4 ), Vector3( 4, 4, 4 ) );
 		gameLocal.clip.TraceBounds( trace, origin, view, bounds, MASK_SOLID, this );
 		if( trace.fraction != 1.0f )
 		{
@@ -10468,7 +10468,7 @@ void budPlayer::OffsetThirdPersonView( float angle, float range, float height, b
 	
 	// select pitch to look at focus point from vieword
 	focusPoint -= view;
-	focusDist = budMath::Sqrt( focusPoint[0] * focusPoint[0] + focusPoint[1] * focusPoint[1] );
+	focusDist = Math::Sqrt( focusPoint[0] * focusPoint[0] + focusPoint[1] * focusPoint[1] );
 	if( focusDist < 1.0f )
 	{
 		focusDist = 1.0f;	// should never happen
@@ -10487,9 +10487,9 @@ void budPlayer::OffsetThirdPersonView( float angle, float range, float height, b
 budPlayer::GetEyePosition
 ===============
 */
-budVec3 budPlayer::GetEyePosition() const
+Vector3 budPlayer::GetEyePosition() const
 {
-	budVec3 org;
+	Vector3 org;
 	
 	// use the smoothed origin if spectating another player in multiplayer
 	if( common->IsClient() && !IsLocallyControlled() )
@@ -10508,9 +10508,9 @@ budVec3 budPlayer::GetEyePosition() const
 budPlayer::GetViewPos
 ===============
 */
-void budPlayer::GetViewPos( budVec3& origin, budMat3& axis ) const
+void budPlayer::GetViewPos( Vector3& origin, Matrix3& axis ) const
 {
-	budAngles angles;
+	Angles angles;
 	
 	// if dead, fix the angle and don't add any kick
 	if( health <= 0 )
@@ -10529,7 +10529,7 @@ void budPlayer::GetViewPos( budVec3& origin, budMat3& axis ) const
 		axis = angles.ToMat3() * physicsObj.GetGravityAxis();
 		
 		// Move pivot point down so looking straight ahead is a no-op on the Z
-		const budVec3& gravityVector = physicsObj.GetGravityNormal();
+		const Vector3& gravityVector = physicsObj.GetGravityNormal();
 		origin += gravityVector * g_viewNodalZ.GetFloat();
 		
 		// adjust the origin based on the camera nodal distance (eye distance from neck)
@@ -10548,9 +10548,9 @@ void budPlayer::CalculateFirstPersonView()
 	{
 		//	Displays the view from the point of view of the "camera" joint in the player model
 		
-		budMat3 axis;
-		budVec3 origin;
-		budAngles ang;
+		Matrix3 axis;
+		Vector3 origin;
+		Angles ang;
 		
 		ang = viewBobAngles + playerView.AngleOffset();
 		ang.yaw += viewAxis[ 0 ].ToYaw();
@@ -10836,7 +10836,7 @@ void budPlayer::SetInfluenceLevel( int level )
 		}
 		else
 		{
-			physicsObj.SetLinearVelocity( vec3_origin );
+			physicsObj.SetLinearVelocity( Vector3_Origin );
 			if( weaponEnabled && weapon.GetEntity() )
 			{
 				weapon.GetEntity()->ExitCinematic();
@@ -10914,7 +10914,7 @@ budPlayer::Event_GetMove
 void budPlayer::Event_GetMove()
 {
 	int upmove = ( ( usercmd.buttons & BUTTON_JUMP ) ? 127 : 0 ) - ( ( usercmd.buttons & BUTTON_CROUCH ) ? 127 : 0 );
-	budVec3 move( usercmd.forwardmove, usercmd.rightmove, upmove );
+	Vector3 move( usercmd.forwardmove, usercmd.rightmove, upmove );
 	idThread::ReturnVector( move );
 }
 
@@ -10925,7 +10925,7 @@ budPlayer::Event_GetViewAngles
 */
 void budPlayer::Event_GetViewAngles()
 {
-	idThread::ReturnVector( budVec3( viewAngles[0], viewAngles[1], viewAngles[2] ) );
+	idThread::ReturnVector( Vector3( viewAngles[0], viewAngles[1], viewAngles[2] ) );
 }
 
 /*
@@ -11053,7 +11053,7 @@ budPlayer::Event_StartWarp
 */
 void budPlayer::Event_StartWarp()
 {
-	playerView.AddWarp( budVec3( 0, 0, 0 ), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 1000 );
+	playerView.AddWarp( Vector3( 0, 0, 0 ), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 1000 );
 }
 
 /*
@@ -11091,7 +11091,7 @@ bool budPlayer::WeaponAvailable( const char* name )
 		if( inventory.weapons & ( 1 << i ) )
 		{
 			const char* weap = spawnArgs.GetString( va( "def_weapon%d", i ) );
-			if( !budStr::Cmp( weap, name ) )
+			if( !String::Cmp( weap, name ) )
 			{
 				return true;
 			}
@@ -11171,7 +11171,7 @@ void budPlayer::Event_SelectWeapon( const char* weaponName )
 		if( inventory.weapons & ( 1 << i ) )
 		{
 			const char* weap = spawnArgs.GetString( va( "def_weapon%d", i ) );
-			if( !budStr::Cmp( weap, weaponName ) )
+			if( !String::Cmp( weap, weaponName ) )
 			{
 				weaponNum = i;
 				break;
@@ -11239,9 +11239,9 @@ void budPlayer::TeleportDeath( int killer )
 budPlayer::Event_ExitTeleporter
 ==================
 */
-void budPlayer::Event_ForceOrigin( budVec3& origin, budAngles& angles )
+void budPlayer::Event_ForceOrigin( Vector3& origin, Angles& angles )
 {
-	SetOrigin( origin + budVec3( 0, 0, CM_CLIP_EPSILON ) );
+	SetOrigin( origin + Vector3( 0, 0, CM_CLIP_EPSILON ) );
 	//SetViewAngles( angles );
 	
 	UpdateVisuals();
@@ -11274,7 +11274,7 @@ void budPlayer::Event_ExitTeleporter()
 	
 	SetPrivateCameraView( NULL );
 	// setup origin and push according to the exit target
-	SetOrigin( exitEnt->GetPhysics()->GetOrigin() + budVec3( 0, 0, CM_CLIP_EPSILON ) );
+	SetOrigin( exitEnt->GetPhysics()->GetOrigin() + Vector3( 0, 0, CM_CLIP_EPSILON ) );
 	SetViewAngles( exitEnt->GetPhysics()->GetAxis().ToAngles() );
 	physicsObj.SetLinearVelocity( exitEnt->GetPhysics()->GetAxis()[ 0 ] * pushVel );
 	physicsObj.ClearPushedVelocity();
@@ -11291,7 +11291,7 @@ void budPlayer::Event_ExitTeleporter()
 	if( teleportKiller != -1 )
 	{
 		// we got killed while being teleported
-		Damage( gameLocal.entities[ teleportKiller ], gameLocal.entities[ teleportKiller ], vec3_origin, "damage_telefrag", 1.0f, INVALID_JOINT );
+		Damage( gameLocal.entities[ teleportKiller ], gameLocal.entities[ teleportKiller ], Vector3_Origin, "damage_telefrag", 1.0f, INVALID_JOINT );
 		teleportKiller = -1;
 	}
 	else
@@ -11382,7 +11382,7 @@ void budPlayer::ClientThink( const int curTime, const float fraction, const bool
 	}
 	else
 	{
-		idQuat interpolatedAngles = Slerp( previousViewQuat, nextViewQuat, fraction );
+		Quat interpolatedAngles = Slerp( previousViewQuat, nextViewQuat, fraction );
 		viewAngles = interpolatedAngles.ToAngles();
 	}
 	
@@ -11504,12 +11504,12 @@ void budPlayer::ClientThink( const int curTime, const float fraction, const bool
 	
 	if( enviroSuitLight.IsValid() )
 	{
-		budAngles lightAng = firstPersonViewAxis.ToAngles();
-		budVec3 lightOrg = firstPersonViewOrigin;
-		const idDict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
+		Angles lightAng = firstPersonViewAxis.ToAngles();
+		Vector3 lightOrg = firstPersonViewOrigin;
+		const Dict* lightDef = gameLocal.FindEntityDefDict( "envirosuit_light", false );
 		
-		budVec3 enviroOffset = lightDef->GetVector( "enviro_offset" );
-		budVec3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
+		Vector3 enviroOffset = lightDef->GetVector( "enviro_offset" );
+		Vector3 enviroAngleOffset = lightDef->GetVector( "enviro_angle_offset" );
 		
 		lightOrg += ( enviroOffset.x * firstPersonViewAxis[0] );
 		lightOrg += ( enviroOffset.y * firstPersonViewAxis[1] );
@@ -11571,7 +11571,7 @@ void budPlayer::ClientThink( const int curTime, const float fraction, const bool
 budPlayer::GetPhysicsToVisualTransform
 ================
 */
-bool budPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
+bool budPlayer::GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis )
 {
 	if( af.IsActive() )
 	{
@@ -11584,13 +11584,13 @@ bool budPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 	if( common->IsClient() && gameLocal.framenum >= smoothedFrame && ( !IsLocallyControlled() || selfSmooth ) )
 	{
 		// render origin and axis
-		budMat3 renderAxis = viewAxis * GetPhysics()->GetAxis();
-		budVec3 renderOrigin = GetPhysics()->GetOrigin() + modelOffset * renderAxis;
+		Matrix3 renderAxis = viewAxis * GetPhysics()->GetAxis();
+		Vector3 renderOrigin = GetPhysics()->GetOrigin() + modelOffset * renderAxis;
 		
 		// update the smoothed origin
 		if( !smoothedOriginUpdated )
 		{
-			budVec2 originDiff = renderOrigin.ToVec2() - smoothedOrigin.ToVec2();
+			Vector2 originDiff = renderOrigin.ToVec2() - smoothedOrigin.ToVec2();
 			if( originDiff.LengthSqr() < Square( 100.0f ) )
 			{
 				// smoothen by pushing back to the previous position
@@ -11610,7 +11610,7 @@ bool budPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 			smoothedOriginUpdated = true;
 		}
 		
-		axis = budAngles( 0.0f, viewAngles.yaw, 0.0f ).ToMat3();
+		axis = Angles( 0.0f, viewAngles.yaw, 0.0f ).ToMat3();
 		origin = ( smoothedOrigin - GetPhysics()->GetOrigin() ) * axis.Transpose();
 		
 	}
@@ -11628,7 +11628,7 @@ bool budPlayer::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 budPlayer::GetPhysicsToSoundTransform
 ================
 */
-bool budPlayer::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
+bool budPlayer::GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis )
 {
 	idCamera* camera;
 	
@@ -11683,7 +11683,7 @@ void budPlayer::WriteToSnapshot( budBitMsg& msg ) const
 	physicsObj.WriteToSnapshot( msg );
 	WriteBindToSnapshot( msg );
 	// Only remote players will use these actual viewangles.
-	idCQuat snapViewCQuat( viewAngles.ToQuat().ToCQuat() );
+	CMPQuat snapViewCQuat( viewAngles.ToQuat().ToCQuat() );
 	msg.WriteFloat( snapViewCQuat.x );
 	msg.WriteFloat( snapViewCQuat.y );
 	msg.WriteFloat( snapViewCQuat.z );
@@ -11694,11 +11694,11 @@ void budPlayer::WriteToSnapshot( budBitMsg& msg ) const
 	msg.WriteBits( gameLocal.ServerRemapDecl( -1, DECL_ENTITYDEF, lastDamageDef ), gameLocal.entityDefBits );
 	msg.WriteDir( lastDamageDir, 9 );
 	msg.WriteShort( lastDamageLocation );
-	msg.WriteBits( idealWeapon.Get(), budMath::BitsForInteger( MAX_WEAPONS ) );
+	msg.WriteBits( idealWeapon.Get(), Math::BitsForInteger( MAX_WEAPONS ) );
 	msg.WriteBits( inventory.weapons, MAX_WEAPONS );
 	msg.WriteBits( weapon.GetSpawnId(), 32 );
 	msg.WriteBits( flashlight.GetSpawnId(), 32 );
-	msg.WriteBits( spectator, budMath::BitsForInteger( MAX_CLIENTS ) );
+	msg.WriteBits( spectator, Math::BitsForInteger( MAX_CLIENTS ) );
 	msg.WriteBits( lastHitToggle, 1 );
 	msg.WriteBits( weaponGone, 1 );
 	msg.WriteBits( isLagged, 1 );
@@ -11740,12 +11740,12 @@ void budPlayer::ReadFromSnapshot( const budBitMsg& msg )
 	ReadBindFromSnapshot( msg );
 	
 	// The remote players get updated view angles from the snapshot.
-	idCQuat snapViewCQuat;
+	CMPQuat snapViewCQuat;
 	snapViewCQuat.x = msg.ReadFloat();
 	snapViewCQuat.y = msg.ReadFloat();
 	snapViewCQuat.z = msg.ReadFloat();
 	
-	budAngles tempDeltaViewAngles;
+	Angles tempDeltaViewAngles;
 	tempDeltaViewAngles[0] = msg.ReadDeltaFloat( 0.0f );
 	tempDeltaViewAngles[1] = msg.ReadDeltaFloat( 0.0f );
 	tempDeltaViewAngles[2] = msg.ReadDeltaFloat( 0.0f );
@@ -11756,11 +11756,11 @@ void budPlayer::ReadFromSnapshot( const budBitMsg& msg )
 	lastDamageDef = gameLocal.ClientRemapDecl( DECL_ENTITYDEF, msg.ReadBits( gameLocal.entityDefBits ) );
 	lastDamageDir = msg.ReadDir( 9 );
 	lastDamageLocation = msg.ReadShort();
-	newIdealWeapon = msg.ReadBits( budMath::BitsForInteger( MAX_WEAPONS ) );
+	newIdealWeapon = msg.ReadBits( Math::BitsForInteger( MAX_WEAPONS ) );
 	inventory.weapons = msg.ReadBits( MAX_WEAPONS );
 	weaponSpawnId = msg.ReadBits( 32 );
 	flashlightSpawnId = msg.ReadBits( 32 );
-	spectator = msg.ReadBits( budMath::BitsForInteger( MAX_CLIENTS ) );
+	spectator = msg.ReadBits( Math::BitsForInteger( MAX_CLIENTS ) );
 	newHitToggle = msg.ReadBits( 1 ) != 0;
 	weaponGone = msg.ReadBits( 1 ) != 0;
 	isLagged = msg.ReadBits( 1 ) != 0;
@@ -12074,8 +12074,8 @@ bool budPlayer::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 		case EVENT_FORCE_ORIGIN:
 		{
 		
-			budVec3 forceOrigin =  ReadFloatArray< budVec3 >( msg );
-			budAngles forceAngles;
+			Vector3 forceOrigin =  ReadFloatArray< Vector3 >( msg );
+			Angles forceAngles;
 			forceAngles[0] = msg.ReadFloat();
 			forceAngles[1] = msg.ReadFloat();
 			forceAngles[2] = msg.ReadFloat();
@@ -12085,7 +12085,7 @@ bool budPlayer::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 		}
 		case EVENT_KNOCKBACK:
 		{
-			budVec3 linearVelocity =  ReadFloatArray< budVec3 >( msg );
+			Vector3 linearVelocity =  ReadFloatArray< Vector3 >( msg );
 			int knockbacktime = msg.ReadByte();
 			physicsObj.SetLinearVelocity( linearVelocity );
 			physicsObj.SetKnockBack( knockbacktime );
@@ -12242,7 +12242,7 @@ budPlayer::SetSpectateOrigin
 */
 void budPlayer::SetSpectateOrigin()
 {
-	budVec3 neworig;
+	Vector3 neworig;
 	
 	neworig = GetPhysics()->GetOrigin();
 	neworig[ 2 ] += pm_normalviewheight.GetFloat();
@@ -12316,12 +12316,12 @@ budPlayer::Event_LevelTrigger
 */
 void budPlayer::Event_LevelTrigger()
 {
-	budStr mapName = gameLocal.GetMapName();
+	String mapName = gameLocal.GetMapName();
 	mapName.StripPath();
 	mapName.StripFileExtension();
 	for( int i = inventory.levelTriggers.Num() - 1; i >= 0; i-- )
 	{
-		if( budStr::Icmp( mapName, inventory.levelTriggers[i].levelName ) == 0 )
+		if( String::Icmp( mapName, inventory.levelTriggers[i].levelName ) == 0 )
 		{
 			idEntity* ent = gameLocal.FindEntity( inventory.levelTriggers[i].triggerName );
 			if( ent )
@@ -12342,7 +12342,7 @@ void budPlayer::Event_Gibbed()
 	// do nothing
 }
 
-extern budCVar net_clientMaxPrediction;
+extern CVar net_clientMaxPrediction;
 
 /*
 ===============
@@ -12467,7 +12467,7 @@ void budPlayer::SetControllerShake( float highMagnitude, int highDuration, float
 	{
 		if( gameLocal.GetTime() <= controllerShakeHighTime[i] || gameLocal.GetTime() <= controllerShakeLowTime[i] )
 		{
-			if( budMath::Fabs( highMagnitude - controllerShakeHighMag[i] ) <= 0.1f && budMath::Fabs( lowMagnitude - controllerShakeLowMag[i] ) <= 0.1f )
+			if( Math::Fabs( highMagnitude - controllerShakeHighMag[i] ) <= 0.1f && Math::Fabs( lowMagnitude - controllerShakeLowMag[i] ) <= 0.1f )
 			{
 				activeBufferWithSimilarMags = i;
 				break;
@@ -12578,8 +12578,8 @@ void budPlayer::GetControllerShake( int& highMagnitude, int& lowMagnitude ) cons
 		}
 	}
 	
-	lowMagnitude = budMath::Ftoi( lowMag * 65535.0f );
-	highMagnitude = budMath::Ftoi( highMag * 65535.0f );
+	lowMagnitude = Math::Ftoi( lowMag * 65535.0f );
+	highMagnitude = Math::Ftoi( highMag * 65535.0f );
 }
 
 /*
@@ -12590,15 +12590,15 @@ budPlayer::GetExpansionType
 gameExpansionType_t budPlayer::GetExpansionType() const
 {
 	const char* expansion = spawnArgs.GetString( "player_expansion", "d3" );
-	if( budStr::Icmp( expansion, "d3" ) == 0 )
+	if( String::Icmp( expansion, "d3" ) == 0 )
 	{
 		return GAME_BASE;
 	}
-	if( budStr::Icmp( expansion, "d3xp" ) == 0 )
+	if( String::Icmp( expansion, "d3xp" ) == 0 )
 	{
 		return GAME_D3XP;
 	}
-	if( budStr::Icmp( expansion, "d3le" ) == 0 )
+	if( String::Icmp( expansion, "d3le" ) == 0 )
 	{
 		return GAME_D3LE;
 	}

@@ -52,14 +52,14 @@ void budAASFileLocal::Optimize()
 	aasFace_t* face;
 	aasEdge_t* edge;
 	idReachability* reach;
-	budList<int> vertexRemap;
-	budList<int> edgeRemap;
-	budList<int> faceRemap;
-	budList<aasVertex_t> newVertices;
-	budList<aasEdge_t> newEdges;
-	budList<aasIndex_t> newEdgeIndex;
-	budList<aasFace_t> newFaces;
-	budList<aasIndex_t> newFaceIndex;
+	List<int> vertexRemap;
+	List<int> edgeRemap;
+	List<int> faceRemap;
+	List<aasVertex_t> newVertices;
+	List<aasEdge_t> newEdges;
+	List<aasIndex_t> newEdgeIndex;
+	List<aasFace_t> newFaces;
+	List<aasIndex_t> newFaceIndex;
 	
 	vertexRemap.AssureSize( vertices.Num(), -1 );
 	edgeRemap.AssureSize( edges.Num(), 0 );

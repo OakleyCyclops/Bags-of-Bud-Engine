@@ -53,16 +53,16 @@ public:
 	}
 	void				EnableLocalization();
 	
-	void				GetTransformInfo( budVec3& origin, budMat3& mat );
+	void				GetTransformInfo( Vector3& origin, Matrix3& mat );
 	
-	void				SetTransformInfo( const budVec3& origin, const budMat3& mat );
-	void				DrawMaterial( float x, float y, float w, float h, const budMaterial* mat, const budVec4& color, float scalex = 1.0, float scaley = 1.0 );
-	void				DrawRect( float x, float y, float width, float height, float size, const budVec4& color );
-	void				DrawFilledRect( float x, float y, float width, float height, const budVec4& color );
-	int					DrawText( const char* text, float textScale, int textAlign, budVec4 color, idRectangle rectDraw, bool wrap, int cursor = -1, bool calcOnly = false, budList<int>* breaks = NULL, int limit = 0 );
-	void				DrawMaterialRect( float x, float y, float w, float h, float size, const budMaterial* mat, const budVec4& color );
+	void				SetTransformInfo( const Vector3& origin, const Matrix3& mat );
+	void				DrawMaterial( float x, float y, float w, float h, const budMaterial* mat, const Vector4& color, float scalex = 1.0, float scaley = 1.0 );
+	void				DrawRect( float x, float y, float width, float height, float size, const Vector4& color );
+	void				DrawFilledRect( float x, float y, float width, float height, const Vector4& color );
+	int					DrawText( const char* text, float textScale, int textAlign, Vector4 color, idRectangle rectDraw, bool wrap, int cursor = -1, bool calcOnly = false, List<int>* breaks = NULL, int limit = 0 );
+	void				DrawMaterialRect( float x, float y, float w, float h, float size, const budMaterial* mat, const Vector4& color );
 	void				DrawStretchPic( float x, float y, float w, float h, float s0, float t0, float s1, float t1, const budMaterial* mat );
-	void				DrawMaterialRotated( float x, float y, float w, float h, const budMaterial* mat, const budVec4& color, float scalex = 1.0, float scaley = 1.0, float angle = 0.0f );
+	void				DrawMaterialRotated( float x, float y, float w, float h, const budMaterial* mat, const Vector4& color, float scalex = 1.0, float scaley = 1.0, float angle = 0.0f );
 	void				DrawStretchPicRotated( float x, float y, float w, float h, float s0, float t0, float s1, float t1, const budMaterial* mat, float angle = 0.0f );
 	void				DrawWinding( idWinding& w, const budMaterial* mat );
 	
@@ -135,18 +135,18 @@ public:
 		SCROLLBAR_COUNT
 	};
 	
-	static budVec4 colorPurple;
-	static budVec4 colorOrange;
-	static budVec4 colorYellow;
-	static budVec4 colorGreen;
-	static budVec4 colorBlue;
-	static budVec4 colorRed;
-	static budVec4 colorWhite;
-	static budVec4 colorBlack;
-	static budVec4 colorNone;
+	static Vector4 colorPurple;
+	static Vector4 colorOrange;
+	static Vector4 colorYellow;
+	static Vector4 colorGreen;
+	static Vector4 colorBlue;
+	static Vector4 colorRed;
+	static Vector4 colorWhite;
+	static Vector4 colorBlack;
+	static Vector4 colorNone;
 	
 protected:
-	virtual int			DrawText( float x, float y, float scale, budVec4 color, const char* text, float adjust, int limit, int style, int cursor = -1 );
+	virtual int			DrawText( float x, float y, float scale, Vector4 color, const char* text, float adjust, int limit, int style, int cursor = -1 );
 	void				PaintChar( float x, float y, const scaledGlyphInfo_t& glyphInfo );
 	void				Clear();
 	
@@ -162,15 +162,15 @@ protected:
 	
 	int					cursor;
 	
-	budList<idRectangle>	clipRects;
+	List<idRectangle>	clipRects;
 	
 	bool				enableClipping;
 	
 	bool				overStrikeMode;
 	
-	budMat3				mat;
+	Matrix3				mat;
 	bool				matIsIdentity;
-	budVec3				origin;
+	Vector3				origin;
 	bool				initialized;
 };
 
@@ -182,7 +182,7 @@ class idDeviceContextOptimized : public idDeviceContext
 	virtual void		PopClipRect();
 	virtual void		EnableClipping( bool b );
 	
-	virtual int			DrawText( float x, float y, float scale, budVec4 color, const char* text, float adjust, int limit, int style, int cursor = -1 );
+	virtual int			DrawText( float x, float y, float scale, Vector4 color, const char* text, float adjust, int limit, int style, int cursor = -1 );
 	
 	float				clipX1;
 	float				clipX2;

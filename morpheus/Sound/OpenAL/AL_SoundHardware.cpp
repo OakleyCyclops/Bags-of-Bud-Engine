@@ -31,12 +31,12 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../snd_local.h"
 
-budCVar s_showLevelMeter( "s_showLevelMeter", "0", CVAR_BOOL | CVAR_ARCHIVE, "Show VU meter" );
-budCVar s_meterTopTime( "s_meterTopTime", "1000", CVAR_INTEGER | CVAR_ARCHIVE, "How long (in milliseconds) peaks are displayed on the VU meter" );
-budCVar s_meterPosition( "s_meterPosition", "100 100 20 200", CVAR_ARCHIVE, "VU meter location (x y w h)" );
-budCVar s_device( "s_device", "-1", CVAR_INTEGER | CVAR_ARCHIVE, "Which audio device to use (listDevices to list, -1 for default)" );
-budCVar s_showPerfData( "s_showPerfData", "0", CVAR_BOOL, "Show XAudio2 Performance data" );
-extern budCVar s_volume_dB;
+CVar s_showLevelMeter( "s_showLevelMeter", "0", CVAR_BOOL | CVAR_ARCHIVE, "Show VU meter" );
+CVar s_meterTopTime( "s_meterTopTime", "1000", CVAR_INTEGER | CVAR_ARCHIVE, "How long (in milliseconds) peaks are displayed on the VU meter" );
+CVar s_meterPosition( "s_meterPosition", "100 100 20 200", CVAR_ARCHIVE, "VU meter location (x y w h)" );
+CVar s_device( "s_device", "-1", CVAR_INTEGER | CVAR_ARCHIVE, "Which audio device to use (listDevices to list, -1 for default)" );
+CVar s_showPerfData( "s_showPerfData", "0", CVAR_BOOL, "Show XAudio2 Performance data" );
+extern CVar s_volume_dB;
 
 
 /*
@@ -125,7 +125,7 @@ void idSoundHardware_OpenAL::PrintALInfo()
 	CheckALErrors();
 }
 
-void listDevices_f( const budCmdArgs& args )
+void listDevices_f( const CmdArgs& args )
 {
 	libBud::Printf( "Available playback devices:\n" );
 	if( alcIsExtensionPresent( NULL, "ALC_ENUMERATE_ALL_EXT" ) != AL_FALSE )
@@ -229,11 +229,11 @@ void idSoundHardware_OpenAL::Init()
 	memset( vuMeterPeakTimes, 0, sizeof( vuMeterPeakTimes ) );
 	
 	vuMeterPeak->SetFillMode( budDebugGraph::GRAPH_LINE );
-	vuMeterPeak->SetBackgroundColor( budVec4( 0.0f, 0.0f, 0.0f, 0.0f ) );
+	vuMeterPeak->SetBackgroundColor( Vector4( 0.0f, 0.0f, 0.0f, 0.0f ) );
 	
-	vuMeterRMS->AddGridLine( 0.500f, budVec4( 0.5f, 0.5f, 0.5f, 1.0f ) );
-	vuMeterRMS->AddGridLine( 0.250f, budVec4( 0.5f, 0.5f, 0.5f, 1.0f ) );
-	vuMeterRMS->AddGridLine( 0.125f, budVec4( 0.5f, 0.5f, 0.5f, 1.0f ) );
+	vuMeterRMS->AddGridLine( 0.500f, Vector4( 0.5f, 0.5f, 0.5f, 1.0f ) );
+	vuMeterRMS->AddGridLine( 0.250f, Vector4( 0.5f, 0.5f, 0.5f, 1.0f ) );
+	vuMeterRMS->AddGridLine( 0.125f, Vector4( 0.5f, 0.5f, 0.5f, 1.0f ) );
 	
 	const char* channelNames[] = { "L", "R", "C", "S", "Lb", "Rb", "Lf", "Rf", "Cb", "Ls", "Rs" };
 	for( int i = 0, ci = 0; ci < sizeof( channelNames ) / sizeof( channelNames[0] ); ci++ )
@@ -464,7 +464,7 @@ void idSoundHardware_OpenAL::Update()
 	
 	for( uint32 i = 0; i < levels.ChannelCount; i++ )
 	{
-		vuMeterRMS->SetValue( i, rmsLevels[ i ], budVec4( 0.5f, 1.0f, 0.0f, 1.00f ) );
+		vuMeterRMS->SetValue( i, rmsLevels[ i ], Vector4( 0.5f, 1.0f, 0.0f, 1.00f ) );
 		if( peakLevels[ i ] >= vuMeterPeak->GetValue( i ) )
 		{
 			vuMeterPeak->SetValue( i, peakLevels[ i ], colorRed );

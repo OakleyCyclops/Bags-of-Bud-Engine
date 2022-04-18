@@ -63,7 +63,7 @@ private:
 	qhandle_t   modelDef;
 	idWinStr modelName;
 	idWinStr animName;
-	budStr	 animClass;
+	String	 animClass;
 	idWinVec4 lightOrigin;
 	idWinVec4 lightColor;
 	idWinVec4 modelOrigin;

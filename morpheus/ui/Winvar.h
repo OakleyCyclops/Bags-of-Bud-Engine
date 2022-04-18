@@ -41,7 +41,7 @@ public:
 	idWinVar();
 	virtual ~idWinVar();
 	
-	void SetGuiInfo( idDict* gd, const char* _name );
+	void SetGuiInfo( Dict* gd, const char* _name );
 	const char* GetName() const
 	{
 		if( name )
@@ -72,7 +72,7 @@ public:
 		return *this;
 	}
 	
-	idDict* GetDict() const
+	Dict* GetDict() const
 	{
 		return guiDict;
 	}
@@ -106,7 +106,7 @@ public:
 	}
 	
 protected:
-	idDict* guiDict;
+	Dict* guiDict;
 	char* name;
 	bool eval;
 };
@@ -214,7 +214,7 @@ public:
 			}
 		}
 	}
-	int	operator==(	const budStr& other ) const
+	int	operator==(	const String& other ) const
 	{
 		return ( other == data );
 	}
@@ -222,7 +222,7 @@ public:
 	{
 		return ( data == other );
 	}
-	budStr& operator=(	const budStr& other )
+	String& operator=(	const String& other )
 	{
 		data = other;
 		if( guiDict )
@@ -241,7 +241,7 @@ public:
 	{
 		return data.c_str();
 	}
-	operator const budStr& () const
+	operator const String& () const
 	{
 		return data;
 	}
@@ -330,7 +330,7 @@ public:
 	};
 	
 protected:
-	budStr data;
+	String data;
 };
 
 class idWinInt : public idWinVar
@@ -492,7 +492,7 @@ public:
 		idWinVar::Init( _name, win );
 		if( guiDict )
 		{
-			budVec4 v = guiDict->GetVec4( GetName() );
+			Vector4 v = guiDict->GetVec4( GetName() );
 			data.x = v.x;
 			data.y = v.y;
 			data.w = v.z;
@@ -511,7 +511,7 @@ public:
 		data = other.data;
 		return *this;
 	}
-	idRectangle& operator=(	const budVec4& other )
+	idRectangle& operator=(	const Vector4& other )
 	{
 		data = other;
 		if( guiDict )
@@ -526,7 +526,7 @@ public:
 		data = other;
 		if( guiDict )
 		{
-			budVec4 v = data.ToVec4();
+			Vector4 v = data.ToVec4();
 			guiDict->SetVec4( GetName(), v );
 		}
 		return data;
@@ -561,9 +561,9 @@ public:
 	{
 		return data.Bottom();
 	}
-	budVec4& ToVec4()
+	Vector4& ToVec4()
 	{
-		static budVec4 ret;
+		static Vector4 ret;
 		ret = data.ToVec4();
 		return ret;
 	}
@@ -579,7 +579,7 @@ public:
 		}
 		if( guiDict )
 		{
-			budVec4 v = data.ToVec4();
+			Vector4 v = data.ToVec4();
 			guiDict->SetVec4( GetName(), v );
 		}
 	}
@@ -588,7 +588,7 @@ public:
 		const char* s = GetName();
 		if( guiDict && s[0] != '\0' )
 		{
-			budVec4 v = guiDict->GetVec4( s );
+			Vector4 v = guiDict->GetVec4( s );
 			data.x = v.x;
 			data.y = v.y;
 			data.w = v.z;
@@ -629,7 +629,7 @@ public:
 			data = guiDict->GetVec2( GetName() );
 		}
 	}
-	int	operator==(	const budVec2& other ) const
+	int	operator==(	const Vector2& other ) const
 	{
 		return ( other == data );
 	}
@@ -640,7 +640,7 @@ public:
 		return *this;
 	}
 	
-	budVec2& operator=(	const budVec2& other )
+	Vector2& operator=(	const Vector2& other )
 	{
 		data = other;
 		if( guiDict )
@@ -672,7 +672,7 @@ public:
 			guiDict->SetVec2( GetName(), data );
 		}
 	}
-	operator const budVec2& () const
+	operator const Vector2& () const
 	{
 		return data;
 	}
@@ -705,7 +705,7 @@ public:
 	}
 	
 protected:
-	budVec2 data;
+	Vector2 data;
 };
 
 class idWinVec4 : public idWinVar
@@ -721,7 +721,7 @@ public:
 			data = guiDict->GetVec4( GetName() );
 		}
 	}
-	int	operator==(	const budVec4& other ) const
+	int	operator==(	const Vector4& other ) const
 	{
 		return ( other == data );
 	}
@@ -731,7 +731,7 @@ public:
 		data = other.data;
 		return *this;
 	}
-	budVec4& operator=(	const budVec4& other )
+	Vector4& operator=(	const Vector4& other )
 	{
 		data = other;
 		if( guiDict )
@@ -740,7 +740,7 @@ public:
 		}
 		return data;
 	}
-	operator const budVec4& () const
+	operator const Vector4& () const
 	{
 		return data;
 	}
@@ -801,7 +801,7 @@ public:
 		}
 	}
 	
-	const budVec3& ToVec3() const
+	const Vector3& ToVec3() const
 	{
 		return data.ToVec3();
 	}
@@ -818,7 +818,7 @@ public:
 	}
 	
 protected:
-	budVec4 data;
+	Vector4 data;
 };
 
 class idWinVec3 : public idWinVar
@@ -834,7 +834,7 @@ public:
 			data = guiDict->GetVector( GetName() );
 		}
 	}
-	int	operator==(	const budVec3& other ) const
+	int	operator==(	const Vector3& other ) const
 	{
 		return ( other == data );
 	}
@@ -844,7 +844,7 @@ public:
 		data = other.data;
 		return *this;
 	}
-	budVec3& operator=(	const budVec3& other )
+	Vector3& operator=(	const Vector3& other )
 	{
 		data = other;
 		if( guiDict )
@@ -853,7 +853,7 @@ public:
 		}
 		return data;
 	}
-	operator const budVec3& () const
+	operator const Vector3& () const
 	{
 		return data;
 	}
@@ -915,7 +915,7 @@ public:
 	}
 	
 protected:
-	budVec3 data;
+	Vector3 data;
 };
 
 class idWinBackground : public idWinStr
@@ -934,7 +934,7 @@ public:
 			data = guiDict->GetString( GetName() );
 		}
 	}
-	int	operator==(	const budStr& other ) const
+	int	operator==(	const String& other ) const
 	{
 		return ( other == data );
 	}
@@ -942,7 +942,7 @@ public:
 	{
 		return ( data == other );
 	}
-	budStr& operator=(	const budStr& other )
+	String& operator=(	const String& other )
 	{
 		data = other;
 		if( guiDict )
@@ -984,7 +984,7 @@ public:
 	{
 		return data.c_str();
 	}
-	operator const budStr& () const
+	operator const String& () const
 	{
 		return data;
 	}
@@ -1088,7 +1088,7 @@ public:
 	}
 	
 protected:
-	budStr data;
+	String data;
 	const budMaterial** mat;
 };
 
@@ -1098,12 +1098,12 @@ idMultiWinVar
 multiplexes access to a list if idWinVar*
 ================
 */
-class idMultiWinVar : public budList< idWinVar* >
+class idMultiWinVar : public List< idWinVar* >
 {
 public:
 	void Set( const char* val );
 	void Update();
-	void SetGuiInfo( idDict* dict );
+	void SetGuiInfo( Dict* dict );
 };
 
 #endif /* !__WINVAR_H__ */

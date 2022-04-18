@@ -39,17 +39,17 @@ static const float MINIMUM_RESOLUTION_SCALE = 0.5f;
 static const float MAXIMUM_RESOLUTION_SCALE = 1.0f;
 
 // RB: turned this off. It is only useful on mobile devices or consoles
-budCVar rs_enable( "rs_enable", "0", CVAR_INTEGER, "Enable dynamic resolution scaling, 0 - off, 1 - horz only, 2 - vert only, 3 - both" );
+CVar rs_enable( "rs_enable", "0", CVAR_INTEGER, "Enable dynamic resolution scaling, 0 - off, 1 - horz only, 2 - vert only, 3 - both" );
 // Rb end
-budCVar rs_forceFractionX( "rs_forceFractionX", "0", CVAR_FLOAT, "Force a specific 0.0 to 1.0 horizontal resolution scale" );
-budCVar rs_forceFractionY( "rs_forceFractionY", "0", CVAR_FLOAT, "Force a specific 0.0 to 1.0 vertical resolution scale" );
-budCVar rs_showResolutionChanges( "rs_showResolutionChanges", "0", CVAR_INTEGER, "1 = Print whenever the resolution scale changes, 2 = always" );
-budCVar rs_dropMilliseconds( "rs_dropMilliseconds", "15.0", CVAR_FLOAT, "Drop the resolution when GPU time exceeds this" );
-budCVar rs_raiseMilliseconds( "rs_raiseMilliseconds", "13.0", CVAR_FLOAT, "Raise the resolution when GPU time is below this for several frames" );
-budCVar rs_dropFraction( "rs_dropFraction", "0.11", CVAR_FLOAT, "Drop the resolution in increments of this" );
-budCVar rs_raiseFraction( "rs_raiseFraction", "0.06", CVAR_FLOAT, "Raise the resolution in increments of this" );
-budCVar rs_raiseFrames( "rs_raiseFrames", "5", CVAR_INTEGER, "Require this many frames below rs_raiseMilliseconds" );
-budCVar rs_display( "rs_display", "0", CVAR_INTEGER, "0 - percentages, 1 - pixels per frame" );
+CVar rs_forceFractionX( "rs_forceFractionX", "0", CVAR_FLOAT, "Force a specific 0.0 to 1.0 horizontal resolution scale" );
+CVar rs_forceFractionY( "rs_forceFractionY", "0", CVAR_FLOAT, "Force a specific 0.0 to 1.0 vertical resolution scale" );
+CVar rs_showResolutionChanges( "rs_showResolutionChanges", "0", CVAR_INTEGER, "1 = Print whenever the resolution scale changes, 2 = always" );
+CVar rs_dropMilliseconds( "rs_dropMilliseconds", "15.0", CVAR_FLOAT, "Drop the resolution when GPU time exceeds this" );
+CVar rs_raiseMilliseconds( "rs_raiseMilliseconds", "13.0", CVAR_FLOAT, "Raise the resolution when GPU time is below this for several frames" );
+CVar rs_dropFraction( "rs_dropFraction", "0.11", CVAR_FLOAT, "Drop the resolution in increments of this" );
+CVar rs_raiseFraction( "rs_raiseFraction", "0.06", CVAR_FLOAT, "Raise the resolution in increments of this" );
+CVar rs_raiseFrames( "rs_raiseFrames", "5", CVAR_INTEGER, "Require this many frames below rs_raiseMilliseconds" );
+CVar rs_display( "rs_display", "0", CVAR_INTEGER, "0 - percentages, 1 - pixels per frame" );
 
 
 /*
@@ -195,7 +195,7 @@ void idResolutionScale::SetCurrentGPUFrameTime( int microseconds )
 idResolutionScale::GetConsoleText
 ========================
 */
-void idResolutionScale::GetConsoleText( budStr& s )
+void idResolutionScale::GetConsoleText( String& s )
 {
 	float x;
 	float y;
@@ -217,17 +217,17 @@ void idResolutionScale::GetConsoleText( budStr& s )
 		{
 			x = 1.0f;
 		}
-		s = va( "rs-pixels %i", budMath::Ftoi( x * y ) );
+		s = va( "rs-pixels %i", Math::Ftoi( x * y ) );
 	}
 	else
 	{
 		if( rs_enable.GetInteger() == 3 )
 		{
-			s = va( "%2i%%h,%2i%%v", budMath::Ftoi( 100.0f * x ), budMath::Ftoi( 100.0f * y ) );
+			s = va( "%2i%%h,%2i%%v", Math::Ftoi( 100.0f * x ), Math::Ftoi( 100.0f * y ) );
 		}
 		else
 		{
-			s = va( "%2i%%%s", ( rs_enable.GetInteger() == 1 ) ? budMath::Ftoi( 100.0f * x ) : budMath::Ftoi( 100.0f * y ), ( rs_enable.GetInteger() == 1 ) ? "h" : "v" );
+			s = va( "%2i%%%s", ( rs_enable.GetInteger() == 1 ) ? Math::Ftoi( 100.0f * x ) : Math::Ftoi( 100.0f * y ), ( rs_enable.GetInteger() == 1 ) ? "h" : "v" );
 		}
 	}
 }

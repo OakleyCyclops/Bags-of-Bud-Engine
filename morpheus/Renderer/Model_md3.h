@@ -61,8 +61,8 @@ Private structures used by the MD3 loader.
 
 typedef struct md3Frame_s
 {
-	budVec3		bounds[2];
-	budVec3		localOrigin;
+	Vector3		bounds[2];
+	Vector3		localOrigin;
 	float		radius;
 	char		name[16];
 } md3Frame_t;
@@ -70,8 +70,8 @@ typedef struct md3Frame_s
 typedef struct md3Tag_s
 {
 	char		name[MAX_MD3PATH];	// tag name
-	budVec3		origin;
-	budVec3		axis[3];
+	Vector3		origin;
+	Vector3		axis[3];
 } md3Tag_t;
 
 /*

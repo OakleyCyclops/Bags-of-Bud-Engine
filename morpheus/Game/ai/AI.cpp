@@ -72,7 +72,7 @@ idMoveState::idMoveState()
 	nextWanderTime		= 0;
 	blockTime			= 0;
 	obstacle			= NULL;
-	lastMoveOrigin		= vec3_origin;
+	lastMoveOrigin		= Vector3_Origin;
 	lastMoveTime		= 0;
 	anim				= 0;
 }
@@ -138,10 +138,10 @@ void idMoveState::Restore( idRestoreGame* savefile )
 budAASFindCover::budAASFindCover
 ============
 */
-budAASFindCover::budAASFindCover( const budVec3& hideFromPos )
+budAASFindCover::budAASFindCover( const Vector3& hideFromPos )
 {
 	int			numPVSAreas;
-	budBounds	bounds( hideFromPos - budVec3( 16, 16, 0 ), hideFromPos + budVec3( 16, 16, 64 ) );
+	budBounds	bounds( hideFromPos - Vector3( 16, 16, 0 ), hideFromPos + Vector3( 16, 16, 64 ) );
 	
 	// setup PVS
 	numPVSAreas = gameLocal.pvs.GetPVSAreas( bounds, PVSAreas, idEntity::MAX_PVS_AREAS );
@@ -165,7 +165,7 @@ budAASFindCover::TestArea
 */
 bool budAASFindCover::TestArea( const budAAS* aas, int areaNum )
 {
-	budVec3	areaCenter;
+	Vector3	areaCenter;
 	int		numPVSAreas;
 	int		PVSAreas[ idEntity::MAX_PVS_AREAS ];
 	
@@ -186,7 +186,7 @@ bool budAASFindCover::TestArea( const budAAS* aas, int areaNum )
 budAASFindAreaOutOfRange::budAASFindAreaOutOfRange
 ============
 */
-budAASFindAreaOutOfRange::budAASFindAreaOutOfRange( const budVec3& targetPos, float maxDist )
+budAASFindAreaOutOfRange::budAASFindAreaOutOfRange( const Vector3& targetPos, float maxDist )
 {
 	this->targetPos		= targetPos;
 	this->maxDistSqr	= maxDist * maxDist;
@@ -199,7 +199,7 @@ budAASFindAreaOutOfRange::TestArea
 */
 bool budAASFindAreaOutOfRange::TestArea( const budAAS* aas, int areaNum )
 {
-	const budVec3& areaCenter = aas->AreaCenter( areaNum );
+	const Vector3& areaCenter = aas->AreaCenter( areaNum );
 	trace_t	trace;
 	float dist;
 	
@@ -210,7 +210,7 @@ bool budAASFindAreaOutOfRange::TestArea( const budAAS* aas, int areaNum )
 		return false;
 	}
 	
-	gameLocal.clip.TracePoint( trace, targetPos, areaCenter + budVec3( 0.0f, 0.0f, 1.0f ), MASK_OPAQUE, NULL );
+	gameLocal.clip.TracePoint( trace, targetPos, areaCenter + Vector3( 0.0f, 0.0f, 1.0f ), MASK_OPAQUE, NULL );
 	if( trace.fraction < 1.0f )
 	{
 		return false;
@@ -224,7 +224,7 @@ bool budAASFindAreaOutOfRange::TestArea( const budAAS* aas, int areaNum )
 budAASFindAttackPosition::budAASFindAttackPosition
 ============
 */
-budAASFindAttackPosition::budAASFindAttackPosition( const budAI* self, const budMat3& gravityAxis, idEntity* target, const budVec3& targetPos, const budVec3& fireOffset )
+budAASFindAttackPosition::budAASFindAttackPosition( const budAI* self, const Matrix3& gravityAxis, idEntity* target, const Vector3& targetPos, const Vector3& fireOffset )
 {
 	int	numPVSAreas;
 	
@@ -234,11 +234,11 @@ budAASFindAttackPosition::budAASFindAttackPosition( const budAI* self, const bud
 	this->self			= self;
 	this->gravityAxis	= gravityAxis;
 	
-	excludeBounds		= budBounds( budVec3( -64.0, -64.0f, -8.0f ), budVec3( 64.0, 64.0f, 64.0f ) );
+	excludeBounds		= budBounds( Vector3( -64.0, -64.0f, -8.0f ), Vector3( 64.0, 64.0f, 64.0f ) );
 	excludeBounds.TranslateSelf( self->GetPhysics()->GetOrigin() );
 	
 	// setup PVS
-	budBounds bounds( targetPos - budVec3( 16, 16, 0 ), targetPos + budVec3( 16, 16, 64 ) );
+	budBounds bounds( targetPos - Vector3( 16, 16, 0 ), targetPos + Vector3( 16, 16, 64 ) );
 	numPVSAreas = gameLocal.pvs.GetPVSAreas( bounds, PVSAreas, idEntity::MAX_PVS_AREAS );
 	targetPVS	= gameLocal.pvs.SetupCurrentPVS( PVSAreas, numPVSAreas );
 }
@@ -260,11 +260,11 @@ budAASFindAttackPosition::TestArea
 */
 bool budAASFindAttackPosition::TestArea( const budAAS* aas, int areaNum )
 {
-	budVec3	dir;
-	budVec3	local_dir;
-	budVec3	fromPos;
-	budMat3	axis;
-	budVec3	areaCenter;
+	Vector3	dir;
+	Vector3	local_dir;
+	Vector3	fromPos;
+	Matrix3	axis;
+	Vector3	areaCenter;
 	int		numPVSAreas;
 	int		PVSAreas[ idEntity::MAX_PVS_AREAS ];
 	
@@ -337,8 +337,8 @@ budAI::budAI()
 	projectile			= NULL;
 	projectileClipModel	= NULL;
 	projectileRadius	= 0.0f;
-	projectileVelocity	= vec3_origin;
-	projectileGravity	= vec3_origin;
+	projectileVelocity	= Vector3_Origin;
+	projectileGravity	= Vector3_Origin;
 	projectileSpeed		= 0.0f;
 	chat_snd			= NULL;
 	chat_min			= 0;
@@ -482,7 +482,7 @@ void budAI::Save( idSaveGame* savefile ) const
 		savefile->WriteVec3( missileLaunchOffset[ i ] );
 	}
 	
-	budStr projectileName;
+	String projectileName;
 	spawnArgs.GetString( "def_projectile", "", projectileName );
 	savefile->WriteString( projectileName );
 	savefile->WriteFloat( projectileRadius );
@@ -631,7 +631,7 @@ void budAI::Restore( idRestoreGame* savefile )
 		savefile->ReadVec3( missileLaunchOffset[ i ] );
 	}
 	
-	budStr projectileName;
+	String projectileName;
 	savefile->ReadString( projectileName );
 	if( projectileName.Length() )
 	{
@@ -720,7 +720,7 @@ void budAI::Restore( idRestoreGame* savefile )
 	savefile->ReadBool( restorePhysics );
 	
 	// Set the AAS if the character has the correct gravity vector
-	budVec3 gravity = spawnArgs.GetVector( "gravityDir", "0 0 -1" );
+	Vector3 gravity = spawnArgs.GetVector( "gravityDir", "0 0 -1" );
 	gravity *= g_gravity.GetFloat();
 	if( gravity == gameLocal.GetGravity() )
 	{
@@ -760,7 +760,7 @@ void budAI::Restore( idRestoreGame* savefile )
 		funcEmitter_t newEmitter;
 		memset( &newEmitter, 0, sizeof( newEmitter ) );
 		
-		budStr name;
+		String name;
 		savefile->ReadString( name );
 		
 		strcpy( newEmitter.name, name.c_str() );
@@ -787,10 +787,10 @@ void budAI::Spawn()
 {
 	const char*			jointname;
 	const idKeyValue*	kv;
-	budStr				jointName;
-	budAngles			jointScale;
+	String				jointName;
+	Angles			jointScale;
 	jointHandle_t		joint;
-	budVec3				local_dir;
+	Vector3				local_dir;
 	bool				talks;
 	
 	if( !g_monsters.GetBool() )
@@ -973,15 +973,15 @@ void budAI::Spawn()
 	}
 	
 	// move up to make sure the monster is at least an epsilon above the floor
-	physicsObj.SetOrigin( GetPhysics()->GetOrigin() + budVec3( 0, 0, CM_CLIP_EPSILON ) );
+	physicsObj.SetOrigin( GetPhysics()->GetOrigin() + Vector3( 0, 0, CM_CLIP_EPSILON ) );
 	
 	if( num_cinematics )
 	{
-		physicsObj.SetGravity( vec3_origin );
+		physicsObj.SetGravity( Vector3_Origin );
 	}
 	else
 	{
-		budVec3 gravity = spawnArgs.GetVector( "gravityDir", "0 0 -1" );
+		Vector3 gravity = spawnArgs.GetVector( "gravityDir", "0 0 -1" );
 		gravity *= g_gravity.GetFloat();
 		physicsObj.SetGravity( gravity );
 	}
@@ -990,7 +990,7 @@ void budAI::Spawn()
 	
 	physicsObj.GetGravityAxis().ProjectVector( viewAxis[ 0 ], local_dir );
 	current_yaw		= local_dir.ToYaw();
-	ideal_yaw		= budMath::AngleNormalize180( current_yaw );
+	ideal_yaw		= Math::AngleNormalize180( current_yaw );
 	
 	move.blockTime = 0;
 	
@@ -999,11 +999,11 @@ void budAI::Spawn()
 	projectile		= NULL;
 	projectileDef	= NULL;
 	projectileClipModel	= NULL;
-	budStr projectileName;
+	String projectileName;
 	if( spawnArgs.GetString( "def_projectile", "", projectileName ) && projectileName.Length() )
 	{
 		projectileDef = gameLocal.FindEntityDefDict( projectileName );
-		CreateProjectile( vec3_origin, viewAxis[ 0 ] );
+		CreateProjectile( Vector3_Origin, viewAxis[ 0 ] );
 		projectileRadius	= projectile.GetEntity()->GetPhysics()->GetClipModel()->GetBounds().GetRadius();
 		projectileVelocity	= idProjectile::GetVelocity( projectileDef );
 		projectileGravity	= idProjectile::GetGravity( projectileDef );
@@ -1055,7 +1055,7 @@ void budAI::Spawn()
 }
 
 
-void budAI::Gib( const budVec3& dir, const char* damageDefName )
+void budAI::Gib( const Vector3& dir, const char* damageDefName )
 {
 	if( harvestEnt.GetEntity() )
 	{
@@ -1073,7 +1073,7 @@ budAI::InitMuzzleFlash
 void budAI::InitMuzzleFlash()
 {
 	const char*			shader;
-	budVec3				flashColor;
+	Vector3				flashColor;
 	
 	spawnArgs.GetString( "mtr_flashShader", "muzzleflash", &shader );
 	spawnArgs.GetVector( "flashColor", "0 0 0", flashColor );
@@ -1101,7 +1101,7 @@ void budAI::InitMuzzleFlash()
 budAI::List_f
 ===================
 */
-void budAI::List_f( const budCmdArgs& args )
+void budAI::List_f( const CmdArgs& args )
 {
 	int		e;
 	budAI*	check;
@@ -1194,7 +1194,7 @@ void budAI::DormantEnd()
 budAI::Think
 =====================
 */
-budCVar ai_think( "ai_think", "1", CVAR_BOOL, "for testing.." );
+CVar ai_think( "ai_think", "1", CVAR_BOOL, "for testing.." );
 void budAI::Think()
 {
 	// if we are completely closed off from the player, don't do anything at all
@@ -1221,9 +1221,9 @@ void budAI::Think()
 		}
 		
 		current_yaw += deltaViewAngles.yaw;
-		ideal_yaw = budMath::AngleNormalize180( ideal_yaw + deltaViewAngles.yaw );
+		ideal_yaw = Math::AngleNormalize180( ideal_yaw + deltaViewAngles.yaw );
 		deltaViewAngles.Zero();
-		viewAxis = budAngles( 0, current_yaw, 0 ).ToMat3();
+		viewAxis = Angles( 0, current_yaw, 0 ).ToMat3();
 		
 		if( num_cinematics )
 		{
@@ -1324,7 +1324,7 @@ void budAI::Think()
 	
 	if( ai_showHealth.GetBool() )
 	{
-		budVec3 aboveHead( 0, 0, 20 );
+		Vector3 aboveHead( 0, 0, 20 );
 		gameRenderWorld->DrawText( va( "%d", ( int )health ), this->GetEyePosition() + aboveHead, 0.5f, colorWhite, gameLocal.GetLocalPlayer()->viewAngles.ToMat3() );
 	}
 }
@@ -1392,7 +1392,7 @@ void budAI::UpdateAIScript()
 budAI::KickObstacles
 ============
 */
-void budAI::KickObstacles( const budVec3& dir, float force, idEntity* alwaysKick )
+void budAI::KickObstacles( const Vector3& dir, float force, idEntity* alwaysKick )
 {
 	int i, numListedClipModels;
 	budBounds clipBounds;
@@ -1400,10 +1400,10 @@ void budAI::KickObstacles( const budVec3& dir, float force, idEntity* alwaysKick
 	budClipModel* clipModel;
 	budClipModel* clipModelList[ MAX_GENTITIES ];
 	int clipmask;
-	budVec3 org;
-	budVec3 forceVec;
-	budVec3 delta;
-	budVec2 perpendicular;
+	Vector3 org;
+	Vector3 forceVec;
+	Vector3 delta;
+	Vector2 perpendicular;
 	
 	org = physicsObj.GetOrigin();
 	
@@ -1485,7 +1485,7 @@ budAI::SetAAS
 */
 void budAI::SetAAS()
 {
-	budStr use_aas;
+	String use_aas;
 	
 	spawnArgs.GetString( "use_aas", NULL, use_aas );
 	aas = gameLocal.GetAAS( use_aas );
@@ -1535,11 +1535,11 @@ void budAI::DrawRoute() const
 budAI::ReachedPos
 =====================
 */
-bool budAI::ReachedPos( const budVec3& pos, const moveCommand_t moveCommand ) const
+bool budAI::ReachedPos( const Vector3& pos, const moveCommand_t moveCommand ) const
 {
 	if( move.moveType == MOVETYPE_SLIDE )
 	{
-		budBounds bnds( budVec3( -4, -4.0f, -8.0f ), budVec3( 4.0f, 4.0f, 64.0f ) );
+		budBounds bnds( Vector3( -4, -4.0f, -8.0f ), Vector3( 4.0f, 4.0f, 64.0f ) );
 		bnds.TranslateSelf( physicsObj.GetOrigin() );
 		if( bnds.ContainsPoint( pos ) )
 		{
@@ -1557,7 +1557,7 @@ bool budAI::ReachedPos( const budVec3& pos, const moveCommand_t moveCommand ) co
 		}
 		else
 		{
-			budBounds bnds( budVec3( -16.0, -16.0f, -8.0f ), budVec3( 16.0, 16.0f, 64.0f ) );
+			budBounds bnds( Vector3( -16.0, -16.0f, -8.0f ), Vector3( 16.0, 16.0f, 64.0f ) );
 			bnds.TranslateSelf( physicsObj.GetOrigin() );
 			if( bnds.ContainsPoint( pos ) )
 			{
@@ -1573,10 +1573,10 @@ bool budAI::ReachedPos( const budVec3& pos, const moveCommand_t moveCommand ) co
 budAI::PointReachableAreaNum
 =====================
 */
-int budAI::PointReachableAreaNum( const budVec3& pos, const float boundsScale ) const
+int budAI::PointReachableAreaNum( const Vector3& pos, const float boundsScale ) const
 {
 	int areaNum;
-	budVec3 size;
+	Vector3 size;
 	budBounds bounds;
 	
 	if( !aas )
@@ -1606,10 +1606,10 @@ int budAI::PointReachableAreaNum( const budVec3& pos, const float boundsScale ) 
 budAI::PathToGoal
 =====================
 */
-bool budAI::PathToGoal( aasPath_t& path, int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin ) const
+bool budAI::PathToGoal( aasPath_t& path, int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin ) const
 {
-	budVec3 org;
-	budVec3 goal;
+	Vector3 org;
+	Vector3 goal;
 	
 	if( !aas )
 	{
@@ -1650,12 +1650,12 @@ This is feakin' slow, so it's not good to do it too many times per frame.  It al
 are from the goal, so try to break the goals up into shorter distances.
 =====================
 */
-float budAI::TravelDistance( const budVec3& start, const budVec3& end ) const
+float budAI::TravelDistance( const Vector3& start, const Vector3& end ) const
 {
 	int			fromArea;
 	int			toArea;
 	float		dist;
-	budVec2		delta;
+	Vector2		delta;
 	aasPath_t	path;
 	
 	if( !aas )
@@ -1791,7 +1791,7 @@ bool budAI::FaceEntity( idEntity* ent )
 		return false;
 	}
 	
-	budVec3 entityOrg = ent->GetPhysics()->GetOrigin();
+	Vector3 entityOrg = ent->GetPhysics()->GetOrigin();
 	TurnToward( entityOrg );
 	move.goalEntity		= ent;
 	move.moveDest		= physicsObj.GetOrigin();
@@ -1811,7 +1811,7 @@ bool budAI::FaceEntity( idEntity* ent )
 budAI::DirectMoveToPosition
 =====================
 */
-bool budAI::DirectMoveToPosition( const budVec3& pos )
+bool budAI::DirectMoveToPosition( const Vector3& pos )
 {
 	if( ReachedPos( pos, move.moveCommand ) )
 	{
@@ -1831,7 +1831,7 @@ bool budAI::DirectMoveToPosition( const budVec3& pos )
 	
 	if( move.moveType == MOVETYPE_FLY )
 	{
-		budVec3 dir = pos - physicsObj.GetOrigin();
+		Vector3 dir = pos - physicsObj.GetOrigin();
 		dir.Normalize();
 		dir *= fly_speed;
 		physicsObj.SetLinearVelocity( dir );
@@ -1897,7 +1897,7 @@ bool budAI::MoveToEnemy()
 		return true;
 	}
 	
-	budVec3 pos = lastVisibleReachableEnemyPos;
+	Vector3 pos = lastVisibleReachableEnemyPos;
 	
 	move.toAreaNum = 0;
 	if( aas )
@@ -1960,7 +1960,7 @@ bool budAI::MoveToEntity( idEntity* ent )
 {
 	int			areaNum;
 	aasPath_t	path;
-	budVec3		pos;
+	Vector3		pos;
 	
 	if( !ent )
 	{
@@ -2044,7 +2044,7 @@ bool budAI::MoveOutOfRange( idEntity* ent, float range )
 	aasObstacle_t	obstacle;
 	aasGoal_t		goal;
 	budBounds		bounds;
-	budVec3			pos;
+	Vector3			pos;
 	
 	if( !aas || !ent )
 	{
@@ -2053,7 +2053,7 @@ bool budAI::MoveOutOfRange( idEntity* ent, float range )
 		return false;
 	}
 	
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	areaNum	= PointReachableAreaNum( org );
 	
 	// consider the entity the monster is getting close to as an obstacle
@@ -2108,7 +2108,7 @@ bool budAI::MoveToAttackPosition( idEntity* ent, int attack_anim )
 	aasObstacle_t	obstacle;
 	aasGoal_t		goal;
 	budBounds		bounds;
-	budVec3			pos;
+	Vector3			pos;
 	
 	if( !aas || !ent )
 	{
@@ -2117,7 +2117,7 @@ bool budAI::MoveToAttackPosition( idEntity* ent, int attack_anim )
 		return false;
 	}
 	
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	areaNum	= PointReachableAreaNum( org );
 	
 	// consider the entity the monster is getting close to as an obstacle
@@ -2160,9 +2160,9 @@ bool budAI::MoveToAttackPosition( idEntity* ent, int attack_anim )
 budAI::MoveToPosition
 =====================
 */
-bool budAI::MoveToPosition( const budVec3& pos )
+bool budAI::MoveToPosition( const Vector3& pos )
 {
-	budVec3		org;
+	Vector3		org;
 	int			areaNum;
 	aasPath_t	path;
 	
@@ -2213,7 +2213,7 @@ bool budAI::MoveToPosition( const budVec3& pos )
 budAI::MoveToCover
 =====================
 */
-bool budAI::MoveToCover( idEntity* entity, const budVec3& hideFromPos )
+bool budAI::MoveToCover( idEntity* entity, const Vector3& hideFromPos )
 {
 	int				areaNum;
 	aasObstacle_t	obstacle;
@@ -2227,7 +2227,7 @@ bool budAI::MoveToCover( idEntity* entity, const budVec3& hideFromPos )
 		return false;
 	}
 	
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	areaNum	= PointReachableAreaNum( org );
 	
 	// consider the entity the monster tries to hide from as an obstacle
@@ -2266,7 +2266,7 @@ bool budAI::MoveToCover( idEntity* entity, const budVec3& hideFromPos )
 budAI::SlideToPosition
 =====================
 */
-bool budAI::SlideToPosition( const budVec3& pos, float time )
+bool budAI::SlideToPosition( const Vector3& pos, float time )
 {
 	StopMove( MOVE_STATUS_DONE );
 	
@@ -2338,10 +2338,10 @@ budAI::StepDirection
 bool budAI::StepDirection( float dir )
 {
 	predictedPath_t path;
-	budVec3 org;
+	Vector3 org;
 	
 	move.wanderYaw = dir;
-	move.moveDir = budAngles( 0, move.wanderYaw, 0 ).ToForward();
+	move.moveDir = Angles( 0, move.wanderYaw, 0 ).ToForward();
 	
 	org = physicsObj.GetOrigin();
 	
@@ -2360,9 +2360,9 @@ bool budAI::StepDirection( float dir )
 		move.moveDir = path.endVelocity * 1.0f / 48.0f;
 		
 		// trace down to the floor and see if we can go forward
-		budAI::PredictPath( this, aas, org, budVec3( 0.0f, 0.0f, -1024.0f ), 1000, 1000, SE_BLOCKED, path );
+		budAI::PredictPath( this, aas, org, Vector3( 0.0f, 0.0f, -1024.0f ), 1000, 1000, SE_BLOCKED, path );
 		
-		budVec3 floorPos = path.endPos;
+		Vector3 floorPos = path.endPos;
 		budAI::PredictPath( this, aas, floorPos, move.moveDir * 48.0f, 1000, 1000, SE_BLOCKED, path );
 		if( !path.endEvent )
 		{
@@ -2371,13 +2371,13 @@ bool budAI::StepDirection( float dir )
 		}
 		
 		// trace up to see if we can go over something and go forward
-		budAI::PredictPath( this, aas, org, budVec3( 0.0f, 0.0f, 256.0f ), 1000, 1000, SE_BLOCKED, path );
+		budAI::PredictPath( this, aas, org, Vector3( 0.0f, 0.0f, 256.0f ), 1000, 1000, SE_BLOCKED, path );
 		
-		budVec3 ceilingPos = path.endPos;
+		Vector3 ceilingPos = path.endPos;
 		
 		for( z = org.z; z <= ceilingPos.z + 64.0f; z += 64.0f )
 		{
-			budVec3 start;
+			Vector3 start;
 			if( z <= ceilingPos.z )
 			{
 				start.x = org.x;
@@ -2406,7 +2406,7 @@ bool budAI::StepDirection( float dir )
 budAI::NewWanderDir
 ================
 */
-bool budAI::NewWanderDir( const budVec3& dest )
+bool budAI::NewWanderDir( const Vector3& dest )
 {
 	float	deltax, deltay;
 	float	d[ 3 ];
@@ -2414,10 +2414,10 @@ bool budAI::NewWanderDir( const budVec3& dest )
 	
 	move.nextWanderTime = gameLocal.time + ( gameLocal.random.RandomFloat() * 500 + 500 );
 	
-	olddir = budMath::AngleNormalize360( ( int )( current_yaw / 45 ) * 45 );
-	turnaround = budMath::AngleNormalize360( olddir - 180 );
+	olddir = Math::AngleNormalize360( ( int )( current_yaw / 45 ) * 45 );
+	turnaround = Math::AngleNormalize360( olddir - 180 );
 	
-	budVec3 org = physicsObj.GetOrigin();
+	Vector3 org = physicsObj.GetOrigin();
 	deltax = dest.x - org.x;
 	deltay = dest.y - org.y;
 	if( deltax > 10 )
@@ -2465,7 +2465,7 @@ bool budAI::NewWanderDir( const budVec3& dest )
 	}
 	
 	// try other directions
-	if( ( gameLocal.random.RandomInt() & 1 ) || budMath::Fabs( deltay ) > budMath::Fabs( deltax ) )
+	if( ( gameLocal.random.RandomInt() & 1 ) || Math::Fabs( deltay ) > Math::Fabs( deltax ) )
 	{
 		tdir = d[ 1 ];
 		d[ 1 ] = d[ 2 ];
@@ -2525,12 +2525,12 @@ bool budAI::NewWanderDir( const budVec3& dest )
 budAI::GetMovePos
 =====================
 */
-bool budAI::GetMovePos( budVec3& seekPos )
+bool budAI::GetMovePos( Vector3& seekPos )
 {
 	int			areaNum;
 	aasPath_t	path;
 	bool		result;
-	budVec3		org;
+	Vector3		org;
 	
 	org = physicsObj.GetOrigin();
 	seekPos = org;
@@ -2645,9 +2645,9 @@ bool budAI::GetMovePos( budVec3& seekPos )
 budAI::EntityCanSeePos
 =====================
 */
-bool budAI::EntityCanSeePos( budActor* actor, const budVec3& actorOrigin, const budVec3& pos )
+bool budAI::EntityCanSeePos( budActor* actor, const Vector3& actorOrigin, const Vector3& pos )
 {
-	budVec3 eye, point;
+	Vector3 eye, point;
 	trace_t results;
 	pvsHandle_t handle;
 	
@@ -2753,7 +2753,7 @@ void budAI::Turn()
 	
 	if( anim_turn_angles && animflags.anim_turn )
 	{
-		budMat3 rotateAxis;
+		Matrix3 rotateAxis;
 		
 		// set the blend between no turn and full turn
 		float frac = anim_turn_amount / anim_turn_angles;
@@ -2764,11 +2764,11 @@ void budAI::Turn()
 		
 		// get the total rotation from the start of the anim
 		animator.GetDeltaRotation( 0, gameLocal.time, rotateAxis );
-		current_yaw = budMath::AngleNormalize180( anim_turn_yaw + rotateAxis[ 0 ].ToYaw() );
+		current_yaw = Math::AngleNormalize180( anim_turn_yaw + rotateAxis[ 0 ].ToYaw() );
 	}
 	else
 	{
-		diff = budMath::AngleNormalize180( ideal_yaw - current_yaw );
+		diff = Math::AngleNormalize180( ideal_yaw - current_yaw );
 		turnVel += AI_TURN_SCALE * diff * MS2SEC( gameLocal.time - gameLocal.previousTime );
 		if( turnVel > turnRate )
 		{
@@ -2790,22 +2790,22 @@ void budAI::Turn()
 			turnAmount = diff;
 		}
 		current_yaw += turnAmount;
-		current_yaw = budMath::AngleNormalize180( current_yaw );
-		diff2 = budMath::AngleNormalize180( ideal_yaw - current_yaw );
-		if( budMath::Fabs( diff2 ) < 0.1f )
+		current_yaw = Math::AngleNormalize180( current_yaw );
+		diff2 = Math::AngleNormalize180( ideal_yaw - current_yaw );
+		if( Math::Fabs( diff2 ) < 0.1f )
 		{
 			current_yaw = ideal_yaw;
 		}
 	}
 	
-	viewAxis = budAngles( 0, current_yaw, 0 ).ToMat3();
+	viewAxis = Angles( 0, current_yaw, 0 ).ToMat3();
 	
 	if( ai_debugMove.GetBool() )
 	{
-		const budVec3& org = physicsObj.GetOrigin();
-		gameRenderWorld->DebugLine( colorRed, org, org + budAngles( 0, ideal_yaw, 0 ).ToForward() * 64, 1 );
-		gameRenderWorld->DebugLine( colorGreen, org, org + budAngles( 0, current_yaw, 0 ).ToForward() * 48, 1 );
-		gameRenderWorld->DebugLine( colorYellow, org, org + budAngles( 0, current_yaw + turnVel, 0 ).ToForward() * 32, 1 );
+		const Vector3& org = physicsObj.GetOrigin();
+		gameRenderWorld->DebugLine( colorRed, org, org + Angles( 0, ideal_yaw, 0 ).ToForward() * 64, 1 );
+		gameRenderWorld->DebugLine( colorGreen, org, org + Angles( 0, current_yaw, 0 ).ToForward() * 48, 1 );
+		gameRenderWorld->DebugLine( colorYellow, org, org + Angles( 0, current_yaw + turnVel, 0 ).ToForward() * 32, 1 );
 	}
 }
 
@@ -2823,8 +2823,8 @@ bool budAI::FacingIdeal()
 		return true;
 	}
 	
-	diff = budMath::AngleNormalize180( current_yaw - ideal_yaw );
-	if( budMath::Fabs( diff ) < 0.01f )
+	diff = Math::AngleNormalize180( current_yaw - ideal_yaw );
+	if( Math::Fabs( diff ) < 0.01f )
 	{
 		// force it to be exact
 		current_yaw = ideal_yaw;
@@ -2841,7 +2841,7 @@ budAI::TurnToward
 */
 bool budAI::TurnToward( float yaw )
 {
-	ideal_yaw = budMath::AngleNormalize180( yaw );
+	ideal_yaw = Math::AngleNormalize180( yaw );
 	bool result = FacingIdeal();
 	return result;
 }
@@ -2851,10 +2851,10 @@ bool budAI::TurnToward( float yaw )
 budAI::TurnToward
 =====================
 */
-bool budAI::TurnToward( const budVec3& pos )
+bool budAI::TurnToward( const Vector3& pos )
 {
-	budVec3 dir;
-	budVec3 local_dir;
+	Vector3 dir;
+	Vector3 local_dir;
 	float lengthSqr;
 	
 	dir = pos - physicsObj.GetOrigin();
@@ -2863,7 +2863,7 @@ bool budAI::TurnToward( const budVec3& pos )
 	lengthSqr = local_dir.LengthSqr();
 	if( lengthSqr > Square( 2.0f ) || ( lengthSqr > Square( 0.1f ) && enemy.GetEntity() == NULL ) )
 	{
-		ideal_yaw = budMath::AngleNormalize180( local_dir.ToYaw() );
+		ideal_yaw = Math::AngleNormalize180( local_dir.ToYaw() );
 	}
 	
 	bool result = FacingIdeal();
@@ -2881,7 +2881,7 @@ bool budAI::TurnToward( const budVec3& pos )
 budAI::ApplyImpulse
 ================
 */
-void budAI::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse )
+void budAI::ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse )
 {
 	// FIXME: Jim take a look at this and see if this is a reasonable thing to do
 	// instead of a spawnArg flag.. Sabaoth is the only slide monster ( and should be the only one for D3 )
@@ -2897,10 +2897,10 @@ void budAI::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const bud
 budAI::GetMoveDelta
 =====================
 */
-void budAI::GetMoveDelta( const budMat3& oldaxis, const budMat3& axis, budVec3& delta )
+void budAI::GetMoveDelta( const Matrix3& oldaxis, const Matrix3& axis, Vector3& delta )
 {
-	budVec3 oldModelOrigin;
-	budVec3 modelOrigin;
+	Vector3 oldModelOrigin;
+	Vector3 modelOrigin;
 	
 	animator.GetDelta( gameLocal.previousTime, gameLocal.time, delta );
 	delta = axis * delta;
@@ -2923,11 +2923,11 @@ void budAI::GetMoveDelta( const budMat3& oldaxis, const budMat3& axis, budVec3& 
 budAI::CheckObstacleAvoidance
 =====================
 */
-void budAI::CheckObstacleAvoidance( const budVec3& goalPos, budVec3& newPos )
+void budAI::CheckObstacleAvoidance( const Vector3& goalPos, Vector3& newPos )
 {
 	idEntity*		obstacle;
 	obstaclePath_t	path;
-	budVec3			dir;
+	Vector3			dir;
 	float			dist;
 	bool			foundPath;
 	
@@ -2938,15 +2938,15 @@ void budAI::CheckObstacleAvoidance( const budVec3& goalPos, budVec3& newPos )
 		return;
 	}
 	
-	const budVec3& origin = physicsObj.GetOrigin();
+	const Vector3& origin = physicsObj.GetOrigin();
 	
 	obstacle = NULL;
 	AI_OBSTACLE_IN_PATH = false;
 	foundPath = FindPathAroundObstacles( &physicsObj, aas, enemy.GetEntity(), origin, goalPos, path );
 	if( ai_showObstacleAvoidance.GetBool() )
 	{
-		gameRenderWorld->DebugLine( colorBlue, goalPos + budVec3( 1.0f, 1.0f, 0.0f ), goalPos + budVec3( 1.0f, 1.0f, 64.0f ), 1 );
-		gameRenderWorld->DebugLine( foundPath ? colorYellow : colorRed, path.seekPos, path.seekPos + budVec3( 0.0f, 0.0f, 64.0f ), 1 );
+		gameRenderWorld->DebugLine( colorBlue, goalPos + Vector3( 1.0f, 1.0f, 0.0f ), goalPos + Vector3( 1.0f, 1.0f, 64.0f ), 1 );
+		gameRenderWorld->DebugLine( foundPath ? colorYellow : colorRed, path.seekPos, path.seekPos + Vector3( 0.0f, 0.0f, 64.0f ), 1 );
 	}
 	
 	if( !foundPath )
@@ -3042,10 +3042,10 @@ budAI::DeadMove
 */
 void budAI::DeadMove()
 {
-	budVec3				delta;
+	Vector3				delta;
 	monsterMoveResult_t	moveResult;
 	
-	budVec3 org = physicsObj.GetOrigin();
+	Vector3 org = physicsObj.GetOrigin();
 	
 	GetMoveDelta( viewAxis, viewAxis, delta );
 	physicsObj.SetDelta( delta );
@@ -3063,15 +3063,15 @@ budAI::AnimMove
 */
 void budAI::AnimMove()
 {
-	budVec3				goalPos;
-	budVec3				delta;
-	budVec3				goalDelta;
+	Vector3				goalPos;
+	Vector3				delta;
+	Vector3				goalDelta;
 	float				goalDist;
 	monsterMoveResult_t	moveResult;
-	budVec3				newDest;
+	Vector3				newDest;
 	
-	budVec3 oldorigin = physicsObj.GetOrigin();
-	budMat3 oldaxis = viewAxis;
+	Vector3 oldorigin = physicsObj.GetOrigin();
+	Matrix3 oldaxis = viewAxis;
 	
 	AI_BLOCKED = false;
 	
@@ -3170,7 +3170,7 @@ void budAI::AnimMove()
 	
 	AI_ONGROUND = physicsObj.OnGround();
 	
-	budVec3 org = physicsObj.GetOrigin();
+	Vector3 org = physicsObj.GetOrigin();
 	if( oldorigin != org )
 	{
 		TouchTriggers();
@@ -3190,11 +3190,11 @@ void budAI::AnimMove()
 Seek
 =====================
 */
-budVec3 Seek( budVec3& vel, const budVec3& org, const budVec3& goal, float prediction )
+Vector3 Seek( Vector3& vel, const Vector3& org, const Vector3& goal, float prediction )
 {
-	budVec3 predictedPos;
-	budVec3 goalDelta;
-	budVec3 seekVel;
+	Vector3 predictedPos;
+	Vector3 goalDelta;
+	Vector3 seekVel;
 	
 	// predict our position
 	predictedPos = org + vel * prediction;
@@ -3211,15 +3211,15 @@ budAI::SlideMove
 */
 void budAI::SlideMove()
 {
-	budVec3				goalPos;
-	budVec3				delta;
-	budVec3				goalDelta;
+	Vector3				goalPos;
+	Vector3				delta;
+	Vector3				goalDelta;
 	float				goalDist;
 	monsterMoveResult_t	moveResult;
-	budVec3				newDest;
+	Vector3				newDest;
 	
-	budVec3 oldorigin = physicsObj.GetOrigin();
-	budMat3 oldaxis = viewAxis;
+	Vector3 oldorigin = physicsObj.GetOrigin();
+	Matrix3 oldaxis = viewAxis;
 	
 	AI_BLOCKED = false;
 	
@@ -3270,9 +3270,9 @@ void budAI::SlideMove()
 		}
 	}
 	
-	budVec3 vel = physicsObj.GetLinearVelocity();
+	Vector3 vel = physicsObj.GetLinearVelocity();
 	float z = vel.z;
-	budVec3  predictedPos = oldorigin + vel * AI_SEEK_PREDICTION;
+	Vector3  predictedPos = oldorigin + vel * AI_SEEK_PREDICTION;
 	
 	// seek the goal position
 	goalDelta = goalPos - predictedPos;
@@ -3326,7 +3326,7 @@ void budAI::SlideMove()
 	
 	AI_ONGROUND = physicsObj.OnGround();
 	
-	budVec3 org = physicsObj.GetOrigin();
+	Vector3 org = physicsObj.GetOrigin();
 	if( oldorigin != org )
 	{
 		TouchTriggers();
@@ -3348,7 +3348,7 @@ budAI::AdjustFlyingAngles
 */
 void budAI::AdjustFlyingAngles()
 {
-	budVec3	vel;
+	Vector3	vel;
 	float 	speed;
 	float 	roll;
 	float 	pitch;
@@ -3389,11 +3389,11 @@ void budAI::AdjustFlyingAngles()
 	
 	if( flyTiltJoint != INVALID_JOINT )
 	{
-		animator.SetJointAxis( flyTiltJoint, JOINTMOD_WORLD, budAngles( fly_pitch, 0.0f, fly_roll ).ToMat3() );
+		animator.SetJointAxis( flyTiltJoint, JOINTMOD_WORLD, Angles( fly_pitch, 0.0f, fly_roll ).ToMat3() );
 	}
 	else
 	{
-		viewAxis = budAngles( fly_pitch, current_yaw, fly_roll ).ToMat3();
+		viewAxis = Angles( fly_pitch, current_yaw, fly_roll ).ToMat3();
 	}
 }
 
@@ -3402,19 +3402,19 @@ void budAI::AdjustFlyingAngles()
 budAI::AddFlyBob
 =====================
 */
-void budAI::AddFlyBob( budVec3& vel )
+void budAI::AddFlyBob( Vector3& vel )
 {
-	budVec3	fly_bob_add;
+	Vector3	fly_bob_add;
 	float	t;
 	
 	if( fly_bob_strength )
 	{
 		t = MS2SEC( gameLocal.time + entityNumber * 497 );
-		fly_bob_add = ( viewAxis[ 1 ] * budMath::Sin16( t * fly_bob_horz ) + viewAxis[ 2 ] * budMath::Sin16( t * fly_bob_vert ) ) * fly_bob_strength;
+		fly_bob_add = ( viewAxis[ 1 ] * Math::Sin16( t * fly_bob_horz ) + viewAxis[ 2 ] * Math::Sin16( t * fly_bob_vert ) ) * fly_bob_strength;
 		vel += fly_bob_add * MS2SEC( gameLocal.time - gameLocal.previousTime );
 		if( ai_debugMove.GetBool() )
 		{
-			const budVec3& origin = physicsObj.GetOrigin();
+			const Vector3& origin = physicsObj.GetOrigin();
 			gameRenderWorld->DebugArrow( colorOrange, origin, origin + fly_bob_add, 0 );
 		}
 	}
@@ -3425,12 +3425,12 @@ void budAI::AddFlyBob( budVec3& vel )
 budAI::AdjustFlyHeight
 =====================
 */
-void budAI::AdjustFlyHeight( budVec3& vel, const budVec3& goalPos )
+void budAI::AdjustFlyHeight( Vector3& vel, const Vector3& goalPos )
 {
-	const budVec3&	origin = physicsObj.GetOrigin();
+	const Vector3&	origin = physicsObj.GetOrigin();
 	predictedPath_t path;
-	budVec3			end;
-	budVec3			dest;
+	Vector3			end;
+	Vector3			dest;
 	trace_t			trace;
 	budActor*			enemyEnt;
 	bool			goLower;
@@ -3444,7 +3444,7 @@ void budAI::AdjustFlyHeight( budVec3& vel, const budVec3& goalPos )
 		budAI::PredictPath( this, aas, goalPos, dest - origin, 1000, 1000, SE_BLOCKED, path );
 		if( path.endPos.z < origin.z )
 		{
-			budVec3 addVel = Seek( vel, origin, path.endPos, AI_SEEK_PREDICTION );
+			Vector3 addVel = Seek( vel, origin, path.endPos, AI_SEEK_PREDICTION );
 			vel.z += addVel.z;
 			goLower = true;
 		}
@@ -3481,9 +3481,9 @@ void budAI::AdjustFlyHeight( budVec3& vel, const budVec3& goalPos )
 budAI::FlySeekGoal
 =====================
 */
-void budAI::FlySeekGoal( budVec3& vel, budVec3& goalPos )
+void budAI::FlySeekGoal( Vector3& vel, Vector3& goalPos )
 {
-	budVec3 seekVel;
+	Vector3 seekVel;
 	
 	// seek the goal position
 	seekVel = Seek( vel, physicsObj.GetOrigin(), goalPos, AI_SEEK_PREDICTION );
@@ -3496,7 +3496,7 @@ void budAI::FlySeekGoal( budVec3& vel, budVec3& goalPos )
 budAI::AdjustFlySpeed
 =====================
 */
-void budAI::AdjustFlySpeed( budVec3& vel )
+void budAI::AdjustFlySpeed( Vector3& vel )
 {
 	float speed;
 	
@@ -3535,7 +3535,7 @@ void budAI::FlyTurn()
 	}
 	else if( move.speed > 0.0f )
 	{
-		const budVec3& vel = physicsObj.GetLinearVelocity();
+		const Vector3& vel = physicsObj.GetLinearVelocity();
 		if( vel.ToVec2().LengthSqr() > 0.1f )
 		{
 			TurnToward( vel.ToYaw() );
@@ -3551,9 +3551,9 @@ budAI::FlyMove
 */
 void budAI::FlyMove()
 {
-	budVec3	goalPos;
-	budVec3	oldorigin;
-	budVec3	newDest;
+	Vector3	goalPos;
+	Vector3	oldorigin;
+	Vector3	newDest;
 	
 	AI_BLOCKED = false;
 	if( ( move.moveCommand != MOVE_NONE ) && ReachedPos( move.moveDest, move.moveCommand ) )
@@ -3568,7 +3568,7 @@ void budAI::FlyMove()
 	
 	if( move.moveCommand != MOVE_TO_POSITION_DIRECT )
 	{
-		budVec3 vel = physicsObj.GetLinearVelocity();
+		Vector3 vel = physicsObj.GetLinearVelocity();
 		
 		if( GetMovePos( goalPos ) )
 		{
@@ -3624,7 +3624,7 @@ void budAI::FlyMove()
 		}
 	}
 	
-	budVec3 org = physicsObj.GetOrigin();
+	Vector3 org = physicsObj.GetOrigin();
 	if( oldorigin != org )
 	{
 		TouchTriggers();
@@ -3682,7 +3682,7 @@ void budAI::StaticMove()
 	
 	if( ai_debugMove.GetBool() )
 	{
-		const budVec3& org = physicsObj.GetOrigin();
+		const Vector3& org = physicsObj.GetOrigin();
 		gameRenderWorld->DebugBounds( colorMagenta, physicsObj.GetBounds(), org, 1 );
 		gameRenderWorld->DebugLine( colorBlue, org, move.moveDest, 1, true );
 		gameRenderWorld->DebugLine( colorYellow, org + EyeOffset(), org + EyeOffset() + viewAxis[ 0 ] * physicsObj.GetGravityAxis() * 16.0f, 1, true );
@@ -3748,7 +3748,7 @@ int budAI::ReactionTo( const idEntity* ent )
 budAI::Pain
 =====================
 */
-bool budAI::Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+bool budAI::Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	budActor*	actor;
 	
@@ -3797,12 +3797,12 @@ void budAI::SpawnParticles( const char* keyName )
 	{
 		particleEmitter_t pe;
 		
-		budStr particleName = kv->GetValue();
+		String particleName = kv->GetValue();
 		
 		if( particleName.Length() )
 		{
 		
-			budStr jointName = kv->GetValue();
+			String jointName = kv->GetValue();
 			int dash = jointName.Find( '-' );
 			if( dash > 0 )
 			{
@@ -3825,8 +3825,8 @@ budAI::SpawnParticlesOnJoint
 */
 const budDeclParticle* budAI::SpawnParticlesOnJoint( particleEmitter_t& pe, const char* particleName, const char* jointName )
 {
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( *particleName == '\0' )
 	{
@@ -3868,13 +3868,13 @@ const budDeclParticle* budAI::SpawnParticlesOnJoint( particleEmitter_t& pe, cons
 budAI::Killed
 =====================
 */
-void budAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void budAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
-	budAngles ang;
+	Angles ang;
 	const char* modelDeath;
 	
 	// Guardian died?  grats, you get an achievement
-	if( budStr::Icmp( name, "guardian_spawn" ) == 0 )
+	if( String::Icmp( name, "guardian_spawn" ) == 0 )
 	{
 		budPlayer* player = gameLocal.GetLocalPlayer();
 		if( player != NULL && player->GetExpansionType() == GAME_BASE )
@@ -3974,7 +3974,7 @@ void budAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const b
 	const idKeyValue* kv = spawnArgs.MatchPrefix( "def_drops", NULL );
 	while( kv )
 	{
-		idDict args;
+		Dict args;
 		
 		args.Set( "classname", kv->GetValue() );
 		args.Set( "origin", physicsObj.GetOrigin().ToString() );
@@ -3989,7 +3989,7 @@ void budAI::Killed( idEntity* inflictor, idEntity* attacker, int damage, const b
 	
 	if( spawnArgs.GetBool( "harvest_on_death" ) )
 	{
-		const idDict* harvestDef = gameLocal.FindEntityDefDict( spawnArgs.GetString( "def_harvest_type" ), false );
+		const Dict* harvestDef = gameLocal.FindEntityDefDict( spawnArgs.GetString( "def_harvest_type" ), false );
 		if( harvestDef )
 		{
 			idEntity* temp;
@@ -4274,8 +4274,8 @@ budAI::EnemyPositionValid
 bool budAI::EnemyPositionValid() const
 {
 	trace_t	tr;
-	budVec3	muzzle;
-	budMat3	axis;
+	Vector3	muzzle;
+	Matrix3	axis;
 	
 	if( !enemy.GetEntity() )
 	{
@@ -4309,7 +4309,7 @@ void budAI::SetEnemyPosition()
 	int			areaNum;
 	int			lastVisibleReachableEnemyAreaNum = 0;
 	aasPath_t	path;
-	budVec3		pos;
+	Vector3		pos;
 	bool		onGround;
 	
 	if( !enemyEnt )
@@ -4374,7 +4374,7 @@ void budAI::SetEnemyPosition()
 		}
 		else
 		{
-			const budVec3& org = physicsObj.GetOrigin();
+			const Vector3& org = physicsObj.GetOrigin();
 			areaNum = PointReachableAreaNum( org );
 			if( PathToGoal( path, areaNum, org, enemyAreaNum, pos ) )
 			{
@@ -4408,7 +4408,7 @@ void budAI::SetEnemyPosition()
 		if( move.moveType == MOVETYPE_FLY )
 		{
 			predictedPath_t path;
-			budVec3 end = move.moveDest;
+			Vector3 end = move.moveDest;
 			end.z += enemyEnt->EyeOffset().z + fly_offset;
 			budAI::PredictPath( this, aas, move.moveDest, end - move.moveDest, 1000, 1000, SE_BLOCKED, path );
 			move.moveDest = path.endPos;
@@ -4429,7 +4429,7 @@ void budAI::UpdateEnemyPosition()
 	int				areaNum;
 	aasPath_t		path;
 	predictedPath_t predictedPath;
-	budVec3			enemyPos;
+	Vector3			enemyPos;
 	bool			onGround;
 	
 	if( !enemyEnt )
@@ -4437,7 +4437,7 @@ void budAI::UpdateEnemyPosition()
 		return;
 	}
 	
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	
 	if( move.moveType == MOVETYPE_FLY )
 	{
@@ -4534,7 +4534,7 @@ void budAI::SetEnemy( budActor* newEnemy )
 	
 		// Check to see if we should unlock the 'Turncloak' achievement
 		const budActor* enemyEnt = enemy.GetEntity();
-		if( enemyEnt != NULL && enemyEnt->IsType( budPlayer::Type ) && newEnemy->IsType( budAI::Type ) && newEnemy->team == this->team && ( budStr::Icmp( newEnemy->GetName(), "hazmat_dummy" ) != 0 ) )
+		if( enemyEnt != NULL && enemyEnt->IsType( budPlayer::Type ) && newEnemy->IsType( budAI::Type ) && newEnemy->team == this->team && ( String::Icmp( newEnemy->GetName(), "hazmat_dummy" ) != 0 ) )
 		{
 			budPlayer* player = gameLocal.GetLocalPlayer();
 			if( player != NULL )
@@ -4571,10 +4571,10 @@ void budAI::SetEnemy( budActor* newEnemy )
 budAI::FirstVisiblePointOnPath
 ============
 */
-budVec3 budAI::FirstVisiblePointOnPath( const budVec3 origin, const budVec3& target, int travelFlags ) const
+Vector3 budAI::FirstVisiblePointOnPath( const Vector3 origin, const Vector3& target, int travelFlags ) const
 {
 	int i, areaNum, targetAreaNum, curAreaNum, travelTime;
-	budVec3 curOrigin;
+	Vector3 curOrigin;
 	idReachability* reach;
 	
 	if( !aas )
@@ -4637,7 +4637,7 @@ void budAI::CalculateAttackOffsets()
 	int						i;
 	int						frame;
 	const frameCommand_t*	command;
-	budMat3					axis;
+	Matrix3					axis;
 	const budAnim*			anim;
 	jointHandle_t			joint;
 	
@@ -4688,7 +4688,7 @@ void budAI::CreateProjectileClipModel() const
 {
 	if( projectileClipModel == NULL )
 	{
-		budBounds projectileBounds( vec3_origin );
+		budBounds projectileBounds( Vector3_Origin );
 		projectileBounds.ExpandSelf( projectileRadius );
 		projectileClipModel	= new( TAG_MODEL ) budClipModel( budTraceModel( projectileBounds ) );
 	}
@@ -4699,11 +4699,11 @@ void budAI::CreateProjectileClipModel() const
 budAI::GetAimDir
 =====================
 */
-bool budAI::GetAimDir( const budVec3& firePos, idEntity* aimAtEnt, const idEntity* ignore, budVec3& aimDir ) const
+bool budAI::GetAimDir( const Vector3& firePos, idEntity* aimAtEnt, const idEntity* ignore, Vector3& aimDir ) const
 {
-	budVec3	targetPos1;
-	budVec3	targetPos2;
-	budVec3	delta;
+	Vector3	targetPos1;
+	Vector3	targetPos2;
+	Vector3	delta;
 	float	max_height;
 	bool	result;
 	
@@ -4733,7 +4733,7 @@ bool budAI::GetAimDir( const budVec3& firePos, idEntity* aimAtEnt, const idEntit
 		targetPos2 = targetPos1;
 	}
 	
-	if( this->team == 0 && !budStr::Cmp( aimAtEnt->GetEntityDefName(), "monster_demon_vulgar" ) )
+	if( this->team == 0 && !String::Cmp( aimAtEnt->GetEntityDefName(), "monster_demon_vulgar" ) )
 	{
 		targetPos1.z -= 28.f;
 		targetPos2.z -= 12.f;
@@ -4782,7 +4782,7 @@ void budAI::EndAttack()
 budAI::CreateProjectile
 =====================
 */
-idProjectile* budAI::CreateProjectile( const budVec3& pos, const budVec3& dir )
+idProjectile* budAI::CreateProjectile( const Vector3& pos, const Vector3& dir )
 {
 	idEntity* ent;
 	const char* clsname;
@@ -4831,9 +4831,9 @@ budAI::LaunchProjectile
 */
 idProjectile* budAI::LaunchProjectile( const char* jointname, idEntity* target, bool clampToAttackCone )
 {
-	budVec3				muzzle;
-	budVec3				dir;
-	budVec3				start;
+	Vector3				muzzle;
+	Vector3				dir;
+	Vector3				start;
 	trace_t				tr;
 	budBounds			projBounds;
 	float				distance;
@@ -4844,13 +4844,13 @@ idProjectile* budAI::LaunchProjectile( const char* jointname, idEntity* target, 
 	float				diff;
 	float				angle;
 	float				spin;
-	budAngles			ang;
+	Angles			ang;
 	int					num_projectiles;
 	int					i;
-	budMat3				axis;
-	budMat3				proj_axis;
+	Matrix3				axis;
+	Matrix3				proj_axis;
 	bool				forceMuzzle;
-	budVec3				tmp;
+	Vector3				tmp;
 	idProjectile*		lastProjectile;
 	
 	if( !projectileDef )
@@ -4929,14 +4929,14 @@ idProjectile* budAI::LaunchProjectile( const char* jointname, idEntity* target, 
 	
 	// adjust his aim so it's not perfect.  uses sine based movement so the tracers appear less random in their spread.
 	float t = MS2SEC( gameLocal.time + entityNumber * 497 );
-	ang.pitch += budMath::Sin16( t * 5.1 ) * attack_accuracy;
-	ang.yaw	+= budMath::Sin16( t * 6.7 ) * attack_accuracy;
+	ang.pitch += Math::Sin16( t * 5.1 ) * attack_accuracy;
+	ang.yaw	+= Math::Sin16( t * 6.7 ) * attack_accuracy;
 	
 	if( clampToAttackCone )
 	{
 		// clamp the attack direction to be within monster's attack cone so he doesn't do
 		// things like throw the missile backwards if you're behind him
-		diff = budMath::AngleDelta( ang.yaw, current_yaw );
+		diff = Math::AngleDelta( ang.yaw, current_yaw );
 		if( diff > attack_cone )
 		{
 			ang.yaw = current_yaw + attack_cone;
@@ -4953,9 +4953,9 @@ idProjectile* budAI::LaunchProjectile( const char* jointname, idEntity* target, 
 	for( i = 0; i < num_projectiles; i++ )
 	{
 		// spread the projectiles out
-		angle = budMath::Sin( spreadRad * gameLocal.random.RandomFloat() );
+		angle = Math::Sin( spreadRad * gameLocal.random.RandomFloat() );
 		spin = ( float )DEG2RAD( 360.0f ) * gameLocal.random.RandomFloat();
-		dir = axis[ 0 ] + axis[ 2 ] * ( angle * budMath::Sin( spin ) ) - axis[ 1 ] * ( angle * budMath::Cos( spin ) );
+		dir = axis[ 0 ] + axis[ 2 ] * ( angle * Math::Sin( spin ) ) - axis[ 1 ] * ( angle * Math::Cos( spin ) );
 		dir.Normalize();
 		
 		// launch the projectile
@@ -4964,7 +4964,7 @@ idProjectile* budAI::LaunchProjectile( const char* jointname, idEntity* target, 
 			CreateProjectile( muzzle, dir );
 		}
 		lastProjectile = projectile.GetEntity();
-		lastProjectile->Launch( muzzle, dir, vec3_origin );
+		lastProjectile->Launch( muzzle, dir, Vector3_Origin );
 		projectile = NULL;
 	}
 	
@@ -5011,7 +5011,7 @@ that the view kick and knockback should go
 */
 void budAI::DirectDamage( const char* meleeDefName, idEntity* ent )
 {
-	const idDict* meleeDef;
+	const Dict* meleeDef;
 	const char* p;
 	const idSoundShader* shader;
 	
@@ -5039,10 +5039,10 @@ void budAI::DirectDamage( const char* meleeDefName, idEntity* ent )
 		StartSoundShader( shader, SND_CHANNEL_DAMAGE, 0, false, NULL );
 	}
 	
-	budVec3	kickDir;
+	Vector3	kickDir;
 	meleeDef->GetVector( "kickDir", "0 0 0", kickDir );
 	
-	budVec3	globalKickDir;
+	Vector3	globalKickDir;
 	globalKickDir = ( viewAxis * physicsObj.GetGravityAxis() ) * kickDir;
 	
 	ent->Damage( this, this, globalKickDir, meleeDefName, 1.0f, INVALID_JOINT );
@@ -5067,7 +5067,7 @@ bool budAI::TestMelee() const
 	}
 	
 	//FIXME: make work with gravity vector
-	budVec3 org = physicsObj.GetOrigin();
+	Vector3 org = physicsObj.GetOrigin();
 	const budBounds& myBounds = physicsObj.GetBounds();
 	budBounds bounds;
 	
@@ -5080,7 +5080,7 @@ bool budAI::TestMelee() const
 	bounds[1][2] = myBounds[1][2] + 4.0f;
 	bounds.TranslateSelf( org );
 	
-	budVec3 enemyOrg = enemyEnt->GetPhysics()->GetOrigin();
+	Vector3 enemyOrg = enemyEnt->GetPhysics()->GetOrigin();
 	budBounds enemyBounds = enemyEnt->GetPhysics()->GetBounds();
 	enemyBounds.TranslateSelf( enemyOrg );
 	
@@ -5094,8 +5094,8 @@ bool budAI::TestMelee() const
 		return false;
 	}
 	
-	budVec3 start = GetEyePosition();
-	budVec3 end = enemyEnt->GetEyePosition();
+	Vector3 start = GetEyePosition();
+	Vector3 end = enemyEnt->GetEyePosition();
 	
 	gameLocal.clip.TracePoint( trace, start, end, MASK_SHOT_BOUNDINGBOX, this );
 	if( ( trace.fraction == 1.0f ) || ( gameLocal.GetTraceEntity( trace ) == enemyEnt ) )
@@ -5120,7 +5120,7 @@ that the view kick and knockback should go
 */
 bool budAI::AttackMelee( const char* meleeDefName )
 {
-	const idDict* meleeDef;
+	const Dict* meleeDef;
 	budActor* enemyEnt = enemy.GetEntity();
 	const char* p;
 	const idSoundShader* shader;
@@ -5191,10 +5191,10 @@ bool budAI::AttackMelee( const char* meleeDefName )
 		StartSoundShader( shader, SND_CHANNEL_DAMAGE, 0, false, NULL );
 	}
 	
-	budVec3	kickDir;
+	Vector3	kickDir;
 	meleeDef->GetVector( "kickDir", "0 0 0", kickDir );
 	
-	budVec3	globalKickDir;
+	Vector3	globalKickDir;
 	globalKickDir = ( viewAxis * physicsObj.GetGravityAxis() ) * kickDir;
 	
 	enemyEnt->Damage( this, this, globalKickDir, meleeDefName, 1.0f, INVALID_JOINT );
@@ -5215,7 +5215,7 @@ void budAI::PushWithAF()
 	afTouch_t touchList[ MAX_GENTITIES ];
 	idEntity* pushed_ents[ MAX_GENTITIES ];
 	idEntity* ent;
-	budVec3 vel;
+	Vector3 vel;
 	int num_pushed;
 	
 	num_pushed = 0;
@@ -5266,7 +5266,7 @@ void budAI::PushWithAF()
 budAI::GetMuzzle
 ================
 */
-void budAI::GetMuzzle( const char* jointname, budVec3& muzzle, budMat3& axis )
+void budAI::GetMuzzle( const char* jointname, Vector3& muzzle, Matrix3& axis )
 {
 	jointHandle_t joint;
 	
@@ -5291,10 +5291,10 @@ void budAI::GetMuzzle( const char* jointname, budVec3& muzzle, budMat3& axis )
 budAI::TriggerWeaponEffects
 ================
 */
-void budAI::TriggerWeaponEffects( const budVec3& muzzle )
+void budAI::TriggerWeaponEffects( const Vector3& muzzle )
 {
-	budVec3 org;
-	budMat3 axis;
+	Vector3 org;
+	Matrix3 axis;
 	
 	if( !g_muzzleFlash.GetBool() )
 	{
@@ -5344,7 +5344,7 @@ void budAI::UpdateMuzzleFlash()
 		}
 		else
 		{
-			budVec3 muzzle;
+			Vector3 muzzle;
 			animator.GetJointTransform( flashJointWorld, gameLocal.time, muzzle, worldMuzzleFlash.axis );
 			animator.GetJointTransform( flashJointWorld, gameLocal.time, muzzle, worldMuzzleFlash.axis );
 			muzzle = physicsObj.GetOrigin() + ( muzzle + modelOffset ) * viewAxis * physicsObj.GetGravityAxis();
@@ -5502,8 +5502,8 @@ void budAI::UpdateParticles()
 {
 	if( ( thinkFlags & TH_UPDATEPARTICLES ) && !IsHidden() )
 	{
-		budVec3 realVector;
-		budMat3 realAxis;
+		Vector3 realVector;
+		Matrix3 realAxis;
 		
 		int particlesAlive = 0;
 		for( int i = 0; i < particles.Num(); i++ )
@@ -5575,8 +5575,8 @@ void budAI::TriggerFX( const char* joint, const char* fx )
 	}
 	else
 	{
-		budVec3	joint_origin;
-		budMat3	joint_axis;
+		Vector3	joint_origin;
+		Matrix3	joint_axis;
 		jointHandle_t jointNum;
 		jointNum = animator.GetJointHandle( joint );
 		
@@ -5603,8 +5603,8 @@ idEntity* budAI::StartEmitter( const char* name, const char* joint, const char* 
 	jointHandle_t jointNum;
 	jointNum = animator.GetJointHandle( joint );
 	
-	budVec3 offset;
-	budMat3 axis;
+	Vector3 offset;
+	Matrix3 axis;
 	
 	GetJointWorldTransform( jointNum, gameLocal.time, offset, axis );
 	
@@ -5614,7 +5614,7 @@ idEntity* budAI::StartEmitter( const char* name, const char* joint, const char* 
 	
 	
 	
-	idDict args;
+	Dict args;
 	
 	const budDeclEntityDef* emitterDef = gameLocal.FindEntityDef( "func_emitter", false );
 	args = emitterDef->dict;
@@ -5629,7 +5629,7 @@ idEntity* budAI::StartEmitter( const char* name, const char* joint, const char* 
 	//ent->GetPhysics()->SetAxis(axis);
 	
 	// align z-axis of model with the direction
-	/*budVec3		tmp;
+	/*Vector3		tmp;
 	axis = (viewAxis[ 0 ] * physicsObj.GetGravityAxis()).ToMat3();
 	tmp = axis[2];
 	axis[2] = axis[0];
@@ -5697,23 +5697,23 @@ budAI::UpdateAnimationControllers
 */
 bool budAI::UpdateAnimationControllers()
 {
-	budVec3		local;
-	budVec3		focusPos;
-	idQuat		jawQuat;
-	budVec3		left;
-	budVec3 		dir;
-	budVec3 		orientationJointPos;
-	budVec3 		localDir;
-	budAngles 	newLookAng;
-	budAngles	diff;
-	budMat3		mat;
-	budMat3		axis;
-	budMat3		orientationJointAxis;
+	Vector3		local;
+	Vector3		focusPos;
+	Quat		jawQuat;
+	Vector3		left;
+	Vector3 		dir;
+	Vector3 		orientationJointPos;
+	Vector3 		localDir;
+	Angles 	newLookAng;
+	Angles	diff;
+	Matrix3		mat;
+	Matrix3		axis;
+	Matrix3		orientationJointAxis;
 	budAFAttachment*	headEnt = head.GetEntity();
-	budVec3		eyepos;
-	budVec3		pos;
+	Vector3		eyepos;
+	Vector3		pos;
 	int			i;
-	budAngles	jointAng;
+	Angles	jointAng;
 	float		orientationJointYaw;
 	
 	if( AI_DEAD )
@@ -5731,7 +5731,7 @@ bool budAI::UpdateAnimationControllers()
 	{
 		GetJointWorldTransform( orientationJoint, gameLocal.time, orientationJointPos, orientationJointAxis );
 		orientationJointYaw = orientationJointAxis[ 2 ].ToYaw();
-		orientationJointAxis = budAngles( 0.0f, orientationJointYaw, 0.0f ).ToMat3();
+		orientationJointAxis = Angles( 0.0f, orientationJointYaw, 0.0f ).ToMat3();
 	}
 	
 	if( focusJoint != INVALID_JOINT )
@@ -5796,7 +5796,7 @@ bool budAI::UpdateAnimationControllers()
 	
 	// determine yaw from origin instead of from focus joint since joint may be offset, which can cause us to bounce between two angles
 	dir = focusPos - orientationJointPos;
-	newLookAng.yaw = budMath::AngleNormalize180( dir.ToYaw() - orientationJointYaw );
+	newLookAng.yaw = Math::AngleNormalize180( dir.ToYaw() - orientationJointYaw );
 	newLookAng.roll = 0.0f;
 	newLookAng.pitch = 0.0f;
 	
@@ -5810,7 +5810,7 @@ bool budAI::UpdateAnimationControllers()
 	dir = focusPos - eyepos;
 	dir.NormalizeFast();
 	orientationJointAxis.ProjectVector( dir, localDir );
-	newLookAng.pitch = -budMath::AngleNormalize180( localDir.ToPitch() );
+	newLookAng.pitch = -Math::AngleNormalize180( localDir.ToPitch() );
 	newLookAng.roll	= 0.0f;
 	
 	diff = newLookAng - lookAng;
@@ -5819,7 +5819,7 @@ bool budAI::UpdateAnimationControllers()
 	{
 		eyeAng = diff;
 		eyeAng.Clamp( eyeMin, eyeMax );
-		budAngles angDelta = diff - eyeAng;
+		Angles angDelta = diff - eyeAng;
 		if( !angDelta.Compare( ang_zero, 0.1f ) )
 		{
 			alignHeadTime = gameLocal.time;
@@ -5830,7 +5830,7 @@ bool budAI::UpdateAnimationControllers()
 		}
 	}
 	
-	if( budMath::Fabs( newLookAng.yaw ) < 0.1f )
+	if( Math::Fabs( newLookAng.yaw ) < 0.1f )
 	{
 		alignHeadTime = gameLocal.time;
 	}
@@ -5884,8 +5884,8 @@ bool budAI::UpdateAnimationControllers()
 		
 		if( allowEyeFocus )
 		{
-			budMat3 eyeAxis = ( lookAng + eyeAng ).ToMat3();
-			budMat3 headTranspose = headEnt->GetPhysics()->GetAxis().Transpose();
+			Matrix3 eyeAxis = ( lookAng + eyeAng ).ToMat3();
+			Matrix3 headTranspose = headEnt->GetPhysics()->GetAxis().Transpose();
 			axis =  eyeAxis * orientationJointAxis;
 			left = axis[ 1 ] * eyeHorizontalOffset;
 			eyepos -= headEnt->GetPhysics()->GetOrigin();
@@ -5902,7 +5902,7 @@ bool budAI::UpdateAnimationControllers()
 	{
 		if( allowEyeFocus )
 		{
-			budMat3 eyeAxis = ( lookAng + eyeAng ).ToMat3();
+			Matrix3 eyeAxis = ( lookAng + eyeAng ).ToMat3();
 			axis =  eyeAxis * orientationJointAxis;
 			left = axis[ 1 ] * eyeHorizontalOffset;
 			eyepos += axis[ 0 ] * 64.0f - physicsObj.GetOrigin();
@@ -6003,17 +6003,17 @@ void idCombatNode::Spawn()
 	fov = spawnArgs.GetFloat( "fov", "60" );
 	offset = spawnArgs.GetVector( "offset" );
 	
-	const budVec3& org = GetPhysics()->GetOrigin() + offset;
+	const Vector3& org = GetPhysics()->GetOrigin() + offset;
 	min_height = org.z - height * 0.5f;
 	max_height = min_height + height;
 	
-	const budMat3& axis = GetPhysics()->GetAxis();
+	const Matrix3& axis = GetPhysics()->GetAxis();
 	yaw = axis[ 0 ].ToYaw();
 	
-	budAngles leftang( 0.0f, yaw + fov * 0.5f - 90.0f, 0.0f );
+	Angles leftang( 0.0f, yaw + fov * 0.5f - 90.0f, 0.0f );
 	cone_left = leftang.ToForward();
 	
-	budAngles rightang( 0.0f, yaw - fov * 0.5f + 90.0f, 0.0f );
+	Angles rightang( 0.0f, yaw - fov * 0.5f + 90.0f, 0.0f );
 	cone_right = rightang.ToForward();
 	
 	disabled = spawnArgs.GetBool( "start_off" );
@@ -6039,8 +6039,8 @@ void idCombatNode::DrawDebugInfo()
 	idEntity*		ent;
 	idCombatNode*	node;
 	budPlayer*		player = gameLocal.GetLocalPlayer();
-	budVec4			color;
-	budBounds		bounds( budVec3( -16, -16, 0 ), budVec3( 16, 16, 0 ) );
+	Vector4			color;
+	budBounds		bounds( Vector3( -16, -16, 0 ), Vector3( 16, 16, 0 ) );
 	
 	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() )
 	{
@@ -6063,24 +6063,24 @@ void idCombatNode::DrawDebugInfo()
 			color = colorRed;
 		}
 		
-		budVec3 leftDir( -node->cone_left.y, node->cone_left.x, 0.0f );
-		budVec3 rightDir( node->cone_right.y, -node->cone_right.x, 0.0f );
-		budVec3 org = node->GetPhysics()->GetOrigin() + node->offset;
+		Vector3 leftDir( -node->cone_left.y, node->cone_left.x, 0.0f );
+		Vector3 rightDir( node->cone_right.y, -node->cone_right.x, 0.0f );
+		Vector3 org = node->GetPhysics()->GetOrigin() + node->offset;
 		
 		bounds[ 1 ].z = node->max_height;
 		
 		leftDir.NormalizeFast();
 		rightDir.NormalizeFast();
 		
-		const budMat3& axis = node->GetPhysics()->GetAxis();
+		const Matrix3& axis = node->GetPhysics()->GetAxis();
 		float cone_dot = node->cone_right * axis[ 1 ];
-		if( budMath::Fabs( cone_dot ) > 0.1 )
+		if( Math::Fabs( cone_dot ) > 0.1 )
 		{
 			float cone_dist = node->max_dist / cone_dot;
-			budVec3 pos1 = org + leftDir * node->min_dist;
-			budVec3 pos2 = org + leftDir * cone_dist;
-			budVec3 pos3 = org + rightDir * node->min_dist;
-			budVec3 pos4 = org + rightDir * cone_dist;
+			Vector3 pos1 = org + leftDir * node->min_dist;
+			Vector3 pos2 = org + leftDir * cone_dist;
+			Vector3 pos3 = org + rightDir * node->min_dist;
+			Vector3 pos4 = org + rightDir * cone_dist;
 			
 			gameRenderWorld->DebugLine( color, node->GetPhysics()->GetOrigin(), ( pos1 + pos3 ) * 0.5f, 1 );
 			gameRenderWorld->DebugLine( color, pos1, pos2, 1 );
@@ -6097,7 +6097,7 @@ void idCombatNode::DrawDebugInfo()
 idCombatNode::EntityInView
 =====================
 */
-bool idCombatNode::EntityInView( budActor* actor, const budVec3& pos )
+bool idCombatNode::EntityInView( budActor* actor, const Vector3& pos )
 {
 	if( !actor || ( actor->health <= 0 ) )
 	{
@@ -6110,9 +6110,9 @@ bool idCombatNode::EntityInView( budActor* actor, const budVec3& pos )
 		return false;
 	}
 	
-	const budVec3& org = GetPhysics()->GetOrigin() + offset;
-	const budMat3& axis = GetPhysics()->GetAxis();
-	budVec3 dir = pos - org;
+	const Vector3& org = GetPhysics()->GetOrigin() + offset;
+	const Matrix3& axis = GetPhysics()->GetAxis();
+	Vector3 dir = pos - org;
 	float  dist = dir * axis[ 0 ];
 	
 	if( ( dist < min_dist ) || ( dist > max_dist ) )

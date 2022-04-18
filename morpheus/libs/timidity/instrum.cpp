@@ -204,7 +204,7 @@ static Instrument *load_instrument(char *name, int percussion,
 
 	path = "classicmusic/instruments/";
 
-	budStr instName = name;
+	String instName = name;
 	instName.ToUpper();
 
 	strcpy( filename, path );

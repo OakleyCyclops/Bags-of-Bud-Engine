@@ -154,7 +154,7 @@ budAASSettings::budAASSettings
 budAASSettings::budAASSettings()
 {
 	numBoundingBoxes = 1;
-	boundingBoxes[0] = budBounds( budVec3( -16, -16, 0 ), budVec3( 16, 16, 72 ) );
+	boundingBoxes[0] = budBounds( Vector3( -16, -16, 0 ), Vector3( 16, 16, 72 ) );
 	usePatches = false;
 	writeBrushMap = false;
 	playerFlood = false;
@@ -163,7 +163,7 @@ budAASSettings::budAASSettings()
 	allowFlyReachabilities = false;
 	fileExtension = "aas48";
 	// physics settings
-	gravity = budVec3( 0, 0, -1066 );
+	gravity = Vector3( 0, 0, -1066 );
 	gravityDir = gravity;
 	gravityValue = gravityDir.Normalize();
 	invGravityDir = -gravityDir;
@@ -229,7 +229,7 @@ bool budAASSettings::ParseFloat( budLexer& src, float& f )
 budAASSettings::ParseVector
 ============
 */
-bool budAASSettings::ParseVector( budLexer& src, budVec3& vec )
+bool budAASSettings::ParseVector( budLexer& src, Vector3& vec )
 {
 	if( !src.ExpectTokenString( "=" ) )
 	{
@@ -437,10 +437,10 @@ bool budAASSettings::FromParser( budLexer& src )
 budAASSettings::FromFile
 ============
 */
-bool budAASSettings::FromFile( const budStr& fileName )
+bool budAASSettings::FromFile( const String& fileName )
 {
 	budLexer src( LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS | LEXFL_NOSTRINGCONCAT );
-	budStr name;
+	String name;
 	
 	name = fileName;
 	
@@ -472,7 +472,7 @@ bool budAASSettings::FromFile( const budStr& fileName )
 budAASSettings::FromDict
 ============
 */
-bool budAASSettings::FromDict( const char* name, const idDict* dict )
+bool budAASSettings::FromDict( const char* name, const Dict* dict )
 {
 	budBounds bounds;
 	
@@ -642,8 +642,8 @@ budAASSettings::ValidEntity
 */
 bool budAASSettings::ValidEntity( const char* classname ) const
 {
-	budStr			use_aas;
-	budVec3			size;
+	String			use_aas;
+	Vector3			size;
 	budBounds		bounds;
 	
 	if( playerFlood )
@@ -758,7 +758,7 @@ void budAASFileLocal::Clear()
 budAASFileLocal::Write
 ================
 */
-bool budAASFileLocal::Write( const budStr& fileName, unsigned int mapFileCRC )
+bool budAASFileLocal::Write( const String& fileName, unsigned int mapFileCRC )
 {
 	int i, num;
 	budFile* aasFile;
@@ -906,7 +906,7 @@ bool budAASFileLocal::Write( const budStr& fileName, unsigned int mapFileCRC )
 budAASFileLocal::ParseIndex
 ================
 */
-bool budAASFileLocal::ParseIndex( budLexer& src, budList<aasIndex_t>& indexes )
+bool budAASFileLocal::ParseIndex( budLexer& src, List<aasIndex_t>& indexes )
 {
 	int numIndexes, i;
 	aasIndex_t index;
@@ -941,7 +941,7 @@ bool budAASFileLocal::ParsePlanes( budLexer& src )
 {
 	int numPlanes, i;
 	budPlane plane;
-	budVec4 vec;
+	Vector4 vec;
 	
 	numPlanes = src.ParseInt();
 	planeList.Resize( numPlanes );
@@ -975,7 +975,7 @@ budAASFileLocal::ParseVertices
 bool budAASFileLocal::ParseVertices( budLexer& src )
 {
 	int numVertices, i;
-	budVec3 vec;
+	Vector3 vec;
 	
 	numVertices = src.ParseInt();
 	vertices.Resize( numVertices );
@@ -1292,7 +1292,7 @@ void budAASFileLocal::FinishAreas()
 budAASFileLocal::Load
 ================
 */
-bool budAASFileLocal::Load( const budStr& fileName, unsigned int mapFileCRC )
+bool budAASFileLocal::Load( const String& fileName, unsigned int mapFileCRC )
 {
 	budLexer src( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGESCAPECHARS | LEXFL_NOSTRINGCONCAT | LEXFL_ALLOWPATHNAMES );
 	budToken token;

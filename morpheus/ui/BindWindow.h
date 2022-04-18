@@ -46,7 +46,7 @@ public:
 //
 	virtual idWinVar* GetWinVarByName( const char* _name, bool winLookup = false, drawWin_t** owner = NULL );
 //
-	virtual void Activate( bool activate, budStr& act );
+	virtual void Activate( bool activate, String& act );
 	
 private:
 	void CommonInit();

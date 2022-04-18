@@ -98,7 +98,7 @@ public:
 	}
 	
 private:
-	budStr					fboName;
+	String					fboName;
 	
 	// FBO object
 	uint32_t				frameBuffer;
@@ -117,7 +117,7 @@ private:
 	
 	bool					msaaSamples;
 	
-	static budList<Framebuffer*>	framebuffers;
+	static List<Framebuffer*>	framebuffers;
 };
 
 struct globalFramebuffers_t

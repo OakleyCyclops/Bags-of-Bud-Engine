@@ -309,14 +309,14 @@ void		TriVertsFromOriginal( mapTri_t* tri, const mapTri_t* original )
 		// regenerate the interpolated values
 		
 		// RB begin
-		const budVec2 aST = original->v[0].GetTexCoord();
-		const budVec2 bST = original->v[1].GetTexCoord();
-		const budVec2 cST = original->v[2].GetTexCoord();
+		const Vector2 aST = original->v[0].GetTexCoord();
+		const Vector2 bST = original->v[1].GetTexCoord();
+		const Vector2 cST = original->v[2].GetTexCoord();
 		
 		tri->v[i].SetTexCoord(	a * aST.x + b * bST.x + c * cST.x,
 								a * aST.y + b * bST.y + c * cST.y );
 								
-		budVec3 tempNormal;
+		Vector3 tempNormal;
 		for( j = 0 ; j < 3 ; j++ )
 		{
 			tempNormal[j] = a * original->v[0].GetNormal()[j] + b * original->v[1].GetNormal()[j] + c * original->v[2].GetNormal()[j];
@@ -342,7 +342,7 @@ mapTri_t* WindingToTriList( const idWinding* w, const mapTri_t* originalTri )
 	mapTri_t*	tri;
 	mapTri_t*	triList;
 	int			i, j;
-	const budVec3*	vec;
+	const Vector3*	vec;
 	
 	if( !w )
 	{

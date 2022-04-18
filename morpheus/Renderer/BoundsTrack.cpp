@@ -254,7 +254,7 @@ void	budBoundsTrack::Test()
 		SetIndex( i, b );
 	}
 	
-	const budBounds testBounds( budVec3( -1000, 2000, -3000 ), budVec3( 1500, 4500, -500 ) );
+	const budBounds testBounds( Vector3( -1000, 2000, -3000 ), Vector3( 1500, 4500, -500 ) );
 	SetIndex( 1800, testBounds );
 	SetIndex( 0, testBounds );
 	

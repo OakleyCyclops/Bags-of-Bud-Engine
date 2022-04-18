@@ -69,7 +69,7 @@ budRenderProgManager::~budRenderProgManager()
 R_ReloadShaders
 ================================================================================================
 */
-static void R_ReloadShaders( const budCmdArgs& args )
+static void R_ReloadShaders( const CmdArgs& args )
 {
 	renderProgManager.KillAllShaders();
 	renderProgManager.LoadAllShaders();
@@ -263,11 +263,11 @@ void budRenderProgManager::Init()
 	for( int i = 0; i < NUM_FRAME_DATA; ++i )
 	{
 		parmBuffers[ i ] = new idUniformBuffer();
-		parmBuffers[ i ]->AllocBufferObject( NULL, MAX_DESC_SETS * MAX_DESC_SET_UNIFORMS * sizeof( budVec4 ), BU_DYNAMIC );
+		parmBuffers[ i ]->AllocBufferObject( NULL, MAX_DESC_SETS * MAX_DESC_SET_UNIFORMS * sizeof( Vector4 ), BU_DYNAMIC );
 	}
 	
 	// Placeholder: mainly for optionalSkinning
-	emptyUBO.AllocBufferObject( NULL, sizeof( budVec4 ), BU_DYNAMIC );
+	emptyUBO.AllocBufferObject( NULL, sizeof( Vector4 ), BU_DYNAMIC );
 #endif
 }
 
@@ -314,7 +314,7 @@ budRenderProgManager::FindVertexShader
 */
 int budRenderProgManager::FindShader( const char* name, rpStage_t stage, const char* nameOutSuffix, uint32 features, bool builtin )
 {
-	budStr shaderName( name );
+	String shaderName( name );
 	shaderName.StripFileExtension();
 	//shaderName += nameOutSuffix;
 	

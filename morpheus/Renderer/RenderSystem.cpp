@@ -258,7 +258,7 @@ budRenderSystemLocal::~budRenderSystemLocal()
 budRenderSystemLocal::SetColor
 =============
 */
-void budRenderSystemLocal::SetColor( const budVec4& rgba )
+void budRenderSystemLocal::SetColor( const Vector4& rgba )
 {
 	currentColorNativeBytesOrder = LittleLong( PackColor( rgba ) );
 }
@@ -288,7 +288,7 @@ void budRenderSystemLocal::SetGLState( const uint64 glState )
 budRenderSystemLocal::DrawFilled
 =============
 */
-void budRenderSystemLocal::DrawFilled( const budVec4& color, float x, float y, float w, float h )
+void budRenderSystemLocal::DrawFilled( const Vector4& color, float x, float y, float w, float h )
 {
 	SetColor( color );
 	DrawStretchPic( x, y, w, h, 0.0f, 0.0f, 1.0f, 1.0f, whiteMaterial );
@@ -301,7 +301,7 @@ budRenderSystemLocal::DrawStretchPic
 */
 void budRenderSystemLocal::DrawStretchPic( float x, float y, float w, float h, float s1, float t1, float s2, float t2, const budMaterial* material )
 {
-	DrawStretchPic( budVec4( x, y, s1, t1 ), budVec4( x + w, y, s2, t1 ), budVec4( x + w, y + h, s2, t2 ), budVec4( x, y + h, s1, t2 ), material );
+	DrawStretchPic( Vector4( x, y, s1, t1 ), Vector4( x + w, y, s2, t1 ), Vector4( x + w, y + h, s2, t2 ), Vector4( x, y + h, s1, t2 ), material );
 }
 
 /*
@@ -310,7 +310,7 @@ budRenderSystemLocal::DrawStretchPic
 =============
 */
 static triIndex_t quadPicIndexes[6] = { 3, 0, 2, 2, 0, 1 };
-void budRenderSystemLocal::DrawStretchPic( const budVec4& topLeft, const budVec4& topRight, const budVec4& bottomRight, const budVec4& bottomLeft, const budMaterial* material )
+void budRenderSystemLocal::DrawStretchPic( const Vector4& topLeft, const Vector4& topRight, const Vector4& bottomRight, const Vector4& bottomLeft, const budMaterial* material )
 {
 	if( !IsInitialized() )
 	{
@@ -365,7 +365,7 @@ void budRenderSystemLocal::DrawStretchPic( const budVec4& topLeft, const budVec4
 budRenderSystemLocal::DrawStretchTri
 =============
 */
-void budRenderSystemLocal::DrawStretchTri( const budVec2& p1, const budVec2& p2, const budVec2& p3, const budVec2& t1, const budVec2& t2, const budVec2& t3, const budMaterial* material )
+void budRenderSystemLocal::DrawStretchTri( const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& t1, const Vector2& t2, const Vector2& t3, const budMaterial* material )
 {
 	if( !IsInitialized() )
 	{
@@ -468,9 +468,9 @@ to a fixed color.
 Coordinates are at 640 by 480 virtual resolution
 ==================
 */
-void budRenderSystemLocal::DrawSmallStringExt( int x, int y, const char* string, const budVec4& setColor, bool forceColor )
+void budRenderSystemLocal::DrawSmallStringExt( int x, int y, const char* string, const Vector4& setColor, bool forceColor )
 {
-	budVec4		color;
+	Vector4		color;
 	const unsigned char*	s;
 	int			xx;
 	
@@ -480,7 +480,7 @@ void budRenderSystemLocal::DrawSmallStringExt( int x, int y, const char* string,
 	SetColor( setColor );
 	while( *s )
 	{
-		if( budStr::IsColor( ( const char* )s ) )
+		if( String::IsColor( ( const char* )s ) )
 		{
 			if( !forceColor )
 			{
@@ -490,7 +490,7 @@ void budRenderSystemLocal::DrawSmallStringExt( int x, int y, const char* string,
 				}
 				else
 				{
-					color = budStr::ColorForIndex( *( s + 1 ) );
+					color = String::ColorForIndex( *( s + 1 ) );
 					color[3] = setColor[3];
 					SetColor( color );
 				}
@@ -551,9 +551,9 @@ to a fixed color.
 Coordinates are at 640 by 480 virtual resolution
 ==================
 */
-void budRenderSystemLocal::DrawBigStringExt( int x, int y, const char* string, const budVec4& setColor, bool forceColor )
+void budRenderSystemLocal::DrawBigStringExt( int x, int y, const char* string, const Vector4& setColor, bool forceColor )
 {
-	budVec4		color;
+	Vector4		color;
 	const char*	s;
 	int			xx;
 	
@@ -563,7 +563,7 @@ void budRenderSystemLocal::DrawBigStringExt( int x, int y, const char* string, c
 	SetColor( setColor );
 	while( *s )
 	{
-		if( budStr::IsColor( s ) )
+		if( String::IsColor( s ) )
 		{
 			if( !forceColor )
 			{
@@ -573,7 +573,7 @@ void budRenderSystemLocal::DrawBigStringExt( int x, int y, const char* string, c
 				}
 				else
 				{
-					color = budStr::ColorForIndex( *( s + 1 ) );
+					color = String::ColorForIndex( *( s + 1 ) );
 					color[3] = setColor[3];
 					SetColor( color );
 				}
@@ -850,8 +850,8 @@ void budRenderSystemLocal::PerformResolutionScaling( int& newWidth, int& newHeig
 	float yScale = 1.0f;
 	resolutionScale.GetCurrentResolutionScale( xScale, yScale );
 	
-	newWidth = budMath::Ftoi( GetWidth() * xScale );
-	newHeight = budMath::Ftoi( GetHeight() * yScale );
+	newWidth = Math::Ftoi( GetWidth() * xScale );
+	newHeight = Math::Ftoi( GetHeight() * yScale );
 }
 
 /*

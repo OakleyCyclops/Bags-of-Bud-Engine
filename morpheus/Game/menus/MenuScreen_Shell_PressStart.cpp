@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "../../framework/Common_local.h"
 
 static const int NUM_GAME_SELECTIONS_VISIBLE = 5;
-extern budCVar g_demoMode;
+extern CVar g_demoMode;
 
 namespace
 {
@@ -157,7 +157,7 @@ void idMenuScreen_Shell_PressStart::ShowScreen( const mainMenuTransition_t trans
 		if( g_demoMode.GetBool() )
 		{
 		
-			budList<const budMaterial*> coverIcons;
+			List<const budMaterial*> coverIcons;
 			if( itemList != NULL )
 			{
 				itemList->SetListImages( coverIcons );
@@ -179,7 +179,7 @@ void idMenuScreen_Shell_PressStart::ShowScreen( const mainMenuTransition_t trans
 		else
 		{
 		
-			budList<const budMaterial*> coverIcons;
+			List<const budMaterial*> coverIcons;
 			
 			coverIcons.Append( doomCover );
 			coverIcons.Append( doom3Cover );

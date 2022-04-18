@@ -464,7 +464,7 @@ Writes a wave format header to a file ptr,
 ========================
 */
 
-bool idWaveFile::WriteSampleDataDirect( budList< sampleData_t >& sampleData, budFile* file )
+bool idWaveFile::WriteSampleDataDirect( List< sampleData_t >& sampleData, budFile* file )
 {
 	static const uint32 sample = 'smpl';
 	file->WriteBig( sample );

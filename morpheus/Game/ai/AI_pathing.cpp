@@ -60,7 +60,7 @@ const int 	MAX_OBSTACLE_PATH			= 64;
 
 typedef struct obstacle_s
 {
-	budVec2				bounds[2];
+	Vector2				bounds[2];
 	idWinding2D			winding;
 	idEntity* 			entity;
 } obstacle_t;
@@ -68,8 +68,8 @@ typedef struct obstacle_s
 typedef struct pathNode_s
 {
 	int					dir;
-	budVec2				pos;
-	budVec2				delta;
+	Vector2				pos;
+	Vector2				delta;
 	float				dist;
 	int					obstacle;
 	int					edgeNum;
@@ -91,7 +91,7 @@ void pathNode_s::Init()
 	parent = children[0] = children[1] = next = NULL;
 }
 
-idBlockAlloc<pathNode_t, 128>	pathNodeAllocator;
+BlockAlloc<pathNode_t, 128>	pathNodeAllocator;
 
 
 /*
@@ -99,10 +99,10 @@ idBlockAlloc<pathNode_t, 128>	pathNodeAllocator;
 LineIntersectsPath
 ============
 */
-bool LineIntersectsPath( const budVec2& start, const budVec2& end, const pathNode_t* node )
+bool LineIntersectsPath( const Vector2& start, const Vector2& end, const pathNode_t* node )
 {
 	float d0, d1, d2, d3;
-	budVec3 plane1, plane2;
+	Vector3 plane1, plane2;
 	
 	plane1 = idWinding2D::Plane2DFromPoints( start, end );
 	d0 = plane1.x * node->pos.x + plane1.y * node->pos.y + plane1.z;
@@ -130,14 +130,14 @@ bool LineIntersectsPath( const budVec2& start, const budVec2& end, const pathNod
 PointInsideObstacle
 ============
 */
-int PointInsideObstacle( const obstacle_t* obstacles, const int numObstacles, const budVec2& point )
+int PointInsideObstacle( const obstacle_t* obstacles, const int numObstacles, const Vector2& point )
 {
 	int i;
 	
 	for( i = 0; i < numObstacles; i++ )
 	{
 	
-		const budVec2* bounds = obstacles[i].bounds;
+		const Vector2* bounds = obstacles[i].bounds;
 		if( point.x < bounds[0].x || point.y < bounds[0].y || point.x > bounds[1].x || point.y > bounds[1].y )
 		{
 			continue;
@@ -159,12 +159,12 @@ int PointInsideObstacle( const obstacle_t* obstacles, const int numObstacles, co
 GetPointOutsideObstacles
 ============
 */
-void GetPointOutsideObstacles( const obstacle_t* obstacles, const int numObstacles, budVec2& point, int* obstacle, int* edgeNum )
+void GetPointOutsideObstacles( const obstacle_t* obstacles, const int numObstacles, Vector2& point, int* obstacle, int* edgeNum )
 {
 	int i, j, k, n, bestObstacle, bestEdgeNum, queueStart, queueEnd, edgeNums[2];
 	float d, bestd, scale[2];
-	budVec3 plane, bestPlane;
-	budVec2 newPoint, dir, bestPoint;
+	Vector3 plane, bestPlane;
+	Vector2 newPoint, dir, bestPoint;
 	int* queue;
 	bool* obstacleVisited;
 	idWinding2D w1, w2;
@@ -185,7 +185,7 @@ void GetPointOutsideObstacles( const obstacle_t* obstacles, const int numObstacl
 	}
 	
 	const idWinding2D& w = obstacles[bestObstacle].winding;
-	bestd = budMath::INFINITY;
+	bestd = Math::INFINITY;
 	bestEdgeNum = 0;
 	for( i = 0; i < w.GetNumPoints(); i++ )
 	{
@@ -230,7 +230,7 @@ void GetPointOutsideObstacles( const obstacle_t* obstacles, const int numObstacl
 	assert( bestObstacle < numObstacles );
 	obstacleVisited[bestObstacle] = true;
 	
-	bestd = budMath::INFINITY;
+	bestd = Math::INFINITY;
 	for( i = queue[0]; queueStart < queueEnd; i = queue[++queueStart] )
 	{
 		w1 = obstacles[i].winding;
@@ -282,7 +282,7 @@ void GetPointOutsideObstacles( const obstacle_t* obstacles, const int numObstacl
 			}
 		}
 		
-		if( bestd < budMath::INFINITY )
+		if( bestd < Math::INFINITY )
 		{
 			point = bestPoint;
 			if( obstacle )
@@ -304,20 +304,20 @@ void GetPointOutsideObstacles( const obstacle_t* obstacles, const int numObstacl
 GetFirstBlockingObstacle
 ============
 */
-bool GetFirstBlockingObstacle( const obstacle_t* obstacles, int numObstacles, int skipObstacle, const budVec2& startPos, const budVec2& delta, float& blockingScale, int& blockingObstacle, int& blockingEdgeNum )
+bool GetFirstBlockingObstacle( const obstacle_t* obstacles, int numObstacles, int skipObstacle, const Vector2& startPos, const Vector2& delta, float& blockingScale, int& blockingObstacle, int& blockingEdgeNum )
 {
 	int i, edgeNums[2];
 	float dist, scale1, scale2;
-	budVec2 bounds[2];
+	Vector2 bounds[2];
 	
 	// get bounds for the current movement delta
-	bounds[0] = startPos - budVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
-	bounds[1] = startPos + budVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
+	bounds[0] = startPos - Vector2( CM_BOX_EPSILON, CM_BOX_EPSILON );
+	bounds[1] = startPos + Vector2( CM_BOX_EPSILON, CM_BOX_EPSILON );
 	bounds[IEEE_FLT_SIGNBITNOTSET( delta.x )].x += delta.x;
 	bounds[IEEE_FLT_SIGNBITNOTSET( delta.y )].y += delta.y;
 	
 	// test for obstacles blocking the path
-	blockingScale = budMath::INFINITY;
+	blockingScale = Math::INFINITY;
 	dist = delta.Length();
 	for( i = 0; i < numObstacles; i++ )
 	{
@@ -348,14 +348,14 @@ bool GetFirstBlockingObstacle( const obstacle_t* obstacles, int numObstacles, in
 GetObstacles
 ============
 */
-int GetObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* ignore, int areaNum, const budVec3& startPos, const budVec3& seekPos, obstacle_t* obstacles, int maxObstacles, budBounds& clipBounds )
+int GetObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* ignore, int areaNum, const Vector3& startPos, const Vector3& seekPos, obstacle_t* obstacles, int maxObstacles, budBounds& clipBounds )
 {
 	int i, j, numListedClipModels, numObstacles, numVerts, clipMask, blockingObstacle, blockingEdgeNum;
 	int wallEdges[MAX_AAS_WALL_EDGES], numWallEdges, verts[2], lastVerts[2], nextVerts[2];
 	float stepHeight, headHeight, blockingScale, min, max;
-	budVec3 seekDelta, silVerts[32], start, end, nextStart, nextEnd;
-	budVec2 expBounds[2], edgeDir, edgeNormal, nextEdgeDir, nextEdgeNormal, lastEdgeNormal;
-	budVec2 obDelta;
+	Vector3 seekDelta, silVerts[32], start, end, nextStart, nextEnd;
+	Vector2 expBounds[2], edgeDir, edgeNormal, nextEdgeDir, nextEdgeNormal, lastEdgeNormal;
+	Vector2 obDelta;
 	idPhysics* obPhys;
 	budBox box;
 	idEntity* obEnt;
@@ -365,8 +365,8 @@ int GetObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* i
 	numObstacles = 0;
 	
 	seekDelta = seekPos - startPos;
-	expBounds[0] = physics->GetBounds()[0].ToVec2() - budVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
-	expBounds[1] = physics->GetBounds()[1].ToVec2() + budVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
+	expBounds[0] = physics->GetBounds()[0].ToVec2() - Vector2( CM_BOX_EPSILON, CM_BOX_EPSILON );
+	expBounds[1] = physics->GetBounds()[1].ToVec2() + Vector2( CM_BOX_EPSILON, CM_BOX_EPSILON );
 	
 	physics->GetAbsBounds().AxisProjection( -physics->GetGravityNormal(), stepHeight, headHeight );
 	stepHeight += aas->GetSettings()->maxStepHeight;
@@ -399,10 +399,10 @@ int GetObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* i
 				continue;
 			}
 			// if the actor is moving
-			budVec3 v1 = obPhys->GetLinearVelocity();
+			Vector3 v1 = obPhys->GetLinearVelocity();
 			if( v1.LengthSqr() > Square( 10.0f ) )
 			{
-				budVec3 v2 = physics->GetLinearVelocity();
+				Vector3 v2 = physics->GetLinearVelocity();
 				if( v2.LengthSqr() > Square( 10.0f ) )
 				{
 					// if moving in about the same direction
@@ -582,7 +582,7 @@ DrawPathTree
 void DrawPathTree( const pathNode_t* root, const float height )
 {
 	int i;
-	budVec3 start, end;
+	Vector3 start, end;
 	const pathNode_t* node;
 	
 	for( node = root; node; node = node->next )
@@ -607,11 +607,11 @@ void DrawPathTree( const pathNode_t* root, const float height )
 GetPathNodeDelta
 ============
 */
-bool GetPathNodeDelta( pathNode_t* node, const obstacle_t* obstacles, const budVec2& seekPos, bool blocked )
+bool GetPathNodeDelta( pathNode_t* node, const obstacle_t* obstacles, const Vector2& seekPos, bool blocked )
 {
 	int numPoints, edgeNum;
 	bool facing;
-	budVec2 seekDelta, dir;
+	Vector2 seekDelta, dir;
 	pathNode_t* n;
 	
 	numPoints = obstacles[node->obstacle].winding.GetNumPoints();
@@ -682,7 +682,7 @@ bool GetPathNodeDelta( pathNode_t* node, const obstacle_t* obstacles, const budV
 BuildPathTree
 ============
 */
-pathNode_t* BuildPathTree( const obstacle_t* obstacles, int numObstacles, const budBounds& clipBounds, const budVec2& startPos, const budVec2& seekPos, obstaclePath_t& path )
+pathNode_t* BuildPathTree( const obstacle_t* obstacles, int numObstacles, const budBounds& clipBounds, const Vector2& startPos, const Vector2& seekPos, obstaclePath_t& path )
 {
 	int blockingEdgeNum, blockingObstacle, obstaclePoints, bestNumNodes = MAX_OBSTACLE_PATH;
 	float blockingScale;
@@ -710,7 +710,7 @@ pathNode_t* BuildPathTree( const obstacle_t* obstacles, int numObstacles, const 
 		}
 		
 		// don't move outside of the clip bounds
-		budVec2 endPos = node->pos + node->delta;
+		Vector2 endPos = node->pos + node->delta;
 		if( endPos.x - CLIP_BOUNDS_EPSILON < clipBounds[0].x || endPos.x + CLIP_BOUNDS_EPSILON > clipBounds[1].x ||
 				endPos.y - CLIP_BOUNDS_EPSILON < clipBounds[0].y || endPos.y + CLIP_BOUNDS_EPSILON > clipBounds[1].y )
 		{
@@ -804,7 +804,7 @@ pathNode_t* BuildPathTree( const obstacle_t* obstacles, int numObstacles, const 
 PrunePathTree
 ============
 */
-void PrunePathTree( pathNode_t* root, const budVec2& seekPos )
+void PrunePathTree( pathNode_t* root, const Vector2& seekPos )
 {
 	int i;
 	float bestDist;
@@ -828,7 +828,7 @@ void PrunePathTree( pathNode_t* root, const budVec2& seekPos )
 		{
 		
 			// find the node closest to the goal along this path
-			bestDist = budMath::INFINITY;
+			bestDist = Math::INFINITY;
 			bestNode = node;
 			for( n = node; n; n = n->parent )
 			{
@@ -870,11 +870,11 @@ void PrunePathTree( pathNode_t* root, const budVec2& seekPos )
 OptimizePath
 ============
 */
-int OptimizePath( const pathNode_t* root, const pathNode_t* leafNode, const obstacle_t* obstacles, int numObstacles, budVec2 optimizedPath[MAX_OBSTACLE_PATH] )
+int OptimizePath( const pathNode_t* root, const pathNode_t* leafNode, const obstacle_t* obstacles, int numObstacles, Vector2 optimizedPath[MAX_OBSTACLE_PATH] )
 {
 	int i, numPathPoints, edgeNums[2];
 	const pathNode_t* curNode, *nextNode;
-	budVec2 curPos, curDelta, bounds[2];
+	Vector2 curPos, curDelta, bounds[2];
 	float scale1, scale2, curLength;
 	
 	optimizedPath[0] = root->pos;
@@ -897,8 +897,8 @@ int OptimizePath( const pathNode_t* root, const pathNode_t* leafNode, const obst
 			curLength = curDelta.Length();
 			
 			// get bounds for the current movement delta
-			bounds[0] = curPos - budVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
-			bounds[1] = curPos + budVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
+			bounds[0] = curPos - Vector2( CM_BOX_EPSILON, CM_BOX_EPSILON );
+			bounds[1] = curPos + Vector2( CM_BOX_EPSILON, CM_BOX_EPSILON );
 			bounds[IEEE_FLT_SIGNBITNOTSET( curDelta.x )].x += curDelta.x;
 			bounds[IEEE_FLT_SIGNBITNOTSET( curDelta.y )].y += curDelta.y;
 			
@@ -940,7 +940,7 @@ int OptimizePath( const pathNode_t* root, const pathNode_t* leafNode, const obst
 PathLength
 ============
 */
-float PathLength( budVec2 optimizedPath[MAX_OBSTACLE_PATH], int numPathPoints, const budVec2& curDir )
+float PathLength( Vector2 optimizedPath[MAX_OBSTACLE_PATH], int numPathPoints, const Vector2& curDir )
 {
 	int i;
 	float pathLength;
@@ -967,11 +967,11 @@ FindOptimalPath
   Returns true if there is a path all the way to the goal.
 ============
 */
-bool FindOptimalPath( const pathNode_t* root, const obstacle_t* obstacles, int numObstacles, const float height, const budVec3& curDir, budVec3& seekPos )
+bool FindOptimalPath( const pathNode_t* root, const obstacle_t* obstacles, int numObstacles, const float height, const Vector3& curDir, Vector3& seekPos )
 {
 	int i, numPathPoints, bestNumPathPoints;
 	const pathNode_t* node, *lastNode, *bestNode;
-	budVec2 optimizedPath[MAX_OBSTACLE_PATH];
+	Vector2 optimizedPath[MAX_OBSTACLE_PATH];
 	float pathLength, bestPathLength;
 	bool pathToGoalExists, optimizedPathCalculated;
 	
@@ -983,7 +983,7 @@ bool FindOptimalPath( const pathNode_t* root, const obstacle_t* obstacles, int n
 	
 	bestNode = root;
 	bestNumPathPoints = 0;
-	bestPathLength = budMath::INFINITY;
+	bestPathLength = Math::INFINITY;
 	
 	node = root;
 	while( node )
@@ -994,7 +994,7 @@ bool FindOptimalPath( const pathNode_t* root, const obstacle_t* obstacles, int n
 		if( node->dist <= bestNode->dist )
 		{
 		
-			if( budMath::Fabs( node->dist - bestNode->dist ) < 0.1f )
+			if( Math::Fabs( node->dist - bestNode->dist ) < 0.1f )
 			{
 			
 				if( !optimizedPathCalculated )
@@ -1067,7 +1067,7 @@ bool FindOptimalPath( const pathNode_t* root, const obstacle_t* obstacles, int n
 		
 		if( ai_showObstacleAvoidance.GetBool() )
 		{
-			budVec3 start, end;
+			Vector3 start, end;
 			start.z = end.z = height + 4.0f;
 			numPathPoints = OptimizePath( root, bestNode, obstacles, numObstacles, optimizedPath );
 			for( i = 0; i < numPathPoints - 1; i++ )
@@ -1089,7 +1089,7 @@ budAI::FindPathAroundObstacles
   Finds a path around dynamic obstacles using a path tree with clockwise and counter clockwise edge walks.
 ============
 */
-bool budAI::FindPathAroundObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* ignore, const budVec3& startPos, const budVec3& seekPos, obstaclePath_t& path )
+bool budAI::FindPathAroundObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* ignore, const Vector3& startPos, const Vector3& seekPos, obstaclePath_t& path )
 {
 	int numObstacles, areaNum, insideObstacle;
 	obstacle_t obstacles[MAX_OBSTACLES];
@@ -1193,8 +1193,8 @@ const int MAX_FRAME_SLIDE		= 5;
 typedef struct pathTrace_s
 {
 	float					fraction;
-	budVec3					endPos;
-	budVec3					normal;
+	Vector3					endPos;
+	Vector3					normal;
 	const idEntity* 		blockingEntity;
 } pathTrace_t;
 
@@ -1205,7 +1205,7 @@ PathTrace
   Returns true if a stop event was triggered.
 ============
 */
-bool PathTrace( const idEntity* ent, const budAAS* aas, const budVec3& start, const budVec3& end, int stopEvent, struct pathTrace_s& trace, predictedPath_t& path )
+bool PathTrace( const idEntity* ent, const budAAS* aas, const Vector3& start, const Vector3& end, int stopEvent, struct pathTrace_s& trace, predictedPath_t& path )
 {
 	trace_t clipTrace;
 	aasTrace_t aasTrace;
@@ -1310,11 +1310,11 @@ budAI::PredictPath
   Can also be used when there is no AAS file available however ledges are not detected.
 ============
 */
-bool budAI::PredictPath( const idEntity* ent, const budAAS* aas, const budVec3& start, const budVec3& velocity, int totalTime, int frameTime, int stopEvent, predictedPath_t& path )
+bool budAI::PredictPath( const idEntity* ent, const budAAS* aas, const Vector3& start, const Vector3& velocity, int totalTime, int frameTime, int stopEvent, predictedPath_t& path )
 {
 	int i, j, step, numFrames, curFrameTime;
-	budVec3 delta, curStart, curEnd, curVelocity, lastEnd, stepUp, tmpStart;
-	budVec3 gravity, gravityDir, invGravityDir;
+	Vector3 delta, curStart, curEnd, curVelocity, lastEnd, stepUp, tmpStart;
+	Vector3 gravity, gravityDir, invGravityDir;
 	float maxStepHeight, minFloorCos;
 	pathTrace_t trace;
 	
@@ -1329,8 +1329,8 @@ bool budAI::PredictPath( const idEntity* ent, const budAAS* aas, const budVec3& 
 	else
 	{
 		gravity = DEFAULT_GRAVITY_VEC3;
-		gravityDir = budVec3( 0, 0, -1 );
-		invGravityDir = budVec3( 0, 0, 1 );
+		gravityDir = Vector3( 0, 0, -1 );
+		invGravityDir = Vector3( 0, 0, 1 );
 		maxStepHeight = 14.0f;
 		minFloorCos = 0.7f;
 	}
@@ -1373,7 +1373,7 @@ bool budAI::PredictPath( const idEntity* ent, const budAAS* aas, const budVec3& 
 		for( j = 0; j < MAX_FRAME_SLIDE; j++ )
 		{
 		
-			budVec3 lineStart = curStart;
+			Vector3 lineStart = curStart;
 			
 			// allow stepping up three times per frame
 			for( step = 0; step < 3; step++ )
@@ -1511,7 +1511,7 @@ Ballistics
 =====================
 */
 
-int Ballistics( const budVec3& start, const budVec3& end, float speed, float gravity, ballistics_t bal[2] )
+int Ballistics( const Vector3& start, const Vector3& end, float speed, float gravity, ballistics_t bal[2] )
 {
 	int n, i;
 	float x, y, a, b, c, d, sqrtd, inva, p[2];
@@ -1528,7 +1528,7 @@ int Ballistics( const budVec3& start, const budVec3& end, float speed, float gra
 	{
 		return 0;
 	}
-	sqrtd = budMath::Sqrt( d );
+	sqrtd = Math::Sqrt( d );
 	inva = 0.5f / a;
 	p[0] = ( - b + sqrtd ) * inva;
 	p[1] = ( - b - sqrtd ) * inva;
@@ -1539,10 +1539,10 @@ int Ballistics( const budVec3& start, const budVec3& end, float speed, float gra
 		{
 			continue;
 		}
-		d = budMath::Sqrt( p[i] );
+		d = Math::Sqrt( p[i] );
 		bal[n].angle = atan2( 0.5f * ( 2.0f * y * p[i] - gravity ) / d, d * x );
 		bal[n].time = x / ( cos( bal[n].angle ) * speed );
-		bal[n].angle = budMath::AngleNormalize180( RAD2DEG( bal[n].angle ) );
+		bal[n].angle = Math::AngleNormalize180( RAD2DEG( bal[n].angle ) );
 		n++;
 	}
 	
@@ -1558,7 +1558,7 @@ HeightForTrajectory
 Returns the maximum hieght of a given trajectory
 =====================
 */
-static float HeightForTrajectory( const budVec3& start, float zVel, float gravity )
+static float HeightForTrajectory( const Vector3& start, float zVel, float gravity )
 {
 	float maxHeight, t;
 	
@@ -1575,11 +1575,11 @@ static float HeightForTrajectory( const budVec3& start, float zVel, float gravit
 budAI::TestTrajectory
 =====================
 */
-bool budAI::TestTrajectory( const budVec3& start, const budVec3& end, float zVel, float gravity, float time, float max_height, const budClipModel* clip, int clipmask, const idEntity* ignore, const idEntity* targetEntity, int drawtime )
+bool budAI::TestTrajectory( const Vector3& start, const Vector3& end, float zVel, float gravity, float time, float max_height, const budClipModel* clip, int clipmask, const idEntity* ignore, const idEntity* targetEntity, int drawtime )
 {
 	int i, numSegments;
 	float maxHeight, t, t2;
-	budVec3 points[5];
+	Vector3 points[5];
 	trace_t trace;
 	bool result;
 	
@@ -1587,7 +1587,7 @@ bool budAI::TestTrajectory( const budVec3& start, const budVec3& end, float zVel
 	// maximum height of projectile
 	maxHeight = start.z - 0.5f * gravity * ( t * t );
 	// time it takes to fall from the top to the end height
-	t = budMath::Sqrt( ( maxHeight - end.z ) / ( 0.5f * -gravity ) );
+	t = Math::Sqrt( ( maxHeight - end.z ) / ( 0.5f * -gravity ) );
 	
 	// start of parabolic
 	points[0] = start;
@@ -1681,15 +1681,15 @@ budAI::PredictTrajectory
   aimDir is set to the ideal aim direction in order to hit the target
 =====================
 */
-bool budAI::PredictTrajectory( const budVec3& firePos, const budVec3& target, float projectileSpeed, const budVec3& projGravity, const budClipModel* clip, int clipmask, float max_height, const idEntity* ignore, const idEntity* targetEntity, int drawtime, budVec3& aimDir )
+bool budAI::PredictTrajectory( const Vector3& firePos, const Vector3& target, float projectileSpeed, const Vector3& projGravity, const budClipModel* clip, int clipmask, float max_height, const idEntity* ignore, const idEntity* targetEntity, int drawtime, Vector3& aimDir )
 {
 	int n, i, j;
 	float zVel, a, t, pitch, s, c;
 	trace_t trace;
 	ballistics_t ballistics[2];
-	budVec3 dir[2];
-	budVec3 velocity;
-	budVec3 lastPos, pos;
+	Vector3 dir[2];
+	Vector3 velocity;
+	Vector3 lastPos, pos;
 	
 	if( targetEntity == NULL )
 	{
@@ -1705,7 +1705,7 @@ bool budAI::PredictTrajectory( const budVec3& firePos, const budVec3& target, fl
 	}
 	
 	// if no velocity or the projectile is not affected by gravity
-	if( projectileSpeed <= 0.0f || projGravity == vec3_origin )
+	if( projectileSpeed <= 0.0f || projGravity == Vector3_Origin )
 	{
 	
 		aimDir = target - firePos;
@@ -1751,10 +1751,10 @@ bool budAI::PredictTrajectory( const budVec3& firePos, const budVec3& target, fl
 	for( i = 0; i < n; i++ )
 	{
 		pitch = DEG2RAD( ballistics[i].angle );
-		budMath::SinCos( pitch, s, c );
+		Math::SinCos( pitch, s, c );
 		dir[i] = target - firePos;
 		dir[i].z = 0.0f;
-		dir[i] *= c * budMath::InvSqrt( dir[i].LengthSqr() );
+		dir[i] *= c * Math::InvSqrt( dir[i].LengthSqr() );
 		dir[i].z = s;
 		
 		zVel = projectileSpeed * dir[i].z;

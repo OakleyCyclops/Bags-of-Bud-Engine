@@ -119,12 +119,12 @@ budCollisionModelManagerLocal::TraceThroughAxialBSPTree_r
 */
 //#define NO_SPATIAL_SUBDIVISION
 
-void budCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t* tw, cm_node_t* node, float p1f, float p2f, budVec3& p1, budVec3& p2 )
+void budCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t* tw, cm_node_t* node, float p1f, float p2f, Vector3& p1, Vector3& p2 )
 {
 	float		t1, t2, offset;
 	float		frac, frac2;
 	float		idist;
-	budVec3		mid;
+	Vector3		mid;
 	int			side;
 	float		midf;
 	
@@ -250,8 +250,8 @@ void budCollisionModelManagerLocal::TraceThroughModel( cm_traceWork_t* tw )
 {
 	float d;
 	int i, numSteps;
-	budVec3 start, end;
-	budRotation rot;
+	Vector3 start, end;
+	Rotation rot;
 	
 	if( !tw->rotation )
 	{

@@ -61,17 +61,17 @@ public:
 	void					WriteFloat( const float value );
 	void					WriteBool( const bool value );
 	void					WriteString( const char* string );
-	void					WriteVec2( const budVec2& vec );
-	void					WriteVec3( const budVec3& vec );
-	void					WriteVec4( const budVec4& vec );
-	void					WriteVec6( const budVec6& vec );
+	void					WriteVec2( const Vector2& vec );
+	void					WriteVec3( const Vector3& vec );
+	void					WriteVec4( const Vector4& vec );
+	void					WriteVec6( const Vector6& vec );
 	void					WriteWinding( const idWinding& winding );
 	void					WriteBounds( const budBounds& bounds );
-	void					WriteMat3( const budMat3& mat );
-	void					WriteAngles( const budAngles& angles );
+	void					WriteMat3( const Matrix3& mat );
+	void					WriteAngles( const Angles& angles );
 	void					WriteObject( const idClass* obj );
 	void					WriteStaticObject( const idClass& obj );
-	void					WriteDict( const idDict* dict );
+	void					WriteDict( const Dict* dict );
 	void					WriteMaterial( const budMaterial* material );
 	void					WriteSkin( const budDeclSkin* skin );
 	void					WriteParticle( const budDeclParticle* particle );
@@ -108,19 +108,19 @@ private:
 	budFile* 				stringFile;
 	budCompressor* 			compressor;
 	
-	budList<const idClass*>	objects;
+	List<const idClass*>	objects;
 	int						version;
 	
 	void					CallSave_r( const idTypeInfo* cls, const idClass* obj );
 	
 	struct stringTableIndex_s
 	{
-		budStr		string;
+		String		string;
 		int			offset;
 	};
 	
 	budHashIndex						stringHash;
-	budList< stringTableIndex_s >	stringTable;
+	List< stringTableIndex_s >	stringTable;
 	int								curStringTableOffset;
 	
 };
@@ -147,18 +147,18 @@ public:
 	void					ReadSignedChar( signed char& value );
 	void					ReadFloat( float& value );
 	void					ReadBool( bool& value );
-	void					ReadString( budStr& string );
-	void					ReadVec2( budVec2& vec );
-	void					ReadVec3( budVec3& vec );
-	void					ReadVec4( budVec4& vec );
-	void					ReadVec6( budVec6& vec );
+	void					ReadString( String& string );
+	void					ReadVec2( Vector2& vec );
+	void					ReadVec3( Vector3& vec );
+	void					ReadVec4( Vector4& vec );
+	void					ReadVec6( Vector6& vec );
 	void					ReadWinding( idWinding& winding );
 	void					ReadBounds( budBounds& bounds );
-	void					ReadMat3( budMat3& mat );
-	void					ReadAngles( budAngles& angles );
+	void					ReadMat3( Matrix3& mat );
+	void					ReadAngles( Angles& angles );
 	void					ReadObject( idClass*& obj );
 	void					ReadStaticObject( idClass& obj );
-	void					ReadDict( idDict* dict );
+	void					ReadDict( Dict* dict );
 	void					ReadMaterial( const budMaterial*& material );
 	void					ReadSkin( const budDeclSkin*& skin );
 	void					ReadParticle( const budDeclParticle*& particle );
@@ -187,7 +187,7 @@ public:
 private:
 	budFile* 		file;
 	budFile* 		stringFile;
-	budList<idClass*, TAG_SAVEGAMES>		objects;
+	List<idClass*, TAG_SAVEGAMES>		objects;
 	int						version;
 	int						stringTableOffset;
 	

@@ -132,7 +132,7 @@ bool budSWF::LoadSWF( const char* fullpath )
 	mainsprite->Load( bitstream, true );
 	
 	// now that all images have been loaded, write out the combined image
-	budStr atlasFileName = "generated/";
+	String atlasFileName = "generated/";
 	atlasFileName += fullpath;
 	atlasFileName.SetFileExtension( ".tga" );
 	
@@ -202,9 +202,9 @@ void budSWF::WriteSWF( const char* swfFilename, const byte* atlasImageRGBA, int 
 				int height = entry.imageSize[1];
 				
 				uint32 colorDataSize = width * height * 4;
-				idTempArray<byte> colorData( colorDataSize );
+				TempArray<byte> colorData( colorDataSize );
 				
-				idTempArray<byte> pngData( colorDataSize );
+				TempArray<byte> pngData( colorDataSize );
 				
 				for( int h = 0; h < height; h++ )
 				{
@@ -212,7 +212,7 @@ void budSWF::WriteSWF( const char* swfFilename, const byte* atlasImageRGBA, int 
 					{
 						int atlasPixelOfs = ( entry.imageAtlasOffset[0] + w + ( ( entry.imageAtlasOffset[1] + h ) * atlasImageWidth ) ) * 4;
 						
-						//atlasPixelOfs = budMath::ClampInt( atlasPixelOfs
+						//atlasPixelOfs = Math::ClampInt( atlasPixelOfs
 						
 						const byte* atlasPixel = atlasImageRGBA + atlasPixelOfs;
 						
@@ -231,15 +231,15 @@ void budSWF::WriteSWF( const char* swfFilename, const byte* atlasImageRGBA, int 
 					}
 				}
 				
-				budStr imageExportFileName;
-				budStr filenameWithoutExt = filename;
+				String imageExportFileName;
+				String filenameWithoutExt = filename;
 				filenameWithoutExt.StripFileExtension();
 				sprintf( imageExportFileName, "exported/%s/image_characterid_%i.png", filenameWithoutExt.c_str(), i );
 				
 				R_WritePNG( imageExportFileName.c_str(), pngData.Ptr(), 4, width, height, true, "fs_basepath" );
 				
 				// RB: add some extra space for zlib
-				idTempArray<byte> compressedData( width * height * 4 * 1.02 + 12 );
+				TempArray<byte> compressedData( width * height * 4 * 1.02 + 12 );
 				int compressedDataSize = compressedData.Size();
 				
 				if( !Deflate( colorData.Ptr(), colorDataSize, ( byte* )compressedData.Ptr(), compressedDataSize ) )
@@ -449,7 +449,7 @@ bool budSWF::LoadBinary( const char* bfilename, ID_TIME_T sourceTimeStamp )
 		{
 			case SWF_DICT_IMAGE:
 			{
-				budStr imageName;
+				String imageName;
 				f->ReadString( imageName );
 				if( imageName[0] == '.' )
 				{
@@ -542,7 +542,7 @@ bool budSWF::LoadBinary( const char* bfilename, ID_TIME_T sourceTimeStamp )
 			{
 				dictionary[i].font = new( TAG_SWF ) budSWFFont;
 				budSWFFont* font = dictionary[i].font;
-				budStr fontName;
+				String fontName;
 				f->ReadString( fontName );
 				font->fontID = renderSystem->RegisterFont( fontName );
 				f->ReadBig( font->ascent );
@@ -885,13 +885,13 @@ bool budSWF::LoadJSON( const char* filename )
 	for( SizeType i = 0; i < a.Size(); i++ )
 	{
 		Value& entry = a[i];
-		budStr type = entry["type"].GetString();
+		String type = entry["type"].GetString();
 		
 		if( type == "IMAGE" )
 		{
 			//dictionary[i].type = SWF_DICT_IMAGE;
 			
-			budStrStatic< MAX_OSPATH > imageName = entry["imageFile"].GetString();
+			StringStatic< MAX_OSPATH > imageName = entry["imageFile"].GetString();
 			if( imageName[0] == '.' )
 			{
 				// internal image in the atlas
@@ -905,7 +905,7 @@ bool budSWF::LoadJSON( const char* filename )
 			//dictionary[i].imageSize[0] = entry["width"].GetDouble();
 			//dictionary[i].imageSize[1] = entry["height"].GetDouble();
 			
-			//budVec4& channelScale = dictionary[i].channelScale;
+			//Vector4& channelScale = dictionary[i].channelScale;
 			//channelScale.x = entry["channelScale"]["x"].GetDouble();
 			//channelScale.y = entry["channelScale"]["y"].GetDouble();
 			//channelScale.z = entry["channelScale"]["z"].GetDouble();
@@ -956,7 +956,7 @@ bool budSWF::LoadJSON( const char* filename )
 					Value& jsonDraw = entry["fillDraws"][d];
 					
 					Value& style = jsonDraw["style"];
-					budStr type = style["type"].GetString();
+					String type = style["type"].GetString();
 					
 					// 0 = solid, 1 = gradient, 4 = bitmap
 					if( type == "gradient" )
@@ -978,7 +978,7 @@ bool budSWF::LoadJSON( const char* filename )
 					}
 					
 					// 0 = linear, 2 = radial, 3 = focal; 0 = repeat, 1 = clamp, 2 = near repeat, 3 = near clamp
-					budStr subType = style["subType"].GetString();
+					String subType = style["subType"].GetString();
 					
 					if( subType == "linear" ||  subType == "repeat" )
 					{
@@ -1101,7 +1101,7 @@ bool budSWF::LoadJSON( const char* filename )
 						fillDraw.startVerts.SetNum( startVerts.Size() );
 						for( int v = 0; v < fillDraw.startVerts.Num(); v++ )
 						{
-							budVec2& vert = fillDraw.startVerts[v];
+							Vector2& vert = fillDraw.startVerts[v];
 							
 							vert.x = startVerts[v]["v"][0].GetDouble();
 							vert.y = startVerts[v]["v"][1].GetDouble();
@@ -1117,7 +1117,7 @@ bool budSWF::LoadJSON( const char* filename )
 						fillDraw.endVerts.SetNum( endVerts.Size() );
 						for( int v = 0; v < fillDraw.endVerts.Num(); v++ )
 						{
-							budVec2& vert = fillDraw.endVerts[v];
+							Vector2& vert = fillDraw.endVerts[v];
 							
 							vert.x = endVerts[v]["v"][0].GetDouble();
 							vert.y = endVerts[v]["v"][1].GetDouble();
@@ -1184,7 +1184,7 @@ bool budSWF::LoadJSON( const char* filename )
 					lineDraw.startVerts.SetNum( startVerts.Size() );
 					for( int v = 0; v < lineDraw.startVerts.Num(); v++ )
 					{
-						budVec2& vert = lineDraw.startVerts[v];
+						Vector2& vert = lineDraw.startVerts[v];
 						
 						vert.x = startVerts[v]["v"][0].GetDouble();
 						vert.y = startVerts[v]["v"][1].GetDouble();
@@ -1199,7 +1199,7 @@ bool budSWF::LoadJSON( const char* filename )
 						lineDraw.endVerts.SetNum( endVerts.Size() );
 						for( int v = 0; v < lineDraw.endVerts.Num(); v++ )
 						{
-							budVec2& vert = lineDraw.endVerts[v];
+							Vector2& vert = lineDraw.endVerts[v];
 							
 							vert.x = endVerts[v]["v"][0].GetDouble();
 							vert.y = endVerts[v]["v"][1].GetDouble();
@@ -1246,7 +1246,7 @@ bool budSWF::LoadJSON( const char* filename )
 			dictionary[i].font = new( TAG_SWF ) budSWFFont;
 			
 			budSWFFont* font = dictionary[i].font;
-			budStr fontName = entry["name"].GetString();
+			String fontName = entry["name"].GetString();
 			font->fontID = renderSystem->RegisterFont( fontName );
 			
 			
@@ -1280,7 +1280,7 @@ bool budSWF::LoadJSON( const char* filename )
 			
 			edittext->maxLength = entry["maxLength"].GetUint();
 			
-			budStr align = entry["align"].GetString();
+			String align = entry["align"].GetString();
 			if( align == "RIGHT" )
 			{
 				edittext->align = SWF_ET_ALIGN_RIGHT;
@@ -1313,7 +1313,7 @@ bool budSWF::LoadJSON( const char* filename )
 	}
 	
 	// now that all images have been loaded, write out the combined image
-	budStr atlasFileName = "generated/";
+	String atlasFileName = "generated/";
 	atlasFileName += filename;
 	atlasFileName.SetFileExtension( ".png" );
 	
@@ -1362,7 +1362,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 				}
 				else
 				{
-					budStr filenameWithoutExt = filename;
+					String filenameWithoutExt = filename;
 					filenameWithoutExt.StripFileExtension();
 					
 					file->WriteFloatString( "\t\t\t\"imageFile\": \"%s/image_characterid_%i.png\",\n", filenameWithoutExt.c_str(), i );
@@ -1381,8 +1381,8 @@ void budSWF::WriteJSON( const char* jsonFilename )
 			{
 				budSWFShape* shape = dictionary[i].shape;
 				
-				budVec2 tl = shape->startBounds.tl;
-				budVec2 br = shape->startBounds.br;
+				Vector2 tl = shape->startBounds.tl;
+				Vector2 br = shape->startBounds.br;
 				
 				//file->WriteFloatString( "\t\t\t\"imageSize\": { \"width\": %f, \"height\": %f },\n", dictionary[i].imageSize[0], dictionary[i].imageSize[1] );
 				//file->WriteFloatString( "\t\t\t\"startBounds\": { \"x\": %f, \"y\": %f, \"width\": %f, \"height\": %f },\n", x, y, width, height );
@@ -1470,7 +1470,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 						
 						if( fillDraw.style.type == 0 )
 						{
-							budVec4 color = fillDraw.style.startColor.ToVec4();
+							Vector4 color = fillDraw.style.startColor.ToVec4();
 							file->WriteFloatString( ",\n\t\t\t\t\t\t\"startColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 							
 							color = fillDraw.style.endColor.ToVec4();
@@ -1500,10 +1500,10 @@ void budSWF::WriteJSON( const char* jsonFilename )
 								
 								file->WriteFloatString( "\t\t\t\t\t{ \"startRatio\": %i, \"endRatio\": %i,\n", gr.startRatio, gr.endRatio );
 								
-								budVec4 color = gr.startColor.ToVec4();
+								Vector4 color = gr.startColor.ToVec4();
 								file->WriteFloatString( ",\n\t\t\t\t\t\t\"startColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 								
-								budVec4 endColor = gr.endColor.ToVec4();
+								Vector4 endColor = gr.endColor.ToVec4();
 								if( color != endColor )
 								{
 									file->WriteFloatString( ",\n\t\t\t\t\t\t\"endColor\": [ %f, %f, %f, %f ]", endColor.x, endColor.y, endColor.z, endColor.w );
@@ -1522,7 +1522,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 							file->WriteFloatString( ",\n\t\t\t\t\t\"startVerts\":\n\t\t\t\t\t[\n" );
 							for( int v = 0; v < fillDraw.startVerts.Num(); v++ )
 							{
-								const budVec2& vert = fillDraw.startVerts[v];
+								const Vector2& vert = fillDraw.startVerts[v];
 								
 								file->WriteFloatString( "\t\t\t\t\t\t{ \"v\": [ %f, %f ] }%s\n", vert.x, vert.y, ( v == ( fillDraw.startVerts.Num() - 1 ) ) ? "" : "," );
 							}
@@ -1538,7 +1538,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 							file->WriteFloatString( ",\n\t\t\t\t\t\"endVerts\":\n\t\t\t\t\t[\n" );
 							for( int v = 0; v < fillDraw.endVerts.Num(); v++ )
 							{
-								const budVec2& vert = fillDraw.endVerts[v];
+								const Vector2& vert = fillDraw.endVerts[v];
 								
 								file->WriteFloatString( "\t\t\t\t\t\t{ \"v\": [ %f, %f ] }%s\n", vert.x, vert.y, ( v == ( fillDraw.endVerts.Num() - 1 ) ) ? "" : "," );
 							}
@@ -1597,10 +1597,10 @@ void budSWF::WriteJSON( const char* jsonFilename )
 						
 						file->WriteFloatString( ",\n\t\t\t\t\t\t\"endWidth\": %i", lineDraw.style.endWidth );
 						
-						budVec4 color = lineDraw.style.startColor.ToVec4();
+						Vector4 color = lineDraw.style.startColor.ToVec4();
 						file->WriteFloatString( ",\n\t\t\t\t\t\t\"startColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 						
-						budVec4 endColor = lineDraw.style.endColor.ToVec4();
+						Vector4 endColor = lineDraw.style.endColor.ToVec4();
 						if( color != endColor )
 						{
 							file->WriteFloatString( ",\n\t\t\t\t\t\t\"endColor\": [ %f, %f, %f, %f ]\n", endColor.x, endColor.y, endColor.z, endColor.w );
@@ -1613,7 +1613,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 							file->WriteFloatString( ",\n\t\t\t\t\t\"startVerts\":\n\t\t\t\t\t[\n" );
 							for( int v = 0; v < lineDraw.startVerts.Num(); v++ )
 							{
-								const budVec2& vert = lineDraw.startVerts[v];
+								const Vector2& vert = lineDraw.startVerts[v];
 								
 								file->WriteFloatString( "\t\t\t\t\t\t{ \"v\": [ %f, %f ] }%s\n", vert.x, vert.y, ( v == ( lineDraw.startVerts.Num() - 1 ) ) ? "" : "," );
 							}
@@ -1625,7 +1625,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 							file->WriteFloatString( ",\n\t\t\t\t\t\"endVerts\":\n\t\t\t\t\t[\n" );
 							for( int v = 0; v < lineDraw.endVerts.Num(); v++ )
 							{
-								const budVec2& vert = lineDraw.endVerts[v];
+								const Vector2& vert = lineDraw.endVerts[v];
 								
 								file->WriteFloatString( "\t\t\t\t\t\t{ \"v\": [ %f, %f ] }%s\n", vert.x, vert.y, ( v == ( lineDraw.endVerts.Num() - 1 ) ) ? "" : "," );
 							}
@@ -1684,7 +1684,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 #if 0
 					for( int v = 0; v < font->glyphs[g].verts.Num(); v++ )
 					{
-						const budVec2& vert = font->glyphs[g].verts[v];
+						const Vector2& vert = font->glyphs[g].verts[v];
 						
 						file->WriteFloatString( "\t\t\t\t<Vertex x=\"%f\" y=\"%f\"/>\n", vert.x, vert.y );
 					}
@@ -1737,7 +1737,7 @@ void budSWF::WriteJSON( const char* jsonFilename )
 					file->WriteFloatString( "\t\t\t\t<Record fontID=\"%i\" xOffet=\"%i\" yOffset=\"%i\" textHeight=\"%f\" firstGlyph=\"%i\" numGlyphs=\"%i\">\n",
 											textRecord.fontID, textRecord.xOffset, textRecord.yOffset, textRecord.textHeight, textRecord.firstGlyph, textRecord.numGlyphs );
 											
-					budVec4 color = textRecord.color.ToVec4();
+					Vector4 color = textRecord.color.ToVec4();
 					file->WriteFloatString( "\t\t\t\t\t<Color r=\"%f\" g=\"%f\" b=\"%f\" a=\"%f\"/>\n",
 											color.x, color.y, color.z, color.w );
 											
@@ -1774,19 +1774,19 @@ void budSWF::WriteJSON( const char* jsonFilename )
 			{
 				const budSWFEditText* et = dictionary[i].edittext;
 				
-				budStr initialText = budStr::CStyleQuote( et->initialText.c_str() );
+				String initialText = String::CStyleQuote( et->initialText.c_str() );
 				
 				file->WriteFloatString( "\t\t\t\"flags\": %i, \"fontID\": %i, \"fontHeight\": %i, \"maxLength\": %i, \"align\": \"%s\", \"leftMargin\": %i, \"rightMargin\": %i, \"indent\": %i, \"leading\": %i, \"variable\": \"%s\", \"initialText\": %s,\n",
 										et->flags, et->fontID, et->fontHeight, et->maxLength, budSWF::GetEditTextAlignName( et->align ),
 										et->leftMargin, et->rightMargin, et->indent, et->leading,
 										et->variable.c_str(), initialText.c_str() );
 										
-				budVec2 tl = et->bounds.tl;
-				budVec2 br = et->bounds.br;
+				Vector2 tl = et->bounds.tl;
+				Vector2 br = et->bounds.br;
 				
 				file->WriteFloatString( "\t\t\t\"bounds\": [ %f, %f, %f, %f ],\n", tl.x, tl.y, br.x, br.y );
 				
-				budVec4 color = et->color.ToVec4();
+				Vector4 color = et->color.ToVec4();
 				file->WriteFloatString( "\t\t\t\"color\": [ %f, %f, %f, %f ]\n", color.x, color.y, color.z, color.w );
 				break;
 			}

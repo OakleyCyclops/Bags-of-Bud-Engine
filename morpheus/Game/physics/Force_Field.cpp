@@ -118,7 +118,7 @@ void idForce_Field::SetClipModel( budClipModel* clipModel )
 idForce_Field::Uniform
 ================
 */
-void idForce_Field::Uniform( const budVec3& force )
+void idForce_Field::Uniform( const Vector3& force )
 {
 	dir = force;
 	magnitude = dir.Normalize();
@@ -166,7 +166,7 @@ void idForce_Field::Evaluate( int time )
 {
 	int numClipModels, i;
 	budBounds bounds;
-	budVec3 force, torque, angularVelocity;
+	Vector3 force, torque, angularVelocity;
 	budClipModel* cm, *clipModelList[ MAX_GENTITIES ];
 	
 	assert( clipModel );

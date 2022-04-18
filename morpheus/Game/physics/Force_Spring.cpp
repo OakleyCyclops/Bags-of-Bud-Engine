@@ -80,7 +80,7 @@ void idForce_Spring::InitSpring( float Kstretch, float Kcompress, float damping,
 idForce_Spring::SetPosition
 ================
 */
-void idForce_Spring::SetPosition( idPhysics* physics1, int id1, const budVec3& p1, idPhysics* physics2, int id2, const budVec3& p2 )
+void idForce_Spring::SetPosition( idPhysics* physics1, int id1, const Vector3& p1, idPhysics* physics2, int id2, const Vector3& p2 )
 {
 	this->physics1 = physics1;
 	this->id1 = id1;
@@ -98,13 +98,13 @@ idForce_Spring::Evaluate
 void idForce_Spring::Evaluate( int time )
 {
 	float length;
-	budMat3 axis;
-	budVec3 pos1, pos2, velocity1, velocity2, force, dampingForce;
+	Matrix3 axis;
+	Vector3 pos1, pos2, velocity1, velocity2, force, dampingForce;
 	impactInfo_t info;
 	
 	pos1 = p1;
 	pos2 = p2;
-	velocity1 = velocity2 = vec3_origin;
+	velocity1 = velocity2 = Vector3_Origin;
 	
 	if( physics1 )
 	{

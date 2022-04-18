@@ -46,16 +46,16 @@ typedef struct parametricPState_s
 {
 	int										time;					// physics time
 	int										atRest;					// set when simulation is suspended
-	budVec3									origin;					// world origin
-	budAngles								angles;					// world angles
-	budMat3									axis;					// world axis
-	budVec3									localOrigin;			// local origin
-	budAngles								localAngles;			// local angles
-	idExtrapolate<budVec3>					linearExtrapolation;	// extrapolation based description of the position over time
-	idExtrapolate<budAngles>					angularExtrapolation;	// extrapolation based description of the orientation over time
-	idInterpolateAccelDecelLinear<budVec3>	linearInterpolation;	// interpolation based description of the position over time
-	idInterpolateAccelDecelLinear<budAngles>	angularInterpolation;	// interpolation based description of the orientation over time
-	idCurve_Spline<budVec3>* 				spline;					// spline based description of the position over time
+	Vector3									origin;					// world origin
+	Angles								angles;					// world angles
+	Matrix3									axis;					// world axis
+	Vector3									localOrigin;			// local origin
+	Angles								localAngles;			// local angles
+	idExtrapolate<Vector3>					linearExtrapolation;	// extrapolation based description of the position over time
+	idExtrapolate<Angles>					angularExtrapolation;	// extrapolation based description of the orientation over time
+	idInterpolateAccelDecelLinear<Vector3>	linearInterpolation;	// interpolation based description of the position over time
+	idInterpolateAccelDecelLinear<Angles>	angularInterpolation;	// interpolation based description of the orientation over time
+	idCurve_Spline<Vector3>* 				spline;					// spline based description of the position over time
 	idInterpolateAccelDecelLinear<float>	splineInterpolate;		// position along the spline over time
 	bool									useSplineAngles;		// set the orientation using the spline
 } parametricPState_t;
@@ -75,24 +75,24 @@ public:
 	void					SetPusher( int flags );
 	bool					IsPusher() const;
 	
-	void					SetLinearExtrapolation( extrapolation_t type, int time, int duration, const budVec3& base, const budVec3& speed, const budVec3& baseSpeed );
-	void					SetAngularExtrapolation( extrapolation_t type, int time, int duration, const budAngles& base, const budAngles& speed, const budAngles& baseSpeed );
+	void					SetLinearExtrapolation( extrapolation_t type, int time, int duration, const Vector3& base, const Vector3& speed, const Vector3& baseSpeed );
+	void					SetAngularExtrapolation( extrapolation_t type, int time, int duration, const Angles& base, const Angles& speed, const Angles& baseSpeed );
 	extrapolation_t			GetLinearExtrapolationType() const;
 	extrapolation_t			GetAngularExtrapolationType() const;
 	
-	void					SetLinearInterpolation( int time, int accelTime, int decelTime, int duration, const budVec3& startPos, const budVec3& endPos );
-	void					SetAngularInterpolation( int time, int accelTime, int decelTime, int duration, const budAngles& startAng, const budAngles& endAng );
+	void					SetLinearInterpolation( int time, int accelTime, int decelTime, int duration, const Vector3& startPos, const Vector3& endPos );
+	void					SetAngularInterpolation( int time, int accelTime, int decelTime, int duration, const Angles& startAng, const Angles& endAng );
 	
-	void					SetSpline( idCurve_Spline<budVec3>* spline, int accelTime, int decelTime, bool useSplineAngles );
-	idCurve_Spline<budVec3>* GetSpline() const;
+	void					SetSpline( idCurve_Spline<Vector3>* spline, int accelTime, int decelTime, bool useSplineAngles );
+	idCurve_Spline<Vector3>* GetSpline() const;
 	int						GetSplineAcceleration() const;
 	int						GetSplineDeceleration() const;
 	bool					UsingSplineAngles() const;
 	
-	void					GetLocalOrigin( budVec3& curOrigin ) const;
-	void					GetLocalAngles( budAngles& curAngles ) const;
+	void					GetLocalOrigin( Vector3& curOrigin ) const;
+	void					GetLocalAngles( Angles& curAngles ) const;
 	
-	void					GetAngles( budAngles& curAngles ) const;
+	void					GetAngles( Angles& curAngles ) const;
 	
 public:	// common physics interface
 	void					SetClipModel( budClipModel* model, float density, int id = 0, bool freeOld = true );
@@ -121,20 +121,20 @@ public:	// common physics interface
 	void					SaveState();
 	void					RestoreState();
 	
-	void					SetOrigin( const budVec3& newOrigin, int id = -1 );
-	void					SetAxis( const budMat3& newAxis, int id = -1 );
+	void					SetOrigin( const Vector3& newOrigin, int id = -1 );
+	void					SetAxis( const Matrix3& newAxis, int id = -1 );
 	
-	void					Translate( const budVec3& translation, int id = -1 );
-	void					Rotate( const budRotation& rotation, int id = -1 );
+	void					Translate( const Vector3& translation, int id = -1 );
+	void					Rotate( const Rotation& rotation, int id = -1 );
 	
-	const budVec3& 			GetOrigin( int id = 0 ) const;
-	const budMat3& 			GetAxis( int id = 0 ) const;
+	const Vector3& 			GetOrigin( int id = 0 ) const;
+	const Matrix3& 			GetAxis( int id = 0 ) const;
 	
-	void					SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 );
-	void					SetAngularVelocity( const budVec3& newAngularVelocity, int id = 0 );
+	void					SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 );
+	void					SetAngularVelocity( const Vector3& newAngularVelocity, int id = 0 );
 	
-	const budVec3& 			GetLinearVelocity( int id = 0 ) const;
-	const budVec3& 			GetAngularVelocity( int id = 0 ) const;
+	const Vector3& 			GetLinearVelocity( int id = 0 ) const;
+	const Vector3& 			GetAngularVelocity( int id = 0 ) const;
 	
 	void					DisableClip();
 	void					EnableClip();

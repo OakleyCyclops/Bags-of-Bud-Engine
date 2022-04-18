@@ -37,29 +37,29 @@ Contains the AimAssist implementation.
 ================================================================================================
 */
 
-budCVar aa_targetAimAssistEnable(	"aa_targetAimAssistEnable",						"0",		CVAR_BOOL | CVAR_ARCHIVE,	"Enables/Disables the entire Aim Assist system" );
+CVar aa_targetAimAssistEnable(	"aa_targetAimAssistEnable",						"0",		CVAR_BOOL | CVAR_ARCHIVE,	"Enables/Disables the entire Aim Assist system" );
 
-budCVar aa_targetAdhesionEnable(	"aa_targetAdhesionEnable",						"1",		CVAR_BOOL,	"Enables Target Adhesion" );
-budCVar aa_targetFrictionEnable(	"aa_targetFrictionEnable",						"1",		CVAR_BOOL,	"Enables Target Friction" );
+CVar aa_targetAdhesionEnable(	"aa_targetAdhesionEnable",						"1",		CVAR_BOOL,	"Enables Target Adhesion" );
+CVar aa_targetFrictionEnable(	"aa_targetFrictionEnable",						"1",		CVAR_BOOL,	"Enables Target Friction" );
 
 // Selection
-budCVar aa_targetMaxDistance(	"aa_targetMaxDistance",							"3000",		CVAR_FLOAT, "The Maximum Distance away for a target to be considered for adhesion, friction and target lock-to" );
-budCVar aa_targetSelectionRadius(	"aa_targetSelectionRadius",						"128.0",	CVAR_FLOAT, "Radius used to select targets for auto aiming" );
+CVar aa_targetMaxDistance(	"aa_targetMaxDistance",							"3000",		CVAR_FLOAT, "The Maximum Distance away for a target to be considered for adhesion, friction and target lock-to" );
+CVar aa_targetSelectionRadius(	"aa_targetSelectionRadius",						"128.0",	CVAR_FLOAT, "Radius used to select targets for auto aiming" );
 
 // Adhesion
-budCVar aa_targetAdhesionRadius(	"aa_targetAdhesionRadius",						"96.0",		CVAR_FLOAT, "Radius used to apply adhesion amount" );
-budCVar aa_targetAdhesionYawSpeedMax(	"aa_targetAdhesionYawSpeedMax",					"0.6",		CVAR_FLOAT, "Max Yaw Adhesion Speed" );
-budCVar aa_targetAdhesionPitchSpeedMax(	"aa_targetAdhesionPitchSpeedMax",				"0.6",		CVAR_FLOAT, "Max Pitch Adhesion Speed" );
-budCVar aa_targetAdhesionContributionPctMax(	"aa_targetAdhesionContributionPctMax",			"0.25",		CVAR_FLOAT, "Max Adhesion Contribution Percentage - Range 0.0 - 1.0" );
-budCVar aa_targetAdhesionPlayerSpeedThreshold(	"aa_targetAdhesionPlayerSpeedThreshold",		"10.0",		CVAR_FLOAT, "Speed Threshold that determines how fast the player needs to move before adhesion is allowed to kick in" );
+CVar aa_targetAdhesionRadius(	"aa_targetAdhesionRadius",						"96.0",		CVAR_FLOAT, "Radius used to apply adhesion amount" );
+CVar aa_targetAdhesionYawSpeedMax(	"aa_targetAdhesionYawSpeedMax",					"0.6",		CVAR_FLOAT, "Max Yaw Adhesion Speed" );
+CVar aa_targetAdhesionPitchSpeedMax(	"aa_targetAdhesionPitchSpeedMax",				"0.6",		CVAR_FLOAT, "Max Pitch Adhesion Speed" );
+CVar aa_targetAdhesionContributionPctMax(	"aa_targetAdhesionContributionPctMax",			"0.25",		CVAR_FLOAT, "Max Adhesion Contribution Percentage - Range 0.0 - 1.0" );
+CVar aa_targetAdhesionPlayerSpeedThreshold(	"aa_targetAdhesionPlayerSpeedThreshold",		"10.0",		CVAR_FLOAT, "Speed Threshold that determines how fast the player needs to move before adhesion is allowed to kick in" );
 
 // Friction
-budCVar aa_targetFrictionMaxDistance(	"aa_targetFrictionMaxDistance",					"1024.0",	CVAR_FLOAT, "Minimum Distance Friction takes effect" );
-budCVar aa_targetFrictionOptimalDistance(	"aa_targetFrictionOptimalDistance",				"768.0",	CVAR_FLOAT, "Optimal Distance for Friction to take an effect" );
-budCVar aa_targetFrictionRadius(	"aa_targetFrictionRadius",						"96.0",		CVAR_FLOAT, "Friction Collision Sphere Radius" );
-budCVar aa_targetFrictionOptimalRadius(	"aa_targetFrictionOptimalRadius",				"192.0",	CVAR_FLOAT, "Friction Collision Sphere Radius when at Optimal Distance" );
-budCVar aa_targetFrictionMultiplierMin(	"aa_targetFrictionMultiplierMin",				"1.0",		CVAR_FLOAT, "Minimum Friction Scalar" );
-budCVar aa_targetFrictionMultiplierMax(	"aa_targetFrictionMultiplierMax",				"0.4",		CVAR_FLOAT, "Maximum Friction Scalar" );
+CVar aa_targetFrictionMaxDistance(	"aa_targetFrictionMaxDistance",					"1024.0",	CVAR_FLOAT, "Minimum Distance Friction takes effect" );
+CVar aa_targetFrictionOptimalDistance(	"aa_targetFrictionOptimalDistance",				"768.0",	CVAR_FLOAT, "Optimal Distance for Friction to take an effect" );
+CVar aa_targetFrictionRadius(	"aa_targetFrictionRadius",						"96.0",		CVAR_FLOAT, "Friction Collision Sphere Radius" );
+CVar aa_targetFrictionOptimalRadius(	"aa_targetFrictionOptimalRadius",				"192.0",	CVAR_FLOAT, "Friction Collision Sphere Radius when at Optimal Distance" );
+CVar aa_targetFrictionMultiplierMin(	"aa_targetFrictionMultiplierMin",				"1.0",		CVAR_FLOAT, "Minimum Friction Scalar" );
+CVar aa_targetFrictionMultiplierMax(	"aa_targetFrictionMultiplierMax",				"0.4",		CVAR_FLOAT, "Maximum Friction Scalar" );
 
 /*
 ========================
@@ -106,7 +106,7 @@ void budAimAssist::UpdateNewAimAssist()
 	}
 	
 	bool forceLastTarget = false;
-	budVec3 targetPos;
+	Vector3 targetPos;
 	
 	idEntity* entity = NULL;
 	if( forceLastTarget )
@@ -145,7 +145,7 @@ void budAimAssist::UpdateNewAimAssist()
 budAimAssist::FindAimAssistTarget
 ========================
 */
-idEntity* budAimAssist::FindAimAssistTarget( budVec3& targetPos )
+idEntity* budAimAssist::FindAimAssistTarget( Vector3& targetPos )
 {
 	if( player == NULL )
 	{
@@ -155,19 +155,19 @@ idEntity* budAimAssist::FindAimAssistTarget( budVec3& targetPos )
 	//TO DO: Make this faster
 	//TO DO: Defer Traces
 	idEntity* 	optimalTarget = NULL;
-	float		currentBestScore = -budMath::INFINITY;
+	float		currentBestScore = -Math::INFINITY;
 	targetPos = vec3_zero;
 	
-	budVec3 cameraPos;
-	budMat3 cameraAxis;
+	Vector3 cameraPos;
+	Matrix3 cameraAxis;
 	player->GetViewPos( cameraPos, cameraAxis );
 	
 	float maxDistanceSquared = Square( aa_targetMaxDistance.GetFloat() );
 	
-	budVec3 dirToTarget;
+	Vector3 dirToTarget;
 	float  distanceToTargetSquared;
-	budVec3 primaryTargetPos;
-	budVec3 secondaryTargetPos;
+	Vector3 primaryTargetPos;
+	Vector3 secondaryTargetPos;
 	
 	for( idEntity* entity = gameLocal.aimAssistEntities.Next(); entity != NULL; entity = entity->aimAssistNode.Next() )
 	{
@@ -218,10 +218,10 @@ idEntity* budAimAssist::FindAimAssistTarget( budVec3& targetPos )
 		}
 		
 		// Compute a score in the range of 0..1 for how much are looking towards the target.
-		budVec3 forward = cameraAxis[ 0 ];
+		Vector3 forward = cameraAxis[ 0 ];
 		forward.Normalize();
 		dirToTarget.Normalize();
-		float ViewDirDotTargetDir = budMath::ClampFloat( -1.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
+		float ViewDirDotTargetDir = Math::ClampFloat( -1.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
 		
 		// throw out anything thats outside of weapon's global FOV.
 		if( ViewDirDotTargetDir < 0.0f )
@@ -277,19 +277,19 @@ idEntity* budAimAssist::FindAimAssistTarget( budVec3& targetPos )
 budAimAssist::ComputeEntityAimAssistScore
 ========================
 */
-float budAimAssist::ComputeEntityAimAssistScore( const budVec3& targetPos, const budVec3& cameraPos, const budMat3& cameraAxis )
+float budAimAssist::ComputeEntityAimAssistScore( const Vector3& targetPos, const Vector3& cameraPos, const Matrix3& cameraAxis )
 {
 
 	float score = 0.0f;
 	
-	budVec3 dirToTarget = targetPos - cameraPos;
+	Vector3 dirToTarget = targetPos - cameraPos;
 	float distanceToTarget = dirToTarget.Length();
 	
 	// Compute a score in the range of 0..1 for how much are looking towards the target.
-	budVec3 forward = cameraAxis[0];
+	Vector3 forward = cameraAxis[0];
 	forward.Normalize();
 	dirToTarget.Normalize();
-	float ViewDirDotTargetDir = budMath::ClampFloat( 0.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
+	float ViewDirDotTargetDir = Math::ClampFloat( 0.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
 	
 	// the more we look at the target the higher our score
 	score = ViewDirDotTargetDir;
@@ -313,7 +313,7 @@ float budAimAssist::ComputeEntityAimAssistScore( const budVec3& targetPos, const
 budAimAssist::UpdateAdhesion
 ========================
 */
-void budAimAssist::UpdateAdhesion( idEntity* pTarget, const budVec3& targetPos )
+void budAimAssist::UpdateAdhesion( idEntity* pTarget, const Vector3& targetPos )
 {
 
 	if( !aa_targetAdhesionEnable.GetBool() )
@@ -328,36 +328,36 @@ void budAimAssist::UpdateAdhesion( idEntity* pTarget, const budVec3& targetPos )
 	
 	float contributionPctMax = aa_targetAdhesionContributionPctMax.GetFloat();
 	
-	budVec3 cameraPos;
-	budMat3 cameraAxis;
+	Vector3 cameraPos;
+	Matrix3 cameraAxis;
 	player->GetViewPos( cameraPos, cameraAxis );
 	
-	budAngles cameraViewAngles = cameraAxis.ToAngles();
+	Angles cameraViewAngles = cameraAxis.ToAngles();
 	cameraViewAngles.Normalize180();
 	
-	budVec3 cameraViewPos = cameraPos;
-	budVec3 dirToTarget = targetPos - cameraViewPos;
+	Vector3 cameraViewPos = cameraPos;
+	Vector3 dirToTarget = targetPos - cameraViewPos;
 	float distanceToTarget = dirToTarget.Length();
 	
-	budAngles aimAngles = dirToTarget.ToAngles();
+	Angles aimAngles = dirToTarget.ToAngles();
 	aimAngles.Normalize180();
 	
 	// find the delta
 	aimAngles -= cameraViewAngles;
 	
 	// clamp velocities to some max values
-	aimAngles.yaw = budMath::ClampFloat( -aa_targetAdhesionYawSpeedMax.GetFloat(), aa_targetAdhesionYawSpeedMax.GetFloat(), aimAngles.yaw );
-	aimAngles.pitch = budMath::ClampFloat( -aa_targetAdhesionPitchSpeedMax.GetFloat(), aa_targetAdhesionPitchSpeedMax.GetFloat(), aimAngles.pitch );
+	aimAngles.yaw = Math::ClampFloat( -aa_targetAdhesionYawSpeedMax.GetFloat(), aa_targetAdhesionYawSpeedMax.GetFloat(), aimAngles.yaw );
+	aimAngles.pitch = Math::ClampFloat( -aa_targetAdhesionPitchSpeedMax.GetFloat(), aa_targetAdhesionPitchSpeedMax.GetFloat(), aimAngles.pitch );
 	
-	budVec3 forward = cameraAxis[0];
+	Vector3 forward = cameraAxis[0];
 	forward.Normalize();
 	dirToTarget.Normalize();
-	float ViewDirDotTargetDir = budMath::ClampFloat( 0.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
+	float ViewDirDotTargetDir = Math::ClampFloat( 0.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
 	float aimLength = ViewDirDotTargetDir * distanceToTarget;
-	budVec3 aimPoint = cameraPos + ( forward * aimLength );
-	float delta = budMath::Sqrt( Square( distanceToTarget ) - Square( aimLength ) );
+	Vector3 aimPoint = cameraPos + ( forward * aimLength );
+	float delta = Math::Sqrt( Square( distanceToTarget ) - Square( aimLength ) );
 	
-	float contribution = budMath::ClampFloat( 0.0f, contributionPctMax, 1.0f - ( delta / aa_targetAdhesionRadius.GetFloat() ) );
+	float contribution = Math::ClampFloat( 0.0f, contributionPctMax, 1.0f - ( delta / aa_targetAdhesionRadius.GetFloat() ) );
 	angleCorrection.yaw = aimAngles.yaw * contribution;
 	angleCorrection.pitch = aimAngles.pitch * contribution;
 }
@@ -370,7 +370,7 @@ budAimAssist::ComputeFrictionRadius
 float budAimAssist::ComputeFrictionRadius( float distanceToTarget )
 {
 
-	if( ( distanceToTarget <= budMath::FLT_SMALLEST_NON_DENORMAL ) || distanceToTarget > aa_targetFrictionMaxDistance.GetFloat() )
+	if( ( distanceToTarget <= Math::FLT_SMALLEST_NON_DENORMAL ) || distanceToTarget > aa_targetFrictionMaxDistance.GetFloat() )
 	{
 		return aa_targetFrictionRadius.GetFloat();
 	}
@@ -379,8 +379,8 @@ float budAimAssist::ComputeFrictionRadius( float distanceToTarget )
 	
 	if( distanceToTarget > aa_targetFrictionOptimalDistance.GetFloat() )
 	{
-		const float range = budMath::ClampFloat( 0.0f, aa_targetFrictionMaxDistance.GetFloat(), aa_targetFrictionMaxDistance.GetFloat() - aa_targetFrictionOptimalDistance.GetFloat() );
-		if( range > budMath::FLT_SMALLEST_NON_DENORMAL )
+		const float range = Math::ClampFloat( 0.0f, aa_targetFrictionMaxDistance.GetFloat(), aa_targetFrictionMaxDistance.GetFloat() - aa_targetFrictionOptimalDistance.GetFloat() );
+		if( range > Math::FLT_SMALLEST_NON_DENORMAL )
 		{
 			distanceContributionScalar = 1.0f - ( ( distanceToTarget - aa_targetFrictionOptimalDistance.GetFloat() ) / range );
 		}
@@ -394,7 +394,7 @@ float budAimAssist::ComputeFrictionRadius( float distanceToTarget )
 budAimAssist::UpdateFriction
 ========================
 */
-void budAimAssist::UpdateFriction( idEntity* pTarget, const budVec3& targetPos )
+void budAimAssist::UpdateFriction( idEntity* pTarget, const Vector3& targetPos )
 {
 
 	if( !aa_targetFrictionEnable.GetBool() )
@@ -407,18 +407,18 @@ void budAimAssist::UpdateFriction( idEntity* pTarget, const budVec3& targetPos )
 		return;
 	}
 	
-	budVec3 cameraPos;
-	budMat3 cameraAxis;
+	Vector3 cameraPos;
+	Matrix3 cameraAxis;
 	player->GetViewPos( cameraPos, cameraAxis );
-	budVec3 dirToTarget = targetPos - cameraPos;
+	Vector3 dirToTarget = targetPos - cameraPos;
 	float  distanceToTarget = dirToTarget.Length();
-	budVec3 forward = cameraAxis[0];
+	Vector3 forward = cameraAxis[0];
 	forward.Normalize();
 	dirToTarget.Normalize();
-	float ViewDirDotTargetDir = budMath::ClampFloat( 0.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
+	float ViewDirDotTargetDir = Math::ClampFloat( 0.0f, 1.0f, forward * dirToTarget ); // compute the dot and clamp to account for floating point error
 	float aimLength = ViewDirDotTargetDir * distanceToTarget;
-	budVec3 aimPoint = cameraPos + ( forward * aimLength );
-	float delta = budMath::Sqrt( Square( distanceToTarget ) - Square( aimLength ) );
+	Vector3 aimPoint = cameraPos + ( forward * aimLength );
+	float delta = Math::Sqrt( Square( distanceToTarget ) - Square( aimLength ) );
 	
 	const float radius = ComputeFrictionRadius( distanceToTarget );
 	if( delta < radius )
@@ -433,7 +433,7 @@ void budAimAssist::UpdateFriction( idEntity* pTarget, const budVec3& targetPos )
 budAimAssist::ComputeTargetPos
 ========================
 */
-bool budAimAssist::ComputeTargetPos( idEntity* entity, budVec3& primaryTargetPos, budVec3& secondaryTargetPos )
+bool budAimAssist::ComputeTargetPos( idEntity* entity, Vector3& primaryTargetPos, Vector3& secondaryTargetPos )
 {
 
 	primaryTargetPos = vec3_zero;
@@ -454,8 +454,8 @@ bool budAimAssist::ComputeTargetPos( idEntity* entity, budVec3& primaryTargetPos
 	{
 		// Actor AimPoint
 		
-		budVec3 torsoPos;
-		budVec3 headPos = actor->GetEyePosition();
+		Vector3 torsoPos;
+		Vector3 headPos = actor->GetEyePosition();
 		
 		if( actor->GetHeadEntity() != NULL )
 		{

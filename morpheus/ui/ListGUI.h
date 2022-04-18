@@ -38,15 +38,15 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 */
 
-class budListGUI
+class ListGUI
 {
 public:
-	virtual				~budListGUI() { }
+	virtual				~ListGUI() { }
 	
 	virtual void		Config( budUserInterface* pGUI, const char* name ) = 0;
-	virtual void		Add( int id, const budStr& s ) = 0;
+	virtual void		Add( int id, const String& s ) = 0;
 	// use the element count as index for the ids
-	virtual void		Push( const budStr& s ) = 0;
+	virtual void		Push( const String& s ) = 0;
 	virtual bool		Del( int id ) = 0;
 	virtual void		Clear() = 0;
 	virtual int			Num() = 0;

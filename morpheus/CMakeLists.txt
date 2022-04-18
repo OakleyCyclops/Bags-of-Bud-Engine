@@ -33,16 +33,18 @@ set(ENGINE_SOURCES
 	${UNIX_SOURCES}
    )
 
-include_directories(libBud)
+add_subdirectory(OakUtils)
+
+include_directories(OakUtils)
 include_directories(Interfaces)
 include_directories(Core)
-include_directories(libs/rapidjson/include)
 
 add_executable(engine ${ENGINE_SOURCES})
 
 target_precompile_headers(engine PUBLIC Core/CorePCH.hpp)
 
 target_link_libraries(engine
+					OakUtils
 					${OPENGL_LIBRARIES} 
 					pthread 
 					${RT_LIBRARY} 

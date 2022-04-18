@@ -86,9 +86,9 @@ idChoiceWindow::~idChoiceWindow()
 
 void idChoiceWindow::RunNamedEvent( const char* eventName )
 {
-	budStr event, group;
+	String event, group;
 	
-	if( !budStr::Cmpn( eventName, "cvar read ", 10 ) )
+	if( !String::Cmpn( eventName, "cvar read ", 10 ) )
 	{
 		event = eventName;
 		group = event.Mid( 10, event.Length() - 10 );
@@ -97,7 +97,7 @@ void idChoiceWindow::RunNamedEvent( const char* eventName )
 			UpdateVars( true, true );
 		}
 	}
-	else if( !budStr::Cmpn( eventName, "cvar write ", 11 ) )
+	else if( !String::Cmpn( eventName, "cvar write ", 11 ) )
 	{
 		event = eventName;
 		group = event.Mid( 11, event.Length() - 11 );
@@ -280,7 +280,7 @@ void idChoiceWindow::UpdateChoice()
 		int i;
 		for( i = 0; i < c; i++ )
 		{
-			if( budStr::Icmp( cvarStr.c_str(), ( values.Num() ) ? values[i] : choices[i] ) == 0 )
+			if( String::Icmp( cvarStr.c_str(), ( values.Num() ) ? values[i] : choices[i] ) == 0 )
 			{
 				break;
 			}
@@ -296,12 +296,12 @@ void idChoiceWindow::UpdateChoice()
 
 bool idChoiceWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "choicetype" ) == 0 )
+	if( String::Icmp( _name, "choicetype" ) == 0 )
 	{
 		choiceType = src->ParseInt();
 		return true;
 	}
-	if( budStr::Icmp( _name, "currentchoice" ) == 0 )
+	if( String::Icmp( _name, "currentchoice" ) == 0 )
 	{
 		currentChoice = src->ParseInt();
 		return true;
@@ -312,27 +312,27 @@ bool idChoiceWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 
 idWinVar* idChoiceWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
 {
-	if( budStr::Icmp( _name, "choices" ) == 0 )
+	if( String::Icmp( _name, "choices" ) == 0 )
 	{
 		return &choicesStr;
 	}
-	if( budStr::Icmp( _name, "values" ) == 0 )
+	if( String::Icmp( _name, "values" ) == 0 )
 	{
 		return &choiceVals;
 	}
-	if( budStr::Icmp( _name, "cvar" ) == 0 )
+	if( String::Icmp( _name, "cvar" ) == 0 )
 	{
 		return &cvarStr;
 	}
-	if( budStr::Icmp( _name, "gui" ) == 0 )
+	if( String::Icmp( _name, "gui" ) == 0 )
 	{
 		return &guiStr;
 	}
-	if( budStr::Icmp( _name, "liveUpdate" ) == 0 )
+	if( String::Icmp( _name, "liveUpdate" ) == 0 )
 	{
 		return &liveUpdate;
 	}
-	if( budStr::Icmp( _name, "updateGroup" ) == 0 )
+	if( String::Icmp( _name, "updateGroup" ) == 0 )
 	{
 		return &updateGroup;
 	}
@@ -344,7 +344,7 @@ idWinVar* idChoiceWindow::GetWinVarByName( const char* _name, bool fixup, drawWi
 void idChoiceWindow::UpdateChoicesAndVals()
 {
 	budToken token;
-	budStr str2, str3;
+	String str2, str3;
 	budLexer src;
 	
 	if( latchedChoices.Icmp( choicesStr ) )
@@ -442,7 +442,7 @@ void idChoiceWindow::PostParse()
 
 void idChoiceWindow::Draw( int time, float x, float y )
 {
-	budVec4 color = foreColor;
+	Vector4 color = foreColor;
 	
 	UpdateChoicesAndVals();
 	UpdateChoice();
@@ -452,7 +452,7 @@ void idChoiceWindow::Draw( int time, float x, float y )
 	
 	if( textShadow )
 	{
-		budStr shadowText = choices[currentChoice];
+		String shadowText = choices[currentChoice];
 		idRectangle shadowRect = textRect;
 		
 		shadowText.RemoveColors();
@@ -478,7 +478,7 @@ void idChoiceWindow::Draw( int time, float x, float y )
 	dc->DrawText( choices[currentChoice], textScale, textAlign, color, textRect, false, -1 );
 }
 
-void idChoiceWindow::Activate( bool activate, budStr& act )
+void idChoiceWindow::Activate( bool activate, String& act )
 {
 	idWindow::Activate( activate, act );
 	if( activate )

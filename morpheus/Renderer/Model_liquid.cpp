@@ -171,8 +171,8 @@ void budRenderModelLiquid::WaterDrop( int x, int y, float* page )
 			square = cy * cy + cx * cx;
 			if( square < radsquare )
 			{
-				dist = budMath::Sqrt( ( float )square * invlength );
-				page[verts_x * ( cy + y ) + cx + x] += budMath::Cos16( dist * budMath::PI * 0.5f ) * drop_height;
+				dist = Math::Sqrt( ( float )square * invlength );
+				page[verts_x * ( cy + y ) + cx + x] += Math::Cos16( dist * Math::PI * 0.5f ) * drop_height;
 			}
 		}
 	}
@@ -378,7 +378,7 @@ void budRenderModelLiquid::InitFromFile( const char* fileName )
 	int				i, x, y;
 	budToken			token;
 	budParser		parser( LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS );
-	budList<int>		tris;
+	List<int>		tris;
 	float			size_x, size_y;
 	float			rate;
 	
@@ -517,8 +517,8 @@ void budRenderModelLiquid::InitFromFile( const char* fileName )
 	deformInfo = R_BuildDeformInfo( verts.Num(), verts.Ptr(), tris.Num(), tris.Ptr(), true );
 	
 	bounds.Clear();
-	bounds.AddPoint( budVec3( 0.0f, 0.0f, drop_height * -10.0f ) );
-	bounds.AddPoint( budVec3( ( verts_x - 1 ) * scale_x, ( verts_y - 1 ) * scale_y, drop_height * 10.0f ) );
+	bounds.AddPoint( Vector3( 0.0f, 0.0f, drop_height * -10.0f ) );
+	bounds.AddPoint( Vector3( ( verts_x - 1 ) * scale_x, ( verts_y - 1 ) * scale_y, drop_height * 10.0f ) );
 	
 	// set the timestamp for reloadmodels
 	fileSystem->ReadFile( name, NULL, &timeStamp );

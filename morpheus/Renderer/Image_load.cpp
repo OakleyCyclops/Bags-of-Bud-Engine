@@ -223,9 +223,9 @@ GetGeneratedName
 name contains GetName() upon entry
 ===============
 */
-void budImage::GetGeneratedName( budStr& _name, const textureUsage_t& _usage, const cubeFiles_t& _cube )
+void budImage::GetGeneratedName( String& _name, const textureUsage_t& _usage, const cubeFiles_t& _cube )
 {
-	budStrStatic< 64 > extension;
+	StringStatic< 64 > extension;
 	
 	_name.ExtractFileExtension( extension );
 	_name.StripFileExtension();
@@ -293,7 +293,7 @@ void budImage::ActuallyLoadImage( bool fromBackEnd )
 	// Figure out opts.colorFormat and opts.format so we can make sure the binary image is up to date
 	DeriveOpts();
 	
-	budStrStatic< MAX_OSPATH > generatedName = GetName();
+	StringStatic< MAX_OSPATH > generatedName = GetName();
 	GetGeneratedName( generatedName, usage, cubeFiles );
 	
 	budBinaryImage im( generatedName );
@@ -364,7 +364,7 @@ void budImage::ActuallyLoadImage( bool fromBackEnd )
 	}
 	else
 	{
-		budStr binarizeReason = "binarize: unknown reason";
+		String binarizeReason = "binarize: unknown reason";
 		if( binaryFileTime == FILE_NOT_FOUND_TIMESTAMP )
 		{
 			binarizeReason = va( "binarize: binary file not found '%s'", generatedName.c_str() );
@@ -448,7 +448,7 @@ void budImage::ActuallyLoadImage( bool fromBackEnd )
 				AllocImage();
 				
 				// clear the data so it's not left uninitialized
-				idTempArray<byte> clear( opts.width * opts.height * 4 );
+				TempArray<byte> clear( opts.width * opts.height * 4 );
 				memset( clear.Ptr(), 0, clear.Size() );
 				for( int level = 0; level < opts.numLevels; level++ )
 				{

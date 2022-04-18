@@ -108,7 +108,7 @@ void budAASBuild::ClearHash( const budBounds& bounds )
 budAASBuild::HashVec
 ================
 */
-BUD_INLINE int budAASBuild::HashVec( const budVec3& vec )
+BUD_INLINE int budAASBuild::HashVec( const Vector3& vec )
 {
 	int x, y;
 	
@@ -122,16 +122,16 @@ BUD_INLINE int budAASBuild::HashVec( const budVec3& vec )
 budAASBuild::GetVertex
 ================
 */
-bool budAASBuild::GetVertex( const budVec3& v, int* vertexNum )
+bool budAASBuild::GetVertex( const Vector3& v, int* vertexNum )
 {
 	int i, hashKey, vn;
 	aasVertex_t vert, *p;
 	
 	for( i = 0; i < 3; i++ )
 	{
-		if( budMath::Fabs( v[i] - budMath::Rint( v[i] ) ) < INTEGRAL_EPSILON )
+		if( Math::Fabs( v[i] - Math::Rint( v[i] ) ) < INTEGRAL_EPSILON )
 		{
-			vert[i] = budMath::Rint( v[i] );
+			vert[i] = Math::Rint( v[i] );
 		}
 		else
 		{
@@ -145,9 +145,9 @@ bool budAASBuild::GetVertex( const budVec3& v, int* vertexNum )
 	{
 		p = &file->vertices[vn];
 		// first compare z-axis because hash is based on x-y plane
-		if( budMath::Fabs( vert.z - p->z ) < VERTEX_EPSILON &&
-				budMath::Fabs( vert.x - p->x ) < VERTEX_EPSILON &&
-				budMath::Fabs( vert.y - p->y ) < VERTEX_EPSILON )
+		if( Math::Fabs( vert.z - p->z ) < VERTEX_EPSILON &&
+				Math::Fabs( vert.x - p->x ) < VERTEX_EPSILON &&
+				Math::Fabs( vert.y - p->y ) < VERTEX_EPSILON )
 		{
 			*vertexNum = vn;
 			return true;
@@ -166,7 +166,7 @@ bool budAASBuild::GetVertex( const budVec3& v, int* vertexNum )
 budAASBuild::GetEdge
 ================
 */
-bool budAASBuild::GetEdge( const budVec3& v1, const budVec3& v2, int* edgeNum, int v1num )
+bool budAASBuild::GetEdge( const Vector3& v1, const Vector3& v2, int* edgeNum, int v1num )
 {
 	int v2num, hashKey, e;
 	int* vertexNum;

@@ -43,8 +43,8 @@ SUBVIEW SURFACES
 
 struct orientation_t
 {
-	budVec3		origin;
-	budMat3		axis;
+	Vector3		origin;
+	Matrix3		axis;
 };
 
 /*
@@ -52,11 +52,11 @@ struct orientation_t
 R_MirrorPoint
 =================
 */
-static void R_MirrorPoint( const budVec3 in, orientation_t* surface, orientation_t* camera, budVec3& out )
+static void R_MirrorPoint( const Vector3 in, orientation_t* surface, orientation_t* camera, Vector3& out )
 {
-	const budVec3 local = in - surface->origin;
+	const Vector3 local = in - surface->origin;
 	
-	budVec3 transformed( 0.0f );
+	Vector3 transformed( 0.0f );
 	for( int i = 0; i < 3; i++ )
 	{
 		const float d = local * surface->axis[i];
@@ -71,7 +71,7 @@ static void R_MirrorPoint( const budVec3 in, orientation_t* surface, orientation
 R_MirrorVector
 =================
 */
-static void R_MirrorVector( const budVec3 in, orientation_t* surface, orientation_t* camera, budVec3& out )
+static void R_MirrorVector( const Vector3 in, orientation_t* surface, orientation_t* camera, Vector3& out )
 {
 	out.Zero();
 	for( int i = 0; i < 3; i++ )
@@ -126,7 +126,7 @@ bool R_PreciseCullSurface( const drawSurf_t* drawSurf, budBounds& ndcBounds )
 	
 	for( int i = 0; i < tri->numVerts; i++ )
 	{
-		const budVec3 vXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[i], joints );
+		const Vector3 vXYZ = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[i], joints );
 		
 		budPlane eye, clip;
 		R_TransformModelToClip( vXYZ, drawSurf->space->modelViewMatrix, tr.viewDef->projectionMatrix, eye, clip );
@@ -155,14 +155,14 @@ bool R_PreciseCullSurface( const drawSurf_t* drawSurf, budBounds& ndcBounds )
 	}
 	
 	// backface and frustum cull
-	budVec3 localViewOrigin;
+	Vector3 localViewOrigin;
 	R_GlobalPointToLocal( drawSurf->space->modelMatrix, tr.viewDef->renderView.vieworg, localViewOrigin );
 	
 	for( int i = 0; i < tri->numIndexes; i += 3 )
 	{
-		const budVec3 v1 = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[ i + 0 ] ], joints );
-		const budVec3 v2 = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[ i + 1 ] ], joints );
-		const budVec3 v3 = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[ i + 2 ] ], joints );
+		const Vector3 v1 = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[ i + 0 ] ], joints );
+		const Vector3 v2 = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[ i + 1 ] ], joints );
+		const Vector3 v3 = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[ tri->indexes[ i + 2 ] ], joints );
 		
 		// this is a hack, because R_GlobalPointToLocal doesn't work with the non-normalized
 		// axis that we get from the gui view transform.  It doesn't hurt anything, because
@@ -171,11 +171,11 @@ bool R_PreciseCullSurface( const drawSurf_t* drawSurf, budBounds& ndcBounds )
 		{
 			// we don't care that it isn't normalized,
 			// all we want is the sign
-			const budVec3 d1 = v2 - v1;
-			const budVec3 d2 = v3 - v1;
-			const budVec3 normal = d2.Cross( d1 );
+			const Vector3 d1 = v2 - v1;
+			const Vector3 d2 = v3 - v1;
+			const Vector3 normal = d2.Cross( d1 );
 			
-			const budVec3 dir = v1 - localViewOrigin;
+			const Vector3 dir = v1 - localViewOrigin;
 			
 			const float dot = normal * dir;
 			if( dot >= 0.0f )
@@ -201,7 +201,7 @@ bool R_PreciseCullSurface( const drawSurf_t* drawSurf, budBounds& ndcBounds )
 		}
 		for( int j = 0; j < w.GetNumPoints(); j++ )
 		{
-			budVec3 screen;
+			Vector3 screen;
 			
 			R_GlobalToNormalizedDeviceCoordinates( w[j].ToVec3(), screen );
 			ndcBounds.AddPoint( screen );
@@ -257,8 +257,8 @@ static viewDef_t* R_MirrorViewBySurface( const drawSurf_t* drawSurf )
 	R_MirrorVector( tr.viewDef->renderView.viewaxis[2], &surface, &camera, parms->renderView.viewaxis[2] );
 	
 	// make the view origin 16 units away from the center of the surface
-	const budVec3 center = ( drawSurf->frontEndGeo->bounds[0] + drawSurf->frontEndGeo->bounds[1] ) * 0.5f;
-	const budVec3 viewOrigin = center + ( originalPlane.Normal() * 16.0f );
+	const Vector3 center = ( drawSurf->frontEndGeo->bounds[0] + drawSurf->frontEndGeo->bounds[1] ) * 0.5f;
+	const Vector3 viewOrigin = center + ( originalPlane.Normal() * 16.0f );
 	
 	R_LocalPointToGlobal( drawSurf->space->modelMatrix, viewOrigin, parms->initialViewAreaOrigin );
 	
@@ -485,10 +485,10 @@ bool R_GenerateSurfaceSubview( const drawSurf_t* drawSurf )
 	assert( tr.viewDef != NULL );
 	budScreenRect* v = &tr.viewDef->viewport;
 	budScreenRect scissor;
-	scissor.x1 = v->x1 + budMath::Ftoi( ( v->x2 - v->x1 + 1 ) * 0.5f * ( ndcBounds[0][0] + 1.0f ) );
-	scissor.y1 = v->y1 + budMath::Ftoi( ( v->y2 - v->y1 + 1 ) * 0.5f * ( ndcBounds[0][1] + 1.0f ) );
-	scissor.x2 = v->x1 + budMath::Ftoi( ( v->x2 - v->x1 + 1 ) * 0.5f * ( ndcBounds[1][0] + 1.0f ) );
-	scissor.y2 = v->y1 + budMath::Ftoi( ( v->y2 - v->y1 + 1 ) * 0.5f * ( ndcBounds[1][1] + 1.0f ) );
+	scissor.x1 = v->x1 + Math::Ftoi( ( v->x2 - v->x1 + 1 ) * 0.5f * ( ndcBounds[0][0] + 1.0f ) );
+	scissor.y1 = v->y1 + Math::Ftoi( ( v->y2 - v->y1 + 1 ) * 0.5f * ( ndcBounds[0][1] + 1.0f ) );
+	scissor.x2 = v->x1 + Math::Ftoi( ( v->x2 - v->x1 + 1 ) * 0.5f * ( ndcBounds[1][0] + 1.0f ) );
+	scissor.y2 = v->y1 + Math::Ftoi( ( v->y2 - v->y1 + 1 ) * 0.5f * ( ndcBounds[1][1] + 1.0f ) );
 	
 	// nudge a bit for safety
 	scissor.Expand();

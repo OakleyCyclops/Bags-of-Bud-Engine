@@ -320,7 +320,7 @@ float BrushVolume( uBrush_t* brush )
 {
 	int			i;
 	idWinding*	w;
-	budVec3		corner;
+	Vector3		corner;
 	float		d, area, volume;
 	budPlane*		plane;
 	

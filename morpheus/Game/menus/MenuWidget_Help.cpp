@@ -68,7 +68,7 @@ void idMenuWidget_Help::Update()
 		return;
 	}
 	
-	const budStr& msg = ( lastHoveredMessage.Length() > 0 ) ? lastHoveredMessage : lastFocusedMessage;
+	const String& msg = ( lastHoveredMessage.Length() > 0 ) ? lastHoveredMessage : lastFocusedMessage;
 	if( msg.Length() > 0 && !hideMessage )
 	{
 		// try to show it if...
@@ -133,7 +133,7 @@ void idMenuWidget_Help::ObserveEvent( const idMenuWidget& widget, const idWidget
 		}
 		case WIDGET_EVENT_ROLL_OVER:
 		{
-			budStr desc = button->GetDescription();
+			String desc = button->GetDescription();
 			if( desc.IsEmpty() )
 			{
 				hideMessage = true;

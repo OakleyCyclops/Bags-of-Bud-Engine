@@ -59,7 +59,7 @@ void R_CalcInteractionFacing( const budRenderEntityLocal* ent, const srfTriangle
 		return;
 	}
 	
-	budVec3 localLightOrigin;
+	Vector3 localLightOrigin;
 	R_GlobalPointToLocal( ent->modelMatrix, light->globalLightOrigin, localLightOrigin );
 	
 	const int numFaces = tri->numIndexes / 3;
@@ -870,7 +870,7 @@ void budInteraction::CreateStaticInteraction()
 R_ShowInteractionMemory_f
 ===================
 */
-void R_ShowInteractionMemory_f( const budCmdArgs& args )
+void R_ShowInteractionMemory_f( const CmdArgs& args )
 {
 	int entities = 0;
 	int interactions = 0;

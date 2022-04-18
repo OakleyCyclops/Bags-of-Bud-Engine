@@ -45,7 +45,7 @@ public:
 	CLASS_PROTOTYPE( budAI_Vagary );
 	
 private:
-	void	Event_ChooseObjectToThrow( const budVec3& mins, const budVec3& maxs, float speed, float minDist, float offset );
+	void	Event_ChooseObjectToThrow( const Vector3& mins, const Vector3& maxs, float speed, float minDist, float offset );
 	void	Event_ThrowObjectAtEnemy( idEntity* ent, float speed );
 };
 
@@ -62,15 +62,15 @@ END_CLASS
 budAI_Vagary::Event_ChooseObjectToThrow
 ================
 */
-void budAI_Vagary::Event_ChooseObjectToThrow( const budVec3& mins, const budVec3& maxs, float speed, float minDist, float offset )
+void budAI_Vagary::Event_ChooseObjectToThrow( const Vector3& mins, const Vector3& maxs, float speed, float minDist, float offset )
 {
 	idEntity* 	ent;
 	idEntity* 	entityList[ MAX_GENTITIES ];
 	int			numListedEntities;
 	int			i, index;
 	float		dist;
-	budVec3		vel;
-	budVec3		offsetVec( 0, 0, offset );
+	Vector3		vel;
+	Vector3		offsetVec( 0, 0, offset );
 	idEntity*	enemyEnt = enemy.GetEntity();
 	
 	if( !enemyEnt )
@@ -79,7 +79,7 @@ void budAI_Vagary::Event_ChooseObjectToThrow( const budVec3& mins, const budVec3
 		return;
 	}
 	
-	budVec3 enemyEyePos = lastVisibleEnemyPos + lastVisibleEnemyEyeOffset;
+	Vector3 enemyEyePos = lastVisibleEnemyPos + lastVisibleEnemyEyeOffset;
 	const budBounds& myBounds = physicsObj.GetAbsBounds();
 	budBounds checkBounds( mins, maxs );
 	checkBounds.TranslateSelf( physicsObj.GetOrigin() );
@@ -105,7 +105,7 @@ void budAI_Vagary::Event_ChooseObjectToThrow( const budVec3& mins, const budVec3
 		}
 		
 		idPhysics* entPhys = ent->GetPhysics();
-		const budVec3& entOrg = entPhys->GetOrigin();
+		const Vector3& entOrg = entPhys->GetOrigin();
 		dist = ( entOrg - enemyEyePos ).LengthFast();
 		if( dist < minDist )
 		{
@@ -137,7 +137,7 @@ budAI_Vagary::Event_ThrowObjectAtEnemy
 */
 void budAI_Vagary::Event_ThrowObjectAtEnemy( idEntity* ent, float speed )
 {
-	budVec3		vel;
+	Vector3		vel;
 	idEntity*	enemyEnt;
 	idPhysics*	entPhys;
 	

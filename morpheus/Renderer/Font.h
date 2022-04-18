@@ -99,7 +99,7 @@ private:
 	};
 	
 	// base name of the font (minus "fonts/" and ".dat")
-	budStr			name;
+	String			name;
 	
 	// Fonts can be aliases to other fonts
 	budFont* alias;

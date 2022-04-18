@@ -33,10 +33,10 @@ If you have questions concerning this license or the applicable additional terms
 
 /*
 ====================
-budListGUILocal::StateChanged
+ListGUILocal::StateChanged
 ====================
 */
-void budListGUILocal::StateChanged()
+void ListGUILocal::StateChanged()
 {
 	int i;
 	
@@ -59,20 +59,20 @@ void budListGUILocal::StateChanged()
 
 /*
 ====================
-budListGUILocal::GetNumSelections
+ListGUILocal::GetNumSelections
 ====================
 */
-int budListGUILocal::GetNumSelections()
+int ListGUILocal::GetNumSelections()
 {
 	return m_pGUI->State().GetInt( va( "%s_numsel", m_name.c_str() ) );
 }
 
 /*
 ====================
-budListGUILocal::GetSelection
+ListGUILocal::GetSelection
 ====================
 */
-int budListGUILocal::GetSelection( char* s, int size, int _sel ) const
+int ListGUILocal::GetSelection( char* s, int size, int _sel ) const
 {
 	if( s )
 	{
@@ -85,7 +85,7 @@ int budListGUILocal::GetSelection( char* s, int size, int _sel ) const
 	}
 	if( s )
 	{
-		budStr::snPrintf( s, size, m_pGUI->State().GetString( va( "%s_item_%i", m_name.c_str(), sel ), "" ) );
+		String::snPrintf( s, size, m_pGUI->State().GetString( va( "%s_item_%i", m_name.c_str(), sel ), "" ) );
 	}
 	// don't let overflow
 	if( sel >= m_ids.Num() )
@@ -98,10 +98,10 @@ int budListGUILocal::GetSelection( char* s, int size, int _sel ) const
 
 /*
 ====================
-budListGUILocal::SetSelection
+ListGUILocal::SetSelection
 ====================
 */
-void budListGUILocal::SetSelection( int sel )
+void ListGUILocal::SetSelection( int sel )
 {
 	m_pGUI->SetStateInt( va( "%s_sel_0", m_name.c_str() ), sel );
 	StateChanged();
@@ -109,10 +109,10 @@ void budListGUILocal::SetSelection( int sel )
 
 /*
 ====================
-budListGUILocal::Add
+ListGUILocal::Add
 ====================
 */
-void budListGUILocal::Add( int id, const budStr& s )
+void ListGUILocal::Add( int id, const String& s )
 {
 	int i = m_ids.FindIndex( id );
 	if( i == -1 )
@@ -129,10 +129,10 @@ void budListGUILocal::Add( int id, const budStr& s )
 
 /*
 ====================
-budListGUILocal::Push
+ListGUILocal::Push
 ====================
 */
-void budListGUILocal::Push( const budStr& s )
+void ListGUILocal::Push( const String& s )
 {
 	Append( s );
 	m_ids.Append( m_ids.Num() );
@@ -141,10 +141,10 @@ void budListGUILocal::Push( const budStr& s )
 
 /*
 ====================
-budListGUILocal::Del
+ListGUILocal::Del
 ====================
 */
-bool budListGUILocal::Del( int id )
+bool ListGUILocal::Del( int id )
 {
 	int i = m_ids.FindIndex( id );
 	if( i == -1 )
@@ -159,13 +159,13 @@ bool budListGUILocal::Del( int id )
 
 /*
 ====================
-budListGUILocal::Clear
+ListGUILocal::Clear
 ====================
 */
-void budListGUILocal::Clear()
+void ListGUILocal::Clear()
 {
 	m_ids.Clear();
-	budList<budStr, TAG_OLD_UI>::Clear();
+	List<String, TAG_OLD_UI>::Clear();
 	if( m_pGUI )
 	{
 		// will clear all the GUI variables and will set m_water back to 0
@@ -175,20 +175,20 @@ void budListGUILocal::Clear()
 
 /*
 ====================
-budListGUILocal::IsConfigured
+ListGUILocal::IsConfigured
 ====================
 */
-bool budListGUILocal::IsConfigured() const
+bool ListGUILocal::IsConfigured() const
 {
 	return m_pGUI != NULL;
 }
 
 /*
 ====================
-budListGUILocal::SetStateChanges
+ListGUILocal::SetStateChanges
 ====================
 */
-void budListGUILocal::SetStateChanges( bool enable )
+void ListGUILocal::SetStateChanges( bool enable )
 {
 	m_stateUpdates = enable;
 	StateChanged();
@@ -196,10 +196,10 @@ void budListGUILocal::SetStateChanges( bool enable )
 
 /*
 ====================
-budListGUILocal::Shutdown
+ListGUILocal::Shutdown
 ====================
 */
-void budListGUILocal::Shutdown()
+void ListGUILocal::Shutdown()
 {
 	m_pGUI = NULL;
 	m_name.Clear();

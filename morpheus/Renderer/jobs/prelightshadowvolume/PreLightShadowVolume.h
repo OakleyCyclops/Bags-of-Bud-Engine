@@ -57,8 +57,8 @@ struct preLightShadowVolumeParms_t
 	int								numIndexes;
 	budBounds						triangleBounds;
 	budRenderMatrix					triangleMVP;
-	budVec3							localLightOrigin;
-	budVec3							localViewOrigin;
+	Vector3							localLightOrigin;
+	Vector3							localViewOrigin;
 	float							zNear;
 	float							lightZMin;
 	float							lightZMax;

@@ -59,7 +59,7 @@ bool budCollisionModelManagerLocal::TestTrmVertsInBrush( cm_traceWork_t* tw, cm_
 {
 	int i, j, numVerts, bestPlane;
 	float d, bestd;
-	budVec3* p;
+	Vector3* p;
 	
 	if( b->checkcount == budCollisionModelManagerLocal::checkCount )
 	{
@@ -93,7 +93,7 @@ bool budCollisionModelManagerLocal::TestTrmVertsInBrush( cm_traceWork_t* tw, cm_
 		
 		// see if the point is inside the brush
 		bestPlane = 0;
-		bestd = -budMath::INFINITY;
+		bestd = -Math::INFINITY;
 		for( i = 0; i < b->numPlanes; i++ )
 		{
 			d = b->planes[i].Distance( *p );
@@ -226,7 +226,7 @@ bool budCollisionModelManagerLocal::TestTrmInPolygon( cm_traceWork_t* tw, cm_pol
 				}
 				
 				bestPlane = 0;
-				bestd = -budMath::INFINITY;
+				bestd = -Math::INFINITY;
 				for( k = 0; k < tw->numPolys; k++ )
 				{
 					d = tw->polys[k].plane.Distance( v->p );
@@ -442,7 +442,7 @@ bool budCollisionModelManagerLocal::TestTrmInPolygon( cm_traceWork_t* tw, cm_pol
 budCollisionModelManagerLocal::PointNode
 ================
 */
-cm_node_t* budCollisionModelManagerLocal::PointNode( const budVec3& p, cm_model_t* model )
+cm_node_t* budCollisionModelManagerLocal::PointNode( const Vector3& p, cm_model_t* model )
 {
 	cm_node_t* node;
 	
@@ -468,7 +468,7 @@ cm_node_t* budCollisionModelManagerLocal::PointNode( const budVec3& p, cm_model_
 budCollisionModelManagerLocal::PointContents
 ================
 */
-int budCollisionModelManagerLocal::PointContents( const budVec3 p, cmHandle_t model )
+int budCollisionModelManagerLocal::PointContents( const Vector3 p, cmHandle_t model )
 {
 	int i;
 	float d;
@@ -520,9 +520,9 @@ int budCollisionModelManagerLocal::PointContents( const budVec3 p, cmHandle_t mo
 budCollisionModelManagerLocal::TransformedPointContents
 ==================
 */
-int	budCollisionModelManagerLocal::TransformedPointContents( const budVec3& p, cmHandle_t model, const budVec3& origin, const budMat3& modelAxis )
+int	budCollisionModelManagerLocal::TransformedPointContents( const Vector3& p, cmHandle_t model, const Vector3& origin, const Matrix3& modelAxis )
 {
-	budVec3 p_l;
+	Vector3 p_l;
 	
 	// subtract origin offset
 	p_l = p - origin;
@@ -539,14 +539,14 @@ int	budCollisionModelManagerLocal::TransformedPointContents( const budVec3& p, c
 budCollisionModelManagerLocal::ContentsTrm
 ==================
 */
-int budCollisionModelManagerLocal::ContentsTrm( trace_t* results, const budVec3& start,
-		const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-		cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+int budCollisionModelManagerLocal::ContentsTrm( trace_t* results, const Vector3& start,
+		const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+		cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	int i;
 	bool model_rotated, trm_rotated;
-	budMat3 invModelAxis, tmpAxis;
-	budVec3 dir;
+	Matrix3 invModelAxis, tmpAxis;
+	Vector3 dir;
 	ALIGN16( cm_traceWork_t tw );
 	
 	// fast point case
@@ -691,13 +691,13 @@ int budCollisionModelManagerLocal::ContentsTrm( trace_t* results, const budVec3&
 			tw.bounds[0][i] = tw.end[i] + tw.size[0][i] - CM_BOX_EPSILON;
 			tw.bounds[1][i] = tw.start[i] + tw.size[1][i] + CM_BOX_EPSILON;
 		}
-		if( budMath::Fabs( tw.size[0][i] ) > budMath::Fabs( tw.size[1][i] ) )
+		if( Math::Fabs( tw.size[0][i] ) > Math::Fabs( tw.size[1][i] ) )
 		{
-			tw.extents[i] = budMath::Fabs( tw.size[0][i] ) + CM_BOX_EPSILON;
+			tw.extents[i] = Math::Fabs( tw.size[0][i] ) + CM_BOX_EPSILON;
 		}
 		else
 		{
-			tw.extents[i] = budMath::Fabs( tw.size[1][i] ) + CM_BOX_EPSILON;
+			tw.extents[i] = Math::Fabs( tw.size[1][i] ) + CM_BOX_EPSILON;
 		}
 	}
 	
@@ -717,9 +717,9 @@ int budCollisionModelManagerLocal::ContentsTrm( trace_t* results, const budVec3&
 budCollisionModelManagerLocal::Contents
 ==================
 */
-int budCollisionModelManagerLocal::Contents( const budVec3& start,
-		const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-		cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+int budCollisionModelManagerLocal::Contents( const Vector3& start,
+		const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+		cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	trace_t results;
 	

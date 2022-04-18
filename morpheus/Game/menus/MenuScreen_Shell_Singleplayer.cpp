@@ -148,8 +148,8 @@ idMenuScreen_Shell_Singleplayer::ShowScreen
 void idMenuScreen_Shell_Singleplayer::ShowScreen( const mainMenuTransition_t transitionType )
 {
 
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
-	budList< budStr > option;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	List< String > option;
 	
 	canContinue = false;
 	const saveGameDetailsList_t& saveGameInfo = session->GetSaveGameManager().GetEnumeratedSavegames();
@@ -238,7 +238,7 @@ void idMenuScreen_Shell_Singleplayer::ContinueGame()
 {
 	const saveGameDetailsList_t& saveGameInfo = session->GetSaveGameManager().GetEnumeratedSavegames();
 	saveGameDetailsList_t sortedSaves = saveGameInfo;
-	sortedSaves.Sort( budSort_SavesByDate() );
+	sortedSaves.Sort( Sort_SavesByDate() );
 	if( sortedSaves.Num() > 0 )
 	{
 		if( sortedSaves[0].damaged )
@@ -255,13 +255,13 @@ void idMenuScreen_Shell_Singleplayer::ContinueGame()
 			
 			budStaticList< budSWFScriptFunction*, 4 > callbacks;
 			callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_ContinueDamaged() );
-			budStaticList< budStrId, 4 > optionText;
-			optionText.Append( budStrId( "#str_04339" ) );	// OK
+			budStaticList< StringId, 4 > optionText;
+			optionText.Append( StringId( "#str_04339" ) );	// OK
 			common->Dialog().AddDynamicDialog( GDM_CORRUPT_CONTINUE, callbacks, optionText, false, "" );
 		}
 		else
 		{
-			const budStr& name = sortedSaves[ 0 ].slotName;
+			const String& name = sortedSaves[ 0 ].slotName;
 			cmdSystem->AppendCommandText( va( "loadgame %s\n", name.c_str() ) );
 		}
 	}

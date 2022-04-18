@@ -53,12 +53,12 @@ Retrieving contacts
 budCollisionModelManagerLocal::Contacts
 ==================
 */
-int budCollisionModelManagerLocal::Contacts( contactInfo_t* contacts, const int maxContacts, const budVec3& start, const budVec6& dir, const float depth,
-		const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-		cmHandle_t model, const budVec3& origin, const budMat3& modelAxis )
+int budCollisionModelManagerLocal::Contacts( contactInfo_t* contacts, const int maxContacts, const Vector3& start, const Vector6& dir, const float depth,
+		const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+		cmHandle_t model, const Vector3& origin, const Matrix3& modelAxis )
 {
 	trace_t results;
-	budVec3 end;
+	Vector3 end;
 	
 	// same as Translation but instead of storing the first collision we store all collisions as contacts
 	budCollisionModelManagerLocal::getContacts = true;

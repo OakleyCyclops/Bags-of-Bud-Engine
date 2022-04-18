@@ -112,7 +112,7 @@ void budSWFSpriteInstance::PlaceObject2( budSWFBitStream& bitstream )
 	}
 	if( ( flags & PlaceFlagHasName ) != 0 )
 	{
-		budStr name = bitstream.ReadString();
+		String name = bitstream.ReadString();
 		if( display->spriteInstance )
 		{
 			display->spriteInstance->name = name;
@@ -218,7 +218,7 @@ void budSWFSpriteInstance::PlaceObject3( budSWFBitStream& bitstream )
 	}
 	if( ( flags1 & PlaceFlagHasName ) != 0 )
 	{
-		budStr name = bitstream.ReadString();
+		String name = bitstream.ReadString();
 		if( display->spriteInstance )
 		{
 			display->spriteInstance->name = name;

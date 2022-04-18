@@ -45,7 +45,7 @@ If you have questions concerning this license or the applicable additional terms
 budAASFileLocal::EdgeCenter
 ================
 */
-budVec3 budAASFileLocal::EdgeCenter( int edgeNum ) const
+Vector3 budAASFileLocal::EdgeCenter( int edgeNum ) const
 {
 	const aasEdge_t* edge;
 	edge = &edges[edgeNum];
@@ -57,14 +57,14 @@ budVec3 budAASFileLocal::EdgeCenter( int edgeNum ) const
 budAASFileLocal::FaceCenter
 ================
 */
-budVec3 budAASFileLocal::FaceCenter( int faceNum ) const
+Vector3 budAASFileLocal::FaceCenter( int faceNum ) const
 {
 	int i, edgeNum;
 	const aasFace_t* face;
 	const aasEdge_t* edge;
-	budVec3 center;
+	Vector3 center;
 	
-	center = vec3_origin;
+	center = Vector3_Origin;
 	
 	face = &faces[faceNum];
 	if( face->numEdges > 0 )
@@ -85,13 +85,13 @@ budVec3 budAASFileLocal::FaceCenter( int faceNum ) const
 budAASFileLocal::AreaCenter
 ================
 */
-budVec3 budAASFileLocal::AreaCenter( int areaNum ) const
+Vector3 budAASFileLocal::AreaCenter( int areaNum ) const
 {
 	int i, faceNum;
 	const aasArea_t* area;
-	budVec3 center;
+	Vector3 center;
 	
-	center = vec3_origin;
+	center = Vector3_Origin;
 	
 	area = &areas[areaNum];
 	if( area->numFaces > 0 )
@@ -111,12 +111,12 @@ budVec3 budAASFileLocal::AreaCenter( int areaNum ) const
 budAASFileLocal::AreaReachableGoal
 ============
 */
-budVec3 budAASFileLocal::AreaReachableGoal( int areaNum ) const
+Vector3 budAASFileLocal::AreaReachableGoal( int areaNum ) const
 {
 	int i, faceNum, numFaces;
 	const aasArea_t* area;
-	budVec3 center;
-	budVec3 start, end;
+	Vector3 center;
+	Vector3 start, end;
 	aasTrace_t trace;
 	
 	area = &areas[areaNum];
@@ -126,7 +126,7 @@ budVec3 budAASFileLocal::AreaReachableGoal( int areaNum ) const
 		return AreaCenter( areaNum );
 	}
 	
-	center = vec3_origin;
+	center = Vector3_Origin;
 	
 	numFaces = 0;
 	for( i = 0; i < area->numFaces; i++ )
@@ -218,7 +218,7 @@ budBounds budAASFileLocal::AreaBounds( int areaNum ) const
 budAASFileLocal::PointAreaNum
 ============
 */
-int budAASFileLocal::PointAreaNum( const budVec3& origin ) const
+int budAASFileLocal::PointAreaNum( const Vector3& origin ) const
 {
 	int nodeNum;
 	const aasNode_t* node;
@@ -250,10 +250,10 @@ int budAASFileLocal::PointAreaNum( const budVec3& origin ) const
 budAASFileLocal::PointReachableAreaNum
 ============
 */
-int budAASFileLocal::PointReachableAreaNum( const budVec3& origin, const budBounds& searchBounds, const int areaFlags, const int excludeTravelFlags ) const
+int budAASFileLocal::PointReachableAreaNum( const Vector3& origin, const budBounds& searchBounds, const int areaFlags, const int excludeTravelFlags ) const
 {
 	int areaList[32], areaNum, i;
-	budVec3 start, end, pointList[32];
+	Vector3 start, end, pointList[32];
 	aasTrace_t trace;
 	budBounds bounds;
 	float frac;
@@ -378,7 +378,7 @@ int budAASFileLocal::BoundsReachableAreaNum( const budBounds& bounds, const int 
 budAASFileLocal::PushPointIntoAreaNum
 ============
 */
-void budAASFileLocal::PushPointIntoAreaNum( int areaNum, budVec3& point ) const
+void budAASFileLocal::PushPointIntoAreaNum( int areaNum, Vector3& point ) const
 {
 	int i, faceNum;
 	const aasArea_t* area;
@@ -412,17 +412,17 @@ budAASFileLocal::Trace
 
 typedef struct aasTraceStack_s
 {
-	budVec3			start;
-	budVec3			end;
+	Vector3			start;
+	Vector3			end;
 	int				planeNum;
 	int				nodeNum;
 } aasTraceStack_t;
 
-bool budAASFileLocal::Trace( aasTrace_t& trace, const budVec3& start, const budVec3& end ) const
+bool budAASFileLocal::Trace( aasTrace_t& trace, const Vector3& start, const Vector3& end ) const
 {
 	int side, nodeNum, tmpPlaneNum;
 	double front, back, frac;
-	budVec3 cur_start, cur_end, cur_mid, v1, v2;
+	Vector3 cur_start, cur_end, cur_mid, v1, v2;
 	aasTraceStack_t tracestack[MAX_AAS_TREE_DEPTH];
 	aasTraceStack_t* tstack_p;
 	const aasNode_t* node;
@@ -474,7 +474,7 @@ bool budAASFileLocal::Trace( aasTrace_t& trace, const budVec3& start, const budV
 				if( !trace.lastAreaNum )
 				{
 					trace.fraction = 0.0f;
-					v1 = vec3_origin;
+					v1 = Vector3_Origin;
 				}
 				else
 				{
@@ -515,7 +515,7 @@ bool budAASFileLocal::Trace( aasTrace_t& trace, const budVec3& start, const budV
 			if( !trace.lastAreaNum )
 			{
 				trace.fraction = 0.0f;
-				v1 = vec3_origin;
+				v1 = Vector3_Origin;
 			}
 			else
 			{

@@ -51,7 +51,7 @@ public:
 	void	SetCurrentGPUFrameTime( int microseconds );
 	
 	// return console display text
-	void	GetConsoleText( budStr& s );
+	void	GetConsoleText( String& s );
 	
 private:
 	float			dropMilliseconds;

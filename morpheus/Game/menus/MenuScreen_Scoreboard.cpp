@@ -142,10 +142,10 @@ void idMenuScreen_Scoreboard::ShowScreen( const mainMenuTransition_t transitionT
 			txtVal = GetSprite()->GetScriptObject()->GetNestedText( "info", "txtGameType" );
 			if( txtVal != NULL )
 			{
-				budStr mode = budLocalization::GetString( "#str_02376" );
+				String mode = budLocalization::GetString( "#str_02376" );
 				mode.Append( ": " );
-				const budStrList& modes = common->GetModeDisplayList();
-				budStr modeName = budLocalization::GetString( modes[ budMath::ClampInt( 0, modes.Num() - 1, gameLocal.gameType ) ] );
+				const StringList& modes = common->GetModeDisplayList();
+				String modeName = budLocalization::GetString( modes[ Math::ClampInt( 0, modes.Num() - 1, gameLocal.gameType ) ] );
 				mode.Append( budLocalization::GetString( budLocalization::GetString( modeName ) ) );
 				txtVal->SetText( mode );
 				txtVal->SetStrokeInfo( true, 0.9f, 1.8f );
@@ -233,7 +233,7 @@ void idMenuScreen_Scoreboard::ShowScreen( const mainMenuTransition_t transitionT
 idMenuScreen_Scoreboard::SetPlayerData
 ========================
 */
-void idMenuScreen_Scoreboard::SetPlayerData( budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > data )
+void idMenuScreen_Scoreboard::SetPlayerData( List< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > data )
 {
 	if( playerList != NULL )
 	{
@@ -257,7 +257,7 @@ void idMenuScreen_Scoreboard::SetPlayerData( budList< scoreboardInfo_t, TAG_LIBB
 idMenuScreen_Scoreboard::UpdateGameInfo
 ========================
 */
-void idMenuScreen_Scoreboard::UpdateGameInfo( budStr gameInfo )
+void idMenuScreen_Scoreboard::UpdateGameInfo( String gameInfo )
 {
 
 	if( GetSWFObject() )
@@ -281,7 +281,7 @@ void idMenuScreen_Scoreboard::UpdateGameInfo( budStr gameInfo )
 idMenuScreen_Scoreboard::UpdateSpectating
 ========================
 */
-void idMenuScreen_Scoreboard::UpdateSpectating( budStr spectating, budStr follow )
+void idMenuScreen_Scoreboard::UpdateSpectating( String spectating, String follow )
 {
 
 	if( GetSWFObject() )

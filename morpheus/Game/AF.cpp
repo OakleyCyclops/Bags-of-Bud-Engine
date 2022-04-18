@@ -145,8 +145,8 @@ budAF::UpdateAnimation
 bool budAF::UpdateAnimation()
 {
 	int i;
-	budVec3 origin, renderOrigin, bodyOrigin;
-	budMat3 axis, renderAxis, bodyAxis;
+	Vector3 origin, renderOrigin, bodyOrigin;
+	Matrix3 axis, renderAxis, bodyAxis;
 	renderEntity_t* renderEntity;
 	
 	if( !IsLoaded() )
@@ -212,8 +212,8 @@ budBounds budAF::GetBounds() const
 {
 	int i;
 	budAFBody* body;
-	budVec3 origin, entityOrigin;
-	budMat3 axis, entityAxis;
+	Vector3 origin, entityOrigin;
+	Matrix3 axis, entityAxis;
 	budBounds bounds, b;
 	
 	bounds.Clear();
@@ -250,8 +250,8 @@ void budAF::SetupPose( idEntity* ent, int time )
 {
 	int i;
 	budAFBody* body;
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	budAnimator* animatorPtr;
 	renderEntity_t* renderEntity;
 	
@@ -312,8 +312,8 @@ void budAF::ChangePose( idEntity* ent, int time )
 	int i;
 	float invDelta;
 	budAFBody* body;
-	budVec3 origin, lastOrigin;
-	budMat3 axis;
+	Vector3 origin, lastOrigin;
+	Matrix3 axis;
 	budAnimator* animatorPtr;
 	renderEntity_t* renderEntity;
 	
@@ -449,7 +449,7 @@ int budAF::BodyForClipModelId( int id ) const
 budAF::GetPhysicsToVisualTransform
 ================
 */
-void budAF::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis ) const
+void budAF::GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis ) const
 {
 	origin = - baseOrigin;
 	axis = baseAxis.Transpose();
@@ -460,7 +460,7 @@ void budAF::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis ) const
 budAF::GetImpactInfo
 ================
 */
-void budAF::GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info )
+void budAF::GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info )
 {
 	SetupPose( self, gameLocal.time );
 	physicsObj.GetImpactInfo( BodyForClipModelId( id ), point, info );
@@ -471,7 +471,7 @@ void budAF::GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactIn
 budAF::ApplyImpulse
 ================
 */
-void budAF::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse )
+void budAF::ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse )
 {
 	SetupPose( self, gameLocal.time );
 	physicsObj.ApplyImpulse( BodyForClipModelId( id ), point, impulse );
@@ -482,7 +482,7 @@ void budAF::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const bud
 budAF::AddForce
 ================
 */
-void budAF::AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force )
+void budAF::AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force )
 {
 	SetupPose( self, gameLocal.time );
 	physicsObj.AddForce( BodyForClipModelId( id ), point, force );
@@ -499,8 +499,8 @@ void budAF::AddBody( budAFBody* body, const budJointMat* joints, const char* joi
 {
 	int index;
 	jointHandle_t handle;
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	handle = animator->GetJointHandle( jointName );
 	if( handle == INVALID_JOINT )
@@ -548,10 +548,10 @@ bool budAF::LoadBody( const budDeclAF_Body* fb, const budJointMat* joints )
 	budTraceModel trm;
 	budClipModel* clip;
 	budAFBody* body;
-	budMat3 axis, inertiaTensor;
-	budVec3 centerOfMass, origin;
+	Matrix3 axis, inertiaTensor;
+	Vector3 centerOfMass, origin;
 	budBounds bounds;
-	budList<jointHandle_t, TAG_AF> jointList;
+	List<jointHandle_t, TAG_AF> jointList;
 	
 	origin = fb->origin.ToVec3();
 	axis = fb->angles.ToMat3();
@@ -670,11 +670,11 @@ bool budAF::LoadBody( const budDeclAF_Body* fb, const budJointMat* joints )
 		AddBody( body, joints, fb->jointName, mod );
 	}
 	
-	if( fb->frictionDirection.ToVec3() != vec3_origin )
+	if( fb->frictionDirection.ToVec3() != Vector3_Origin )
 	{
 		body->SetFrictionDirection( fb->frictionDirection.ToVec3() );
 	}
-	if( fb->contactMotorDirection.ToVec3() != vec3_origin )
+	if( fb->contactMotorDirection.ToVec3() != Vector3_Origin )
 	{
 		body->SetContactMotorDirection( fb->contactMotorDirection.ToVec3() );
 	}
@@ -703,8 +703,8 @@ budAF::LoadConstraint
 bool budAF::LoadConstraint( const budDeclAF_Constraint* fc )
 {
 	budAFBody* body1, *body2;
-	budAngles angles;
-	budMat3 axis;
+	Angles angles;
+	Matrix3 axis;
 	
 	body1 = physicsObj.GetBody( fc->body1 );
 	body2 = physicsObj.GetBody( fc->body2 );
@@ -827,10 +827,10 @@ bool budAF::LoadConstraint( const budDeclAF_Constraint* fc )
 			{
 				case budDeclAF_Constraint::LIMIT_CONE:
 				{
-					budVec3 left, up, axis, shaft;
+					Vector3 left, up, axis, shaft;
 					fc->axis.ToVec3().OrthogonalBasis( left, up );
-					axis = left * budRotation( vec3_origin, fc->axis.ToVec3(), fc->limitAngles[0] );
-					shaft = left * budRotation( vec3_origin, fc->axis.ToVec3(), fc->limitAngles[2] );
+					axis = left * Rotation( Vector3_Origin, fc->axis.ToVec3(), fc->limitAngles[0] );
+					shaft = left * Rotation( Vector3_Origin, fc->axis.ToVec3(), fc->limitAngles[2] );
 					c->SetLimit( axis, fc->limitAngles[1], shaft );
 					break;
 				}
@@ -887,7 +887,7 @@ bool budAF::LoadConstraint( const budDeclAF_Constraint* fc )
 GetJointTransform
 ================
 */
-static bool GetJointTransform( void* model, const budJointMat* frame, const char* jointName, budVec3& origin, budMat3& axis )
+static bool GetJointTransform( void* model, const budJointMat* frame, const char* jointName, Vector3& origin, Matrix3& axis )
 {
 	jointHandle_t	joint;
 	
@@ -1103,7 +1103,7 @@ bool budAF::TestSolid() const
 	int i;
 	budAFBody* body;
 	trace_t trace;
-	budStr str;
+	String str;
 	bool solid;
 	
 	if( !IsLoaded() )
@@ -1123,7 +1123,7 @@ bool budAF::TestSolid() const
 		body = physicsObj.GetBody( i );
 		if( gameLocal.clip.Translation( trace, body->GetWorldOrigin(), body->GetWorldOrigin(), body->GetClipModel(), body->GetWorldAxis(), body->GetClipMask(), self ) )
 		{
-			float depth = budMath::Fabs( trace.c.point * trace.c.normal - trace.c.dist );
+			float depth = Math::Fabs( trace.c.point * trace.c.normal - trace.c.dist );
 			
 			body->SetWorldOrigin( body->GetWorldOrigin() + trace.c.normal * ( depth + 8.0f ) );
 			
@@ -1212,7 +1212,7 @@ budAF::SetConstraintPosition
   Only moves constraints that bind the entity to another entity.
 ================
 */
-void budAF::SetConstraintPosition( const char* name, const budVec3& pos )
+void budAF::SetConstraintPosition( const char* name, const Vector3& pos )
 {
 	budAFConstraint* constraint;
 	
@@ -1263,11 +1263,11 @@ void budAF::SetConstraintPosition( const char* name, const budVec3& pos )
 budAF::SaveState
 ================
 */
-void budAF::SaveState( idDict& args ) const
+void budAF::SaveState( Dict& args ) const
 {
 	int i;
 	budAFBody* body;
-	budStr key, value;
+	String key, value;
 	
 	for( i = 0; i < jointMods.Num(); i++ )
 	{
@@ -1286,13 +1286,13 @@ void budAF::SaveState( idDict& args ) const
 budAF::LoadState
 ================
 */
-void budAF::LoadState( const idDict& args )
+void budAF::LoadState( const Dict& args )
 {
 	const idKeyValue* kv;
-	budStr name;
+	String name;
 	budAFBody* body;
-	budVec3 origin;
-	budAngles angles;
+	Vector3 origin;
+	Angles angles;
 	
 	kv = args.MatchPrefix( "body ", NULL );
 	while( kv )
@@ -1326,19 +1326,19 @@ budAF::AddBindConstraints
 void budAF::AddBindConstraints()
 {
 	const idKeyValue* kv;
-	budStr name;
+	String name;
 	budAFBody* body;
 	budLexer lexer;
 	budToken type, bodyName, jointName;
-	budVec3 origin, renderOrigin;
-	budMat3 axis, renderAxis;
+	Vector3 origin, renderOrigin;
+	Matrix3 axis, renderAxis;
 	
 	if( !IsLoaded() )
 	{
 		return;
 	}
 	
-	const idDict& args = self->spawnArgs;
+	const Dict& args = self->spawnArgs;
 	
 	// get the render position
 	origin = physicsObj.GetOrigin( 0 );
@@ -1403,7 +1403,7 @@ void budAF::AddBindConstraints()
 			}
 			animator->GetJointTransform( joint, gameLocal.time, origin, axis );
 			c->SetAnchor( renderOrigin + origin * renderAxis );
-			c->SetShafts( budVec3( 0, 0, 1 ), budVec3( 0, 0, -1 ) );
+			c->SetShafts( Vector3( 0, 0, 1 ), Vector3( 0, 0, -1 ) );
 		}
 		else
 		{
@@ -1430,8 +1430,8 @@ void budAF::RemoveBindConstraints()
 		return;
 	}
 	
-	const idDict& args = self->spawnArgs;
-	budStr name;
+	const Dict& args = self->spawnArgs;
+	String name;
 	
 	kv = args.MatchPrefix( "bindConstraint ", NULL );
 	while( kv )

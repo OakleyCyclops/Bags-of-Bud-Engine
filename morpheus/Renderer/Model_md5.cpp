@@ -35,8 +35,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "Model_local.h"
 
 #if defined(USE_INTRINSICS)
-static const __m128 vector_float_posInfinity		= { budMath::INFINITY, budMath::INFINITY, budMath::INFINITY, budMath::INFINITY };
-static const __m128 vector_float_negInfinity		= { -budMath::INFINITY, -budMath::INFINITY, -budMath::INFINITY, -budMath::INFINITY };
+static const __m128 vector_float_posInfinity		= { Math::INFINITY, Math::INFINITY, Math::INFINITY, Math::INFINITY };
+static const __m128 vector_float_negInfinity		= { -Math::INFINITY, -Math::INFINITY, -Math::INFINITY, -Math::INFINITY };
 #endif
 
 static const char* MD5_SnapshotName = "_MD5_Snapshot_";
@@ -44,7 +44,7 @@ static const char* MD5_SnapshotName = "_MD5_Snapshot_";
 static const byte MD5B_VERSION = 106;
 static const unsigned int MD5B_MAGIC = ( '5' << 24 ) | ( 'D' << 16 ) | ( 'M' << 8 ) | MD5B_VERSION;
 
-budCVar r_useGPUSkinning( "r_useGPUSkinning", "1", CVAR_INTEGER, "animate normals and tangents instead of deriving" );
+CVar r_useGPUSkinning( "r_useGPUSkinning", "1", CVAR_INTEGER, "animate normals and tangents instead of deriving" );
 
 /***********************************************************************
 
@@ -59,7 +59,7 @@ static int c_numWeightJoints = 0;
 struct vertexWeight_t
 {
 	int							joint;
-	budVec3						offset;
+	Vector3						offset;
 	float						jointWeight;
 };
 
@@ -125,7 +125,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 	parser.ExpectTokenString( "shader" );
 	
 	parser.ReadToken( &token );
-	budStr shaderName = token;
+	String shaderName = token;
 	
 	shader = declManager->FindMaterial( shaderName );
 	
@@ -141,9 +141,9 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 	
 	this->numVerts = count;
 	
-	budList<budVec2> texCoords;
-	budList<int> firstWeightForVertex;
-	budList<int> numWeightsForVertex;
+	List<Vector2> texCoords;
+	List<int> firstWeightForVertex;
+	List<int> numWeightsForVertex;
 	
 	texCoords.SetNum( count );
 	firstWeightForVertex.SetNum( count );
@@ -183,7 +183,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 		parser.Error( "Invalid size: %d", count );
 	}
 	
-	budList<int> tris;
+	List<int> tris;
 	tris.SetNum( count * 3 );
 	numTris = count;
 	for( int i = 0; i < count; i++ )
@@ -211,7 +211,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 		parser.Warning( "Vertices reference out of range weights in model (%d of %d weights).", maxweight, count );
 	}
 	
-	budList<vertexWeight_t> tempWeights;
+	List<vertexWeight_t> tempWeights;
 	tempWeights.SetNum( count );
 	assert( numJoints < 256 );		// so we can pack into bytes
 	
@@ -233,7 +233,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 	}
 	
 	// create pre-scaled weights and an index for the vertex/joint lookup
-	budVec4* scaledWeights = ( budVec4* ) Mem_Alloc16( numWeights * sizeof( scaledWeights[0] ), TAG_MD5_WEIGHT );
+	Vector4* scaledWeights = ( Vector4* ) Mem_Alloc16( numWeights * sizeof( scaledWeights[0] ), TAG_MD5_WEIGHT );
 	int* weightIndex = ( int* ) Mem_Alloc16( numWeights * 2 * sizeof( weightIndex[0] ), TAG_MD5_INDEX );
 	memset( weightIndex, 0, numWeights * 2 * sizeof( weightIndex[0] ) );
 	
@@ -267,7 +267,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 	budDrawVert* basePose = ( budDrawVert* )Mem_ClearedAlloc( texCoords.Num() * sizeof( *basePose ), TAG_MD5_BASE );
 	for( int j = 0, i = 0; i < texCoords.Num(); i++ )
 	{
-		budVec3 v = ( *( budJointMat* )( ( byte* )joints + weightIndex[j * 2 + 0] ) ) * scaledWeights[j];
+		Vector3 v = ( *( budJointMat* )( ( byte* )joints + weightIndex[j * 2 + 0] ) ) * scaledWeights[j];
 		while( weightIndex[j * 2 + 1] == 0 )
 		{
 			j++;
@@ -288,7 +288,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 	
 	const int MAX_VERTEX_WEIGHTS = 4;
 	
-	budList< bool > jointIsUsed;
+	List< bool > jointIsUsed;
 	jointIsUsed.SetNum( numJoints );
 	for( int i = 0; i < jointIsUsed.Num(); i++ )
 	{
@@ -364,7 +364,7 @@ void budMD5Mesh::ParseMesh( budLexer& parser, int numJoints, const budJointMat* 
 			const float fw = weight.jointWeight;
 			assert( fw >= 0.0f && fw <= 1.0f );
 			const float normalizedWeight = fw / usedWeight;
-			finalWeights[j] = budMath::Ftob( normalizedWeight * 255.0f );
+			finalWeights[j] = Math::Ftob( normalizedWeight * 255.0f );
 			finalJointIndecies[j] = jointIndex;
 		}
 		
@@ -471,7 +471,7 @@ void TransformVertsAndTangents( budDrawVert* targetVerts, const int numVerts, co
 		budJointMat::Mad( accum, j2, w2 );
 		budJointMat::Mad( accum, j3, w3 );
 		
-		targetVerts[i].xyz = accum * budVec4( base.xyz.x, base.xyz.y, base.xyz.z, 1.0f );
+		targetVerts[i].xyz = accum * Vector4( base.xyz.x, base.xyz.y, base.xyz.z, 1.0f );
 		targetVerts[i].SetNormal( accum * base.GetNormal() );
 		targetVerts[i].SetTangent( accum * base.GetTangent() );
 		targetVerts[i].tangent[3] = base.tangent[3];
@@ -774,7 +774,7 @@ bool budRenderModelMD5::LoadBinaryModel( budFile* file, const ID_TIME_T sourceTi
 	for( int i = 0; i < meshes.Num(); i++ )
 	{
 	
-		budStr materialName;
+		String materialName;
 		file->ReadString( materialName );
 		if( materialName.IsEmpty() )
 		{
@@ -1177,7 +1177,7 @@ void budRenderModelMD5::DrawJoints( const renderEntity_t* ent, const viewDef_t* 
 {
 	int					i;
 	int					num;
-	budVec3				pos;
+	Vector3				pos;
 	const budJointMat*	joint;
 	const budMD5Joint*	md5Joint;
 	int					parentNum;
@@ -1206,7 +1206,7 @@ void budRenderModelMD5::DrawJoints( const renderEntity_t* ent, const viewDef_t* 
 	
 	if( ( r_jointNameScale.GetFloat() != 0.0f ) && ( bounds.Expand( 128.0f ).ContainsPoint( view->renderView.vieworg - ent->origin ) ) )
 	{
-		budVec3	offset( 0, 0, r_jointNameOffset.GetFloat() );
+		Vector3	offset( 0, 0, r_jointNameOffset.GetFloat() );
 		float	scale;
 		
 		scale = r_jointNameScale.GetFloat();
@@ -1361,7 +1361,7 @@ budRenderModel* budRenderModelMD5::InstantiateDynamicModel( const struct renderE
 	if( cachedModel != NULL )
 	{
 		assert( dynamic_cast<budRenderModelStatic*>( cachedModel ) != NULL );
-		assert( budStr::Icmp( cachedModel->Name(), MD5_SnapshotName ) == 0 );
+		assert( String::Icmp( cachedModel->Name(), MD5_SnapshotName ) == 0 );
 		staticModel = static_cast<budRenderModelStatic*>( cachedModel );
 	}
 	else
@@ -1498,7 +1498,7 @@ jointHandle_t budRenderModelMD5::GetJointHandle( const char* name ) const
 	const budMD5Joint* joint = joints.Ptr();
 	for( int i = 0; i < joints.Num(); i++, joint++ )
 	{
-		if( budStr::Icmp( joint->name.c_str(), name ) == 0 )
+		if( String::Icmp( joint->name.c_str(), name ) == 0 )
 		{
 			return ( jointHandle_t )i;
 		}

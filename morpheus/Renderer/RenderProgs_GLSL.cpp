@@ -34,15 +34,15 @@ If you have questions concerning this license or the applicable additional terms
 #include "RenderCommon.h"
 #include "RenderProgs_embedded.h"
 
-budCVar r_skipStripDeadCode( "r_skipStripDeadCode", "0", CVAR_BOOL, "Skip stripping dead code" );
+CVar r_skipStripDeadCode( "r_skipStripDeadCode", "0", CVAR_BOOL, "Skip stripping dead code" );
 
 
 
 struct idCGBlock
 {
-	budStr prefix;	// tokens that comes before the name
-	budStr name;		// the name
-	budStr postfix;	// tokens that comes after the name
+	String prefix;	// tokens that comes before the name
+	String name;		// the name
+	String postfix;	// tokens that comes after the name
 	bool used;		// whether or not this block is referenced anywhere
 };
 
@@ -325,7 +325,7 @@ const char* budRenderProgManager::FindEmbeddedSourceShader( const char* name )
 	const char* embeddedSource = NULL;
 	for( int i = 0 ; cg_renderprogs[i].name ; i++ )
 	{
-		if( !budStr::Icmp( cg_renderprogs[i].name, name ) )
+		if( !String::Icmp( cg_renderprogs[i].name, name ) )
 		{
 			embeddedSource = cg_renderprogs[i].shaderText;
 			break;
@@ -353,7 +353,7 @@ private:
 		
 		budLexer* script;
 		
-		budStr path;
+		String path;
 		
 		/*
 		token was already parsed
@@ -464,7 +464,7 @@ private:
 StripDeadCode
 ========================
 */
-budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, const budStrList& compileMacros, bool builtin )
+String budRenderProgManager::StripDeadCode( const String& in, const char* name, const StringList& compileMacros, bool builtin )
 {
 	if( r_skipStripDeadCode.GetBool() )
 	{
@@ -475,7 +475,7 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 	budParser_EmbeddedGLSL src( LEXFL_NOFATALERRORS );
 	src.LoadMemory( in.c_str(), in.Length(), name );
 	
-	budStrStatic<256> sourceName = "filename ";
+	StringStatic<256> sourceName = "filename ";
 	sourceName += name;
 	src.AddDefine( sourceName );
 	src.AddDefine( "PC" );
@@ -515,7 +515,7 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 	src.AddDefine( "SMAA_RT_METRICS rpScreenCorrectionFactor " );
 	src.AddDefine( "SMAA_PRESET_HIGH" );
 	
-	budList< idCGBlock > blocks;
+	List< idCGBlock > blocks;
 	
 	blocks.SetNum( 100 );
 	
@@ -544,12 +544,12 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 						found = true;
 						break;
 					}
-					int typeLen = budStr::Length( types[i] );
+					int typeLen = String::Length( types[i] );
 					if( token.Cmpn( types[i], typeLen ) == 0 )
 					{
 						for( int j = 0; j < numTypePosts; j++ )
 						{
-							if( budStr::Cmp( token.c_str() + typeLen, typePosts[j] ) == 0 )
+							if( String::Cmp( token.c_str() + typeLen, typePosts[j] ) == 0 )
 							{
 								found = true;
 								break;
@@ -606,7 +606,7 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 		}
 		else if( src.PeekTokenString( "(" ) )
 		{
-			budStr parms, body;
+			String parms, body;
 			src.ParseBracedSection( parms, -1, true, '(', ')' );
 			if( src.CheckTokenString( ";" ) )
 			{
@@ -628,7 +628,7 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 		}
 		else if( src.CheckTokenString( ";" ) )
 		{
-			block.postfix = budStr( ';' );
+			block.postfix = String( ';' );
 		}
 		else
 		{
@@ -637,7 +637,7 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 		}
 	}
 	
-	budList<int, TAG_RENDERPROG> stack;
+	List<int, TAG_RENDERPROG> stack;
 	for( int i = 0; i < blocks.Num(); i++ )
 	{
 		blocks[i].used = ( ( blocks[i].name == "main" )
@@ -679,7 +679,7 @@ budStr budRenderProgManager::StripDeadCode( const budStr& in, const char* name, 
 		}
 	}
 	
-	budStr out;
+	String out;
 	
 	for( int i = 0; i < blocks.Num(); i++ )
 	{
@@ -899,9 +899,9 @@ struct builtinConversion_t
 
 struct inOutVariable_t
 {
-	budStr	type;
-	budStr	nameCg;
-	budStr	nameGLSL;
+	String	type;
+	String	nameCg;
+	String	nameGLSL;
 	bool	declareInOut;
 };
 
@@ -910,7 +910,7 @@ struct inOutVariable_t
 ParseInOutStruct
 ========================
 */
-void ParseInOutStruct( budLexer& src, int attribType, int attribIgnoreType, budList< inOutVariable_t >& inOutVars )
+void ParseInOutStruct( budLexer& src, int attribType, int attribIgnoreType, List< inOutVariable_t >& inOutVars )
 {
 	src.ExpectTokenString( "{" );
 	
@@ -1013,15 +1013,15 @@ void ParseInOutStruct( budLexer& src, int attribType, int attribIgnoreType, budL
 ConvertCG2GLSL
 ========================
 */
-budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name, rpStage_t stage, budStr& layout, bool vkGLSL, bool hasGPUSkinning )
+String budRenderProgManager::ConvertCG2GLSL( const String& in, const char* name, rpStage_t stage, String& layout, bool vkGLSL, bool hasGPUSkinning )
 {
-	budStr program;
+	String program;
 	program.ReAllocate( in.Length() * 2, false );
 	
-	budList< inOutVariable_t, TAG_RENDERPROG > varsIn;
-	budList< inOutVariable_t, TAG_RENDERPROG > varsOut;
-	budList< budStr > uniformList;
-	budList< budStr > samplerList;
+	List< inOutVariable_t, TAG_RENDERPROG > varsIn;
+	List< inOutVariable_t, TAG_RENDERPROG > varsOut;
+	List< String > uniformList;
+	List< String > samplerList;
 	
 	budLexer src( LEXFL_NOFATALERRORS );
 	src.LoadMemory( in.c_str(), in.Length(), name );
@@ -1040,7 +1040,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 		while( token == "uniform" && ( src.CheckTokenString( "float4" ) || src.CheckTokenString( "float4x4" ) ) )
 		{
 			src.ReadToken( &token );
-			budStr uniform = token;
+			String uniform = token;
 			
 			// strip ': register()' from uniforms
 			if( src.CheckTokenString( ":" ) )
@@ -1080,7 +1080,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 					  src.PeekTokenString( "sampler2DArrayShadow" ) ||
 					  src.PeekTokenString( "sampler2DArray" ) ) )
 			{
-				budStr sampler;
+				String sampler;
 				
 				// sampler2D or whatever
 				src.ReadToken( &token );
@@ -1285,7 +1285,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 			program += ( token.linesCrossed > 0 ) ? newline : ( token.WhiteSpaceBeforeToken() > 0 ? " " : "" );
 			program += "{";
 			
-			int len = Min( budStr::Length( newline ) + 1, ( int )sizeof( newline ) - 1 );
+			int len = Min( String::Length( newline ) + 1, ( int )sizeof( newline ) - 1 );
 			newline[len - 1] = '\t';
 			newline[len - 0] = '\0';
 			
@@ -1300,7 +1300,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 		}
 		if( token == "}" )
 		{
-			int len = Max( budStr::Length( newline ) - 1, 0 );
+			int len = Max( String::Length( newline ) - 1, 0 );
 			newline[len] = '\0';
 			
 			program += ( token.linesCrossed > 0 ) ? newline : ( token.WhiteSpaceBeforeToken() > 0 ? " " : "" );
@@ -1338,7 +1338,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 				// so we need these uniform arrays
 				// I added special check rpShadowMatrices so we can still index the uniforms from the shader
 				
-				if( budStr::Cmp( uniformList[i].c_str(), "rpShadowMatrices" ) == 0 )
+				if( String::Cmp( uniformList[i].c_str(), "rpShadowMatrices" ) == 0 )
 				{
 					if( vkGLSL )
 					{
@@ -1351,7 +1351,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 					
 					if( src.ExpectTokenString( "[" ) )
 					{
-						budStr uniformIndexing;
+						String uniformIndexing;
 						
 						while( src.ReadToken( &token ) )
 						{
@@ -1484,10 +1484,10 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 		program += token;
 	}
 	
-	budStr out;
+	String out;
 	
 	// RB: tell shader debuggers what shader we look at
-	budStr filenameHint = "// filename " + budStr( name ) + "\n";
+	String filenameHint = "// filename " + String( name ) + "\n";
 	
 	// RB: changed to allow multiple versions of GLSL
 	if( ( stage == SHADER_STAGE_VERTEX ) )
@@ -1496,7 +1496,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 		{
 			case GLDRV_OPENGL_MESA:
 			{
-				out.ReAllocate( budStr::Length( vertexInsert_GLSL_ES_3_00 ) + in.Length() * 2, false );
+				out.ReAllocate( String::Length( vertexInsert_GLSL_ES_3_00 ) + in.Length() * 2, false );
 				out += filenameHint;
 				out += vertexInsert_GLSL_ES_3_00;
 				break;
@@ -1504,7 +1504,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 			
 			default:
 			{
-				out.ReAllocate( budStr::Length( vertexInsert ) + in.Length() * 2, false );
+				out.ReAllocate( String::Length( vertexInsert ) + in.Length() * 2, false );
 				out += filenameHint;
 				out += vertexInsert;
 				break;
@@ -1519,7 +1519,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 		{
 			case GLDRV_OPENGL_MESA:
 			{
-				out.ReAllocate( budStr::Length( fragmentInsert_GLSL_ES_3_00 ) + in.Length() * 2, false );
+				out.ReAllocate( String::Length( fragmentInsert_GLSL_ES_3_00 ) + in.Length() * 2, false );
 				out += filenameHint;
 				out += fragmentInsert_GLSL_ES_3_00;
 				break;
@@ -1527,7 +1527,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 			
 			default:
 			{
-				out.ReAllocate( budStr::Length( fragmentInsert ) + in.Length() * 2, false );
+				out.ReAllocate( String::Length( fragmentInsert ) + in.Length() * 2, false );
 				out += filenameHint;
 				out += fragmentInsert;
 				break;
@@ -1578,7 +1578,7 @@ budStr budRenderProgManager::ConvertCG2GLSL( const budStr& in, const char* name,
 			int extraSize = 0;
 			for( int i = 0; i < uniformList.Num(); i++ )
 			{
-				if( budStr::Cmp( uniformList[i].c_str(), "rpShadowMatrices" ) == 0 )
+				if( String::Cmp( uniformList[i].c_str(), "rpShadowMatrices" ) == 0 )
 				{
 					extraSize += ( 6 * 4 );
 				}

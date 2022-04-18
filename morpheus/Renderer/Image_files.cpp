@@ -92,7 +92,7 @@ void R_WriteTGA( const char* filename, const byte* data, int width, int height, 
 	int		bufferSize = width * height * 4 + 18;
 	int     imgStart = 18;
 	
-	idTempArray<byte> buf( bufferSize );
+	TempArray<byte> buf( bufferSize );
 	buffer = ( byte* )buf.Ptr();
 	memset( buffer, 0, 18 );
 	buffer[2] = 2;		// uncompressed type
@@ -894,7 +894,7 @@ timestamp.
 */
 void R_LoadImage( const char* cname, byte** pic, int* width, int* height, ID_TIME_T* timestamp, bool makePowerOf2 )
 {
-	budStr name = cname;
+	String name = cname;
 	
 	if( pic )
 	{
@@ -921,9 +921,9 @@ void R_LoadImage( const char* cname, byte** pic, int* width, int* height, ID_TIM
 	}
 	
 	name.ToLower();
-	budStr ext;
+	String ext;
 	name.ExtractFileExtension( ext );
-	budStr origName = name;
+	String origName = name;
 	
 // RB begin
 	if( !ext.IsEmpty() )
@@ -1038,7 +1038,7 @@ bool R_LoadCubeImages( const char* imgName, cubeFiles_t extensions, byte* pics[6
 	
 	for( i = 0 ; i < 6 ; i++ )
 	{
-		budStr::snPrintf( fullName, sizeof( fullName ), "%s%s", imgName, sides[i] );
+		String::snPrintf( fullName, sizeof( fullName ), "%s%s", imgName, sides[i] );
 		
 		ID_TIME_T thisTime;
 		if( !pics )

@@ -686,7 +686,7 @@ void lwListInsert( void** vlist, void* vitem,
 float dot( float a[], float b[] );
 void cross( float a[], float b[], float c[] );
 void normalize( float v[] );
-#define vecangle( a, b ) ( float ) budMath::ACos( dot( a, b ) )
+#define vecangle( a, b ) ( float ) Math::ACos( dot( a, b ) )
 
 /* lwio.c */
 

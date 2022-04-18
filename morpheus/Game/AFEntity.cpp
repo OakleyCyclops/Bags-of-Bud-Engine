@@ -77,7 +77,7 @@ idMultiModelAF::~idMultiModelAF()
 idMultiModelAF::SetModelForId
 ================
 */
-void idMultiModelAF::SetModelForId( int id, const budStr& modelName )
+void idMultiModelAF::SetModelForId( int id, const String& modelName )
 {
 	modelHandles.AssureSize( id + 1, NULL );
 	modelDefHandles.AssureSize( id + 1, -1 );
@@ -157,7 +157,7 @@ idChain::BuildChain
   this allows an object to be attached to multiple chains while keeping a single tree structure
 ================
 */
-void idChain::BuildChain( const budStr& name, const budVec3& origin, float linkLength, float linkWidth, float density, int numLinks, bool bindToWorld )
+void idChain::BuildChain( const String& name, const Vector3& origin, float linkLength, float linkWidth, float density, int numLinks, bool bindToWorld )
 {
 	int i;
 	float halfLinkLength = linkLength * 0.5f;
@@ -166,13 +166,13 @@ void idChain::BuildChain( const budStr& name, const budVec3& origin, float linkL
 	budAFBody* body, *lastBody;
 	budAFConstraint_BallAndSocketJoint* bsj;
 	budAFConstraint_UniversalJoint* uj;
-	budVec3 org;
+	Vector3 org;
 	
 	// create a trace model
 	trm = budTraceModel( linkLength, linkWidth );
 	trm.Translate( -trm.offset );
 	
-	org = origin - budVec3( 0, 0, halfLinkLength );
+	org = origin - Vector3( 0, 0, halfLinkLength );
 	
 	lastBody = NULL;
 	for( i = 0; i < numLinks; i++ )
@@ -182,7 +182,7 @@ void idChain::BuildChain( const budStr& name, const budVec3& origin, float linkL
 		clip = new( TAG_PHYSICS_CLIP_AF ) budClipModel( trm );
 		clip->SetContents( CONTENTS_SOLID );
 		clip->Link( gameLocal.clip, this, 0, org, mat3_identity );
-		body = new( TAG_PHYSICS_AF ) budAFBody( name + budStr( i ), clip, density );
+		body = new( TAG_PHYSICS_AF ) budAFBody( name + String( i ), clip, density );
 		physicsObj.AddBody( body );
 		
 		// visual model for body
@@ -193,18 +193,18 @@ void idChain::BuildChain( const budStr& name, const budVec3& origin, float linkL
 		{
 			if( !lastBody )
 			{
-				uj = new( TAG_PHYSICS_AF ) budAFConstraint_UniversalJoint( name + budStr( i ), body, lastBody );
-				uj->SetShafts( budVec3( 0, 0, -1 ), budVec3( 0, 0, 1 ) );
-				//uj->SetConeLimit( budVec3( 0, 0, -1 ), 30.0f );
-				//uj->SetPyramidLimit( budVec3( 0, 0, -1 ), budVec3( 1, 0, 0 ), 90.0f, 30.0f );
+				uj = new( TAG_PHYSICS_AF ) budAFConstraint_UniversalJoint( name + String( i ), body, lastBody );
+				uj->SetShafts( Vector3( 0, 0, -1 ), Vector3( 0, 0, 1 ) );
+				//uj->SetConeLimit( Vector3( 0, 0, -1 ), 30.0f );
+				//uj->SetPyramidLimit( Vector3( 0, 0, -1 ), Vector3( 1, 0, 0 ), 90.0f, 30.0f );
 			}
 			else
 			{
-				uj = new( TAG_PHYSICS_AF ) budAFConstraint_UniversalJoint( name + budStr( i ), lastBody, body );
-				uj->SetShafts( budVec3( 0, 0, 1 ), budVec3( 0, 0, -1 ) );
-				//uj->SetConeLimit( budVec3( 0, 0, 1 ), 30.0f );
+				uj = new( TAG_PHYSICS_AF ) budAFConstraint_UniversalJoint( name + String( i ), lastBody, body );
+				uj->SetShafts( Vector3( 0, 0, 1 ), Vector3( 0, 0, -1 ) );
+				//uj->SetConeLimit( Vector3( 0, 0, 1 ), 30.0f );
 			}
-			uj->SetAnchor( org + budVec3( 0, 0, halfLinkLength ) );
+			uj->SetAnchor( org + Vector3( 0, 0, halfLinkLength ) );
 			uj->SetFriction( 0.9f );
 			physicsObj.AddConstraint( uj );
 		}
@@ -212,9 +212,9 @@ void idChain::BuildChain( const budStr& name, const budVec3& origin, float linkL
 		{
 			if( lastBody )
 			{
-				bsj = new( TAG_PHYSICS_AF ) budAFConstraint_BallAndSocketJoint( "joint" + budStr( i ), lastBody, body );
-				bsj->SetAnchor( org + budVec3( 0, 0, halfLinkLength ) );
-				bsj->SetConeLimit( budVec3( 0, 0, 1 ), 60.0f, budVec3( 0, 0, 1 ) );
+				bsj = new( TAG_PHYSICS_AF ) budAFConstraint_BallAndSocketJoint( "joint" + String( i ), lastBody, body );
+				bsj->SetAnchor( org + Vector3( 0, 0, halfLinkLength ) );
+				bsj->SetConeLimit( Vector3( 0, 0, 1 ), 60.0f, Vector3( 0, 0, 1 ) );
 				physicsObj.AddConstraint( bsj );
 			}
 		}
@@ -235,11 +235,11 @@ void idChain::Spawn()
 	int numLinks;
 	float length, linkLength, linkWidth, density;
 	bool drop;
-	budVec3 origin;
+	Vector3 origin;
 	
 	spawnArgs.GetBool( "drop", "0", drop );
 	spawnArgs.GetInt( "links", "3", numLinks );
-	spawnArgs.GetFloat( "length", budStr( numLinks * 32.0f ), length );
+	spawnArgs.GetFloat( "length", String( numLinks * 32.0f ), length );
 	spawnArgs.GetFloat( "width", "8", linkWidth );
 	spawnArgs.GetFloat( "density", "0.2", density );
 	linkLength = length / numLinks;
@@ -402,7 +402,7 @@ budAFAttachment::Damage
 Pass damage to body at the bindjoint
 ============
 */
-void budAFAttachment::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+void budAFAttachment::Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir,
 							 const char* damageDefName, const float damageScale, const int location )
 {
 
@@ -417,7 +417,7 @@ void budAFAttachment::Damage( idEntity* inflictor, idEntity* attacker, const bud
 budAFAttachment::AddDamageEffect
 ================
 */
-void budAFAttachment::AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName )
+void budAFAttachment::AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName )
 {
 	if( body )
 	{
@@ -432,7 +432,7 @@ void budAFAttachment::AddDamageEffect( const trace_t& collision, const budVec3& 
 budAFAttachment::GetImpactInfo
 ================
 */
-void budAFAttachment::GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info )
+void budAFAttachment::GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info )
 {
 	if( body )
 	{
@@ -449,7 +449,7 @@ void budAFAttachment::GetImpactInfo( idEntity* ent, int id, const budVec3& point
 budAFAttachment::ApplyImpulse
 ================
 */
-void budAFAttachment::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse )
+void budAFAttachment::ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse )
 {
 	if( body )
 	{
@@ -466,7 +466,7 @@ void budAFAttachment::ApplyImpulse( idEntity* ent, int id, const budVec3& point,
 budAFAttachment::AddForce
 ================
 */
-void budAFAttachment::AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force )
+void budAFAttachment::AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force )
 {
 	if( body )
 	{
@@ -659,7 +659,7 @@ budAFEntity_Base::LoadAF
 */
 bool budAFEntity_Base::LoadAF()
 {
-	budStr fileName;
+	String fileName;
 	
 	if( !spawnArgs.GetString( "articulatedFigure", "*unknown*", fileName ) )
 	{
@@ -722,7 +722,7 @@ int budAFEntity_Base::BodyForClipModelId( int id ) const
 budAFEntity_Base::SaveState
 ================
 */
-void budAFEntity_Base::SaveState( idDict& args ) const
+void budAFEntity_Base::SaveState( Dict& args ) const
 {
 	const idKeyValue* kv;
 	
@@ -760,7 +760,7 @@ void budAFEntity_Base::SaveState( idDict& args ) const
 budAFEntity_Base::LoadState
 ================
 */
-void budAFEntity_Base::LoadState( const idDict& args )
+void budAFEntity_Base::LoadState( const Dict& args )
 {
 	af.LoadState( args );
 }
@@ -790,7 +790,7 @@ void budAFEntity_Base::RemoveBindConstraints()
 budAFEntity_Base::AddDamageEffect
 ================
 */
-void budAFEntity_Base::AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName )
+void budAFEntity_Base::AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName )
 {
 	budAnimatedEntity::AddDamageEffect( collision, velocity, damageDefName );
 }
@@ -800,7 +800,7 @@ void budAFEntity_Base::AddDamageEffect( const trace_t& collision, const budVec3&
 budAFEntity_Base::GetImpactInfo
 ================
 */
-void budAFEntity_Base::GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info )
+void budAFEntity_Base::GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info )
 {
 	if( af.IsActive() )
 	{
@@ -817,7 +817,7 @@ void budAFEntity_Base::GetImpactInfo( idEntity* ent, int id, const budVec3& poin
 budAFEntity_Base::ApplyImpulse
 ================
 */
-void budAFEntity_Base::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse )
+void budAFEntity_Base::ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse )
 {
 	if( af.IsLoaded() )
 	{
@@ -834,7 +834,7 @@ void budAFEntity_Base::ApplyImpulse( idEntity* ent, int id, const budVec3& point
 budAFEntity_Base::AddForce
 ================
 */
-void budAFEntity_Base::AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force )
+void budAFEntity_Base::AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force )
 {
 	if( af.IsLoaded() )
 	{
@@ -851,7 +851,7 @@ void budAFEntity_Base::AddForce( idEntity* ent, int id, const budVec3& point, co
 budAFEntity_Base::Collide
 ================
 */
-bool budAFEntity_Base::Collide( const trace_t& collision, const budVec3& velocity )
+bool budAFEntity_Base::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	float v, f;
 	
@@ -860,7 +860,7 @@ bool budAFEntity_Base::Collide( const trace_t& collision, const budVec3& velocit
 		v = -( velocity * collision.c.normal );
 		if( v > BOUNCE_SOUND_MIN_VELOCITY && gameLocal.time > nextSoundTime )
 		{
-			f = v > BOUNCE_SOUND_MAX_VELOCITY ? 1.0f : budMath::Sqrt( v - BOUNCE_SOUND_MIN_VELOCITY ) * ( 1.0f / budMath::Sqrt( BOUNCE_SOUND_MAX_VELOCITY - BOUNCE_SOUND_MIN_VELOCITY ) );
+			f = v > BOUNCE_SOUND_MAX_VELOCITY ? 1.0f : Math::Sqrt( v - BOUNCE_SOUND_MIN_VELOCITY ) * ( 1.0f / Math::Sqrt( BOUNCE_SOUND_MAX_VELOCITY - BOUNCE_SOUND_MIN_VELOCITY ) );
 			if( StartSound( "snd_bounce", SND_CHANNEL_ANY, 0, false, NULL ) )
 			{
 				// don't set the volume unless there is a bounce sound as it overrides the entire channel
@@ -879,7 +879,7 @@ bool budAFEntity_Base::Collide( const trace_t& collision, const budVec3& velocit
 budAFEntity_Base::GetPhysicsToVisualTransform
 ================
 */
-bool budAFEntity_Base::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
+bool budAFEntity_Base::GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis )
 {
 	if( af.IsActive() )
 	{
@@ -1018,13 +1018,13 @@ budAFEntity_Base::DropAFs
   where * is an aribtrary string.
 ================
 */
-void budAFEntity_Base::DropAFs( idEntity* ent, const char* type, budList<idEntity*>* list )
+void budAFEntity_Base::DropAFs( idEntity* ent, const char* type, List<idEntity*>* list )
 {
 	const idKeyValue* kv;
 	const char* skinName;
 	idEntity* newEnt;
 	budAFEntity_Base* af;
-	idDict args;
+	Dict args;
 	const budDeclSkin* skin;
 	
 	// drop the articulated figures
@@ -1064,7 +1064,7 @@ void budAFEntity_Base::DropAFs( idEntity* ent, const char* type, budList<idEntit
 budAFEntity_Base::Event_SetConstraintPosition
 ================
 */
-void budAFEntity_Base::Event_SetConstraintPosition( const char* name, const budVec3& pos )
+void budAFEntity_Base::Event_SetConstraintPosition( const char* name, const Vector3& pos )
 {
 	af.SetConstraintPosition( name, pos );
 }
@@ -1242,7 +1242,7 @@ void budAFEntity_Gibbable::Present()
 budAFEntity_Gibbable::Damage
 ================
 */
-void budAFEntity_Gibbable::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir, const char* damageDefName, const float damageScale, const int location )
+void budAFEntity_Gibbable::Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir, const char* damageDefName, const float damageScale, const int location )
 {
 	if( !fl.takedamage )
 	{
@@ -1284,7 +1284,7 @@ void budAFEntity_Gibbable::SetThrown( bool isThrown )
 budAFEntity_Gibbable::Collide
 =====================
 */
-bool budAFEntity_Gibbable::Collide( const trace_t& collision, const budVec3& velocity )
+bool budAFEntity_Gibbable::Collide( const trace_t& collision, const Vector3& velocity )
 {
 
 	if( !gibbed && wasThrown )
@@ -1301,7 +1301,7 @@ bool budAFEntity_Gibbable::Collide( const trace_t& collision, const budVec3& vel
 				ent->Damage( this, gameLocal.GetLocalPlayer(), collision.c.normal, "damage_thrown_ragdoll", 1.f, CLIPMODEL_ID_TO_JOINT_HANDLE( collision.c.id ) );
 			}
 			
-			budVec3 vel = velocity;
+			Vector3 vel = velocity;
 			vel.NormalizeFast();
 			Gib( vel, "damage_gib" );
 		}
@@ -1315,16 +1315,16 @@ bool budAFEntity_Gibbable::Collide( const trace_t& collision, const budVec3& vel
 budAFEntity_Gibbable::SpawnGibs
 =====================
 */
-void budAFEntity_Gibbable::SpawnGibs( const budVec3& dir, const char* damageDefName )
+void budAFEntity_Gibbable::SpawnGibs( const Vector3& dir, const char* damageDefName )
 {
 	int i;
 	bool gibNonSolid;
-	budVec3 entityCenter, velocity;
-	budList<idEntity*> list;
+	Vector3 entityCenter, velocity;
+	List<idEntity*> list;
 	
 	assert( !common->IsClient() );
 	
-	const idDict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
+	const Dict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
 	if( damageDef == NULL )
 	{
 		gameLocal.Error( "Unknown damageDef '%s'", damageDefName );
@@ -1371,7 +1371,7 @@ void budAFEntity_Gibbable::SpawnGibs( const budVec3& dir, const char* damageDefN
 budAFEntity_Gibbable::Gib
 ============
 */
-void budAFEntity_Gibbable::Gib( const budVec3& dir, const char* damageDefName )
+void budAFEntity_Gibbable::Gib( const Vector3& dir, const char* damageDefName )
 {
 	// only gib once
 	if( gibbed )
@@ -1382,7 +1382,7 @@ void budAFEntity_Gibbable::Gib( const budVec3& dir, const char* damageDefName )
 	// Don't grab this ent after it's been gibbed (and now invisible!)
 	noGrab = true;
 	
-	const idDict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
+	const Dict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
 	if( damageDef == NULL )
 	{
 		gameLocal.Error( "Unknown damageDef '%s'", damageDefName );
@@ -1432,7 +1432,7 @@ budAFEntity_Gibbable::Event_Gib
 */
 void budAFEntity_Gibbable::Event_Gib( const char* damageDefName )
 {
-	Gib( budVec3( 0, 0, 1 ), damageDefName );
+	Gib( Vector3( 0, 0, 1 ), damageDefName );
 }
 
 /*
@@ -1534,7 +1534,7 @@ budAFEntity_Generic::Event_Activate
 void budAFEntity_Generic::Event_Activate( idEntity* activator )
 {
 	float delay;
-	budVec3 init_velocity, init_avelocity;
+	Vector3 init_velocity, init_avelocity;
 	
 	Show();
 	
@@ -1665,11 +1665,11 @@ budAFEntity_WithAttachedHead::SetupHead
 void budAFEntity_WithAttachedHead::SetupHead()
 {
 	budAFAttachment*		headEnt;
-	budStr				jointName;
+	String				jointName;
 	const char*			headModel;
 	jointHandle_t		joint;
-	budVec3				origin;
-	budMat3				axis;
+	Vector3				origin;
+	Matrix3				axis;
 	
 	headModel = spawnArgs.GetString( "def_head", "" );
 	if( headModel[ 0 ] )
@@ -1687,7 +1687,7 @@ void budAFEntity_WithAttachedHead::SetupHead()
 		headEnt->SetCombatModel();
 		head = headEnt;
 		
-		budStr xSkin;
+		String xSkin;
 		if( spawnArgs.GetString( "skin_head_xray", "", xSkin ) )
 		{
 			headEnt->xraySkin = declManager->FindSkin( xSkin.c_str() );
@@ -1791,7 +1791,7 @@ void budAFEntity_WithAttachedHead::Show()
 budAFEntity_WithAttachedHead::ProjectOverlay
 ================
 */
-void budAFEntity_WithAttachedHead::ProjectOverlay( const budVec3& origin, const budVec3& dir, float size, const char* material )
+void budAFEntity_WithAttachedHead::ProjectOverlay( const Vector3& origin, const Vector3& dir, float size, const char* material )
 {
 
 	idEntity::ProjectOverlay( origin, dir, size, material );
@@ -1807,7 +1807,7 @@ void budAFEntity_WithAttachedHead::ProjectOverlay( const budVec3& origin, const 
 budAFEntity_WithAttachedHead::Gib
 ============
 */
-void budAFEntity_WithAttachedHead::Gib( const budVec3& dir, const char* damageDefName )
+void budAFEntity_WithAttachedHead::Gib( const Vector3& dir, const char* damageDefName )
 {
 	// only gib once
 	if( gibbed )
@@ -1828,7 +1828,7 @@ budAFEntity_WithAttachedHead::Event_Gib
 */
 void budAFEntity_WithAttachedHead::Event_Gib( const char* damageDefName )
 {
-	Gib( budVec3( 0, 0, 1 ), damageDefName );
+	Gib( Vector3( 0, 0, 1 ), damageDefName );
 }
 
 /*
@@ -1839,7 +1839,7 @@ budAFEntity_WithAttachedHead::Event_Activate
 void budAFEntity_WithAttachedHead::Event_Activate( idEntity* activator )
 {
 	float delay;
-	budVec3 init_velocity, init_avelocity;
+	Vector3 init_velocity, init_avelocity;
 	
 	Show();
 	
@@ -1947,8 +1947,8 @@ budAFEntity_Vehicle::Use
 */
 void budAFEntity_Vehicle::Use( budPlayer* other )
 {
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( player )
 	{
@@ -2052,15 +2052,15 @@ void budAFEntity_VehicleSimple::Spawn()
 		"wheelJointRearLeft",
 		"wheelJointRearRight"
 	};
-	static budVec3 wheelPoly[4] = { budVec3( 2, 2, 0 ), budVec3( 2, -2, 0 ), budVec3( -2, -2, 0 ), budVec3( -2, 2, 0 ) };
+	static Vector3 wheelPoly[4] = { Vector3( 2, 2, 0 ), Vector3( 2, -2, 0 ), Vector3( -2, -2, 0 ), Vector3( -2, 2, 0 ) };
 	
 	int i;
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	budTraceModel trm;
 	
 	trm.SetupPolygon( wheelPoly, 4 );
-	trm.Translate( budVec3( 0, 0, -wheelRadius ) );
+	trm.Translate( Vector3( 0, 0, -wheelRadius ) );
 	wheelModel = new( TAG_PHYSICS_CLIP_AF ) budClipModel( trm );
 	
 	for( i = 0; i < 4; i++ )
@@ -2103,9 +2103,9 @@ void budAFEntity_VehicleSimple::Think()
 {
 	int i;
 	float force = 0.0f, velocity = 0.0f, steerAngle = 0.0f;
-	budVec3 origin;
-	budMat3 axis;
-	budRotation wheelRotation, steerRotation;
+	Vector3 origin;
+	Matrix3 axis;
+	Rotation wheelRotation, steerRotation;
 	
 	if( thinkFlags & TH_THINK )
 	{
@@ -2118,7 +2118,7 @@ void budAFEntity_VehicleSimple::Think()
 			{
 				velocity = -velocity;
 			}
-			force = budMath::Fabs( player->usercmd.forwardmove * g_vehicleForce.GetFloat() ) * ( 1.0f / 128.0f );
+			force = Math::Fabs( player->usercmd.forwardmove * g_vehicleForce.GetFloat() ) * ( 1.0f / 128.0f );
 			steerAngle = GetSteerAngle();
 		}
 		
@@ -2332,9 +2332,9 @@ void budAFEntity_VehicleFourWheels::Think()
 {
 	int i;
 	float force = 0.0f, velocity = 0.0f, steerAngle = 0.0f;
-	budVec3 origin;
-	budMat3 axis;
-	budRotation rotation;
+	Vector3 origin;
+	Matrix3 axis;
+	Rotation rotation;
 	
 	if( thinkFlags & TH_THINK )
 	{
@@ -2347,7 +2347,7 @@ void budAFEntity_VehicleFourWheels::Think()
 			{
 				velocity = -velocity;
 			}
-			force = budMath::Fabs( player->usercmd.forwardmove * g_vehicleForce.GetFloat() ) * ( 1.0f / 128.0f );
+			force = Math::Fabs( player->usercmd.forwardmove * g_vehicleForce.GetFloat() ) * ( 1.0f / 128.0f );
 			steerAngle = GetSteerAngle();
 		}
 		
@@ -2543,9 +2543,9 @@ budAFEntity_VehicleSixWheels::Think
 void budAFEntity_VehicleSixWheels::Think()
 {
 	int i;
-	budVec3 origin;
-	budMat3 axis;
-	budRotation rotation;
+	Vector3 origin;
+	Matrix3 axis;
+	Rotation rotation;
 	
 	if( thinkFlags & TH_THINK )
 	{
@@ -2558,7 +2558,7 @@ void budAFEntity_VehicleSixWheels::Think()
 			{
 				velocity = -velocity;
 			}
-			force = budMath::Fabs( player->usercmd.forwardmove * g_vehicleForce.GetFloat() ) * ( 1.0f / 128.0f );
+			force = Math::Fabs( player->usercmd.forwardmove * g_vehicleForce.GetFloat() ) * ( 1.0f / 128.0f );
 			steerAngle = GetSteerAngle();
 		}
 		
@@ -2756,8 +2756,8 @@ void budAFEntity_VehicleAutomated::Think()
 		return;
 	}
 	
-	budVec3 waypoint_origin, vehicle_origin;
-	budVec3 travel_vector;
+	Vector3 waypoint_origin, vehicle_origin;
+	Vector3 travel_vector;
 	float distance_from_waypoint;
 	
 	// Set up the vector from the vehicle origin, to the waypoint
@@ -2772,7 +2772,7 @@ void budAFEntity_VehicleAutomated::Think()
 	// Check if we've hit the waypoint (within a certain threshold)
 	if( distance_from_waypoint < HIT_WAYPOINT_THRESHOLD )
 	{
-		budStr				callfunc;
+		String				callfunc;
 		const function_t*	func;
 		idThread*			thread;
 		
@@ -2803,7 +2803,7 @@ void budAFEntity_VehicleAutomated::Think()
 		return;
 	}
 	
-	budAngles vehicle_angles, travel_angles;
+	Angles vehicle_angles, travel_angles;
 	
 	// Get the angles we need to steer towards
 	travel_angles = travel_vector.ToAngles().Normalize360();
@@ -2813,7 +2813,7 @@ void budAFEntity_VehicleAutomated::Think()
 	
 	// Get the shortest steering angle towards the travel angles
 	delta_yaw = vehicle_angles.yaw - travel_angles.yaw;
-	if( budMath::Fabs( delta_yaw ) > 180.f )
+	if( Math::Fabs( delta_yaw ) > 180.f )
 	{
 		if( delta_yaw > 0 )
 		{
@@ -2826,12 +2826,12 @@ void budAFEntity_VehicleAutomated::Think()
 	}
 	
 	// Maximum steering angle is 35 degrees
-	delta_yaw = budMath::ClampFloat( -35.f, 35.f, delta_yaw );
+	delta_yaw = Math::ClampFloat( -35.f, 35.f, delta_yaw );
 	
 	idealSteering = delta_yaw;
 	
 	// Adjust steering incrementally so it doesn't snap to the ideal angle
-	if( budMath::Fabs( ( idealSteering - currentSteering ) ) > steeringSpeed )
+	if( Math::Fabs( ( idealSteering - currentSteering ) ) > steeringSpeed )
 	{
 		if( idealSteering > currentSteering )
 		{
@@ -2850,9 +2850,9 @@ void budAFEntity_VehicleAutomated::Think()
 	// DEBUG
 	if( g_vehicleDebug.GetBool() )
 	{
-		gameRenderWorld->DebugBounds( colorRed, budBounds( budVec3( -4, -4, -4 ), budVec3( 4, 4, 4 ) ), vehicle_origin );
-		gameRenderWorld->DebugBounds( colorRed, budBounds( budVec3( -4, -4, -4 ), budVec3( 4, 4, 4 ) ), waypoint_origin );
-		gameRenderWorld->DrawText( waypoint->name.c_str(), waypoint_origin + budVec3( 0, 0, 16 ), 0.25f, colorYellow, gameLocal.GetLocalPlayer()->viewAxis );
+		gameRenderWorld->DebugBounds( colorRed, budBounds( Vector3( -4, -4, -4 ), Vector3( 4, 4, 4 ) ), vehicle_origin );
+		gameRenderWorld->DebugBounds( colorRed, budBounds( Vector3( -4, -4, -4 ), Vector3( 4, 4, 4 ) ), waypoint_origin );
+		gameRenderWorld->DrawText( waypoint->name.c_str(), waypoint_origin + Vector3( 0, 0, 16 ), 0.25f, colorYellow, gameLocal.GetLocalPlayer()->viewAxis );
 		gameRenderWorld->DebugArrow( colorWhite, vehicle_origin, waypoint_origin, 12.f );
 	}
 	
@@ -2927,7 +2927,7 @@ budAFEntity_SteamPipe::Spawn
 */
 void budAFEntity_SteamPipe::Spawn()
 {
-	budVec3 steamDir;
+	Vector3 steamDir;
 	const char* steamBodyName;
 	
 	LoadAF();
@@ -3004,7 +3004,7 @@ budAFEntity_SteamPipe::Think
 */
 void budAFEntity_SteamPipe::Think()
 {
-	budVec3 steamDir;
+	Vector3 steamDir;
 	
 	if( thinkFlags & TH_THINK )
 	{
@@ -3173,11 +3173,11 @@ budGameEdit::AF_SpawnEntity
 */
 bool budGameEdit::AF_SpawnEntity( const char* fileName )
 {
-	idDict args;
+	Dict args;
 	budPlayer* player;
 	budAFEntity_Generic* ent;
 	const budDeclAF* af;
-	budVec3 org;
+	Vector3 org;
 	float yaw;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -3194,7 +3194,7 @@ bool budGameEdit::AF_SpawnEntity( const char* fileName )
 	
 	yaw = player->viewAngles.yaw;
 	args.Set( "angle", va( "%f", yaw + 180 ) );
-	org = player->GetPhysics()->GetOrigin() + budAngles( 0, yaw, 0 ).ToForward() * 80 + budVec3( 0, 0, 1 );
+	org = player->GetPhysics()->GetOrigin() + Angles( 0, yaw, 0 ).ToForward() * 80 + Vector3( 0, 0, 1 );
 	args.Set( "origin", org.ToString() );
 	args.Set( "spawnclass", "budAFEntity_Generic" );
 	if( af->model[0] )
@@ -3232,7 +3232,7 @@ void budGameEdit::AF_UpdateEntities( const char* fileName )
 {
 	idEntity* ent;
 	budAFEntity_Base* af;
-	budStr name;
+	String name;
 	
 	name = fileName;
 	name.StripFileExtension();
@@ -3282,7 +3282,7 @@ void budGameEdit::AF_UndoChanges()
 			if( ent->IsType( budAFEntity_Base::Type ) )
 			{
 				af = static_cast<budAFEntity_Base*>( ent );
-				if( budStr::Icmp( decl->GetName(), af->GetAFName() ) == 0 )
+				if( String::Icmp( decl->GetName(), af->GetAFName() ) == 0 )
 				{
 					af->LoadAF();
 				}
@@ -3302,7 +3302,7 @@ typedef struct
 	const budMD5Joint* joints;
 } jointTransformData_t;
 
-static bool GetJointTransform( void* model, const budJointMat* frame, const char* jointName, budVec3& origin, budMat3& axis )
+static bool GetJointTransform( void* model, const budJointMat* frame, const char* jointName, Vector3& origin, Matrix3& axis )
 {
 	int i;
 	jointTransformData_t* data = reinterpret_cast<jointTransformData_t*>( model );
@@ -3328,7 +3328,7 @@ static bool GetJointTransform( void* model, const budJointMat* frame, const char
 GetArgString
 ================
 */
-static const char* GetArgString( const idDict& args, const idDict* defArgs, const char* key )
+static const char* GetArgString( const Dict& args, const Dict* defArgs, const char* key )
 {
 	const char* s;
 	
@@ -3345,19 +3345,19 @@ static const char* GetArgString( const idDict& args, const idDict* defArgs, cons
 budGameEdit::AF_CreateMesh
 ================
 */
-budRenderModel* budGameEdit::AF_CreateMesh( const idDict& args, budVec3& meshOrigin, budMat3& meshAxis, bool& poseIsSet )
+budRenderModel* budGameEdit::AF_CreateMesh( const Dict& args, Vector3& meshOrigin, Matrix3& meshAxis, bool& poseIsSet )
 {
 	int i, jointNum;
 	const budDeclAF* af = NULL;
 	const budDeclAF_Body* fb = NULL;
 	renderEntity_t ent;
-	budVec3 origin, *bodyOrigin = NULL, *newBodyOrigin = NULL, *modifiedOrigin = NULL;
-	budMat3 axis, *bodyAxis = NULL, *newBodyAxis = NULL, *modifiedAxis = NULL;
+	Vector3 origin, *bodyOrigin = NULL, *newBodyOrigin = NULL, *modifiedOrigin = NULL;
+	Matrix3 axis, *bodyAxis = NULL, *newBodyAxis = NULL, *modifiedAxis = NULL;
 	declAFJointMod_t* jointMod = NULL;
-	budAngles angles;
-	const idDict* defArgs = NULL;
+	Angles angles;
+	const Dict* defArgs = NULL;
 	const idKeyValue* arg = NULL;
-	budStr name;
+	String name;
 	jointTransformData_t data;
 	const char* classname = NULL, *afName = NULL, *modelName = NULL;
 	budRenderModel* md5 = NULL;
@@ -3431,10 +3431,10 @@ budRenderModel* budGameEdit::AF_CreateMesh( const idDict& args, budVec3& meshOri
 	ANIM_CreateAnimFrame( md5, MD5anim, ent.numJoints, ent.joints, 1, modelDef->GetVisualOffset(), false );
 	
 	// buffers to store the initial origin and axis for each body
-	bodyOrigin = ( budVec3* ) _alloca16( af->bodies.Num() * sizeof( budVec3 ) );
-	bodyAxis = ( budMat3* ) _alloca16( af->bodies.Num() * sizeof( budMat3 ) );
-	newBodyOrigin = ( budVec3* ) _alloca16( af->bodies.Num() * sizeof( budVec3 ) );
-	newBodyAxis = ( budMat3* ) _alloca16( af->bodies.Num() * sizeof( budMat3 ) );
+	bodyOrigin = ( Vector3* ) _alloca16( af->bodies.Num() * sizeof( Vector3 ) );
+	bodyAxis = ( Matrix3* ) _alloca16( af->bodies.Num() * sizeof( Matrix3 ) );
+	newBodyOrigin = ( Vector3* ) _alloca16( af->bodies.Num() * sizeof( Vector3 ) );
+	newBodyAxis = ( Matrix3* ) _alloca16( af->bodies.Num() * sizeof( Matrix3 ) );
 	
 	// finish the AF positions
 	data.ent = &ent;
@@ -3502,10 +3502,10 @@ budRenderModel* budGameEdit::AF_CreateMesh( const idDict& args, budVec3& meshOri
 	// buffer to store the joint mods
 	jointMod = ( declAFJointMod_t* ) _alloca16( numMD5joints * sizeof( declAFJointMod_t ) );
 	memset( jointMod, -1, numMD5joints * sizeof( declAFJointMod_t ) );
-	modifiedOrigin = ( budVec3* ) _alloca16( numMD5joints * sizeof( budVec3 ) );
-	memset( modifiedOrigin, 0, numMD5joints * sizeof( budVec3 ) );
-	modifiedAxis = ( budMat3* ) _alloca16( numMD5joints * sizeof( budMat3 ) );
-	memset( modifiedAxis, 0, numMD5joints * sizeof( budMat3 ) );
+	modifiedOrigin = ( Vector3* ) _alloca16( numMD5joints * sizeof( Vector3 ) );
+	memset( modifiedOrigin, 0, numMD5joints * sizeof( Vector3 ) );
+	modifiedAxis = ( Matrix3* ) _alloca16( numMD5joints * sizeof( Matrix3 ) );
+	memset( modifiedAxis, 0, numMD5joints * sizeof( Matrix3 ) );
 	
 	// get all the joint modifications
 	for( i = 0; i < af->bodies.Num(); i++ )
@@ -3540,9 +3540,9 @@ budRenderModel* budGameEdit::AF_CreateMesh( const idDict& args, budVec3& meshOri
 	{
 	
 		parentNum = MD5joint->parent - MD5joints;
-		budMat3 parentAxis = originalJoints[ parentNum ].ToMat3();
-		budMat3 localm = originalJoints[i].ToMat3() * parentAxis.Transpose();
-		budVec3 localt = ( originalJoints[i].ToVec3() - originalJoints[ parentNum ].ToVec3() ) * parentAxis.Transpose();
+		Matrix3 parentAxis = originalJoints[ parentNum ].ToMat3();
+		Matrix3 localm = originalJoints[i].ToMat3() * parentAxis.Transpose();
+		Vector3 localt = ( originalJoints[i].ToVec3() - originalJoints[ parentNum ].ToVec3() ) * parentAxis.Transpose();
 		
 		switch( jointMod[i] )
 		{
@@ -3635,7 +3635,7 @@ void idHarvestable::Init( idEntity* parent )
 	this->Bind( parent, true );
 	
 	//Set the skin of the entity to the harvest skin
-	budStr skin = parent->spawnArgs.GetString( "skin_harvest", "" );
+	String skin = parent->spawnArgs.GetString( "skin_harvest", "" );
 	if( skin.Length() )
 	{
 		parent->SetSkin( declManager->FindSkin( skin.c_str() ) );
@@ -3654,14 +3654,14 @@ void idHarvestable::Init( idEntity* parent )
 	}
 	if( head )
 	{
-		budStr headskin = parent->spawnArgs.GetString( "skin_harvest_head", "" );
+		String headskin = parent->spawnArgs.GetString( "skin_harvest_head", "" );
 		if( headskin.Length() )
 		{
 			head->SetSkin( declManager->FindSkin( headskin.c_str() ) );
 		}
 	}
 	
-	budStr sound = parent->spawnArgs.GetString( "harvest_sound" );
+	String sound = parent->spawnArgs.GetString( "harvest_sound" );
 	if( sound.Length() > 0 )
 	{
 		parent->StartSound( sound.c_str(), SND_CHANNEL_ANY, 0, false, NULL );
@@ -3748,7 +3748,7 @@ void idHarvestable::Think()
 		
 		if( fxEnt )
 		{
-			budMat3 orientAxisLocal;
+			Matrix3 orientAxisLocal;
 			if( GetFxOrientationAxis( orientAxisLocal ) )
 			{
 				//gameRenderWorld->DebugAxis(fxEnt->GetPhysics()->GetOrigin(), orientAxisLocal);
@@ -3770,7 +3770,7 @@ void idHarvestable::Gib()
 	idEntity* parent = parentEnt.GetEntity();
 	if( parent )
 	{
-		budStr sound = parent->spawnArgs.GetString( "harvest_sound" );
+		String sound = parent->spawnArgs.GetString( "harvest_sound" );
 		if( sound.Length() > 0 )
 		{
 			parent->StopSound( SND_CHANNEL_ANY, false );
@@ -3799,7 +3799,7 @@ void idHarvestable::BeginBurn()
 	
 	
 	//Switch Skins if the parent would like us to.
-	budStr skin = parent->spawnArgs.GetString( "skin_harvest_burn", "" );
+	String skin = parent->spawnArgs.GetString( "skin_harvest_burn", "" );
 	if( skin.Length() )
 	{
 		parent->SetSkin( declManager->FindSkin( skin.c_str() ) );
@@ -3820,7 +3820,7 @@ void idHarvestable::BeginBurn()
 	}
 	if( head )
 	{
-		budStr headskin = parent->spawnArgs.GetString( "skin_harvest_burn_head", "" );
+		String headskin = parent->spawnArgs.GetString( "skin_harvest_burn_head", "" );
 		if( headskin.Length() )
 		{
 			head->SetSkin( declManager->FindSkin( headskin.c_str() ) );
@@ -3846,8 +3846,8 @@ void idHarvestable::BeginFX()
 		return;
 	}
 	
-	budMat3* orientAxis = NULL;
-	budMat3 orientAxisLocal;
+	Matrix3* orientAxis = NULL;
+	Matrix3 orientAxisLocal;
 	
 	if( GetFxOrientationAxis( orientAxisLocal ) )
 	{
@@ -3877,7 +3877,7 @@ void idHarvestable::CalcTriggerBounds( float size, budBounds& bounds )
 	bounds[1] -= parent->GetPhysics()->GetOrigin();
 }
 
-bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
+bool idHarvestable::GetFxOrientationAxis( Matrix3& mat )
 {
 
 	idEntity* parent = parentEnt.GetEntity();
@@ -3891,11 +3891,11 @@ bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
 	if( !fxOrient.Icmp( "up" ) )
 	{
 		//Orient up
-		budVec3 grav = parent->GetPhysics()->GetGravityNormal() * -1;
-		budVec3 left, up;
+		Vector3 grav = parent->GetPhysics()->GetGravityNormal() * -1;
+		Vector3 left, up;
 		
 		grav.OrthogonalBasis( left, up );
-		budMat3 temp( left.x, left.y, left.z, up.x, up.y, up.z, grav.x, grav.y, grav.z );
+		Matrix3 temp( left.x, left.y, left.z, up.x, up.y, up.z, grav.x, grav.y, grav.z );
 		mat = temp;
 		
 		return true;
@@ -3905,8 +3905,8 @@ bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
 	{
 		//Orient the fx towards the muzzle of the weapon
 		jointHandle_t	joint;
-		budVec3	joint_origin;
-		budMat3	joint_axis;
+		Vector3	joint_origin;
+		Matrix3	joint_axis;
 		
 		joint = thePlayer->weapon.GetEntity()->GetAnimator()->GetJointHandle( spawnArgs.GetString( "fx_weapon_joint" ) );
 		if( joint != INVALID_JOINT )
@@ -3918,12 +3918,12 @@ bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
 			joint_origin = thePlayer->GetPhysics()->GetOrigin();
 		}
 		
-		budVec3 toPlayer = joint_origin - parent->GetPhysics()->GetOrigin();
+		Vector3 toPlayer = joint_origin - parent->GetPhysics()->GetOrigin();
 		toPlayer.NormalizeFast();
 		
-		budVec3 left, up;
+		Vector3 left, up;
 		toPlayer.OrthogonalBasis( left, up );
-		budMat3 temp( left.x, left.y, left.z, up.x, up.y, up.z, toPlayer.x, toPlayer.y, toPlayer.z );
+		Matrix3 temp( left.x, left.y, left.z, up.x, up.y, up.z, toPlayer.x, toPlayer.y, toPlayer.z );
 		mat = temp;
 		
 		return true;
@@ -3932,12 +3932,12 @@ bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
 	else if( !fxOrient.Icmp( "player" ) )
 	{
 		//Orient the fx towards the eye of the player
-		budVec3 eye = thePlayer->GetEyePosition();
-		budVec3 toPlayer = eye - parent->GetPhysics()->GetOrigin();
+		Vector3 eye = thePlayer->GetEyePosition();
+		Vector3 toPlayer = eye - parent->GetPhysics()->GetOrigin();
 		
 		toPlayer.Normalize();
 		
-		budVec3 left, up;
+		Vector3 left, up;
 		up.Set( 0, 1, 0 );
 		left = toPlayer.Cross( up );
 		up = left.Cross( toPlayer );
@@ -3945,7 +3945,7 @@ bool idHarvestable::GetFxOrientationAxis( budMat3& mat )
 		
 		//common->Printf("%.2f %.2f %.2f - %.2f %.2f %.2f - %.2f %.2f %.2f\n", toPlayer.x, toPlayer.y, toPlayer.z, left.x, left.y, left.z, up.x, up.y, up.z );
 		
-		budMat3 temp( left.x, left.y, left.z, up.x, up.y, up.z, toPlayer.x, toPlayer.y, toPlayer.z );
+		Matrix3 temp( left.x, left.y, left.z, up.x, up.y, up.z, toPlayer.x, toPlayer.y, toPlayer.z );
 		
 		mat = temp;
 		
@@ -4015,11 +4015,11 @@ void idHarvestable::Event_Touch( idEntity* other, trace_t* trace )
 		player = thePlayer;
 		
 		bool okToGive = true;
-		budStr requiredWeapons = spawnArgs.GetString( "required_weapons" );
+		String requiredWeapons = spawnArgs.GetString( "required_weapons" );
 		
 		if( requiredWeapons.Length() > 0 )
 		{
-			budStr playerWeap = thePlayer->GetCurrentWeapon();
+			String playerWeap = thePlayer->GetCurrentWeapon();
 			if( playerWeap.Length() == 0 || requiredWeapons.Find( playerWeap, false ) == -1 )
 			{
 				okToGive = false;
@@ -4047,7 +4047,7 @@ void idHarvestable::Event_Touch( idEntity* other, trace_t* trace )
 				BeginFX();
 				
 				//Stop any looping sound that was playing
-				budStr sound = parent->spawnArgs.GetString( "harvest_sound" );
+				String sound = parent->spawnArgs.GetString( "harvest_sound" );
 				if( sound.Length() > 0 )
 				{
 					parent->StopSound( SND_CHANNEL_ANY, false );
@@ -4153,7 +4153,7 @@ void budAFEntity_Harvest::Think()
 void budAFEntity_Harvest::Event_SpawnHarvestEntity()
 {
 
-	const idDict* harvestDef = gameLocal.FindEntityDefDict( spawnArgs.GetString( "def_harvest_type" ), false );
+	const Dict* harvestDef = gameLocal.FindEntityDefDict( spawnArgs.GetString( "def_harvest_type" ), false );
 	if( harvestDef )
 	{
 		idEntity* temp;
@@ -4169,7 +4169,7 @@ void budAFEntity_Harvest::Event_SpawnHarvestEntity()
 	}
 }
 
-void budAFEntity_Harvest::Gib( const budVec3& dir, const char* damageDefName )
+void budAFEntity_Harvest::Gib( const Vector3& dir, const char* damageDefName )
 {
 	if( harvestEnt.GetEntity() )
 	{

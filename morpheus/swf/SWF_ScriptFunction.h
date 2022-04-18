@@ -144,15 +144,15 @@ public:
 	}
 	
 private:
-	budList< budSWFScriptString*, TAG_SWF > pool;
+	List< budSWFScriptString*, TAG_SWF > pool;
 };
 
 /*
 ========================
-The budSWFStack class is just a helper routine for treating an budList like a stack
+The budSWFStack class is just a helper routine for treating an List like a stack
 ========================
 */
-class budSWFStack : public budList< budSWFScriptVar >
+class budSWFStack : public List< budSWFScriptVar >
 {
 public:
 	budSWFScriptVar& A()
@@ -217,7 +217,7 @@ public:
 		data = _data;
 		length = _length;
 	}
-	void	SetScope( budList<budSWFScriptObject*>& scope );
+	void	SetScope( List<budSWFScriptObject*>& scope );
 	void	SetConstants( const budSWFConstantPool& _constants )
 	{
 		constants.Copy( _constants );
@@ -254,7 +254,7 @@ public:
 	virtual budSWFScriptVar	Call( budSWFScriptObject* thisObject, const budSWFParmList& parms );
 	
 	// RB begin
-	budStr CallToScript( budSWFScriptObject* thisObject, const budSWFParmList& parms, const char* filename, int characterID, int actionID );
+	String CallToScript( budSWFScriptObject* thisObject, const budSWFParmList& parms, const char* filename, int characterID, int actionID );
 	
 private:
 	budSWFScriptVar Run( budSWFScriptObject* thisObject, budSWFStack& stack, budSWFBitStream& bitstream );
@@ -264,20 +264,20 @@ private:
 	struct ActionBlock
 	{
 		ActionBlock*		parent = NULL;
-		budStr				line;
-		budList<ActionBlock>	blocks;
+		String				line;
+		List<ActionBlock>	blocks;
 	};
-	budList<ActionBlock>		actionBlocks;
+	List<ActionBlock>		actionBlocks;
 	ActionBlock*			currentBlock;
 	
-	budStr		UpdateIndent( int indentLevel ) const;
-	void		AddLine( const budStr& line );
-	void		AddBlock( const budStr& line );
+	String		UpdateIndent( int indentLevel ) const;
+	void		AddLine( const String& line );
+	void		AddBlock( const String& line );
 	void		QuitCurrentBlock();
 	
-	budStr		BuildActionCode( const budList<ActionBlock>& blocks, int level );
+	String		BuildActionCode( const List<ActionBlock>& blocks, int level );
 	
-	budStr		ExportToScript( budSWFScriptObject* thisObject, budSWFStack& stack, budSWFBitStream& bitstream, const char* filename, int characterID, int actionID );
+	String		ExportToScript( budSWFScriptObject* thisObject, budSWFStack& stack, budSWFBitStream& bitstream, const char* filename, int characterID, int actionID );
 	// RB end
 	
 private:
@@ -290,17 +290,17 @@ private:
 	
 	budSWFSpriteInstance* defaultSprite;		// some actions have an implicit sprite they work off of (e.g. Action_GotoFrame outside of object scope)
 	
-	budList< budSWFScriptObject*, TAG_SWF > scope;
+	List< budSWFScriptObject*, TAG_SWF > scope;
 	
 	budSWFConstantPool	constants;
-	budList< budSWFScriptVar, TAG_SWF > registers;
+	List< budSWFScriptVar, TAG_SWF > registers;
 	
 	struct parmInfo_t
 	{
 		const char* name;
 		uint8 reg;
 	};
-	budList< parmInfo_t, TAG_SWF > parameters;
+	List< parmInfo_t, TAG_SWF > parameters;
 };
 
 #endif // !__SWF_SCRIPTFUNCTION_H__

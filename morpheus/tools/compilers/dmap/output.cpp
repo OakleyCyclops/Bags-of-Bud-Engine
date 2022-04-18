@@ -94,9 +94,9 @@ int	PruneNodes_r( node_t* node )
 
 static void WriteFloat( budFile* f, float v )
 {
-	if( budMath::Fabs( v - budMath::Rint( v ) ) < 0.001 )
+	if( Math::Fabs( v - Math::Rint( v ) ) < 0.001 )
 	{
-		f->WriteFloatString( "%i ", ( int )budMath::Rint( v ) );
+		f->WriteFloatString( "%i ", ( int )Math::Rint( v ) );
 	}
 	else
 	{
@@ -168,24 +168,24 @@ MatchVert
 
 static bool MatchVert( const budDrawVert* a, const budDrawVert* b )
 {
-	if( budMath::Fabs( a->xyz[0] - b->xyz[0] ) > XYZ_EPSILON )
+	if( Math::Fabs( a->xyz[0] - b->xyz[0] ) > XYZ_EPSILON )
 	{
 		return false;
 	}
-	if( budMath::Fabs( a->xyz[1] - b->xyz[1] ) > XYZ_EPSILON )
+	if( Math::Fabs( a->xyz[1] - b->xyz[1] ) > XYZ_EPSILON )
 	{
 		return false;
 	}
-	if( budMath::Fabs( a->xyz[2] - b->xyz[2] ) > XYZ_EPSILON )
+	if( Math::Fabs( a->xyz[2] - b->xyz[2] ) > XYZ_EPSILON )
 	{
 		return false;
 	}
 	
-	if( budMath::Fabs( a->GetTexCoordS() - b->GetTexCoordS() ) > ST_EPSILON )
+	if( Math::Fabs( a->GetTexCoordS() - b->GetTexCoordS() ) > ST_EPSILON )
 	{
 		return false;
 	}
-	if( budMath::Fabs( a->GetTexCoordT() - b->GetTexCoordT() ) > ST_EPSILON )
+	if( Math::Fabs( a->GetTexCoordT() - b->GetTexCoordT() ) > ST_EPSILON )
 	{
 		return false;
 	}
@@ -317,11 +317,11 @@ static void WriteUTriangles( const srfTriangles_t* uTris )
 		vec[1] = dv->xyz[1];
 		vec[2] = dv->xyz[2];
 		
-		budVec2 st = dv->GetTexCoord();
+		Vector2 st = dv->GetTexCoord();
 		vec[3] = st.x;
 		vec[4] = st.y;
 		
-		budVec3 normal = dv->GetNormal();
+		Vector3 normal = dv->GetNormal();
 		vec[5] = normal.x;
 		vec[6] = normal.y;
 		vec[7] = normal.z;
@@ -689,7 +689,7 @@ void WriteOutputFile()
 {
 	int				i;
 	uEntity_t*		entity;
-	budStr			qpath;
+	String			qpath;
 	
 	// write the file
 	common->Printf( "----- WriteOutputFile -----\n" );

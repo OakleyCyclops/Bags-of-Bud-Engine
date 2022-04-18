@@ -60,8 +60,8 @@ public:
 	
 	bool					AllowStep() const;
 	void					EnableDamage( bool enable, float duration );
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	virtual void			WriteToSnapshot( budBitMsg& msg ) const;
 	virtual void			ReadFromSnapshot( const budBitMsg& msg );
 	
@@ -73,16 +73,16 @@ public:
 	
 protected:
 	idPhysics_RigidBody		physicsObj;				// physics object
-	budStr					brokenModel;			// model set when health drops down to or below zero
-	budStr					damage;					// if > 0 apply damage to hit entities
-	budStr					monsterDamage;
+	String					brokenModel;			// model set when health drops down to or below zero
+	String					damage;					// if > 0 apply damage to hit entities
+	String					monsterDamage;
 	idEntity*				attacker;
-	budStr					fxCollide;				// fx system to start when collides with something
+	String					fxCollide;				// fx system to start when collides with something
 	int						nextCollideFxTime;		// next time it is ok to spawn collision fx
 	float					minDamageVelocity;		// minimum velocity before moveable applies damage
 	float					maxDamageVelocity;		// velocity at which the maximum damage is applied
-	idCurve_Spline<budVec3>* initialSpline;			// initial spline path the moveable follows
-	budVec3					initialSplineDir;		// initial relative direction along the spline path
+	idCurve_Spline<Vector3>* initialSpline;			// initial spline path the moveable follows
+	Vector3					initialSplineDir;		// initial relative direction along the spline path
 	bool					explode;				// entity explodes when health drops down to or below zero
 	bool					unbindOnDeath;			// unbind from master when health drops down to or below zero
 	bool					allowStep;				// allow monsters to step on the object
@@ -126,16 +126,16 @@ public:
 	
 	void					BarrelThink();
 	virtual void			Think();
-	virtual bool			GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis );
+	virtual bool			GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis );
 	virtual void			ClientThink( const int curTime, const float fraction, const bool predict );
 	
 private:
 	float					radius;					// radius of barrel
 	int						barrelAxis;				// one of the coordinate axes the barrel cylinder is parallel to
-	budVec3					lastOrigin;				// origin of the barrel the last think frame
-	budMat3					lastAxis;				// axis of the barrel the last think frame
+	Vector3					lastOrigin;				// origin of the barrel the last think frame
+	Matrix3					lastAxis;				// axis of the barrel the last think frame
 	float					additionalRotation;		// additional rotation of the barrel about it's axis
-	budMat3					additionalAxis;			// additional rotation axis
+	Matrix3					additionalAxis;			// additional rotation axis
 };
 
 
@@ -169,9 +169,9 @@ public:
 	
 	virtual void			ClientThink( const int curTime, const float fraction, const bool predict );
 	virtual void			Think();
-	virtual void			Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+	virtual void			Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir,
 									const char* damageDefName, const float damageScale, const int location );
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	
 	virtual void			WriteToSnapshot( budBitMsg& msg ) const;
 	virtual void			ReadFromSnapshot( const budBitMsg& msg );
@@ -193,8 +193,8 @@ private:
 	} explode_state_t;
 	explode_state_t			state;
 	
-	budVec3					spawnOrigin;
-	budMat3					spawnAxis;
+	Vector3					spawnOrigin;
+	Matrix3					spawnAxis;
 	qhandle_t				particleModelDefHandle;
 	qhandle_t				lightDefHandle;
 	renderEntity_t			particleRenderEntity;

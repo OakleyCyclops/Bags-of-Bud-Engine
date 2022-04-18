@@ -41,20 +41,20 @@ This is the old DOOM3 matrix code that should really to be replaced with budRend
 ==========================================================================================
 */
 
-void R_AxisToModelMatrix( const budMat3& axis, const budVec3& origin, float modelMatrix[16] );
+void R_AxisToModelMatrix( const Matrix3& axis, const Vector3& origin, float modelMatrix[16] );
 void R_MatrixTranspose( const float in[16], float out[16] );
 void R_MatrixMultiply( const float* a, const float* b, float* out );
 
-void R_TransformModelToClip( const budVec3& src, const float* modelMatrix, const float* projectionMatrix, budPlane& eye, budPlane& dst );
-void R_TransformClipToDevice( const budPlane& clip, budVec3& ndc );
-void R_GlobalToNormalizedDeviceCoordinates( const budVec3& global, budVec3& ndc );
+void R_TransformModelToClip( const Vector3& src, const float* modelMatrix, const float* projectionMatrix, budPlane& eye, budPlane& dst );
+void R_TransformClipToDevice( const budPlane& clip, Vector3& ndc );
+void R_GlobalToNormalizedDeviceCoordinates( const Vector3& global, Vector3& ndc );
 
 // note that these assume a normalized matrix, and will not work with scaled axis
-void R_GlobalPointToLocal( const float modelMatrix[16], const budVec3& in, budVec3& out );
-void R_LocalPointToGlobal( const float modelMatrix[16], const budVec3& in, budVec3& out );
+void R_GlobalPointToLocal( const float modelMatrix[16], const Vector3& in, Vector3& out );
+void R_LocalPointToGlobal( const float modelMatrix[16], const Vector3& in, Vector3& out );
 
-void R_GlobalVectorToLocal( const float modelMatrix[16], const budVec3& in, budVec3& out );
-void R_LocalVectorToGlobal( const float modelMatrix[16], const budVec3& in, budVec3& out );
+void R_GlobalVectorToLocal( const float modelMatrix[16], const Vector3& in, Vector3& out );
+void R_LocalVectorToGlobal( const float modelMatrix[16], const Vector3& in, Vector3& out );
 
 void R_GlobalPlaneToLocal( const float modelMatrix[16], const budPlane& in, budPlane& out );
 void R_LocalPlaneToGlobal( const float modelMatrix[16], const budPlane& in, budPlane& out );

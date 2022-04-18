@@ -38,30 +38,30 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 */
 
-class budListGUILocal : protected budList<budStr, TAG_OLD_UI>, public budListGUI
+class ListGUILocal : protected List<String, TAG_OLD_UI>, public ListGUI
 {
 public:
-	budListGUILocal()
+	ListGUILocal()
 	{
 		m_pGUI = NULL;
 		m_water = 0;
 		m_stateUpdates = true;
 	}
 	
-	// budListGUI interface
+	// ListGUI interface
 	void				Config( budUserInterface* pGUI, const char* name )
 	{
 		m_pGUI = pGUI;
 		m_name = name;
 	}
-	void				Add( int id, const budStr& s );
+	void				Add( int id, const String& s );
 	// use the element count as index for the ids
-	void				Push( const budStr& s );
+	void				Push( const String& s );
 	bool				Del( int id );
 	void				Clear();
 	int					Num()
 	{
-		return budList<budStr, TAG_OLD_UI>::Num();
+		return List<String, TAG_OLD_UI>::Num();
 	}
 	int					GetSelection( char* s, int size, int sel = 0 ) const; // returns the id, not the list index (or -1)
 	void				SetSelection( int sel );
@@ -72,9 +72,9 @@ public:
 	
 private:
 	budUserInterface* 	m_pGUI;
-	budStr				m_name;
+	String				m_name;
 	int					m_water;
-	budList<int, TAG_OLD_UI>			m_ids;
+	List<int, TAG_OLD_UI>			m_ids;
 	bool				m_stateUpdates;
 	
 	void				StateChanged();

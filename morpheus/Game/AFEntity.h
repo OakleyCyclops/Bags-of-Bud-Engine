@@ -56,11 +56,11 @@ public:
 protected:
 	idPhysics_AF			physicsObj;
 	
-	void					SetModelForId( int id, const budStr& modelName );
+	void					SetModelForId( int id, const String& modelName );
 	
 private:
-	budList<budRenderModel*, TAG_AF>	modelHandles;
-	budList<int, TAG_AF>				modelDefHandles;
+	List<budRenderModel*, TAG_AF>	modelHandles;
+	List<int, TAG_AF>				modelDefHandles;
 };
 
 
@@ -82,7 +82,7 @@ public:
 	void					Spawn();
 	
 protected:
-	void					BuildChain( const budStr& name, const budVec3& origin, float linkLength, float linkWidth, float density, int numLinks, bool bindToWorld = true );
+	void					BuildChain( const String& name, const Vector3& origin, float linkLength, float linkWidth, float density, int numLinks, bool bindToWorld = true );
 };
 
 
@@ -118,12 +118,12 @@ public:
 	
 	void					PlayIdleAnim( int blendTime );
 	
-	virtual void			GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info );
-	virtual void			ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse );
-	virtual void			AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force );
+	virtual void			GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info );
+	virtual void			ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse );
+	virtual void			AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force );
 	
-	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir, const char* damageDefName, const float damageScale, const int location );
-	virtual void			AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName );
+	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir, const char* damageDefName, const float damageScale, const int location );
+	virtual void			AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName );
 	
 	void					SetCombatModel();
 	budClipModel* 			GetCombatModel() const;
@@ -160,12 +160,12 @@ public:
 	void					Restore( idRestoreGame* savefile );
 	
 	virtual void			Think();
-	virtual void			AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName );
-	virtual void			GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info );
-	virtual void			ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse );
-	virtual void			AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force );
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
-	virtual bool			GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis );
+	virtual void			AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName );
+	virtual void			GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info );
+	virtual void			ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse );
+	virtual void			AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
+	virtual bool			GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis );
 	virtual bool			UpdateAnimationControllers();
 	virtual void			FreeModelDef();
 	
@@ -192,25 +192,25 @@ public:
 	
 	int						BodyForClipModelId( int id ) const;
 	
-	void					SaveState( idDict& args ) const;
-	void					LoadState( const idDict& args );
+	void					SaveState( Dict& args ) const;
+	void					LoadState( const Dict& args );
 	
 	void					AddBindConstraints();
 	void					RemoveBindConstraints();
 	
 	virtual void			ShowEditingDialog();
 	
-	static void				DropAFs( idEntity* ent, const char* type, budList<idEntity*>* list );
+	static void				DropAFs( idEntity* ent, const char* type, List<idEntity*>* list );
 	
 protected:
 	budAF					af;				// articulated figure
 	budClipModel* 			combatModel;	// render model for hit detection
 	int						combatModelContents;
-	budVec3					spawnOrigin;	// spawn origin
-	budMat3					spawnAxis;		// rotation axis used when spawned
+	Vector3					spawnOrigin;	// spawn origin
+	Matrix3					spawnAxis;		// rotation axis used when spawned
 	int						nextSoundTime;	// next time this can make a sound
 	
-	void					Event_SetConstraintPosition( const char* name, const budVec3& pos );
+	void					Event_SetConstraintPosition( const char* name, const Vector3& pos );
 };
 
 /*
@@ -236,10 +236,10 @@ public:
 	void					Save( idSaveGame* savefile ) const;
 	void					Restore( idRestoreGame* savefile );
 	virtual void			Present();
-	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir, const char* damageDefName, const float damageScale, const int location );
+	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir, const char* damageDefName, const float damageScale, const int location );
 	void					SetThrown( bool isThrown );
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
-	virtual void			SpawnGibs( const budVec3& dir, const char* damageDefName );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
+	virtual void			SpawnGibs( const Vector3& dir, const char* damageDefName );
 	
 	bool					IsGibbed()
 	{
@@ -253,7 +253,7 @@ protected:
 	
 	bool					wasThrown;
 	
-	virtual void			Gib( const budVec3& dir, const char* damageDefName );
+	virtual void			Gib( const Vector3& dir, const char* damageDefName );
 	void					InitSkeletonModel();
 	
 	void					Event_Gib( const char* damageDefName );
@@ -320,13 +320,13 @@ public:
 	
 	virtual void			Hide();
 	virtual void			Show();
-	virtual void			ProjectOverlay( const budVec3& origin, const budVec3& dir, float size, const char* material );
+	virtual void			ProjectOverlay( const Vector3& origin, const Vector3& dir, float size, const char* material );
 	
 	virtual void			LinkCombat();
 	virtual void			UnlinkCombat();
 	
 protected:
-	virtual void			Gib( const budVec3& dir, const char* damageDefName );
+	virtual void			Gib( const Vector3& dir, const char* damageDefName );
 	
 public:
 	idEntityPtr<budAFAttachment>	head;
@@ -577,14 +577,14 @@ protected:
 	
 	bool					fxFollowPlayer;
 	idEntityPtr<idEntityFx>	fx;
-	budStr					fxOrient;
+	String					fxOrient;
 	
 protected:
 	void					BeginBurn();
 	void					BeginFX();
 	void					CalcTriggerBounds( float size, budBounds& bounds );
 	
-	bool					GetFxOrientationAxis( budMat3& mat );
+	bool					GetFxOrientationAxis( Matrix3& mat );
 	
 	void					Event_SpawnHarvestTrigger();
 	void					Event_Touch( idEntity* other, trace_t* trace );
@@ -616,7 +616,7 @@ public:
 	
 	virtual void			Think();
 	
-	virtual void			Gib( const budVec3& dir, const char* damageDefName );
+	virtual void			Gib( const Vector3& dir, const char* damageDefName );
 	
 protected:
 	idEntityPtr<idHarvestable>	harvestEnt;

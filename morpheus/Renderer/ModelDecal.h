@@ -68,7 +68,7 @@ struct decalProjectionParms_t
 	budPlane					boundingPlanes[NUM_DECAL_BOUNDING_PLANES];
 	budPlane					fadePlanes[2];
 	budPlane					textureAxis[2];
-	budVec3					projectionOrigin;
+	Vector3					projectionOrigin;
 	budBounds				projectionBounds;
 	const budMaterial* 		material;
 	float					fadeDepth;
@@ -106,10 +106,10 @@ public:
 	~budRenderModelDecal();
 	
 	// Creates decal projection parameters.
-	static bool					CreateProjectionParms( decalProjectionParms_t& parms, const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime );
+	static bool					CreateProjectionParms( decalProjectionParms_t& parms, const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime );
 	
 	// Transform the projection parameters from global space to local.
-	static void					GlobalProjectionParmsToLocal( decalProjectionParms_t& localParms, const decalProjectionParms_t& globalParms, const budVec3& origin, const budMat3& axis );
+	static void					GlobalProjectionParmsToLocal( decalProjectionParms_t& localParms, const decalProjectionParms_t& globalParms, const Vector3& origin, const Matrix3& axis );
 	
 	// clear the model for reuse
 	void						ReUse();

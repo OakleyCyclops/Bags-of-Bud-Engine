@@ -130,9 +130,9 @@ void idSaveGame::Close()
 	}
 	
 #ifdef ID_DEBUG_MEMORY
-	budStr gameState = file->GetName();
+	String gameState = file->GetName();
 	gameState.StripFileExtension();
-	WriteGameState_f( budCmdArgs( va( "test %s_save", gameState.c_str() ), false ) );
+	WriteGameState_f( CmdArgs( va( "test %s_save", gameState.c_str() ), false ) );
 #endif
 }
 
@@ -327,7 +327,7 @@ void idSaveGame::WriteString( const char* string )
 idSaveGame::WriteVec2
 ================
 */
-void idSaveGame::WriteVec2( const budVec2& vec )
+void idSaveGame::WriteVec2( const Vector2& vec )
 {
 	file->WriteBig( vec );
 }
@@ -337,7 +337,7 @@ void idSaveGame::WriteVec2( const budVec2& vec )
 idSaveGame::WriteVec3
 ================
 */
-void idSaveGame::WriteVec3( const budVec3& vec )
+void idSaveGame::WriteVec3( const Vector3& vec )
 {
 	file->WriteBig( vec );
 }
@@ -347,7 +347,7 @@ void idSaveGame::WriteVec3( const budVec3& vec )
 idSaveGame::WriteVec4
 ================
 */
-void idSaveGame::WriteVec4( const budVec4& vec )
+void idSaveGame::WriteVec4( const Vector4& vec )
 {
 	file->WriteBig( vec );
 }
@@ -357,7 +357,7 @@ void idSaveGame::WriteVec4( const budVec4& vec )
 idSaveGame::WriteVec6
 ================
 */
-void idSaveGame::WriteVec6( const budVec6& vec )
+void idSaveGame::WriteVec6( const Vector6& vec )
 {
 	file->WriteBig( vec );
 }
@@ -384,7 +384,7 @@ void idSaveGame::WriteWinding( const idWinding& w )
 	file->WriteBig( num );
 	for( i = 0; i < num; i++ )
 	{
-		budVec5 v = w[i];
+		Vector5 v = w[i];
 		file->WriteBig( v );
 	}
 }
@@ -395,7 +395,7 @@ void idSaveGame::WriteWinding( const idWinding& w )
 idSaveGame::WriteMat3
 ================
 */
-void idSaveGame::WriteMat3( const budMat3& mat )
+void idSaveGame::WriteMat3( const Matrix3& mat )
 {
 	file->WriteBig( mat );
 }
@@ -405,7 +405,7 @@ void idSaveGame::WriteMat3( const budMat3& mat )
 idSaveGame::WriteAngles
 ================
 */
-void idSaveGame::WriteAngles( const budAngles& angles )
+void idSaveGame::WriteAngles( const Angles& angles )
 {
 	file->WriteBig( angles );
 }
@@ -446,7 +446,7 @@ void idSaveGame::WriteStaticObject( const idClass& obj )
 idSaveGame::WriteDict
 ================
 */
-void idSaveGame::WriteDict( const idDict* dict )
+void idSaveGame::WriteDict( const Dict* dict )
 {
 	int num;
 	int i;
@@ -956,7 +956,7 @@ idRestoreGame::ReadDecls
 */
 void idRestoreGame::ReadDecls()
 {
-	budStr declName;
+	String declName;
 	for( int t = 0; t < declManager->GetNumDeclTypes(); t++ )
 	{
 		while( true )
@@ -979,7 +979,7 @@ void idRestoreGame::CreateObjects
 void idRestoreGame::CreateObjects()
 {
 	int i, num;
-	budStr classname;
+	String classname;
 	idTypeInfo* type;
 	
 	ReadInt( num );
@@ -1037,10 +1037,10 @@ void idRestoreGame::RestoreObjects()
 	}
 	
 #ifdef ID_DEBUG_MEMORY
-	budStr gameState = file->GetName();
+	String gameState = file->GetName();
 	gameState.StripFileExtension();
-	WriteGameState_f( budCmdArgs( va( "test %s_restore", gameState.c_str() ), false ) );
-	//CompareGameState_f( budCmdArgs( va( "test %s_save", gameState.c_str() ) ) );
+	WriteGameState_f( CmdArgs( va( "test %s_restore", gameState.c_str() ), false ) );
+	//CompareGameState_f( CmdArgs( va( "test %s_save", gameState.c_str() ) ) );
 	gameLocal.Error( "dumped game states" );
 #endif
 }
@@ -1183,7 +1183,7 @@ void idRestoreGame::ReadBool( bool& value )
 idRestoreGame::ReadString
 ================
 */
-void idRestoreGame::ReadString( budStr& string )
+void idRestoreGame::ReadString( String& string )
 {
 	string.Empty();
 	
@@ -1206,7 +1206,7 @@ void idRestoreGame::ReadString( budStr& string )
 idRestoreGame::ReadVec2
 ================
 */
-void idRestoreGame::ReadVec2( budVec2& vec )
+void idRestoreGame::ReadVec2( Vector2& vec )
 {
 	file->ReadBig( vec );
 }
@@ -1216,7 +1216,7 @@ void idRestoreGame::ReadVec2( budVec2& vec )
 idRestoreGame::ReadVec3
 ================
 */
-void idRestoreGame::ReadVec3( budVec3& vec )
+void idRestoreGame::ReadVec3( Vector3& vec )
 {
 	file->ReadBig( vec );
 }
@@ -1226,7 +1226,7 @@ void idRestoreGame::ReadVec3( budVec3& vec )
 idRestoreGame::ReadVec4
 ================
 */
-void idRestoreGame::ReadVec4( budVec4& vec )
+void idRestoreGame::ReadVec4( Vector4& vec )
 {
 	file->ReadBig( vec );
 }
@@ -1236,7 +1236,7 @@ void idRestoreGame::ReadVec4( budVec4& vec )
 idRestoreGame::ReadVec6
 ================
 */
-void idRestoreGame::ReadVec6( budVec6& vec )
+void idRestoreGame::ReadVec6( Vector6& vec )
 {
 	file->ReadBig( vec );
 }
@@ -1263,7 +1263,7 @@ void idRestoreGame::ReadWinding( idWinding& w )
 	w.SetNumPoints( num );
 	for( i = 0; i < num; i++ )
 	{
-		budVec5& v = w[i];
+		Vector5& v = w[i];
 		file->ReadBig( v );
 	}
 }
@@ -1273,7 +1273,7 @@ void idRestoreGame::ReadWinding( idWinding& w )
 idRestoreGame::ReadMat3
 ================
 */
-void idRestoreGame::ReadMat3( budMat3& mat )
+void idRestoreGame::ReadMat3( Matrix3& mat )
 {
 	file->ReadBig( mat );
 }
@@ -1283,7 +1283,7 @@ void idRestoreGame::ReadMat3( budMat3& mat )
 idRestoreGame::ReadAngles
 ================
 */
-void idRestoreGame::ReadAngles( budAngles& angles )
+void idRestoreGame::ReadAngles( Angles& angles )
 {
 	file->ReadBig( angles );
 }
@@ -1320,12 +1320,12 @@ void idRestoreGame::ReadStaticObject( idClass& obj )
 idRestoreGame::ReadDict
 ================
 */
-void idRestoreGame::ReadDict( idDict* dict )
+void idRestoreGame::ReadDict( Dict* dict )
 {
 	int num;
 	int i;
-	budStr key;
-	budStr value;
+	String key;
+	String value;
 	
 	ReadInt( num );
 	
@@ -1352,7 +1352,7 @@ idRestoreGame::ReadMaterial
 */
 void idRestoreGame::ReadMaterial( const budMaterial*& material )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1372,7 +1372,7 @@ idRestoreGame::ReadSkin
 */
 void idRestoreGame::ReadSkin( const budDeclSkin*& skin )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1392,7 +1392,7 @@ idRestoreGame::ReadParticle
 */
 void idRestoreGame::ReadParticle( const budDeclParticle*& particle )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1412,7 +1412,7 @@ idRestoreGame::ReadFX
 */
 void idRestoreGame::ReadFX( const budDeclFX*& fx )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1432,7 +1432,7 @@ idRestoreGame::ReadSoundShader
 */
 void idRestoreGame::ReadSoundShader( const idSoundShader*& shader )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1452,7 +1452,7 @@ idRestoreGame::ReadModelDef
 */
 void idRestoreGame::ReadModelDef( const budDeclModelDef*& modelDef )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1472,7 +1472,7 @@ idRestoreGame::ReadModel
 */
 void idRestoreGame::ReadModel( budRenderModel*& model )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )
@@ -1492,7 +1492,7 @@ idRestoreGame::ReadUserInterface
 */
 void idRestoreGame::ReadUserInterface( budUserInterface*& ui )
 {
-	budStr name;
+	String name;
 	
 	ReadString( name );
 	if( !name.Length() )

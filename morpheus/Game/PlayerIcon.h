@@ -47,7 +47,7 @@ public:
 	~budPlayerIcon();
 	
 	void	Draw( budPlayer* player, jointHandle_t joint );
-	void	Draw( budPlayer* player, const budVec3& origin );
+	void	Draw( budPlayer* player, const Vector3& origin );
 	
 public:
 	playerIconType_t	iconType;
@@ -56,9 +56,9 @@ public:
 	
 public:
 	void	FreeIcon();
-	bool	CreateIcon( budPlayer* player, playerIconType_t type, const char* mtr, const budVec3& origin, const budMat3& axis );
-	bool	CreateIcon( budPlayer* player, playerIconType_t type, const budVec3& origin, const budMat3& axis );
-	void	UpdateIcon( budPlayer* player, const budVec3& origin, const budMat3& axis );
+	bool	CreateIcon( budPlayer* player, playerIconType_t type, const char* mtr, const Vector3& origin, const Matrix3& axis );
+	bool	CreateIcon( budPlayer* player, playerIconType_t type, const Vector3& origin, const Matrix3& axis );
+	void	UpdateIcon( budPlayer* player, const Vector3& origin, const Matrix3& axis );
 	
 };
 

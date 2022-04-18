@@ -47,10 +47,10 @@ extern const int	RB_VELOCITY_MANTISSA_BITS;
 
 typedef struct rididBodyIState_s
 {
-	budVec3					position;					// position of trace model
-	budMat3					orientation;				// orientation of trace model
-	budVec3					linearMomentum;				// translational momentum relative to center of mass
-	budVec3					angularMomentum;			// rotational momentum relative to center of mass
+	Vector3					position;					// position of trace model
+	Matrix3					orientation;				// orientation of trace model
+	Vector3					linearMomentum;				// translational momentum relative to center of mass
+	Vector3					angularMomentum;			// rotational momentum relative to center of mass
 	
 	rididBodyIState_s() :
 		position( vec3_zero ),
@@ -65,11 +65,11 @@ typedef struct rigidBodyPState_s
 {
 	int						atRest;						// set when simulation is suspended
 	float					lastTimeStep;				// length of last time step
-	budVec3					localOrigin;				// origin relative to master
-	budMat3					localAxis;					// axis relative to master
-	budVec6					pushVelocity;				// push velocity
-	budVec3					externalForce;				// external force relative to center of mass
-	budVec3					externalTorque;				// external torque relative to center of mass
+	Vector3					localOrigin;				// origin relative to master
+	Matrix3					localAxis;					// axis relative to master
+	Vector6					pushVelocity;				// push velocity
+	Vector3					externalForce;				// external force relative to center of mass
+	Vector3					externalTorque;				// external torque relative to center of mass
 	rigidBodyIState_t		i;							// state used for integration
 	
 	rigidBodyPState_s() :
@@ -124,13 +124,13 @@ public:	// common physics interface
 	
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
 	bool					Interpolate( const float fraction );
-	void					ResetInterpolationState( const budVec3& origin, const budMat3& axis );
+	void					ResetInterpolationState( const Vector3& origin, const Matrix3& axis );
 	void					UpdateTime( int endTimeMSec );
 	int						GetTime() const;
 	
-	void					GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const;
-	void					ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse );
-	void					AddForce( const int id, const budVec3& point, const budVec3& force );
+	void					GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const;
+	void					ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse );
+	void					AddForce( const int id, const Vector3& point, const Vector3& force );
 	void					Activate();
 	void					PutToRest();
 	bool					IsAtRest() const;
@@ -140,23 +140,23 @@ public:	// common physics interface
 	void					SaveState();
 	void					RestoreState();
 	
-	void					SetOrigin( const budVec3& newOrigin, int id = -1 );
-	void					SetAxis( const budMat3& newAxis, int id = -1 );
+	void					SetOrigin( const Vector3& newOrigin, int id = -1 );
+	void					SetAxis( const Matrix3& newAxis, int id = -1 );
 	
-	void					Translate( const budVec3& translation, int id = -1 );
-	void					Rotate( const budRotation& rotation, int id = -1 );
+	void					Translate( const Vector3& translation, int id = -1 );
+	void					Rotate( const Rotation& rotation, int id = -1 );
 	
-	const budVec3& 			GetOrigin( int id = 0 ) const;
-	const budMat3& 			GetAxis( int id = 0 ) const;
+	const Vector3& 			GetOrigin( int id = 0 ) const;
+	const Matrix3& 			GetAxis( int id = 0 ) const;
 	
-	void					SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 );
-	void					SetAngularVelocity( const budVec3& newAngularVelocity, int id = 0 );
+	void					SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 );
+	void					SetAngularVelocity( const Vector3& newAngularVelocity, int id = 0 );
 	
-	const budVec3& 			GetLinearVelocity( int id = 0 ) const;
-	const budVec3& 			GetAngularVelocity( int id = 0 ) const;
+	const Vector3& 			GetLinearVelocity( int id = 0 ) const;
+	const Vector3& 			GetAngularVelocity( int id = 0 ) const;
 	
-	void					ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const;
-	void					ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const;
+	void					ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const;
+	void					ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const;
 	int						ClipContents( const budClipModel* model ) const;
 	
 	void					DisableClip();
@@ -168,8 +168,8 @@ public:	// common physics interface
 	bool					EvaluateContacts();
 	
 	void					SetPushed( int deltaTime );
-	const budVec3& 			GetPushedLinearVelocity( const int id = 0 ) const;
-	const budVec3& 			GetPushedAngularVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedLinearVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedAngularVelocity( const int id = 0 ) const;
 	
 	void					SetMaster( idEntity* master, const bool orientated );
 	
@@ -195,9 +195,9 @@ private:
 	// derived properties
 	float					mass;						// mass of body
 	float					inverseMass;				// 1 / mass
-	budVec3					centerOfMass;				// center of mass of trace model
-	budMat3					inertiaTensor;				// mass distribution
-	budMat3					inverseInertiaTensor;		// inverse inertia tensor
+	Vector3					centerOfMass;				// center of mass of trace model
+	Matrix3					inertiaTensor;				// mass distribution
+	Matrix3					inverseInertiaTensor;		// inverse inertia tensor
 	
 	idODE* 					integrator;					// integrator
 	bool					dropToFloor;				// true if dropping to the floor and putting to rest
@@ -213,7 +213,7 @@ private:
 	friend void				RigidBodyDerivatives( const float t, const void* clientData, const float* state, float* derivatives );
 	void					Integrate( const float deltaTime, rigidBodyPState_t& next );
 	bool					CheckForCollisions( const float deltaTime, rigidBodyPState_t& next, trace_t& collision );
-	bool					CollisionImpulse( const trace_t& collision, budVec3& impulse );
+	bool					CollisionImpulse( const trace_t& collision, Vector3& impulse );
 	void					ContactFriction( float deltaTime );
 	void					DropToFloorAndRest();
 	bool					TestIfAtRest() const;

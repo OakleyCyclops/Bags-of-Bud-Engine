@@ -52,33 +52,33 @@ public:
 	
 	virtual bool			ShouldConstructScriptObjectAtSpawn() const;
 	
-	void					NextAnim( const budCmdArgs& args );
-	void					PrevAnim( const budCmdArgs& args );
-	void					NextFrame( const budCmdArgs& args );
-	void					PrevFrame( const budCmdArgs& args );
-	void					TestAnim( const budCmdArgs& args );
-	void					BlendAnim( const budCmdArgs& args );
+	void					NextAnim( const CmdArgs& args );
+	void					PrevAnim( const CmdArgs& args );
+	void					NextFrame( const CmdArgs& args );
+	void					PrevFrame( const CmdArgs& args );
+	void					TestAnim( const CmdArgs& args );
+	void					BlendAnim( const CmdArgs& args );
 	
-	static void 			KeepTestModel_f( const budCmdArgs& args );
-	static void 			TestModel_f( const budCmdArgs& args );
-	static void				ArgCompletion_TestModel( const budCmdArgs& args, void( *callback )( const char* s ) );
-	static void 			TestSkin_f( const budCmdArgs& args );
-	static void 			TestShaderParm_f( const budCmdArgs& args );
-	static void 			TestParticleStopTime_f( const budCmdArgs& args );
-	static void 			TestAnim_f( const budCmdArgs& args );
-	static void				ArgCompletion_TestAnim( const budCmdArgs& args, void( *callback )( const char* s ) );
-	static void 			TestBlend_f( const budCmdArgs& args );
-	static void 			TestModelNextAnim_f( const budCmdArgs& args );
-	static void 			TestModelPrevAnim_f( const budCmdArgs& args );
-	static void 			TestModelNextFrame_f( const budCmdArgs& args );
-	static void 			TestModelPrevFrame_f( const budCmdArgs& args );
+	static void 			KeepTestModel_f( const CmdArgs& args );
+	static void 			TestModel_f( const CmdArgs& args );
+	static void				ArgCompletion_TestModel( const CmdArgs& args, void( *callback )( const char* s ) );
+	static void 			TestSkin_f( const CmdArgs& args );
+	static void 			TestShaderParm_f( const CmdArgs& args );
+	static void 			TestParticleStopTime_f( const CmdArgs& args );
+	static void 			TestAnim_f( const CmdArgs& args );
+	static void				ArgCompletion_TestAnim( const CmdArgs& args, void( *callback )( const char* s ) );
+	static void 			TestBlend_f( const CmdArgs& args );
+	static void 			TestModelNextAnim_f( const CmdArgs& args );
+	static void 			TestModelPrevAnim_f( const CmdArgs& args );
+	static void 			TestModelNextFrame_f( const CmdArgs& args );
+	static void 			TestModelPrevFrame_f( const CmdArgs& args );
 	
 private:
 	idEntityPtr<idEntity>	head;
 	budAnimator*				headAnimator;
 	budAnim					customAnim;
 	idPhysics_Parametric	physicsObj;
-	budStr					animname;
+	String					animname;
 	int						anim;
 	int						headAnim;
 	int						mode;
@@ -86,7 +86,7 @@ private:
 	int						starttime;
 	int						animtime;
 	
-	budList<copyJoints_t>	copyJoints;
+	List<copyJoints_t>	copyJoints;
 	
 	virtual void			Think();
 	

@@ -51,7 +51,7 @@ void idMenuWidget_Shell_SaveInfo::Update()
 	const saveGameDetailsList_t& saveGameInfo = session->GetSaveGameManager().GetEnumeratedSavegames();
 	
 	saveGameDetailsList_t sortedSaves = saveGameInfo;
-	sortedSaves.Sort( budSort_SavesByDate() );
+	sortedSaves.Sort( Sort_SavesByDate() );
 	
 	for( int slot = 0; slot < sortedSaves.Num(); ++slot )
 	{
@@ -63,7 +63,7 @@ void idMenuWidget_Shell_SaveInfo::Update()
 		}
 	}
 	
-	budStr info;
+	String info;
 	if( loadIndex >= 0 && sortedSaves.Num() != 0 && loadIndex < sortedSaves.Num() )
 	{
 		const idSaveGameDetails& details = sortedSaves[ loadIndex ];
@@ -106,7 +106,7 @@ void idMenuWidget_Shell_SaveInfo::Update()
 				break;
 		}
 		
-		budStr summary;
+		String summary;
 		summary.Format( budLocalization::GetString( "#str_swf_save_info_format" ), difficultyStr, Sys_SecToStr( details.GetPlaytime() ), expansionStr );
 		
 		info.Append( summary );

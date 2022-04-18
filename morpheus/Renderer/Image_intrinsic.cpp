@@ -301,7 +301,7 @@ void R_FogImage( budImage* image )
 		{
 			float	d;
 			
-			d = budMath::Sqrt( ( x - FOG_SIZE / 2 ) * ( x - FOG_SIZE / 2 )
+			d = Math::Sqrt( ( x - FOG_SIZE / 2 ) * ( x - FOG_SIZE / 2 )
 							  + ( y - FOG_SIZE / 2 ) * ( y - FOG_SIZE / 2 ) );
 			d /= FOG_SIZE / 2 - 1;
 			
@@ -341,7 +341,7 @@ static const float	RAMP_RANGE =	8;
 static const float	DEEP_RANGE =	-30;
 static float	FogFraction( float viewHeight, float targetHeight )
 {
-	float	total = budMath::Fabs( targetHeight - viewHeight );
+	float	total = Math::Fabs( targetHeight - viewHeight );
 	
 //	return targetHeight >= 0 ? 0 : 1.0;
 
@@ -481,7 +481,7 @@ void R_QuadraticImage( budImage* image )
 			float	d;
 			
 			d = x - ( QUADRATIC_WIDTH / 2 - 0.5 );
-			d = budMath::Fabs( d );
+			d = Math::Fabs( d );
 			d -= 0.5;
 			d /= QUADRATIC_WIDTH / 2;
 			
@@ -631,7 +631,7 @@ static void R_CreateHeatmap5ColorsImage( budImage* image )
 	byte	data[16][FALLOFF_TEXTURE_SIZE][4];
 	
 	const int numColors = 5;
-	static budVec4 colors[numColors] = { colorBlue, colorCyan, colorGreen, colorYellow, colorRed };
+	static Vector4 colors[numColors] = { colorBlue, colorCyan, colorGreen, colorYellow, colorRed };
 	
 	memset( data, 0, sizeof( data ) );
 	for( x = 0 ; x < FALLOFF_TEXTURE_SIZE; x++ )
@@ -653,12 +653,12 @@ static void R_CreateHeatmap5ColorsImage( budImage* image )
 		else
 		{
 			value = value * ( numColors - 1 );
-			index1 = budMath::Floor( value );
+			index1 = Math::Floor( value );
 			index2 = index1 + 1;
 			lerp = value - float( index1 );
 		}
 		
-		budVec4 color( 0, 0, 0, 1 );
+		Vector4 color( 0, 0, 0, 1 );
 		
 		color.x = ( colors[index2].x - colors[index1].x ) * lerp + colors[index1].x;
 		color.y = ( colors[index2].y - colors[index1].y ) * lerp + colors[index1].y;
@@ -682,7 +682,7 @@ static void R_CreateHeatmap7ColorsImage( budImage* image )
 	byte	data[16][FALLOFF_TEXTURE_SIZE][4];
 	
 	const int numColors = 7;
-	static budVec4 colors[numColors] = { colorBlack, colorBlue, colorCyan, colorGreen, colorYellow, colorRed, colorWhite };
+	static Vector4 colors[numColors] = { colorBlack, colorBlue, colorCyan, colorGreen, colorYellow, colorRed, colorWhite };
 	
 	memset( data, 0, sizeof( data ) );
 	for( x = 0 ; x < FALLOFF_TEXTURE_SIZE; x++ )
@@ -704,12 +704,12 @@ static void R_CreateHeatmap7ColorsImage( budImage* image )
 		else
 		{
 			value = value * ( numColors - 1 );
-			index1 = budMath::Floor( value );
+			index1 = Math::Floor( value );
 			index2 = index1 + 1;
 			lerp = value - float( index1 );
 		}
 		
-		budVec4 color( 0, 0, 0, 1 );
+		Vector4 color( 0, 0, 0, 1 );
 		
 		color.x = ( colors[index2].x - colors[index1].x ) * lerp + colors[index1].x;
 		color.y = ( colors[index2].y - colors[index1].y ) * lerp + colors[index1].y;

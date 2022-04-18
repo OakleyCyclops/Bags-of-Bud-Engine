@@ -333,11 +333,11 @@ bool budAASReach::Reachability_Step_Barrier_WaterJump_WalkOffLedge( int area1num
 	float dist, dist1, dist2, diff, invGravityDot, orthogonalDot;
 	float x1, x2, x3, x4, y1, y2, y3, y4, tmp, y;
 	float length, floor_bestLength, water_bestLength, floor_bestDist, water_bestDist;
-	budVec3 v1, v2, v3, v4, tmpv, p1area1, p1area2, p2area1, p2area2;
-	budVec3 normal, orthogonal, edgeVec, start, end;
-	budVec3 floor_bestStart, floor_bestEnd, floor_bestNormal;
-	budVec3 water_bestStart, water_bestEnd, water_bestNormal;
-	budVec3 testPoint;
+	Vector3 v1, v2, v3, v4, tmpv, p1area1, p1area2, p2area1, p2area2;
+	Vector3 normal, orthogonal, edgeVec, start, end;
+	Vector3 floor_bestStart, floor_bestEnd, floor_bestNormal;
+	Vector3 water_bestStart, water_bestEnd, water_bestNormal;
+	Vector3 testPoint;
 	budPlane* plane;
 	aasArea_t* area1, *area2;
 	aasFace_t* floorFace1, *floorFace2, *floor_bestFace1, *water_bestFace1;
@@ -813,7 +813,7 @@ bool budAASReach::Reachability_Step_Barrier_WaterJump_WalkOffLedge( int area1num
 				return true;
 			}
 			// if no maximum fall height set or less than the max
-			if( !file->settings.maxFallHeight || budMath::Fabs( floor_bestDist ) < file->settings.maxFallHeight )
+			if( !file->settings.maxFallHeight || Math::Fabs( floor_bestDist ) < file->settings.maxFallHeight )
 			{
 				// trace a bounding box vertically to check for solids
 				floor_bestEnd += INSIDEUNITS * floor_bestNormal;
@@ -848,7 +848,7 @@ bool budAASReach::Reachability_Step_Barrier_WaterJump_WalkOffLedge( int area1num
 							walkOffLedgeReach->start = floor_bestStart;
 							walkOffLedgeReach->end = floor_bestEnd;
 							walkOffLedgeReach->edgeNum = abs( floor_bestArea1FloorEdgeNum );
-							walkOffLedgeReach->travelTime = file->settings.tt_startWalkOffLedge + budMath::Fabs( floor_bestDist ) * 50 / file->settings.gravityValue;
+							walkOffLedgeReach->travelTime = file->settings.tt_startWalkOffLedge + Math::Fabs( floor_bestDist ) * 50 / file->settings.gravityValue;
 							AddReachabilityToArea( walkOffLedgeReach, area1num );
 							return true;
 						}
@@ -872,7 +872,7 @@ void budAASReach::Reachability_WalkOffLedge( int areaNum )
 	aasFace_t* face;
 	aasEdge_t* edge;
 	budPlane* plane;
-	budVec3 v1, v2, mid, dir, testEnd;
+	Vector3 v1, v2, mid, dir, testEnd;
 	idReachability_WalkOffLedge* reach;
 	aasTrace_t trace;
 	
@@ -927,7 +927,7 @@ void budAASReach::Reachability_WalkOffLedge( int areaNum )
 			{
 				continue;
 			}
-			if( budMath::Fabs( mid[2] - trace.endpos[2] ) > file->settings.maxFallHeight )
+			if( Math::Fabs( mid[2] - trace.endpos[2] ) > file->settings.maxFallHeight )
 			{
 				continue;
 			}
@@ -959,7 +959,7 @@ void budAASReach::Reachability_WalkOffLedge( int areaNum )
 			reach->start = mid;
 			reach->end = trace.endpos;
 			reach->edgeNum = abs( edgeNum );
-			reach->travelTime = file->settings.tt_startWalkOffLedge + budMath::Fabs( mid[2] - trace.endpos[2] ) * 50 / file->settings.gravityValue;
+			reach->travelTime = file->settings.tt_startWalkOffLedge + Math::Fabs( mid[2] - trace.endpos[2] ) * 50 / file->settings.gravityValue;
 			AddReachabilityToArea( reach, areaNum );
 		}
 	}

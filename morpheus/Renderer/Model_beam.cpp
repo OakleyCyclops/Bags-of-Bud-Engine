@@ -89,7 +89,7 @@ budRenderModel* budRenderModelBeam::InstantiateDynamicModel( const struct render
 	{
 	
 		assert( dynamic_cast<budRenderModelStatic*>( cachedModel ) != NULL );
-		assert( budStr::Icmp( cachedModel->Name(), beam_SnapshotName ) == 0 );
+		assert( String::Icmp( cachedModel->Name(), beam_SnapshotName ) == 0 );
 		
 		staticModel = static_cast<budRenderModelStatic*>( cachedModel );
 		surf = *staticModel->Surface( 0 );
@@ -134,21 +134,21 @@ budRenderModel* budRenderModelBeam::InstantiateDynamicModel( const struct render
 		staticModel->AddSurface( surf );
 	}
 	
-	budVec3	target = *reinterpret_cast<const budVec3*>( &renderEntity->shaderParms[SHADERPARM_BEAM_END_X] );
+	Vector3	target = *reinterpret_cast<const Vector3*>( &renderEntity->shaderParms[SHADERPARM_BEAM_END_X] );
 	
 	// we need the view direction to project the minor axis of the tube
 	// as the view changes
-	budVec3	localView, localTarget;
+	Vector3	localView, localTarget;
 	float	modelMatrix[16];
 	R_AxisToModelMatrix( renderEntity->axis, renderEntity->origin, modelMatrix );
 	R_GlobalPointToLocal( modelMatrix, viewDef->renderView.vieworg, localView );
 	R_GlobalPointToLocal( modelMatrix, target, localTarget );
 	
-	budVec3	major = localTarget;
-	budVec3	minor;
+	Vector3	major = localTarget;
+	Vector3	minor;
 	
-	budVec3	mid = 0.5f * localTarget;
-	budVec3	dir = mid - localView;
+	Vector3	mid = 0.5f * localTarget;
+	Vector3	dir = mid - localView;
 	minor.Cross( major, dir );
 	minor.Normalize();
 	if( renderEntity->shaderParms[SHADERPARM_BEAM_WIDTH] != 0.0f )
@@ -156,10 +156,10 @@ budRenderModel* budRenderModelBeam::InstantiateDynamicModel( const struct render
 		minor *= renderEntity->shaderParms[SHADERPARM_BEAM_WIDTH] * 0.5f;
 	}
 	
-	int red		= budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_RED] * 255.0f );
-	int green	= budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_GREEN] * 255.0f );
-	int blue	= budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_BLUE] * 255.0f );
-	int alpha	= budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_ALPHA] * 255.0f );
+	int red		= Math::Ftoi( renderEntity->shaderParms[SHADERPARM_RED] * 255.0f );
+	int green	= Math::Ftoi( renderEntity->shaderParms[SHADERPARM_GREEN] * 255.0f );
+	int blue	= Math::Ftoi( renderEntity->shaderParms[SHADERPARM_BLUE] * 255.0f );
+	int alpha	= Math::Ftoi( renderEntity->shaderParms[SHADERPARM_ALPHA] * 255.0f );
 	
 	tri->verts[0].xyz = minor;
 	tri->verts[0].color[0] = red;
@@ -208,8 +208,8 @@ budBounds budRenderModelBeam::Bounds( const struct renderEntity_s* renderEntity 
 	}
 	else
 	{
-		budVec3	target = *reinterpret_cast<const budVec3*>( &renderEntity->shaderParms[SHADERPARM_BEAM_END_X] );
-		budVec3	localTarget;
+		Vector3	target = *reinterpret_cast<const Vector3*>( &renderEntity->shaderParms[SHADERPARM_BEAM_END_X] );
+		Vector3	localTarget;
 		float	modelMatrix[16];
 		R_AxisToModelMatrix( renderEntity->axis, renderEntity->origin, modelMatrix );
 		R_GlobalPointToLocal( modelMatrix, target, localTarget );

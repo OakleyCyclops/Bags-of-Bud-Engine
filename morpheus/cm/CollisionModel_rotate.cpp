@@ -61,10 +61,10 @@ CM_RotatePoint
   rotates a point about an arbitrary axis using the tangent of half the rotation angle
 ================
 */
-void CM_RotatePoint( budVec3& point, const budVec3& origin, const budVec3& axis, const float tanHalfAngle )
+void CM_RotatePoint( Vector3& point, const Vector3& origin, const Vector3& axis, const float tanHalfAngle )
 {
 	double d, t, s, c;
-	budVec3 proj, v1, v2;
+	Vector3 proj, v1, v2;
 	
 	point -= origin;
 	proj = axis * ( point * axis );
@@ -89,10 +89,10 @@ CM_RotateEdge
   rotates an edge about an arbitrary axis using the tangent of half the rotation angle
 ================
 */
-void CM_RotateEdge( budVec3& start, budVec3& end, const budVec3& origin, const budVec3& axis, const float tanHalfAngle )
+void CM_RotateEdge( Vector3& start, Vector3& end, const Vector3& origin, const Vector3& axis, const float tanHalfAngle )
 {
 	double d, t, s, c;
-	budVec3 proj, v1, v2;
+	Vector3 proj, v1, v2;
 	
 	// r = tan( a / 2 );
 	// sin(a) = 2*r/(1+r*r);
@@ -123,12 +123,12 @@ budCollisionModelManagerLocal::CollisionBetweenEdgeBounds
   also calculates the collision point and collision plane normal if the collision occurs between the bounds
 ================
 */
-int budCollisionModelManagerLocal::CollisionBetweenEdgeBounds( cm_traceWork_t* tw, const budVec3& va, const budVec3& vb,
-		const budVec3& vc, const budVec3& vd, float tanHalfAngle,
-		budVec3& collisionPoint, budVec3& collisionNormal )
+int budCollisionModelManagerLocal::CollisionBetweenEdgeBounds( cm_traceWork_t* tw, const Vector3& va, const Vector3& vb,
+		const Vector3& vc, const Vector3& vd, float tanHalfAngle,
+		Vector3& collisionPoint, Vector3& collisionNormal )
 {
 	float d1, d2, d;
-	budVec3 at, bt, dir, dir1, dir2;
+	Vector3 at, bt, dir, dir1, dir2;
 	idPluecker	pl1, pl2;
 	
 	at = va;
@@ -198,11 +198,11 @@ budCollisionModelManagerLocal::RotateEdgeThroughEdge
 ================
 */
 int budCollisionModelManagerLocal::RotateEdgeThroughEdge( cm_traceWork_t* tw, const idPluecker& pl1,
-		const budVec3& vc, const budVec3& vd,
+		const Vector3& vc, const Vector3& vd,
 		const float minTan, float& tanHalfAngle )
 {
 	double v0, v1, v2, a, b, c, d, sqrtd, q, frac1, frac2;
-	budVec3 ct, dt;
+	Vector3 ct, dt;
 	idPluecker pl2;
 	
 	/*
@@ -323,7 +323,7 @@ int budCollisionModelManagerLocal::RotateEdgeThroughEdge( cm_traceWork_t* tw, co
 			return false;
 		}
 		frac1 = -c / ( 2.0f * b );
-		frac2 = 1e10;	// = tan( budMath::HALF_PI )
+		frac2 = 1e10;	// = tan( Math::HALF_PI )
 	}
 	else
 	{
@@ -379,11 +379,11 @@ budCollisionModelManagerLocal::EdgeFurthestFromEdge
 ================
 */
 int budCollisionModelManagerLocal::EdgeFurthestFromEdge( cm_traceWork_t* tw, const idPluecker& pl1,
-		const budVec3& vc, const budVec3& vd,
+		const Vector3& vc, const Vector3& vd,
 		float& tanHalfAngle, float& dir )
 {
 	double v0, v1, v2, a, b, c, d, sqrtd, q, frac1, frac2;
-	budVec3 ct, dt;
+	Vector3 ct, dt;
 	idPluecker pl2;
 	
 	/*
@@ -461,7 +461,7 @@ int budCollisionModelManagerLocal::EdgeFurthestFromEdge( cm_traceWork_t* tw, con
 			return false;
 		}
 		frac1 = -c / ( 2.0f * b );
-		frac2 = 1e10;	// = tan( budMath::HALF_PI )
+		frac2 = 1e10;	// = tan( Math::HALF_PI )
 	}
 	else
 	{
@@ -522,7 +522,7 @@ void budCollisionModelManagerLocal::RotateTrmEdgeThroughPolygon( cm_traceWork_t*
 	float f1, f2, startTan, dir, tanHalfAngle;
 	cm_edge_t* edge;
 	cm_vertex_t* v1, *v2;
-	budVec3 collisionPoint, collisionNormal, origin, epsDir;
+	Vector3 collisionPoint, collisionNormal, origin, epsDir;
 	idPluecker epsPl;
 	budBounds bounds;
 	
@@ -613,7 +613,7 @@ void budCollisionModelManagerLocal::RotateTrmEdgeThroughPolygon( cm_traceWork_t*
 				// moving towards the polygon edge so stop immediately
 				tanHalfAngle = 0.0f;
 			}
-			else if( budMath::Fabs( startTan ) >= tw->maxTan )
+			else if( Math::Fabs( startTan ) >= tw->maxTan )
 			{
 				// never going to get beyond the start tangent during the current rotation
 				continue;
@@ -621,7 +621,7 @@ void budCollisionModelManagerLocal::RotateTrmEdgeThroughPolygon( cm_traceWork_t*
 			else
 			{
 				// collide with the epsilon expanded edge
-				if( !RotateEdgeThroughEdge( tw, trmEdge->plzaxis, v1->p + epsDir, v2->p + epsDir, budMath::Fabs( startTan ), tanHalfAngle ) )
+				if( !RotateEdgeThroughEdge( tw, trmEdge->plzaxis, v1->p + epsDir, v2->p + epsDir, Math::Fabs( startTan ), tanHalfAngle ) )
 				{
 					tanHalfAngle = startTan;
 				}
@@ -637,7 +637,7 @@ void budCollisionModelManagerLocal::RotateTrmEdgeThroughPolygon( cm_traceWork_t*
 			}
 		}
 		
-		if( budMath::Fabs( tanHalfAngle ) >= tw->maxTan )
+		if( Math::Fabs( tanHalfAngle ) >= tw->maxTan )
 		{
 			continue;
 		}
@@ -657,7 +657,7 @@ void budCollisionModelManagerLocal::RotateTrmEdgeThroughPolygon( cm_traceWork_t*
 		}
 		
 		// fill in trace structure
-		tw->maxTan = budMath::Fabs( tanHalfAngle );
+		tw->maxTan = Math::Fabs( tanHalfAngle );
 		tw->trace.c.normal = collisionNormal;
 		tw->trace.c.normal.Normalize();
 		tw->trace.c.dist = tw->trace.c.normal * v1->p;
@@ -688,11 +688,11 @@ budCollisionModelManagerLocal::RotatePointThroughPlane
   calculates the tangent of half the rotation angle at which the point collides with the plane
 ================
 */
-int budCollisionModelManagerLocal::RotatePointThroughPlane( const cm_traceWork_t* tw, const budVec3& point, const budPlane& plane,
+int budCollisionModelManagerLocal::RotatePointThroughPlane( const cm_traceWork_t* tw, const Vector3& point, const budPlane& plane,
 		const float angle, const float minTan, float& tanHalfAngle )
 {
 	double v0, v1, v2, a, b, c, d, sqrtd, q, frac1, frac2;
-	budVec3 p, normal;
+	Vector3 p, normal;
 	
 	/*
 	
@@ -749,7 +749,7 @@ int budCollisionModelManagerLocal::RotatePointThroughPlane( const cm_traceWork_t
 			return false;
 		}
 		frac1 = -c / ( 2.0f * b );
-		frac2 = 1e10;	// = tan( budMath::HALF_PI )
+		frac2 = 1e10;	// = tan( Math::HALF_PI )
 	}
 	else
 	{
@@ -804,12 +804,12 @@ budCollisionModelManagerLocal::PointFurthestFromPlane
   the point is furthest away from the plane is also calculated
 ================
 */
-int budCollisionModelManagerLocal::PointFurthestFromPlane( const cm_traceWork_t* tw, const budVec3& point, const budPlane& plane,
+int budCollisionModelManagerLocal::PointFurthestFromPlane( const cm_traceWork_t* tw, const Vector3& point, const budPlane& plane,
 		const float angle, float& tanHalfAngle, float& dir )
 {
 
 	double v1, v2, a, b, c, d, sqrtd, q, frac1, frac2;
-	budVec3 p, normal;
+	Vector3 p, normal;
 	
 	/*
 	
@@ -868,7 +868,7 @@ int budCollisionModelManagerLocal::PointFurthestFromPlane( const cm_traceWork_t*
 			return false;
 		}
 		frac1 = -c / ( 2.0f * b );
-		frac2 = 1e10;	// = tan( budMath::HALF_PI )
+		frac2 = 1e10;	// = tan( Math::HALF_PI )
 	}
 	else
 	{
@@ -923,12 +923,12 @@ int budCollisionModelManagerLocal::PointFurthestFromPlane( const cm_traceWork_t*
 budCollisionModelManagerLocal::RotatePointThroughEpsilonPlane
 ================
 */
-int budCollisionModelManagerLocal::RotatePointThroughEpsilonPlane( const cm_traceWork_t* tw, const budVec3& point, const budVec3& endPoint,
-		const budPlane& plane, const float angle, const budVec3& origin,
-		float& tanHalfAngle, budVec3& collisionPoint, budVec3& endDir )
+int budCollisionModelManagerLocal::RotatePointThroughEpsilonPlane( const cm_traceWork_t* tw, const Vector3& point, const Vector3& endPoint,
+		const budPlane& plane, const float angle, const Vector3& origin,
+		float& tanHalfAngle, Vector3& collisionPoint, Vector3& endDir )
 {
 	float d, dir, startTan;
-	budVec3 vec, startDir;
+	Vector3 vec, startDir;
 	budPlane epsPlane;
 	
 	// epsilon expanded plane
@@ -987,7 +987,7 @@ int budCollisionModelManagerLocal::RotatePointThroughEpsilonPlane( const cm_trac
 			// moving towards the polygon plane so stop immediately
 			tanHalfAngle = 0.0f;
 		}
-		else if( budMath::Fabs( startTan ) >= tw->maxTan )
+		else if( Math::Fabs( startTan ) >= tw->maxTan )
 		{
 			// never going to get beyond the start tangent during the current rotation
 			return false;
@@ -995,7 +995,7 @@ int budCollisionModelManagerLocal::RotatePointThroughEpsilonPlane( const cm_trac
 		else
 		{
 			// calculate collision with epsilon expanded plane
-			if( !RotatePointThroughPlane( tw, point, epsPlane, angle, budMath::Fabs( startTan ), tanHalfAngle ) )
+			if( !RotatePointThroughPlane( tw, point, epsPlane, angle, Math::Fabs( startTan ), tanHalfAngle ) )
 			{
 				tanHalfAngle = startTan;
 			}
@@ -1034,7 +1034,7 @@ void budCollisionModelManagerLocal::RotateTrmVertexThroughPolygon( cm_traceWork_
 {
 	int i;
 	float tanHalfAngle;
-	budVec3 endDir, collisionPoint;
+	Vector3 endDir, collisionPoint;
 	idPluecker pl;
 	
 	// if the trm vertex is behind the polygon plane it cannot collide with the polygon within a 180 degrees rotation
@@ -1062,7 +1062,7 @@ void budCollisionModelManagerLocal::RotateTrmVertexThroughPolygon( cm_traceWork_
 		return;
 	}
 	
-	if( budMath::Fabs( tanHalfAngle ) < tw->maxTan )
+	if( Math::Fabs( tanHalfAngle ) < tw->maxTan )
 	{
 		// verify if 'collisionPoint' moving along 'endDir' moves between polygon edges
 		pl.FromRay( collisionPoint, endDir );
@@ -1083,7 +1083,7 @@ void budCollisionModelManagerLocal::RotateTrmVertexThroughPolygon( cm_traceWork_
 				}
 			}
 		}
-		tw->maxTan = budMath::Fabs( tanHalfAngle );
+		tw->maxTan = Math::Fabs( tanHalfAngle );
 		// collision plane is the polygon plane
 		tw->trace.c.normal = poly->plane.Normal();
 		tw->trace.c.dist = poly->plane.Dist();
@@ -1101,11 +1101,11 @@ void budCollisionModelManagerLocal::RotateTrmVertexThroughPolygon( cm_traceWork_
 budCollisionModelManagerLocal::RotateVertexThroughTrmPolygon
 ================
 */
-void budCollisionModelManagerLocal::RotateVertexThroughTrmPolygon( cm_traceWork_t* tw, cm_trmPolygon_t* trmpoly, cm_polygon_t* poly, cm_vertex_t* v, budVec3& rotationOrigin )
+void budCollisionModelManagerLocal::RotateVertexThroughTrmPolygon( cm_traceWork_t* tw, cm_trmPolygon_t* trmpoly, cm_polygon_t* poly, cm_vertex_t* v, Vector3& rotationOrigin )
 {
 	int i, edgeNum;
 	float tanHalfAngle;
-	budVec3 dir, endp, endDir, collisionPoint;
+	Vector3 dir, endp, endDir, collisionPoint;
 	idPluecker pl;
 	cm_trmEdge_t* edge;
 	
@@ -1139,7 +1139,7 @@ void budCollisionModelManagerLocal::RotateVertexThroughTrmPolygon( cm_traceWork_
 		return;
 	}
 	
-	if( budMath::Fabs( tanHalfAngle ) < tw->maxTan )
+	if( Math::Fabs( tanHalfAngle ) < tw->maxTan )
 	{
 		// verify if 'collisionPoint' moving along 'endDir' moves between polygon edges
 		pl.FromRay( collisionPoint, endDir );
@@ -1162,7 +1162,7 @@ void budCollisionModelManagerLocal::RotateVertexThroughTrmPolygon( cm_traceWork_
 				}
 			}
 		}
-		tw->maxTan = budMath::Fabs( tanHalfAngle );
+		tw->maxTan = Math::Fabs( tanHalfAngle );
 		// collision plane is the flipped trm polygon plane
 		tw->trace.c.normal = -trmpoly->plane.Normal();
 		tw->trace.c.dist = tw->trace.c.normal * v->p;
@@ -1191,7 +1191,7 @@ bool budCollisionModelManagerLocal::RotateTrmThroughPolygon( cm_traceWork_t* tw,
 	cm_trmPolygon_t* bp;
 	cm_vertex_t* v;
 	cm_edge_t* e;
-	budVec3* rotationOrigin;
+	Vector3* rotationOrigin;
 	
 	// if already checked this polygon
 	if( p->checkcount == budCollisionModelManagerLocal::checkCount )
@@ -1235,7 +1235,7 @@ bool budCollisionModelManagerLocal::RotateTrmThroughPolygon( cm_traceWork_t* tw,
 	
 	// if the polygon is too far from the first heart plane
 	d = p->bounds.PlaneDistance( tw->heartPlane1 );
-	if( budMath::Fabs( d ) > tw->maxDistFromHeartPlane1 )
+	if( Math::Fabs( d ) > tw->maxDistFromHeartPlane1 )
 	{
 		return false;
 	}
@@ -1367,11 +1367,11 @@ budCollisionModelManagerLocal::BoundsForRotation
   only for rotations < 180 degrees
 ================
 */
-void budCollisionModelManagerLocal::BoundsForRotation( const budVec3& origin, const budVec3& axis, const budVec3& start, const budVec3& end, budBounds& bounds )
+void budCollisionModelManagerLocal::BoundsForRotation( const Vector3& origin, const Vector3& axis, const Vector3& start, const Vector3& end, budBounds& bounds )
 {
 	int i;
 	float radiusSqr;
-	budVec3 v1, v2;
+	Vector3 v1, v2;
 	
 	radiusSqr = ( start - origin ).LengthSqr();
 	v1 = ( start - origin ).Cross( axis );
@@ -1385,11 +1385,11 @@ void budCollisionModelManagerLocal::BoundsForRotation( const budVec3& origin, co
 			if( ( 0.5f * ( start[i] + end[i] ) - origin[i] ) > 0.0f )
 			{
 				bounds[0][i] = Min( start[i], end[i] );
-				bounds[1][i] = origin[i] + budMath::Sqrt( radiusSqr * ( 1.0f - axis[i] * axis[i] ) );
+				bounds[1][i] = origin[i] + Math::Sqrt( radiusSqr * ( 1.0f - axis[i] * axis[i] ) );
 			}
 			else
 			{
-				bounds[0][i] = origin[i] - budMath::Sqrt( radiusSqr * ( 1.0f - axis[i] * axis[i] ) );
+				bounds[0][i] = origin[i] - Math::Sqrt( radiusSqr * ( 1.0f - axis[i] * axis[i] ) );
 				bounds[1][i] = Max( start[i], end[i] );
 			}
 		}
@@ -1414,17 +1414,17 @@ void budCollisionModelManagerLocal::BoundsForRotation( const budVec3& origin, co
 budCollisionModelManagerLocal::Rotation180
 ================
 */
-void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3& rorg, const budVec3& axis,
-		const float startAngle, const float endAngle, const budVec3& start,
-		const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-		cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+void budCollisionModelManagerLocal::Rotation180( trace_t* results, const Vector3& rorg, const Vector3& axis,
+		const float startAngle, const float endAngle, const Vector3& start,
+		const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+		cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	int i, j, edgeNum;
 	float d, maxErr, initialTan;
 	bool model_rotated, trm_rotated;
-	budVec3 dir, dir1, dir2, tmp, vr, vup, org, at, bt;
-	budMat3 invModelAxis, endAxis, tmpAxis;
-	budRotation startRotation, endRotation;
+	Vector3 dir, dir1, dir2, tmp, vr, vup, org, at, bt;
+	Matrix3 invModelAxis, endAxis, tmpAxis;
+	Rotation startRotation, endRotation;
 	idPluecker plaxis;
 	cm_trmPolygon_t* poly;
 	cm_trmEdge_t* edge;
@@ -1455,7 +1455,7 @@ void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3
 	tw.quickExit = false;
 	tw.angle = endAngle - startAngle;
 	assert( tw.angle > -180.0f && tw.angle < 180.0f );
-	tw.maxTan = initialTan = budMath::Fabs( tan( ( budMath::PI / 360.0f ) * tw.angle ) );
+	tw.maxTan = initialTan = Math::Fabs( tan( ( Math::PI / 360.0f ) * tw.angle ) );
 	tw.model = budCollisionModelManagerLocal::models[model];
 	tw.start = start - modelOrigin;
 	// rotation axis, axis is assumed to be normalized
@@ -1471,7 +1471,7 @@ void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3
 	d = tw.radius * tw.radius - ( CIRCLE_APPROXIMATION_LENGTH * CIRCLE_APPROXIMATION_LENGTH * 0.25f );
 	if( d > 0.0f )
 	{
-		maxErr = tw.radius - budMath::Sqrt( d );
+		maxErr = tw.radius - Math::Sqrt( d );
 	}
 	else
 	{
@@ -1555,7 +1555,7 @@ void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3
 		}
 		else
 		{
-			results->fraction = budMath::Fabs( atan( tw.maxTan ) * ( 2.0f * 180.0f / budMath::PI ) / tw.angle );
+			results->fraction = Math::Fabs( atan( tw.maxTan ) * ( 2.0f * 180.0f / Math::PI ) / tw.angle );
 		}
 		assert( results->fraction <= 1.0f );
 		endRotation.Set( rorg, axis, startAngle + ( endAngle - startAngle ) * results->fraction );
@@ -1733,13 +1733,13 @@ void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3
 	{
 		tw.size[0][i] = tw.bounds[0][i] - tw.start[i];
 		tw.size[1][i] = tw.bounds[1][i] - tw.start[i];
-		if( budMath::Fabs( tw.size[0][i] ) > budMath::Fabs( tw.size[1][i] ) )
+		if( Math::Fabs( tw.size[0][i] ) > Math::Fabs( tw.size[1][i] ) )
 		{
-			tw.extents[i] = budMath::Fabs( tw.size[0][i] ) + maxErr + CM_BOX_EPSILON;
+			tw.extents[i] = Math::Fabs( tw.size[0][i] ) + maxErr + CM_BOX_EPSILON;
 		}
 		else
 		{
-			tw.extents[i] = budMath::Fabs( tw.size[1][i] ) + maxErr + CM_BOX_EPSILON;
+			tw.extents[i] = Math::Fabs( tw.size[1][i] ) + maxErr + CM_BOX_EPSILON;
 		}
 	}
 	
@@ -1791,7 +1791,7 @@ void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3
 	tw.maxDistFromHeartPlane1 = 0.0f;
 	for( i = 0; i < tw.numVerts; i++ )
 	{
-		d = budMath::Fabs( tw.heartPlane1.Distance( tw.vertices[i].p ) );
+		d = Math::Fabs( tw.heartPlane1.Distance( tw.vertices[i].p ) );
 		if( d > tw.maxDistFromHeartPlane1 )
 		{
 			tw.maxDistFromHeartPlane1 = d;
@@ -1814,7 +1814,7 @@ void budCollisionModelManagerLocal::Rotation180( trace_t* results, const budVec3
 	}
 	else
 	{
-		results->fraction = budMath::Fabs( atan( tw.maxTan ) * ( 2.0f * 180.0f / budMath::PI ) / tw.angle );
+		results->fraction = Math::Fabs( atan( tw.maxTan ) * ( 2.0f * 180.0f / Math::PI ) / tw.angle );
 	}
 	assert( results->fraction <= 1.0f );
 	endRotation.Set( rorg, axis, startAngle + ( endAngle - startAngle ) * results->fraction );
@@ -1843,11 +1843,11 @@ budCollisionModelManagerLocal::Rotation
 static int entered = 0;
 #endif
 
-void budCollisionModelManagerLocal::Rotation( trace_t* results, const budVec3& start, const budRotation& rotation,
-		const budTraceModel* trm, const budMat3& trmAxis, int contentMask,
-		cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+void budCollisionModelManagerLocal::Rotation( trace_t* results, const Vector3& start, const Rotation& rotation,
+		const budTraceModel* trm, const Matrix3& trmAxis, int contentMask,
+		cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
-	budVec3 tmp;
+	Vector3 tmp;
 	float maxa, stepa, a, lasta;
 	
 	assert( ( ( byte* )&start ) < ( ( byte* )results ) || ( ( byte* )&start ) > ( ( ( byte* )results ) + sizeof( trace_t ) ) );

@@ -78,7 +78,7 @@ void budSWFShapeParser::Parse( budSWFBitStream& bitstream, budSWFShape& shape, i
 				assert( spld.edges[e].end.cp != 0xFFFF );
 				float length1 = ( verts[ spld.edges[e].start.v0 ] - verts[ spld.edges[e].start.v1 ] ).Length();
 				float length2 = ( verts[ spld.edges[e].end.v0 ] - verts[ spld.edges[e].end.v1 ] ).Length();
-				int numPoints = 1 + budMath::Ftoi( Max( length1, length2 ) / 10.0f );
+				int numPoints = 1 + Math::Ftoi( Max( length1, length2 ) / 10.0f );
 				for( int ti = 0; ti < numPoints; ti++ )
 				{
 					float t0 = ( ti + 1 ) / ( ( float ) numPoints + 1.0f );
@@ -87,7 +87,7 @@ void budSWFShapeParser::Parse( budSWFBitStream& bitstream, budSWFShape& shape, i
 					float c2 = t0 * t1 * 2.0f;
 					float c3 = t0 * t0;
 					
-					budVec2	p1  = c1 * verts[ spld.edges[e].start.v0 ];
+					Vector2	p1  = c1 * verts[ spld.edges[e].start.v0 ];
 					p1 += c2 * verts[ spld.edges[e].start.cp ];
 					p1 += c3 * verts[ spld.edges[e].start.v1 ];
 					
@@ -309,8 +309,8 @@ void budSWFShapeParser::ParseShapes( budSWFBitStream& bitstream1, budSWFBitStrea
 			{
 				if( morphEdge.end.cp == 0xFFFF )
 				{
-					const budVec2& v0 = verts[ morphEdge.end.v0 ];
-					const budVec2& v1 = verts[ morphEdge.end.v1 ];
+					const Vector2& v0 = verts[ morphEdge.end.v0 ];
+					const Vector2& v1 = verts[ morphEdge.end.v1 ];
 					morphEdge.end.cp = verts.AddUnique( ( v0 + v1 ) * 0.5f );
 				}
 			}
@@ -318,8 +318,8 @@ void budSWFShapeParser::ParseShapes( budSWFBitStream& bitstream1, budSWFBitStrea
 			{
 				if( morphEdge.end.cp != 0xFFFF )
 				{
-					const budVec2& v0 = verts[ morphEdge.start.v0 ];
-					const budVec2& v1 = verts[ morphEdge.start.v1 ];
+					const Vector2& v0 = verts[ morphEdge.start.v0 ];
+					const Vector2& v1 = verts[ morphEdge.start.v1 ];
 					morphEdge.start.cp = verts.AddUnique( ( v0 + v1 ) * 0.5f );
 				}
 			}
@@ -359,7 +359,7 @@ void budSWFShapeParser::ParseEdge( budSWFBitStream& bitstream, int32& penX, int3
 	bool straight = bitstream.ReadBool();
 	uint8 numBits = bitstream.ReadU( 4 ) + 2;
 	
-	edge.v0 = verts.AddUnique( budVec2( SWFTWIP( penX ), SWFTWIP( penY ) ) );
+	edge.v0 = verts.AddUnique( Vector2( SWFTWIP( penX ), SWFTWIP( penY ) ) );
 	
 	if( straight )
 	{
@@ -385,12 +385,12 @@ void budSWFShapeParser::ParseEdge( budSWFBitStream& bitstream, int32& penX, int3
 	{
 		penX += bitstream.ReadS( numBits );
 		penY += bitstream.ReadS( numBits );
-		edge.cp = verts.AddUnique( budVec2( SWFTWIP( penX ), SWFTWIP( penY ) ) );
+		edge.cp = verts.AddUnique( Vector2( SWFTWIP( penX ), SWFTWIP( penY ) ) );
 		penX += bitstream.ReadS( numBits );
 		penY += bitstream.ReadS( numBits );
 	}
 	
-	edge.v1 = verts.AddUnique( budVec2( SWFTWIP( penX ), SWFTWIP( penY ) ) );
+	edge.v1 = verts.AddUnique( Vector2( SWFTWIP( penX ), SWFTWIP( penY ) ) );
 }
 
 /*
@@ -418,7 +418,7 @@ void budSWFShapeParser::MakeLoops()
 			}
 		}
 		
-		budList< int > unusedEdges;
+		List< int > unusedEdges;
 		unusedEdges.SetNum( fill.edges.Num() );
 		for( int e = 0; e < fill.edges.Num(); e++ )
 		{
@@ -444,7 +444,7 @@ void budSWFShapeParser::MakeLoops()
 					assert( fill.edges[e1].end.cp != 0xFFFF );
 					float length1 = ( verts[ fill.edges[e1].start.v0 ] - verts[ fill.edges[e1].start.v1 ] ).Length();
 					float length2 = ( verts[ fill.edges[e1].end.v0 ] - verts[ fill.edges[e1].end.v1 ] ).Length();
-					int numPoints = 1 + budMath::Ftoi( Max( length1, length2 ) / 10.0f );
+					int numPoints = 1 + Math::Ftoi( Max( length1, length2 ) / 10.0f );
 					for( int ti = 0; ti < numPoints; ti++ )
 					{
 						float t0 = ( ti + 1 ) / ( ( float ) numPoints + 1.0f );
@@ -453,11 +453,11 @@ void budSWFShapeParser::MakeLoops()
 						float c2 = t0 * t1 * 2.0f;
 						float c3 = t0 * t0;
 						
-						budVec2	p1  = c1 * verts[ fill.edges[e1].start.v0 ];
+						Vector2	p1  = c1 * verts[ fill.edges[e1].start.v0 ];
 						p1 += c2 * verts[ fill.edges[e1].start.cp ];
 						p1 += c3 * verts[ fill.edges[e1].start.v1 ];
 						
-						budVec2	p2  = c1 * verts[ fill.edges[e1].end.v0 ];
+						Vector2	p2  = c1 * verts[ fill.edges[e1].end.v0 ];
 						p2 += c2 * verts[ fill.edges[e1].end.cp ];
 						p2 += c3 * verts[ fill.edges[e1].end.v1 ];
 						
@@ -482,11 +482,11 @@ void budSWFShapeParser::MakeLoops()
 					assert( edge1.v0 != edge2.v0 );
 					assert( edge1.v1 != edge2.v1 );
 					
-					const budVec2& v1 = verts[ edge1.v0 ];
-					const budVec2& v2 = verts[ edge1.v1 ];  // == edge2.v0
-					const budVec2& v3 = verts[ edge2.v1 ];
-					budVec2 a = v1 - v2;
-					budVec2 b = v3 - v2;
+					const Vector2& v1 = verts[ edge1.v0 ];
+					const Vector2& v2 = verts[ edge1.v1 ];  // == edge2.v0
+					const Vector2& v3 = verts[ edge2.v1 ];
+					Vector2 a = v1 - v2;
+					Vector2 b = v3 - v2;
 					
 					float normal = ( a.x * b.y - a.y * b.x );
 					if( normal < bestNormal )
@@ -518,18 +518,18 @@ void budSWFShapeParser::MakeLoops()
 			int leftMostIndex = 0;
 			for( int j = 0; j < loop.vindex1.Num(); j++ )
 			{
-				budVec2& v = verts[ loop.vindex1[j] ];
+				Vector2& v = verts[ loop.vindex1[j] ];
 				if( v.x < leftMostX )
 				{
 					leftMostIndex = j;
 					leftMostX = v.x;
 				}
 			}
-			const budVec2& v1 = verts[ loop.vindex1[( loop.vindex1.Num() + leftMostIndex - 1 ) % loop.vindex1.Num()] ];
-			const budVec2& v2 = verts[ loop.vindex1[leftMostIndex] ];
-			const budVec2& v3 = verts[ loop.vindex1[( leftMostIndex + 1 ) % loop.vindex1.Num()] ];
-			budVec2 a = v1 - v2;
-			budVec2 b = v3 - v2;
+			const Vector2& v1 = verts[ loop.vindex1[( loop.vindex1.Num() + leftMostIndex - 1 ) % loop.vindex1.Num()] ];
+			const Vector2& v2 = verts[ loop.vindex1[leftMostIndex] ];
+			const Vector2& v3 = verts[ loop.vindex1[( leftMostIndex + 1 ) % loop.vindex1.Num()] ];
+			Vector2 a = v1 - v2;
+			Vector2 b = v3 - v2;
 			float normal = ( a.x * b.y - a.y * b.x );
 			loop.hole = ( normal > 0.0f );
 		}
@@ -565,7 +565,7 @@ void budSWFShapeParser::MakeLoops()
 				break;
 			}
 			swfSPLineLoop_t& loopHole = fill.loops[ hole ];
-			const budVec2& holePoint = verts[ loopHole.vindex1[ holeVert ] ];
+			const Vector2& holePoint = verts[ loopHole.vindex1[ holeVert ] ];
 			
 			int shape = -1;
 			for( int j = 0; j < fill.loops.Num(); j++ )
@@ -578,8 +578,8 @@ void budSWFShapeParser::MakeLoops()
 				bool inside = false;
 				for( int k = 0; k < loop.vindex1.Num(); k++ )
 				{
-					const budVec2& v1 = verts[ loop.vindex1[k] ];
-					const budVec2& v2 = verts[ loop.vindex1[( k + 1 ) % loop.vindex1.Num()] ];
+					const Vector2& v1 = verts[ loop.vindex1[k] ];
+					const Vector2& v2 = verts[ loop.vindex1[( k + 1 ) % loop.vindex1.Num()] ];
 					if( v1.x < holePoint.x && v2.x < holePoint.x )
 					{
 						continue; // both on the left of the holePoint
@@ -613,7 +613,7 @@ void budSWFShapeParser::MakeLoops()
 			int shapeVert = -1;
 			for( int j = 0; j < loopShape.vindex1.Num(); j++ )
 			{
-				const budVec2& v1 = verts[ loopShape.vindex1[j] ];
+				const Vector2& v1 = verts[ loopShape.vindex1[j] ];
 				if( v1.x < holePoint.x )
 				{
 					continue; // on the left of the holePoint
@@ -627,7 +627,7 @@ void budSWFShapeParser::MakeLoops()
 			}
 			
 			// connect holeVert to shapeVert
-			budList< uint16 > vindex;
+			List< uint16 > vindex;
 			vindex.SetNum( loopShape.vindex1.Num() + loopHole.vindex1.Num() + 1 );
 			vindex.SetNum( 0 );
 			for( int j = 0; j <= shapeVert; j++ )
@@ -767,7 +767,7 @@ struct earVert_t
 	int i3;
 	float cross;
 };
-class budSort_Ears : public budSort_Quick< earVert_t, budSort_Ears >
+class Sort_Ears : public SortQuick< earVert_t, Sort_Ears >
 {
 public:
 	int Compare( const earVert_t& a, const earVert_t& b ) const
@@ -794,26 +794,26 @@ int budSWFShapeParser::FindEarVert( const swfSPLineLoop_t& loop )
 	assert( loop.vindex1.Num() == loop.vindex2.Num() );
 	int num = loop.vindex1.Num();
 	
-	budList<earVert_t> ears;
+	List<earVert_t> ears;
 	ears.SetNum( num );
 	
 	for( int i1 = 0; i1 < num; i1++ )
 	{
 		int i2 = ( i1 + 1 ) % num;
 		int i3 = ( i1 + 2 ) % num;
-		const budVec2& v1s = verts[ loop.vindex1[ i1 ] ];
-		const budVec2& v2s = verts[ loop.vindex1[ i2 ] ];
-		const budVec2& v3s = verts[ loop.vindex1[ i3 ] ];
+		const Vector2& v1s = verts[ loop.vindex1[ i1 ] ];
+		const Vector2& v2s = verts[ loop.vindex1[ i2 ] ];
+		const Vector2& v3s = verts[ loop.vindex1[ i3 ] ];
 		
-		budVec2 a = v1s - v2s;
-		budVec2 b = v2s - v3s;
+		Vector2 a = v1s - v2s;
+		Vector2 b = v2s - v3s;
 		
 		ears[i1].cross = a.x * b.y - a.y * b.x;
 		ears[i1].i1 = i1;
 		ears[i1].i2 = i2;
 		ears[i1].i3 = i3;
 	}
-	ears.SortWithTemplate( budSort_Ears() );
+	ears.SortWithTemplate( Sort_Ears() );
 	
 	for( int i = 0; i < ears.Num(); i++ )
 	{
@@ -825,20 +825,20 @@ int budSWFShapeParser::FindEarVert( const swfSPLineLoop_t& loop )
 		int i2 = ears[i].i2;
 		int i3 = ears[i].i3;
 		
-		const budVec2& v1s = verts[ loop.vindex1[ i1 ] ];
-		const budVec2& v2s = verts[ loop.vindex1[ i2 ] ];
-		const budVec2& v3s = verts[ loop.vindex1[ i3 ] ];
+		const Vector2& v1s = verts[ loop.vindex1[ i1 ] ];
+		const Vector2& v2s = verts[ loop.vindex1[ i2 ] ];
+		const Vector2& v3s = verts[ loop.vindex1[ i3 ] ];
 		
-		const budVec2& v1e = verts[ loop.vindex2[ i1 ] ];
-		const budVec2& v2e = verts[ loop.vindex2[ i2 ] ];
-		const budVec2& v3e = verts[ loop.vindex2[ i3 ] ];
+		const Vector2& v1e = verts[ loop.vindex2[ i1 ] ];
+		const Vector2& v2e = verts[ loop.vindex2[ i2 ] ];
+		const Vector2& v3e = verts[ loop.vindex2[ i3 ] ];
 		
-		budMat3 edgeEquations1;
+		Matrix3 edgeEquations1;
 		edgeEquations1[0].Set( v1s.x, v1s.y, 1.0f );
 		edgeEquations1[1].Set( v2s.x, v2s.y, 1.0f );
 		edgeEquations1[2].Set( v3s.x, v3s.y, 1.0f );
 		
-		budMat3 edgeEquations2;
+		Matrix3 edgeEquations2;
 		edgeEquations2[0].Set( v1e.x, v1e.y, 1.0f );
 		edgeEquations2[1].Set( v2e.x, v2e.y, 1.0f );
 		edgeEquations2[2].Set( v3e.x, v3e.y, 1.0f );
@@ -854,11 +854,11 @@ int budSWFShapeParser::FindEarVert( const swfSPLineLoop_t& loop )
 				continue;
 			}
 			
-			budVec3 p1;
+			Vector3 p1;
 			p1.ToVec2() = verts[ loop.vindex1[j] ];
 			p1.z = 1.0f;
 			
-			budVec3 signs1 = p1 * edgeEquations1;
+			Vector3 signs1 = p1 * edgeEquations1;
 			
 			bool b1x = signs1.x > 0;
 			bool b1y = signs1.y > 0;
@@ -870,11 +870,11 @@ int budSWFShapeParser::FindEarVert( const swfSPLineLoop_t& loop )
 				break;
 			}
 			
-			budVec3 p2;
+			Vector3 p2;
 			p2.ToVec2() = verts[ loop.vindex2[j] ];
 			p2.z = 1.0f;
 			
-			budVec3 signs2 = p2 * edgeEquations2;
+			Vector3 signs2 = p2 * edgeEquations2;
 			
 			bool b2x = signs2.x > 0;
 			bool b2y = signs2.y > 0;
@@ -899,7 +899,7 @@ int budSWFShapeParser::FindEarVert( const swfSPLineLoop_t& loop )
 budSWFShapeParser::AddUniqueVert
 ========================
 */
-void budSWFShapeParser::AddUniqueVert( budSWFShapeDrawFill& drawFill, const budVec2& start, const budVec2& end )
+void budSWFShapeParser::AddUniqueVert( budSWFShapeDrawFill& drawFill, const Vector2& start, const Vector2& end )
 {
 	if( morph )
 	{

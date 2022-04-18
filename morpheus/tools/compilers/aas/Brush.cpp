@@ -350,7 +350,7 @@ void idBrush::BoundBrush( const idBrush* original )
 idBrush::FromSides
 ============
 */
-bool idBrush::FromSides( budList<idBrushSide*>& sideList )
+bool idBrush::FromSides( List<idBrushSide*>& sideList )
 {
 	int i;
 	
@@ -373,7 +373,7 @@ bool idBrush::FromWinding( const idWinding& w, const budPlane& windingPlane )
 {
 	int i, j, bestAxis;
 	budPlane plane;
-	budVec3 normal, axialNormal;
+	Vector3 normal, axialNormal;
 	
 	sides.Append( new idBrushSide( windingPlane, -1 ) );
 	sides.Append( new idBrushSide( -windingPlane, -1 ) );
@@ -381,12 +381,12 @@ bool idBrush::FromWinding( const idWinding& w, const budPlane& windingPlane )
 	bestAxis = 0;
 	for( i = 1; i < 3; i++ )
 	{
-		if( budMath::Fabs( windingPlane.Normal()[i] ) > budMath::Fabs( windingPlane.Normal()[bestAxis] ) )
+		if( Math::Fabs( windingPlane.Normal()[i] ) > Math::Fabs( windingPlane.Normal()[bestAxis] ) )
 		{
 			bestAxis = i;
 		}
 	}
-	axialNormal = vec3_origin;
+	axialNormal = Vector3_Origin;
 	if( windingPlane.Normal()[bestAxis] > 0.0f )
 	{
 		axialNormal[bestAxis] = 1.0f;
@@ -434,14 +434,14 @@ idBrush::FromBounds
 bool idBrush::FromBounds( const budBounds& bounds )
 {
 	int axis, dir;
-	budVec3 normal;
+	Vector3 normal;
 	budPlane plane;
 	
 	for( axis = 0; axis < 3; axis++ )
 	{
 		for( dir = -1; dir <= 1; dir += 2 )
 		{
-			normal = vec3_origin;
+			normal = Vector3_Origin;
 			normal[axis] = dir;
 			plane.SetNormal( normal );
 			plane.SetDist( dir * bounds[( dir == 1 )][axis] );
@@ -457,7 +457,7 @@ bool idBrush::FromBounds( const budBounds& bounds )
 idBrush::Transform
 ============
 */
-void idBrush::Transform( const budVec3& origin, const budMat3& axis )
+void idBrush::Transform( const Vector3& origin, const Matrix3& axis )
 {
 	int i;
 	bool transformed = false;
@@ -466,11 +466,11 @@ void idBrush::Transform( const budVec3& origin, const budMat3& axis )
 	{
 		for( i = 0; i < sides.Num(); i++ )
 		{
-			sides[i]->plane.RotateSelf( vec3_origin, axis );
+			sides[i]->plane.RotateSelf( Vector3_Origin, axis );
 		}
 		transformed = true;
 	}
-	if( origin != vec3_origin )
+	if( origin != Vector3_Origin )
 	{
 		for( i = 0; i < sides.Num(); i++ )
 		{
@@ -493,7 +493,7 @@ float idBrush::GetVolume() const
 {
 	int i;
 	idWinding* w;
-	budVec3 corner;
+	Vector3 corner;
 	float d, area, volume;
 	
 	// grab the first valid point as a corner
@@ -947,7 +947,7 @@ void idBrush::AddBevelsForAxialBox()
 	int axis, dir, i, j, k, l, order;
 	idBrushSide* side, *newSide;
 	budPlane plane;
-	budVec3 normal, vec;
+	Vector3 normal, vec;
 	idWinding* w, *w2;
 	float d, minBack;
 	
@@ -982,7 +982,7 @@ void idBrush::AddBevelsForAxialBox()
 			
 			if( i >= sides.Num() )
 			{
-				normal = vec3_origin;
+				normal = Vector3_Origin;
 				normal[axis] = dir;
 				plane.SetNormal( normal );
 				plane.SetDist( dir * bounds[( dir == 1 )][axis] );
@@ -1037,7 +1037,7 @@ void idBrush::AddBevelsForAxialBox()
 				{
 				
 					// construct a plane
-					normal = vec3_origin;
+					normal = Vector3_Origin;
 					normal[axis] = dir;
 					normal = vec.Cross( normal );
 					if( normal.Normalize() < 0.5f )
@@ -1112,7 +1112,7 @@ void idBrush::ExpandForAxialBox( const budBounds& bounds )
 {
 	int i, j;
 	idBrushSide* side;
-	budVec3 v;
+	Vector3 v;
 	
 	AddBevelsForAxialBox();
 	
@@ -1684,7 +1684,7 @@ void idBrushList::SetFlagOnFacingBrushSides( const budPlane& plane, int flag )
 	
 	for( b = head; b; b = b->next )
 	{
-		if( budMath::Fabs( b->GetBounds().PlaneDistance( plane ) ) > 0.1f )
+		if( Math::Fabs( b->GetBounds().PlaneDistance( plane ) ) > 0.1f )
 		{
 			continue;
 		}
@@ -1734,7 +1734,7 @@ void idBrushList::CreatePlaneList( budPlaneSet& planeList ) const
 idBrushList::CreatePlaneList
 ============
 */
-void idBrushList::WriteBrushMap( const budStr& fileName, const budStr& ext ) const
+void idBrushList::WriteBrushMap( const String& fileName, const String& ext ) const
 {
 	idBrushMap* map;
 	
@@ -1755,9 +1755,9 @@ void idBrushList::WriteBrushMap( const budStr& fileName, const budStr& ext ) con
 idBrushMap::idBrushMap
 ============
 */
-idBrushMap::idBrushMap( const budStr& fileName, const budStr& ext )
+idBrushMap::idBrushMap( const String& fileName, const String& ext )
 {
-	budStr qpath;
+	String qpath;
 	
 	qpath = fileName;
 	qpath.StripFileExtension();

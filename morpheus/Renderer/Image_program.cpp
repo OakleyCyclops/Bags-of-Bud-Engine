@@ -92,7 +92,7 @@ static void R_HeightmapToNormalMap( byte* data, int width, int height, float sca
 		depth[i] = ( data[i * 4] + data[i * 4 + 1] + data[i * 4 + 2] ) / 3;
 	}
 	
-	budVec3	dir, dir2;
+	Vector3	dir, dir2;
 	for( i = 0 ; i < height ; i++ )
 	{
 		for( j = 0 ; j < width ; j++ )
@@ -234,7 +234,7 @@ static void R_AddNormalMaps( byte* data1, int width1, int height1, byte* data2, 
 		for( j = 0 ; j < width1 ; j++ )
 		{
 			byte*	d1, *d2;
-			budVec3	n;
+			Vector3	n;
 			float   len;
 			
 			d1 = data1 + ( i * width1 + j ) * 4;
@@ -249,7 +249,7 @@ static void R_AddNormalMaps( byte* data1, int width1, int height1, byte* data2, 
 			len = n.LengthFast();
 			if( len < 1.0f )
 			{
-				n[2] = budMath::Sqrt( 1.0 - ( n[0] * n[0] ) - ( n[1] * n[1] ) );
+				n[2] = Math::Sqrt( 1.0 - ( n[0] * n[0] ) - ( n[1] * n[1] ) );
 			}
 			
 			n[0] += ( d2[0] - 128 ) / 127.0;
@@ -278,7 +278,7 @@ static void R_SmoothNormalMap( byte* data, int width, int height )
 {
 	byte*	orig;
 	int		i, j, k, l;
-	budVec3	normal;
+	Vector3	normal;
 	byte*	out;
 	static float	factors[3][3] =
 	{
@@ -294,7 +294,7 @@ static void R_SmoothNormalMap( byte* data, int width, int height )
 	{
 		for( j = 0 ; j < height ; j++ )
 		{
-			normal = vec3_origin;
+			normal = Vector3_Origin;
 			for( k = -1 ; k < 2 ; k++ )
 			{
 				for( l = -1 ; l < 2 ; l++ )
@@ -386,9 +386,9 @@ static void AppendToken( budToken& token )
 	// add a leading space if not at the beginning
 	if( parseBuffer[0] )
 	{
-		budStr::Append( parseBuffer, MAX_IMAGE_NAME, " " );
+		String::Append( parseBuffer, MAX_IMAGE_NAME, " " );
 	}
-	budStr::Append( parseBuffer, MAX_IMAGE_NAME, token.c_str() );
+	String::Append( parseBuffer, MAX_IMAGE_NAME, token.c_str() );
 }
 
 /*
@@ -403,7 +403,7 @@ static void MatchAndAppendToken( budLexer& src, const char* match )
 		return;
 	}
 	// a matched token won't need a leading space
-	budStr::Append( parseBuffer, MAX_IMAGE_NAME, match );
+	String::Append( parseBuffer, MAX_IMAGE_NAME, match );
 }
 
 /*

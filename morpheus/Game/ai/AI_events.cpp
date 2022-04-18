@@ -388,12 +388,12 @@ void budAI::Event_FindEnemyAI( int useFOV )
 	budActor*		bestEnemy;
 	float		bestDist;
 	float		dist;
-	budVec3		delta;
+	Vector3		delta;
 	pvsHandle_t pvs;
 	
 	pvs = gameLocal.pvs.SetupCurrentPVS( GetPVSAreas(), GetNumPVSAreas() );
 	
-	bestDist = budMath::INFINITY;
+	bestDist = Math::INFINITY;
 	bestEnemy = NULL;
 	for( ent = gameLocal.activeEntities.Next(); ent != NULL; ent = ent->activeNode.Next() )
 	{
@@ -493,7 +493,7 @@ void budAI::Event_ClosestReachableEnemyOfEntity( idEntity* team_mate )
 	budActor*	bestEnt;
 	float	bestDistSquared;
 	float	distSquared;
-	budVec3	delta;
+	Vector3	delta;
 	int		areaNum;
 	int		enemyAreaNum;
 	aasPath_t path;
@@ -505,10 +505,10 @@ void budAI::Event_ClosestReachableEnemyOfEntity( idEntity* team_mate )
 	
 	actor = static_cast<budActor*>( team_mate );
 	
-	const budVec3& origin = physicsObj.GetOrigin();
+	const Vector3& origin = physicsObj.GetOrigin();
 	areaNum = PointReachableAreaNum( origin );
 	
-	bestDistSquared = budMath::INFINITY;
+	bestDistSquared = Math::INFINITY;
 	bestEnt = NULL;
 	for( ent = actor->enemyList.Next(); ent != NULL; ent = ent->enemyNode.Next() )
 	{
@@ -520,7 +520,7 @@ void budAI::Event_ClosestReachableEnemyOfEntity( idEntity* team_mate )
 		distSquared = delta.LengthSqr();
 		if( distSquared < bestDistSquared )
 		{
-			const budVec3& enemyPos = ent->GetPhysics()->GetOrigin();
+			const Vector3& enemyPos = ent->GetPhysics()->GetOrigin();
 			enemyAreaNum = PointReachableAreaNum( enemyPos );
 			if( ( areaNum != 0 ) && PathToGoal( path, areaNum, origin, enemyAreaNum, enemyPos ) )
 			{
@@ -544,8 +544,8 @@ void budAI::Event_HeardSound( int ignore_team )
 	budActor*	actor = gameLocal.GetAlertEntity();
 	if( actor != NULL && ( !ignore_team || ( ReactionTo( actor ) & ATTACK_ON_SIGHT ) ) && gameLocal.InPlayerPVS( this ) )
 	{
-		budVec3 pos = actor->GetPhysics()->GetOrigin();
-		budVec3 org = physicsObj.GetOrigin();
+		Vector3 pos = actor->GetPhysics()->GetOrigin();
+		Vector3 org = physicsObj.GetOrigin();
 		float dist = ( pos - org ).LengthSqr();
 		if( dist < Square( AI_HEARING_RANGE ) )
 		{
@@ -595,8 +595,8 @@ budAI::Event_MuzzleFlash
 */
 void budAI::Event_MuzzleFlash( const char* jointname )
 {
-	budVec3	muzzle;
-	budMat3	axis;
+	Vector3	muzzle;
+	Matrix3	axis;
 	
 	GetMuzzle( jointname, muzzle, axis );
 	TriggerWeaponEffects( muzzle );
@@ -609,8 +609,8 @@ budAI::Event_CreateMissile
 */
 void budAI::Event_CreateMissile( const char* jointname )
 {
-	budVec3 muzzle;
-	budMat3 axis;
+	Vector3 muzzle;
+	Matrix3 axis;
 	
 	if( !projectileDef )
 	{
@@ -672,13 +672,13 @@ void budAI::Event_FireMissileAtTarget( const char* jointname, const char* target
 budAI::Event_LaunchMissile
 =====================
 */
-void budAI::Event_LaunchMissile( const budVec3& org, const budAngles& ang )
+void budAI::Event_LaunchMissile( const Vector3& org, const Angles& ang )
 {
-	budVec3		start;
+	Vector3		start;
 	trace_t		tr;
 	budBounds	projBounds;
 	const budClipModel* projClip;
-	budMat3		axis;
+	Matrix3		axis;
 	float		distance;
 	
 	if( !projectileDef )
@@ -723,7 +723,7 @@ void budAI::Event_LaunchMissile( const budVec3& org, const budAngles& ang )
 	
 	// launch the projectile
 	idThread::ReturnEntity( projectile.GetEntity() );
-	projectile.GetEntity()->Launch( tr.endpos, axis[ 0 ], vec3_origin );
+	projectile.GetEntity()->Launch( tr.endpos, axis[ 0 ], Vector3_Origin );
 	projectile = NULL;
 	
 	TriggerWeaponEffects( tr.endpos );
@@ -739,9 +739,9 @@ budAI::Event_LaunchProjectile
 */
 void budAI::Event_LaunchProjectile( const char* entityDefName )
 {
-	budVec3				muzzle, start, dir;
-	const idDict*		projDef;
-	budMat3				axis;
+	Vector3				muzzle, start, dir;
+	const Dict*		projDef;
+	Matrix3				axis;
 	const budClipModel*	projClip;
 	budBounds			projBounds;
 	trace_t				tr;
@@ -787,7 +787,7 @@ void budAI::Event_LaunchProjectile( const char* entityDefName )
 	
 	GetAimDir( muzzle, enemy.GetEntity(), this, dir );
 	
-	proj->Launch( muzzle, dir, vec3_origin );
+	proj->Launch( muzzle, dir, Vector3_Origin );
 	
 	TriggerWeaponEffects( muzzle );
 }
@@ -825,8 +825,8 @@ budAI::Event_RadiusDamageFromJoint
 void budAI::Event_RadiusDamageFromJoint( const char* jointname, const char* damageDefName )
 {
 	jointHandle_t joint;
-	budVec3 org;
-	budMat3 axis;
+	Vector3 org;
+	Matrix3 axis;
 	
 	if( !jointname || !jointname[ 0 ] )
 	{
@@ -886,9 +886,9 @@ budAI::Event_MeleeAttackToJoint
 void budAI::Event_MeleeAttackToJoint( const char* jointname, const char* meleeDefName )
 {
 	jointHandle_t	joint;
-	budVec3			start;
-	budVec3			end;
-	budMat3			axis;
+	Vector3			start;
+	Vector3			end;
+	Matrix3			axis;
 	trace_t			trace;
 	idEntity*		hitEnt;
 	
@@ -955,11 +955,11 @@ void budAI::Event_CanBecomeSolid()
 		// DG: add parenthesis to make precedence obvious and to appease compiler
 		if( ( spawnClearMoveables && hit->IsType( idMoveable::Type ) ) || hit->IsType( idBarrel::Type ) || hit->IsType( idExplodingBarrel::Type ) )
 		{
-			budVec3 push;
+			Vector3 push;
 			push = hit->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
 			push.z = 30.f;
 			push.NormalizeFast();
-			if( ( budMath::Fabs( push.x ) < 0.15f ) && ( budMath::Fabs( push.y ) < 0.15f ) )
+			if( ( Math::Fabs( push.x ) < 0.15f ) && ( Math::Fabs( push.y ) < 0.15f ) )
 			{
 				push.x = 10.f;
 				push.y = 10.f;
@@ -1115,7 +1115,7 @@ void budAI::Event_TurnTo( float angle )
 budAI::Event_TurnToPos
 =====================
 */
-void budAI::Event_TurnToPos( const budVec3& pos )
+void budAI::Event_TurnToPos( const Vector3& pos )
 {
 	TurnToward( pos );
 }
@@ -1244,7 +1244,7 @@ void budAI::Event_MoveToEntity( idEntity* ent )
 budAI::Event_MoveToPosition
 =====================
 */
-void budAI::Event_MoveToPosition( const budVec3& pos )
+void budAI::Event_MoveToPosition( const Vector3& pos )
 {
 	StopMove( MOVE_STATUS_DONE );
 	MoveToPosition( pos );
@@ -1255,7 +1255,7 @@ void budAI::Event_MoveToPosition( const budVec3& pos )
 budAI::Event_SlideTo
 =====================
 */
-void budAI::Event_SlideTo( const budVec3& pos, float time )
+void budAI::Event_SlideTo( const Vector3& pos, float time )
 {
 	SlideToPosition( pos, time );
 }
@@ -1349,8 +1349,8 @@ void budAI::Event_GetCombatNode()
 		{
 			// find the closest attack node to the player
 			bestNode = NULL;
-			const budVec3& myPos = physicsObj.GetOrigin();
-			const budVec3& playerPos = gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin();
+			const Vector3& myPos = physicsObj.GetOrigin();
+			const Vector3& playerPos = gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin();
 			
 			bestDist = ( myPos - playerPos ).LengthSqr();
 			
@@ -1365,7 +1365,7 @@ void budAI::Event_GetCombatNode()
 				node = static_cast<idCombatNode*>( targetEnt );
 				if( !node->IsDisabled() )
 				{
-					budVec3 org = node->GetPhysics()->GetOrigin();
+					Vector3 org = node->GetPhysics()->GetOrigin();
 					dist = ( playerPos - org ).LengthSqr();
 					if( dist < bestDist )
 					{
@@ -1385,7 +1385,7 @@ void budAI::Event_GetCombatNode()
 	
 	// find the closest attack node that can see our enemy and is closer than our enemy
 	bestNode = NULL;
-	const budVec3& myPos = physicsObj.GetOrigin();
+	const Vector3& myPos = physicsObj.GetOrigin();
 	bestDist = ( myPos - lastVisibleEnemyPos ).LengthSqr();
 	for( i = 0; i < targets.Num(); i++ )
 	{
@@ -1398,7 +1398,7 @@ void budAI::Event_GetCombatNode()
 		node = static_cast<idCombatNode*>( targetEnt );
 		if( !node->IsDisabled() && node->EntityInView( enemyEnt, lastVisibleEnemyPos ) )
 		{
-			budVec3 org = node->GetPhysics()->GetOrigin();
+			Vector3 org = node->GetPhysics()->GetOrigin();
 			dist = ( myPos - org ).LengthSqr();
 			if( dist < bestDist )
 			{
@@ -1454,7 +1454,7 @@ void budAI::Event_EnemyInCombatCone( idEntity* ent, int use_current_enemy_locati
 	node = static_cast<idCombatNode*>( ent );
 	if( use_current_enemy_location )
 	{
-		const budVec3& pos = enemyEnt->GetPhysics()->GetOrigin();
+		const Vector3& pos = enemyEnt->GetPhysics()->GetOrigin();
 		result = node->EntityInView( enemyEnt, pos );
 	}
 	else
@@ -1485,11 +1485,11 @@ void budAI::Event_WaitMove()
 budAI::Event_GetJumpVelocity
 =====================
 */
-void budAI::Event_GetJumpVelocity( const budVec3& pos, float speed, float max_height )
+void budAI::Event_GetJumpVelocity( const Vector3& pos, float speed, float max_height )
 {
-	budVec3 start;
-	budVec3 end;
-	budVec3 dir;
+	Vector3 start;
+	Vector3 end;
+	Vector3 dir;
 	float dist;
 	bool result;
 	idEntity* enemyEnt = enemy.GetEntity();
@@ -1529,7 +1529,7 @@ budAI::Event_EntityInAttackCone
 void budAI::Event_EntityInAttackCone( idEntity* ent )
 {
 	float	attack_cone;
-	budVec3	delta;
+	Vector3	delta;
 	float	yaw;
 	float	relYaw;
 	
@@ -1542,7 +1542,7 @@ void budAI::Event_EntityInAttackCone( idEntity* ent )
 	delta = ent->GetPhysics()->GetOrigin() - GetEyePosition();
 	
 	// get our gravity normal
-	const budVec3& gravityDir = GetPhysics()->GetGravityNormal();
+	const Vector3& gravityDir = GetPhysics()->GetGravityNormal();
 	
 	// infinite vertical vision, so project it onto our orientation plane
 	delta -= gravityDir * ( gravityDir * delta );
@@ -1551,8 +1551,8 @@ void budAI::Event_EntityInAttackCone( idEntity* ent )
 	yaw = delta.ToYaw();
 	
 	attack_cone = spawnArgs.GetFloat( "attack_cone", "70" );
-	relYaw = budMath::AngleNormalize180( ideal_yaw - yaw );
-	if( budMath::Fabs( relYaw ) < ( attack_cone * 0.5f ) )
+	relYaw = Math::AngleNormalize180( ideal_yaw - yaw );
+	if( Math::Fabs( relYaw ) < ( attack_cone * 0.5f ) )
 	{
 		idThread::ReturnInt( true );
 	}
@@ -1643,7 +1643,7 @@ void budAI::Event_EnemyRange()
 	else
 	{
 		// Just some really high number
-		dist = budMath::INFINITY;
+		dist = Math::INFINITY;
 	}
 	
 	idThread::ReturnFloat( dist );
@@ -1666,7 +1666,7 @@ void budAI::Event_EnemyRange2D()
 	else
 	{
 		// Just some really high number
-		dist = budMath::INFINITY;
+		dist = Math::INFINITY;
 	}
 	
 	idThread::ReturnFloat( dist );
@@ -1751,9 +1751,9 @@ void budAI::Event_CanHitEnemy()
 	
 	lastHitCheckTime = gameLocal.time;
 	
-	budVec3 toPos = enemyEnt->GetEyePosition();
-	budVec3 eye = GetEyePosition();
-	budVec3 dir;
+	Vector3 toPos = enemyEnt->GetEyePosition();
+	Vector3 eye = GetEyePosition();
+	Vector3 dir;
 	
 	// expand the ray out as far as possible so we can detect anything behind the enemy
 	dir = toPos - eye;
@@ -1786,11 +1786,11 @@ budAI::Event_CanHitEnemyFromAnim
 void budAI::Event_CanHitEnemyFromAnim( const char* animname )
 {
 	int		anim;
-	budVec3	dir;
-	budVec3	local_dir;
-	budVec3	fromPos;
-	budMat3	axis;
-	budVec3	start;
+	Vector3	dir;
+	Vector3	local_dir;
+	Vector3	fromPos;
+	Matrix3	axis;
+	Vector3	start;
 	trace_t	tr;
 	float	distance;
 	
@@ -1816,7 +1816,7 @@ void budAI::Event_CanHitEnemyFromAnim( const char* animname )
 	}
 	
 	// calculate the world transform of the launch position
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	dir = lastVisibleEnemyPos - org;
 	physicsObj.GetGravityAxis().ProjectVector( dir, local_dir );
 	local_dir.z = 0.0f;
@@ -1872,9 +1872,9 @@ budAI::Event_CanHitEnemyFromJoint
 void budAI::Event_CanHitEnemyFromJoint( const char* jointname )
 {
 	trace_t	tr;
-	budVec3	muzzle;
-	budMat3	axis;
-	budVec3	start;
+	Vector3	muzzle;
+	Matrix3	axis;
+	Vector3	start;
 	float	distance;
 	
 	budActor* enemyEnt = enemy.GetEntity();
@@ -1893,8 +1893,8 @@ void budAI::Event_CanHitEnemyFromJoint( const char* jointname )
 	
 	lastHitCheckTime = gameLocal.time;
 	
-	const budVec3& org = physicsObj.GetOrigin();
-	budVec3 toPos = enemyEnt->GetEyePosition();
+	const Vector3& org = physicsObj.GetOrigin();
+	Vector3 toPos = enemyEnt->GetEyePosition();
 	jointHandle_t joint = animator.GetJointHandle( jointname );
 	if( joint == INVALID_JOINT )
 	{
@@ -1971,7 +1971,7 @@ void budAI::Event_ChargeAttack( const char* damageDef )
 	StopMove( MOVE_STATUS_DEST_NOT_FOUND );
 	if( enemyEnt )
 	{
-		budVec3 enemyOrg;
+		Vector3 enemyOrg;
 		
 		if( move.moveType == MOVETYPE_FLY )
 		{
@@ -2000,7 +2000,7 @@ void budAI::Event_TestChargeAttack()
 	trace_t trace;
 	budActor* enemyEnt = enemy.GetEntity();
 	predictedPath_t path;
-	budVec3 end;
+	Vector3 end;
 	
 	if( !enemyEnt )
 	{
@@ -2029,7 +2029,7 @@ void budAI::Event_TestChargeAttack()
 	
 	if( ( path.endEvent == 0 ) || ( path.blockingEntity == enemyEnt ) )
 	{
-		budVec3 delta = end - physicsObj.GetOrigin();
+		Vector3 delta = end - physicsObj.GetOrigin();
 		float time = delta.LengthFast();
 		idThread::ReturnFloat( time );
 	}
@@ -2048,9 +2048,9 @@ void budAI::Event_TestAnimMoveTowardEnemy( const char* animname )
 {
 	int				anim;
 	predictedPath_t path;
-	budVec3			moveVec;
+	Vector3			moveVec;
 	float			yaw;
-	budVec3			delta;
+	Vector3			delta;
 	budActor*			enemyEnt;
 	
 	enemyEnt = enemy.GetEntity();
@@ -2071,7 +2071,7 @@ void budAI::Event_TestAnimMoveTowardEnemy( const char* animname )
 	delta = enemyEnt->GetPhysics()->GetOrigin() - physicsObj.GetOrigin();
 	yaw = delta.ToYaw();
 	
-	moveVec = animator.TotalMovementDelta( anim ) * budAngles( 0.0f, yaw, 0.0f ).ToMat3() * physicsObj.GetGravityAxis();
+	moveVec = animator.TotalMovementDelta( anim ) * Angles( 0.0f, yaw, 0.0f ).ToMat3() * physicsObj.GetGravityAxis();
 	budAI::PredictPath( this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, ( move.moveType == MOVETYPE_FLY ) ? SE_BLOCKED : ( SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA ), path );
 	
 	if( ai_debugMove.GetBool() )
@@ -2092,7 +2092,7 @@ void budAI::Event_TestAnimMove( const char* animname )
 {
 	int				anim;
 	predictedPath_t path;
-	budVec3			moveVec;
+	Vector3			moveVec;
 	
 	anim = GetAnim( ANIMCHANNEL_LEGS, animname );
 	if( !anim )
@@ -2102,7 +2102,7 @@ void budAI::Event_TestAnimMove( const char* animname )
 		return;
 	}
 	
-	moveVec = animator.TotalMovementDelta( anim ) * budAngles( 0.0f, ideal_yaw, 0.0f ).ToMat3() * physicsObj.GetGravityAxis();
+	moveVec = animator.TotalMovementDelta( anim ) * Angles( 0.0f, ideal_yaw, 0.0f ).ToMat3() * physicsObj.GetGravityAxis();
 	budAI::PredictPath( this, aas, physicsObj.GetOrigin(), moveVec, 1000, 1000, ( move.moveType == MOVETYPE_FLY ) ? SE_BLOCKED : ( SE_ENTER_OBSTACLE | SE_BLOCKED | SE_ENTER_LEDGE_AREA ), path );
 	
 	if( ai_debugMove.GetBool() )
@@ -2119,7 +2119,7 @@ void budAI::Event_TestAnimMove( const char* animname )
 budAI::Event_TestMoveToPosition
 =====================
 */
-void budAI::Event_TestMoveToPosition( const budVec3& position )
+void budAI::Event_TestMoveToPosition( const Vector3& position )
 {
 	predictedPath_t path;
 	
@@ -2287,7 +2287,7 @@ void budAI::Event_GetTurnDelta()
 	
 	if( turnRate )
 	{
-		amount = budMath::AngleNormalize180( ideal_yaw - current_yaw );
+		amount = Math::AngleNormalize180( ideal_yaw - current_yaw );
 		idThread::ReturnFloat( amount );
 	}
 	else
@@ -2346,8 +2346,8 @@ budAI::Event_RestoreMove
 */
 void budAI::Event_RestoreMove()
 {
-	budVec3 goalPos;
-	budVec3 dest;
+	Vector3 goalPos;
+	Vector3 dest;
 	
 	switch( savedMove.moveCommand )
 	{
@@ -2538,7 +2538,7 @@ void budAI::Event_GetClosestHiddenTarget( const char* type )
 	idEntity* bestEnt;
 	float time;
 	float bestTime;
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	budActor* enemyEnt = enemy.GetEntity();
 	
 	if( !enemyEnt )
@@ -2551,7 +2551,7 @@ void budAI::Event_GetClosestHiddenTarget( const char* type )
 	if( targets.Num() == 1 )
 	{
 		ent = targets[ 0 ].GetEntity();
-		if( ent != NULL && budStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
+		if( ent != NULL && String::Cmp( ent->GetEntityDefName(), type ) == 0 )
 		{
 			if( !EntityCanSeePos( enemyEnt, lastVisibleEnemyPos, ent->GetPhysics()->GetOrigin() ) )
 			{
@@ -2564,13 +2564,13 @@ void budAI::Event_GetClosestHiddenTarget( const char* type )
 	}
 	
 	bestEnt = NULL;
-	bestTime = budMath::INFINITY;
+	bestTime = Math::INFINITY;
 	for( i = 0; i < targets.Num(); i++ )
 	{
 		ent = targets[ i ].GetEntity();
-		if( ent != NULL && budStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
+		if( ent != NULL && String::Cmp( ent->GetEntityDefName(), type ) == 0 )
 		{
-			const budVec3& destOrg = ent->GetPhysics()->GetOrigin();
+			const Vector3& destOrg = ent->GetPhysics()->GetOrigin();
 			time = TravelDistance( org, destOrg );
 			if( ( time >= 0.0f ) && ( time < bestTime ) )
 			{
@@ -2602,7 +2602,7 @@ void budAI::Event_GetRandomTarget( const char* type )
 	for( i = 0; i < targets.Num(); i++ )
 	{
 		ent = targets[ i ].GetEntity();
-		if( ent != NULL && budStr::Cmp( ent->GetEntityDefName(), type ) == 0 )
+		if( ent != NULL && String::Cmp( ent->GetEntityDefName(), type ) == 0 )
 		{
 			ents[ num++ ] = ent;
 			if( num >= MAX_GENTITIES )
@@ -2627,7 +2627,7 @@ void budAI::Event_GetRandomTarget( const char* type )
 budAI::Event_TravelDistanceToPoint
 ================
 */
-void budAI::Event_TravelDistanceToPoint( const budVec3& pos )
+void budAI::Event_TravelDistanceToPoint( const Vector3& pos )
 {
 	float time;
 	
@@ -2653,7 +2653,7 @@ void budAI::Event_TravelDistanceToEntity( idEntity* ent )
 budAI::Event_TravelDistanceBetweenPoints
 ================
 */
-void budAI::Event_TravelDistanceBetweenPoints( const budVec3& source, const budVec3& dest )
+void budAI::Event_TravelDistanceBetweenPoints( const Vector3& source, const Vector3& dest )
 {
 	float time;
 	
@@ -2791,10 +2791,10 @@ void budAI::Event_ThrowAF()
 budAI::Event_SetAngles
 ================
 */
-void budAI::Event_SetAngles( budAngles const& ang )
+void budAI::Event_SetAngles( Angles const& ang )
 {
 	current_yaw = ang.yaw;
-	viewAxis = budAngles( 0, current_yaw, 0 ).ToMat3();
+	viewAxis = Angles( 0, current_yaw, 0 ).ToMat3();
 }
 
 /*
@@ -2804,7 +2804,7 @@ budAI::Event_GetAngles
 */
 void budAI::Event_GetAngles()
 {
-	idThread::ReturnVector( budVec3( 0.0f, current_yaw, 0.0f ) );
+	idThread::ReturnVector( Vector3( 0.0f, current_yaw, 0.0f ) );
 }
 
 /*
@@ -2815,9 +2815,9 @@ budAI::Event_GetTrajectoryToPlayer
 void budAI::Event_GetTrajectoryToPlayer()
 {
 
-	budVec3 start;
-	budVec3 end;
-	budVec3 dir;
+	Vector3 start;
+	Vector3 end;
+	Vector3 dir;
 	float dist;
 // 	bool result;
 	idEntity* enemyEnt = enemy.GetEntity();
@@ -2836,7 +2836,7 @@ void budAI::Event_GetTrajectoryToPlayer()
 		gameLocal.Error( "Invalid speed.  speed must be > 0." );
 	}
 	
-	start = physicsObj.GetOrigin() + budVec3( 0.0f, 0.0f, 50.0f );
+	start = physicsObj.GetOrigin() + Vector3( 0.0f, 0.0f, 50.0f );
 	dir = end - start;
 	dist = dir.Normalize();
 	if( dist > 16.0f )
@@ -2847,7 +2847,7 @@ void budAI::Event_GetTrajectoryToPlayer()
 	
 	
 	
-	budVec3 gravity;
+	Vector3 gravity;
 	ballistics_t ballistics[2];
 	Ballistics( start, end, speed, 0.0f, ballistics );
 	dir.y = ballistics[0].angle;
@@ -2933,7 +2933,7 @@ budAI::Event_KickObstacles
 */
 void budAI::Event_KickObstacles( idEntity* kickEnt, float force )
 {
-	budVec3 dir;
+	Vector3 dir;
 	idEntity* obEnt;
 	
 	if( kickEnt )
@@ -2972,10 +2972,10 @@ void budAI::Event_GetObstacle()
 budAI::Event_PushPointIntoAAS
 ================
 */
-void budAI::Event_PushPointIntoAAS( const budVec3& pos )
+void budAI::Event_PushPointIntoAAS( const Vector3& pos )
 {
 	int		areaNum;
-	budVec3	newPos;
+	Vector3	newPos;
 	
 	areaNum = PointReachableAreaNum( pos );
 	if( areaNum )
@@ -3023,7 +3023,7 @@ void budAI::Event_AnimTurn( float angles )
 	if( angles )
 	{
 		anim_turn_yaw = current_yaw;
-		anim_turn_amount = budMath::Fabs( budMath::AngleNormalize180( current_yaw - ideal_yaw ) );
+		anim_turn_amount = Math::Fabs( Math::AngleNormalize180( current_yaw - ideal_yaw ) );
 		if( anim_turn_amount > anim_turn_angles )
 		{
 			anim_turn_amount = anim_turn_angles;
@@ -3064,7 +3064,7 @@ void budAI::Event_TriggerParticles( const char* jointName )
 budAI::Event_FindActorsInBounds
 =====================
 */
-void budAI::Event_FindActorsInBounds( const budVec3& mins, const budVec3& maxs )
+void budAI::Event_FindActorsInBounds( const Vector3& mins, const Vector3& maxs )
 {
 	idEntity* 	ent;
 	idEntity* 	entityList[ MAX_GENTITIES ];
@@ -3090,7 +3090,7 @@ void budAI::Event_FindActorsInBounds( const budVec3& mins, const budVec3& maxs )
 budAI::Event_CanReachPosition
 ================
 */
-void budAI::Event_CanReachPosition( const budVec3& pos )
+void budAI::Event_CanReachPosition( const Vector3& pos )
 {
 	aasPath_t	path;
 	int			toAreaNum;
@@ -3118,7 +3118,7 @@ void budAI::Event_CanReachEntity( idEntity* ent )
 	aasPath_t	path;
 	int			toAreaNum;
 	int			areaNum;
-	budVec3		pos;
+	Vector3		pos;
 	
 	if( !ent )
 	{
@@ -3151,7 +3151,7 @@ void budAI::Event_CanReachEntity( idEntity* ent )
 		return;
 	}
 	
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	areaNum	= PointReachableAreaNum( org );
 	if( !toAreaNum || !PathToGoal( path, areaNum, org, toAreaNum, pos ) )
 	{
@@ -3173,7 +3173,7 @@ void budAI::Event_CanReachEnemy()
 	aasPath_t	path;
 	int			toAreaNum;
 	int			areaNum;
-	budVec3		pos;
+	Vector3		pos;
 	budActor*		enemyEnt;
 	
 	enemyEnt = enemy.GetEntity();
@@ -3204,7 +3204,7 @@ void budAI::Event_CanReachEnemy()
 		return;
 	}
 	
-	const budVec3& org = physicsObj.GetOrigin();
+	const Vector3& org = physicsObj.GetOrigin();
 	areaNum	= PointReachableAreaNum( org );
 	if( !PathToGoal( path, areaNum, org, toAreaNum, pos ) )
 	{
@@ -3224,7 +3224,7 @@ budAI::Event_GetReachableEntityPosition
 void budAI::Event_GetReachableEntityPosition( idEntity* ent )
 {
 	int		toAreaNum;
-	budVec3	pos;
+	Vector3	pos;
 	
 	if( move.moveType != MOVETYPE_FLY )
 	{
@@ -3258,7 +3258,7 @@ void budAI::Event_GetReachableEntityPosition( idEntity* ent )
 budAI::Event_MoveToPositionDirect
 ================
 */
-void budAI::Event_MoveToPositionDirect( const budVec3& pos )
+void budAI::Event_MoveToPositionDirect( const Vector3& pos )
 {
 	StopMove( MOVE_STATUS_DONE );
 	DirectMoveToPosition( pos );
@@ -3308,11 +3308,11 @@ budAI::Event_LaunchHomingMissile
 */
 void budAI::Event_LaunchHomingMissile()
 {
-	budVec3		start;
+	Vector3		start;
 	trace_t		tr;
 	budBounds	projBounds;
 	const budClipModel* projClip;
-	budMat3		axis;
+	Matrix3		axis;
 	float		distance;
 	
 	if( !projectileDef )
@@ -3329,15 +3329,15 @@ void budAI::Event_LaunchHomingMissile()
 		return;
 	}
 	
-	budVec3 org = GetPhysics()->GetOrigin() + budVec3( 0.0f, 0.0f, 250.0f );
-	budVec3 goal = enemy->GetPhysics()->GetOrigin();
+	Vector3 org = GetPhysics()->GetOrigin() + Vector3( 0.0f, 0.0f, 250.0f );
+	Vector3 goal = enemy->GetPhysics()->GetOrigin();
 	homingMissileGoal = goal;
 	
 //	axis = ( goal - org ).ToMat3();
 //	axis.Identity();
 	if( !projectile.GetEntity() )
 	{
-		idHomingProjectile* homing = ( idHomingProjectile* ) CreateProjectile( org, budVec3( 0.0f, 0.0f, 1.0f ) );
+		idHomingProjectile* homing = ( idHomingProjectile* ) CreateProjectile( org, Vector3( 0.0f, 0.0f, 1.0f ) );
 		if( homing != NULL )
 		{
 			homing->SetEnemy( enemy );
@@ -3374,10 +3374,10 @@ void budAI::Event_LaunchHomingMissile()
 	
 	// launch the projectile
 	idThread::ReturnEntity( projectile.GetEntity() );
-	budVec3 dir = homingMissileGoal - org;
-	budAngles ang = dir.ToAngles();
+	Vector3 dir = homingMissileGoal - org;
+	Angles ang = dir.ToAngles();
 	ang.pitch = -45.0f;
-	projectile.GetEntity()->Launch( org, ang.ToForward(), vec3_origin );
+	projectile.GetEntity()->Launch( org, ang.ToForward(), Vector3_Origin );
 	projectile = NULL;
 	
 	TriggerWeaponEffects( tr.endpos );

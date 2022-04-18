@@ -265,12 +265,12 @@ Computes the light projection matrix for a spot light.
 static float R_ComputeSpotLightProjectionMatrix( budRenderLightLocal* light, budRenderMatrix& localProject )
 {
 	const float targetDistSqr = light->parms.target.LengthSqr();
-	const float invTargetDist = budMath::InvSqrt( targetDistSqr );
+	const float invTargetDist = Math::InvSqrt( targetDistSqr );
 	const float targetDist = invTargetDist * targetDistSqr;
 	
-	const budVec3 normalizedTarget = light->parms.target * invTargetDist;
-	const budVec3 normalizedRight = light->parms.right * ( 0.5f * targetDist / light->parms.right.LengthSqr() );
-	const budVec3 normalizedUp = light->parms.up * ( -0.5f * targetDist / light->parms.up.LengthSqr() );
+	const Vector3 normalizedTarget = light->parms.target * invTargetDist;
+	const Vector3 normalizedRight = light->parms.right * ( 0.5f * targetDist / light->parms.right.LengthSqr() );
+	const Vector3 normalizedUp = light->parms.up * ( -0.5f * targetDist / light->parms.up.LengthSqr() );
 	
 	localProject[0][0] = normalizedRight[0];
 	localProject[0][1] = normalizedRight[1];
@@ -300,7 +300,7 @@ static float R_ComputeSpotLightProjectionMatrix( budRenderLightLocal* light, bud
 	localProject[2][3] = - zNear * zScale;
 	
 	// now offset to the 0.0 - 1.0 texture range instead of -1.0 to 1.0 clip space range
-	budVec4 projectedTarget;
+	Vector4 projectedTarget;
 	localProject.TransformPoint( light->parms.target, projectedTarget );
 	
 	const float ofs0 = 0.5f - projectedTarget[0] / projectedTarget[3];
@@ -454,7 +454,7 @@ void R_DeriveLightData( budRenderLightLocal* light )
 	// we are just faking parallel by making it a very far off center for now
 	if( light->parms.parallel )
 	{
-		budVec3 dir = light->parms.lightCenter;
+		Vector3 dir = light->parms.lightCenter;
 		if( dir.Normalize() == 0.0f )
 		{
 			// make point straight up if not specified
@@ -880,7 +880,7 @@ Modifies the shaderParms on all the lights so the level
 designers can easily test different color schemes
 ====================
 */
-void R_ModulateLights_f( const budCmdArgs& args )
+void R_ModulateLights_f( const CmdArgs& args )
 {
 	if( !tr.primaryWorld )
 	{

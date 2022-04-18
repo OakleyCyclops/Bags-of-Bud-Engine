@@ -106,7 +106,7 @@ budRenderModel* budRenderModelPrt::InstantiateDynamicModel( const struct renderE
 	{
 	
 		assert( dynamic_cast<budRenderModelStatic*>( cachedModel ) != NULL );
-		assert( budStr::Icmp( cachedModel->Name(), parametricParticle_SnapshotName ) == 0 );
+		assert( String::Icmp( cachedModel->Name(), parametricParticle_SnapshotName ) == 0 );
 		
 		staticModel = static_cast<budRenderModelStatic*>( cachedModel );
 		

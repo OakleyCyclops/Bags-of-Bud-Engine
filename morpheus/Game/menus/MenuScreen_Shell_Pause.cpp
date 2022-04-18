@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../Game_local.h"
 
-extern budCVar g_demoMode;
+extern CVar g_demoMode;
 const static int NUM_PAUSE_OPTIONS = 6;
 
 enum pauseMenuCmds_t
@@ -146,8 +146,8 @@ idMenuScreen_Shell_Pause::ShowScreen
 void idMenuScreen_Shell_Pause::ShowScreen( const mainMenuTransition_t transitionType )
 {
 
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
-	budList< budStr > option;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	List< String > option;
 	
 	bool isDead = false;
 	budPlayer* player = gameLocal.GetLocalPlayer();

@@ -53,7 +53,7 @@ public:
 	void	Append( budSWFScriptObject* o );
 	void	Append( budSWFScriptFunction* f );
 	void	Append( const char* s );
-	void	Append( const budStr& s );
+	void	Append( const String& s );
 	void	Append( budSWFScriptString* s );
 	void	Append( const float f );
 	void	Append( const int32 i );

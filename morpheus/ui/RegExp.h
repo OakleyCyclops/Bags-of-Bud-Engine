@@ -44,7 +44,7 @@ public:
 	
 	bool				enabled;
 	short				type;
-	budStr				name;
+	String				name;
 	int					regCount;
 	unsigned short		regs[4];
 	idWinVar* 			var;
@@ -92,7 +92,7 @@ public:
 	~idRegisterList();
 	
 	void				AddReg( const char* name, int type, budTokenParser* src, idWindow* win, idWinVar* var );
-	void				AddReg( const char* name, int type, budVec4 data, idWindow* win, idWinVar* var );
+	void				AddReg( const char* name, int type, Vector4 data, idWindow* win, idWinVar* var );
 	
 	idRegister* 		FindReg( const char* name );
 	void				SetToRegs( float* registers );
@@ -104,7 +104,7 @@ public:
 	void				ReadFromSaveGame( budFile* savefile );
 	
 private:
-	budList<idRegister*>	regs;
+	List<idRegister*>	regs;
 	budHashIndex			regHash;
 };
 

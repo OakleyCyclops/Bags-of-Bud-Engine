@@ -100,7 +100,7 @@ ColladaParser::~ColladaParser()
 bool ColladaParser::ReadBoolFromTextContent()
 {
 	const char* cur = GetTextContent();
-	return ( !budStr::Icmpn( cur, "true", 4 ) || '0' != *cur );
+	return ( !String::Icmpn( cur, "true", 4 ) || '0' != *cur );
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -131,17 +131,17 @@ void ColladaParser::ReadContents()
 				{
 					const char* version = mReader->getAttributeValue( attrib );
 					
-					if( !budStr::Cmpn( version, "1.5", 3 ) )
+					if( !String::Cmpn( version, "1.5", 3 ) )
 					{
 						mFormat =  FV_1_5_n;
 						common->Printf( "Collada schema version is 1.5.n\n" );
 					}
-					else if( !budStr::Cmpn( version, "1.4", 3 ) )
+					else if( !String::Cmpn( version, "1.4", 3 ) )
 					{
 						mFormat =  FV_1_4_n;
 						common->Printf( "Collada schema version is 1.4.n\n" );
 					}
-					else if( !budStr::Cmpn( version, "1.3", 3 ) )
+					else if( !String::Cmpn( version, "1.3", 3 ) )
 					{
 						mFormat =  FV_1_3_n;
 						common->Printf( "Collada schema version is 1.3.n\n" );
@@ -238,9 +238,9 @@ void ColladaParser::ReadAssetInfo()
 			{
 				// read content, strip whitespace, compare
 				const char* content = GetTextContent();
-				if( budStr::Cmpn( content, "X_UP", 4 ) == 0 )
+				if( String::Cmpn( content, "X_UP", 4 ) == 0 )
 					mUpDirection = UP_X;
-				else if( budStr::Cmpn( content, "Y_UP", 4 ) == 0 )
+				else if( String::Cmpn( content, "Y_UP", 4 ) == 0 )
 					mUpDirection = UP_Y;
 				else
 					mUpDirection = UP_Z;
@@ -314,7 +314,7 @@ void ColladaParser::ReadAnimation( Collada::Animation* pParent )
 	Animation* anim = NULL;
 
 	// optional name given as an attribute
-	budStr animName;
+	String animName;
 	int indexName = TestAttribute( "name" );
 	int indexID = TestAttribute( "id" );
 	if( indexName >= 0 )
@@ -351,7 +351,7 @@ void ColladaParser::ReadAnimation( Collada::Animation* pParent )
 			{
 				// read the ID to assign the corresponding collada channel afterwards.
 				int indexID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( indexID );
+				String id = mReader->getAttributeValue( indexID );
 				ChannelMap::iterator newChannel = channels.insert( std::make_pair( id, AnimationChannel() ) ).first;
 
 				// have it read into a channel
@@ -473,7 +473,7 @@ void ColladaParser::ReadControllerLibrary()
 			{
 				// read ID. Ask the spec if it's neccessary or optional... you might be surprised.
 				int attrID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( attrID );
+				String id = mReader->getAttributeValue( attrID );
 
 				// create an entry and store it in the library under its ID
 				mControllerLibrary[id] = Controller();
@@ -666,7 +666,7 @@ void ColladaParser::ReadControllerWeights( Collada::Controller& pController )
 				// read weight count per vertex
 				const char* text = GetTextContent();
 				size_t numWeights = 0;
-				for( budList<size_t>::iterator it = pController.mWeightCounts.begin(); it != pController.mWeightCounts.end(); ++it )
+				for( List<size_t>::iterator it = pController.mWeightCounts.begin(); it != pController.mWeightCounts.end(); ++it )
 				{
 					if( *text == 0 )
 						ThrowException( "Out of data while reading vcount" );
@@ -686,7 +686,7 @@ void ColladaParser::ReadControllerWeights( Collada::Controller& pController )
 				// read JointIndex - WeightIndex pairs
 				const char* text = GetTextContent();
 
-				for( budList< std::pair<size_t, size_t> >::iterator it = pController.mWeights.begin(); it != pController.mWeights.end(); ++it )
+				for( List< std::pair<size_t, size_t> >::iterator it = pController.mWeights.begin(); it != pController.mWeights.end(); ++it )
 				{
 					if( *text == 0 )
 						ThrowException( "Out of data while reading vertex_weights" );
@@ -733,7 +733,7 @@ void ColladaParser::ReadImageLibrary()
 			{
 				// read ID. Another entry which is "optional" by design but obligatory in reality
 				int attrID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( attrID );
+				String id = mReader->getAttributeValue( attrID );
 
 				// create an entry and store it in the library under its ID
 				Image* image = new Image();
@@ -874,7 +874,7 @@ void ColladaParser::ReadMaterialLibrary()
 			{
 				// read ID. By now you propably know my opinion about this "specification"
 				int attrID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( attrID );
+				String id = mReader->getAttributeValue( attrID );
 				
 				// create an entry and store it in the library under its ID
 				Material* mat = new Material();
@@ -913,7 +913,7 @@ void ColladaParser::ReadLightLibrary()
 			{
 				// read ID. By now you propably know my opinion about this "specification"
 				int attrID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( attrID );
+				String id = mReader->getAttributeValue( attrID );
 
 				// create an entry and store it in the library under its ID
 				Light* light = new Light();
@@ -954,7 +954,7 @@ void ColladaParser::ReadCameraLibrary()
 			{
 				// read ID. By now you propably know my opinion about this "specification"
 				int attrID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( attrID );
+				String id = mReader->getAttributeValue( attrID );
 
 				// create an entry and store it in the library under its ID
 				Camera& cam = mCameraLibrary[id];
@@ -972,7 +972,7 @@ void ColladaParser::ReadCameraLibrary()
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "library_cameras" ) != 0 )
+			if( String::Cmp( mReader->getNodeName(), "library_cameras" ) != 0 )
 				ThrowException( "Expected end of \"library_cameras\" element." );
 
 			break;
@@ -1013,7 +1013,7 @@ void ColladaParser::ReadMaterial( Collada::Material& pMaterial )
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "material" ) != 0 )
+			if( String::Cmp( mReader->getNodeName(), "material" ) != 0 )
 				ThrowException( "Expected end of \"material\" element." );
 				
 			break;
@@ -1122,7 +1122,7 @@ void ColladaParser::ReadLight( Collada::Light& pLight )
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "light" ) == 0 )
+			if( String::Cmp( mReader->getNodeName(), "light" ) == 0 )
 				break;
 		}
 	}
@@ -1174,7 +1174,7 @@ void ColladaParser::ReadCamera( Collada::Camera& pCamera )
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "camera" ) == 0 )
+			if( String::Cmp( mReader->getNodeName(), "camera" ) == 0 )
 				break;
 		}
 	}
@@ -1202,7 +1202,7 @@ void ColladaParser::ReadEffectLibrary()
 				// me to complain about the fucking Collada spec with its fucking
 				// 'optional' attributes ...
 				int attrID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( attrID );
+				String id = mReader->getAttributeValue( attrID );
 
 				// create an entry and store it in the library under its ID
 				Effect* effect = new Effect();
@@ -1220,7 +1220,7 @@ void ColladaParser::ReadEffectLibrary()
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "library_effects" ) != 0 )
+			if( String::Cmp( mReader->getNodeName(), "library_effects" ) != 0 )
 				ThrowException( "Expected end of \"library_effects\" element." );
 
 			break;
@@ -1246,7 +1246,7 @@ void ColladaParser::ReadEffect( Collada::Effect& pEffect )
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "effect" ) != 0 )
+			if( String::Cmp( mReader->getNodeName(), "effect" ) != 0 )
 				ThrowException( "Expected end of \"effect\" element." );
 
 			break;
@@ -1268,7 +1268,7 @@ void ColladaParser::ReadEffectProfileCommon( Collada::Effect& pEffect )
 			{
 				// save ID
 				int attrSID = GetAttribute( "sid" );
-				budStr sid = mReader->getAttributeValue( attrSID );
+				String sid = mReader->getAttributeValue( attrSID );
 				pEffect.mParams[sid] = EffectParam();
 				ReadEffectParam( pEffect.mParams[sid] );
 			}
@@ -1324,7 +1324,7 @@ void ColladaParser::ReadEffectProfileCommon( Collada::Effect& pEffect )
 			// -------------------------------------------------------
 			else if( IsElement( "bump" ) )
 			{
-				budVec4 dummy;
+				Vector4 dummy;
 				ReadEffectColor( dummy, pEffect.mTexBump );
 			}
 
@@ -1348,7 +1348,7 @@ void ColladaParser::ReadEffectProfileCommon( Collada::Effect& pEffect )
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "profile_COMMON" ) == 0 )
+			if( String::Cmp( mReader->getNodeName(), "profile_COMMON" ) == 0 )
 			{
 				break;
 			}
@@ -1462,7 +1462,7 @@ void ColladaParser::ReadSamplerProperties( Sampler& out )
 		}
 		else if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
 		{
-			if( budStr::Cmp( mReader->getNodeName(), "technique" ) == 0 )
+			if( String::Cmp( mReader->getNodeName(), "technique" ) == 0 )
 				break;
 		}
 	}
@@ -1472,13 +1472,13 @@ void ColladaParser::ReadSamplerProperties( Sampler& out )
 // ------------------------------------------------------------------------------------------------
 // Reads an effect entry containing a color or a texture defining that color
 /*
-void ColladaParser::ReadEffectColor( budVec4& pColor, Sampler& pSampler )
+void ColladaParser::ReadEffectColor( Vector4& pColor, Sampler& pSampler )
 {
 	if( mReader->isEmptyElement() )
 		return;
 
 	// Save current element name
-	const budStr curElem = mReader->getNodeName();
+	const String curElem = mReader->getNodeName();
 
 	while( mReader->read() )
 	{
@@ -1636,7 +1636,7 @@ void ColladaParser::ReadGeometryLibrary()
 			{
 				// read ID. Another entry which is "optional" by design but obligatory in reality
 				int indexID = GetAttribute( "id" );
-				budStr id = mReader->getAttributeValue( indexID );
+				String id = mReader->getAttributeValue( indexID );
 				
 				// TODO: (thom) support SIDs
 				// ai_assert( TestAttribute( "sid") == -1);
@@ -1754,7 +1754,7 @@ void ColladaParser::ReadMesh( Mesh* pMesh )
 void ColladaParser::ReadSource()
 {
 	int indexID = GetAttribute( "id" );
-	budStr sourceID = mReader->getAttributeValue( indexID );
+	String sourceID = mReader->getAttributeValue( indexID );
 	
 	while( mReader->read() )
 	{
@@ -1802,13 +1802,13 @@ void ColladaParser::ReadSource()
 // Reads a data array holding a number of floats, and stores it in the global library
 void ColladaParser::ReadDataArray()
 {
-	budStr elmName = mReader->getNodeName();
+	String elmName = mReader->getNodeName();
 	bool isStringArray = ( elmName == "IDREF_array" || elmName == "Name_array" );
 	bool isEmptyElement = mReader->isEmptyElement();
 	
 	// read attributes
 	int indexID = GetAttribute( "id" );
-	budStr id = mReader->getAttributeValue( indexID );
+	String id = mReader->getAttributeValue( indexID );
 	int indexCount = GetAttribute( "count" );
 	unsigned int count = ( unsigned int ) mReader->getAttributeValueAsInt( indexCount );
 	const char* content = TestTextContent();
@@ -1828,7 +1828,7 @@ void ColladaParser::ReadDataArray()
 			data->mStrings.AssureSize( count );
 			
 			budToken token;
-			budLexer lexer( content, budStr::Length( content ), elmName );
+			budLexer lexer( content, String::Length( content ), elmName );
 			
 			for( unsigned int a = 0; a < count; a++ )
 			{
@@ -1846,7 +1846,7 @@ void ColladaParser::ReadDataArray()
 			data->mValues.AssureSize( count );
 			
 			budToken token;
-			budLexer lexer( content, budStr::Length( content ), elmName );
+			budLexer lexer( content, String::Length( content ), elmName );
 			
 			for( unsigned int a = 0; a < count; a++ )
 			{
@@ -1867,7 +1867,7 @@ void ColladaParser::ReadDataArray()
 		if( isStringArray )
 		{
 			data->mStrings.AssureSize( count );
-			budStr s;
+			String s;
 		
 			for( unsigned int a = 0; a < count; a++ )
 			{
@@ -1878,7 +1878,7 @@ void ColladaParser::ReadDataArray()
 		
 				// ignore space or new line
 				char c = *content;
-				while( !( budStr::CharIsNewLine( c ) || c == ' ' || c == '\t' || c == '\0' ) )
+				while( !( String::CharIsNewLine( c ) || c == ' ' || c == '\t' || c == '\0' ) )
 					s += *content++;
 				data->mStrings[a] = s;
 		
@@ -1914,7 +1914,7 @@ void ColladaParser::ReadDataArray()
 
 // ------------------------------------------------------------------------------------------------
 // Reads an accessor and stores it in the global library
-void ColladaParser::ReadAccessor( const budStr& pID )
+void ColladaParser::ReadAccessor( const String& pID )
 {
 	// read accessor attributes
 	int attrSource = GetAttribute( "source" );
@@ -1954,7 +1954,7 @@ void ColladaParser::ReadAccessor( const budStr& pID )
 			{
 				// read data param
 				int attrName = TestAttribute( "name" );
-				budStr name;
+				String name;
 				if( attrName > -1 )
 				{
 					name = mReader->getAttributeValue( attrName );
@@ -1993,7 +1993,7 @@ void ColladaParser::ReadAccessor( const budStr& pID )
 					// for the moment we only distinguish between a 4x4 matrix and anything else.
 					// TODO: (thom) I don't have a spec here at work. Check if there are other multi-value types
 					// which should be tested for here.
-					budStr type = mReader->getAttributeValue( attrType );
+					String type = mReader->getAttributeValue( attrType );
 					if( type == "float4x4" )
 						acc->mSize += 16;
 					else
@@ -2056,8 +2056,8 @@ void ColladaParser::ReadVertexData( Mesh* pMesh )
 // Reads input declarations of per-index mesh data into the given mesh
 void ColladaParser::ReadIndexData( Mesh* pMesh )
 {
-	budList<size_t> vcount;
-	budList<InputChannel> perIndexData;
+	List<size_t> vcount;
+	List<InputChannel> perIndexData;
 	
 	// read primitive count from the attribute
 	int attrCount = GetAttribute( "count" );
@@ -2072,7 +2072,7 @@ void ColladaParser::ReadIndexData( Mesh* pMesh )
 	pMesh->mSubMeshes.Append( subgroup );
 	
 	// distinguish between polys and triangles
-	budStr elementName = mReader->getNodeName();
+	String elementName = mReader->getNodeName();
 	PrimitiveType primType = Prim_Invalid;
 	if( IsElement( "lines" ) )
 		primType = Prim_Lines;
@@ -2110,7 +2110,7 @@ void ColladaParser::ReadIndexData( Mesh* pMesh )
 						const char* content = GetTextContent();
 						
 						budToken token;
-						budLexer lexer( content, budStr::Length( content ), "vcount" );
+						budLexer lexer( content, String::Length( content ), "vcount" );
 						
 						vcount.AssureSize( numPrimitives );
 						
@@ -2173,13 +2173,13 @@ void ColladaParser::ReadIndexData( Mesh* pMesh )
 
 // ------------------------------------------------------------------------------------------------
 // Reads a single input channel element and stores it in the given array, if valid
-void ColladaParser::ReadInputChannel( budList<InputChannel>& poChannels )
+void ColladaParser::ReadInputChannel( List<InputChannel>& poChannels )
 {
 	InputChannel channel;
 	
 	// read semantictype filter text
 	int attrSemantic = GetAttribute( "semantic" );
-	budStr semantic = mReader->getAttributeValue( attrSemantic );
+	String semantic = mReader->getAttributeValue( attrSemantic );
 	channel.mType = GetTypeForSemantic( semantic );
 	
 	// read source
@@ -2218,8 +2218,8 @@ void ColladaParser::ReadInputChannel( budList<InputChannel>& poChannels )
 
 // ------------------------------------------------------------------------------------------------
 // Reads a <p> primitive index list and assembles the mesh data into the given mesh
-void ColladaParser::ReadPrimitives( Mesh* pMesh, budList<InputChannel>& pPerIndexChannels,
-									size_t pNumPrimitives, const budList<size_t>& pVCount, PrimitiveType pPrimType )
+void ColladaParser::ReadPrimitives( Mesh* pMesh, List<InputChannel>& pPerIndexChannels,
+									size_t pNumPrimitives, const List<size_t>& pVCount, PrimitiveType pPrimType )
 {
 	// determine number of indices coming per vertex
 	// find the offset index for all per-vertex channels
@@ -2258,7 +2258,7 @@ void ColladaParser::ReadPrimitives( Mesh* pMesh, budList<InputChannel>& pPerInde
 	}
 	
 	// and read all indices into a temporary array
-	budList<size_t> indices;
+	List<size_t> indices;
 	if( expectedPointCount > 0 )
 		indices.AssureSize( expectedPointCount * numOffsets );
 		
@@ -2267,7 +2267,7 @@ void ColladaParser::ReadPrimitives( Mesh* pMesh, budList<InputChannel>& pPerInde
 		const char* content = GetTextContent();
 		
 		budToken token;
-		budLexer lexer( content, budStr::Length( content ), "indices" );
+		budLexer lexer( content, String::Length( content ), "indices" );
 		
 		for( unsigned int a = 0; a < indices.Num(); a++ )
 		{
@@ -2406,7 +2406,7 @@ void ColladaParser::ReadPrimitives( Mesh* pMesh, budList<InputChannel>& pPerInde
 		
 		for( int i = 0; i < numMissing; i++ )
 		{
-			pMesh->mTexCoords.Append( budVec2( 0, 0 ) );
+			pMesh->mTexCoords.Append( Vector2( 0, 0 ) );
 		}
 	}
 	
@@ -2440,7 +2440,7 @@ void ColladaParser::ExtractDataObjectFromChannel( const InputChannel& pInput, si
 	{
 		case IT_Position: // ignore all position streams except 0 - there can be only one position
 			if( pInput.mIndex == 0 )
-				pMesh->mPositions.Append( budVec3( obj[0], obj[1], obj[2] ) );
+				pMesh->mPositions.Append( Vector3( obj[0], obj[1], obj[2] ) );
 			else
 				common->Error( "Collada: just one vertex position stream supported" );
 			break;
@@ -2453,13 +2453,13 @@ void ColladaParser::ExtractDataObjectFromChannel( const InputChannel& pInput, si
 				
 				for( int i = 0; i < numMissing; i++ )
 				{
-					pMesh->mNormals.Append( budVec3( 0, 1, 0 ) );
+					pMesh->mNormals.Append( Vector3( 0, 1, 0 ) );
 				}
 			}
 			
 			// ignore all normal streams except 0 - there can be only one normal
 			if( pInput.mIndex == 0 )
-				pMesh->mNormals.Append( budVec3( obj[0], obj[1], obj[2] ) );
+				pMesh->mNormals.Append( Vector3( obj[0], obj[1], obj[2] ) );
 			else
 				common->Error( "Collada: just one vertex normal stream supported" );
 			break;
@@ -2472,13 +2472,13 @@ void ColladaParser::ExtractDataObjectFromChannel( const InputChannel& pInput, si
 				
 				for( int i = 0; i < numMissing; i++ )
 				{
-					pMesh->mTangents.Append( budVec3( 1, 0, 0 ) );
+					pMesh->mTangents.Append( Vector3( 1, 0, 0 ) );
 				}
 			}
 			
 			// ignore all tangent streams except 0 - there can be only one tangent
 			if( pInput.mIndex == 0 )
-				pMesh->mTangents.Append( budVec3( obj[0], obj[1], obj[2] ) );
+				pMesh->mTangents.Append( Vector3( obj[0], obj[1], obj[2] ) );
 			else
 				common->Error( "Collada: just one vertex tangent stream supported" );
 			break;
@@ -2491,13 +2491,13 @@ void ColladaParser::ExtractDataObjectFromChannel( const InputChannel& pInput, si
 				
 				for( int i = 0; i < numMissing; i++ )
 				{
-					pMesh->mBitangents.Append( budVec3( 0, 0, 1 ) );
+					pMesh->mBitangents.Append( Vector3( 0, 0, 1 ) );
 				}
 			}
 			
 			// ignore all bitangent streams except 0 - there can be only one bitangent
 			if( pInput.mIndex == 0 )
-				pMesh->mBitangents.Append( budVec3( obj[0], obj[1], obj[2] ) );
+				pMesh->mBitangents.Append( Vector3( obj[0], obj[1], obj[2] ) );
 			else
 				common->Error( "Collada: just one vertex bitangent stream supported" );
 			break;
@@ -2513,21 +2513,21 @@ void ColladaParser::ExtractDataObjectFromChannel( const InputChannel& pInput, si
 					
 					for( int i = 0; i < numMissing; i++ )
 					{
-						pMesh->mTexCoords.Append( budVec2( 0, 0 ) );
+						pMesh->mTexCoords.Append( Vector2( 0, 0 ) );
 					}
 				}
 				
 				// RB: invert t component
-				pMesh->mTexCoords.Append( budVec2( obj[0], 1.0f - obj[1] ) ); //, obj[2] ) );
+				pMesh->mTexCoords.Append( Vector2( obj[0], 1.0f - obj[1] ) ); //, obj[2] ) );
 				
 				/*
 				if( pMesh->mTexCoords[pInput.mIndex].Num() < pMesh->mPositions.Num() - 1 )
 				{
 					pMesh->mTexCoords[pInput.mIndex].insert( pMesh->mTexCoords[pInput.mIndex].end(),
-							pMesh->mPositions.size() - pMesh->mTexCoords[pInput.mIndex].size() - 1, budVec3( 0, 0, 0 ) );
+							pMesh->mPositions.size() - pMesh->mTexCoords[pInput.mIndex].size() - 1, Vector3( 0, 0, 0 ) );
 				}
 				
-				pMesh->mTexCoords[pInput.mIndex].push_back( budVec3( obj[0], obj[1], obj[2] ) );
+				pMesh->mTexCoords[pInput.mIndex].push_back( Vector3( obj[0], obj[1], obj[2] ) );
 				if( 0 != acc.mSubOffset[2] || 0 != acc.mSubOffset[3] ) // hack ... consider cleaner solution
 					pMesh->mNumUVComponents[pInput.mIndex] = 3;
 					*/
@@ -2549,18 +2549,18 @@ void ColladaParser::ExtractDataObjectFromChannel( const InputChannel& pInput, si
 					
 					for( int i = 0; i < numMissing; i++ )
 					{
-						pMesh->mColors.Append( PackColor( budVec4( 0, 0, 0, 1 ) ) );
+						pMesh->mColors.Append( PackColor( Vector4( 0, 0, 0, 1 ) ) );
 					}
 				}
 				
-				pMesh->mColors.Append( PackColor( budVec4( obj[0], obj[1], obj[2], obj[3] ) ) );
+				pMesh->mColors.Append( PackColor( Vector4( obj[0], obj[1], obj[2], obj[3] ) ) );
 				
 				/*
 				if( pMesh->mColors[pInput.mIndex].size() < pMesh->mPositions.size() - 1 )
 					pMesh->mColors[pInput.mIndex].insert( pMesh->mColors[pInput.mIndex].end(),
-														  pMesh->mPositions.size() - pMesh->mColors[pInput.mIndex].size() - 1, budVec4( 0, 0, 0, 1 ) );
+														  pMesh->mPositions.size() - pMesh->mColors[pInput.mIndex].size() - 1, Vector4( 0, 0, 0, 1 ) );
 				
-				pMesh->mColors[pInput.mIndex].push_back( budVec4( obj[0], obj[1], obj[2], obj[3] ) );
+				pMesh->mColors[pInput.mIndex].push_back( Vector4( obj[0], obj[1], obj[2], obj[3] ) );
 				*/
 			}
 			else
@@ -2783,7 +2783,7 @@ void ColladaParser::ReadNodeTransformation( Node* pNode, TransformType pType )
 	if( mReader->isEmptyElement() )
 		return;
 		
-	budStr tagName = mReader->getNodeName();
+	String tagName = mReader->getNodeName();
 	
 	Transform tf;
 	tf.mType = pType;
@@ -2798,7 +2798,7 @@ void ColladaParser::ReadNodeTransformation( Node* pNode, TransformType pType )
 	const char* content = GetTextContent();
 	
 	budToken token;
-	budLexer lexer( content, budStr::Length( content ), "sid" );
+	budLexer lexer( content, String::Length( content ), "sid" );
 	
 	// read as many parameters and store in the transformation
 	for( unsigned int a = 0; a < sNumParameters[pType]; a++ )
@@ -2835,7 +2835,7 @@ void ColladaParser::ReadMaterialVertexInputBinding( Collada::SemanticMappingTabl
 				
 				// effect semantic
 				int n = GetAttribute( "semantic" );
-				budStr s = mReader->getAttributeValue( n );
+				String s = mReader->getAttributeValue( n );
 				
 				// input semantic
 				n = GetAttribute( "input_semantic" );
@@ -2885,7 +2885,7 @@ void ColladaParser::ReadNodeGeometry( Node* pNode )
 				{
 					// read ID of the geometry subgroup and the target material
 					int attrGroup = GetAttribute( "symbol" );
-					budStr group = mReader->getAttributeValue( attrGroup );
+					String group = mReader->getAttributeValue( attrGroup );
 					
 					int attrMaterial = GetAttribute( "target" );
 					const char* urlMat = mReader->getAttributeValue( attrMaterial );
@@ -2944,7 +2944,7 @@ void ColladaParser::ReadScene()
 				Node** node = NULL;
 				
 				if( !mNodeLibrary.Get( url + 1, &node ) )
-					ThrowException( "Unable to resolve visual_scene reference \"" + budStr( url ) + "\"." );
+					ThrowException( "Unable to resolve visual_scene reference \"" + String( url ) + "\"." );
 				mRootNode = *node;
 			}
 			else
@@ -2961,7 +2961,7 @@ void ColladaParser::ReadScene()
 
 // ------------------------------------------------------------------------------------------------
 // Aborts the file reading with an exception
-void ColladaParser::ThrowException( const budStr& pError ) const
+void ColladaParser::ThrowException( const String& pError ) const
 {
 #if defined(USE_EXCEPTIONS)
 	throw idException( va( "Collada: %s - %s", mFileName.c_str(), pError.c_str() ) );
@@ -2988,7 +2988,7 @@ void ColladaParser::SkipElement( const char* pElement )
 {
 	// copy the current node's name because it'a pointer to the reader's internal buffer,
 	// which is going to change with the upcoming parsing
-	budStr element = pElement;
+	String element = pElement;
 	while( mReader->read() )
 	{
 		if( mReader->getNodeType() == irr::io::EXN_ELEMENT_END )
@@ -3095,9 +3095,9 @@ const char* ColladaParser::TestTextContent()
 
 // ------------------------------------------------------------------------------------------------
 // Calculates the resulting transformation fromm all the given transform steps
-budMat4 ColladaParser::CalculateResultTransform( const budList<Transform>& pTransforms ) const
+Matrix4 ColladaParser::CalculateResultTransform( const List<Transform>& pTransforms ) const
 {
-	budMat4 res;
+	Matrix4 res;
 	res.Identity();
 	
 	for( int i = 0; i < pTransforms.Num(); i++ )
@@ -3107,16 +3107,16 @@ budMat4 ColladaParser::CalculateResultTransform( const budList<Transform>& pTran
 		{
 			case TF_LOOKAT:
 			{
-				budVec3 pos( tf.f[0], tf.f[1], tf.f[2] );
-				budVec3 dstPos( tf.f[3], tf.f[4], tf.f[5] );
-				budVec3 up = budVec3( tf.f[6], tf.f[7], tf.f[8] );
+				Vector3 pos( tf.f[0], tf.f[1], tf.f[2] );
+				Vector3 dstPos( tf.f[3], tf.f[4], tf.f[5] );
+				Vector3 up = Vector3( tf.f[6], tf.f[7], tf.f[8] );
 				up.Normalize();
-				budVec3 dir = budVec3( dstPos - pos );
+				Vector3 dir = Vector3( dstPos - pos );
 				dir.Normalize();
-				budVec3 right = dir.Cross( up );
+				Vector3 right = dir.Cross( up );
 				right.Normalize();
 				
-				res *= budMat4(
+				res *= Matrix4(
 						   right.x, up.x, -dir.x, pos.x,
 						   right.y, up.y, -dir.y, pos.y,
 						   right.z, up.z, -dir.z, pos.z,
@@ -3126,14 +3126,14 @@ budMat4 ColladaParser::CalculateResultTransform( const budList<Transform>& pTran
 			case TF_ROTATE:
 			{
 				float angle = tf.f[3];
-				budVec3 axis( tf.f[0], tf.f[1], tf.f[2] );
-				budRotation rot( vec3_origin, axis, angle );
+				Vector3 axis( tf.f[0], tf.f[1], tf.f[2] );
+				Rotation rot( Vector3_Origin, axis, angle );
 				res *= rot.ToMat4();
 				break;
 			}
 			case TF_TRANSLATE:
 			{
-				budMat4 trans;
+				Matrix4 trans;
 				trans.Identity();
 				
 				trans[0][3] = tf.f[0];
@@ -3145,7 +3145,7 @@ budMat4 ColladaParser::CalculateResultTransform( const budList<Transform>& pTran
 			}
 			case TF_SCALE:
 			{
-				budMat4 scale( tf.f[0], 0.0f, 0.0f, 0.0f, 0.0f, tf.f[1], 0.0f, 0.0f, 0.0f, 0.0f, tf.f[2], 0.0f,
+				Matrix4 scale( tf.f[0], 0.0f, 0.0f, 0.0f, 0.0f, tf.f[1], 0.0f, 0.0f, 0.0f, 0.0f, tf.f[2], 0.0f,
 							  0.0f, 0.0f, 0.0f, 1.0f );
 				res *= scale;
 				break;
@@ -3156,7 +3156,7 @@ budMat4 ColladaParser::CalculateResultTransform( const budList<Transform>& pTran
 				break;
 			case TF_MATRIX:
 			{
-				budMat4 mat( tf.f[0], tf.f[1], tf.f[2], tf.f[3], tf.f[4], tf.f[5], tf.f[6], tf.f[7],
+				Matrix4 mat( tf.f[0], tf.f[1], tf.f[2], tf.f[3], tf.f[4], tf.f[5], tf.f[6], tf.f[7],
 							tf.f[8], tf.f[9], tf.f[10], tf.f[11], tf.f[12], tf.f[13], tf.f[14], tf.f[15] );
 				res *= mat;
 				break;
@@ -3172,7 +3172,7 @@ budMat4 ColladaParser::CalculateResultTransform( const budList<Transform>& pTran
 
 // ------------------------------------------------------------------------------------------------
 // Determines the input data type for the given semantic string
-Collada::InputType ColladaParser::GetTypeForSemantic( const budStr& pSemantic )
+Collada::InputType ColladaParser::GetTypeForSemantic( const String& pSemantic )
 {
 	if( pSemantic == "POSITION" )
 		return IT_Position;

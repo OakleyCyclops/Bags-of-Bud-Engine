@@ -672,7 +672,7 @@ int idDxtEncoder::GetSquareNormalYError( const byte* colorBlock, const unsigned 
 		{
 			float r = ( float ) colorBlock[i * 4 + 1] / scale;
 			float s = ( float ) colors[j][1] / scale;
-			unsigned int dist = budMath::Ftoi( ( r - s ) * ( r - s ) );
+			unsigned int dist = Math::Ftoi( ( r - s ) * ( r - s ) );
 			if( dist < minDist )
 			{
 				minDist = dist;
@@ -2990,7 +2990,7 @@ void idDxtEncoder::RotateNormalsDXT1( byte* block ) const
 	for( int i = 0; i < 32; i += 1 )
 	{
 		int r = ( i << 3 ) | ( i >> 2 );
-		float angle = ( r / 255.0f ) * budMath::PI;
+		float angle = ( r / 255.0f ) * Math::PI;
 		float s = sin( angle );
 		float c = cos( angle );
 		
@@ -3000,8 +3000,8 @@ void idDxtEncoder::RotateNormalsDXT1( byte* block ) const
 			float y = block[j * 4 + 1] / 255.0f * 2.0f - 1.0f;
 			float rx = c * x - s * y;
 			float ry = s * x + c * y;
-			rotatedBlock[j * 4 + 0] = budMath::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
-			rotatedBlock[j * 4 + 1] = budMath::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
+			rotatedBlock[j * 4 + 0] = Math::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
+			rotatedBlock[j * 4 + 1] = Math::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
 		}
 		
 		int error = GetMinMaxColorsHQ( rotatedBlock, col1, col2, true );
@@ -3012,7 +3012,7 @@ void idDxtEncoder::RotateNormalsDXT1( byte* block ) const
 		}
 	}
 	
-	float angle = ( bestRotation / 255.0f ) * budMath::PI;
+	float angle = ( bestRotation / 255.0f ) * Math::PI;
 	float s = sin( angle );
 	float c = cos( angle );
 	
@@ -3022,8 +3022,8 @@ void idDxtEncoder::RotateNormalsDXT1( byte* block ) const
 		float y = block[j * 4 + 1] / 255.0f * 2.0f - 1.0f;
 		float rx = c * x - s * y;
 		float ry = s * x + c * y;
-		block[j * 4 + 0] = budMath::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
-		block[j * 4 + 1] = budMath::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
+		block[j * 4 + 0] = Math::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
+		block[j * 4 + 1] = Math::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
 		block[j * 4 + 2] = ( byte )bestRotation;
 	}
 }
@@ -3277,7 +3277,7 @@ void idDxtEncoder::RotateNormalsDXT5( byte* block ) const
 	for( int i = 0; i < 32; i += 1 )
 	{
 		int r = ( i << 3 ) | ( i >> 2 );
-		float angle = ( r / 255.0f ) * budMath::PI;
+		float angle = ( r / 255.0f ) * Math::PI;
 		float s = sin( angle );
 		float c = cos( angle );
 		
@@ -3287,8 +3287,8 @@ void idDxtEncoder::RotateNormalsDXT5( byte* block ) const
 			float y = block[j * 4 + 1] / 255.0f * 2.0f - 1.0f;
 			float rx = c * x - s * y;
 			float ry = s * x + c * y;
-			rotatedBlock[j * 4 + 3] = budMath::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
-			rotatedBlock[j * 4 + 1] = budMath::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
+			rotatedBlock[j * 4 + 3] = Math::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
+			rotatedBlock[j * 4 + 1] = Math::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
 		}
 		
 #if USE_SCALE
@@ -3330,7 +3330,7 @@ void idDxtEncoder::RotateNormalsDXT5( byte* block ) const
 		}
 	}
 	
-	float angle = ( bestRotation / 255.0f ) * budMath::PI;
+	float angle = ( bestRotation / 255.0f ) * Math::PI;
 	float s = sin( angle );
 	float c = cos( angle );
 	
@@ -3341,8 +3341,8 @@ void idDxtEncoder::RotateNormalsDXT5( byte* block ) const
 		float rx = c * x - s * y;
 		float ry = s * x + c * y;
 		block[j * 4 + 0] = ( byte )bestRotation;
-		block[j * 4 + 1] = budMath::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
-		block[j * 4 + 3] = budMath::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
+		block[j * 4 + 1] = Math::Ftob( ( ry + 1.0f ) / 2.0f * 255.0f );
+		block[j * 4 + 3] = Math::Ftob( ( rx + 1.0f ) / 2.0f * 255.0f );
 		
 #if USE_SCALE
 		block[j * 4 + 1] = byte( ( block[j * 4 + 1] - 128 ) * bestScale + 128 );

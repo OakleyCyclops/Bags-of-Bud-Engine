@@ -101,7 +101,7 @@ void idMenuWidget_PDA_EmailInbox::Update()
 		budSWFTextInstance* txtOwner = dataObj->GetNestedText( "heading", "txtOwner" );
 		if( txtOwner != NULL )
 		{
-			budStr ownerText = budLocalization::GetString( "#str_01474" );
+			String ownerText = budLocalization::GetString( "#str_01474" );
 			ownerText.Append( ": " );
 			
 			if( pdaIndex == 0 )
@@ -132,7 +132,7 @@ void idMenuWidget_PDA_EmailInbox::Update()
 			emailInfo.Clear();
 			for( int index = 0; index < pda->GetNumEmails(); ++index )
 			{
-				budList< budStr > emailData;
+				List< String > emailData;
 				email = pda->GetEmailByIndex( index );
 				if( email != NULL )
 				{

@@ -87,7 +87,7 @@ budAnim::budAnim( const budDeclModelDef* modelDef, const budAnim* anim )
 		frameCommands[ i ] = anim->frameCommands[ i ];
 		if( anim->frameCommands[ i ].string )
 		{
-			frameCommands[ i ].string = new( TAG_ANIM ) budStr( *anim->frameCommands[ i ].string );
+			frameCommands[ i ].string = new( TAG_ANIM ) String( *anim->frameCommands[ i ].string );
 		}
 	}
 }
@@ -242,7 +242,7 @@ int	budAnim::NumAnims() const
 budAnim::TotalMovementDelta
 =====================
 */
-const budVec3& budAnim::TotalMovementDelta() const
+const Vector3& budAnim::TotalMovementDelta() const
 {
 	if( !anims[ 0 ] )
 	{
@@ -257,7 +257,7 @@ const budVec3& budAnim::TotalMovementDelta() const
 budAnim::GetOrigin
 =====================
 */
-bool budAnim::GetOrigin( budVec3& offset, int animNum, int currentTime, int cyclecount ) const
+bool budAnim::GetOrigin( Vector3& offset, int animNum, int currentTime, int cyclecount ) const
 {
 	if( !anims[ animNum ] )
 	{
@@ -274,7 +274,7 @@ bool budAnim::GetOrigin( budVec3& offset, int animNum, int currentTime, int cycl
 budAnim::GetOriginRotation
 =====================
 */
-bool budAnim::GetOriginRotation( idQuat& rotation, int animNum, int currentTime, int cyclecount ) const
+bool budAnim::GetOriginRotation( Quat& rotation, int animNum, int currentTime, int cyclecount ) const
 {
 	if( !anims[ animNum ] )
 	{
@@ -310,12 +310,12 @@ budAnim::AddFrameCommand
 Returns NULL if no error.
 =====================
 */
-const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int framenum, budLexer& src, const idDict* def )
+const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int framenum, budLexer& src, const Dict* def )
 {
 	int					i;
 	int					index;
-	budStr				text;
-	budStr				funcname;
+	String				text;
+	String				funcname;
 	frameCommand_t		fc;
 	budToken				token;
 	const jointInfo_t*	jointInfo;
@@ -355,7 +355,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return "Unexpected end of line";
 		}
 		fc.type = FC_SCRIPTFUNCTIONOBJECT;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "event" )
 	{
@@ -373,7 +373,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		{
 			return va( "Event '%s' has arguments", token.c_str() );
 		}
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "sound" )
 	{
@@ -384,7 +384,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -404,7 +404,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_VOICE;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -424,7 +424,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_VOICE2;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -444,7 +444,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_BODY;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -464,7 +464,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_BODY2;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -484,7 +484,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_BODY3;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -504,7 +504,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_WEAPON;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -524,7 +524,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_GLOBAL;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -544,7 +544,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_ITEM;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -564,7 +564,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_SOUND_CHATTER;
 		if( !token.Cmpn( "snd_", 4 ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 		else
 		{
@@ -606,7 +606,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		{
 			return va( "fx '%s' not found", token.c_str() );
 		}
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "trigger" )
 	{
@@ -615,7 +615,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return "Unexpected end of line";
 		}
 		fc.type = FC_TRIGGER;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "triggerSmokeParticle" )
 	{
@@ -628,7 +628,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		{
 			return va( "Particle '%s' not found", token.c_str() );
 		}
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "melee" )
 	{
@@ -641,7 +641,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		{
 			return va( "Unknown entityDef '%s'", token.c_str() );
 		}
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "direct_damage" )
 	{
@@ -654,7 +654,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		{
 			return va( "Unknown entityDef '%s'", token.c_str() );
 		}
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "attack_begin" )
 	{
@@ -667,7 +667,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		{
 			return va( "Unknown entityDef '%s'", token.c_str() );
 		}
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "attack_end" )
 	{
@@ -684,7 +684,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return va( "Joint '%s' not found", token.c_str() );
 		}
 		fc.type = FC_MUZZLEFLASH;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "create_missile" )
 	{
@@ -697,7 +697,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return va( "Joint '%s' not found", token.c_str() );
 		}
 		fc.type = FC_CREATEMISSILE;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "launch_missile" )
 	{
@@ -710,7 +710,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return va( "Joint '%s' not found", token.c_str() );
 		}
 		fc.type = FC_LAUNCHMISSILE;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "fire_missile_at_target" )
 	{
@@ -728,7 +728,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return "Unexpected end of line";
 		}
 		fc.type = FC_FIREMISSILEATTARGET;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 		fc.index = jointInfo->num;
 	}
 	else if( token == "launch_projectile" )
@@ -742,7 +742,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return "Unknown projectile def";
 		}
 		fc.type = FC_LAUNCH_PROJECTILE;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "trigger_fx" )
 	{
@@ -766,14 +766,14 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		}
 		
 		fc.type = FC_TRIGGER_FX;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 		fc.index = jointInfo->num;
 		
 	}
 	else if( token == "start_emitter" )
 	{
 	
-		budStr str;
+		String str;
 		if( !src.ReadTokenOnLine( &token ) )
 		{
 			return "Unexpected end of line";
@@ -799,7 +799,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		}
 		str += token;
 		fc.type = FC_START_EMITTER;
-		fc.string = new( TAG_ANIM ) budStr( str );
+		fc.string = new( TAG_ANIM ) String( str );
 		fc.index = jointInfo->num;
 		
 	}
@@ -811,7 +811,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 			return "Unexpected end of line";
 		}
 		fc.type = FC_STOP_EMITTER;
-		fc.string = new( TAG_ANIM ) budStr( token );
+		fc.string = new( TAG_ANIM ) String( token );
 	}
 	else if( token == "footstep" )
 	{
@@ -884,7 +884,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_RECORDDEMO;
 		if( src.ReadTokenOnLine( &token ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 	}
 	else if( token == "aviGame" )
@@ -892,7 +892,7 @@ const char* budAnim::AddFrameCommand( const budDeclModelDef* modelDef, int frame
 		fc.type = FC_AVIGAME;
 		if( src.ReadTokenOnLine( &token ) )
 		{
-			fc.string = new( TAG_ANIM ) budStr( token );
+			fc.string = new( TAG_ANIM ) String( token );
 		}
 	}
 	else
@@ -1239,8 +1239,8 @@ void budAnim::CallFrameCommands( idEntity* ent, int from, int to ) const
 					int index = command.string->Find( " " );
 					if( index >= 0 )
 					{
-						budStr name = command.string->Left( index );
-						budStr particle = command.string->Right( command.string->Length() - index - 1 );
+						String name = command.string->Left( index );
+						String particle = command.string->Right( command.string->Length() - index - 1 );
 						ent->ProcessEvent( &AI_StartEmitter, name.c_str(), modelDef->GetJointName( command.index ), particle.c_str() );
 					}
 				}
@@ -2432,11 +2432,11 @@ bool budAnimBlend::BlendAnim( int currentTime, int channel, int numJoints, budJo
 budAnimBlend::BlendOrigin
 =====================
 */
-void budAnimBlend::BlendOrigin( int currentTime, budVec3& blendPos, float& blendWeight, bool removeOriginOffset ) const
+void budAnimBlend::BlendOrigin( int currentTime, Vector3& blendPos, float& blendWeight, bool removeOriginOffset ) const
 {
 	float	lerp;
-	budVec3	animpos;
-	budVec3	pos;
+	Vector3	animpos;
+	Vector3	pos;
 	int		time;
 	int		num;
 	int		i;
@@ -2491,12 +2491,12 @@ void budAnimBlend::BlendOrigin( int currentTime, budVec3& blendPos, float& blend
 budAnimBlend::BlendDelta
 =====================
 */
-void budAnimBlend::BlendDelta( int fromtime, int totime, budVec3& blendDelta, float& blendWeight ) const
+void budAnimBlend::BlendDelta( int fromtime, int totime, Vector3& blendDelta, float& blendWeight ) const
 {
-	budVec3	pos1;
-	budVec3	pos2;
-	budVec3	animpos;
-	budVec3	delta;
+	Vector3	pos1;
+	Vector3	pos2;
+	Vector3	animpos;
+	Vector3	delta;
 	int		time1;
 	int		time2;
 	float	lerp;
@@ -2559,11 +2559,11 @@ void budAnimBlend::BlendDelta( int fromtime, int totime, budVec3& blendDelta, fl
 budAnimBlend::BlendDeltaRotation
 =====================
 */
-void budAnimBlend::BlendDeltaRotation( int fromtime, int totime, idQuat& blendDelta, float& blendWeight ) const
+void budAnimBlend::BlendDeltaRotation( int fromtime, int totime, Quat& blendDelta, float& blendWeight ) const
 {
-	idQuat	q1;
-	idQuat	q2;
-	idQuat	q3;
+	Quat	q1;
+	Quat	q2;
+	Quat	q3;
 	int		time1;
 	int		time2;
 	float	lerp;
@@ -2647,7 +2647,7 @@ bool budAnimBlend::AddBounds( int currentTime, budBounds& bounds, bool removeOri
 	int			num;
 	budBounds	b;
 	int			time;
-	budVec3		pos;
+	Vector3		pos;
 	bool		addorigin;
 	
 	if( ( endtime > 0 ) && ( currentTime > endtime ) )
@@ -2831,10 +2831,10 @@ budRenderModel* budDeclModelDef::ModelHandle() const
 budDeclModelDef::GetJointList
 =====================
 */
-void budDeclModelDef::GetJointList( const char* jointnames, budList<jointHandle_t>& jointList ) const
+void budDeclModelDef::GetJointList( const char* jointnames, List<jointHandle_t>& jointList ) const
 {
 	const char*			pos;
-	budStr				jointname;
+	String				jointname;
 	const jointInfo_t*	joint;
 	const jointInfo_t*	child;
 	int					i;
@@ -3011,7 +3011,7 @@ void budDeclModelDef::SetupJoints( int* numJoints, budJointMat** jointList, budB
 	if( removeOriginOffset )
 	{
 #ifdef VELOCITY_MOVE
-		list[ 0 ].SetTranslation( budVec3( offset.x, offset.y + pose[0].t.y, offset.z + pose[0].t.z ) );
+		list[ 0 ].SetTranslation( Vector3( offset.x, offset.y + pose[0].t.y, offset.z + pose[0].t.z ) );
 #else
 		list[ 0 ].SetTranslation( offset );
 #endif
@@ -3045,7 +3045,7 @@ bool budDeclModelDef::ParseAnim( budLexer& src, int numDefaultAnims )
 	budAnim*			anim;
 	const budMD5Anim*	md5anims[ ANIM_MaxSyncedAnims ];
 	const budMD5Anim*	md5anim;
-	budStr			alias;
+	String			alias;
 	budToken			realname;
 	budToken			token;
 	int				numAnims;
@@ -3254,17 +3254,17 @@ bool budDeclModelDef::Parse( const char* text, const int textLength, bool allowB
 {
 	int					i;
 	int					num;
-	budStr				filename;
-	budStr				extension;
+	String				filename;
+	String				extension;
 	const budMD5Joint*	md5joint;
 	const budMD5Joint*	md5joints;
 	budLexer				src;
 	budToken				token;
 	budToken				token2;
-	budStr				jointnames;
+	String				jointnames;
 	int					channel;
 	jointHandle_t		jointnum;
-	budList<jointHandle_t> jointList;
+	List<jointHandle_t> jointList;
 	int					numDefaultAnims;
 	
 	src.LoadMemory( text, textLength, GetFileName(), GetLineNum() );
@@ -3470,7 +3470,7 @@ bool budDeclModelDef::Parse( const char* text, const int textLength, bool allowB
 			
 			for( i = ANIMCHANNEL_ALL + 1; i < ANIM_NumAnimChannels; i++ )
 			{
-				if( !budStr::Icmp( channelNames[ i ], token2 ) )
+				if( !String::Icmp( channelNames[ i ], token2 ) )
 				{
 					break;
 				}
@@ -3617,7 +3617,7 @@ int budDeclModelDef::GetAnim( const char* name ) const
 	int				len;
 	
 	len = strlen( name );
-	if( len && budStr::CharIsNumeric( name[ len - 1 ] ) )
+	if( len && String::CharIsNumeric( name[ len - 1 ] ) )
 	{
 		// find a specific animation
 		return GetSpecificAnim( name );
@@ -3680,7 +3680,7 @@ const char* budDeclModelDef::GetModelName() const
 budDeclModelDef::Joints
 =====================
 */
-const budList<jointInfo_t>& budDeclModelDef::Joints() const
+const List<jointInfo_t>& budDeclModelDef::Joints() const
 {
 	return joints;
 }
@@ -3777,7 +3777,7 @@ const int* budDeclModelDef::GetChannelJoints( int channel ) const
 budDeclModelDef::GetVisualOffset
 =====================
 */
-const budVec3& budDeclModelDef::GetVisualOffset() const
+const Vector3& budDeclModelDef::GetVisualOffset() const
 {
 	return offset;
 }
@@ -4180,7 +4180,7 @@ bool budAnimator::RemoveOrigin() const
 budAnimator::GetJointList
 =====================
 */
-void budAnimator::GetJointList( const char* jointnames, budList<jointHandle_t>& jointList ) const
+void budAnimator::GetJointList( const char* jointnames, List<jointHandle_t>& jointList ) const
 {
 	if( modelDef )
 	{
@@ -4438,7 +4438,7 @@ void budAnimator::SyncAnimChannels( int channelNum, int fromChannelNum, int curr
 budAnimator::SetJointPos
 =====================
 */
-void budAnimator::SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const budVec3& pos )
+void budAnimator::SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const Vector3& pos )
 {
 	int i;
 	jointMod_t* jointMod;
@@ -4486,7 +4486,7 @@ void budAnimator::SetJointPos( jointHandle_t jointnum, jointModTransform_t trans
 budAnimator::SetJointAxis
 =====================
 */
-void budAnimator::SetJointAxis( jointHandle_t jointnum, jointModTransform_t transform_type, const budMat3& mat )
+void budAnimator::SetJointAxis( jointHandle_t jointnum, jointModTransform_t transform_type, const Matrix3& mat )
 {
 	int i;
 	jointMod_t* jointMod;
@@ -4596,7 +4596,7 @@ void budAnimator::ClearAllAnims( int currentTime, int cleartime )
 budAnimator::GetDelta
 ====================
 */
-void budAnimator::GetDelta( int fromtime, int totime, budVec3& delta ) const
+void budAnimator::GetDelta( int fromtime, int totime, Vector3& delta ) const
 {
 	int					i;
 	const budAnimBlend*	blend;
@@ -4632,12 +4632,12 @@ void budAnimator::GetDelta( int fromtime, int totime, budVec3& delta ) const
 budAnimator::GetDeltaRotation
 ====================
 */
-bool budAnimator::GetDeltaRotation( int fromtime, int totime, budMat3& delta ) const
+bool budAnimator::GetDeltaRotation( int fromtime, int totime, Matrix3& delta ) const
 {
 	int					i;
 	const budAnimBlend*	blend;
 	float				blendWeight;
-	idQuat				q;
+	Quat				q;
 	
 	if( !modelDef || !modelDef->ModelHandle() || ( fromtime == totime ) )
 	{
@@ -4680,7 +4680,7 @@ bool budAnimator::GetDeltaRotation( int fromtime, int totime, budMat3& delta ) c
 budAnimator::GetOrigin
 ====================
 */
-void budAnimator::GetOrigin( int currentTime, budVec3& pos ) const
+void budAnimator::GetOrigin( int currentTime, Vector3& pos ) const
 {
 	int					i;
 	const budAnimBlend*	blend;
@@ -4812,7 +4812,7 @@ void budAnimator::InitAFPose()
 budAnimator::SetAFPoseJointMod
 =====================
 */
-void budAnimator::SetAFPoseJointMod( const jointHandle_t jointNum, const AFJointModType_t mod, const budMat3& axis, const budVec3& origin )
+void budAnimator::SetAFPoseJointMod( const jointHandle_t jointNum, const AFJointModType_t mod, const Matrix3& axis, const Vector3& origin )
 {
 	AFPoseJointMods[jointNum].mod = mod;
 	AFPoseJointMods[jointNum].axis = axis;
@@ -5167,7 +5167,7 @@ bool budAnimator::CreateFrame( int currentTime, bool force )
 	const jointMod_t* 	jointMod;
 	const budJointQuat* 	defaultPose;
 	
-	static budCVar		r_showSkel( "r_showSkel", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, budCmdSystem::ArgCompletion_Integer<0, 2> );
+	static CVar		r_showSkel( "r_showSkel", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, CmdSystem::ArgCompletion_Integer<0, 2> );
 	
 	if( gameLocal.inCinematic && gameLocal.skipCinematic )
 	{
@@ -5458,7 +5458,7 @@ budAnimator::GetJointTransform>	gamex86.dll!budAnimator::ForceUpdate()  Line 426
 
 =====================
 */
-bool budAnimator::GetJointTransform( jointHandle_t jointHandle, int currentTime, budVec3& offset, budMat3& axis )
+bool budAnimator::GetJointTransform( jointHandle_t jointHandle, int currentTime, Vector3& offset, Matrix3& axis )
 {
 	if( !modelDef || ( jointHandle < 0 ) || ( jointHandle >= modelDef->NumJoints() ) )
 	{
@@ -5478,14 +5478,14 @@ bool budAnimator::GetJointTransform( jointHandle_t jointHandle, int currentTime,
 budAnimator::GetJointLocalTransform
 =====================
 */
-bool budAnimator::GetJointLocalTransform( jointHandle_t jointHandle, int currentTime, budVec3& offset, budMat3& axis )
+bool budAnimator::GetJointLocalTransform( jointHandle_t jointHandle, int currentTime, Vector3& offset, Matrix3& axis )
 {
 	if( !modelDef )
 	{
 		return false;
 	}
 	
-	const budList<jointInfo_t>& modelJoints = modelDef->Joints();
+	const List<jointInfo_t>& modelJoints = modelDef->Joints();
 	
 	if( ( jointHandle < 0 ) || ( jointHandle >= modelJoints.Num() ) )
 	{
@@ -5732,7 +5732,7 @@ int	budAnimator::AnimLength( int animNum ) const
 budAnimator::TotalMovementDelta
 =====================
 */
-const budVec3& budAnimator::TotalMovementDelta( int animNum ) const
+const Vector3& budAnimator::TotalMovementDelta( int animNum ) const
 {
 	const budAnim* anim = GetAnim( animNum );
 	if( anim )
@@ -5741,7 +5741,7 @@ const budVec3& budAnimator::TotalMovementDelta( int animNum ) const
 	}
 	else
 	{
-		return vec3_origin;
+		return Vector3_Origin;
 	}
 }
 
@@ -5756,11 +5756,11 @@ const budVec3& budAnimator::TotalMovementDelta( int animNum ) const
 ANIM_GetModelDefFromEntityDef
 =====================
 */
-const budDeclModelDef* ANIM_GetModelDefFromEntityDef( const idDict* args )
+const budDeclModelDef* ANIM_GetModelDefFromEntityDef( const Dict* args )
 {
 	const budDeclModelDef* modelDef;
 	
-	budStr name = args->GetString( "model" );
+	String name = args->GetString( "model" );
 	modelDef = static_cast<const budDeclModelDef*>( declManager->FindType( DECL_MODELDEF, name, false ) );
 	if( modelDef != NULL && modelDef->ModelHandle() )
 	{
@@ -5775,14 +5775,14 @@ const budDeclModelDef* ANIM_GetModelDefFromEntityDef( const idDict* args )
 budGameEdit::ANIM_GetModelFromEntityDef
 =====================
 */
-budRenderModel* budGameEdit::ANIM_GetModelFromEntityDef( const idDict* args )
+budRenderModel* budGameEdit::ANIM_GetModelFromEntityDef( const Dict* args )
 {
 	budRenderModel* model;
 	const budDeclModelDef* modelDef;
 	
 	model = NULL;
 	
-	budStr name = args->GetString( "model" );
+	String name = args->GetString( "model" );
 	modelDef = static_cast<const budDeclModelDef*>( declManager->FindType( DECL_MODELDEF, name, false ) );
 	if( modelDef != NULL )
 	{
@@ -5809,7 +5809,7 @@ budGameEdit::ANIM_GetModelFromEntityDef
 */
 budRenderModel* budGameEdit::ANIM_GetModelFromEntityDef( const char* classname )
 {
-	const idDict* args;
+	const Dict* args;
 	
 	args = gameLocal.FindEntityDefDict( classname, false );
 	if( !args )
@@ -5825,21 +5825,21 @@ budRenderModel* budGameEdit::ANIM_GetModelFromEntityDef( const char* classname )
 budGameEdit::ANIM_GetModelOffsetFromEntityDef
 =====================
 */
-const budVec3& budGameEdit::ANIM_GetModelOffsetFromEntityDef( const char* classname )
+const Vector3& budGameEdit::ANIM_GetModelOffsetFromEntityDef( const char* classname )
 {
-	const idDict* args;
+	const Dict* args;
 	const budDeclModelDef* modelDef;
 	
 	args = gameLocal.FindEntityDefDict( classname, false );
 	if( !args )
 	{
-		return vec3_origin;
+		return Vector3_Origin;
 	}
 	
 	modelDef = ANIM_GetModelDefFromEntityDef( args );
 	if( !modelDef )
 	{
-		return vec3_origin;
+		return Vector3_Origin;
 	}
 	
 	return modelDef->GetVisualOffset();
@@ -5875,7 +5875,7 @@ budGameEdit::ANIM_GetAnimFromEntityDef
 */
 const budMD5Anim* budGameEdit::ANIM_GetAnimFromEntityDef( const char* classname, const char* animname )
 {
-	const idDict* args;
+	const Dict* args;
 	const budMD5Anim* md5anim;
 	const budAnim* anim;
 	int	animNum;
@@ -5911,7 +5911,7 @@ const budMD5Anim* budGameEdit::ANIM_GetAnimFromEntityDef( const char* classname,
 budGameEdit::ANIM_GetNumAnimsFromEntityDef
 =====================
 */
-int budGameEdit::ANIM_GetNumAnimsFromEntityDef( const idDict* args )
+int budGameEdit::ANIM_GetNumAnimsFromEntityDef( const Dict* args )
 {
 	const char* modelname;
 	const budDeclModelDef* modelDef;
@@ -5930,7 +5930,7 @@ int budGameEdit::ANIM_GetNumAnimsFromEntityDef( const idDict* args )
 budGameEdit::ANIM_GetAnimNameFromEntityDef
 =====================
 */
-const char* budGameEdit::ANIM_GetAnimNameFromEntityDef( const idDict* args, int animNum )
+const char* budGameEdit::ANIM_GetAnimNameFromEntityDef( const Dict* args, int animNum )
 {
 	const char* modelname;
 	const budDeclModelDef* modelDef;
@@ -5991,7 +5991,7 @@ int budGameEdit::ANIM_GetNumFrames( const budMD5Anim* anim )
 budGameEdit::ANIM_CreateAnimFrame
 =====================
 */
-void budGameEdit::ANIM_CreateAnimFrame( const budRenderModel* model, const budMD5Anim* anim, int numJoints, budJointMat* joints, int time, const budVec3& offset, bool remove_origin_offset )
+void budGameEdit::ANIM_CreateAnimFrame( const budRenderModel* model, const budMD5Anim* anim, int numJoints, budJointMat* joints, int time, const Vector3& offset, bool remove_origin_offset )
 {
 	int					i;
 	frameBlend_t		frame;
@@ -6071,15 +6071,15 @@ budGameEdit::ANIM_CreateMeshForAnim
 budRenderModel* budGameEdit::ANIM_CreateMeshForAnim( budRenderModel* model, const char* classname, const char* animname, int frame, bool remove_origin_offset )
 {
 	renderEntity_t			ent;
-	const idDict*			args;
+	const Dict*			args;
 	const char*				temp;
 	budRenderModel*			newmodel;
 	const budMD5Anim*		 md5anim;
-	budStr					filename;
-	budStr					extension;
+	String					filename;
+	String					extension;
 	const budAnim*			anim;
 	int						animNum;
-	budVec3					offset;
+	Vector3					offset;
 	const budDeclModelDef*	modelDef;
 	
 	if( !model || model->IsDefaultModel() )

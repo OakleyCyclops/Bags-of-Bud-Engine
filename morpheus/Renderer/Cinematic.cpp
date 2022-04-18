@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 
 
-extern budCVar s_noSound;
+extern CVar s_noSound;
 
 #define JPEG_INTERNALS
 //extern "C" {
@@ -129,7 +129,7 @@ private:
 	size_t					mcomp[256];
 	// RB end
 	byte** 					qStatus[2];
-	budStr					fileName;
+	String					fileName;
 	int						CIN_WIDTH, CIN_HEIGHT;
 	budFile* 				iFile;
 	cinStatus_t				status;
@@ -546,7 +546,7 @@ bool budCinematicLocal::InitFromFFMPEGFile( const char* qpath, bool amilooping )
 	CIN_HEIGHT = DEFAULT_CIN_HEIGHT;
 	CIN_WIDTH  =  DEFAULT_CIN_WIDTH;
 	
-	budStr fullpath;
+	String fullpath;
 	budFile* testFile = fileSystem->OpenFileRead( qpath );
 	if( testFile )
 	{
@@ -554,9 +554,9 @@ bool budCinematicLocal::InitFromFFMPEGFile( const char* qpath, bool amilooping )
 		fileSystem->CloseFile( testFile );
 	}
 	// RB: case sensitivity HACK for Linux
-	else if( budStr::Cmpn( qpath, "sound/vo", 8 ) == 0 )
+	else if( String::Cmpn( qpath, "sound/vo", 8 ) == 0 )
 	{
-		budStr newPath( qpath );
+		String newPath( qpath );
 		newPath.Replace( "sound/vo", "sound/VO" );
 		
 		testFile = fileSystem->OpenFileRead( newPath );
@@ -572,7 +572,7 @@ bool budCinematicLocal::InitFromFFMPEGFile( const char* qpath, bool amilooping )
 		}
 	}
 	
-	//budStr fullpath = fileSystem->RelativePathToOSPath( qpath, "fs_basepath" );
+	//String fullpath = fileSystem->RelativePathToOSPath( qpath, "fs_basepath" );
 	
 	if( ( ret = avformat_open_input( &fmt_ctx, fullpath, NULL, NULL ) ) < 0 )
 	{
@@ -678,7 +678,7 @@ bool budCinematicLocal::InitFromBinkDecFile( const char* qpath, bool amilooping 
 	CIN_HEIGHT = DEFAULT_CIN_HEIGHT;
 	CIN_WIDTH  =  DEFAULT_CIN_WIDTH;
 	
-	budStr fullpath;
+	String fullpath;
 	budFile* testFile = fileSystem->OpenFileRead( qpath );
 	if( testFile )
 	{
@@ -686,9 +686,9 @@ bool budCinematicLocal::InitFromBinkDecFile( const char* qpath, bool amilooping 
 		fileSystem->CloseFile( testFile );
 	}
 	// RB: case sensitivity HACK for Linux
-	else if( budStr::Cmpn( qpath, "sound/vo", 8 ) == 0 )
+	else if( String::Cmpn( qpath, "sound/vo", 8 ) == 0 )
 	{
-		budStr newPath( qpath );
+		String newPath( qpath );
 		newPath.Replace( "sound/vo", "sound/VO" );
 		
 		testFile = fileSystem->OpenFileRead( newPath );
@@ -767,7 +767,7 @@ bool budCinematicLocal::InitFromFile( const char* qpath, bool amilooping )
 		sprintf( fileName, "%s", qpath );
 	}
 	// Carl: Look for original Doom 3 RoQ files first:
-	budStr ext;
+	String ext;
 	fileName.ExtractFileExtension( ext );
 	fileName = fileName.StripFileExtension();
 	fileName = fileName + ".roq";
@@ -782,7 +782,7 @@ bool budCinematicLocal::InitFromFile( const char* qpath, bool amilooping )
 	{
 #if defined(USE_FFMPEG)
 		//libBud::Warning( "Original Doom 3 RoQ Cinematic not found: '%s'\n", fileName.c_str() );
-		budStr temp = fileName.StripFileExtension() + ".bik";
+		String temp = fileName.StripFileExtension() + ".bik";
 		animationLength = 0;
 		hasFrame = false;
 		RoQShutdown();
@@ -790,7 +790,7 @@ bool budCinematicLocal::InitFromFile( const char* qpath, bool amilooping )
 		//libBud::Warning( "New filename: '%s'\n", fileName.c_str() );
 		return InitFromFFMPEGFile( fileName.c_str(), amilooping );
 #elif defined(USE_BINKDEC)
-		budStr temp = fileName.StripFileExtension() + ".bik";
+		String temp = fileName.StripFileExtension() + ".bik";
 		animationLength = 0;
 		RoQShutdown();
 		fileName = temp;
@@ -2792,7 +2792,7 @@ idSndWindow::InitFromFile
 */
 bool idSndWindow::InitFromFile( const char* qpath, bool looping )
 {
-	budStr fname = qpath;
+	String fname = qpath;
 	
 	fname.ToLower();
 	if( !fname.Icmp( "waveform" ) )

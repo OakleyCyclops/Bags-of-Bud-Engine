@@ -43,8 +43,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "DXT/DXTCodec.h"
 #include "Color/ColorSpace.h"
 
-budCVar image_highQualityCompression( "image_highQualityCompression", "0", CVAR_BOOL, "Use high quality (slow) compression" );
-budCVar r_useHighQualitySky( "r_useHighQualitySky", "0", CVAR_BOOL | CVAR_ARCHIVE, "Use high quality skyboxes" );
+CVar image_highQualityCompression( "image_highQualityCompression", "0", CVAR_BOOL, "Use high quality (slow) compression" );
+CVar r_useHighQualitySky( "r_useHighQualitySky", "0", CVAR_BOOL | CVAR_ARCHIVE, "Use high quality skyboxes" );
 
 /*
 ========================
@@ -410,7 +410,7 @@ budBinaryImage::WriteGeneratedFile
 */
 ID_TIME_T budBinaryImage::WriteGeneratedFile( ID_TIME_T sourceFileTime )
 {
-	budStr binaryFileName;
+	String binaryFileName;
 	MakeGeneratedFileName( binaryFileName );
 	budFileLocal file( fileSystem->OpenFileWrite( binaryFileName, "fs_basepath" ) );
 	if( file == NULL )
@@ -454,7 +454,7 @@ Load the preprocessed image from the generated folder.
 */
 ID_TIME_T budBinaryImage::LoadFromGeneratedFile( ID_TIME_T sourceFileTime )
 {
-	budStr binaryFileName;
+	String binaryFileName;
 	MakeGeneratedFileName( binaryFileName );
 	budFileLocal bFile = fileSystem->OpenFileRead( binaryFileName );
 	if( bFile == NULL )
@@ -551,7 +551,7 @@ bool budBinaryImage::LoadFromGeneratedFile( budFile* bFile, ID_TIME_T sourceTime
 budBinaryImage::MakeGeneratedFileName
 ==========================
 */
-void budBinaryImage::MakeGeneratedFileName( budStr& gfn )
+void budBinaryImage::MakeGeneratedFileName( String& gfn )
 {
 	GetGeneratedFileName( gfn, GetName() );
 }
@@ -560,7 +560,7 @@ void budBinaryImage::MakeGeneratedFileName( budStr& gfn )
 budBinaryImage::GetGeneratedFileName
 ==========================
 */
-void budBinaryImage::GetGeneratedFileName( budStr& gfn, const char* name )
+void budBinaryImage::GetGeneratedFileName( String& gfn, const char* name )
 {
 	gfn.Format( "generated/images/%s.bimage", name );
 	gfn.Replace( "(", "/" );

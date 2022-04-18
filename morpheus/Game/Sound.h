@@ -47,7 +47,7 @@ public:
 	void			Save( idSaveGame* savefile ) const;
 	void			Restore( idRestoreGame* savefile );
 	
-	virtual void	UpdateChangeableSpawnArgs( const idDict* source );
+	virtual void	UpdateChangeableSpawnArgs( const Dict* source );
 	
 	void			Spawn();
 	
@@ -63,8 +63,8 @@ private:
 	float			random;
 	float			wait;
 	bool			timerOn;
-	budVec3			shakeTranslate;
-	budAngles		shakeRotate;
+	Vector3			shakeTranslate;
+	Angles		shakeRotate;
 	int				playingUntilTime;
 	
 	void			Event_Trigger( idEntity* activator );

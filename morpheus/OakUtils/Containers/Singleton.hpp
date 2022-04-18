@@ -1,5 +1,5 @@
-
-#include "libBudPCH.hpp"
+#ifndef __SINGLETON_HPP__
+#define __SINGLETON_HPP__
 
 // thank u admer very cool :)
 
@@ -19,3 +19,5 @@ class Singleton final
             return GetInstance();
         }
 };
+
+#endif /* !__SINGLETON_HPP__ */

@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 
 const static int NUM_LOBBY_OPTIONS = 8;
 
-extern budCVar net_inviteOnly;
+extern CVar net_inviteOnly;
 
 enum gameLobbyCmd_t
 {
@@ -159,7 +159,7 @@ void idMenuScreen_Shell_GameLobby::Update()
 		{
 		
 			menuOptions.Clear();
-			budList< budStr > option;
+			List< String > option;
 			
 			isHost = true;
 			isPeer = false;
@@ -225,7 +225,7 @@ void idMenuScreen_Shell_GameLobby::Update()
 			{
 			
 				menuOptions.Clear();
-				budList< budStr > option;
+				List< String > option;
 				
 				option.Append( "#str_swf_invite_friends" );	// Invite Friends
 				menuOptions.Append( option );
@@ -325,7 +325,7 @@ void idMenuScreen_Shell_GameLobby::ShowScreen( const mainMenuTransition_t transi
 	if( !privateGameLobby )  	// Public Game Lobby
 	{
 		menuOptions.Clear();
-		budList< budStr > option;
+		List< String > option;
 		
 		if( options != NULL )
 		{
@@ -702,17 +702,17 @@ void idMenuScreen_Shell_GameLobby::UpdateLobby()
 			budSWFTextInstance* waitTime = GetSprite()->GetScriptObject()->GetNestedText( "waitTime", "txtVal" );
 			if( waitTime != NULL )
 			{
-				budStr status;
+				String status;
 				if( ms == 1 )
 				{
 					status = budLocalization::GetString( "#str_online_game_starts_in_second" );
-					status.Replace( "<DNT_VAL>", budStr( ms ) );
+					status.Replace( "<DNT_VAL>", String( ms ) );
 					waitTime->SetText( status );
 				}
 				else if( ms > 0 && ms < 30 )
 				{
 					status = budLocalization::GetString( "#str_online_game_starts_in_seconds" );
-					status.Replace( "<DNT_VAL>", budStr( ms ) );
+					status.Replace( "<DNT_VAL>", String( ms ) );
 					waitTime->SetText( status );
 				}
 				else
@@ -754,16 +754,16 @@ void idMenuScreen_Shell_GameLobby::UpdateLobby()
 		
 		if( mapName != NULL )
 		{
-			const budList< mpMap_t > maps = common->GetMapList();
-			budStr name = budLocalization::GetString( maps[ budMath::ClampInt( 0, maps.Num() - 1, matchParameters.gameMap ) ].mapName );
+			const List< mpMap_t > maps = common->GetMapList();
+			String name = budLocalization::GetString( maps[ Math::ClampInt( 0, maps.Num() - 1, matchParameters.gameMap ) ].mapName );
 			mapName->SetText( name );
 			mapName->SetStrokeInfo( true );
 		}
 		
 		if( modeName != NULL )
 		{
-			const budStrList& modes = common->GetModeDisplayList();
-			budStr mode = budLocalization::GetString( modes[ budMath::ClampInt( 0, modes.Num() - 1, matchParameters.gameMode ) ] );
+			const StringList& modes = common->GetModeDisplayList();
+			String mode = budLocalization::GetString( modes[ Math::ClampInt( 0, modes.Num() - 1, matchParameters.gameMode ) ] );
 			modeName->SetText( mode );
 			modeName->SetStrokeInfo( true );
 		}

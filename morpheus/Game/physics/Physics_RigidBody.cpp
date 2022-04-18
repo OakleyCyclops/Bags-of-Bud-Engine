@@ -58,13 +58,13 @@ void RigidBodyDerivatives( const float t, const void* clientData, const float* s
 	// NOTE: this struct should be build conform rigidBodyIState_t
 	struct rigidBodyDerivatives_s
 	{
-		budVec3				linearVelocity;
-		budMat3				angularMatrix;
-		budVec3				force;
-		budVec3				torque;
+		Vector3				linearVelocity;
+		Matrix3				angularMatrix;
+		Vector3				force;
+		Vector3				torque;
 	} *d = ( struct rigidBodyDerivatives_s* ) derivatives;
-	budVec3 angularVelocity;
-	budMat3 inverseWorldInertiaTensor;
+	Vector3 angularVelocity;
+	Matrix3 inverseWorldInertiaTensor;
 	
 	inverseWorldInertiaTensor = s->orientation * p->inverseInertiaTensor * s->orientation.Transpose();
 	angularVelocity = inverseWorldInertiaTensor * s->angularMomentum;
@@ -84,7 +84,7 @@ idPhysics_RigidBody::Integrate
 */
 void idPhysics_RigidBody::Integrate( float deltaTime, rigidBodyPState_t& next_ )
 {
-	budVec3 position;
+	Vector3 position;
 	
 	position = current.i.position;
 	current.i.position += centerOfMass * current.i.orientation;
@@ -114,10 +114,10 @@ idPhysics_RigidBody::CollisionImpulse
   The current state should be set to the moment of impact.
 ================
 */
-bool idPhysics_RigidBody::CollisionImpulse( const trace_t& collision, budVec3& impulse )
+bool idPhysics_RigidBody::CollisionImpulse( const trace_t& collision, Vector3& impulse )
 {
-	budVec3 r, linearVelocity, angularVelocity, velocity;
-	budMat3 inverseWorldInertiaTensor;
+	Vector3 r, linearVelocity, angularVelocity, velocity;
+	Matrix3 inverseWorldInertiaTensor;
 	float impulseNumerator, impulseDenominator, vel;
 	impactInfo_t info;
 	idEntity* ent;
@@ -180,8 +180,8 @@ idPhysics_RigidBody::CheckForCollisions
 bool idPhysics_RigidBody::CheckForCollisions( const float deltaTime, rigidBodyPState_t& next_, trace_t& collision )
 {
 //#define TEST_COLLISION_DETECTION
-	budMat3 axis;
-	budRotation rotation;
+	Matrix3 axis;
+	Rotation rotation;
 	bool collided = false;
 	
 #ifdef TEST_COLLISION_DETECTION
@@ -231,9 +231,9 @@ void idPhysics_RigidBody::ContactFriction( float deltaTime )
 {
 	int i;
 	float magnitude, impulseNumerator, impulseDenominator;
-	budMat3 inverseWorldInertiaTensor;
-	budVec3 linearVelocity, angularVelocity;
-	budVec3 massCenter, r, velocity, normal, impulse, normalVelocity;
+	Matrix3 inverseWorldInertiaTensor;
+	Vector3 linearVelocity, angularVelocity;
+	Vector3 massCenter, r, velocity, normal, impulse, normalVelocity;
 	
 	inverseWorldInertiaTensor = current.i.orientation.Transpose() * inverseInertiaTensor * current.i.orientation;
 	
@@ -291,8 +291,8 @@ bool idPhysics_RigidBody::TestIfAtRest() const
 {
 	int i;
 	float gv;
-	budVec3 v, av, normal, point;
-	budMat3 inverseWorldInertiaTensor;
+	Vector3 v, av, normal, point;
+	Matrix3 inverseWorldInertiaTensor;
 	budFixedWinding contactWinding;
 	
 	if( current.atRest >= 0 )
@@ -386,7 +386,7 @@ idPhysics_RigidBody::DropToFloorAndRest
 */
 void idPhysics_RigidBody::DropToFloorAndRest()
 {
-	budVec3 down;
+	Vector3 down;
 	trace_t tr;
 	
 	if( testSolid )
@@ -442,7 +442,7 @@ void idPhysics_RigidBody::DebugDraw()
 
 	if( rb_showBodies.GetBool() || ( rb_showActive.GetBool() && current.atRest < 0 ) )
 	{
-		collisionModelManager->DrawModel( clipModel->Handle(), clipModel->GetOrigin(), clipModel->GetAxis(), vec3_origin, 0.0f );
+		collisionModelManager->DrawModel( clipModel->Handle(), clipModel->GetOrigin(), clipModel->GetAxis(), Vector3_Origin, 0.0f );
 	}
 	
 	if( rb_showMass.GetBool() )
@@ -452,7 +452,7 @@ void idPhysics_RigidBody::DebugDraw()
 	
 	if( rb_showInertia.GetBool() )
 	{
-		budMat3& I = inertiaTensor;
+		Matrix3& I = inertiaTensor;
 		gameRenderWorld->DrawText( va( "\n\n\n( %.1f %.1f %.1f )\n( %.1f %.1f %.1f )\n( %.1f %.1f %.1f )",
 									   I[0].x, I[0].y, I[0].z,
 									   I[1].x, I[1].y, I[1].z,
@@ -643,7 +643,7 @@ idPhysics_RigidBody::SetClipModel
 void idPhysics_RigidBody::SetClipModel( budClipModel* model, const float density, int id, bool freeOld )
 {
 	int minIndex;
-	budMat3 inertiaScale;
+	Matrix3 inertiaScale;
 	
 	assert( self );
 	assert( model );					// we need a clip model
@@ -899,12 +899,12 @@ idPhysics_RigidBody::Evaluate
 bool idPhysics_RigidBody::Evaluate( int timeStepMSec, int endTimeMSec )
 {
 	rigidBodyPState_t next_step;
-	budAngles angles;
+	Angles angles;
 	trace_t collision;
-	budVec3 impulse;
+	Vector3 impulse;
 	idEntity* ent;
-	budVec3 oldOrigin, masterOrigin;
-	budMat3 oldAxis, masterAxis;
+	Vector3 oldOrigin, masterOrigin;
+	Matrix3 oldAxis, masterAxis;
 	float timeStep;
 	bool collided, cameToRest = false;
 	
@@ -1107,7 +1107,7 @@ bool idPhysics_RigidBody::Interpolate( const float fraction )
 	else if( self->GetInterpolationBehavior() == idEntity::USE_INTERPOLATION )
 	{
 		current.i.position = Lerp( previous.i.position, next.i.position, fraction );
-		current.i.orientation = idQuat().Slerp( previous.i.orientation.ToQuat(), next.i.orientation.ToQuat(), fraction ).ToMat3();
+		current.i.orientation = Quat().Slerp( previous.i.orientation.ToQuat(), next.i.orientation.ToQuat(), fraction ).ToMat3();
 		current.i.linearMomentum = Lerp( previous.i.linearMomentum, next.i.linearMomentum, fraction );
 		return true;
 	}
@@ -1120,7 +1120,7 @@ bool idPhysics_RigidBody::Interpolate( const float fraction )
 idPhysics_RigidBody::ResetInterpolationState
 ================
 */
-void idPhysics_RigidBody::ResetInterpolationState( const budVec3& origin, const budMat3& axis )
+void idPhysics_RigidBody::ResetInterpolationState( const Vector3& origin, const Matrix3& axis )
 {
 	previous = current;
 	next = current;
@@ -1150,10 +1150,10 @@ int idPhysics_RigidBody::GetTime() const
 idPhysics_RigidBody::GetImpactInfo
 ================
 */
-void idPhysics_RigidBody::GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const
+void idPhysics_RigidBody::GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const
 {
-	budVec3 linearVelocity, angularVelocity;
-	budMat3 inverseWorldInertiaTensor;
+	Vector3 linearVelocity, angularVelocity;
+	Matrix3 inverseWorldInertiaTensor;
 	
 	linearVelocity = inverseMass * current.i.linearMomentum;
 	inverseWorldInertiaTensor = current.i.orientation.Transpose() * inverseInertiaTensor * current.i.orientation;
@@ -1170,7 +1170,7 @@ void idPhysics_RigidBody::GetImpactInfo( const int id, const budVec3& point, imp
 idPhysics_RigidBody::ApplyImpulse
 ================
 */
-void idPhysics_RigidBody::ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse )
+void idPhysics_RigidBody::ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse )
 {
 	if( noImpact )
 	{
@@ -1186,7 +1186,7 @@ void idPhysics_RigidBody::ApplyImpulse( const int id, const budVec3& point, cons
 idPhysics_RigidBody::AddForce
 ================
 */
-void idPhysics_RigidBody::AddForce( const int id, const budVec3& point, const budVec3& force )
+void idPhysics_RigidBody::AddForce( const int id, const Vector3& point, const Vector3& force )
 {
 	if( noImpact )
 	{
@@ -1256,10 +1256,10 @@ void idPhysics_RigidBody::RestoreState()
 idPhysics::SetOrigin
 ================
 */
-void idPhysics_RigidBody::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_RigidBody::SetOrigin( const Vector3& newOrigin, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localOrigin = newOrigin;
 	if( hasMaster )
@@ -1282,10 +1282,10 @@ void idPhysics_RigidBody::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics::SetAxis
 ================
 */
-void idPhysics_RigidBody::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_RigidBody::SetAxis( const Matrix3& newAxis, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localAxis = newAxis;
 	if( hasMaster && isOrientated )
@@ -1308,7 +1308,7 @@ void idPhysics_RigidBody::SetAxis( const budMat3& newAxis, int id )
 idPhysics::Move
 ================
 */
-void idPhysics_RigidBody::Translate( const budVec3& translation, int id )
+void idPhysics_RigidBody::Translate( const Vector3& translation, int id )
 {
 
 	current.localOrigin += translation;
@@ -1324,10 +1324,10 @@ void idPhysics_RigidBody::Translate( const budVec3& translation, int id )
 idPhysics::Rotate
 ================
 */
-void idPhysics_RigidBody::Rotate( const budRotation& rotation, int id )
+void idPhysics_RigidBody::Rotate( const Rotation& rotation, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.i.orientation *= rotation.ToMat3();
 	current.i.position *= rotation;
@@ -1354,7 +1354,7 @@ void idPhysics_RigidBody::Rotate( const budRotation& rotation, int id )
 idPhysics_RigidBody::GetOrigin
 ================
 */
-const budVec3& idPhysics_RigidBody::GetOrigin( int id ) const
+const Vector3& idPhysics_RigidBody::GetOrigin( int id ) const
 {
 	return current.i.position;
 }
@@ -1364,7 +1364,7 @@ const budVec3& idPhysics_RigidBody::GetOrigin( int id ) const
 idPhysics_RigidBody::GetAxis
 ================
 */
-const budMat3& idPhysics_RigidBody::GetAxis( int id ) const
+const Matrix3& idPhysics_RigidBody::GetAxis( int id ) const
 {
 	return current.i.orientation;
 }
@@ -1374,7 +1374,7 @@ const budMat3& idPhysics_RigidBody::GetAxis( int id ) const
 idPhysics_RigidBody::SetLinearVelocity
 ================
 */
-void idPhysics_RigidBody::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_RigidBody::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
 	current.i.linearMomentum = newLinearVelocity * mass;
 	Activate();
@@ -1385,7 +1385,7 @@ void idPhysics_RigidBody::SetLinearVelocity( const budVec3& newLinearVelocity, i
 idPhysics_RigidBody::SetAngularVelocity
 ================
 */
-void idPhysics_RigidBody::SetAngularVelocity( const budVec3& newAngularVelocity, int id )
+void idPhysics_RigidBody::SetAngularVelocity( const Vector3& newAngularVelocity, int id )
 {
 	current.i.angularMomentum = newAngularVelocity * inertiaTensor;
 	Activate();
@@ -1396,9 +1396,9 @@ void idPhysics_RigidBody::SetAngularVelocity( const budVec3& newAngularVelocity,
 idPhysics_RigidBody::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_RigidBody::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_RigidBody::GetLinearVelocity( int id ) const
 {
-	static budVec3 curLinearVelocity;
+	static Vector3 curLinearVelocity;
 	curLinearVelocity = current.i.linearMomentum * inverseMass;
 	return curLinearVelocity;
 }
@@ -1408,10 +1408,10 @@ const budVec3& idPhysics_RigidBody::GetLinearVelocity( int id ) const
 idPhysics_RigidBody::GetAngularVelocity
 ================
 */
-const budVec3& idPhysics_RigidBody::GetAngularVelocity( int id ) const
+const Vector3& idPhysics_RigidBody::GetAngularVelocity( int id ) const
 {
-	static budVec3 curAngularVelocity;
-	budMat3 inverseWorldInertiaTensor;
+	static Vector3 curAngularVelocity;
+	Matrix3 inverseWorldInertiaTensor;
 	
 	inverseWorldInertiaTensor = current.i.orientation.Transpose() * inverseInertiaTensor * current.i.orientation;
 	curAngularVelocity = inverseWorldInertiaTensor * current.i.angularMomentum;
@@ -1423,7 +1423,7 @@ const budVec3& idPhysics_RigidBody::GetAngularVelocity( int id ) const
 idPhysics_RigidBody::ClipTranslation
 ================
 */
-void idPhysics_RigidBody::ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const
+void idPhysics_RigidBody::ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const
 {
 	if( model )
 	{
@@ -1443,7 +1443,7 @@ void idPhysics_RigidBody::ClipTranslation( trace_t& results, const budVec3& tran
 idPhysics_RigidBody::ClipRotation
 ================
 */
-void idPhysics_RigidBody::ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const
+void idPhysics_RigidBody::ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const
 {
 	if( model )
 	{
@@ -1523,7 +1523,7 @@ idPhysics_RigidBody::EvaluateContacts
 */
 bool idPhysics_RigidBody::EvaluateContacts()
 {
-	budVec6 dir;
+	Vector6 dir;
 	int num;
 	
 	ClearContacts();
@@ -1550,13 +1550,13 @@ idPhysics_RigidBody::SetPushed
 */
 void idPhysics_RigidBody::SetPushed( int deltaTime )
 {
-	budRotation rotation;
+	Rotation rotation;
 	
 	rotation = ( saved.i.orientation * current.i.orientation ).ToRotation();
 	
 	// velocity with which the af is pushed
-	current.pushVelocity.SubVec3( 0 ) += ( current.i.position - saved.i.position ) / ( deltaTime * budMath::M_MS2SEC );
-	current.pushVelocity.SubVec3( 1 ) += rotation.GetVec() * -DEG2RAD( rotation.GetAngle() ) / ( deltaTime * budMath::M_MS2SEC );
+	current.pushVelocity.SubVec3( 0 ) += ( current.i.position - saved.i.position ) / ( deltaTime * Math::M_MS2SEC );
+	current.pushVelocity.SubVec3( 1 ) += rotation.GetVec() * -DEG2RAD( rotation.GetAngle() ) / ( deltaTime * Math::M_MS2SEC );
 }
 
 /*
@@ -1564,7 +1564,7 @@ void idPhysics_RigidBody::SetPushed( int deltaTime )
 idPhysics_RigidBody::GetPushedLinearVelocity
 ================
 */
-const budVec3& idPhysics_RigidBody::GetPushedLinearVelocity( const int id ) const
+const Vector3& idPhysics_RigidBody::GetPushedLinearVelocity( const int id ) const
 {
 	return current.pushVelocity.SubVec3( 0 );
 }
@@ -1574,7 +1574,7 @@ const budVec3& idPhysics_RigidBody::GetPushedLinearVelocity( const int id ) cons
 idPhysics_RigidBody::GetPushedAngularVelocity
 ================
 */
-const budVec3& idPhysics_RigidBody::GetPushedAngularVelocity( const int id ) const
+const Vector3& idPhysics_RigidBody::GetPushedAngularVelocity( const int id ) const
 {
 	return current.pushVelocity.SubVec3( 1 );
 }
@@ -1586,8 +1586,8 @@ idPhysics_RigidBody::SetMaster
 */
 void idPhysics_RigidBody::SetMaster( idEntity* master, const bool orientated )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( master )
 	{
@@ -1621,15 +1621,15 @@ void idPhysics_RigidBody::SetMaster( idEntity* master, const bool orientated )
 
 const float	RB_VELOCITY_MAX				= 16000;
 const int	RB_VELOCITY_TOTAL_BITS		= 16;
-const int	RB_VELOCITY_EXPONENT_BITS	= budMath::BitsForInteger( budMath::BitsForFloat( RB_VELOCITY_MAX ) ) + 1;
+const int	RB_VELOCITY_EXPONENT_BITS	= Math::BitsForInteger( Math::BitsForFloat( RB_VELOCITY_MAX ) ) + 1;
 const int	RB_VELOCITY_MANTISSA_BITS	= RB_VELOCITY_TOTAL_BITS - 1 - RB_VELOCITY_EXPONENT_BITS;
 const float	RB_MOMENTUM_MAX				= 1e20f;
 const int	RB_MOMENTUM_TOTAL_BITS		= 16;
-const int	RB_MOMENTUM_EXPONENT_BITS	= budMath::BitsForInteger( budMath::BitsForFloat( RB_MOMENTUM_MAX ) ) + 1;
+const int	RB_MOMENTUM_EXPONENT_BITS	= Math::BitsForInteger( Math::BitsForFloat( RB_MOMENTUM_MAX ) ) + 1;
 const int	RB_MOMENTUM_MANTISSA_BITS	= RB_MOMENTUM_TOTAL_BITS - 1 - RB_MOMENTUM_EXPONENT_BITS;
 const float	RB_FORCE_MAX				= 1e20f;
 const int	RB_FORCE_TOTAL_BITS			= 16;
-const int	RB_FORCE_EXPONENT_BITS		= budMath::BitsForInteger( budMath::BitsForFloat( RB_FORCE_MAX ) ) + 1;
+const int	RB_FORCE_EXPONENT_BITS		= Math::BitsForInteger( Math::BitsForFloat( RB_FORCE_MAX ) ) + 1;
 const int	RB_FORCE_MANTISSA_BITS		= RB_FORCE_TOTAL_BITS - 1 - RB_FORCE_EXPONENT_BITS;
 
 /*
@@ -1639,7 +1639,7 @@ idPhysics_RigidBody::WriteToSnapshot
 */
 void idPhysics_RigidBody::WriteToSnapshot( budBitMsg& msg ) const
 {
-	idCQuat quat, localQuat;
+	CMPQuat quat, localQuat;
 	
 	quat = current.i.orientation.ToCQuat();
 	
@@ -1661,7 +1661,7 @@ idPhysics_RigidBody::ReadFromSnapshot
 */
 void idPhysics_RigidBody::ReadFromSnapshot( const budBitMsg& msg )
 {
-	idCQuat quat, localQuat;
+	CMPQuat quat, localQuat;
 	
 	previous = next;
 	

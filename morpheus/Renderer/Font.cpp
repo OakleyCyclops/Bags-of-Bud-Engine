@@ -51,7 +51,7 @@ budFont::RemapFont
 */
 budFont* budFont::RemapFont( const char* baseName )
 {
-	budStr cleanName = baseName;
+	String cleanName = baseName;
 	
 	if( cleanName == DEFAULT_FONT )
 	{
@@ -187,7 +187,7 @@ budFont::LoadFont
 */
 bool budFont::LoadFont()
 {
-	budStr fontName = va( "newfonts/%s/48.dat", GetName() );
+	String fontName = va( "newfonts/%s/48.dat", GetName() );
 	budFile* fd = fileSystem->OpenFileRead( fontName );
 	if( fd == NULL )
 	{
@@ -251,7 +251,7 @@ bool budFont::LoadFont()
 		}
 	}
 	
-	budStr fontTextureName = fontName;
+	String fontTextureName = fontName;
 	fontTextureName.SetFileExtension( "tga" );
 	
 	fontInfo->material = declManager->FindMaterial( fontTextureName );

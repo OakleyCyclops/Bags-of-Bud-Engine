@@ -118,7 +118,7 @@ void idMenuWidget_CommandBar::Update()
 	// FIXME: handle animating in of the button bar?
 	GetSprite()->SetVisible( true );
 	
-	budStr shortcutName;
+	String shortcutName;
 	for( int i = 0; i < buttonOrder.Num(); ++i )
 	{
 		const char* const buttonName = BUTTON_NAMES[ buttonOrder[ i ] ];

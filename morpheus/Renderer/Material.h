@@ -840,8 +840,8 @@ private:
 	int					ParseExpressionPriority( budLexer& src, int priority );
 	int					ParseExpression( budLexer& src );
 	void				ClearStage( shaderStage_t* ss );
-	int					NameToSrcBlendMode( const budStr& name );
-	int					NameToDstBlendMode( const budStr& name );
+	int					NameToSrcBlendMode( const String& name );
+	int					NameToDstBlendMode( const String& name );
 	void				MultiplyTextureMatrix( textureStage_t* ts, int registers[2][3] );	// FIXME: for some reason the const is bad for gcc and Mac
 	void				SortInteractionStages();
 	void				AddImplicitStages( const textureRepeat_t trpDefault = TR_REPEAT );
@@ -849,8 +849,8 @@ private:
 	void				SetFastPathImages();
 	
 private:
-	budStr				desc;				// description
-	budStr				renderBump;			// renderbump command options, without the "renderbump" at the start
+	String				desc;				// description
+	String				renderBump;			// renderbump command options, without the "renderbump" at the start
 	
 	budImage*			lightFalloffImage;	// only for light shaders
 	
@@ -914,7 +914,7 @@ private:
 	// we defer loading of the editor image until it is asked for, so the game doesn't load up
 	// all the invisible and uncompressed images.
 	// If editorImage is NULL, it will atempt to load editorImageName, and set editorImage to that or defaultImage
-	budStr				editorImageName;
+	String				editorImageName;
 	mutable budImage* 	editorImage;		// image used for non-shaded preview
 	float				editorAlpha;
 	
@@ -923,6 +923,6 @@ private:
 	int					refCount;
 };
 
-typedef budList<const budMaterial*, TAG_MATERIAL> budMatList;
+typedef List<const budMaterial*, TAG_MATERIAL> budMatList;
 
 #endif /* !__MATERIAL_H__ */

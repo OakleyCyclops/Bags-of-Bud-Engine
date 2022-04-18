@@ -221,7 +221,7 @@ public:
 	const char* ReadWaveFormat( waveFmt_t& waveFmt );
 	static bool  ReadWaveFormatDirect( waveFmt_t& format, budFile* file );
 	static bool  WriteWaveFormatDirect( waveFmt_t& format, budFile* file );
-	static bool  WriteSampleDataDirect( budList< sampleData_t >& sampleData, budFile* file );
+	static bool  WriteSampleDataDirect( List< sampleData_t >& sampleData, budFile* file );
 	static bool  WriteDataDirect( char* _data, uint32 size, budFile* file );
 	static bool  WriteHeaderDirect( uint32 fileSize, budFile* file );
 	

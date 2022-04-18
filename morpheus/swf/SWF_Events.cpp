@@ -95,18 +95,18 @@ budSWFScriptObject* budSWF::HitTest( budSWFSpriteInstance* spriteInstance, const
 				const budSWFShapeDrawFill& fill = shape->fillDraws[j];
 				for( int k = 0; k < fill.indices.Num(); k += 3 )
 				{
-					budVec2 xy1 = renderState2.matrix.Transform( fill.startVerts[fill.indices[k + 0]] );
-					budVec2 xy2 = renderState2.matrix.Transform( fill.startVerts[fill.indices[k + 1]] );
-					budVec2 xy3 = renderState2.matrix.Transform( fill.startVerts[fill.indices[k + 2]] );
+					Vector2 xy1 = renderState2.matrix.Transform( fill.startVerts[fill.indices[k + 0]] );
+					Vector2 xy2 = renderState2.matrix.Transform( fill.startVerts[fill.indices[k + 1]] );
+					Vector2 xy3 = renderState2.matrix.Transform( fill.startVerts[fill.indices[k + 2]] );
 					
-					budMat3 edgeEquations;
+					Matrix3 edgeEquations;
 					edgeEquations[0].Set( xy1.x + xOffset, xy1.y + yOffset, 1.0f );
 					edgeEquations[1].Set( xy2.x + xOffset, xy2.y + yOffset, 1.0f );
 					edgeEquations[2].Set( xy3.x + xOffset, xy3.y + yOffset, 1.0f );
 					edgeEquations.InverseSelf();
 					
-					budVec3 p( x, y, 1.0f );
-					budVec3 signs = p * edgeEquations;
+					Vector3 p( x, y, 1.0f );
+					Vector3 signs = p * edgeEquations;
 					
 					bool bx = signs.x > 0;
 					bool by = signs.y > 0;
@@ -158,41 +158,41 @@ budSWFScriptObject* budSWF::HitTest( budSWFSpriteInstance* spriteInstance, const
 			
 			float lengthDiff = fabs( shape->bounds.br.x - shape->bounds.tl.x ) - textLength;
 			
-			budVec3 tl;
-			budVec3 tr;
-			budVec3 br;
-			budVec3 bl;
+			Vector3 tl;
+			Vector3 tr;
+			Vector3 br;
+			Vector3 bl;
 			
 			float topOffset = 0.0f;
 			
 			if( text->align == SWF_ET_ALIGN_LEFT )
 			{
-				tl.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.tl.x  + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
-				tr.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.br.x - lengthDiff + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
-				br.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.br.x - lengthDiff + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
-				bl.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.tl.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
+				tl.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.tl.x  + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
+				tr.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.br.x - lengthDiff + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
+				br.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.br.x - lengthDiff + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
+				bl.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.tl.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
 			}
 			else if( text->align == SWF_ET_ALIGN_RIGHT )
 			{
-				tl.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.tl.x + lengthDiff + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
-				tr.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.br.x + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
-				br.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.br.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
-				bl.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.tl.x + lengthDiff + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
+				tl.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.tl.x + lengthDiff + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
+				tr.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.br.x + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
+				br.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.br.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
+				bl.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.tl.x + lengthDiff + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
 			}
 			else if( text->align == SWF_ET_ALIGN_CENTER )
 			{
 				float middle = ( ( shape->bounds.br.x + xOffset ) + ( shape->bounds.tl.x + xOffset ) ) / 2.0f;
-				tl.ToVec2() = renderState2.matrix.Transform( budVec2( middle - ( textLength / 2.0f ), shape->bounds.tl.y + topOffset + yOffset ) );
-				tr.ToVec2() = renderState2.matrix.Transform( budVec2( middle + ( textLength / 2.0f ), shape->bounds.tl.y + topOffset + yOffset ) );
-				br.ToVec2() = renderState2.matrix.Transform( budVec2( middle + ( textLength / 2.0f ), shape->bounds.br.y + topOffset + yOffset ) );
-				bl.ToVec2() = renderState2.matrix.Transform( budVec2( middle - ( textLength / 2.0f ), shape->bounds.br.y + topOffset + yOffset ) );
+				tl.ToVec2() = renderState2.matrix.Transform( Vector2( middle - ( textLength / 2.0f ), shape->bounds.tl.y + topOffset + yOffset ) );
+				tr.ToVec2() = renderState2.matrix.Transform( Vector2( middle + ( textLength / 2.0f ), shape->bounds.tl.y + topOffset + yOffset ) );
+				br.ToVec2() = renderState2.matrix.Transform( Vector2( middle + ( textLength / 2.0f ), shape->bounds.br.y + topOffset + yOffset ) );
+				bl.ToVec2() = renderState2.matrix.Transform( Vector2( middle - ( textLength / 2.0f ), shape->bounds.br.y + topOffset + yOffset ) );
 			}
 			else
 			{
-				tl.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.tl.x + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
-				tr.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.br.x + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
-				br.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.br.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
-				bl.ToVec2() = renderState2.matrix.Transform( budVec2( shape->bounds.tl.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
+				tl.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.tl.x + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
+				tr.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.br.x + xOffset, shape->bounds.tl.y + topOffset + yOffset ) );
+				br.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.br.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
+				bl.ToVec2() = renderState2.matrix.Transform( Vector2( shape->bounds.tl.x + xOffset, shape->bounds.br.y + topOffset + yOffset ) );
 			}
 			
 			tl.z = 1.0f;
@@ -200,14 +200,14 @@ budSWFScriptObject* budSWF::HitTest( budSWFSpriteInstance* spriteInstance, const
 			br.z = 1.0f;
 			bl.z = 1.0f;
 			
-			budMat3 edgeEquations;
+			Matrix3 edgeEquations;
 			edgeEquations[0] = tl;
 			edgeEquations[1] = tr;
 			edgeEquations[2] = br;
 			edgeEquations.InverseSelf();
 			
-			budVec3 p( x, y, 1.0f );
-			budVec3 signs = p * edgeEquations;
+			Vector3 p( x, y, 1.0f );
+			Vector3 signs = p * edgeEquations;
 			
 			bool bx = signs.x > 0;
 			bool by = signs.y > 0;
@@ -383,7 +383,7 @@ bool budSWF::HandleEvent( const sysEvent_t* event )
 			if( useFunction.IsFunction() && event->evValue2 )
 			{
 				const char* action = idKeyInput::GetBinding( event->evValue );
-				if( budStr::Cmp( "_use", action ) == 0 )
+				if( String::Cmp( "_use", action ) == 0 )
 				{
 					useFunction.GetFunction()->Call( NULL, budSWFParmList() );
 				}
@@ -469,8 +469,8 @@ bool budSWF::HandleEvent( const sysEvent_t* event )
 			float tx = 0.5f * ( sysWidth - ( frameWidth * scale ) );
 			float ty = 0.5f * ( sysHeight - ( frameHeight * scale ) );
 			
-			mouseX = budMath::Ftoi( ( static_cast<float>( event->evValue ) - tx ) * invScale );
-			mouseY = budMath::Ftoi( ( static_cast<float>( event->evValue2 ) - ty ) * invScale );
+			mouseX = Math::Ftoi( ( static_cast<float>( event->evValue ) - tx ) * invScale );
+			mouseY = Math::Ftoi( ( static_cast<float>( event->evValue2 ) - ty ) * invScale );
 		}
 		else
 		{
@@ -478,8 +478,8 @@ bool budSWF::HandleEvent( const sysEvent_t* event )
 			mouseX += event->evValue;
 			mouseY += event->evValue2;
 			
-			mouseX = Max( Min( mouseX, budMath::Ftoi( frameWidth + renderBorder ) ), budMath::Ftoi( 0.0f - renderBorder ) );
-			mouseY = Max( Min( mouseY, budMath::Ftoi( frameHeight ) ), 0 );
+			mouseX = Max( Min( mouseX, Math::Ftoi( frameWidth + renderBorder ) ), Math::Ftoi( 0.0f - renderBorder ) );
+			mouseY = Max( Min( mouseY, Math::Ftoi( frameHeight ) ), 0 );
 		}
 		
 		bool retVal = false;

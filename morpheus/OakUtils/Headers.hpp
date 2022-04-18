@@ -135,6 +135,7 @@ If you have questions concerning this license or the applicable additional terms
 #define NDEBUG
 #endif
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -147,6 +148,7 @@ If you have questions concerning this license or the applicable additional terms
 #include <math.h>
 #include <limits.h>
 #include <memory>
+#include <xmmintrin.h>
 // RB: added <stdint.h> for missing uintptr_t with MinGW
 #include <stdint.h>
 // RB end
@@ -156,9 +158,5 @@ If you have questions concerning this license or the applicable additional terms
 
 //-----------------------------------------------------
 
-// Hacked stuff we may want to consider implementing later
-class budScopedGlobalHeap
-{
-};
 
 #endif // SYS_HEADERS_H

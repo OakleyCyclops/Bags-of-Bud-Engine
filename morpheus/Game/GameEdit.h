@@ -51,7 +51,7 @@ public:
 	void					Think();
 	
 	idForce_Drag			drag;
-	budVec3					draggedPosition;
+	Vector3					draggedPosition;
 };
 
 
@@ -84,9 +84,9 @@ private:
 	idEntityPtr<idEntity>	dragEnt;			// entity being dragged
 	jointHandle_t			joint;				// joint being dragged
 	int						id;					// id of body being dragged
-	budVec3					localEntityPoint;	// dragged point in entity space
-	budVec3					localPlayerPoint;	// dragged point in player space
-	budStr					bodyName;			// name of the body being dragged
+	Vector3					localEntityPoint;	// dragged point in entity space
+	Vector3					localPlayerPoint;	// dragged point in player space
+	String					bodyName;			// name of the body being dragged
 	idCursor3D* 			cursor;				// cursor entity
 	idEntityPtr<idEntity>	selected;			// last dragged entity
 	
@@ -104,23 +104,23 @@ private:
 typedef struct selectedTypeInfo_s
 {
 	idTypeInfo* typeInfo;
-	budStr		textKey;
+	String		textKey;
 } selectedTypeInfo_t;
 
 class idEditEntities
 {
 public:
 	idEditEntities();
-	bool					SelectEntity( const budVec3& origin, const budVec3& dir, const idEntity* skip );
+	bool					SelectEntity( const Vector3& origin, const Vector3& dir, const idEntity* skip );
 	void					AddSelectedEntity( idEntity* ent );
 	void					RemoveSelectedEntity( idEntity* ent );
 	void					ClearSelectedEntities();
 	void					DisplayEntities();
-	bool					EntityIsSelectable( idEntity* ent, budVec4* color = NULL, budStr* text = NULL );
+	bool					EntityIsSelectable( idEntity* ent, Vector4* color = NULL, String* text = NULL );
 private:
 	int						nextSelectTime;
-	budList<selectedTypeInfo_t> selectableEntityClasses;
-	budList<idEntity*>		selectedEntities;
+	List<selectedTypeInfo_t> selectableEntityClasses;
+	List<idEntity*>		selectedEntities;
 };
 
 #endif /* !__GAME_EDIT_H__ */

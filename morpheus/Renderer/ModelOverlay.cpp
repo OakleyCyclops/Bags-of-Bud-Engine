@@ -204,7 +204,7 @@ static void R_OverlayPointCullStatic( byte* cullBits, halfFloat_t* texCoordS, ha
 	
 		for( ; i <= nextNumVerts; i++ )
 		{
-			const budVec3& v = vertsODS[i].xyz;
+			const Vector3& v = vertsODS[i].xyz;
 	
 			const float d0 = planes[0].Distance( v );
 			const float d1 = planes[1].Distance( v );
@@ -329,7 +329,7 @@ static void R_OverlayPointCullSkinned( byte* cullBits, halfFloat_t* texCoordS, h
 	
 		for( ; i <= nextNumVerts; i++ )
 		{
-			const budVec3 transformed = Scalar_LoadSkinnedDrawVertPosition( vertsODS[i], joints );
+			const Vector3 transformed = Scalar_LoadSkinnedDrawVertPosition( vertsODS[i], joints );
 	
 			const float d0 = planes[0].Distance( transformed );
 			const float d1 = planes[1].Distance( transformed );
@@ -384,12 +384,12 @@ void budRenderModelOverlay::CreateOverlay( const budRenderModel* model, const bu
 	maxIndexes += 3 * 16 / sizeof( triIndex_t );	// to allow the index size to be a multiple of 16 bytes
 	
 	// make temporary buffers for the building process
-	idTempArray< byte > cullBits( maxVerts );
-	idTempArray< halfFloat_t > texCoordS( maxVerts );
-	idTempArray< halfFloat_t > texCoordT( maxVerts );
-	idTempArray< triIndex_t > vertexRemap( maxVerts );
-	idTempArray< overlayVertex_t > overlayVerts( maxVerts );
-	idTempArray< triIndex_t > overlayIndexes( maxIndexes );
+	TempArray< byte > cullBits( maxVerts );
+	TempArray< halfFloat_t > texCoordS( maxVerts );
+	TempArray< halfFloat_t > texCoordT( maxVerts );
+	TempArray< triIndex_t > vertexRemap( maxVerts );
+	TempArray< overlayVertex_t > overlayVerts( maxVerts );
+	TempArray< triIndex_t > overlayIndexes( maxIndexes );
 	
 	// pull out the triangles we need from the base surfaces
 	for( int surfNum = 0; surfNum < model->NumBaseSurfaces(); surfNum++ )

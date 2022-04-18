@@ -253,7 +253,7 @@ LocalKickDir is the direction of force in the player's coordinate system,
 which will determine the head kick direction
 ==============
 */
-void budPlayerView::DamageImpulse( budVec3 localKickDir, const idDict* damageDef )
+void budPlayerView::DamageImpulse( Vector3 localKickDir, const Dict* damageDef )
 {
 	//
 	// double vision effect
@@ -346,13 +346,13 @@ budPlayerView::WeaponFireFeedback
 Called when a weapon fires, generates head twitches, etc
 ==================
 */
-void budPlayerView::WeaponFireFeedback( const idDict* weaponDef )
+void budPlayerView::WeaponFireFeedback( const Dict* weaponDef )
 {
 	int recoilTime = weaponDef->GetInt( "recoilTime" );
 	// don't shorten a damage kick in progress
 	if( recoilTime && kickFinishTime < gameLocal.slow.time )
 	{
-		budAngles angles;
+		Angles angles;
 		weaponDef->GetAngles( "recoilAngles", "5 0 0", angles );
 		kickAngles = angles;
 		int	finish = gameLocal.slow.time + g_kickTime.GetFloat() * recoilTime;
@@ -385,7 +385,7 @@ void budPlayerView::CalculateShake()
 budPlayerView::ShakeAxis
 ===================
 */
-budMat3 budPlayerView::ShakeAxis() const
+Matrix3 budPlayerView::ShakeAxis() const
 {
 	return shakeAng.ToMat3();
 }
@@ -397,9 +397,9 @@ budPlayerView::AngleOffset
   kickVector, a world space direction that the attack should
 ===================
 */
-budAngles budPlayerView::AngleOffset() const
+Angles budPlayerView::AngleOffset() const
 {
-	budAngles ang( 0.0f, 0.0f, 0.0f );
+	Angles ang( 0.0f, 0.0f, 0.0f );
 	
 	if( gameLocal.slow.time < kickFinishTime )
 	{
@@ -580,9 +580,9 @@ budPlayerView::Flash
 flashes the player view with the given color
 =================
 */
-void budPlayerView::Flash( budVec4 color, int time )
+void budPlayerView::Flash( Vector4 color, int time )
 {
-	Fade( budVec4( 0.0f, 0.0f, 0.0f, 0.0f ), time );
+	Fade( Vector4( 0.0f, 0.0f, 0.0f, 0.0f ), time );
 	fadeFromColor = colorWhite;
 }
 
@@ -594,7 +594,7 @@ used for level transition fades
 assumes: color.w is 0 or 1
 =================
 */
-void budPlayerView::Fade( budVec4 color, int time )
+void budPlayerView::Fade( Vector4 color, int time )
 {
 	SetTimeState ts( player->timeGroup );
 	
@@ -666,11 +666,11 @@ void budPlayerView::ScreenFade()
 	}
 }
 
-budCVar	stereoRender_interOccularCentimeters( "stereoRender_interOccularCentimeters", "3.0", CVAR_ARCHIVE | CVAR_RENDERER, "Distance between eyes" );
-budCVar	stereoRender_convergence( "stereoRender_convergence", "6", CVAR_RENDERER, "0 = head mounted display, otherwise world units to convergence plane" );
+CVar	stereoRender_interOccularCentimeters( "stereoRender_interOccularCentimeters", "3.0", CVAR_ARCHIVE | CVAR_RENDERER, "Distance between eyes" );
+CVar	stereoRender_convergence( "stereoRender_convergence", "6", CVAR_RENDERER, "0 = head mounted display, otherwise world units to convergence plane" );
 
-extern	budCVar stereoRender_screenSeparation;	// screen units from center to eyes
-extern	budCVar stereoRender_swapEyes;
+extern	CVar stereoRender_screenSeparation;	// screen units from center to eyes
+extern	CVar stereoRender_swapEyes;
 
 // In a head mounted display with separate displays for each eye,
 // screen separation will be zero and world separation will be the eye distance.
@@ -823,7 +823,7 @@ void budPlayerView::RenderPlayerView( idMenuHandler_HUD* hudManager )
 budPlayerView::WarpVision
 ===================
 */
-int budPlayerView::AddWarp( budVec3 worldOrigin, float centerx, float centery, float initialRadius, float durationMsec )
+int budPlayerView::AddWarp( Vector3 worldOrigin, float centerx, float centery, float initialRadius, float durationMsec )
 {
 	FullscreenFX_Warp* fx = ( FullscreenFX_Warp* )( fxManager->FindFX( "warp" ) );
 	
@@ -1306,9 +1306,9 @@ FullscreenFX_Warp::DrawWarp
 */
 void FullscreenFX_Warp::DrawWarp( WarpPolygon_t wp, float interp )
 {
-	budVec4 mid1_uv, mid2_uv;
-	budVec4 mid1, mid2;
-	budVec2 drawPts[6];
+	Vector4 mid1_uv, mid2_uv;
+	Vector4 mid1, mid2;
+	Vector2 drawPts[6];
 	WarpPolygon_t trans;
 	
 	trans = wp;
@@ -1355,11 +1355,11 @@ FullscreenFX_Warp::HighQuality
 void FullscreenFX_Warp::HighQuality()
 {
 	float x1, y1, x2, y2, radius, interp;
-	budVec2 center;
+	Vector2 center;
 	int STEP = 9;
 	renderSystem->SetColor4( 1.0f, 1.0f, 1.0f, 1.0f );
 	
-	interp = ( budMath::Sin( ( float )( gameLocal.slow.time - startWarpTime ) / 1000 ) + 1 ) / 2.f;
+	interp = ( Math::Sin( ( float )( gameLocal.slow.time - startWarpTime ) / 1000 ) + 1 ) / 2.f;
 	interp = 0.7 * ( 1 - interp ) + 0.3 * ( interp );
 	
 	// draw the warps
@@ -1370,11 +1370,11 @@ void FullscreenFX_Warp::HighQuality()
 	for( float i = 0; i < 360; i += STEP )
 	{
 		// compute the values
-		x1 = budMath::Sin( DEG2RAD( i ) );
-		y1 = budMath::Cos( DEG2RAD( i ) );
+		x1 = Math::Sin( DEG2RAD( i ) );
+		y1 = Math::Cos( DEG2RAD( i ) );
 		
-		x2 = budMath::Sin( DEG2RAD( i + STEP ) );
-		y2 = budMath::Cos( DEG2RAD( i + STEP ) );
+		x2 = Math::Sin( DEG2RAD( i + STEP ) );
+		y2 = Math::Cos( DEG2RAD( i + STEP ) );
 		
 		// add warp polygon
 		WarpPolygon_t p;
@@ -1512,7 +1512,7 @@ void FullscreenFX_DoubleVision::HighQuality()
 	shift = fabs( shift );
 	
 	// carry red tint if in berserk mode
-	budVec4 color( 1.0f, 1.0f, 1.0f, 1.0f );
+	Vector4 color( 1.0f, 1.0f, 1.0f, 1.0f );
 	if( gameLocal.fast.time < player->inventory.powerupEndTime[ BERSERK ] )
 	{
 		color.y = 0.0f;
@@ -1593,7 +1593,7 @@ void FullscreenFX_InfluenceVision::HighQuality()
 		if( player->GetInfluenceRadius() != 0.0f && distance < player->GetInfluenceRadius() )
 		{
 			pct = distance / player->GetInfluenceRadius();
-			pct = 1.0f - budMath::ClampFloat( 0.0f, 1.0f, pct );
+			pct = 1.0f - Math::ClampFloat( 0.0f, 1.0f, pct );
 		}
 	}
 	
@@ -1779,7 +1779,7 @@ FullscreenFXManager::~FullscreenFXManager()
 FullscreenFXManager::FindFX
 ==================
 */
-FullscreenFX* FullscreenFXManager::FindFX( budStr name )
+FullscreenFX* FullscreenFXManager::FindFX( String name )
 {
 	for( int i = 0; i < fx.Num(); i++ )
 	{
@@ -1797,7 +1797,7 @@ FullscreenFX* FullscreenFXManager::FindFX( budStr name )
 FullscreenFXManager::CreateFX
 ==================
 */
-void FullscreenFXManager::CreateFX( budStr name, budStr fxtype, int fade )
+void FullscreenFXManager::CreateFX( String name, String fxtype, int fade )
 {
 	FullscreenFX* pfx = NULL;
 	
@@ -1919,7 +1919,7 @@ void FullscreenFXManager::Restore( idRestoreGame* savefile )
 	}
 }
 
-budCVar player_allowScreenFXInStereo( "player_allowScreenFXInStereo", "1", CVAR_BOOL, "allow full screen fx in stereo mode" );
+CVar player_allowScreenFXInStereo( "player_allowScreenFXInStereo", "1", CVAR_BOOL, "allow full screen fx in stereo mode" );
 
 /*
 ==================

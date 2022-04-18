@@ -287,7 +287,7 @@ void budSWF::DefineEditText( budSWFBitStream& bitstream )
 	}
 	if( hasFontClass )
 	{
-		budStr fontClass = bitstream.ReadString();
+		String fontClass = bitstream.ReadString();
 	}
 	if( hasTextColor )
 	{
@@ -309,7 +309,7 @@ void budSWF::DefineEditText( budSWFBitStream& bitstream )
 	if( hasText )
 	{
 		const char* text = bitstream.ReadString();
-		budStr initialText;
+		String initialText;
 		
 		// convert html tags if necessary
 		for( int i = 0; text[i] != 0; i++ )
@@ -328,7 +328,7 @@ void budSWF::DefineEditText( budSWFBitStream& bitstream )
 			byte tc = ( byte )text[i];
 			if( tc == '&' )
 			{
-				budStr special;
+				String special;
 				for( i++; text[i] != 0 && text[i] != ';'; i++ )
 				{
 					special.Append( text[i] );

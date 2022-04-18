@@ -50,7 +50,7 @@ If we know that we are "off to the side" of an infinite shadow volume,
 we can draw it without caps in Z-pass mode.
 ======================
 */
-bool R_ViewPotentiallyInsideInfiniteShadowVolume( const budBounds& occluderBounds, const budVec3& localLight, const budVec3& localView, const float zNear )
+bool R_ViewPotentiallyInsideInfiniteShadowVolume( const budBounds& occluderBounds, const Vector3& localLight, const Vector3& localView, const float zNear )
 {
 	// Expand the bounds to account for the near clip plane, because the
 	// view could be mathematically outside, but if the near clip plane
@@ -227,7 +227,7 @@ static void R_ShadowVolumeCullBits( byte* cullBits, byte& totalOr, const float r
 	
 		for( ; i <= nextNumVerts; i++ )
 		{
-			const budVec3& v = vertsODS[i].xyzw.ToVec3();
+			const Vector3& v = vertsODS[i].xyzw.ToVec3();
 	
 			const float d0 = planes[0].Distance( v );
 			const float d1 = planes[1].Distance( v );
@@ -272,12 +272,12 @@ static void R_ShadowVolumeCullBits( byte* cullBits, byte& totalOr, const float r
 R_SegmentToSegmentDistanceSquare
 ===================
 */
-static float R_SegmentToSegmentDistanceSquare( const budVec3& start1, const budVec3& end1, const budVec3& start2, const budVec3& end2 )
+static float R_SegmentToSegmentDistanceSquare( const Vector3& start1, const Vector3& end1, const Vector3& start2, const Vector3& end2 )
 {
 
-	const budVec3 dir0 = start1 - start2;
-	const budVec3 dir1 = end1 - start1;
-	const budVec3 dir2 = end2 - start2;
+	const Vector3 dir0 = start1 - start2;
+	const Vector3 dir1 = end1 - start1;
+	const Vector3 dir2 = end2 - start2;
 	
 	const float dotDir1Dir1 = dir1 * dir1;
 	const float dotDir2Dir2 = dir2 * dir2;
@@ -285,7 +285,7 @@ static float R_SegmentToSegmentDistanceSquare( const budVec3& start1, const budV
 	const float dotDir0Dir1 = dir0 * dir1;
 	const float dotDir0Dir2 = dir0 * dir2;
 	
-	if( dotDir1Dir1 < budMath::FLT_SMALLEST_NON_DENORMAL || dotDir2Dir2 < budMath::FLT_SMALLEST_NON_DENORMAL )
+	if( dotDir1Dir1 < Math::FLT_SMALLEST_NON_DENORMAL || dotDir2Dir2 < Math::FLT_SMALLEST_NON_DENORMAL )
 	{
 		// At least one of the lines is degenerate.
 		// The returned length is correct only if both lines are degenerate otherwise the start point of
@@ -296,7 +296,7 @@ static float R_SegmentToSegmentDistanceSquare( const budVec3& start1, const budV
 	
 	const float d = dotDir1Dir1 * dotDir2Dir2 - dotDir1Dir2 * dotDir1Dir2;
 	
-	if( d < budMath::FLT_SMALLEST_NON_DENORMAL )
+	if( d < Math::FLT_SMALLEST_NON_DENORMAL )
 	{
 		// The lines are parallel.
 		// The returned length is not correct.
@@ -307,13 +307,13 @@ static float R_SegmentToSegmentDistanceSquare( const budVec3& start1, const budV
 	const float n = dotDir0Dir2 * dotDir1Dir2 - dotDir0Dir1 * dotDir2Dir2;
 	
 	const float t1 = n / d;
-	const float t1c = budMath::ClampFloat( 0.0f, 1.0f, t1 );
+	const float t1c = Math::ClampFloat( 0.0f, 1.0f, t1 );
 	
 	const float t2 = ( dotDir0Dir2 + dotDir1Dir2 * t1 ) / dotDir2Dir2;
-	const float t2c = budMath::ClampFloat( 0.0f, 1.0f, t2 );
+	const float t2c = Math::ClampFloat( 0.0f, 1.0f, t2 );
 	
-	const budVec3 closest1 = start1 + ( dir1 * t1c );
-	const budVec3 closest2 = start2 + ( dir2 * t2c );
+	const Vector3 closest1 = start1 + ( dir1 * t1c );
+	const Vector3 closest2 = start2 + ( dir2 * t2c );
 	
 	const float distSqr = ( closest2 - closest1 ).LengthSqr();
 	
@@ -325,17 +325,17 @@ static float R_SegmentToSegmentDistanceSquare( const budVec3& start1, const budV
 R_LineIntersectsTriangleExpandedWithSphere
 ===================
 */
-bool R_LineIntersectsTriangleExpandedWithSphere( const budVec3& lineStart, const budVec3& lineEnd, const budVec3& lineDir, const float lineLength,
-		const float sphereRadius, const budVec3& triVert0, const budVec3& triVert1, const budVec3& triVert2 )
+bool R_LineIntersectsTriangleExpandedWithSphere( const Vector3& lineStart, const Vector3& lineEnd, const Vector3& lineDir, const float lineLength,
+		const float sphereRadius, const Vector3& triVert0, const Vector3& triVert1, const Vector3& triVert2 )
 {
 	// edge directions
-	const budVec3 edge1 = triVert1 - triVert0;
-	const budVec3 edge2 = triVert2 - triVert0;
+	const Vector3 edge1 = triVert1 - triVert0;
+	const Vector3 edge2 = triVert2 - triVert0;
 	
 	// calculate determinant
-	const budVec3 tvec = lineStart - triVert0;
-	const budVec3 pvec = lineDir.Cross( edge1 );
-	const budVec3 qvec = tvec.Cross( edge2 );
+	const Vector3 tvec = lineStart - triVert0;
+	const Vector3 pvec = lineDir.Cross( edge1 );
+	const Vector3 qvec = tvec.Cross( edge2 );
 	const float det = edge2 * pvec;
 	
 	// calculate UV parameters
@@ -348,7 +348,7 @@ bool R_LineIntersectsTriangleExpandedWithSphere( const budVec3& lineStart, const
 		if( v >= 0.0f && u + v <= det * det )
 		{
 			// if determinant is near zero then the ray lies in the triangle plane
-			if( budMath::Fabs( det ) > budMath::FLT_SMALLEST_NON_DENORMAL )
+			if( Math::Fabs( det ) > Math::FLT_SMALLEST_NON_DENORMAL )
 			{
 				const float fraction = ( edge1 * qvec ) / det;
 				if( fraction >= 0.0f && fraction <= lineLength )
@@ -395,12 +395,12 @@ Rendering with Z-fail can be significantly slower even on today's hardware.
 ===================
 */
 bool R_ViewInsideShadowVolume( byte* cullBits, const idShadowVert* verts, int numVerts, const triIndex_t* indexes, int numIndexes,
-							   const budVec3& localLightOrigin, const budVec3& localViewOrigin, const float zNear )
+							   const Vector3& localLightOrigin, const Vector3& localViewOrigin, const float zNear )
 {
 
 	ALIGNTYPE16 budPlane planes[4];
 	// create two planes orthogonal to each other that intersect along the trace
-	budVec3 startDir = localLightOrigin - localViewOrigin;
+	Vector3 startDir = localLightOrigin - localViewOrigin;
 	startDir.Normalize();
 	startDir.NormalVectors( planes[0].Normal(), planes[1].Normal() );
 	planes[0][3] = - localViewOrigin * planes[0].Normal();
@@ -432,12 +432,12 @@ bool R_ViewInsideShadowVolume( byte* cullBits, const idShadowVert* verts, int nu
 	idODSStreamedArray< triIndex_t, 256, SBT_QUAD, 3 > indexesODS( indexes, numIndexes );
 	
 	// Calculate the start, end, dir and length of the line from the view origin to the light origin.
-	const budVec3 lineStart = localViewOrigin;
-	const budVec3 lineEnd = localLightOrigin;
-	const budVec3 lineDelta = lineEnd - lineStart;
+	const Vector3 lineStart = localViewOrigin;
+	const Vector3 lineEnd = localLightOrigin;
+	const Vector3 lineDelta = lineEnd - lineStart;
 	const float lineLengthSqr = lineDelta.LengthSqr();
-	const float lineLengthRcp = budMath::InvSqrt( lineLengthSqr );
-	const budVec3 lineDir = lineDelta * lineLengthRcp;
+	const float lineLengthRcp = Math::InvSqrt( lineLengthSqr );
+	const Vector3 lineDir = lineDelta * lineLengthRcp;
 	const float lineLength = lineLengthSqr * lineLengthRcp;
 	
 	for( int i = 0; i < numIndexes; )
@@ -466,9 +466,9 @@ bool R_ViewInsideShadowVolume( byte* cullBits, const idShadowVert* verts, int nu
 				continue;
 			}
 			
-			const idODSObject< budVec4 > triVert0( & verts[i0].xyzw );
-			const idODSObject< budVec4 > triVert1( & verts[i1].xyzw );
-			const idODSObject< budVec4 > triVert2( & verts[i2].xyzw );
+			const idODSObject< Vector4 > triVert0( & verts[i0].xyzw );
+			const idODSObject< Vector4 > triVert1( & verts[i1].xyzw );
+			const idODSObject< Vector4 > triVert2( & verts[i2].xyzw );
 			
 			// If the W of any of the coordinates is zero then the triangle is at or
 			// stretches to infinity which means it is not part of the near cap.

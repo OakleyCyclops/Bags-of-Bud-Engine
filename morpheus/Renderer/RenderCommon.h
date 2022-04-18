@@ -207,7 +207,7 @@ public:
 	const budMaterial* 		lightShader;			// guaranteed to be valid, even if parms.shader isn't
 	budImage* 				falloffImage;
 	
-	budVec3					globalLightOrigin;		// accounting for lightCenter and parallel
+	Vector3					globalLightOrigin;		// accounting for lightCenter and parallel
 	budBounds				globalLightBounds;
 	
 	int						viewCount;				// if == tr.viewCount, the light is on the viewDef->viewLights list
@@ -321,14 +321,14 @@ struct viewLight_t
 	};
 	byte* 					entityInteractionState;		// [numEntities]
 	
-	budVec3					globalLightOrigin;			// global light origin used by backend
+	Vector3					globalLightOrigin;			// global light origin used by backend
 	budPlane					lightProject[4];			// light project used by backend
 	budPlane					fogPlane;					// fog plane for backend fog volume rendering
 	// RB: added for shadow mapping
 	budRenderMatrix			baseLightProject;			// global xyz1 to projected light strq
 	bool					pointLight;					// otherwise a projection light (should probably invert the sense of this, because points are way more common)
 	bool					parallel;					// lightCenter gives the direction to the light at infinity
-	budVec3					lightCenter;				// offset the lighting direction for shading and
+	Vector3					lightCenter;				// offset the lighting direction for shading and
 	int						shadowLOD;					// level of detail for shadowmap selection
 	// RB end
 	budRenderMatrix			inverseBaseLightProject;	// the matrix for deforming the 'zeroOneCubeModel' to exactly cover the light volume in world space
@@ -438,7 +438,7 @@ struct viewDef_t
 	
 	budRenderWorldLocal* renderWorld;
 	
-	budVec3				initialViewAreaOrigin;
+	Vector3				initialViewAreaOrigin;
 	// Used to find the portalArea that view flooding will take place from.
 	// for a normal view, the initialViewOrigin will be renderView.viewOrg,
 	// but a mirror may put the projection origin outside
@@ -471,7 +471,7 @@ struct viewDef_t
 	
 	// drawSurfs are the visible surfaces of the viewEntities, sorted
 	// by the material sort parameter
-	drawSurf_t** 		drawSurfs;				// we don't use an budList for this, because
+	drawSurf_t** 		drawSurfs;				// we don't use an List for this, because
 	int					numDrawSurfs;			// it is allocated in frame temporary memory
 	int					maxDrawSurfs;			// may be resized
 	
@@ -506,16 +506,16 @@ struct drawInteraction_t
 	budImage* 			diffuseImage;
 	budImage* 			specularImage;
 	
-	budVec4				diffuseColor;	// may have a light color baked into it
-	budVec4				specularColor;	// may have a light color baked into it
+	Vector4				diffuseColor;	// may have a light color baked into it
+	Vector4				specularColor;	// may have a light color baked into it
 	stageVertexColor_t	vertexColor;	// applies to both diffuse and specular
 	
 	int					ambientLight;	// use tr.ambientNormalMap instead of normalization cube map
 	
 	// these are loaded into the vertex program
-	budVec4				bumpMatrix[2];
-	budVec4				diffuseMatrix[2];
-	budVec4				specularMatrix[2];
+	Vector4				bumpMatrix[2];
+	Vector4				diffuseMatrix[2];
+	Vector4				specularMatrix[2];
 };
 
 /*
@@ -628,8 +628,8 @@ extern	budFrameData*	frameData;
 void R_AddDrawViewCmd( viewDef_t* parms, bool guiOnly );
 void R_AddDrawPostProcess( viewDef_t* parms );
 
-void R_ReloadGuis_f( const budCmdArgs& args );
-void R_ListGuis_f( const budCmdArgs& args );
+void R_ReloadGuis_f( const CmdArgs& args );
+void R_ListGuis_f( const CmdArgs& args );
 
 void* R_GetCommandBuffer( int bytes );
 
@@ -736,18 +736,18 @@ public:
 	virtual void			ResetFonts();
 	virtual void			PrintMemInfo( MemInfo_t* mi );
 	
-	virtual void			SetColor( const budVec4& color );
+	virtual void			SetColor( const Vector4& color );
 	virtual uint32			GetColor();
 	virtual void			SetGLState( const uint64 glState ) ;
-	virtual void			DrawFilled( const budVec4& color, float x, float y, float w, float h );
+	virtual void			DrawFilled( const Vector4& color, float x, float y, float w, float h );
 	virtual void			DrawStretchPic( float x, float y, float w, float h, float s1, float t1, float s2, float t2, const budMaterial* material );
-	virtual void			DrawStretchPic( const budVec4& topLeft, const budVec4& topRight, const budVec4& bottomRight, const budVec4& bottomLeft, const budMaterial* material );
-	virtual void			DrawStretchTri( const budVec2& p1, const budVec2& p2, const budVec2& p3, const budVec2& t1, const budVec2& t2, const budVec2& t3, const budMaterial* material );
+	virtual void			DrawStretchPic( const Vector4& topLeft, const Vector4& topRight, const Vector4& bottomRight, const Vector4& bottomLeft, const budMaterial* material );
+	virtual void			DrawStretchTri( const Vector2& p1, const Vector2& p2, const Vector2& p3, const Vector2& t1, const Vector2& t2, const Vector2& t3, const budMaterial* material );
 	virtual budDrawVert* 	AllocTris( int numVerts, const triIndex_t* indexes, int numIndexes, const budMaterial* material, const stereoDepthType_t stereoType = STEREO_DEPTH_TYPE_NONE );
 	virtual void			DrawSmallChar( int x, int y, int ch );
-	virtual void			DrawSmallStringExt( int x, int y, const char* string, const budVec4& setColor, bool forceColor );
+	virtual void			DrawSmallStringExt( int x, int y, const char* string, const Vector4& setColor, bool forceColor );
 	virtual void			DrawBigChar( int x, int y, int ch );
-	virtual void			DrawBigStringExt( int x, int y, const char* string, const budVec4& setColor, bool forceColor );
+	virtual void			DrawBigStringExt( int x, int y, const char* string, const Vector4& setColor, bool forceColor );
 	
 	virtual void			WriteDemoPics();
 	virtual void			WriteEndFrame();
@@ -801,9 +801,9 @@ public:
 	
 	float					frameShaderTime;	// shader time for all non-world 2D rendering
 	
-	budVec4					ambientLightVector;	// used for "ambient bump mapping"
+	Vector4					ambientLightVector;	// used for "ambient bump mapping"
 	
-	budList<budRenderWorldLocal*>worlds;
+	List<budRenderWorldLocal*>worlds;
 	
 	budRenderWorldLocal* 	primaryWorld;
 	renderView_t			primaryRenderView;
@@ -836,7 +836,7 @@ public:
 	uint64					currentGLState;
 	class budGuiModel* 		guiModel;
 	
-	budList<budFont*, TAG_FONT>		fonts;
+	List<budFont*, TAG_FONT>		fonts;
 	
 	unsigned short			gammaTable[256];	// brightness / gamma modify this
 	
@@ -867,204 +867,204 @@ extern glconfig_t			glConfig;		// outside of TR since it shouldn't be cleared du
 //
 // cvars
 //
-extern budCVar r_windowX;
-extern budCVar r_windowY;
-extern budCVar r_windowWidth;
-extern budCVar r_windowHeight;
+extern CVar r_windowX;
+extern CVar r_windowY;
+extern CVar r_windowWidth;
+extern CVar r_windowHeight;
 
-extern budCVar r_debugContext;				// enable various levels of context debug
-extern budCVar r_glDriver;					// "opengl32", etc
-extern budCVar r_skipIntelWorkarounds;		// skip work arounds for Intel driver bugs
-extern budCVar r_vidMode;					// video mode number
-extern budCVar r_displayRefresh;				// optional display refresh rate option for vid mode
-extern budCVar r_fullscreen;					// 0 = windowed, 1 = full screen
-extern budCVar r_antiAliasing;				// anti aliasing mode, SMAA, TXAA, MSAA etc.
+extern CVar r_debugContext;				// enable various levels of context debug
+extern CVar r_glDriver;					// "opengl32", etc
+extern CVar r_skipIntelWorkarounds;		// skip work arounds for Intel driver bugs
+extern CVar r_vidMode;					// video mode number
+extern CVar r_displayRefresh;				// optional display refresh rate option for vid mode
+extern CVar r_fullscreen;					// 0 = windowed, 1 = full screen
+extern CVar r_antiAliasing;				// anti aliasing mode, SMAA, TXAA, MSAA etc.
 
-extern budCVar r_znear;						// near Z clip plane
+extern CVar r_znear;						// near Z clip plane
 
-extern budCVar r_swapInterval;				// changes wglSwapIntarval
-extern budCVar r_offsetFactor;				// polygon offset parameter
-extern budCVar r_offsetUnits;				// polygon offset parameter
-extern budCVar r_singleTriangle;				// only draw a single triangle per primitive
-extern budCVar r_logFile;					// number of frames to emit GL logs
-extern budCVar r_clear;						// force screen clear every frame
-extern budCVar r_subviewOnly;				// 1 = don't render main view, allowing subviews to be debugged
-extern budCVar r_lightScale;					// all light intensities are multiplied by this, which is normally 3
-extern budCVar r_flareSize;					// scale the flare deforms from the material def
+extern CVar r_swapInterval;				// changes wglSwapIntarval
+extern CVar r_offsetFactor;				// polygon offset parameter
+extern CVar r_offsetUnits;				// polygon offset parameter
+extern CVar r_singleTriangle;				// only draw a single triangle per primitive
+extern CVar r_logFile;					// number of frames to emit GL logs
+extern CVar r_clear;						// force screen clear every frame
+extern CVar r_subviewOnly;				// 1 = don't render main view, allowing subviews to be debugged
+extern CVar r_lightScale;					// all light intensities are multiplied by this, which is normally 3
+extern CVar r_flareSize;					// scale the flare deforms from the material def
 
-extern budCVar r_gamma;						// changes gamma tables
-extern budCVar r_brightness;					// changes gamma tables
+extern CVar r_gamma;						// changes gamma tables
+extern CVar r_brightness;					// changes gamma tables
 
-extern budCVar r_checkBounds;				// compare all surface bounds with precalculated ones
-extern budCVar r_maxAnisotropicFiltering;	// texture filtering parameter
-extern budCVar r_useTrilinearFiltering;		// Extra quality filtering
-extern budCVar r_lodBias;					// lod bias
+extern CVar r_checkBounds;				// compare all surface bounds with precalculated ones
+extern CVar r_maxAnisotropicFiltering;	// texture filtering parameter
+extern CVar r_useTrilinearFiltering;		// Extra quality filtering
+extern CVar r_lodBias;					// lod bias
 
-extern budCVar r_useLightPortalFlow;			// 1 = do a more precise area reference determination
-extern budCVar r_useShadowSurfaceScissor;	// 1 = scissor shadows by the scissor rect of the interaction surfaces
-extern budCVar r_useConstantMaterials;		// 1 = use pre-calculated material registers if possible
-extern budCVar r_useNodeCommonChildren;		// stop pushing reference bounds early when possible
-extern budCVar r_useSilRemap;				// 1 = consider verts with the same XYZ, but different ST the same for shadows
-extern budCVar r_useLightPortalCulling;		// 0 = none, 1 = box, 2 = exact clip of polyhedron faces, 3 MVP to plane culling
-extern budCVar r_useLightAreaCulling;		// 0 = off, 1 = on
-extern budCVar r_useLightScissors;			// 1 = use custom scissor rectangle for each light
-extern budCVar r_useEntityPortalCulling;		// 0 = none, 1 = box
-extern budCVar r_skipPrelightShadows;		// 1 = skip the dmap generated static shadow volumes
-extern budCVar r_useCachedDynamicModels;		// 1 = cache snapshots of dynamic models
-extern budCVar r_useScissor;					// 1 = scissor clip as portals and lights are processed
-extern budCVar r_usePortals;					// 1 = use portals to perform area culling, otherwise draw everything
-extern budCVar r_useStateCaching;			// avoid redundant state changes in GL_*() calls
-extern budCVar r_useEntityCallbacks;			// if 0, issue the callback immediately at update time, rather than defering
-extern budCVar r_lightAllBackFaces;			// light all the back faces, even when they would be shadowed
-extern budCVar r_useLightDepthBounds;		// use depth bounds test on lights to reduce both shadow and interaction fill
-extern budCVar r_useShadowDepthBounds;		// use depth bounds test on individual shadows to reduce shadow fill
+extern CVar r_useLightPortalFlow;			// 1 = do a more precise area reference determination
+extern CVar r_useShadowSurfaceScissor;	// 1 = scissor shadows by the scissor rect of the interaction surfaces
+extern CVar r_useConstantMaterials;		// 1 = use pre-calculated material registers if possible
+extern CVar r_useNodeCommonChildren;		// stop pushing reference bounds early when possible
+extern CVar r_useSilRemap;				// 1 = consider verts with the same XYZ, but different ST the same for shadows
+extern CVar r_useLightPortalCulling;		// 0 = none, 1 = box, 2 = exact clip of polyhedron faces, 3 MVP to plane culling
+extern CVar r_useLightAreaCulling;		// 0 = off, 1 = on
+extern CVar r_useLightScissors;			// 1 = use custom scissor rectangle for each light
+extern CVar r_useEntityPortalCulling;		// 0 = none, 1 = box
+extern CVar r_skipPrelightShadows;		// 1 = skip the dmap generated static shadow volumes
+extern CVar r_useCachedDynamicModels;		// 1 = cache snapshots of dynamic models
+extern CVar r_useScissor;					// 1 = scissor clip as portals and lights are processed
+extern CVar r_usePortals;					// 1 = use portals to perform area culling, otherwise draw everything
+extern CVar r_useStateCaching;			// avoid redundant state changes in GL_*() calls
+extern CVar r_useEntityCallbacks;			// if 0, issue the callback immediately at update time, rather than defering
+extern CVar r_lightAllBackFaces;			// light all the back faces, even when they would be shadowed
+extern CVar r_useLightDepthBounds;		// use depth bounds test on lights to reduce both shadow and interaction fill
+extern CVar r_useShadowDepthBounds;		// use depth bounds test on individual shadows to reduce shadow fill
 // RB begin
-extern budCVar r_useShadowMapping;			// use shadow mapping instead of stencil shadows
-extern budCVar r_useHalfLambertLighting;		// use Half-Lambert lighting instead of classic Lambert
-extern budCVar r_useHDR;
-extern budCVar r_useSRGB;
-extern budCVar r_useSeamlessCubeMap;
+extern CVar r_useShadowMapping;			// use shadow mapping instead of stencil shadows
+extern CVar r_useHalfLambertLighting;		// use Half-Lambert lighting instead of classic Lambert
+extern CVar r_useHDR;
+extern CVar r_useSRGB;
+extern CVar r_useSeamlessCubeMap;
 // RB end
 
-extern budCVar r_skipStaticInteractions;		// skip interactions created at level load
-extern budCVar r_skipDynamicInteractions;	// skip interactions created after level load
-extern budCVar r_skipPostProcess;			// skip all post-process renderings
-extern budCVar r_skipSuppress;				// ignore the per-view suppressions
-extern budCVar r_skipInteractions;			// skip all light/surface interaction drawing
-extern budCVar r_skipFrontEnd;				// bypasses all front end work, but 2D gui rendering still draws
-extern budCVar r_skipBackEnd;				// don't draw anything
-extern budCVar r_skipCopyTexture;			// do all rendering, but don't actually copyTexSubImage2D
-extern budCVar r_skipRender;					// skip 3D rendering, but pass 2D
-extern budCVar r_skipRenderContext;			// NULL the rendering context during backend 3D rendering
-extern budCVar r_skipTranslucent;			// skip the translucent interaction rendering
-extern budCVar r_skipAmbient;				// bypasses all non-interaction drawing
-extern budCVar r_skipNewAmbient;				// bypasses all vertex/fragment program ambients
-extern budCVar r_skipBlendLights;			// skip all blend lights
-extern budCVar r_skipFogLights;				// skip all fog lights
-extern budCVar r_skipSubviews;				// 1 = don't render any mirrors / cameras / etc
-extern budCVar r_skipGuiShaders;				// 1 = don't render any gui elements on surfaces
-extern budCVar r_skipParticles;				// 1 = don't render any particles
-extern budCVar r_skipUpdates;				// 1 = don't accept any entity or light updates, making everything static
-extern budCVar r_skipDeforms;				// leave all deform materials in their original state
-extern budCVar r_skipDynamicTextures;		// don't dynamically create textures
-extern budCVar r_skipBump;					// uses a flat surface instead of the bump map
-extern budCVar r_skipSpecular;				// use black for specular
-extern budCVar r_skipDiffuse;				// use black for diffuse
-extern budCVar r_skipDecals;					// skip decal surfaces
-extern budCVar r_skipOverlays;				// skip overlay surfaces
-extern budCVar r_skipShadows;				// disable shadows
+extern CVar r_skipStaticInteractions;		// skip interactions created at level load
+extern CVar r_skipDynamicInteractions;	// skip interactions created after level load
+extern CVar r_skipPostProcess;			// skip all post-process renderings
+extern CVar r_skipSuppress;				// ignore the per-view suppressions
+extern CVar r_skipInteractions;			// skip all light/surface interaction drawing
+extern CVar r_skipFrontEnd;				// bypasses all front end work, but 2D gui rendering still draws
+extern CVar r_skipBackEnd;				// don't draw anything
+extern CVar r_skipCopyTexture;			// do all rendering, but don't actually copyTexSubImage2D
+extern CVar r_skipRender;					// skip 3D rendering, but pass 2D
+extern CVar r_skipRenderContext;			// NULL the rendering context during backend 3D rendering
+extern CVar r_skipTranslucent;			// skip the translucent interaction rendering
+extern CVar r_skipAmbient;				// bypasses all non-interaction drawing
+extern CVar r_skipNewAmbient;				// bypasses all vertex/fragment program ambients
+extern CVar r_skipBlendLights;			// skip all blend lights
+extern CVar r_skipFogLights;				// skip all fog lights
+extern CVar r_skipSubviews;				// 1 = don't render any mirrors / cameras / etc
+extern CVar r_skipGuiShaders;				// 1 = don't render any gui elements on surfaces
+extern CVar r_skipParticles;				// 1 = don't render any particles
+extern CVar r_skipUpdates;				// 1 = don't accept any entity or light updates, making everything static
+extern CVar r_skipDeforms;				// leave all deform materials in their original state
+extern CVar r_skipDynamicTextures;		// don't dynamically create textures
+extern CVar r_skipBump;					// uses a flat surface instead of the bump map
+extern CVar r_skipSpecular;				// use black for specular
+extern CVar r_skipDiffuse;				// use black for diffuse
+extern CVar r_skipDecals;					// skip decal surfaces
+extern CVar r_skipOverlays;				// skip overlay surfaces
+extern CVar r_skipShadows;				// disable shadows
 
-extern budCVar r_ignoreGLErrors;
+extern CVar r_ignoreGLErrors;
 
-extern budCVar r_screenFraction;				// for testing fill rate, the resolution of the entire screen can be changed
-extern budCVar r_showUnsmoothedTangents;		// highlight geometry rendered with unsmoothed tangents
-extern budCVar r_showSilhouette;				// highlight edges that are casting shadow planes
-extern budCVar r_showVertexColor;			// draws all triangles with the solid vertex color
-extern budCVar r_showUpdates;				// report entity and light updates and ref counts
-extern budCVar r_showDemo;					// report reads and writes to the demo file
-extern budCVar r_showDynamic;				// report stats on dynamic surface generation
-extern budCVar r_showIntensity;				// draw the screen colors based on intensity, red = 0, green = 128, blue = 255
-extern budCVar r_showTrace;					// show the intersection of an eye trace with the world
-extern budCVar r_showDepth;					// display the contents of the depth buffer and the depth range
-extern budCVar r_showTris;					// enables wireframe rendering of the world
-extern budCVar r_showSurfaceInfo;			// show surface material name under crosshair
-extern budCVar r_showNormals;				// draws wireframe normals
-extern budCVar r_showEdges;					// draw the sil edges
-extern budCVar r_showViewEntitys;			// displays the bounding boxes of all view models and optionally the index
-extern budCVar r_showTexturePolarity;		// shade triangles by texture area polarity
-extern budCVar r_showTangentSpace;			// shade triangles by tangent space
-extern budCVar r_showDominantTri;			// draw lines from vertexes to center of dominant triangles
-extern budCVar r_showTextureVectors;			// draw each triangles texture (tangent) vectors
-extern budCVar r_showLights;					// 1 = print light info, 2 = also draw volumes
-extern budCVar r_showLightCount;				// colors surfaces based on light count
-extern budCVar r_showShadows;				// visualize the stencil shadow volumes
-extern budCVar r_showLightScissors;			// show light scissor rectangles
-extern budCVar r_showMemory;					// print frame memory utilization
-extern budCVar r_showCull;					// report sphere and box culling stats
-extern budCVar r_showAddModel;				// report stats from tr_addModel
-extern budCVar r_showSurfaces;				// report surface/light/shadow counts
-extern budCVar r_showPrimitives;				// report vertex/index/draw counts
-extern budCVar r_showPortals;				// draw portal outlines in color based on passed / not passed
-extern budCVar r_showSkel;					// draw the skeleton when model animates
-extern budCVar r_showOverDraw;				// show overdraw
+extern CVar r_screenFraction;				// for testing fill rate, the resolution of the entire screen can be changed
+extern CVar r_showUnsmoothedTangents;		// highlight geometry rendered with unsmoothed tangents
+extern CVar r_showSilhouette;				// highlight edges that are casting shadow planes
+extern CVar r_showVertexColor;			// draws all triangles with the solid vertex color
+extern CVar r_showUpdates;				// report entity and light updates and ref counts
+extern CVar r_showDemo;					// report reads and writes to the demo file
+extern CVar r_showDynamic;				// report stats on dynamic surface generation
+extern CVar r_showIntensity;				// draw the screen colors based on intensity, red = 0, green = 128, blue = 255
+extern CVar r_showTrace;					// show the intersection of an eye trace with the world
+extern CVar r_showDepth;					// display the contents of the depth buffer and the depth range
+extern CVar r_showTris;					// enables wireframe rendering of the world
+extern CVar r_showSurfaceInfo;			// show surface material name under crosshair
+extern CVar r_showNormals;				// draws wireframe normals
+extern CVar r_showEdges;					// draw the sil edges
+extern CVar r_showViewEntitys;			// displays the bounding boxes of all view models and optionally the index
+extern CVar r_showTexturePolarity;		// shade triangles by texture area polarity
+extern CVar r_showTangentSpace;			// shade triangles by tangent space
+extern CVar r_showDominantTri;			// draw lines from vertexes to center of dominant triangles
+extern CVar r_showTextureVectors;			// draw each triangles texture (tangent) vectors
+extern CVar r_showLights;					// 1 = print light info, 2 = also draw volumes
+extern CVar r_showLightCount;				// colors surfaces based on light count
+extern CVar r_showShadows;				// visualize the stencil shadow volumes
+extern CVar r_showLightScissors;			// show light scissor rectangles
+extern CVar r_showMemory;					// print frame memory utilization
+extern CVar r_showCull;					// report sphere and box culling stats
+extern CVar r_showAddModel;				// report stats from tr_addModel
+extern CVar r_showSurfaces;				// report surface/light/shadow counts
+extern CVar r_showPrimitives;				// report vertex/index/draw counts
+extern CVar r_showPortals;				// draw portal outlines in color based on passed / not passed
+extern CVar r_showSkel;					// draw the skeleton when model animates
+extern CVar r_showOverDraw;				// show overdraw
 // RB begin
-extern budCVar r_showShadowMaps;
-extern budCVar r_showShadowMapLODs;
+extern CVar r_showShadowMaps;
+extern CVar r_showShadowMapLODs;
 // RB end
-extern budCVar r_jointNameScale;				// size of joint names when r_showskel is set to 1
-extern budCVar r_jointNameOffset;			// offset of joint names when r_showskel is set to 1
+extern CVar r_jointNameScale;				// size of joint names when r_showskel is set to 1
+extern CVar r_jointNameOffset;			// offset of joint names when r_showskel is set to 1
 
-extern budCVar r_testGamma;					// draw a grid pattern to test gamma levels
-extern budCVar r_testGammaBias;				// draw a grid pattern to test gamma levels
+extern CVar r_testGamma;					// draw a grid pattern to test gamma levels
+extern CVar r_testGammaBias;				// draw a grid pattern to test gamma levels
 
-extern budCVar r_singleLight;				// suppress all but one light
-extern budCVar r_singleEntity;				// suppress all but one entity
-extern budCVar r_singleArea;					// only draw the portal area the view is actually in
-extern budCVar r_singleSurface;				// suppress all but one surface on each entity
-extern budCVar r_shadowPolygonOffset;		// bias value added to depth test for stencil shadow drawing
-extern budCVar r_shadowPolygonFactor;		// scale value for stencil shadow drawing
+extern CVar r_singleLight;				// suppress all but one light
+extern CVar r_singleEntity;				// suppress all but one entity
+extern CVar r_singleArea;					// only draw the portal area the view is actually in
+extern CVar r_singleSurface;				// suppress all but one surface on each entity
+extern CVar r_shadowPolygonOffset;		// bias value added to depth test for stencil shadow drawing
+extern CVar r_shadowPolygonFactor;		// scale value for stencil shadow drawing
 
-extern budCVar r_jitter;						// randomly subpixel jitter the projection matrix
-extern budCVar r_orderIndexes;				// perform index reorganization to optimize vertex use
+extern CVar r_jitter;						// randomly subpixel jitter the projection matrix
+extern CVar r_orderIndexes;				// perform index reorganization to optimize vertex use
 
-extern budCVar r_debugLineDepthTest;			// perform depth test on debug lines
-extern budCVar r_debugLineWidth;				// width of debug lines
-extern budCVar r_debugArrowStep;				// step size of arrow cone line rotation in degrees
-extern budCVar r_debugPolygonFilled;
+extern CVar r_debugLineDepthTest;			// perform depth test on debug lines
+extern CVar r_debugLineWidth;				// width of debug lines
+extern CVar r_debugArrowStep;				// step size of arrow cone line rotation in degrees
+extern CVar r_debugPolygonFilled;
 
-extern budCVar r_materialOverride;			// override all materials
+extern CVar r_materialOverride;			// override all materials
 
-extern budCVar r_debugRenderToTexture;
+extern CVar r_debugRenderToTexture;
 
-extern budCVar stereoRender_enable;
-extern budCVar stereoRender_deGhost;			// subtract from opposite eye to reduce ghosting
+extern CVar stereoRender_enable;
+extern CVar stereoRender_deGhost;			// subtract from opposite eye to reduce ghosting
 
-extern budCVar r_useGPUSkinning;
+extern CVar r_useGPUSkinning;
 
 // RB begin
-extern budCVar r_shadowMapFrustumFOV;
-extern budCVar r_shadowMapSingleSide;
-extern budCVar r_shadowMapImageSize;
-extern budCVar r_shadowMapJitterScale;
-extern budCVar r_shadowMapBiasScale;
-extern budCVar r_shadowMapRandomizeJitter;
-extern budCVar r_shadowMapSamples;
-extern budCVar r_shadowMapSplits;
-extern budCVar r_shadowMapSplitWeight;
-extern budCVar r_shadowMapLodScale;
-extern budCVar r_shadowMapLodBias;
-extern budCVar r_shadowMapPolygonFactor;
-extern budCVar r_shadowMapPolygonOffset;
-extern budCVar r_shadowMapOccluderFacing;
-extern budCVar r_shadowMapRegularDepthBiasScale;
-extern budCVar r_shadowMapSunDepthBiasScale;
+extern CVar r_shadowMapFrustumFOV;
+extern CVar r_shadowMapSingleSide;
+extern CVar r_shadowMapImageSize;
+extern CVar r_shadowMapJitterScale;
+extern CVar r_shadowMapBiasScale;
+extern CVar r_shadowMapRandomizeJitter;
+extern CVar r_shadowMapSamples;
+extern CVar r_shadowMapSplits;
+extern CVar r_shadowMapSplitWeight;
+extern CVar r_shadowMapLodScale;
+extern CVar r_shadowMapLodBias;
+extern CVar r_shadowMapPolygonFactor;
+extern CVar r_shadowMapPolygonOffset;
+extern CVar r_shadowMapOccluderFacing;
+extern CVar r_shadowMapRegularDepthBiasScale;
+extern CVar r_shadowMapSunDepthBiasScale;
 
-extern budCVar r_hdrAutoExposure;
-extern budCVar r_hdrMinLuminance;
-extern budCVar r_hdrMaxLuminance;
-extern budCVar r_hdrKey;
-extern budCVar r_hdrContrastDynamicThreshold;
-extern budCVar r_hdrContrastStaticThreshold;
-extern budCVar r_hdrContrastOffset;
-extern budCVar r_hdrGlarePasses;
-extern budCVar r_hdrDebug;
+extern CVar r_hdrAutoExposure;
+extern CVar r_hdrMinLuminance;
+extern CVar r_hdrMaxLuminance;
+extern CVar r_hdrKey;
+extern CVar r_hdrContrastDynamicThreshold;
+extern CVar r_hdrContrastStaticThreshold;
+extern CVar r_hdrContrastOffset;
+extern CVar r_hdrGlarePasses;
+extern CVar r_hdrDebug;
 
-extern budCVar r_ldrContrastThreshold;
-extern budCVar r_ldrContrastOffset;
+extern CVar r_ldrContrastThreshold;
+extern CVar r_ldrContrastOffset;
 
-extern budCVar r_useFilmicPostProcessEffects;
-extern budCVar r_forceAmbient;
+extern CVar r_useFilmicPostProcessEffects;
+extern CVar r_forceAmbient;
 
-extern budCVar r_useSSGI;
-extern budCVar r_ssgiDebug;
-extern budCVar r_ssgiFiltering;
+extern CVar r_useSSGI;
+extern CVar r_ssgiDebug;
+extern CVar r_ssgiFiltering;
 
-extern budCVar r_useSSAO;
-extern budCVar r_ssaoDebug;
-extern budCVar r_ssaoFiltering;
-extern budCVar r_useHierarchicalDepthBuffer;
+extern CVar r_useSSAO;
+extern CVar r_ssaoDebug;
+extern CVar r_ssaoFiltering;
+extern CVar r_useHierarchicalDepthBuffer;
 
-extern budCVar r_exposure;
+extern CVar r_exposure;
 // RB end
 
 /*
@@ -1079,7 +1079,7 @@ void R_SetNewMode( const bool fullInit );
 
 void R_SetColorMappings();
 
-void R_ScreenShot_f( const budCmdArgs& args );
+void R_ScreenShot_f( const CmdArgs& args );
 
 /*
 ====================================================================
@@ -1116,7 +1116,7 @@ struct vidMode_t
 // the number of displays can be found by itterating this until it returns false
 // displayNum is the 0 based value passed to EnumDisplayDevices(), you must add
 // 1 to this to get an r_fullScreen value.
-bool R_GetModeListForDisplay( const int displayNum, budList<vidMode_t>& modeList );
+bool R_GetModeListForDisplay( const int displayNum, List<vidMode_t>& modeList );
 
 struct glimpParms_t
 {
@@ -1187,7 +1187,7 @@ void R_FreeLightDefDerivedData( budRenderLightLocal* light );
 void R_FreeDerivedData();
 void R_ReCreateWorldReferences();
 void R_CheckForEntityDefsUsingModel( budRenderModel* model );
-void R_ModulateLights_f( const budCmdArgs& args );
+void R_ModulateLights_f( const CmdArgs& args );
 
 /*
 ============================================================
@@ -1229,7 +1229,7 @@ TR_FRONTEND_ADDLIGHTS
 ============================================================
 */
 
-void R_ShadowBounds( const budBounds& modelBounds, const budBounds& lightBounds, const budVec3& lightOrigin, budBounds& shadowBounds );
+void R_ShadowBounds( const budBounds& modelBounds, const budBounds& lightBounds, const Vector3& lightOrigin, budBounds& shadowBounds );
 
 BUD_INLINE bool R_CullModelBoundsToLight( const budRenderLightLocal* light, const budBounds& localBounds, const budRenderMatrix& modelRenderMatrix )
 {
@@ -1277,7 +1277,7 @@ TR_FRONTEND_GUISURF
 =============================================================
 */
 
-void R_SurfaceToTextureAxis( const srfTriangles_t* tri, budVec3& origin, budVec3 axis[3] );
+void R_SurfaceToTextureAxis( const srfTriangles_t* tri, Vector3& origin, Vector3 axis[3] );
 void R_AddInGameGuis( const drawSurf_t* const drawSurfs[], const int numDrawSurfs );
 
 /*
@@ -1398,12 +1398,12 @@ struct localTrace_t
 {
 	float		fraction;
 	// only valid if fraction < 1.0
-	budVec3		point;
-	budVec3		normal;
+	Vector3		point;
+	Vector3		normal;
 	int			indexes[3];
 };
 
-localTrace_t R_LocalTrace( const budVec3& start, const budVec3& end, const float radius, const srfTriangles_t* tri );
+localTrace_t R_LocalTrace( const Vector3& start, const Vector3& end, const float radius, const srfTriangles_t* tri );
 
 
 
@@ -1426,11 +1426,11 @@ TR_BACKEND_RENDERTOOLS
 */
 
 float RB_DrawTextLength( const char* text, float scale, int len );
-void RB_AddDebugText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align, const int lifetime, const bool depthTest );
+void RB_AddDebugText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align, const int lifetime, const bool depthTest );
 void RB_ClearDebugText( int time );
-void RB_AddDebugLine( const budVec4& color, const budVec3& start, const budVec3& end, const int lifeTime, const bool depthTest );
+void RB_AddDebugLine( const Vector4& color, const Vector3& start, const Vector3& end, const int lifeTime, const bool depthTest );
 void RB_ClearDebugLines( int time );
-void RB_AddDebugPolygon( const budVec4& color, const idWinding& winding, const int lifeTime, const bool depthTest );
+void RB_AddDebugPolygon( const Vector4& color, const idWinding& winding, const int lifeTime, const bool depthTest );
 void RB_ClearDebugPolygons( int time );
 void RB_DrawBounds( const budBounds& bounds );
 

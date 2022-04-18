@@ -124,7 +124,7 @@ idSecurityCamera::Spawn
 */
 void idSecurityCamera::Spawn()
 {
-	budStr	str;
+	String	str;
 	
 	sweepAngle	= spawnArgs.GetFloat( "sweepAngle", "90" );
 	health		= spawnArgs.GetInt( "health", "100" );
@@ -146,9 +146,9 @@ void idSecurityCamera::Spawn()
 	}
 	
 	negativeSweep = ( sweepAngle < 0 ) ? true : false;
-	sweepAngle = budMath::Fabs( sweepAngle );
+	sweepAngle = Math::Fabs( sweepAngle );
 	
-	scanFovCos = cos( scanFov * budMath::PI / 360.0f );
+	scanFovCos = cos( scanFov * Math::PI / 360.0f );
 	
 	angle = GetPhysics()->GetAxis().ToAngles().yaw;
 	StartSweep();
@@ -194,18 +194,18 @@ idSecurityCamera::Event_AddLight
 */
 void idSecurityCamera::Event_AddLight()
 {
-	idDict	args;
-	budVec3	right, up, target, temp;
-	budVec3	dir;
+	Dict	args;
+	Vector3	right, up, target, temp;
+	Vector3	dir;
 	float	radius;
-	budVec3	lightOffset;
+	Vector3	lightOffset;
 	idLight*	spotLight;
 	
 	dir = GetAxis();
 	dir.NormalVectors( right, up );
 	target = GetPhysics()->GetOrigin() + dir * scanDist;
 	
-	radius = tan( scanFov * budMath::PI / 360.0f );
+	radius = tan( scanFov * Math::PI / 360.0f );
 	up = dir + up * radius;
 	up.Normalize();
 	up = GetPhysics()->GetOrigin() + up * scanDist;
@@ -238,14 +238,14 @@ void idSecurityCamera::DrawFov()
 {
 	int i;
 	float radius, a, s, c, halfRadius;
-	budVec3 right, up;
-	budVec4 color( 1, 0, 0, 1 ), color2( 0, 0, 1, 1 );
-	budVec3 lastPoint, point, lastHalfPoint, halfPoint, center;
+	Vector3 right, up;
+	Vector4 color( 1, 0, 0, 1 ), color2( 0, 0, 1, 1 );
+	Vector3 lastPoint, point, lastHalfPoint, halfPoint, center;
 	
-	budVec3 dir = GetAxis();
+	Vector3 dir = GetAxis();
 	dir.NormalVectors( right, up );
 	
-	radius = tan( scanFov * budMath::PI / 360.0f );
+	radius = tan( scanFov * Math::PI / 360.0f );
 	halfRadius = radius * 0.5f;
 	lastPoint = dir + up * radius;
 	lastPoint.Normalize();
@@ -256,8 +256,8 @@ void idSecurityCamera::DrawFov()
 	center = GetPhysics()->GetOrigin() + dir * scanDist;
 	for( i = 1; i < 12; i++ )
 	{
-		a = budMath::TWO_PI * i / 12.0f;
-		budMath::SinCos( a, s, c );
+		a = Math::TWO_PI * i / 12.0f;
+		Math::SinCos( a, s, c );
 		point = dir + right * s * radius + up * c * radius;
 		point.Normalize();
 		point = GetPhysics()->GetOrigin() + point * scanDist;
@@ -302,7 +302,7 @@ bool idSecurityCamera::CanSeePlayer()
 	float dist;
 	budPlayer* ent;
 	trace_t tr;
-	budVec3 dir;
+	Vector3 dir;
 	pvsHandle_t handle;
 	
 	handle = gameLocal.pvs.SetupCurrentPVS( pvsArea );
@@ -335,7 +335,7 @@ bool idSecurityCamera::CanSeePlayer()
 			continue;
 		}
 		
-		budVec3 eye;
+		Vector3 eye;
 		
 		eye = ent->EyeOffset();
 		
@@ -435,7 +435,7 @@ void idSecurityCamera::Think()
 			
 			if( sweeping )
 			{
-				budAngles a = GetPhysics()->GetAxis().ToAngles();
+				Angles a = GetPhysics()->GetAxis().ToAngles();
 				
 				pct = ( gameLocal.time - sweepStart ) / ( sweepEnd - sweepStart );
 				travel = pct * sweepAngle;
@@ -460,7 +460,7 @@ void idSecurityCamera::Think()
 idSecurityCamera::GetAxis
 ================
 */
-const budVec3 idSecurityCamera::GetAxis() const
+const Vector3 idSecurityCamera::GetAxis() const
 {
 	return ( flipAxis ) ? -GetPhysics()->GetAxis()[modelAxis] : GetPhysics()->GetAxis()[modelAxis];
 };
@@ -564,7 +564,7 @@ void idSecurityCamera::Event_Pause()
 idSecurityCamera::Killed
 ============
 */
-void idSecurityCamera::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idSecurityCamera::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	sweeping = false;
 	StopSound( SND_CHANNEL_ANY, false );
@@ -593,7 +593,7 @@ void idSecurityCamera::Killed( idEntity* inflictor, idEntity* attacker, int dama
 idSecurityCamera::Pain
 ============
 */
-bool idSecurityCamera::Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+bool idSecurityCamera::Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	const char* fx = spawnArgs.GetString( "fx_damage" );
 	if( fx[0] != '\0' )

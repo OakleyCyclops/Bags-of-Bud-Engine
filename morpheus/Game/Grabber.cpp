@@ -179,11 +179,11 @@ void idGrabber::Initialize()
 {
 	if( !common->IsMultiplayer() )
 	{
-		idDict args;
+		Dict args;
 		
 		if( !beamTarget )
 		{
-			args.SetVector( "origin", vec3_origin );
+			args.SetVector( "origin", Vector3_Origin );
 			args.SetBool( "start_off", true );
 			beamTarget = ( idBeam* )gameLocal.SpawnEntityType( idBeam::Type, &args );
 		}
@@ -192,7 +192,7 @@ void idGrabber::Initialize()
 		{
 			args.Clear();
 			args.Set( "target", beamTarget->name.c_str() );
-			args.SetVector( "origin", vec3_origin );
+			args.SetVector( "origin", Vector3_Origin );
 			args.SetBool( "start_off", true );
 			args.Set( "width", "6" );
 			args.Set( "skin", "textures/smf/flareSizeable" );
@@ -267,7 +267,7 @@ void idGrabber::StartDrag( idEntity* grabEnt, int id )
 		p->CatchProjectile( thePlayer, "_catch" );
 		
 		// Make the projectile non-solid to other projectiles/enemies (special hack for helltime hunter)
-		if( !budStr::Cmp( grabEnt->GetEntityDefName(), "projectile_helltime_killer" ) )
+		if( !String::Cmp( grabEnt->GetEntityDefName(), "projectile_helltime_killer" ) )
 		{
 			savedContents = CONTENTS_PROJECTILE;
 			savedClipmask = MASK_SHOT_RENDERMODEL | CONTENTS_PROJECTILE;
@@ -312,7 +312,7 @@ void idGrabber::StartDrag( idEntity* grabEnt, int id )
 	
 	// Turn off gravity on object
 	saveGravity = phys->GetGravity();
-	phys->SetGravity( vec3_origin );
+	phys->SetGravity( Vector3_Origin );
 	
 	// hold it directly in front of player
 	localPlayerPoint = ( thePlayer->firstPersonViewAxis[0] * HOLD_DISTANCE ) * thePlayer->firstPersonViewAxis.Transpose();
@@ -374,7 +374,7 @@ void idGrabber::StopDrag( bool dropOnly )
 			{
 				budAI* aiEnt = static_cast<budAI*>( ent );
 				
-				aiEnt->Damage( thePlayer, thePlayer, vec3_origin, "damage_suicide", 1.0f, INVALID_JOINT );
+				aiEnt->Damage( thePlayer, thePlayer, Vector3_Origin, "damage_suicide", 1.0f, INVALID_JOINT );
 			}
 			
 			af->SetThrown( !dropOnly );
@@ -389,7 +389,7 @@ void idGrabber::StopDrag( bool dropOnly )
 		// If the object isn't near its goal, just drop it in place.
 		if( !ent->IsType( idProjectile::Type ) && ( dropOnly || drag.GetDistanceToGoal() > DRAG_FAIL_LEN ) )
 		{
-			ent->GetPhysics()->SetLinearVelocity( vec3_origin );
+			ent->GetPhysics()->SetLinearVelocity( Vector3_Origin );
 			thePlayer->StartSoundShader( declManager->FindSound( "grabber_maindrop" ), SND_CHANNEL_WEAPON, 0, false, NULL );
 			
 			if( ent->IsType( idExplodingBarrel::Type ) )
@@ -410,11 +410,11 @@ void idGrabber::StopDrag( bool dropOnly )
 			if( ent->IsType( idProjectile::Type ) )
 			{
 				budPlayer* player = owner.GetEntity();
-				budAngles ang = player->firstPersonViewAxis[0].ToAngles();
+				Angles ang = player->firstPersonViewAxis[0].ToAngles();
 				
 				ang.pitch += 90.f;
 				ent->GetPhysics()->SetAxis( ang.ToMat3() );
-				ent->GetPhysics()->SetAngularVelocity( vec3_origin );
+				ent->GetPhysics()->SetAngularVelocity( Vector3_Origin );
 				
 				// Restore projectile contents
 				ent->GetPhysics()->SetContents( savedContents );
@@ -526,7 +526,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 	if( !dragEnt.GetEntity() )
 	{
 		budBounds bounds;
-		budVec3 end = player->firstPersonViewOrigin + player->firstPersonViewAxis[0] * dragTraceDist;
+		Vector3 end = player->firstPersonViewOrigin + player->firstPersonViewAxis[0] * dragTraceDist;
 		
 		bounds.Zero();
 		bounds.ExpandSelf( TRACE_BOUNDS_SIZE );
@@ -606,7 +606,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 	if( dragEnt.GetEntity() && allow )
 	{
 		idPhysics* entPhys = dragEnt.GetEntity()->GetPhysics();
-		budVec3 goalPos;
+		Vector3 goalPos;
 		
 		// If the player lets go of attack, or time is up
 		if( !( player->usercmd.buttons & BUTTON_ATTACK ) )
@@ -625,7 +625,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 		{
 			budBounds	playerBounds;
 			budBounds	objectBounds = entPhys->GetAbsBounds();
-			budVec3		newPoint = player->GetPhysics()->GetOrigin();
+			Vector3		newPoint = player->GetPhysics()->GetOrigin();
 			
 			// create a bounds at the players feet
 			playerBounds.Clear();
@@ -658,7 +658,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 		if( g_grabberHardStop.GetBool() )
 		{
 			budPlane theWall;
-			budVec3 toPlayerVelocity, objectCenter;
+			Vector3 toPlayerVelocity, objectCenter;
 			float toPlayerSpeed;
 			
 			toPlayerVelocity = -player->firstPersonViewAxis[0];
@@ -678,7 +678,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 					num = entPhys->GetNumClipModels();
 					for( i = 0; i < num; i++ )
 					{
-						entPhys->SetLinearVelocity( vec3_origin, i );
+						entPhys->SetLinearVelocity( Vector3_Origin, i );
 					}
 				}
 			}
@@ -686,7 +686,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 			// Make sure the object isn't spinning too fast
 			const float MAX_ROTATION_SPEED = 12.f;
 			
-			budVec3	angVel = entPhys->GetAngularVelocity();
+			Vector3	angVel = entPhys->GetAngularVelocity();
 			float	rotationSpeed = angVel.LengthFast();
 			
 			if( rotationSpeed > MAX_ROTATION_SPEED )
@@ -700,7 +700,7 @@ int idGrabber::Update( budPlayer* player, bool hide )
 		// Orient projectiles away from the player
 		if( dragEnt.GetEntity()->IsType( idProjectile::Type ) )
 		{
-			budAngles ang = player->firstPersonViewAxis[0].ToAngles();
+			Angles ang = player->firstPersonViewAxis[0].ToAngles();
 			ang.pitch += 90.f;
 			entPhys->SetAxis( ang.ToMat3() );
 		}
@@ -738,8 +738,8 @@ idGrabber::UpdateBeams
 void idGrabber::UpdateBeams()
 {
 	jointHandle_t	muzzle_joint;
-	budVec3	muzzle_origin;
-	budMat3	muzzle_axis;
+	Vector3	muzzle_origin;
+	Matrix3	muzzle_axis;
 	renderEntity_t* re;
 	
 	if( !beam )
@@ -786,7 +786,7 @@ void idGrabber::ApplyShake()
 	
 	if( u >= 0.8f )
 	{
-		budVec3 point, impulse;
+		Vector3 point, impulse;
 		float shakeForceMagnitude = 450.f;
 		float mass = dragEnt.GetEntity()->GetPhysics()->GetMass();
 		
@@ -826,11 +826,11 @@ bool idGrabber::grabbableAI( const char* aiName )
 	// skip "monster_"
 	aiName += 8;
 	
-	if( !budStr::Cmpn( aiName, "flying_lostsoul", 15 ) ||
-			!budStr::Cmpn( aiName, "demon_trite", 11 ) ||
-			!budStr::Cmp( aiName, "flying_forgotten" ) ||
-			!budStr::Cmp( aiName, "demon_cherub" ) ||
-			!budStr::Cmp( aiName, "demon_tick" ) )
+	if( !String::Cmpn( aiName, "flying_lostsoul", 15 ) ||
+			!String::Cmpn( aiName, "demon_trite", 11 ) ||
+			!String::Cmp( aiName, "flying_forgotten" ) ||
+			!String::Cmp( aiName, "demon_cherub" ) ||
+			!String::Cmp( aiName, "demon_tick" ) )
 	{
 	
 		return true;

@@ -229,7 +229,7 @@ public:
 	void				Think();
 	
 private:
-	budVec4				fadeFrom;
+	Vector4				fadeFrom;
 	int					fadeStart;
 	int					fadeEnd;
 	
@@ -364,21 +364,21 @@ private:
 	void				Event_ClearFlash( float flash );
 	void				Think();
 	
-	budList<int, TAG_TARGET>			lightList;
-	budList<int, TAG_TARGET>			guiList;
-	budList<int, TAG_TARGET>			soundList;
-	budList<int, TAG_TARGET>			genericList;
+	List<int, TAG_TARGET>			lightList;
+	List<int, TAG_TARGET>			guiList;
+	List<int, TAG_TARGET>			soundList;
+	List<int, TAG_TARGET>			genericList;
 	float				flashIn;
 	float				flashOut;
 	float				delay;
-	budStr				flashInSound;
-	budStr				flashOutSound;
+	String				flashInSound;
+	String				flashOutSound;
 	idEntity* 			switchToCamera;
 	idInterpolate<float>fovSetting;
 	bool				soundFaded;
 	bool				restoreOnTrigger;
 	
-	budList<SavedGui_t, TAG_TARGET>	savedGuiList;
+	List<SavedGui_t, TAG_TARGET>	savedGuiList;
 };
 
 
@@ -516,7 +516,7 @@ public:
 	void				Restore( idRestoreGame* savefile );
 	
 private:
-	budVec3				playerPos;
+	Vector3				playerPos;
 	
 	void				Event_Activate( idEntity* activator );
 	void				Event_TipOff();

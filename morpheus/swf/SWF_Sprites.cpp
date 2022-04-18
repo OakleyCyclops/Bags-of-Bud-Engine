@@ -405,7 +405,7 @@ void budSWFSprite::ReadJSON( rapidjson::Value& entry )
 			if( ( flags1 & PlaceFlagHasName ) != 0 )
 			{
 				Value& name = command["name"];
-				budStr string = name.GetString();
+				String string = name.GetString();
 				string.Append( '\0' );
 				int len = string.Length();
 				
@@ -570,11 +570,11 @@ void budSWFSprite::WriteJSON_PlaceObject2( budFile* file, budSWFBitStream& bitst
 		swfColorXform_t cxf;
 		bitstream.ReadColorXFormRGBA( cxf );
 		
-		budVec4 color = cxf.mul;
+		Vector4 color = cxf.mul;
 		file->WriteFloatString( ",\n\t\t\t\t\t\"mulColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 		
 		color = cxf.add;
-		if( color != vec4_origin )
+		if( color != Vector4_Origin )
 		{
 			file->WriteFloatString( ",\n\t\t\t\t\t\"addColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 		}
@@ -588,7 +588,7 @@ void budSWFSprite::WriteJSON_PlaceObject2( budFile* file, budSWFBitStream& bitst
 	
 	if( ( flags1 & PlaceFlagHasName ) != 0 )
 	{
-		budStr name = bitstream.ReadString();
+		String name = bitstream.ReadString();
 		
 		file->WriteFloatString( ",\n\t\t\t\t\t\"name\": \"%s\"", name.c_str() );
 		
@@ -648,11 +648,11 @@ void budSWFSprite::WriteJSON_PlaceObject3( budFile* file, budSWFBitStream& bitst
 		swfColorXform_t cxf;
 		bitstream.ReadColorXFormRGBA( cxf );
 		
-		budVec4 color = cxf.mul;
+		Vector4 color = cxf.mul;
 		file->WriteFloatString( ",\n\t\t\t\t\t\"mulColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 		
 		color = cxf.add;
-		if( color != vec4_origin )
+		if( color != Vector4_Origin )
 		{
 			file->WriteFloatString( ",\n\t\t\t\t\t\"addColor\": [ %f, %f, %f, %f ]", color.x, color.y, color.z, color.w );
 		}
@@ -666,7 +666,7 @@ void budSWFSprite::WriteJSON_PlaceObject3( budFile* file, budSWFBitStream& bitst
 	
 	if( ( flags1 & PlaceFlagHasName ) != 0 )
 	{
-		budStr name = bitstream.ReadString();
+		String name = bitstream.ReadString();
 		
 		file->WriteFloatString( ",\n\t\t\t\t\t\"name\": \"%s\"", name.c_str() );
 		
@@ -732,15 +732,15 @@ void budSWFSprite::WriteJSON_DoAction( budFile* file, budSWFBitStream& bitstream
 	
 	budSWFScriptFunction_Script* actionScript = budSWFScriptFunction_Script::Alloc();
 	
-	budList<budSWFScriptObject*, TAG_SWF> scope;
+	List<budSWFScriptObject*, TAG_SWF> scope;
 	//scope.Append( swf->globals );
 	scope.Append( scriptObject );
 	actionScript->SetScope( scope );
 //	actionScript->SetDefaultSprite( this );
 	
 	actionScript->SetData( bitstream.Ptr(), bitstream.Length() );
-	budStr scriptText = actionScript->CallToScript( scriptObject, budSWFParmList(), file->GetName(), characterID, commandID );
-	budStr quotedText = budStr::CStyleQuote( scriptText.c_str() );
+	String scriptText = actionScript->CallToScript( scriptObject, budSWFParmList(), file->GetName(), characterID, commandID );
+	String quotedText = String::CStyleQuote( scriptText.c_str() );
 	
 	file->WriteFloatString( "%s\t\t\t\t{\n\t\t\t\t\t\"type\": \"Tag_DoAction\", \"streamLength\": %i, \"stream\": \"%s\",\n\t\t\t\t\t\"luaCode\": %s\n\t\t\t\t}", ( commandID != 0 ) ? ",\n" : "", bitstream.Length(), base64.c_str(), quotedText.c_str() );
 	

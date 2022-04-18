@@ -52,7 +52,7 @@ model like for instance a world model.
 #define TEMP_ROUND16( x )				( ( x + 15 ) & ~15 )
 #define TEMP_FACING( numIndexes )		TEMP_ROUND16( ( ( numIndexes / 3 + 3 ) & ~3 ) + 1 )	// rounded up for SIMD, plus 1 for dangling edges
 #define TEMP_CULL( numIndexes )			TEMP_ROUND16( ( ( numIndexes / 3 + 3 ) & ~3 ) )		// rounded up for SIMD
-#define TEMP_VERTS( numVerts )			TEMP_ROUND16( numVerts * sizeof( budVec4 ) )
+#define TEMP_VERTS( numVerts )			TEMP_ROUND16( numVerts * sizeof( Vector4 ) )
 #define OUTPUT_INDEX_BUFFER_SIZE		4096
 
 struct silEdge_t
@@ -80,8 +80,8 @@ struct dynamicShadowVolumeParms_t
 	int								numJoints;
 	budBounds						triangleBounds;
 	budRenderMatrix					triangleMVP;
-	budVec3							localLightOrigin;
-	budVec3							localViewOrigin;
+	Vector3							localLightOrigin;
+	Vector3							localViewOrigin;
 	budRenderMatrix					localLightProject;
 	float							zNear;
 	float							lightZMin;
@@ -93,7 +93,7 @@ struct dynamicShadowVolumeParms_t
 	// temp
 	byte* 							tempFacing;				// temp buffer in SPU local memory
 	byte* 							tempCulled;				// temp buffer in SPU local memory
-	budVec4* 						tempVerts;				// temp buffer in SPU local memory
+	Vector4* 						tempVerts;				// temp buffer in SPU local memory
 	// output
 	triIndex_t* 					indexBuffer;			// output buffer in SPU local memory
 	triIndex_t* 					shadowIndices;			// streamed out to main memory

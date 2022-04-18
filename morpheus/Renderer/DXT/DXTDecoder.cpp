@@ -397,7 +397,7 @@ idDxtDecoder::UnRotateNormals
 void UnRotateNormals( const byte* block, float* normals, byte c0, byte c1 )
 {
 	int rotation = c0;
-	float angle = -( rotation / 255.0f ) * budMath::PI;
+	float angle = -( rotation / 255.0f ) * Math::PI;
 	float s = sin( angle );
 	float c = cos( angle );
 	
@@ -450,9 +450,9 @@ void idDxtDecoder::DecompressNormalMapDXT1( const byte* inBuf, byte* outBuf, int
 			}
 			for( int k = 0; k < 16; k++ )
 			{
-				block[k * 4 + 0] = budMath::Ftob( ( normals[k * 4 + 0] + 1.0f ) / 2.0f * 255.0f );
-				block[k * 4 + 1] = budMath::Ftob( ( normals[k * 4 + 1] + 1.0f ) / 2.0f * 255.0f );
-				block[k * 4 + 2] = budMath::Ftob( ( normals[k * 4 + 2] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 0] = Math::Ftob( ( normals[k * 4 + 0] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 1] = Math::Ftob( ( normals[k * 4 + 1] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 2] = Math::Ftob( ( normals[k * 4 + 2] + 1.0f ) / 2.0f * 255.0f );
 			}
 #else
 			DeriveNormalZValues( block );
@@ -487,13 +487,13 @@ void idDxtDecoder::DecompressNormalMapDXT1Renormalize( const byte* inBuf, byte* 
 				normal[0] = block[k * 4 + 0] / 255.0f * 2.0f - 1.0f;
 				normal[1] = block[k * 4 + 1] / 255.0f * 2.0f - 1.0f;
 				normal[2] = block[k * 4 + 2] / 255.0f * 2.0f - 1.0f;
-				float rsq = budMath::InvSqrt( normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2] );
+				float rsq = Math::InvSqrt( normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2] );
 				normal[0] *= rsq;
 				normal[1] *= rsq;
 				normal[2] *= rsq;
-				block[k * 4 + 0] = budMath::Ftob( ( normal[0] + 1.0f ) / 2.0f * 255.0f + 0.5f );
-				block[k * 4 + 1] = budMath::Ftob( ( normal[1] + 1.0f ) / 2.0f * 255.0f + 0.5f );
-				block[k * 4 + 2] = budMath::Ftob( ( normal[2] + 1.0f ) / 2.0f * 255.0f + 0.5f );
+				block[k * 4 + 0] = Math::Ftob( ( normal[0] + 1.0f ) / 2.0f * 255.0f + 0.5f );
+				block[k * 4 + 1] = Math::Ftob( ( normal[1] + 1.0f ) / 2.0f * 255.0f + 0.5f );
+				block[k * 4 + 2] = Math::Ftob( ( normal[2] + 1.0f ) / 2.0f * 255.0f + 0.5f );
 			}
 			
 			EmitBlock( outBuf, i, j, block );
@@ -533,13 +533,13 @@ void idDxtDecoder::DecompressNormalMapDXT5Renormalize( const byte* inBuf, byte* 
 				normal[1] = block[k * 4 + 1] / 255.0f * 2.0f - 1.0f;
 				normal[2] = block[k * 4 + 2] / 255.0f * 2.0f - 1.0f;
 #endif
-				float rsq = budMath::InvSqrt( normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2] );
+				float rsq = Math::InvSqrt( normal[0] * normal[0] + normal[1] * normal[1] + normal[2] * normal[2] );
 				normal[0] *= rsq;
 				normal[1] *= rsq;
 				normal[2] *= rsq;
-				block[k * 4 + 0] = budMath::Ftob( ( normal[0] + 1.0f ) / 2.0f * 255.0f + 0.5f );
-				block[k * 4 + 1] = budMath::Ftob( ( normal[1] + 1.0f ) / 2.0f * 255.0f + 0.5f );
-				block[k * 4 + 2] = budMath::Ftob( ( normal[2] + 1.0f ) / 2.0f * 255.0f + 0.5f );
+				block[k * 4 + 0] = Math::Ftob( ( normal[0] + 1.0f ) / 2.0f * 255.0f + 0.5f );
+				block[k * 4 + 1] = Math::Ftob( ( normal[1] + 1.0f ) / 2.0f * 255.0f + 0.5f );
+				block[k * 4 + 2] = Math::Ftob( ( normal[2] + 1.0f ) / 2.0f * 255.0f + 0.5f );
 			}
 			
 			EmitBlock( outBuf, i, j, block );
@@ -612,9 +612,9 @@ void idDxtDecoder::DecompressNormalMapDXT5( const byte* inBuf, byte* outBuf, int
 			}
 			for( int k = 0; k < 16; k++ )
 			{
-				block[k * 4 + 0] = budMath::Ftob( ( normals[k * 4 + 0] + 1.0f ) / 2.0f * 255.0f );
-				block[k * 4 + 1] = budMath::Ftob( ( normals[k * 4 + 1] + 1.0f ) / 2.0f * 255.0f );
-				block[k * 4 + 2] = budMath::Ftob( ( normals[k * 4 + 2] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 0] = Math::Ftob( ( normals[k * 4 + 0] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 1] = Math::Ftob( ( normals[k * 4 + 1] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 2] = Math::Ftob( ( normals[k * 4 + 2] + 1.0f ) / 2.0f * 255.0f );
 			}
 #else
 			BiasScaleNormalY( block, 1, c0, c1 );
@@ -662,9 +662,9 @@ void idDxtDecoder::DecompressNormalMapDXN2( const byte* inBuf, byte* outBuf, int
 			}
 			for( int k = 0; k < 16; k++ )
 			{
-				block[k * 4 + 0] = budMath::Ftob( ( normals[k * 4 + 0] + 1.0f ) / 2.0f * 255.0f );
-				block[k * 4 + 1] = budMath::Ftob( ( normals[k * 4 + 1] + 1.0f ) / 2.0f * 255.0f );
-				block[k * 4 + 2] = budMath::Ftob( ( normals[k * 4 + 2] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 0] = Math::Ftob( ( normals[k * 4 + 0] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 1] = Math::Ftob( ( normals[k * 4 + 1] + 1.0f ) / 2.0f * 255.0f );
+				block[k * 4 + 2] = Math::Ftob( ( normals[k * 4 + 2] + 1.0f ) / 2.0f * 255.0f );
 			}
 #else
 			DeriveNormalZValues( block );

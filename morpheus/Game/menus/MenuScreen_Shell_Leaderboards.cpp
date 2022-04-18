@@ -43,17 +43,17 @@ idMenuScreen_Shell_Leaderboards::~idMenuScreen_Shell_Leaderboards()
 }
 
 // Helper functions for formatting leaderboard columns
-static budStr FormatTime( int64 time )
+static String FormatTime( int64 time )
 {
 	int minutes = time / ( 1000 * 60 );
 	int seconds = ( time - ( minutes * 1000 * 60 ) ) / 1000;
 	int mseconds = time - ( ( minutes * 1000 * 60 ) + ( seconds * 1000 ) );
-	return budStr( va( "%02d:%02d.%03d", minutes, seconds, mseconds ) );
+	return String( va( "%02d:%02d.%03d", minutes, seconds, mseconds ) );
 }
 
-static budStr FormatCash( int64 cash )
+static String FormatCash( int64 cash )
 {
-	return budStr::FormatCash( static_cast<int32>( cash ) );
+	return String::FormatCash( static_cast<int32>( cash ) );
 }
 static int32 FormatNumber( int64 number )
 {
@@ -166,7 +166,7 @@ void idMenuScreen_Shell_Leaderboards::Initialize( idMenuHandler* data )
 	
 	leaderboards.Clear();
 	
-	const budList< mpMap_t > maps = common->GetMapList();
+	const List< mpMap_t > maps = common->GetMapList();
 	const char** gameModes = NULL;
 	const char** gameModesDisplay = NULL;
 	int numModes = game->GetMPGameModes( &gameModes, &gameModesDisplay );
@@ -649,14 +649,14 @@ void idMenuScreen_Shell_Leaderboards::RefreshLeaderboard()
 	bool downArrow = false;
 	
 	int focusIndex = -1;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > lbListings;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > lbListings;
 	
 	if( !lbCache->IsLoadingNewLeaderboard() && lbCache->GetErrorCode() == LEADERBOARD_DISPLAY_ERROR_NONE )
 	{
 		for( int addIndex = 0; addIndex < MAX_STAT_LISTINGS; ++addIndex )
 		{
 		
-			budList< budStr > values;
+			List< String > values;
 			
 			int index = lbCache->GetRowOffset() + addIndex;
 			
@@ -722,7 +722,7 @@ void idMenuScreen_Shell_Leaderboards::RefreshLeaderboard()
 	compile_time_assert( sizeof( leaderboardErrorStrings ) / sizeof( leaderboardErrorStrings[0] ) == LEADERBOARD_DISPLAY_ERROR_MAX );
 	
 	bool isLoading = lbCache->IsLoadingNewLeaderboard();
-	budStr error = leaderboardErrorStrings[ lbCache->GetErrorCode() ];
+	String error = leaderboardErrorStrings[ lbCache->GetErrorCode() ];
 	
 	if( isLoading )
 	{
@@ -753,7 +753,7 @@ void idMenuScreen_Shell_Leaderboards::RefreshLeaderboard()
 idMenuScreen_Shell_Leaderboards::ShowMessage
 ========================
 */
-void idMenuScreen_Shell_Leaderboards::ShowMessage( bool show, budStr message, bool spinner )
+void idMenuScreen_Shell_Leaderboards::ShowMessage( bool show, String message, bool spinner )
 {
 
 	if( !menuData || !menuData->GetGUI() )
@@ -950,7 +950,7 @@ void idLBCache::CycleFilter()
 idLBCache::GetFilterStrType
 ========================
 */
-budStr idLBCache::GetFilterStrType()
+String idLBCache::GetFilterStrType()
 {
 	if( filter == LEADERBOARD_FILTER_FRIENDS )
 	{
@@ -1001,7 +1001,7 @@ bool idLBCache::Scroll( int amount )
 	}
 	
 	// Clamp row offset
-	rowOffset = budMath::ClampInt( 0, Max( numRowsInLeaderboard - MAX_STAT_LISTINGS, 0 ), rowOffset );
+	rowOffset = Math::ClampInt( 0, Max( numRowsInLeaderboard - MAX_STAT_LISTINGS, 0 ), rowOffset );
 	
 	// Let caller know if anything actually changed
 	return ( oldEntryIndex != entryIndex || oldRowOffset != rowOffset );
@@ -1026,17 +1026,17 @@ bool idLBCache::ScrollOffset( int amount )
 	rowOffset += amount;
 	
 	// Clamp row offset
-	rowOffset = budMath::ClampInt( 0, Max( numRowsInLeaderboard - MAX_STAT_LISTINGS, 0 ), rowOffset );
+	rowOffset = Math::ClampInt( 0, Max( numRowsInLeaderboard - MAX_STAT_LISTINGS, 0 ), rowOffset );
 	
 	if( rowOffset != oldRowOffset )
 	{
 		entryIndex -= amount;	// adjust in opposite direction so same item stays selected
-		entryIndex = budMath::ClampInt( 0, rowOffset + ( MAX_STAT_LISTINGS - 1 ), entryIndex );
+		entryIndex = Math::ClampInt( 0, rowOffset + ( MAX_STAT_LISTINGS - 1 ), entryIndex );
 	}
 	else
 	{
 		entryIndex += amount;
-		entryIndex = budMath::ClampInt( 0, numRowsInLeaderboard - 1, entryIndex );
+		entryIndex = Math::ClampInt( 0, numRowsInLeaderboard - 1, entryIndex );
 	}
 	
 	// Let caller know if anything actually changed

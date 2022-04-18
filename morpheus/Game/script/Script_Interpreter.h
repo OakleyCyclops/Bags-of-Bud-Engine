@@ -71,7 +71,7 @@ private:
 	void				Push( intptr_t value );
 	
 	// RB: added PushVector for new E_EVENT_SIZEOF_VEC
-	void				PushVector( const budVec3& vector );
+	void				PushVector( const Vector3& vector );
 	// RB end
 	const char*			FloatToString( float value );
 	void				AppendString( idVarDef* def, const char* from );
@@ -120,7 +120,7 @@ public:
 	bool				Execute();
 	void				Reset();
 	
-	bool				GetRegisterValue( const char* name, budStr& out, int scopeDepth );
+	bool				GetRegisterValue( const char* name, String& out, int scopeDepth );
 	int					GetCallstackDepth() const;
 	const prstack_t*		GetCallstack() const;
 	const function_t*	GetCurrentFunction() const;
@@ -167,13 +167,13 @@ BUD_INLINE void idInterpreter::Push( intptr_t value )
 idInterpreter::PushVector
 ====================
 */
-BUD_INLINE void idInterpreter::PushVector( const budVec3& vector )
+BUD_INLINE void idInterpreter::PushVector( const Vector3& vector )
 {
 	if( localstackUsed + E_EVENT_SIZEOF_VEC > LOCALSTACK_SIZE )
 	{
 		Error( "Push: locals stack overflow\n" );
 	}
-	*( budVec3* )&localstack[ localstackUsed ] = vector;
+	*( Vector3* )&localstack[ localstackUsed ] = vector;
 	localstackUsed += E_EVENT_SIZEOF_VEC;
 }
 // RB end
@@ -190,7 +190,7 @@ BUD_INLINE void idInterpreter::PushString( const char* string )
 	{
 		Error( "PushString: locals stack overflow\n" );
 	}
-	budStr::Copynz( ( char* )&localstack[ localstackUsed ], string, MAX_STRING_LEN );
+	String::Copynz( ( char* )&localstack[ localstackUsed ], string, MAX_STRING_LEN );
 	localstackUsed += MAX_STRING_LEN;
 }
 
@@ -223,11 +223,11 @@ BUD_INLINE void idInterpreter::AppendString( idVarDef* def, const char* from )
 {
 	if( def->initialized == idVarDef::stackVariable )
 	{
-		budStr::Append( ( char* )&localstack[ localstackBase + def->value.stackOffset ], MAX_STRING_LEN, from );
+		String::Append( ( char* )&localstack[ localstackBase + def->value.stackOffset ], MAX_STRING_LEN, from );
 	}
 	else
 	{
-		budStr::Append( def->value.stringPtr, MAX_STRING_LEN, from );
+		String::Append( def->value.stringPtr, MAX_STRING_LEN, from );
 	}
 }
 
@@ -240,11 +240,11 @@ BUD_INLINE void idInterpreter::SetString( idVarDef* def, const char* from )
 {
 	if( def->initialized == idVarDef::stackVariable )
 	{
-		budStr::Copynz( ( char* )&localstack[ localstackBase + def->value.stackOffset ], from, MAX_STRING_LEN );
+		String::Copynz( ( char* )&localstack[ localstackBase + def->value.stackOffset ], from, MAX_STRING_LEN );
 	}
 	else
 	{
-		budStr::Copynz( def->value.stringPtr, from, MAX_STRING_LEN );
+		String::Copynz( def->value.stringPtr, from, MAX_STRING_LEN );
 	}
 }
 

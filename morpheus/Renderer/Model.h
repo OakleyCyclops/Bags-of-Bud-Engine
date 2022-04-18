@@ -118,12 +118,12 @@ struct srfTriangles_t
 	// data in vertex object space, not directly readable by the CPU
 	vertCacheHandle_t			indexCache;				// GL_INDEX_TYPE
 	vertCacheHandle_t			ambientCache;			// budDrawVert
-	vertCacheHandle_t			shadowCache;			// budVec4
+	vertCacheHandle_t			shadowCache;			// Vector4
 	
 	DISALLOW_COPY_AND_ASSIGN( srfTriangles_t );
 };
 
-typedef budList<srfTriangles_t*, TAG_LIBBUD_LIST_TRIANGLES> idTriList;
+typedef List<srfTriangles_t*, TAG_LIBBUD_LIST_TRIANGLES> idTriList;
 
 struct modelSurface_t
 {
@@ -151,7 +151,7 @@ public:
 	{
 		parent = NULL;
 	}
-	budStr						name;
+	String						name;
 	const budMD5Joint* 			parent;
 };
 

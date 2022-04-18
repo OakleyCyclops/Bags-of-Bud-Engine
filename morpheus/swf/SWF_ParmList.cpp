@@ -61,7 +61,7 @@ void budSWFParmList::Append( const char* s )
 		var->SetString( s );
 	}
 }
-void budSWFParmList::Append( const budStr& s )
+void budSWFParmList::Append( const String& s )
 {
 	budSWFScriptVar* var = Alloc();
 	if( var != NULL )

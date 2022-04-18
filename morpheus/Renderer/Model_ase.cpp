@@ -174,8 +174,8 @@ static void ASE_KeyMAP_DIFFUSE( const char* token )
 	
 	if( !strcmp( token, "*BITMAP" ) )
 	{
-		budStr	qpath;
-		budStr	matname;
+		String	qpath;
+		String	matname;
 		
 		ASE_GetToken( false );
 		
@@ -190,7 +190,7 @@ static void ASE_KeyMAP_DIFFUSE( const char* token )
 		// convert the 3DSMax material pathname to a qpath
 		matname.BackSlashesToSlashes();
 		qpath = fileSystem->OSPathToRelativePath( matname );
-		budStr::Copynz( ase.currentMaterial->name, qpath, sizeof( ase.currentMaterial->name ) );
+		String::Copynz( ase.currentMaterial->name, qpath, sizeof( ase.currentMaterial->name ) );
 	}
 	else if( !strcmp( token, "*UVW_U_OFFSET" ) )
 	{
@@ -505,7 +505,7 @@ static void ASE_KeyMESH_NORMALS( const char* token )
 {
 	aseMesh_t* pMesh = ASE_GetCurrentMesh();
 	aseFace_t*	f;
-	budVec3		n;
+	Vector3		n;
 	
 	pMesh->normalsParsed = true;
 	f = &pMesh->faces[ase.currentFace];
@@ -651,7 +651,7 @@ static void ASE_KeyMESH( const char* token )
 	}
 	else if( !strcmp( token, "*MESH_VERTEX_LIST" ) )
 	{
-		pMesh->vertexes = ( budVec3* )Mem_Alloc( sizeof( budVec3 ) * pMesh->numVertexes, TAG_MODEL );
+		pMesh->vertexes = ( Vector3* )Mem_Alloc( sizeof( Vector3 ) * pMesh->numVertexes, TAG_MODEL );
 		ase.currentVertex = 0;
 		VERBOSE( ( ".....parsing MESH_VERTEX_LIST\n" ) );
 		ASE_ParseBracedBlock( ASE_KeyMESH_VERTEX_LIST );
@@ -659,14 +659,14 @@ static void ASE_KeyMESH( const char* token )
 	else if( !strcmp( token, "*MESH_TVERTLIST" ) )
 	{
 		ase.currentVertex = 0;
-		pMesh->tvertexes = ( budVec2* )Mem_Alloc( sizeof( budVec2 ) * pMesh->numTVertexes, TAG_MODEL );
+		pMesh->tvertexes = ( Vector2* )Mem_Alloc( sizeof( Vector2 ) * pMesh->numTVertexes, TAG_MODEL );
 		VERBOSE( ( ".....parsing MESH_TVERTLIST\n" ) );
 		ASE_ParseBracedBlock( ASE_KeyMESH_TVERTLIST );
 	}
 	else if( !strcmp( token, "*MESH_CVERTLIST" ) )
 	{
 		ase.currentVertex = 0;
-		pMesh->cvertexes = ( budVec3* )Mem_Alloc( sizeof( budVec3 ) * pMesh->numCVertexes, TAG_MODEL );
+		pMesh->cvertexes = ( Vector3* )Mem_Alloc( sizeof( Vector3 ) * pMesh->numCVertexes, TAG_MODEL );
 		VERBOSE( ( ".....parsing MESH_CVERTLIST\n" ) );
 		ASE_ParseBracedBlock( ASE_KeyMESH_CVERTLIST );
 	}
@@ -742,7 +742,7 @@ static void ASE_KeyGEOMOBJECT( const char* token )
 	{
 		ASE_GetToken( true );
 		VERBOSE( ( " %s\n", ase.token ) );
-		budStr::Copynz( object->name, ase.token, sizeof( object->name ) );
+		String::Copynz( object->name, ase.token, sizeof( object->name ) );
 	}
 	else if( !strcmp( token, "*NODE_PARENT" ) )
 	{
@@ -758,7 +758,7 @@ static void ASE_KeyGEOMOBJECT( const char* token )
 	else if( !strcmp( token, "*MESH" ) )
 	{
 		ase.currentMesh = &ase.currentObject->mesh;
-		budVec3	transforms[ 4 ];
+		Vector3	transforms[ 4 ];
 		for( int i = 0; i < 4; ++i )
 		{
 			transforms[ i ] = ase.currentMesh->transform[ i ];
@@ -836,7 +836,7 @@ aseModel_t* ASE_Parse( const char* buffer, bool verbose )
 	ase.curpos = ase.buffer;
 	ase.currentObject = NULL;
 	
-	// NOTE: using new operator because aseModel_t contains budList class objects
+	// NOTE: using new operator because aseModel_t contains List class objects
 	ase.model = new( TAG_MODEL ) aseModel_t;
 	memset( ase.model, 0, sizeof( aseModel_t ) );
 	ase.model->objects.Resize( 32, 32 );

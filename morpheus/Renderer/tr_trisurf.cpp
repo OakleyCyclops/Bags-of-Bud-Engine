@@ -620,7 +620,7 @@ void R_CreateDupVerts( srfTriangles_t* tri )
 {
 	int i;
 	
-	idTempArray<int> remap( tri->numVerts );
+	TempArray<int> remap( tri->numVerts );
 	
 	// initialize vertex remap in case there are unused verts
 	for( i = 0; i < tri->numVerts; i++ )
@@ -635,7 +635,7 @@ void R_CreateDupVerts( srfTriangles_t* tri )
 	}
 	
 	// create duplicate vertex index based on the vertex remap
-	idTempArray<int> tempDupVerts( tri->numVerts * 2 );
+	TempArray<int> tempDupVerts( tri->numVerts * 2 );
 	tri->numDupVerts = 0;
 	for( i = 0; i < tri->numVerts; i++ )
 	{
@@ -660,7 +660,7 @@ static int c_duplicatedEdges, c_tripledEdges;
 static const int MAX_SIL_EDGES			= 0x7ffff;
 
 static void R_DefineEdge( const int v1, const int v2, const int planeNum, const int numPlanes,
-						  budList<silEdge_t>& silEdges, budHashIndex&	 silEdgeHash )
+						  List<silEdge_t>& silEdges, budHashIndex&	 silEdgeHash )
 {
 	int		i, hashKey;
 	
@@ -755,7 +755,7 @@ void R_IdentifySilEdges( srfTriangles_t* tri, bool omitCoplanarEdges )
 	
 	const int numTris = tri->numIndexes / 3;
 	
-	budList<silEdge_t>	silEdges( MAX_SIL_EDGES );
+	List<silEdge_t>	silEdges( MAX_SIL_EDGES );
 	budHashIndex	silEdgeHash( SILEDGE_HASH_SIZE, MAX_SIL_EDGES );
 	int			numPlanes = numTris;
 	
@@ -894,9 +894,9 @@ static bool R_FaceNegativePolarity( const srfTriangles_t* tri, int firstIndex )
 	const budDrawVert* b = tri->verts + tri->indexes[firstIndex + 1];
 	const budDrawVert* c = tri->verts + tri->indexes[firstIndex + 2];
 	
-	const budVec2 aST = a->GetTexCoord();
-	const budVec2 bST = b->GetTexCoord();
-	const budVec2 cST = c->GetTexCoord();
+	const Vector2 aST = a->GetTexCoord();
+	const Vector2 bST = b->GetTexCoord();
+	const Vector2 cST = c->GetTexCoord();
 	
 	float d0[5];
 	d0[3] = bST[0] - aST[0];
@@ -944,7 +944,7 @@ static void	R_DuplicateMirroredVertexes( srfTriangles_t* tri )
 	int				totalVerts;
 	int				numMirror;
 	
-	idTempArray<tangentVert_t> tverts( tri->numVerts );
+	TempArray<tangentVert_t> tverts( tri->numVerts );
 	tverts.Zero();
 	
 	// determine texture polarity of each surface
@@ -1018,9 +1018,9 @@ using the vertex which results in smooth tangents across the mesh.
 */
 void R_DeriveNormalsAndTangents( srfTriangles_t* tri )
 {
-	idTempArray< budVec3 > vertexNormals( tri->numVerts );
-	idTempArray< budVec3 > vertexTangents( tri->numVerts );
-	idTempArray< budVec3 > vertexBitangents( tri->numVerts );
+	TempArray< Vector3 > vertexNormals( tri->numVerts );
+	TempArray< Vector3 > vertexTangents( tri->numVerts );
+	TempArray< Vector3 > vertexBitangents( tri->numVerts );
 	
 	vertexNormals.Zero();
 	vertexTangents.Zero();
@@ -1036,9 +1036,9 @@ void R_DeriveNormalsAndTangents( srfTriangles_t* tri )
 		const budDrawVert* b = tri->verts + v1;
 		const budDrawVert* c = tri->verts + v2;
 		
-		const budVec2 aST = a->GetTexCoord();
-		const budVec2 bST = b->GetTexCoord();
-		const budVec2 cST = c->GetTexCoord();
+		const Vector2 aST = a->GetTexCoord();
+		const Vector2 bST = b->GetTexCoord();
+		const Vector2 cST = c->GetTexCoord();
 		
 		float d0[5];
 		d0[0] = b->xyz[0] - a->xyz[0];
@@ -1054,12 +1054,12 @@ void R_DeriveNormalsAndTangents( srfTriangles_t* tri )
 		d1[3] = cST[0] - aST[0];
 		d1[4] = cST[1] - aST[1];
 		
-		budVec3 normal;
+		Vector3 normal;
 		normal[0] = d1[1] * d0[2] - d1[2] * d0[1];
 		normal[1] = d1[2] * d0[0] - d1[0] * d0[2];
 		normal[2] = d1[0] * d0[1] - d1[1] * d0[0];
 		
-		const float f0 = budMath::InvSqrt( normal.x * normal.x + normal.y * normal.y + normal.z * normal.z );
+		const float f0 = Math::InvSqrt( normal.x * normal.x + normal.y * normal.y + normal.z * normal.z );
 		
 		normal.x *= f0;
 		normal.y *= f0;
@@ -1069,24 +1069,24 @@ void R_DeriveNormalsAndTangents( srfTriangles_t* tri )
 		const float area = d0[3] * d1[4] - d0[4] * d1[3];
 		unsigned int signBit = ( *( unsigned int* )&area ) & ( 1 << 31 );
 		
-		budVec3 tangent;
+		Vector3 tangent;
 		tangent[0] = d0[0] * d1[4] - d0[4] * d1[0];
 		tangent[1] = d0[1] * d1[4] - d0[4] * d1[1];
 		tangent[2] = d0[2] * d1[4] - d0[4] * d1[2];
 		
-		const float f1 = budMath::InvSqrt( tangent.x * tangent.x + tangent.y * tangent.y + tangent.z * tangent.z );
+		const float f1 = Math::InvSqrt( tangent.x * tangent.x + tangent.y * tangent.y + tangent.z * tangent.z );
 		*( unsigned int* )&f1 ^= signBit;
 		
 		tangent.x *= f1;
 		tangent.y *= f1;
 		tangent.z *= f1;
 		
-		budVec3 bitangent;
+		Vector3 bitangent;
 		bitangent[0] = d0[3] * d1[0] - d0[0] * d1[3];
 		bitangent[1] = d0[3] * d1[1] - d0[1] * d1[3];
 		bitangent[2] = d0[3] * d1[2] - d0[2] * d1[3];
 		
-		const float f2 = budMath::InvSqrt( bitangent.x * bitangent.x + bitangent.y * bitangent.y + bitangent.z * bitangent.z );
+		const float f2 = Math::InvSqrt( bitangent.x * bitangent.x + bitangent.y * bitangent.y + bitangent.z * bitangent.z );
 		*( unsigned int* )&f2 ^= signBit;
 		
 		bitangent.x *= f2;
@@ -1123,7 +1123,7 @@ void R_DeriveNormalsAndTangents( srfTriangles_t* tri )
 	// other, but they will be orthogonal to the surface normal.
 	for( int i = 0; i < tri->numVerts; i++ )
 	{
-		const float normalScale = budMath::InvSqrt( vertexNormals[i].x * vertexNormals[i].x + vertexNormals[i].y * vertexNormals[i].y + vertexNormals[i].z * vertexNormals[i].z );
+		const float normalScale = Math::InvSqrt( vertexNormals[i].x * vertexNormals[i].x + vertexNormals[i].y * vertexNormals[i].y + vertexNormals[i].z * vertexNormals[i].z );
 		vertexNormals[i].x *= normalScale;
 		vertexNormals[i].y *= normalScale;
 		vertexNormals[i].z *= normalScale;
@@ -1131,12 +1131,12 @@ void R_DeriveNormalsAndTangents( srfTriangles_t* tri )
 		vertexTangents[i] -= ( vertexTangents[i] * vertexNormals[i] ) * vertexNormals[i];
 		vertexBitangents[i] -= ( vertexBitangents[i] * vertexNormals[i] ) * vertexNormals[i];
 		
-		const float tangentScale = budMath::InvSqrt( vertexTangents[i].x * vertexTangents[i].x + vertexTangents[i].y * vertexTangents[i].y + vertexTangents[i].z * vertexTangents[i].z );
+		const float tangentScale = Math::InvSqrt( vertexTangents[i].x * vertexTangents[i].x + vertexTangents[i].y * vertexTangents[i].y + vertexTangents[i].z * vertexTangents[i].z );
 		vertexTangents[i].x *= tangentScale;
 		vertexTangents[i].y *= tangentScale;
 		vertexTangents[i].z *= tangentScale;
 		
-		const float bitangentScale = budMath::InvSqrt( vertexBitangents[i].x * vertexBitangents[i].x + vertexBitangents[i].y * vertexBitangents[i].y + vertexBitangents[i].z * vertexBitangents[i].z );
+		const float bitangentScale = Math::InvSqrt( vertexBitangents[i].x * vertexBitangents[i].x + vertexBitangents[i].y * vertexBitangents[i].y + vertexBitangents[i].z * vertexBitangents[i].z );
 		vertexBitangents[i].x *= bitangentScale;
 		vertexBitangents[i].y *= bitangentScale;
 		vertexBitangents[i].z *= bitangentScale;
@@ -1173,9 +1173,9 @@ void R_DeriveUnsmoothedNormalsAndTangents( srfTriangles_t* tri )
 		budDrawVert* b = tri->verts + dt.v2;
 		budDrawVert* c = tri->verts + dt.v3;
 		
-		const budVec2 aST = a->GetTexCoord();
-		const budVec2 bST = b->GetTexCoord();
-		const budVec2 cST = c->GetTexCoord();
+		const Vector2 aST = a->GetTexCoord();
+		const Vector2 bST = b->GetTexCoord();
+		const Vector2 cST = c->GetTexCoord();
 		
 		d0 = b->xyz[0] - a->xyz[0];
 		d1 = b->xyz[1] - a->xyz[1];
@@ -1232,7 +1232,7 @@ void R_CreateVertexNormals( srfTriangles_t* tri )
 		R_CreateSilIndexes( tri );
 	}
 	
-	idTempArray< budVec3 > vertexNormals( tri->numVerts );
+	TempArray< Vector3 > vertexNormals( tri->numVerts );
 	vertexNormals.Zero();
 	
 	assert( tri->silIndexes != NULL );
@@ -1308,8 +1308,8 @@ this version only handles bilateral symetry
 */
 void R_DeriveTangentsWithoutNormals( srfTriangles_t* tri )
 {
-	idTempArray< budVec3 > triangleTangents( tri->numIndexes / 3 );
-	idTempArray< budVec3 > triangleBitangents( tri->numIndexes / 3 );
+	TempArray< Vector3 > triangleTangents( tri->numIndexes / 3 );
+	TempArray< Vector3 > triangleBitangents( tri->numIndexes / 3 );
 	
 	//
 	// calculate tangent vectors for each face in isolation
@@ -1319,15 +1319,15 @@ void R_DeriveTangentsWithoutNormals( srfTriangles_t* tri )
 	int c_textureDegenerateFaces = 0;
 	for( int i = 0; i < tri->numIndexes; i += 3 )
 	{
-		budVec3	temp;
+		Vector3	temp;
 		
 		budDrawVert* a = tri->verts + tri->indexes[i + 0];
 		budDrawVert* b = tri->verts + tri->indexes[i + 1];
 		budDrawVert* c = tri->verts + tri->indexes[i + 2];
 		
-		const budVec2 aST = a->GetTexCoord();
-		const budVec2 bST = b->GetTexCoord();
-		const budVec2 cST = c->GetTexCoord();
+		const Vector2 aST = a->GetTexCoord();
+		const Vector2 bST = b->GetTexCoord();
+		const Vector2 cST = c->GetTexCoord();
 		
 		float d0[5];
 		d0[0] = b->xyz[0] - a->xyz[0];
@@ -1389,8 +1389,8 @@ void R_DeriveTangentsWithoutNormals( srfTriangles_t* tri )
 #endif
 	}
 	
-	idTempArray< budVec3 > vertexTangents( tri->numVerts );
-	idTempArray< budVec3 > vertexBitangents( tri->numVerts );
+	TempArray< Vector3 > vertexTangents( tri->numVerts );
+	TempArray< Vector3 > vertexBitangents( tri->numVerts );
 	
 	// clear the tangents
 	for( int i = 0; i < tri->numVerts; ++i )
@@ -1415,7 +1415,7 @@ void R_DeriveTangentsWithoutNormals( srfTriangles_t* tri )
 	// other, but they will be orthogonal to the surface normal.
 	for( int i = 0; i < tri->numVerts; i++ )
 	{
-		budVec3 normal = tri->verts[i].GetNormal();
+		Vector3 normal = tri->verts[i].GetNormal();
 		normal.Normalize();
 		
 		vertexTangents[i] -= ( vertexTangents[i] * normal ) * normal;
@@ -1493,7 +1493,7 @@ void R_BuildDominantTris( srfTriangles_t* tri )
 		{
 			float		d0[5], d1[5];
 			budDrawVert*	a, *b, *c;
-			budVec3		normal, tangent, bitangent;
+			Vector3		normal, tangent, bitangent;
 			
 			int	i1 = tri->indexes[ind[i + j].faceNum * 3 + 0];
 			int	i2 = tri->indexes[ind[i + j].faceNum * 3 + 1];
@@ -1503,9 +1503,9 @@ void R_BuildDominantTris( srfTriangles_t* tri )
 			b = tri->verts + i2;
 			c = tri->verts + i3;
 			
-			const budVec2 aST = a->GetTexCoord();
-			const budVec2 bST = b->GetTexCoord();
-			const budVec2 cST = c->GetTexCoord();
+			const Vector2 aST = a->GetTexCoord();
+			const Vector2 bST = b->GetTexCoord();
+			const Vector2 cST = c->GetTexCoord();
 			
 			d0[0] = b->xyz[0] - a->xyz[0];
 			d0[1] = b->xyz[1] - a->xyz[1];
@@ -1894,7 +1894,7 @@ void R_ReverseTriangles( srfTriangles_t* tri )
 	// but if it has explicit normals, this will keep it on the correct side
 	for( i = 0; i < tri->numVerts; i++ )
 	{
-		tri->verts[i].SetNormal( vec3_origin - tri->verts[i].GetNormal() );
+		tri->verts[i].SetNormal( Vector3_Origin - tri->verts[i].GetNormal() );
 	}
 	
 	// flip the index order to make them back sided

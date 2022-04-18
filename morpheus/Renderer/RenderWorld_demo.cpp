@@ -33,10 +33,10 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "RenderCommon.h"
 
-budCVar r_writeDemoDecals( "r_writeDemoDecals", "1", CVAR_BOOL | CVAR_SYSTEM, "enable Writing of entity decals to demo files." );
-budCVar r_writeDemoOverlays( "r_writeDemoOverlays", "1", CVAR_BOOL | CVAR_SYSTEM, "enable Writing of entity Overlays to demo files." );
+CVar r_writeDemoDecals( "r_writeDemoDecals", "1", CVAR_BOOL | CVAR_SYSTEM, "enable Writing of entity decals to demo files." );
+CVar r_writeDemoOverlays( "r_writeDemoOverlays", "1", CVAR_BOOL | CVAR_SYSTEM, "enable Writing of entity Overlays to demo files." );
 
-//budCVar r_writeDemoGUI( "r_writeDemoGUI", "0", CVAR_BOOL | CVAR_SYSTEM, "enable Writing of GUI elements to demo files." );
+//CVar r_writeDemoGUI( "r_writeDemoGUI", "0", CVAR_BOOL | CVAR_SYSTEM, "enable Writing of GUI elements to demo files." );
 //#define WRITE_GUIS
 
 extern void WriteDeclCache( budDemoFile* f, int demoCategory, int demoCode, declType_t  declType );

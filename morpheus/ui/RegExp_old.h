@@ -47,10 +47,10 @@ public:
 	int regCount;
 	enum REGTYPE { VEC4 = 0, FLOAT, BOOL, INT, STRING, VEC2, VEC3, NUMTYPES } ;
 	static int REGCOUNT[NUMTYPES];
-	budStr name;
+	String name;
 	int regs[4];
 	void SetToRegs( float* registers, idTypedDict* state );
-	void SetToRegList( budList<float>* registers, idTypedDict* state );
+	void SetToRegList( List<float>* registers, idTypedDict* state );
 	void GetFromRegs( float* registers, idTypedDict* state );
 	void CopyRegs( idRegister* src )
 	{
@@ -70,7 +70,7 @@ public:
 
 class idRegisterList
 {
-	budList<idRegister> regs;
+	List<idRegister> regs;
 public:
 
 	//
@@ -78,7 +78,7 @@ public:
 	//
 	
 	void AddReg( const char* name, int type, budTokenParser* src, idWindow* win );
-	void AddReg( const char* name, int type, budVec4 data, idWindow* win );
+	void AddReg( const char* name, int type, Vector4 data, idWindow* win );
 	idRegister* FindReg( const char* name );
 	int			FindRegIndex( const char* name );
 	void SetToRegs( float* registers, idTypedDict* state );

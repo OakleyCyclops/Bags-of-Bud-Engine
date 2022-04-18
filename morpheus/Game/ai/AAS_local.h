@@ -68,7 +68,7 @@ private:
 	int							areaNum;				// area number of this update
 	unsigned short				tmpTravelTime;			// temporary travel time
 	unsigned short* 			areaTravelTimes;		// travel times within the area
-	budVec3						start;					// start point into area
+	Vector3						start;					// start point into area
 	idRoutingUpdate* 			next;					// next in list
 	idRoutingUpdate* 			prev;					// prev in list
 	bool						isInList;				// true if the update is in the list
@@ -82,7 +82,7 @@ class idRoutingObstacle
 	
 private:
 	budBounds					bounds;					// obstacle bounds
-	budList<int, TAG_AAS>					areas;					// areas the bounds are in
+	List<int, TAG_AAS>					areas;					// areas the bounds are in
 };
 
 
@@ -91,41 +91,41 @@ class budAASLocal : public budAAS
 public:
 	budAASLocal();
 	virtual						~budAASLocal();
-	virtual bool				Init( const budStr& mapName, unsigned int mapFileCRC );
+	virtual bool				Init( const String& mapName, unsigned int mapFileCRC );
 	virtual void				Shutdown();
 	virtual void				Stats() const;
-	virtual void				Test( const budVec3& origin );
+	virtual void				Test( const Vector3& origin );
 	virtual const budAASSettings* GetSettings() const;
-	virtual int					PointAreaNum( const budVec3& origin ) const;
-	virtual int					PointReachableAreaNum( const budVec3& origin, const budBounds& searchBounds, const int areaFlags ) const;
+	virtual int					PointAreaNum( const Vector3& origin ) const;
+	virtual int					PointReachableAreaNum( const Vector3& origin, const budBounds& searchBounds, const int areaFlags ) const;
 	virtual int					BoundsReachableAreaNum( const budBounds& bounds, const int areaFlags ) const;
-	virtual void				PushPointIntoAreaNum( int areaNum, budVec3& origin ) const;
-	virtual budVec3				AreaCenter( int areaNum ) const;
+	virtual void				PushPointIntoAreaNum( int areaNum, Vector3& origin ) const;
+	virtual Vector3				AreaCenter( int areaNum ) const;
 	virtual int					AreaFlags( int areaNum ) const;
 	virtual int					AreaTravelFlags( int areaNum ) const;
-	virtual bool				Trace( aasTrace_t& trace, const budVec3& start, const budVec3& end ) const;
+	virtual bool				Trace( aasTrace_t& trace, const Vector3& start, const Vector3& end ) const;
 	virtual const budPlane& 		GetPlane( int planeNum ) const;
 	virtual int					GetWallEdges( int areaNum, const budBounds& bounds, int travelFlags, int* edges, int maxEdges ) const;
 	virtual void				SortWallEdges( int* edges, int numEdges ) const;
 	virtual void				GetEdgeVertexNumbers( int edgeNum, int verts[2] ) const;
-	virtual void				GetEdge( int edgeNum, budVec3& start, budVec3& end ) const;
+	virtual void				GetEdge( int edgeNum, Vector3& start, Vector3& end ) const;
 	virtual bool				SetAreaState( const budBounds& bounds, const int areaContents, bool disabled );
 	virtual aasHandle_t			AddObstacle( const budBounds& bounds );
 	virtual void				RemoveObstacle( const aasHandle_t handle );
 	virtual void				RemoveAllObstacles();
-	virtual int					TravelTimeToGoalArea( int areaNum, const budVec3& origin, int goalAreaNum, int travelFlags ) const;
-	virtual bool				RouteToGoalArea( int areaNum, const budVec3 origin, int goalAreaNum, int travelFlags, int& travelTime, idReachability** reach ) const;
-	virtual bool				WalkPathToGoal( aasPath_t& path, int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags ) const;
-	virtual bool				WalkPathValid( int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags, budVec3& endPos, int& endAreaNum ) const;
-	virtual bool				FlyPathToGoal( aasPath_t& path, int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags ) const;
-	virtual bool				FlyPathValid( int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags, budVec3& endPos, int& endAreaNum ) const;
-	virtual void				ShowWalkPath( const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin ) const;
-	virtual void				ShowFlyPath( const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin ) const;
-	virtual bool				FindNearestGoal( aasGoal_t& goal, int areaNum, const budVec3 origin, const budVec3& target, int travelFlags, aasObstacle_t* obstacles, int numObstacles, budAASCallback& callback ) const;
+	virtual int					TravelTimeToGoalArea( int areaNum, const Vector3& origin, int goalAreaNum, int travelFlags ) const;
+	virtual bool				RouteToGoalArea( int areaNum, const Vector3 origin, int goalAreaNum, int travelFlags, int& travelTime, idReachability** reach ) const;
+	virtual bool				WalkPathToGoal( aasPath_t& path, int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags ) const;
+	virtual bool				WalkPathValid( int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags, Vector3& endPos, int& endAreaNum ) const;
+	virtual bool				FlyPathToGoal( aasPath_t& path, int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags ) const;
+	virtual bool				FlyPathValid( int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags, Vector3& endPos, int& endAreaNum ) const;
+	virtual void				ShowWalkPath( const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin ) const;
+	virtual void				ShowFlyPath( const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin ) const;
+	virtual bool				FindNearestGoal( aasGoal_t& goal, int areaNum, const Vector3 origin, const Vector3& target, int travelFlags, aasObstacle_t* obstacles, int numObstacles, budAASCallback& callback ) const;
 	
 private:
 	budAASFile* 					file;
-	budStr						name;
+	String						name;
 	
 private:	// routing data
 	idRoutingCache***			areaCacheIndex;			// for each area in each cluster the travel times to all other areas in the cluster
@@ -140,12 +140,12 @@ private:	// routing data
 	mutable idRoutingCache* 	cacheListStart;			// start of list with cache sorted from oldest to newest
 	mutable idRoutingCache* 	cacheListEnd;			// end of list with cache sorted from oldest to newest
 	mutable int					totalCacheMemory;		// total cache memory used
-	budList<idRoutingObstacle*, TAG_AAS>	obstacleList;			// list with obstacles
+	List<idRoutingObstacle*, TAG_AAS>	obstacleList;			// list with obstacles
 	
 private:	// routing
 	bool						SetupRouting();
 	void						ShutdownRouting();
-	unsigned short				AreaTravelTime( int areaNum, const budVec3& start, const budVec3& end ) const;
+	unsigned short				AreaTravelTime( int areaNum, const Vector3& start, const Vector3& end ) const;
 	void						CalculateAreaTravelTimes();
 	void						DeleteAreaTravelTimes();
 	void						SetupRoutingCache();
@@ -166,28 +166,28 @@ private:	// routing
 	void						DisableArea( int areaNum );
 	void						EnableArea( int areaNum );
 	bool						SetAreaState_r( int nodeNum, const budBounds& bounds, const int areaContents, bool disabled );
-	void						GetBoundsAreas_r( int nodeNum, const budBounds& bounds, budList<int>& areas ) const;
+	void						GetBoundsAreas_r( int nodeNum, const budBounds& bounds, List<int>& areas ) const;
 	void						SetObstacleState( const idRoutingObstacle* obstacle, bool enable );
 	
 private:	// pathing
-	bool						EdgeSplitPoint( budVec3& split, int edgeNum, const budPlane& plane ) const;
-	bool						FloorEdgeSplitPoint( budVec3& split, int areaNum, const budPlane& splitPlane, const budPlane& frontPlane, bool closest ) const;
-	budVec3						SubSampleWalkPath( int areaNum, const budVec3& origin, const budVec3& start, const budVec3& end, int travelFlags, int& endAreaNum ) const;
-	budVec3						SubSampleFlyPath( int areaNum, const budVec3& origin, const budVec3& start, const budVec3& end, int travelFlags, int& endAreaNum ) const;
+	bool						EdgeSplitPoint( Vector3& split, int edgeNum, const budPlane& plane ) const;
+	bool						FloorEdgeSplitPoint( Vector3& split, int areaNum, const budPlane& splitPlane, const budPlane& frontPlane, bool closest ) const;
+	Vector3						SubSampleWalkPath( int areaNum, const Vector3& origin, const Vector3& start, const Vector3& end, int travelFlags, int& endAreaNum ) const;
+	Vector3						SubSampleFlyPath( int areaNum, const Vector3& origin, const Vector3& start, const Vector3& end, int travelFlags, int& endAreaNum ) const;
 	
 private:	// debug
 	const budBounds& 			DefaultSearchBounds() const;
-	void						DrawCone( const budVec3& origin, const budVec3& dir, float radius, const budVec4& color ) const;
+	void						DrawCone( const Vector3& origin, const Vector3& dir, float radius, const Vector4& color ) const;
 	void						DrawArea( int areaNum ) const;
 	void						DrawFace( int faceNum, bool side ) const;
 	void						DrawEdge( int edgeNum, bool arrow ) const;
 	void						DrawReachability( const idReachability* reach ) const;
-	void						ShowArea( const budVec3& origin ) const;
-	void						ShowWallEdges( const budVec3& origin ) const;
-	void						ShowHideArea( const budVec3& origin, int targerAreaNum ) const;
-	bool						PullPlayer( const budVec3& origin, int toAreaNum ) const;
-	void						RandomPullPlayer( const budVec3& origin ) const;
-	void						ShowPushIntoArea( const budVec3& origin ) const;
+	void						ShowArea( const Vector3& origin ) const;
+	void						ShowWallEdges( const Vector3& origin ) const;
+	void						ShowHideArea( const Vector3& origin, int targerAreaNum ) const;
+	bool						PullPlayer( const Vector3& origin, int toAreaNum ) const;
+	void						RandomPullPlayer( const Vector3& origin ) const;
+	void						ShowPushIntoArea( const Vector3& origin ) const;
 };
 
 #endif /* !__AAS_LOCAL_H__ */

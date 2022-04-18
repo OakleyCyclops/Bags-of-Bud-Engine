@@ -88,7 +88,7 @@ budRenderModel* 	budRenderModelSprite::InstantiateDynamicModel( const struct ren
 	{
 	
 		assert( dynamic_cast<budRenderModelStatic*>( cachedModel ) != NULL );
-		assert( budStr::Icmp( cachedModel->Name(), sprite_SnapshotName ) == 0 );
+		assert( String::Icmp( cachedModel->Name(), sprite_SnapshotName ) == 0 );
 		
 		staticModel = static_cast<budRenderModelStatic*>( cachedModel );
 		surf = *staticModel->Surface( 0 );
@@ -145,13 +145,13 @@ budRenderModel* 	budRenderModelSprite::InstantiateDynamicModel( const struct ren
 		staticModel->AddSurface( surf );
 	}
 	
-	int	red			= budMath::Ftoi( renderEntity->shaderParms[ SHADERPARM_RED ] * 255.0f );
-	int green		= budMath::Ftoi( renderEntity->shaderParms[ SHADERPARM_GREEN ] * 255.0f );
-	int	blue		= budMath::Ftoi( renderEntity->shaderParms[ SHADERPARM_BLUE ] * 255.0f );
-	int	alpha		= budMath::Ftoi( renderEntity->shaderParms[ SHADERPARM_ALPHA ] * 255.0f );
+	int	red			= Math::Ftoi( renderEntity->shaderParms[ SHADERPARM_RED ] * 255.0f );
+	int green		= Math::Ftoi( renderEntity->shaderParms[ SHADERPARM_GREEN ] * 255.0f );
+	int	blue		= Math::Ftoi( renderEntity->shaderParms[ SHADERPARM_BLUE ] * 255.0f );
+	int	alpha		= Math::Ftoi( renderEntity->shaderParms[ SHADERPARM_ALPHA ] * 255.0f );
 	
-	budVec3 right	= budVec3( 0.0f, renderEntity->shaderParms[ SHADERPARM_SPRITE_WIDTH ] * 0.5f, 0.0f );
-	budVec3 up		= budVec3( 0.0f, 0.0f, renderEntity->shaderParms[ SHADERPARM_SPRITE_HEIGHT ] * 0.5f );
+	Vector3 right	= Vector3( 0.0f, renderEntity->shaderParms[ SHADERPARM_SPRITE_WIDTH ] * 0.5f, 0.0f );
+	Vector3 up		= Vector3( 0.0f, 0.0f, renderEntity->shaderParms[ SHADERPARM_SPRITE_HEIGHT ] * 0.5f );
 	
 	tri->verts[ 0 ].xyz = up + right;
 	tri->verts[ 0 ].color[ 0 ] = red;

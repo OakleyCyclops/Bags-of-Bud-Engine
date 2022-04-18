@@ -48,13 +48,13 @@ public:
 	// initialize the drag force
 	void				Init( float damping );
 	// set physics object being dragged
-	void				SetPhysics( idPhysics* physics, int id, const budVec3& p );
+	void				SetPhysics( idPhysics* physics, int id, const Vector3& p );
 	// set position to drag towards
-	void				SetDragPosition( const budVec3& pos );
+	void				SetDragPosition( const Vector3& pos );
 	// get the position dragged towards
-	const budVec3& 		GetDragPosition() const;
+	const Vector3& 		GetDragPosition() const;
 	// get the position on the dragged physics object
-	const budVec3		GetDraggedPosition() const;
+	const Vector3		GetDraggedPosition() const;
 	
 public: // common force interface
 	virtual void		Evaluate( int time );
@@ -68,8 +68,8 @@ private:
 	// positioning
 	idPhysics* 			physics;		// physics object
 	int					id;				// clip model id of physics object
-	budVec3				p;				// position on clip model
-	budVec3				dragPosition;	// drag towards this position
+	Vector3				p;				// position on clip model
+	Vector3				dragPosition;	// drag towards this position
 };
 
 #endif /* !__FORCE_DRAG_H__ */

@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "RenderCommon.h"
 #include "Framebuffer.h"
 
-budList<Framebuffer*>	Framebuffer::framebuffers;
+List<Framebuffer*>	Framebuffer::framebuffers;
 
 globalFramebuffers_t globalFramebuffers;
 

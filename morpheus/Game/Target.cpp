@@ -149,7 +149,7 @@ void idTarget_Damage::Event_Activate( idEntity* activator )
 		ent = targets[ i ].GetEntity();
 		if( ent )
 		{
-			ent->Damage( this, this, vec3_origin, damage, 1.0f, INVALID_JOINT );
+			ent->Damage( this, this, Vector3_Origin, damage, 1.0f, INVALID_JOINT );
 		}
 	}
 }
@@ -198,7 +198,7 @@ idTarget_EndLevel::Event_Activate
 */
 void idTarget_EndLevel::Event_Activate( idEntity* activator )
 {
-	extern budCVar g_demoMode;
+	extern CVar g_demoMode;
 	if( g_demoMode.GetInteger() > 0 )
 	{
 		gameLocal.sessionCommand = "disconnect";
@@ -207,9 +207,9 @@ void idTarget_EndLevel::Event_Activate( idEntity* activator )
 	
 	budPlayer* player = gameLocal.GetLocalPlayer();
 	
-	const bool isTutorialMap = ( budStr::FindText( gameLocal.GetMapFileName(), "mars_city1" ) >= 0 ) ||
-							   ( budStr::FindText( gameLocal.GetMapFileName(), "mars_city2" ) >= 0 ) ||
-							   ( budStr::FindText( gameLocal.GetMapFileName(), "mc_underground" ) >= 0 );
+	const bool isTutorialMap = ( String::FindText( gameLocal.GetMapFileName(), "mars_city1" ) >= 0 ) ||
+							   ( String::FindText( gameLocal.GetMapFileName(), "mars_city2" ) >= 0 ) ||
+							   ( String::FindText( gameLocal.GetMapFileName(), "mc_underground" ) >= 0 );
 							   
 	if( !isTutorialMap && player != NULL )
 	{
@@ -300,7 +300,7 @@ void idTarget_EndLevel::Event_Activate( idEntity* activator )
 		return;
 	}
 	
-	budStr nextMap;
+	String nextMap;
 	if( !spawnArgs.GetString( "nextMap", "", nextMap ) )
 	{
 		gameLocal.Printf( "idTarget_SessionCommand::Event_Activate: no nextMap key\n" );
@@ -426,7 +426,7 @@ void idTarget_SetShaderParm::Event_Activate( idEntity* activator )
 	int			i;
 	idEntity* 	ent;
 	float		value;
-	budVec3		color;
+	Vector3		color;
 	int			parmnum;
 	
 	// set the color on the targets
@@ -596,8 +596,8 @@ void idTarget_FadeEntity::Think()
 {
 	int			i;
 	idEntity*	ent;
-	budVec4		color;
-	budVec4		fadeTo;
+	Vector4		color;
+	Vector4		fadeTo;
 	float		frac;
 	
 	if( thinkFlags & TH_THINK )
@@ -775,10 +775,10 @@ void idTarget_Give::Event_Activate( idEntity* activator )
 		const idKeyValue* kv = spawnArgs.MatchPrefix( "item", NULL );
 		while( kv )
 		{
-			const idDict* dict = gameLocal.FindEntityDefDict( kv->GetValue(), false );
+			const Dict* dict = gameLocal.FindEntityDefDict( kv->GetValue(), false );
 			if( dict )
 			{
-				idDict d2;
+				Dict d2;
 				d2.Copy( *dict );
 				d2.Set( "name", va( "givenitem_%i", giveNum++ ) );
 				idEntity* ent = NULL;
@@ -1072,7 +1072,7 @@ idTarget_SetInfluence::Event_Flash
 void idTarget_SetInfluence::Event_Flash( float flash, int out )
 {
 	budPlayer* player = gameLocal.GetLocalPlayer();
-	player->playerView.Fade( budVec4( 1, 1, 1, 1 ), flash );
+	player->playerView.Fade( Vector4( 1, 1, 1, 1 ), flash );
 	const idSoundShader* shader = NULL;
 	if( !out && flashInSound.Length() )
 	{
@@ -1169,7 +1169,7 @@ void idTarget_SetInfluence::Event_GatherEntities()
 			}
 		}
 	}
-	budStr temp;
+	String temp;
 	temp = spawnArgs.GetString( "switchToView" );
 	switchToCamera = ( temp.Length() ) ? gameLocal.FindEntity( temp ) : NULL;
 	
@@ -1190,8 +1190,8 @@ void idTarget_SetInfluence::Event_Activate( idEntity* activator )
 	const char* parm;
 	const char* skin;
 	bool update;
-	budVec3 color;
-	budVec4 colorTo;
+	Vector3 color;
+	Vector4 colorTo;
 	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1343,7 +1343,7 @@ void idTarget_SetInfluence::Event_Activate( idEntity* activator )
 	int snapAngle = spawnArgs.GetInt( "snapAngle" );
 	if( snapAngle )
 	{
-		budAngles ang( 0, snapAngle, 0 );
+		Angles ang( 0, snapAngle, 0 );
 		player->SetViewAngles( ang );
 		player->SetAngles( ang );
 	}
@@ -1407,8 +1407,8 @@ void idTarget_SetInfluence::Event_RestoreInfluence()
 	idSound* sound;
 	idStaticEntity* generic;
 	bool update;
-	budVec3 color;
-	budVec4 colorTo;
+	Vector3 color;
+	Vector4 colorTo;
 	
 	if( flashOut )
 	{
@@ -1519,7 +1519,7 @@ idTarget_SetKeyVal::Event_Activate
 void idTarget_SetKeyVal::Event_Activate( idEntity* activator )
 {
 	int i;
-	budStr key, val;
+	String key, val;
 	idEntity* ent;
 	const idKeyValue* kv;
 	int n;
@@ -1542,7 +1542,7 @@ void idTarget_SetKeyVal::Event_Activate( idEntity* activator )
 					{
 						if( ent->GetRenderEntity()->gui[ j ] )
 						{
-							if( budStr::Icmpn( key, "gui_", 4 ) == 0 )
+							if( String::Icmpn( key, "gui_", 4 ) == 0 )
 							{
 								ent->GetRenderEntity()->gui[ j ]->SetStateString( key, val );
 								ent->GetRenderEntity()->gui[ j ]->StateChanged( gameLocal.time );
@@ -1920,7 +1920,7 @@ void idTarget_Tip::Event_TipOff()
 	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
-		budVec3 v = player->GetPhysics()->GetOrigin() - playerPos;
+		Vector3 v = player->GetPhysics()->GetOrigin() - playerPos;
 		if( v.Length() > 96.0f )
 		{
 			player->HideTip();
@@ -2035,7 +2035,7 @@ CLASS_DECLARATION( idTarget, idTarget_Checkpoint )
 EVENT( EV_Activate,	idTarget_Checkpoint::Event_Activate )
 END_CLASS
 
-budCVar g_checkpoints( "g_checkpoints", "1", CVAR_BOOL | CVAR_ARCHIVE, "Enable/Disable checkpoints" );
+CVar g_checkpoints( "g_checkpoints", "1", CVAR_BOOL | CVAR_ARCHIVE, "Enable/Disable checkpoints" );
 
 /*
 ================
@@ -2044,7 +2044,7 @@ idTarget_Checkpoint::Event_Activate
 */
 void idTarget_Checkpoint::Event_Activate( idEntity* activator )
 {
-	extern budCVar g_demoMode; // no saving in demo mode
+	extern CVar g_demoMode; // no saving in demo mode
 	if( g_checkpoints.GetBool() && !g_demoMode.GetBool() )
 	{
 		cmdSystem->AppendCommandText( "savegame autosave\n" );

@@ -48,7 +48,7 @@ public:
 	void			Redraw( float x, float y );
 	void			StateChanged( bool redraw );
 	
-	budStr			name;
+	String			name;
 	
 	idWinVar* 		GetWinVarByName( const char* _name );
 	int				GetWinVarOffset( idWinVar* wv, drawWin_t* owner );
@@ -73,7 +73,7 @@ protected:
 	idRectangle 	drawRect;			// overall rect
 	idRectangle 	clientRect;			// client area
 	idRectangle 	textRect;
-	budVec2			origin;
+	Vector2			origin;
 	class budFont* 	font;
 	float 			matScalex;
 	float 			matScaley;

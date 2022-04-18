@@ -30,9 +30,9 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "snd_local.h"
 
-budCVar s_subFraction( "s_subFraction", "0.5", CVAR_ARCHIVE | CVAR_FLOAT, "Amount of each sound to send to the LFE channel" );
+CVar s_subFraction( "s_subFraction", "0.5", CVAR_ARCHIVE | CVAR_FLOAT, "Amount of each sound to send to the LFE channel" );
 
-budVec2 idSoundVoice_Base::speakerPositions[idWaveFile::CHANNEL_INDEX_MAX];
+Vector2 idSoundVoice_Base::speakerPositions[idWaveFile::CHANNEL_INDEX_MAX];
 int idSoundVoice_Base::speakerLeft[idWaveFile::CHANNEL_INDEX_MAX] = {0 };
 int idSoundVoice_Base::speakerRight[idWaveFile::CHANNEL_INDEX_MAX] = {0 };
 int idSoundVoice_Base::dstChannels = 0;
@@ -191,7 +191,7 @@ void idSoundVoice_Base::CalculateSurround( int srcChannels, float pLevelMatrix[ 
 	
 	if( srcChannels == 1 )
 	{
-		budVec2 p2 = position.ToVec2();
+		Vector2 p2 = position.ToVec2();
 		
 		float centerFraction = centerChannel;
 		
@@ -206,7 +206,7 @@ void idSoundVoice_Base::CalculateSurround( int srcChannels, float pLevelMatrix[ 
 		}
 		else
 		{
-			float invLength = budMath::InvSqrt( sqrLength );
+			float invLength = Math::InvSqrt( sqrLength );
 			float distance = ( invLength * sqrLength );
 			p2 *= invLength;
 			

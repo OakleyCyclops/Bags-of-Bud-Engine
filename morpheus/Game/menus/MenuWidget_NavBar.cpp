@@ -126,7 +126,7 @@ void idMenuWidget_NavBar::Update()
 idMenuWidget_NavBar::SetListHeadings
 ========================
 */
-void idMenuWidget_NavBar::SetListHeadings( budList< budStr >& list )
+void idMenuWidget_NavBar::SetListHeadings( List< String >& list )
 {
 	headings.Clear();
 	for( int index = 0; index < list.Num(); ++index )

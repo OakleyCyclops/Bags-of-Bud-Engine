@@ -70,8 +70,8 @@ struct swfHeader_t
 struct swfRect_t
 {
 	swfRect_t();
-	budVec2 tl;
-	budVec2 br;
+	Vector2 tl;
+	Vector2 br;
 	
 	// RB: helpers
 	swfRect_t( float x, float y, float w, float h )
@@ -114,8 +114,8 @@ struct swfMatrix_t
 	float xx, yy;
 	float xy, yx;
 	float tx, ty;
-	budVec2		Scale( const budVec2& in ) const;
-	budVec2		Transform( const budVec2& in ) const;
+	Vector2		Scale( const Vector2& in ) const;
+	Vector2		Transform( const Vector2& in ) const;
 	swfMatrix_t Multiply( const swfMatrix_t& a ) const;
 	swfMatrix_t	Inverse() const;
 	swfMatrix_t& operator=( const swfMatrix_t& a )
@@ -146,13 +146,13 @@ struct swfMatrix_t
 struct swfColorRGB_t
 {
 	swfColorRGB_t();
-	budVec4 ToVec4() const;
+	Vector4 ToVec4() const;
 	uint8 r, g, b;
 };
 struct swfColorRGBA_t : public swfColorRGB_t
 {
 	swfColorRGBA_t();
-	budVec4 ToVec4() const;
+	Vector4 ToVec4() const;
 	uint8 a;
 };
 struct swfLineStyle_t
@@ -194,17 +194,17 @@ class budSWFShapeDrawFill
 {
 public:
 	swfFillStyle_t style;
-	budList< budVec2, TAG_SWF > startVerts;
-	budList< budVec2, TAG_SWF > endVerts;
-	budList< uint16, TAG_SWF > indices;
+	List< Vector2, TAG_SWF > startVerts;
+	List< Vector2, TAG_SWF > endVerts;
+	List< uint16, TAG_SWF > indices;
 };
 class budSWFShapeDrawLine
 {
 public:
 	swfLineStyle_t style;
-	budList< budVec2, TAG_SWF > startVerts;
-	budList< budVec2, TAG_SWF > endVerts;
-	budList< uint16, TAG_SWF > indices;
+	List< Vector2, TAG_SWF > startVerts;
+	List< Vector2, TAG_SWF > endVerts;
+	List< uint16, TAG_SWF > indices;
 };
 class budSWFShape
 {
@@ -216,8 +216,8 @@ public:
 	}
 	swfRect_t startBounds;
 	swfRect_t endBounds;
-	budList< budSWFShapeDrawFill, TAG_SWF > fillDraws;
-	budList< budSWFShapeDrawLine, TAG_SWF > lineDraws;
+	List< budSWFShapeDrawFill, TAG_SWF > fillDraws;
+	List< budSWFShapeDrawLine, TAG_SWF > lineDraws;
 };
 class budSWFFontGlyph
 {
@@ -226,8 +226,8 @@ public:
 	uint16 code;
 	int16 advance;
 	// RB: verts and indices are not used by the renderer
-	budList< budVec2, TAG_SWF > verts;
-	budList< uint16, TAG_SWF > indices;
+	List< Vector2, TAG_SWF > verts;
+	List< uint16, TAG_SWF > indices;
 };
 class budSWFFont
 {
@@ -237,7 +237,7 @@ public:
 	int16 ascent;
 	int16 descent;
 	int16 leading;
-	budList< budSWFFontGlyph, TAG_SWF > glyphs;
+	List< budSWFFontGlyph, TAG_SWF > glyphs;
 };
 class budSWFTextRecord
 {
@@ -262,8 +262,8 @@ class budSWFText
 public:
 	swfRect_t bounds;
 	swfMatrix_t matrix;
-	budList< budSWFTextRecord, TAG_SWF > textRecords;
-	budList< swfGlyphEntry_t, TAG_SWF > glyphs;
+	List< budSWFTextRecord, TAG_SWF > textRecords;
+	List< swfGlyphEntry_t, TAG_SWF > glyphs;
 };
 enum swfEditTextFlags_t
 {
@@ -307,14 +307,14 @@ public:
 	uint16 rightMargin;
 	uint16 indent;
 	int16 leading;
-	budStr variable;
-	budStr initialText;
+	String variable;
+	String initialText;
 };
 struct swfColorXform_t
 {
 	swfColorXform_t();
-	budVec4 mul;
-	budVec4 add;
+	Vector4 mul;
+	Vector4 add;
 	swfColorXform_t Multiply( const swfColorXform_t& a ) const;
 	swfColorXform_t& operator=( const swfColorXform_t& a )
 	{
@@ -365,15 +365,15 @@ BUD_INLINE swfMatrix_t::swfMatrix_t() :
 {
 }
 
-BUD_INLINE budVec2 swfMatrix_t::Scale( const budVec2& in ) const
+BUD_INLINE Vector2 swfMatrix_t::Scale( const Vector2& in ) const
 {
-	return budVec2( ( in.x * xx ) + ( in.y * xy ),
+	return Vector2( ( in.x * xx ) + ( in.y * xy ),
 				   ( in.y * yy ) + ( in.x * yx ) );
 }
 
-BUD_INLINE budVec2 swfMatrix_t::Transform( const budVec2& in ) const
+BUD_INLINE Vector2 swfMatrix_t::Transform( const Vector2& in ) const
 {
-	return budVec2( ( in.x * xx ) + ( in.y * xy ) + tx,
+	return Vector2( ( in.x * xx ) + ( in.y * xy ) + tx,
 				   ( in.y * yy ) + ( in.x * yx ) + ty );
 }
 
@@ -381,7 +381,7 @@ BUD_INLINE swfMatrix_t swfMatrix_t::Inverse() const
 {
 	swfMatrix_t inverse;
 	float det = ( ( xx * yy ) - ( yx * xy ) );
-	if( budMath::Fabs( det ) < budMath::FLT_SMALLEST_NON_DENORMAL )
+	if( Math::Fabs( det ) < Math::FLT_SMALLEST_NON_DENORMAL )
 	{
 		return *this;
 	}
@@ -412,9 +412,9 @@ BUD_INLINE swfColorRGB_t::swfColorRGB_t() :
 {
 }
 
-BUD_INLINE budVec4 swfColorRGB_t::ToVec4() const
+BUD_INLINE Vector4 swfColorRGB_t::ToVec4() const
 {
-	return budVec4( r * ( 1.0f / 255.0f ), g * ( 1.0f / 255.0f ), b * ( 1.0f / 255.0f ), 1.0f );
+	return Vector4( r * ( 1.0f / 255.0f ), g * ( 1.0f / 255.0f ), b * ( 1.0f / 255.0f ), 1.0f );
 }
 
 BUD_INLINE swfColorRGBA_t::swfColorRGBA_t() :
@@ -422,9 +422,9 @@ BUD_INLINE swfColorRGBA_t::swfColorRGBA_t() :
 {
 }
 
-BUD_INLINE budVec4 swfColorRGBA_t::ToVec4() const
+BUD_INLINE Vector4 swfColorRGBA_t::ToVec4() const
 {
-	return budVec4( r * ( 1.0f / 255.0f ), g * ( 1.0f / 255.0f ), b * ( 1.0f / 255.0f ), a * ( 1.0f / 255.0f ) );
+	return Vector4( r * ( 1.0f / 255.0f ), g * ( 1.0f / 255.0f ), b * ( 1.0f / 255.0f ), a * ( 1.0f / 255.0f ) );
 }
 
 BUD_INLINE swfLineStyle_t::swfLineStyle_t() :

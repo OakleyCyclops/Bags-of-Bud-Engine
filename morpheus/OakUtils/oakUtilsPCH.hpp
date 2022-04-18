@@ -1,31 +1,36 @@
-// libBudPCH.hpp - Precompiled libBud headers
+// oakUtilsPCH.hpp - Precompiled oakUtils headers
 
-#ifndef __LIBBUD_PCH__
-#define __LIBBUD_PCH__
+#ifndef __OAKUTILS_PCH__
+#define __OAKUTILS_PCH__
 
-#include "Macros.hpp"
 #include "Headers.hpp"
+#include "Macros.hpp"
 #include "Types.hpp"
 #include "Public.hpp"
-
-// Interface Headers
-#include "INTFheart.hpp"
-#include "INTFcvarSystem.hpp"
-#include "INTFfileSystem.hpp"
-#include "INTFsys.hpp"
 
 // Containers
 #include "Containers/Array.hpp"
 #include "Containers/Singleton.hpp"
+#include "Containers/Sort.hpp"
+#include "Containers/Node.hpp"
+#include "Containers/LinkedList.hpp"
 
-// Core 
-#include "CorePCH.hpp"
+// Math utilities
+#include "Math/Math.hpp"
+#include "Math/Vector.hpp"
+#include "Math/Angles.hpp"
+#include "Math/Matrix.hpp"
+#include "Math/Quat.hpp"
+#include "Math/Rotation.hpp"
+
+// Text Manipulation
+#include "String.hpp"
 
 #undef min
 #undef max
 #include <algorithm>	// for min / max / swap
 
-#endif /* !__LIBBUD_PCH__ */
+#endif /* !__OAKUTILS_PCH__ */
 
 //                                  ...........................'........''......''''''........'''''''........''''''......''''''.''.'..''''..'...'''''''..'..''''''''''''''''''''''''''''''.............    
 //       ;llc. .cll,   .coxxdl;.  .....;oooooolc,.':dddddooc;'''cddddddl,'cdddddol:,.'cdddddooc,'''';oxxkkxdc,.''':oxkkxdl,'',lddddddc'',cdxkkxo:''''coxkkxdc,''',cdxkkxo:''':ddddddol;'''.'codxxoc'.....  

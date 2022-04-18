@@ -635,8 +635,8 @@ public:
 private:
 	void		LoadShader( int index, rpStage_t stage );
 	
-	budStr		StripDeadCode( const budStr& in, const char* name, const budStrList& compileMacros, bool builtin );
-	budStr		ConvertCG2GLSL( const budStr& in, const char* name, rpStage_t stage, budStr& layout, bool vkGLSL, bool hasGPUSkinning );
+	String		StripDeadCode( const String& in, const char* name, const StringList& compileMacros, bool builtin );
+	String		ConvertCG2GLSL( const String& in, const char* name, rpStage_t stage, String& layout, bool vkGLSL, bool hasGPUSkinning );
 	
 	enum
 	{
@@ -751,14 +751,14 @@ private:
 			shaderFeatures( 0 ),
 			builtin( false ),
 			module( VK_NULL_HANDLE ) {}
-		budStr				name;
-		budStr				nameOutSuffix;
+		String				name;
+		String				nameOutSuffix;
 		uint32				shaderFeatures;		// RB: Cg compile macros
 		bool				builtin;			// RB: part of the core shaders built into the executable
 		rpStage_t			stage;
 		VkShaderModule		module;
-		budList<rpBinding_t>	bindings;
-		budList<int>			parmIndices;
+		List<rpBinding_t>	bindings;
+		List<int>			parmIndices;
 	};
 	
 	struct renderProg_t
@@ -790,7 +790,7 @@ private:
 		
 		VkPipeline GetPipeline( uint64 stateBits, VkShaderModule vertexShader, VkShaderModule fragmentShader );
 		
-		budStr				name;
+		String				name;
 		uint				progId;
 		bool				usesJoints;
 		bool				optionalSkinning;
@@ -801,12 +801,12 @@ private:
 		vertexLayoutType_t		vertexLayout;
 		VkPipelineLayout		pipelineLayout;
 		VkDescriptorSetLayout	descriptorSetLayout;
-		budList<rpBinding_t>		bindings;
-		budList<pipelineState_t>	pipelines;
+		List<rpBinding_t>		bindings;
+		List<pipelineState_t>	pipelines;
 	};
 	
 	static void		CreateDescriptorSetLayout( const shader_t& vertexShader, const shader_t& fragmentShader, renderProg_t& renderProg );
-	void			AllocParmBlockBuffer( const budList<int>& parmIndices, idUniformBuffer& ubo );
+	void			AllocParmBlockBuffer( const List<int>& parmIndices, idUniformBuffer& ubo );
 #else
 	struct shader_t
 	{
@@ -815,14 +815,14 @@ private:
 			shaderFeatures( 0 ),
 			builtin( false ),
 			uniformArray( -1 ) {}
-		budStr			name;
-		budStr			nameOutSuffix;
+		String			name;
+		String			nameOutSuffix;
 		uint32			shaderFeatures;		// RB: Cg compile macros
 		bool			builtin;			// RB: part of the core shaders built into the executable
 		rpStage_t		stage;
 		uint			progId;
 		int				uniformArray;
-		budList<int>		uniforms;
+		List<int>		uniforms;
 	};
 	
 	struct renderProg_t
@@ -836,7 +836,7 @@ private:
 			vertexShaderIndex( -1 ),
 			fragmentShaderIndex( -1 ) {}
 	
-		budStr				name;
+		String				name;
 		uint				progId;
 		bool				usesJoints;
 		bool				optionalSkinning;
@@ -850,10 +850,10 @@ private:
 	void							LoadShader( shader_t& shader );
 	
 	int											current;
-	budList<renderProg_t, TAG_RENDER>			renderProgs;
-	budList<shader_t, TAG_RENDER>				shaders;
+	List<renderProg_t, TAG_RENDER>			renderProgs;
+	List<shader_t, TAG_RENDER>				shaders;
 	
-	budStaticList < budVec4, RENDERPARM_TOTAL >	uniforms;
+	budStaticList < Vector4, RENDERPARM_TOTAL >	uniforms;
 };
 
 extern budRenderProgManager renderProgManager;

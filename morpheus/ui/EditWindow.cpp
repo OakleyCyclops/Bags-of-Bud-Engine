@@ -38,42 +38,42 @@ If you have questions concerning this license or the applicable additional terms
 
 bool idEditWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "maxchars" ) == 0 )
+	if( String::Icmp( _name, "maxchars" ) == 0 )
 	{
 		maxChars = src->ParseInt();
 		return true;
 	}
-	if( budStr::Icmp( _name, "numeric" ) == 0 )
+	if( String::Icmp( _name, "numeric" ) == 0 )
 	{
 		numeric = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "wrap" ) == 0 )
+	if( String::Icmp( _name, "wrap" ) == 0 )
 	{
 		wrap = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "readonly" ) == 0 )
+	if( String::Icmp( _name, "readonly" ) == 0 )
 	{
 		readonly = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "forceScroll" ) == 0 )
+	if( String::Icmp( _name, "forceScroll" ) == 0 )
 	{
 		forceScroll = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "source" ) == 0 )
+	if( String::Icmp( _name, "source" ) == 0 )
 	{
 		ParseString( src, sourceFile );
 		return true;
 	}
-	if( budStr::Icmp( _name, "password" ) == 0 )
+	if( String::Icmp( _name, "password" ) == 0 )
 	{
 		password = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "cvarMax" ) == 0 )
+	if( String::Icmp( _name, "cvarMax" ) == 0 )
 	{
 		cvarMax = src->ParseInt();
 		return true;
@@ -84,19 +84,19 @@ bool idEditWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 
 idWinVar* idEditWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
 {
-	if( budStr::Icmp( _name, "cvar" ) == 0 )
+	if( String::Icmp( _name, "cvar" ) == 0 )
 	{
 		return &cvarStr;
 	}
-	if( budStr::Icmp( _name, "password" ) == 0 )
+	if( String::Icmp( _name, "password" ) == 0 )
 	{
 		return &password;
 	}
-	if( budStr::Icmp( _name, "liveUpdate" ) == 0 )
+	if( String::Icmp( _name, "liveUpdate" ) == 0 )
 	{
 		return &liveUpdate;
 	}
-	if( budStr::Icmp( _name, "cvarGroup" ) == 0 )
+	if( String::Icmp( _name, "cvarGroup" ) == 0 )
 	{
 		return &cvarGroup;
 	}
@@ -145,7 +145,7 @@ void idEditWindow::GainFocus()
 
 void idEditWindow::Draw( int time, float x, float y )
 {
-	budVec4 color = foreColor;
+	Vector4 color = foreColor;
 	
 	UpdateCvar( true );
 	
@@ -158,7 +158,7 @@ void idEditWindow::Draw( int time, float x, float y )
 	}
 	float scale = textScale;
 	
-	budStr		pass;
+	String		pass;
 	const char* buffer;
 	if( password )
 	{
@@ -232,7 +232,7 @@ const char* idEditWindow::HandleEvent( const sysEvent_t* event, bool* updateVisu
 		return "";
 	}
 	
-	budStr::Copynz( buffer, text.c_str(), sizeof( buffer ) );
+	String::Copynz( buffer, text.c_str(), sizeof( buffer ) );
 	int key = event->evValue;
 	int len = text.Length();
 	
@@ -264,7 +264,7 @@ const char* idEditWindow::HandleEvent( const sysEvent_t* event, bool* updateVisu
 		if( wrap && ( key == K_ENTER || key == K_KP_ENTER ) )
 		{
 		}
-		else if( !budStr::CharIsPrintable( key ) )
+		else if( !String::CharIsPrintable( key ) )
 		{
 			return "";
 		}
@@ -544,7 +544,7 @@ void idEditWindow::PostParse()
 ================
 idEditWindow::InitScroller
 
-This is the same as in budListWindow
+This is the same as in ListWindow
 ================
 */
 void idEditWindow::InitScroller( bool horizontal )
@@ -618,7 +618,7 @@ void idEditWindow::EnsureCursorVisible()
 			int i = 0;
 			while( i < text.Length() && i < cursorPos )
 			{
-				if( budStr::IsColor( &text[i] ) )
+				if( String::IsColor( &text[i] ) )
 				{
 					i += 2;
 				}
@@ -690,7 +690,7 @@ void idEditWindow::EnsureCursorVisible()
 					break;
 				}
 			}
-			int topLine = budMath::Ftoi( scroller->GetValue() );
+			int topLine = Math::Ftoi( scroller->GetValue() );
 			if( cursorLine < topLine )
 			{
 				scroller->SetValue( cursorLine );
@@ -703,7 +703,7 @@ void idEditWindow::EnsureCursorVisible()
 	}
 }
 
-void idEditWindow::Activate( bool activate, budStr& act )
+void idEditWindow::Activate( bool activate, String& act )
 {
 	idWindow::Activate( activate, act );
 	if( activate )
@@ -772,9 +772,9 @@ idEditWindow::RunNamedEvent
 */
 void idEditWindow::RunNamedEvent( const char* eventName )
 {
-	budStr event, group;
+	String event, group;
 	
-	if( !budStr::Cmpn( eventName, "cvar read ", 10 ) )
+	if( !String::Cmpn( eventName, "cvar read ", 10 ) )
 	{
 		event = eventName;
 		group = event.Mid( 10, event.Length() - 10 );
@@ -783,7 +783,7 @@ void idEditWindow::RunNamedEvent( const char* eventName )
 			UpdateCvar( true, true );
 		}
 	}
-	else if( !budStr::Cmpn( eventName, "cvar write ", 11 ) )
+	else if( !String::Cmpn( eventName, "cvar write ", 11 ) )
 	{
 		event = eventName;
 		group = event.Mid( 11, event.Length() - 11 );

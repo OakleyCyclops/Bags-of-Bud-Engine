@@ -40,7 +40,7 @@ public:
 	virtual const char*	HandleEvent( const sysEvent_t* event, bool* updateVisuals );
 	virtual void 		PostParse();
 	virtual void 		Draw( int time, float x, float y );
-	virtual void		Activate( bool activate, budStr& act );
+	virtual void		Activate( bool activate, String& act );
 	virtual size_t		Allocated()
 	{
 		return idWindow::Allocated();
@@ -66,16 +66,16 @@ private:
 	
 	int					currentChoice;
 	int					choiceType;
-	budStr				latchedChoices;
+	String				latchedChoices;
 	idWinStr			choicesStr;
-	budStr				latchedVals;
+	String				latchedVals;
 	idWinStr			choiceVals;
-	budStrList			choices;
-	budStrList			values;
+	StringList			choices;
+	StringList			values;
 	
 	idWinStr			guiStr;
 	idWinStr			cvarStr;
-	budCVar* 			cvar;
+	CVar* 			cvar;
 	idMultiWinVar		updateStr;
 	
 	idWinBool			liveUpdate;

@@ -157,8 +157,8 @@ void idColorSpace::ConvertCoCgSYToRGB( byte* dst, const byte* src, int width, in
 		int a  = src[i * 4 + 2];
 		int y  = src[i * 4 + 3];
 		float	scale = 1.0f / ( 1.0f + a * ( 31.875f / 255.0f ) ) ;
-		co = budMath::Ftoi( co * scale );
-		cg = budMath::Ftoi( cg * scale );
+		co = Math::Ftoi( co * scale );
+		cg = Math::Ftoi( cg * scale );
 		dst[i * 4 + 0] = CLAMP_BYTE( y + COCG_TO_R( co, cg ) );
 		dst[i * 4 + 1] = CLAMP_BYTE( y + COCG_TO_G( co, cg ) );
 		dst[i * 4 + 2] = CLAMP_BYTE( y + COCG_TO_B( co, cg ) );
@@ -499,7 +499,7 @@ Ny(h,j) = H(h,j)
 void idColorSpace::ConvertNormalMapToStereographicHeightMap( byte* heightMap, const byte* normalMap, int width, int height, float& scale )
 {
 
-	idTempArray<float> buffer( ( width + 1 ) * ( height + 1 ) * sizeof( float ) );
+	TempArray<float> buffer( ( width + 1 ) * ( height + 1 ) * sizeof( float ) );
 	float* temp = ( float* )buffer.Ptr();
 	memset( temp, 0, ( width + 1 ) * ( height + 1 ) * sizeof( float ) );
 	
@@ -551,8 +551,8 @@ void idColorSpace::ConvertNormalMapToStereographicHeightMap( byte* heightMap, co
 		scale0 = 1.0f - scale1;
 	}
 	
-	float minHeight = budMath::INFINITY;
-	float maxHeight = -budMath::INFINITY;
+	float minHeight = Math::INFINITY;
+	float maxHeight = -Math::INFINITY;
 	for( int j = 0; j < height; j++ )
 	{
 		for( int i = 0; i < width; i++ )
@@ -575,7 +575,7 @@ void idColorSpace::ConvertNormalMapToStereographicHeightMap( byte* heightMap, co
 	{
 		for( int i = 0; i < width; i++ )
 		{
-			heightMap[j * width + i] = budMath::Ftob( ( temp[j * width + i] - minHeight ) * s );
+			heightMap[j * width + i] = Math::Ftob( ( temp[j * width + i] - minHeight ) * s );
 		}
 	}
 }
@@ -599,7 +599,7 @@ void idColorSpace::ConvertStereographicHeightMapToNormalMap( byte* normalMap, co
 			int prevj = Max( j, 0 );
 			int nextj = Min( j + 1, width - 1 );
 			
-			budVec3 normal;
+			Vector3 normal;
 			float pX = scale * ( heightMap[i * width + prevj] - heightMap[i * width + nextj] ) / 255.0f;
 			float pY = scale * ( heightMap[previ * width + j] - heightMap[nexti * width + j] ) / 255.0f;
 			float denom = 2.0f / ( 1.0f + pX * pX + pY * pY );

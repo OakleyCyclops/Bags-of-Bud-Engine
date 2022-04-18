@@ -141,13 +141,13 @@ void idMenuScreen_Shell_Save::UpdateSaveEnumerations()
 
 	const saveGameDetailsList_t& saveGameInfo = session->GetSaveGameManager().GetEnumeratedSavegames();
 	sortedSaves = saveGameInfo;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > saveList;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > saveList;
 	int newSaveOffset = 1;
 	bool hasAutosave = false;
 	
 	if( session->GetSaveGameManager().IsWorking() )
 	{
-		budList< budStr > saveName;
+		List< String > saveName;
 		saveName.Append( "#str_dlg_refreshing" );
 		saveList.Append( saveName );
 		
@@ -176,14 +176,14 @@ void idMenuScreen_Shell_Save::UpdateSaveEnumerations()
 		
 		if( newSaveOffset != 0 )
 		{
-			budList< budStr > newSave;
+			List< String > newSave;
 			newSave.Append( "#str_swf_new_save_game" );
 			saveList.Append( newSave );
 		}
 		
 		if( options != NULL )
 		{
-			sortedSaves.Sort( budSort_SavesByDate() );
+			sortedSaves.Sort( Sort_SavesByDate() );
 			
 			for( int slot = 0; slot < sortedSaves.Num(); ++slot )
 			{
@@ -198,7 +198,7 @@ void idMenuScreen_Shell_Save::UpdateSaveEnumerations()
 			saveList.SetNum( sortedSaves.Num() + newSaveOffset );
 			for( int slot = 0; slot < sortedSaves.Num(); ++slot )
 			{
-				budStr& slotSaveName = saveList[ slot + newSaveOffset ].Alloc();
+				String& slotSaveName = saveList[ slot + newSaveOffset ].Alloc();
 				const idSaveGameDetails& details = sortedSaves[slot];
 				if( details.damaged )
 				{
@@ -364,7 +364,7 @@ void idMenuScreen_Shell_Save::SaveGame( int index )
 		// New save...
 		
 		// Scan all the savegames for the first doom3_xxx slot.
-		const budStr savePrefix = "doom3_";
+		const String savePrefix = "doom3_";
 		uint64 slotMask = 0;
 		for( int slot = 0; slot < saveGameInfo.Num(); ++slot )
 		{
@@ -375,7 +375,7 @@ void idMenuScreen_Shell_Save::SaveGame( int index )
 				continue;
 			}
 			
-			budStr name = details.slotName;
+			String name = details.slotName;
 			
 			name.ToLower();		// PS3 saves are uppercase ... we need to lower case-ify them for comparison here
 			name.StripLeading( savePrefix.c_str() );
@@ -397,7 +397,7 @@ void idMenuScreen_Shell_Save::SaveGame( int index )
 		}
 		
 		assert( slotNumber < ( sizeof( slotMask ) * 8 ) );
-		budStr name = va( "%s%d", savePrefix.c_str(), slotNumber );
+		String name = va( "%s%d", savePrefix.c_str(), slotNumber );
 		cmdSystem->AppendCommandText( va( "savegame %s\n", name.c_str() ) );
 		
 		// Throw up the saving message...
@@ -424,7 +424,7 @@ void idMenuScreen_Shell_Save::SaveGame( int index )
 					// Replace the save
 					if( index < screen->GetSortedSaves().Num() )
 					{
-						budStr name = screen->GetSortedSaves()[ index ].slotName;
+						String name = screen->GetSortedSaves()[ index ].slotName;
 						cmdSystem->AppendCommandText( va( "savegame %s\n", name.c_str() ) );
 						
 						// Throw up the saving message...

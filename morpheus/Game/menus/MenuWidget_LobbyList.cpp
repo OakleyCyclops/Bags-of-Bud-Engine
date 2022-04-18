@@ -111,7 +111,7 @@ bool idMenuWidget_LobbyList::PrepareListElement( idMenuWidget& widget, const int
 idMenuWidget_LobbyList::SetHeadingInfo
 ========================
 */
-void idMenuWidget_LobbyList::SetHeadingInfo( budList< budStr >& list )
+void idMenuWidget_LobbyList::SetHeadingInfo( List< String >& list )
 {
 	headings.Clear();
 	for( int index = 0; index < list.Num(); ++index )
@@ -125,7 +125,7 @@ void idMenuWidget_LobbyList::SetHeadingInfo( budList< budStr >& list )
 idMenuWidget_LobbyList::SetEntryData
 ========================
 */
-void idMenuWidget_LobbyList::SetEntryData( int index, budStr name, voiceStateDisplay_t voiceState )
+void idMenuWidget_LobbyList::SetEntryData( int index, String name, voiceStateDisplay_t voiceState )
 {
 
 	if( GetChildren().Num() == 0 || index >= GetChildren().Num() )

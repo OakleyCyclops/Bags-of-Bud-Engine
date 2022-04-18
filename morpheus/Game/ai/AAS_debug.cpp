@@ -38,11 +38,11 @@ If you have questions concerning this license or the applicable additional terms
 budAASLocal::DrawCone
 ============
 */
-void budAASLocal::DrawCone( const budVec3& origin, const budVec3& dir, float radius, const budVec4& color ) const
+void budAASLocal::DrawCone( const Vector3& origin, const Vector3& dir, float radius, const Vector4& color ) const
 {
 	int i;
-	budMat3 axis;
-	budVec3 center, top, p, lastp;
+	Matrix3 axis;
+	Vector3 center, top, p, lastp;
 	
 	axis[2] = dir;
 	axis[2].NormalVectors( axis[0], axis[1] );
@@ -97,7 +97,7 @@ budAASLocal::DrawEdge
 void budAASLocal::DrawEdge( int edgeNum, bool arrow ) const
 {
 	const aasEdge_t* edge;
-	budVec4* color;
+	Vector4* color;
 	
 	if( !file )
 	{
@@ -117,7 +117,7 @@ void budAASLocal::DrawEdge( int edgeNum, bool arrow ) const
 	
 	if( gameLocal.GetLocalPlayer() )
 	{
-		gameRenderWorld->DrawText( va( "%d", edgeNum ), ( file->GetVertex( edge->vertexNum[0] ) + file->GetVertex( edge->vertexNum[1] ) ) * 0.5f + budVec3( 0, 0, 4 ), 0.1f, colorRed, gameLocal.GetLocalPlayer()->viewAxis );
+		gameRenderWorld->DrawText( va( "%d", edgeNum ), ( file->GetVertex( edge->vertexNum[0] ) + file->GetVertex( edge->vertexNum[1] ) ) * 0.5f + Vector3( 0, 0, 4 ), 0.1f, colorRed, gameLocal.GetLocalPlayer()->viewAxis );
 	}
 }
 
@@ -130,7 +130,7 @@ void budAASLocal::DrawFace( int faceNum, bool side ) const
 {
 	int i, j, numEdges, firstEdge;
 	const aasFace_t* face;
-	budVec3 mid, end;
+	Vector3 mid, end;
 	
 	if( !file )
 	{
@@ -141,7 +141,7 @@ void budAASLocal::DrawFace( int faceNum, bool side ) const
 	numEdges = face->numEdges;
 	firstEdge = face->firstEdge;
 	
-	mid = vec3_origin;
+	mid = Vector3_Origin;
 	for( i = 0; i < numEdges; i++ )
 	{
 		DrawEdge( abs( file->GetEdgeIndex( firstEdge + i ) ), ( face->flags & FACE_FLOOR ) != 0 );
@@ -207,12 +207,12 @@ const budBounds& budAASLocal::DefaultSearchBounds() const
 budAASLocal::ShowArea
 ============
 */
-void budAASLocal::ShowArea( const budVec3& origin ) const
+void budAASLocal::ShowArea( const Vector3& origin ) const
 {
 	static int lastAreaNum;
 	int areaNum;
 	const aasArea_t* area;
-	budVec3 org;
+	Vector3 org;
 	
 	areaNum = PointReachableAreaNum( origin, DefaultSearchBounds(), ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) );
 	org = origin;
@@ -275,11 +275,11 @@ void budAASLocal::ShowArea( const budVec3& origin ) const
 budAASLocal::ShowWalkPath
 ============
 */
-void budAASLocal::ShowWalkPath( const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin ) const
+void budAASLocal::ShowWalkPath( const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin ) const
 {
 	int i, areaNum, curAreaNum, travelTime;
 	idReachability* reach;
-	budVec3 org, areaCenter;
+	Vector3 org, areaCenter;
 	aasPath_t path;
 	
 	if( !file )
@@ -328,11 +328,11 @@ void budAASLocal::ShowWalkPath( const budVec3& origin, int goalAreaNum, const bu
 budAASLocal::ShowFlyPath
 ============
 */
-void budAASLocal::ShowFlyPath( const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin ) const
+void budAASLocal::ShowFlyPath( const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin ) const
 {
 	int i, areaNum, curAreaNum, travelTime;
 	idReachability* reach;
-	budVec3 org, areaCenter;
+	Vector3 org, areaCenter;
 	aasPath_t path;
 	
 	if( !file )
@@ -381,10 +381,10 @@ void budAASLocal::ShowFlyPath( const budVec3& origin, int goalAreaNum, const bud
 budAASLocal::ShowWallEdges
 ============
 */
-void budAASLocal::ShowWallEdges( const budVec3& origin ) const
+void budAASLocal::ShowWallEdges( const Vector3& origin ) const
 {
 	int i, areaNum, numEdges, edges[1024];
-	budVec3 start, end;
+	Vector3 start, end;
 	budPlayer* player;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -408,10 +408,10 @@ void budAASLocal::ShowWallEdges( const budVec3& origin ) const
 budAASLocal::ShowHideArea
 ============
 */
-void budAASLocal::ShowHideArea( const budVec3& origin, int targetAreaNum ) const
+void budAASLocal::ShowHideArea( const Vector3& origin, int targetAreaNum ) const
 {
 	int areaNum, numObstacles;
-	budVec3 target;
+	Vector3 target;
 	aasGoal_t goal;
 	aasObstacle_t obstacles[10];
 	
@@ -422,14 +422,14 @@ void budAASLocal::ShowHideArea( const budVec3& origin, int targetAreaNum ) const
 	obstacles[0].absBounds = budBounds( target ).Expand( 16 );
 	numObstacles = 1;
 	
-	DrawCone( target, budVec3( 0, 0, 1 ), 16.0f, colorYellow );
+	DrawCone( target, Vector3( 0, 0, 1 ), 16.0f, colorYellow );
 	
 	budAASFindCover findCover( target );
 	if( FindNearestGoal( goal, areaNum, origin, target, TFL_WALK | TFL_AIR, obstacles, numObstacles, findCover ) )
 	{
 		DrawArea( goal.areaNum );
 		ShowWalkPath( origin, goal.areaNum, goal.origin );
-		DrawCone( goal.origin, budVec3( 0, 0, 1 ), 16.0f, colorWhite );
+		DrawCone( goal.origin, Vector3( 0, 0, 1 ), 16.0f, colorWhite );
 	}
 }
 
@@ -438,11 +438,11 @@ void budAASLocal::ShowHideArea( const budVec3& origin, int targetAreaNum ) const
 budAASLocal::PullPlayer
 ============
 */
-bool budAASLocal::PullPlayer( const budVec3& origin, int toAreaNum ) const
+bool budAASLocal::PullPlayer( const Vector3& origin, int toAreaNum ) const
 {
 	int areaNum;
-	budVec3 areaCenter, dir, vel;
-	budAngles delta;
+	Vector3 areaCenter, dir, vel;
+	Angles delta;
 	aasPath_t path;
 	budPlayer* player;
 	
@@ -496,7 +496,7 @@ bool budAASLocal::PullPlayer( const budVec3& origin, int toAreaNum ) const
 budAASLocal::RandomPullPlayer
 ============
 */
-void budAASLocal::RandomPullPlayer( const budVec3& origin ) const
+void budAASLocal::RandomPullPlayer( const Vector3& origin ) const
 {
 	int rnd, i, n;
 	
@@ -525,10 +525,10 @@ void budAASLocal::RandomPullPlayer( const budVec3& origin ) const
 budAASLocal::ShowPushIntoArea
 ============
 */
-void budAASLocal::ShowPushIntoArea( const budVec3& origin ) const
+void budAASLocal::ShowPushIntoArea( const Vector3& origin ) const
 {
 	int areaNum;
-	budVec3 target;
+	Vector3 target;
 	
 	target = origin;
 	areaNum = PointReachableAreaNum( target, DefaultSearchBounds(), ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) );
@@ -541,7 +541,7 @@ void budAASLocal::ShowPushIntoArea( const budVec3& origin ) const
 budAASLocal::Test
 ============
 */
-void budAASLocal::Test( const budVec3& origin )
+void budAASLocal::Test( const Vector3& origin )
 {
 
 	if( !file )

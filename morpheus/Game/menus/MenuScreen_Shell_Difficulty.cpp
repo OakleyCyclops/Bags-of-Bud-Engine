@@ -30,10 +30,10 @@ If you have questions concerning this license or the applicable additional terms
 #include "../Game_local.h"
 
 const static int NUM_SETTING_OPTIONS = 8;
-extern budCVar g_nightmare;
-extern budCVar g_roeNightmare;
-extern budCVar g_leNightmare;
-extern budCVar g_skill;
+extern CVar g_nightmare;
+extern CVar g_roeNightmare;
+extern CVar g_leNightmare;
+extern CVar g_skill;
 /*
 ========================
 idMenuScreen_Shell_Difficulty::Initialize
@@ -51,8 +51,8 @@ void idMenuScreen_Shell_Difficulty::Initialize( idMenuHandler* data )
 	SetSpritePath( "menuDifficulty" );
 	
 	options = new( TAG_SWF ) idMenuWidget_DynamicList();
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
-	budList< budStr > option;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	List< String > option;
 	option.Append( "#str_04089" );	// Easy
 	menuOptions.Append( option );
 	option.Clear();

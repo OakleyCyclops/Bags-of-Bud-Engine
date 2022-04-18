@@ -132,7 +132,7 @@ public:
 	bool						FindSurfaceWithId( int id, int& surfaceNum ) const;
 	
 public:
-	budList<modelSurface_t, TAG_MODEL>	surfaces;
+	List<modelSurface_t, TAG_MODEL>	surfaces;
 	budBounds					bounds;
 	int							overlaysAdded;
 	
@@ -145,7 +145,7 @@ protected:
 	int							lastModifiedFrame;
 	int							lastArchivedFrame;
 	
-	budStr						name;
+	String						name;
 	bool						isStaticWorldModel;
 	bool						defaulted;
 	bool						purged;					// eventually we will have dynamic reloading
@@ -157,10 +157,10 @@ protected:
 	bool						hasShadowCastingSurfaces;
 	ID_TIME_T					timeStamp;
 	
-	static budCVar				r_mergeModelSurfaces;	// combine model surfaces with the same material
-	static budCVar				r_slopVertex;			// merge xyz coordinates this far apart
-	static budCVar				r_slopTexCoord;			// merge texture coordinates this far apart
-	static budCVar				r_slopNormal;			// merge normals that dot less than this
+	static CVar				r_mergeModelSurfaces;	// combine model surfaces with the same material
+	static CVar				r_slopVertex;			// merge xyz coordinates this far apart
+	static CVar				r_slopTexCoord;			// merge texture coordinates this far apart
+	static CVar				r_slopNormal;			// merge normals that dot less than this
 };
 
 /*
@@ -234,10 +234,10 @@ public:
 	}
 	
 private:
-	budList<budMD5Joint, TAG_MODEL>	joints;
-	budList<budJointQuat, TAG_MODEL>	defaultPose;
-	budList<budJointMat, TAG_MODEL>	invertedDefaultPose;
-	budList<budMD5Mesh, TAG_MODEL>	meshes;
+	List<budMD5Joint, TAG_MODEL>	joints;
+	List<budJointQuat, TAG_MODEL>	defaultPose;
+	List<budJointMat, TAG_MODEL>	invertedDefaultPose;
+	List<budMD5Mesh, TAG_MODEL>	meshes;
 	
 	void						DrawJoints( const renderEntity_t* ent, const viewDef_t* view ) const;
 	void						ParseJoint( budLexer& parser, budMD5Joint* joint, budJointQuat* defaultPose );
@@ -325,11 +325,11 @@ private:
 	int							drop_radius;
 	float						drop_delay;
 	
-	budList<float, TAG_MODEL>	pages;
+	List<float, TAG_MODEL>	pages;
 	float* 						page1;
 	float* 						page2;
 	
-	budList<budDrawVert, TAG_MODEL>	verts;
+	List<budDrawVert, TAG_MODEL>	verts;
 	
 	int							nextDropTime;
 	
@@ -429,13 +429,13 @@ struct Trail_t
 	int							lastUpdateTime;
 	int							duration;
 	
-	budVec3						pts[MAX_TRAIL_PTS];
+	Vector3						pts[MAX_TRAIL_PTS];
 	int							numPoints;
 };
 
 class budRenderModelTrail : public budRenderModelStatic
 {
-	budList<Trail_t, TAG_MODEL>	trails;
+	List<Trail_t, TAG_MODEL>	trails;
 	int							numActive;
 	budBounds					trailBounds;
 	
@@ -466,8 +466,8 @@ public:
 		return false;
 	};
 	
-	int							NewTrail( budVec3 pt, int duration );
-	void						UpdateTrail( int index, budVec3 pt );
+	int							NewTrail( Vector3 pt, int duration );
+	void						UpdateTrail( int index, Vector3 pt );
 	void						DrawTrail( int index, const struct renderEntity_s* ent, srfTriangles_t* tri, float globalAlpha );
 };
 

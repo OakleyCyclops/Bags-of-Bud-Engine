@@ -207,7 +207,7 @@ idSound::Think
 */
 void idSound::Think()
 {
-	budAngles	ang;
+	Angles	ang;
 	
 	// run physics
 	RunPhysics();
@@ -221,7 +221,7 @@ void idSound::Think()
 idSound::UpdateChangableSpawnArgs
 ===============
 */
-void idSound::UpdateChangeableSpawnArgs( const idDict* source )
+void idSound::UpdateChangeableSpawnArgs( const Dict* source )
 {
 
 	idEntity::UpdateChangeableSpawnArgs( source );
@@ -234,8 +234,8 @@ void idSound::UpdateChangeableSpawnArgs( const idDict* source )
 		gameEdit->ParseSpawnArgsToRefSound( &spawnArgs, &refSound );
 		refSound.referenceSound = saveRef;
 		
-		budVec3 origin;
-		budMat3 axis;
+		Vector3 origin;
+		Matrix3 axis;
 		
 		if( GetPhysicsToSoundTransform( origin, axis ) )
 		{

@@ -53,10 +53,10 @@ typedef struct monsterPState_s
 {
 	int						atRest;
 	bool					onGround;
-	budVec3					origin;
-	budVec3					velocity;
-	budVec3					localOrigin;
-	budVec3					pushVelocity;
+	Vector3					origin;
+	Vector3					velocity;
+	Vector3					localOrigin;
+	Vector3					pushVelocity;
 } monsterPState_t;
 
 class idPhysics_Monster : public idPhysics_Actor
@@ -76,7 +76,7 @@ public:
 	// minimum cosine of floor angle to be able to stand on the floor
 	void					SetMinFloorCosine( const float newMinFloorCosine );
 	// set delta for next move
-	void					SetDelta( const budVec3& d );
+	void					SetDelta( const Vector3& d );
 	// returns true if monster is standing on the ground
 	bool					OnGround() const;
 	// returns the movement result
@@ -98,8 +98,8 @@ public:	// common physics interface
 	void					UpdateTime( int endTimeMSec );
 	int						GetTime() const;
 	
-	void					GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const;
-	void					ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse );
+	void					GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const;
+	void					ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse );
 	void					Activate();
 	void					PutToRest();
 	bool					IsAtRest() const;
@@ -108,18 +108,18 @@ public:	// common physics interface
 	void					SaveState();
 	void					RestoreState();
 	
-	void					SetOrigin( const budVec3& newOrigin, int id = -1 );
-	void					SetAxis( const budMat3& newAxis, int id = -1 );
+	void					SetOrigin( const Vector3& newOrigin, int id = -1 );
+	void					SetAxis( const Matrix3& newAxis, int id = -1 );
 	
-	void					Translate( const budVec3& translation, int id = -1 );
-	void					Rotate( const budRotation& rotation, int id = -1 );
+	void					Translate( const Vector3& translation, int id = -1 );
+	void					Rotate( const Rotation& rotation, int id = -1 );
 	
-	void					SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 );
+	void					SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 );
 	
-	const budVec3& 			GetLinearVelocity( int id = 0 ) const;
+	const Vector3& 			GetLinearVelocity( int id = 0 ) const;
 	
 	void					SetPushed( int deltaTime );
-	const budVec3& 			GetPushedLinearVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedLinearVelocity( const int id = 0 ) const;
 	
 	void					SetMaster( idEntity* master, const bool orientated = true );
 	
@@ -138,7 +138,7 @@ private:
 	// properties
 	float					maxStepHeight;		// maximum step height
 	float					minFloorCosine;		// minimum cosine of floor angle
-	budVec3					delta;				// delta for next move
+	Vector3					delta;				// delta for next move
 	
 	bool					forceDeltaMove;
 	bool					fly;
@@ -151,8 +151,8 @@ private:
 	
 private:
 	void					CheckGround( monsterPState_t& state );
-	monsterMoveResult_t		SlideMove( budVec3& start, budVec3& velocity, const budVec3& delta );
-	monsterMoveResult_t		StepMove( budVec3& start, budVec3& velocity, const budVec3& delta );
+	monsterMoveResult_t		SlideMove( Vector3& start, Vector3& velocity, const Vector3& delta );
+	monsterMoveResult_t		StepMove( Vector3& start, Vector3& velocity, const Vector3& delta );
 	void					Rest();
 };
 

@@ -52,9 +52,9 @@ public:
 	// initialize the drag force
 	void				Init( float damping );
 	// set physics object being dragged
-	void				SetPhysics( idPhysics* physics, int id, const budVec3& goal );
+	void				SetPhysics( idPhysics* physics, int id, const Vector3& goal );
 	// update the goal position
-	void				SetGoalPosition( const budVec3& goal );
+	void				SetGoalPosition( const Vector3& goal );
 	
 	
 public: // common force interface
@@ -68,7 +68,7 @@ private:
 
 	// properties
 	float				damping;
-	budVec3				goalPosition;
+	Vector3				goalPosition;
 	
 	float				distanceToGoal;
 	

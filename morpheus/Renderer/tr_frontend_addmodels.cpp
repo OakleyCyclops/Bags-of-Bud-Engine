@@ -33,19 +33,19 @@ If you have questions concerning this license or the applicable additional terms
 #include "RenderCommon.h"
 #include "Model_local.h"
 
-budCVar r_skipStaticShadows( "r_skipStaticShadows", "0", CVAR_RENDERER | CVAR_BOOL, "skip static shadows" );
-budCVar r_skipDynamicShadows( "r_skipDynamicShadows", "0", CVAR_RENDERER | CVAR_BOOL, "skip dynamic shadows" );
-budCVar r_useParallelAddModels( "r_useParallelAddModels", "1", CVAR_RENDERER | CVAR_BOOL, "add all models in parallel with jobs" );
-budCVar r_useParallelAddShadows( "r_useParallelAddShadows", "1", CVAR_RENDERER | CVAR_INTEGER, "0 = off, 1 = threaded", 0, 1 );
-budCVar r_useShadowPreciseInsideTest( "r_useShadowPreciseInsideTest", "1", CVAR_RENDERER | CVAR_BOOL, "use a precise and more expensive test to determine whether the view is inside a shadow volume" );
-budCVar r_cullDynamicShadowTriangles( "r_cullDynamicShadowTriangles", "1", CVAR_RENDERER | CVAR_BOOL, "cull occluder triangles that are outside the light frustum so they do not contribute to the dynamic shadow volume" );
-budCVar r_cullDynamicLightTriangles( "r_cullDynamicLightTriangles", "1", CVAR_RENDERER | CVAR_BOOL, "cull surface triangles that are outside the light frustum so they do not get rendered for interactions" );
-budCVar r_forceShadowCaps( "r_forceShadowCaps", "0", CVAR_RENDERER | CVAR_BOOL, "0 = skip rendering shadow caps if view is outside shadow volume, 1 = always render shadow caps" );
+CVar r_skipStaticShadows( "r_skipStaticShadows", "0", CVAR_RENDERER | CVAR_BOOL, "skip static shadows" );
+CVar r_skipDynamicShadows( "r_skipDynamicShadows", "0", CVAR_RENDERER | CVAR_BOOL, "skip dynamic shadows" );
+CVar r_useParallelAddModels( "r_useParallelAddModels", "1", CVAR_RENDERER | CVAR_BOOL, "add all models in parallel with jobs" );
+CVar r_useParallelAddShadows( "r_useParallelAddShadows", "1", CVAR_RENDERER | CVAR_INTEGER, "0 = off, 1 = threaded", 0, 1 );
+CVar r_useShadowPreciseInsideTest( "r_useShadowPreciseInsideTest", "1", CVAR_RENDERER | CVAR_BOOL, "use a precise and more expensive test to determine whether the view is inside a shadow volume" );
+CVar r_cullDynamicShadowTriangles( "r_cullDynamicShadowTriangles", "1", CVAR_RENDERER | CVAR_BOOL, "cull occluder triangles that are outside the light frustum so they do not contribute to the dynamic shadow volume" );
+CVar r_cullDynamicLightTriangles( "r_cullDynamicLightTriangles", "1", CVAR_RENDERER | CVAR_BOOL, "cull surface triangles that are outside the light frustum so they do not get rendered for interactions" );
+CVar r_forceShadowCaps( "r_forceShadowCaps", "0", CVAR_RENDERER | CVAR_BOOL, "0 = skip rendering shadow caps if view is outside shadow volume, 1 = always render shadow caps" );
 // RB begin
-budCVar r_forceShadowMapsOnAlphaTestedSurfaces( "r_forceShadowMapsOnAlphaTestedSurfaces", "1", CVAR_RENDERER | CVAR_BOOL, "0 = same shadowing as with stencil shadows, 1 = ignore noshadows for alpha tested materials" );
+CVar r_forceShadowMapsOnAlphaTestedSurfaces( "r_forceShadowMapsOnAlphaTestedSurfaces", "1", CVAR_RENDERER | CVAR_BOOL, "0 = same shadowing as with stencil shadows, 1 = ignore noshadows for alpha tested materials" );
 // RB end
 // foresthale 2014-11-24: cvar to control the material lod flags - this is the distance at which a mesh switches from lod1 to lod2, where lod3 will appear at this distance *2, lod4 at *4, and persistentLOD keyword will disable the max distance check (thus extending this LOD to all further distances, rather than disappearing)
-budCVar r_lodMaterialDistance( "r_lodMaterialDistance", "500", CVAR_RENDERER | CVAR_FLOAT, "surfaces further than this distance will use lower quality versions (if their material uses the lod1-4 keywords, persistentLOD disables the max distance checks)" );
+CVar r_lodMaterialDistance( "r_lodMaterialDistance", "500", CVAR_RENDERER | CVAR_FLOAT, "surfaces further than this distance will use lower quality versions (if their material uses the lod1-4 keywords, persistentLOD disables the max distance checks)" );
 
 static const float CHECK_BOUNDS_EPSILON = 1.0f;
 
@@ -259,7 +259,7 @@ budRenderModel* R_EntityDefDynamicModel( budRenderEntityLocal* def )
 	if( def->dynamicModel != NULL && model->DepthHack() != 0.0f && tr.viewDef != NULL )
 	{
 		budPlane eye, clip;
-		budVec3 ndc;
+		Vector3 ndc;
 		R_TransformModelToClip( def->parms.origin, tr.viewDef->worldSpace.modelViewMatrix, tr.viewDef->projectionMatrix, eye, clip );
 		R_TransformClipToDevice( clip, ndc );
 		def->parms.modelDepthHack = model->DepthHack() * ( 1.0f - ndc.z );
@@ -574,7 +574,7 @@ void R_AddSingleModel( viewEntity_t* vEntity )
 	
 	// local light and view origins are used to determine if the view is definitely outside
 	// an extruded shadow volume, which means we can skip drawing the end caps
-	budVec3 localViewOrigin;
+	Vector3 localViewOrigin;
 	R_GlobalPointToLocal( vEntity->modelMatrix, viewDef->renderView.vieworg, localViewOrigin );
 	
 	//---------------------------
@@ -616,14 +616,14 @@ void R_AddSingleModel( viewEntity_t* vEntity )
 				localBounds = vEntity->entityDef->localReferenceBounds;
 			}
 			const float* bounds = localBounds.ToFloatPtr();
-			budVec3 nearestPointOnBounds = localViewOrigin;
+			Vector3 nearestPointOnBounds = localViewOrigin;
 			nearestPointOnBounds.x = Max( nearestPointOnBounds.x, bounds[0] );
 			nearestPointOnBounds.x = Min( nearestPointOnBounds.x, bounds[3] );
 			nearestPointOnBounds.y = Max( nearestPointOnBounds.y, bounds[1] );
 			nearestPointOnBounds.y = Min( nearestPointOnBounds.y, bounds[4] );
 			nearestPointOnBounds.z = Max( nearestPointOnBounds.z, bounds[2] );
 			nearestPointOnBounds.z = Min( nearestPointOnBounds.z, bounds[5] );
-			budVec3 delta = nearestPointOnBounds - localViewOrigin;
+			Vector3 delta = nearestPointOnBounds - localViewOrigin;
 			float distance = delta.LengthFast();
 			
 			if( !shader->IsLODVisibleForDistance( distance, r_lodMaterialDistance.GetFloat() ) )
@@ -833,7 +833,7 @@ void R_AddSingleModel( viewEntity_t* vEntity )
 			
 			// Calculate the local light origin to determine if the view is inside the shadow
 			// projection and to calculate the triangle facing for dynamic shadow volumes.
-			budVec3 localLightOrigin;
+			Vector3 localLightOrigin;
 			R_GlobalPointToLocal( vEntity->modelMatrix, lightDef->globalLightOrigin, localLightOrigin );
 			
 			//--------------------------

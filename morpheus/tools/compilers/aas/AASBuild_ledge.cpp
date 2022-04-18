@@ -53,7 +53,7 @@ idLedge::idLedge()
 idLedge::idLedge
 ============
 */
-idLedge::idLedge( const budVec3& v1, const budVec3& v2, const budVec3& gravityDir, idBrushBSPNode* n )
+idLedge::idLedge( const Vector3& v1, const Vector3& v2, const Vector3& gravityDir, idBrushBSPNode* n )
 {
 	start = v1;
 	end = v2;
@@ -78,7 +78,7 @@ idLedge::idLedge( const budVec3& v1, const budVec3& v2, const budVec3& gravityDi
 idLedge::AddPoint
 ============
 */
-void idLedge::AddPoint( const budVec3& v )
+void idLedge::AddPoint( const Vector3& v )
 {
 	if( planes[2].Distance( v ) > 0.0f )
 	{
@@ -99,11 +99,11 @@ idLedge::CreateBevels
   NOTE: this assumes the gravity is vertical
 ============
 */
-void idLedge::CreateBevels( const budVec3& gravityDir )
+void idLedge::CreateBevels( const Vector3& gravityDir )
 {
 	int i, j;
 	budBounds bounds;
-	budVec3 size, normal;
+	Vector3 size, normal;
 	
 	bounds.Clear();
 	bounds.AddPoint( start );
@@ -116,7 +116,7 @@ void idLedge::CreateBevels( const budVec3& gravityDir )
 	planes[0].FitThroughPoint( start );
 	// axial bevels at start and end point
 	i = size[1] > size[0];
-	normal = vec3_origin;
+	normal = Vector3_Origin;
 	normal[i] = 1.0f;
 	j = end[i] > start[i];
 	planes[1 + j].SetNormal( normal );
@@ -125,9 +125,9 @@ void idLedge::CreateBevels( const budVec3& gravityDir )
 	planes[2].FitThroughPoint( end );
 	numExpandedPlanes = 3;
 	// if additional bevels are required
-	if( budMath::Fabs( size[!i] ) > 0.01f )
+	if( Math::Fabs( size[!i] ) > 0.01f )
 	{
-		normal = vec3_origin;
+		normal = Vector3_Origin;
 		normal[!i] = 1.0f;
 		j = end[!i] > start[!i];
 		planes[3 + j].SetNormal( normal );
@@ -158,7 +158,7 @@ idLedge::Expand
 void idLedge::Expand( const budBounds& bounds, float maxStepHeight )
 {
 	int i, j;
-	budVec3 v;
+	Vector3 v;
 	
 	for( i = 0; i < numExpandedPlanes; i++ )
 	{
@@ -205,7 +205,7 @@ idWinding* idLedge::ChopWinding( const idWinding* winding ) const
 idLedge::PointBetweenBounds
 ============
 */
-bool idLedge::PointBetweenBounds( const budVec3& v ) const
+bool idLedge::PointBetweenBounds( const Vector3& v ) const
 {
 	return ( planes[2].Distance( v ) < LEDGE_EPSILON ) && ( planes[3].Distance( v ) < LEDGE_EPSILON );
 }
@@ -227,7 +227,7 @@ void budAASBuild::LedgeSubdivFlood_r( idBrushBSPNode* node, const idLedge* ledge
 	int s1, i;
 	idBrushBSPPortal* p1;
 	idWinding* w;
-	budList<idBrushBSPNode*> nodeList;
+	List<idBrushBSPNode*> nodeList;
 	
 	if( node->GetFlags() & NODE_VISITED )
 	{
@@ -338,7 +338,7 @@ void budAASBuild::LedgeSubdiv( idBrushBSPNode* root )
 {
 	int i, j;
 	idBrush* brush;
-	budList<idBrushSide*> sideList;
+	List<idBrushSide*> sideList;
 	
 	// create ledge bevels and expand ledges
 	for( i = 0; i < ledgeList.Num(); i++ )
@@ -377,7 +377,7 @@ void budAASBuild::LedgeSubdiv( idBrushBSPNode* root )
 budAASBuild::IsLedgeSide_r
 ============
 */
-bool budAASBuild::IsLedgeSide_r( idBrushBSPNode* node, budFixedWinding* w, const budPlane& plane, const budVec3& normal, const budVec3& origin, const float radius )
+bool budAASBuild::IsLedgeSide_r( idBrushBSPNode* node, budFixedWinding* w, const budPlane& plane, const Vector3& normal, const Vector3& origin, const float radius )
 {
 	int res, i;
 	budFixedWinding back;
@@ -454,7 +454,7 @@ bool budAASBuild::IsLedgeSide_r( idBrushBSPNode* node, budFixedWinding* w, const
 budAASBuild::AddLedge
 ============
 */
-void budAASBuild::AddLedge( const budVec3& v1, const budVec3& v2, idBrushBSPNode* node )
+void budAASBuild::AddLedge( const Vector3& v1, const Vector3& v2, idBrushBSPNode* node )
 {
 	int i, j, merged;
 	
@@ -465,11 +465,11 @@ void budAASBuild::AddLedge( const budVec3& v1, const budVec3& v2, idBrushBSPNode
 	
 		for( j = 0; j < 2; j++ )
 		{
-			if( budMath::Fabs( ledgeList[i].planes[j].Distance( v1 ) ) > LEDGE_EPSILON )
+			if( Math::Fabs( ledgeList[i].planes[j].Distance( v1 ) ) > LEDGE_EPSILON )
 			{
 				break;
 			}
-			if( budMath::Fabs( ledgeList[i].planes[j].Distance( v2 ) ) > LEDGE_EPSILON )
+			if( Math::Fabs( ledgeList[i].planes[j].Distance( v2 ) ) > LEDGE_EPSILON )
 			{
 				break;
 			}
@@ -517,7 +517,7 @@ void budAASBuild::FindLeafNodeLedges( idBrushBSPNode* root, idBrushBSPNode* node
 	int s1, i;
 	idBrushBSPPortal* p1;
 	idWinding* w;
-	budVec3 v1, v2, normal, origin;
+	Vector3 v1, v2, normal, origin;
 	budFixedWinding winding;
 	budBounds bounds;
 	budPlane plane;
@@ -619,7 +619,7 @@ void budAASBuild::FindLedges_r( idBrushBSPNode* root, idBrushBSPNode* node )
 budAASBuild::WriteLedgeMap
 ============
 */
-void budAASBuild::WriteLedgeMap( const budStr& fileName, const budStr& ext )
+void budAASBuild::WriteLedgeMap( const String& fileName, const String& ext )
 {
 	ledgeMap = new idBrushMap( fileName, ext );
 	ledgeMap->SetTexture( "textures/base_trim/bluetex4q_ed" );

@@ -61,7 +61,7 @@ public: // common force interface
 	
 private:
 
-	static budList<idForce*, TAG_LIBBUD_LIST_PHYSICS> forceList;
+	static List<idForce*, TAG_LIBBUD_LIST_PHYSICS> forceList;
 };
 
 #endif /* !__FORCE_H__ */

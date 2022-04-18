@@ -85,7 +85,7 @@ const int MP_CTF_MAXPOINTS = 400;
 
 typedef struct mpChatLine_s
 {
-	budStr			line;
+	String			line;
 	short			fade;			// starts high and decreases, line is removed once reached 0
 } mpChatLine_t;
 
@@ -181,10 +181,10 @@ public:
 	void			PrintMessageEvent( msg_evt_t evt, int parm1 = -1, int parm2 = -1 );
 	
 	void			DisconnectClient( int clientNum );
-	static void		DropWeapon_f( const budCmdArgs& args );
-	static void		MessageMode_f( const budCmdArgs& args );
-	static void		VoiceChat_f( const budCmdArgs& args );
-	static void		VoiceChatTeam_f( const budCmdArgs& args );
+	static void		DropWeapon_f( const CmdArgs& args );
+	static void		MessageMode_f( const CmdArgs& args );
+	static void		VoiceChat_f( const CmdArgs& args );
+	static void		VoiceChatTeam_f( const CmdArgs& args );
 	
 	int				NumActualClients( bool countSpectators, int* teamcount = NULL );
 	void			DropWeapon( int clientNum );
@@ -203,7 +203,7 @@ public:
 	
 	void			ToggleSpectate();
 	
-	void			GetSpectateText( budPlayer* player, budStr spectatetext[ 2 ], bool scoreboard );
+	void			GetSpectateText( budPlayer* player, String spectatetext[ 2 ], bool scoreboard );
 	
 	void			ClearFrags( int clientNum );
 	
@@ -229,7 +229,7 @@ public:
 private:
 	static const char* teamNames[];
 	static const char* skinNames[];
-	static const budVec3 skinColors[];
+	static const Vector3 skinColors[];
 	static const int	numSkins;
 	
 	// state vars
@@ -282,7 +282,7 @@ private:
 	void			GameHasBeenWon();
 	
 	// updates the passed gui with current score information
-	void			UpdateRankColor( budUserInterface* gui, const char* mask, int i, const budVec3& vec );
+	void			UpdateRankColor( budUserInterface* gui, const char* mask, int i, const Vector3& vec );
 	void			UpdateScoreboard( idMenuHandler_Scoreboard* scoreboard, budPlayer* owner );
 	
 	void			DrawScoreBoard( budPlayer* player );
@@ -313,10 +313,10 @@ private:
 	void			CheckRespawns( budPlayer* spectator = NULL );
 	// when clients disconnect or join spectate during game, check if we need to end the game
 	void			CheckAbortGame();
-	void			MessageMode( const budCmdArgs& args );
+	void			MessageMode( const CmdArgs& args );
 	// scores in TDM
 	void			TeamScore( int entityNumber, int team, int delta );
-	void			VoiceChat( const budCmdArgs& args, bool team );
+	void			VoiceChat( const CmdArgs& args, bool team );
 	void			DumpTourneyLine();
 	void			SuddenRespawn();
 	
@@ -331,7 +331,7 @@ public:
 
 	const char* 	GetTeamName( int team ) const;
 	const char* 	GetSkinName( int skin ) const;
-	const budVec3& 	GetSkinColor( int skin ) const;
+	const Vector3& 	GetSkinColor( int skin ) const;
 	
 	idItemTeam* 	GetTeamFlag( int team );
 	flagStatus_t    GetFlagStatus( int team );

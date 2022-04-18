@@ -36,7 +36,7 @@ struct subTimingWordData_t
 		forceBreak = false;
 	}
 	
-	budStr phrase;
+	String phrase;
 	int startTime;
 	bool forceBreak;
 };
@@ -77,9 +77,9 @@ public:
 		return generatingText;
 	}
 	void	StartRandomText( int time );
-	budStr	GetRandomText( int time );
+	String	GetRandomText( int time );
 	void	StartParagraphText( int time );
-	budStr	GetParagraphText( int time );
+	String	GetParagraphText( int time );
 	bool	NeedsGenerateRandomText()
 	{
 		return triggerGenerate;
@@ -89,7 +89,7 @@ public:
 	{
 		needsSoundUpdate = false;
 	}
-	budStr	GetSoundClip()
+	String	GetSoundClip()
 	{
 		return soundClip;
 	}
@@ -141,7 +141,7 @@ public:
 	{
 		return subNeedsSwitch;
 	}
-	budStr	GetPreviousText()
+	String	GetPreviousText()
 	{
 		return subtitleText.c_str();
 	}
@@ -150,7 +150,7 @@ public:
 	{
 		return subAlign;
 	}
-	budStr	GetSpeaker()
+	String	GetSpeaker()
 	{
 		return subSpeaker.c_str();
 	}
@@ -169,7 +169,7 @@ public:
 	{
 		return editText;
 	}
-	void	SetText( budStr val )
+	void	SetText( String val )
 	{
 		text = val;
 		lengthCalculated = false;
@@ -186,9 +186,9 @@ public:
 	// this text instance's script object
 	budSWFScriptObject  scriptObject;
 	
-	budStr text;
-	budStr randomtext;
-	budStr variable;
+	String text;
+	String randomtext;
+	String variable;
 	swfColorRGBA_t color;
 	
 	bool visible;
@@ -230,9 +230,9 @@ public:
 	bool		triggerGenerate;
 	int			renderDelay;
 	bool		scrollUpdate;
-	budStr		soundClip;
+	String		soundClip;
 	bool		needsSoundUpdate;
-	budList<int, TAG_SWF>	indexArray;
+	List<int, TAG_SWF>	indexArray;
 	idRandom2	rnd;
 	
 	// used for subtitles
@@ -247,7 +247,7 @@ public:
 	int			subDisplayTime;
 	int			subStartTime;
 	int			subSourceID;
-	budStr		subtitleText;
+	String		subtitleText;
 	bool		subNeedsSwitch;
 	bool		subForceKillQueued;
 	bool		subForceKill;
@@ -255,14 +255,14 @@ public:
 	int			subSwitchTime;
 	int			subLastWordIndex;
 	int			subPrevLastWordIndex;
-	budStr		subSpeaker;
+	String		subSpeaker;
 	bool		subWaitClear;
 	bool		subInitialLine;
 	
 	// input text
 	int			inputTextStartChar;
 	
-	budList< subTimingWordData_t, TAG_SWF > subtitleTimingInfo;
+	List< subTimingWordData_t, TAG_SWF > subtitleTimingInfo;
 };
 
 /*

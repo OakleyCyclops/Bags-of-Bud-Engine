@@ -55,11 +55,11 @@ idTrigger::DrawDebugInfo
 */
 void idTrigger::DrawDebugInfo()
 {
-	budMat3		axis = gameLocal.GetLocalPlayer()->viewAngles.ToMat3();
-	budVec3		up = axis[ 2 ] * 5.0f;
+	Matrix3		axis = gameLocal.GetLocalPlayer()->viewAngles.ToMat3();
+	Vector3		up = axis[ 2 ] * 5.0f;
 	budBounds	viewTextBounds( gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin() );
 	budBounds	viewBounds( gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin() );
-	budBounds	box( budVec3( -4.0f, -4.0f, -4.0f ), budVec3( 4.0f, 4.0f, 4.0f ) );
+	budBounds	box( Vector3( -4.0f, -4.0f, -4.0f ), Vector3( 4.0f, 4.0f, 4.0f ) );
 	idEntity*	ent;
 	idEntity*	target;
 	int			i;
@@ -201,7 +201,7 @@ idTrigger::Restore
 */
 void idTrigger::Restore( idRestoreGame* savefile )
 {
-	budStr funcname;
+	String funcname;
 	savefile->ReadString( funcname );
 	if( funcname.Length() )
 	{
@@ -256,7 +256,7 @@ void idTrigger::Spawn()
 {
 	GetPhysics()->SetContents( CONTENTS_TRIGGER );
 	
-	budStr funcname = spawnArgs.GetString( "call", "" );
+	String funcname = spawnArgs.GetString( "call", "" );
 	if( funcname.Length() )
 	{
 		scriptFunction = gameLocal.program.FindFunction( funcname );
@@ -432,7 +432,7 @@ bool idTrigger_Multi::CheckFacing( idEntity* activator )
 		}
 		budPlayer* player = static_cast< budPlayer* >( activator );
 		float dot = player->viewAngles.ToForward() * GetPhysics()->GetAxis()[0];
-		float angle = RAD2DEG( budMath::ACos( dot ) );
+		float angle = RAD2DEG( Math::ACos( dot ) );
 		if( angle  > spawnArgs.GetFloat( "angleLimit", "30" ) )
 		{
 			return false;
@@ -1208,7 +1208,7 @@ void idTrigger_Hurt::Event_Touch( idEntity* other, trace_t* trace )
 		}
 		damage = spawnArgs.GetString( "def_damage", "damage_painTrigger" );
 		
-		budVec3 dir = vec3_origin;
+		Vector3 dir = Vector3_Origin;
 		if( spawnArgs.GetBool( "kick_from_center", "0" ) )
 		{
 			dir = other->GetPhysics()->GetOrigin() - GetPhysics()->GetOrigin();
@@ -1253,7 +1253,7 @@ idTrigger_Fade::Event_Trigger
 */
 void idTrigger_Fade::Event_Trigger( idEntity* activator )
 {
-	budVec4		fadeColor;
+	Vector4		fadeColor;
 	int			fadeTime;
 	budPlayer*	player;
 	
@@ -1453,7 +1453,7 @@ void idTrigger_Flag::Spawn()
 	team = spawnArgs.GetInt( "team", "0" );
 	player = spawnArgs.GetBool( "player", "0" );
 	
-	budStr funcname = spawnArgs.GetString( "eventflag", "" );
+	String funcname = spawnArgs.GetString( "eventflag", "" );
 	if( funcname.Length() )
 	{
 		eventFlag = idEventDef::FindEvent( funcname );// gameLocal.program.FindFunction( funcname );//, &idItemTeam::Type );

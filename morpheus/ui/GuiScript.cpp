@@ -39,13 +39,13 @@ If you have questions concerning this license or the applicable additional terms
 Script_Set
 =========================
 */
-void Script_Set( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_Set( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
-	budStr key, val;
+	String key, val;
 	idWinStr* dest = dynamic_cast<idWinStr*>( ( *src )[0].var );
 	if( dest )
 	{
-		if( budStr::Icmp( *dest, "cmd" ) == 0 )
+		if( String::Icmp( *dest, "cmd" ) == 0 )
 		{
 			dest = dynamic_cast<idWinStr*>( ( *src )[1].var );
 			int parmCount = src->Num();
@@ -78,7 +78,7 @@ void Script_Set( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_SetFocus
 =========================
 */
-void Script_SetFocus( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_SetFocus( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	idWinStr* parm = dynamic_cast<idWinStr*>( ( *src )[0].var );
 	if( parm )
@@ -96,7 +96,7 @@ void Script_SetFocus( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_ShowCursor
 =========================
 */
-void Script_ShowCursor( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_ShowCursor( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	idWinStr* parm = dynamic_cast<idWinStr*>( ( *src )[0].var );
 	if( parm )
@@ -119,12 +119,12 @@ Script_RunScript
  run scripts must come after any set cmd set's in the script
 =========================
 */
-void Script_RunScript( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_RunScript( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	idWinStr* parm = dynamic_cast<idWinStr*>( ( *src )[0].var );
 	if( parm )
 	{
-		budStr str = window->cmd;
+		String str = window->cmd;
 		str += " ; runScript ";
 		str += parm->c_str();
 		window->cmd = str;
@@ -136,7 +136,7 @@ void Script_RunScript( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_LocalSound
 =========================
 */
-void Script_LocalSound( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_LocalSound( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	idWinStr* parm = dynamic_cast<idWinStr*>( ( *src )[0].var );
 	if( parm )
@@ -150,7 +150,7 @@ void Script_LocalSound( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_EvalRegs
 =========================
 */
-void Script_EvalRegs( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_EvalRegs( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	window->EvalRegs( -1, true );
 }
@@ -160,7 +160,7 @@ void Script_EvalRegs( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_EndGame
 =========================
 */
-void Script_EndGame( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_EndGame( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "disconnect\n" );
 }
@@ -170,7 +170,7 @@ void Script_EndGame( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_ResetTime
 =========================
 */
-void Script_ResetTime( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_ResetTime( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	idWinStr* parm = dynamic_cast<idWinStr*>( ( *src )[0].var );
 	drawWin_t* win = NULL;
@@ -201,7 +201,7 @@ void Script_ResetTime( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 Script_ResetCinematics
 =========================
 */
-void Script_ResetCinematics( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_ResetCinematics( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	window->ResetCinematics();
 }
@@ -211,7 +211,7 @@ void Script_ResetCinematics( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* 
 Script_Transition
 =========================
 */
-void Script_Transition( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
+void Script_Transition( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src )
 {
 	// transitions always affect rect or vec4 vars
 	if( src->Num() >= 4 )
@@ -281,7 +281,7 @@ void Script_Transition( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src )
 typedef struct
 {
 	const char* name;
-	void ( *handler )( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src );
+	void ( *handler )( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src );
 	int mMinParms;
 	int mMaxParms;
 } guiCommandDef_t;
@@ -417,7 +417,7 @@ bool budGuiScript::Parse( budTokenParser* src )
 	
 	for( i = 0; i < scriptCommandCount ; i++ )
 	{
-		if( budStr::Icmp( token, commandList[i].name ) == 0 )
+		if( String::Icmp( token, commandList[i].name ) == 0 )
 		{
 			handler = commandList[i].handler;
 			break;
@@ -439,12 +439,12 @@ bool budGuiScript::Parse( budTokenParser* src )
 			return false;
 		}
 		
-		if( budStr::Icmp( token, ";" ) == 0 )
+		if( String::Icmp( token, ";" ) == 0 )
 		{
 			break;
 		}
 		
-		if( budStr::Icmp( token, "}" ) == 0 )
+		if( String::Icmp( token, "}" ) == 0 )
 		{
 			src->UnreadToken( &token );
 			break;
@@ -528,7 +528,7 @@ void budGuiScript::FixupParms( idWindow* win )
 				precacheBackground = true;
 			}
 		}
-		else if( budStr::Icmp( str->c_str(), "cmd" ) == 0 )
+		else if( String::Icmp( str->c_str(), "cmd" ) == 0 )
 		{
 			precacheSounds = true;
 		}
@@ -536,7 +536,7 @@ void budGuiScript::FixupParms( idWindow* win )
 		for( int i = 1; i < parmCount; i++ )
 		{
 			idWinStr* str = dynamic_cast<idWinStr*>( parms[i].var );
-			if( budStr::Icmpn( *str, "gui::", 5 ) == 0 )
+			if( String::Icmpn( *str, "gui::", 5 ) == 0 )
 			{
 			
 				//  always use a string here, no point using a float if it is one
@@ -570,7 +570,7 @@ void budGuiScript::FixupParms( idWindow* win )
 					parms[i].own = false;
 				}
 			}
-			else if( budStr::Cmpn( str->c_str(), STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
+			else if( String::Cmpn( str->c_str(), STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
 			{
 				str->Set( budLocalization::GetString( str->c_str() ) );
 			}

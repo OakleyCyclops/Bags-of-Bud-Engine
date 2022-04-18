@@ -388,7 +388,7 @@ void idEntityFx::Run( int time )
 {
 	int ieff, j;
 	idEntity* ent = NULL;
-	const idDict* projectileDef = NULL;
+	const Dict* projectileDef = NULL;
 	idProjectile* projectile = NULL;
 	
 	if( !fxEffect )
@@ -543,7 +543,7 @@ void idEntityFx::Run( int time )
 			{
 				if( !useAction->shakeStarted )
 				{
-					idDict args;
+					Dict args;
 					args.Clear();
 					args.SetFloat( "kick_time", fxaction.shakeTime );
 					args.SetFloat( "kick_amplitude", fxaction.shakeAmplitude );
@@ -632,7 +632,7 @@ void idEntityFx::Run( int time )
 						{
 							projectile = ( idProjectile* )ent;
 							projectile->Create( this, GetPhysics()->GetOrigin(), GetPhysics()->GetAxis()[0] );
-							projectile->Launch( GetPhysics()->GetOrigin(), GetPhysics()->GetAxis()[0], vec3_origin );
+							projectile->Launch( GetPhysics()->GetOrigin(), GetPhysics()->GetAxis()[0], Vector3_Origin );
 						}
 					}
 				}
@@ -647,7 +647,7 @@ void idEntityFx::Run( int time )
 				}
 				if( !useAction->shakeStarted )
 				{
-					budStr	shockDefName;
+					String	shockDefName;
 					useAction->shakeStarted = true;
 					
 					shockDefName = fxaction.data;
@@ -840,7 +840,7 @@ void idEntityFx::Event_Trigger( idEntity* activator )
 idEntityFx::StartFx
 ================
 */
-idEntityFx* idEntityFx::StartFx( const char* fx, const budVec3* useOrigin, const budMat3* useAxis, idEntity* ent, bool bind )
+idEntityFx* idEntityFx::StartFx( const char* fx, const Vector3* useOrigin, const Matrix3* useAxis, idEntity* ent, bool bind )
 {
 
 	if( g_skipFX.GetBool() || !fx || !*fx )
@@ -848,14 +848,14 @@ idEntityFx* idEntityFx::StartFx( const char* fx, const budVec3* useOrigin, const
 		return NULL;
 	}
 	
-	idDict args;
+	Dict args;
 	args.SetBool( "start", true );
 	args.Set( "fx", fx );
 	idEntityFx* nfx = static_cast<idEntityFx*>( gameLocal.SpawnEntityType( idEntityFx::Type, &args ) );
 	if( nfx->Joint() && *nfx->Joint() )
 	{
 		nfx->BindToJoint( ent, nfx->Joint(), true );
-		nfx->SetOrigin( vec3_origin );
+		nfx->SetOrigin( Vector3_Origin );
 	}
 	else
 	{
@@ -976,6 +976,6 @@ void idTeleporter::Event_DoAction( idEntity* activator )
 	float angle;
 	
 	angle = spawnArgs.GetFloat( "angle" );
-	budAngles a( 0, spawnArgs.GetFloat( "angle" ), 0 );
+	Angles a( 0, spawnArgs.GetFloat( "angle" ), 0 );
 	activator->Teleport( GetPhysics()->GetOrigin(), a, NULL );
 }

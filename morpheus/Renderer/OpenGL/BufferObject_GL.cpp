@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../RenderCommon.h"
 
-extern budCVar r_showBuffers;
+extern CVar r_showBuffers;
 
 
 //static const GLenum bufferUsage = GL_STATIC_DRAW;

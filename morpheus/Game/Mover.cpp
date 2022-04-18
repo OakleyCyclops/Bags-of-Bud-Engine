@@ -217,7 +217,7 @@ void idMover::Save( idSaveGame* savefile ) const
 	
 	if( splineEnt.GetEntity() && splineEnt.GetEntity()->GetSpline() )
 	{
-		idCurve_Spline<budVec3>* spline = physicsObj.GetSpline();
+		idCurve_Spline<Vector3>* spline = physicsObj.GetSpline();
 		
 		savefile->WriteBool( true );
 		splineEnt.Save( savefile );
@@ -321,7 +321,7 @@ idMover::Event_PostRestore
 */
 void idMover::Event_PostRestore( int start, int total, int accel, int decel, int useSplineAng )
 {
-	idCurve_Spline<budVec3>* spline;
+	idCurve_Spline<Vector3>* spline;
 	
 	idEntity* splineEntity = splineEnt.GetEntity();
 	if( !splineEntity )
@@ -337,7 +337,7 @@ void idMover::Event_PostRestore( int start, int total, int accel, int decel, int
 	spline->ShiftTime( start - spline->GetTime( 0 ) );
 	
 	physicsObj.SetSpline( spline, accel, decel, ( useSplineAng != 0 ) );
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, Vector3_Origin, Vector3_Origin );
 }
 
 /*
@@ -375,7 +375,7 @@ void idMover::Spawn()
 	{
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, Vector3_Origin, Vector3_Origin );
 	physicsObj.SetAngularExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_angles, ang_zero, ang_zero );
 	SetPhysics( &physicsObj );
 	
@@ -434,7 +434,7 @@ void idMover::Show()
 idMover::Killed
 ============
 */
-void idMover::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idMover::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	fl.takedamage = false;
 	ActivateTargets( this );
@@ -471,9 +471,9 @@ void idMover::Event_SetCallback()
 idMover::VectorForDir
 ================
 */
-void idMover::VectorForDir( float angle, budVec3& vec )
+void idMover::VectorForDir( float angle, Vector3& vec )
 {
-	budAngles ang;
+	Angles ang;
 	
 	switch( ( int )angle )
 	{
@@ -689,7 +689,7 @@ void idMover::DoneMoving()
 	if( lastCommand != MOVER_SPLINE )
 	{
 		// set our final position so that we get rid of any numerical inaccuracy
-		physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, vec3_origin, vec3_origin );
+		physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, Vector3_Origin, Vector3_Origin );
 	}
 	
 	lastCommand	= MOVER_NONE;
@@ -740,7 +740,7 @@ idMover::Event_UpdateMove
 */
 void idMover::Event_UpdateMove()
 {
-	budVec3	org;
+	Vector3	org;
 	
 	physicsObj.GetLocalOrigin( org );
 	
@@ -750,7 +750,7 @@ void idMover::Event_UpdateMove()
 	{
 		case ACCELERATION_STAGE:
 		{
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_ACCELLINEAR, gameLocal.slow.time, move.acceleration, org, move.dir, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_ACCELLINEAR, gameLocal.slow.time, move.acceleration, org, move.dir, Vector3_Origin );
 			if( move.movetime > 0 )
 			{
 				move.stage = LINEAR_STAGE;
@@ -767,7 +767,7 @@ void idMover::Event_UpdateMove()
 		}
 		case LINEAR_STAGE:
 		{
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, gameLocal.slow.time, move.movetime, org, move.dir, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, gameLocal.slow.time, move.movetime, org, move.dir, Vector3_Origin );
 			if( move.deceleration )
 			{
 				move.stage = DECELERATION_STAGE;
@@ -780,7 +780,7 @@ void idMover::Event_UpdateMove()
 		}
 		case DECELERATION_STAGE:
 		{
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_DECELLINEAR, gameLocal.slow.time, move.deceleration, org, move.dir, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_DECELLINEAR, gameLocal.slow.time, move.deceleration, org, move.dir, Vector3_Origin );
 			move.stage = FINISHED_STAGE;
 			break;
 		}
@@ -804,7 +804,7 @@ idMover::BeginMove
 void idMover::BeginMove( idThread* thread )
 {
 	moveStage_t stage;
-	budVec3		org;
+	Vector3		org;
 	float		dist;
 	float		acceldist;
 	int			totalacceltime;
@@ -963,7 +963,7 @@ idMover::Event_UpdateRotation
 */
 void idMover::Event_UpdateRotation()
 {
-	budAngles	ang;
+	Angles	ang;
 	
 	physicsObj.GetLocalAngles( ang );
 	
@@ -1050,7 +1050,7 @@ idMover::BeginRotation
 void idMover::BeginRotation( idThread* thread, bool stopwhendone )
 {
 	moveStage_t stage;
-	budAngles	ang;
+	Angles	ang;
 	int			at;
 	int			dt;
 	
@@ -1152,7 +1152,7 @@ void idMover::Event_PartBlocked( idEntity* blockingEntity )
 {
 	if( damage > 0.0f )
 	{
-		blockingEntity->Damage( this, this, vec3_origin, "damage_moverCrush", damage, INVALID_JOINT );
+		blockingEntity->Damage( this, this, Vector3_Origin, "damage_moverCrush", damage, INVALID_JOINT );
 	}
 	if( g_debugMover.GetBool() )
 	{
@@ -1244,7 +1244,7 @@ void idMover::Event_MoveTo( idEntity* ent )
 idMover::MoveToPos
 ================
 */
-void idMover::MoveToPos( const budVec3& pos )
+void idMover::MoveToPos( const Vector3& pos )
 {
 	dest_position = GetLocalCoordinates( pos );
 	BeginMove( NULL );
@@ -1255,7 +1255,7 @@ void idMover::MoveToPos( const budVec3& pos )
 idMover::Event_MoveToPos
 ================
 */
-void idMover::Event_MoveToPos( budVec3& pos )
+void idMover::Event_MoveToPos( Vector3& pos )
 {
 	MoveToPos( pos );
 }
@@ -1267,8 +1267,8 @@ idMover::Event_MoveDir
 */
 void idMover::Event_MoveDir( float angle, float distance )
 {
-	budVec3 dir;
-	budVec3 org;
+	Vector3 dir;
+	Vector3 org;
 	
 	physicsObj.GetLocalOrigin( org );
 	VectorForDir( angle, dir );
@@ -1285,7 +1285,7 @@ idMover::Event_MoveAccelerateTo
 void idMover::Event_MoveAccelerateTo( float speed, float time )
 {
 	float v;
-	budVec3 org, dir;
+	Vector3 org, dir;
 	int at;
 	
 	if( time < 0 )
@@ -1332,7 +1332,7 @@ idMover::Event_MoveDecelerateTo
 void idMover::Event_MoveDecelerateTo( float speed, float time )
 {
 	float v;
-	budVec3 org, dir;
+	Vector3 org, dir;
 	int dt;
 	
 	if( time < 0 )
@@ -1378,7 +1378,7 @@ idMover::Event_RotateDownTo
 */
 void idMover::Event_RotateDownTo( int axis, float angle )
 {
-	budAngles ang;
+	Angles ang;
 	
 	if( ( axis < 0 ) || ( axis > 2 ) )
 	{
@@ -1403,7 +1403,7 @@ idMover::Event_RotateUpTo
 */
 void idMover::Event_RotateUpTo( int axis, float angle )
 {
-	budAngles ang;
+	Angles ang;
 	
 	if( ( axis < 0 ) || ( axis > 2 ) )
 	{
@@ -1426,7 +1426,7 @@ void idMover::Event_RotateUpTo( int axis, float angle )
 idMover::Event_RotateTo
 ================
 */
-void idMover::Event_RotateTo( budAngles& angles )
+void idMover::Event_RotateTo( Angles& angles )
 {
 	dest_angles = angles;
 	BeginRotation( idThread::CurrentThread(), true );
@@ -1437,9 +1437,9 @@ void idMover::Event_RotateTo( budAngles& angles )
 idMover::Event_Rotate
 ================
 */
-void idMover::Event_Rotate( budAngles& angles )
+void idMover::Event_Rotate( Angles& angles )
 {
-	budAngles ang;
+	Angles ang;
 	
 	if( rotate_thread )
 	{
@@ -1457,9 +1457,9 @@ void idMover::Event_Rotate( budAngles& angles )
 idMover::Event_RotateOnce
 ================
 */
-void idMover::Event_RotateOnce( budAngles& angles )
+void idMover::Event_RotateOnce( Angles& angles )
 {
-	budAngles ang;
+	Angles ang;
 	
 	if( rotate_thread )
 	{
@@ -1477,12 +1477,12 @@ void idMover::Event_RotateOnce( budAngles& angles )
 idMover::Event_Bob
 ================
 */
-void idMover::Event_Bob( float speed, float phase, budVec3& depth )
+void idMover::Event_Bob( float speed, float phase, Vector3& depth )
 {
-	budVec3 org;
+	Vector3 org;
 	
 	physicsObj.GetLocalOrigin( org );
-	physicsObj.SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), speed * 1000 * phase, speed * 500, org, depth * 2.0f, vec3_origin );
+	physicsObj.SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), speed * 1000 * phase, speed * 500, org, depth * 2.0f, Vector3_Origin );
 }
 
 /*
@@ -1490,15 +1490,15 @@ void idMover::Event_Bob( float speed, float phase, budVec3& depth )
 idMover::Event_Sway
 ================
 */
-void idMover::Event_Sway( float speed, float phase, budAngles& depth )
+void idMover::Event_Sway( float speed, float phase, Angles& depth )
 {
-	budAngles ang, angSpeed;
+	Angles ang, angSpeed;
 	float duration;
 	
 	physicsObj.GetLocalAngles( ang );
 	assert( speed > 0.0f );
-	duration = budMath::Sqrt( depth[0] * depth[0] + depth[1] * depth[1] + depth[2] * depth[2] ) / speed;
-	angSpeed = depth / ( duration * budMath::SQRT_1OVER2 );
+	duration = Math::Sqrt( depth[0] * depth[0] + depth[1] * depth[1] + depth[2] * depth[2] ) / speed;
+	angSpeed = depth / ( duration * Math::SQRT_1OVER2 );
 	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), duration * 1000.0f * phase, duration * 1000.0f, ang, angSpeed, ang_zero );
 }
 
@@ -1589,8 +1589,8 @@ idMover::Event_RemoveInitialSplineAngles
 */
 void idMover::Event_RemoveInitialSplineAngles()
 {
-	idCurve_Spline<budVec3>* spline;
-	budAngles ang;
+	idCurve_Spline<Vector3>* spline;
+	Angles ang;
 	
 	spline = physicsObj.GetSpline();
 	if( !spline )
@@ -1608,7 +1608,7 @@ idMover::Event_StartSpline
 */
 void idMover::Event_StartSpline( idEntity* splineEntity )
 {
-	idCurve_Spline<budVec3>* spline;
+	idCurve_Spline<Vector3>* spline;
 	
 	if( !splineEntity )
 	{
@@ -1641,7 +1641,7 @@ void idMover::Event_StartSpline( idEntity* splineEntity )
 	spline->ShiftTime( gameLocal.slow.time - spline->GetTime( 0 ) );
 	
 	physicsObj.SetSpline( spline, move.acceleration, move.deceleration, useSplineAngles );
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, dest_position, Vector3_Origin, Vector3_Origin );
 }
 
 /*
@@ -1891,7 +1891,7 @@ idElevator::Spawn
 */
 void idElevator::Spawn()
 {
-	budStr str;
+	String str;
 	int len1;
 	
 	lastFloor = 0;
@@ -1965,8 +1965,8 @@ idElevator::Think
 */
 void idElevator::Think()
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	idDoor* doorent = GetDoor( spawnArgs.GetString( "innerdoor" ) );
 	if( state == INIT )
 	{
@@ -2549,7 +2549,7 @@ idMover_Binary::Restore
 void idMover_Binary::Restore( idRestoreGame* savefile )
 {
 	int		i, num, portalState;
-	budStr	temp;
+	String	temp;
 	
 	savefile->ReadVec3( pos1 );
 	savefile->ReadVec3( pos2 );
@@ -2653,7 +2653,7 @@ void idMover_Binary::Spawn()
 		// find the first entity spawned on this team (which could be us)
 		for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() )
 		{
-			if( ent->IsType( idMover_Binary::Type ) && !budStr::Icmp( static_cast<idMover_Binary*>( ent )->team.c_str(), temp ) )
+			if( ent->IsType( idMover_Binary::Type ) && !String::Icmp( static_cast<idMover_Binary*>( ent )->team.c_str(), temp ) )
 			{
 				break;
 			}
@@ -2684,7 +2684,7 @@ void idMover_Binary::Spawn()
 	{
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), Vector3_Origin, Vector3_Origin );
 	physicsObj.SetAngularExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetAxis().ToAngles(), ang_zero, ang_zero );
 	SetPhysics( &physicsObj );
 	
@@ -2727,7 +2727,7 @@ Angles will be cleared, because it is being used to represent a direction
 instead of an orientation.
 ===============
 */
-void idMover_Binary::GetMovedir( float angle, budVec3& movedir )
+void idMover_Binary::GetMovedir( float angle, Vector3& movedir )
 {
 	if( angle == -1 )
 	{
@@ -2739,7 +2739,7 @@ void idMover_Binary::GetMovedir( float angle, budVec3& movedir )
 	}
 	else
 	{
-		movedir = budAngles( 0, angle, 0 ).ToForward();
+		movedir = Angles( 0, angle, 0 ).ToForward();
 	}
 }
 
@@ -2793,7 +2793,7 @@ idMover_Binary::SetMoverState
 */
 void idMover_Binary::SetMoverState( moverState_t newstate, int time )
 {
-	budVec3 	delta;
+	Vector3 	delta;
 	
 	moverState = newstate;
 	move_thread = 0;
@@ -2806,19 +2806,19 @@ void idMover_Binary::SetMoverState( moverState_t newstate, int time )
 		case MOVER_POS1:
 		{
 			Signal( SIG_MOVER_POS1 );
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, time, 0, pos1, vec3_origin, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, time, 0, pos1, Vector3_Origin, Vector3_Origin );
 			break;
 		}
 		case MOVER_POS2:
 		{
 			Signal( SIG_MOVER_POS2 );
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, time, 0, pos2, vec3_origin, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, time, 0, pos2, Vector3_Origin, Vector3_Origin );
 			break;
 		}
 		case MOVER_1TO2:
 		{
 			Signal( SIG_MOVER_1TO2 );
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, time, duration, pos1, ( pos2 - pos1 ) * 1000.0f / duration, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, time, duration, pos1, ( pos2 - pos1 ) * 1000.0f / duration, Vector3_Origin );
 			if( accelTime != 0 || decelTime != 0 )
 			{
 				physicsObj.SetLinearInterpolation( time, accelTime, decelTime, duration, pos1, pos2 );
@@ -2832,7 +2832,7 @@ void idMover_Binary::SetMoverState( moverState_t newstate, int time )
 		case MOVER_2TO1:
 		{
 			Signal( SIG_MOVER_2TO1 );
-			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, time, duration, pos2, ( pos1 - pos2 ) * 1000.0f / duration, vec3_origin );
+			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, time, duration, pos2, ( pos1 - pos2 ) * 1000.0f / duration, Vector3_Origin );
 			if( accelTime != 0 || decelTime != 0 )
 			{
 				physicsObj.SetLinearInterpolation( time, accelTime, decelTime, duration, pos2, pos1 );
@@ -3398,9 +3398,9 @@ idMover_Binary::InitSpeed
 pos1, pos2, and speed are passed in so the movement delta can be calculated
 ================
 */
-void idMover_Binary::InitSpeed( budVec3& mpos1, budVec3& mpos2, float mspeed, float maccelTime, float mdecelTime )
+void idMover_Binary::InitSpeed( Vector3& mpos1, Vector3& mpos2, float mspeed, float maccelTime, float mdecelTime )
 {
-	budVec3		move;
+	Vector3		move;
 	float		distance;
 	float		speed;
 	
@@ -3423,8 +3423,8 @@ void idMover_Binary::InitSpeed( budVec3& mpos1, budVec3& mpos2, float mspeed, fl
 	
 	moverState = MOVER_POS1;
 	
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, pos1, vec3_origin, vec3_origin );
-	physicsObj.SetLinearInterpolation( 0, 0, 0, 0, vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, pos1, Vector3_Origin, Vector3_Origin );
+	physicsObj.SetLinearInterpolation( 0, 0, 0, 0, Vector3_Origin, Vector3_Origin );
 	SetOrigin( pos1 );
 	
 	PostEventMS( &EV_Mover_InitGuiTargets, 0 );
@@ -3437,7 +3437,7 @@ idMover_Binary::InitTime
 pos1, pos2, and time are passed in so the movement delta can be calculated
 ================
 */
-void idMover_Binary::InitTime( budVec3& mpos1, budVec3& mpos2, float mtime, float maccelTime, float mdecelTime )
+void idMover_Binary::InitTime( Vector3& mpos1, Vector3& mpos2, float mtime, float maccelTime, float mdecelTime )
 {
 
 	pos1		= mpos1;
@@ -3454,8 +3454,8 @@ void idMover_Binary::InitTime( budVec3& mpos1, budVec3& mpos2, float mtime, floa
 	
 	moverState = MOVER_POS1;
 	
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, pos1, vec3_origin, vec3_origin );
-	physicsObj.SetLinearInterpolation( 0, 0, 0, 0, vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, pos1, Vector3_Origin, Vector3_Origin );
+	physicsObj.SetLinearInterpolation( 0, 0, 0, 0, Vector3_Origin, Vector3_Origin );
 	SetOrigin( pos1 );
 	
 	PostEventMS( &EV_Mover_InitGuiTargets, 0 );
@@ -3700,10 +3700,10 @@ idDoor::Spawn
 */
 void idDoor::Spawn()
 {
-	budVec3		abs_movedir;
+	Vector3		abs_movedir;
 	float		distance;
-	budVec3		size;
-	budVec3		movedir;
+	Vector3		size;
+	Vector3		movedir;
 	float		dir;
 	float		lip;
 	bool		start_open;
@@ -3755,9 +3755,9 @@ void idDoor::Spawn()
 	pos1 = GetPhysics()->GetOrigin();
 	
 	// calculate second position
-	abs_movedir[0] = budMath::Fabs( movedir[ 0 ] );
-	abs_movedir[1] = budMath::Fabs( movedir[ 1 ] );
-	abs_movedir[2] = budMath::Fabs( movedir[ 2 ] );
+	abs_movedir[0] = Math::Fabs( movedir[ 0 ] );
+	abs_movedir[1] = Math::Fabs( movedir[ 1 ] );
+	abs_movedir[2] = Math::Fabs( movedir[ 2 ] );
 	size = GetPhysics()->GetAbsBounds()[1] - GetPhysics()->GetAbsBounds()[0];
 	distance = ( abs_movedir * size ) - lip;
 	pos2 = pos1 + distance * movedir;
@@ -3843,8 +3843,8 @@ idDoor::Think
 */
 void idDoor::ClientThink( const int curTime, const float fraction, const bool predict )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	idMover_Binary::ClientThink( curTime, fraction, predict );
 	
@@ -3872,8 +3872,8 @@ idDoor::Think
 */
 void idDoor::Think()
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	idMover_Binary::Think();
 	
@@ -4031,8 +4031,8 @@ idDoor::GetLocalTriggerPosition
 */
 void idDoor::GetLocalTriggerPosition( const budClipModel* trigger )
 {
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( !trigger )
 	{
@@ -4420,7 +4420,7 @@ void idDoor::Event_PartBlocked( idEntity* blockingEntity )
 {
 	if( damage > 0.0f )
 	{
-		blockingEntity->Damage( this, this, vec3_origin, "damage_moverCrush", damage, INVALID_JOINT );
+		blockingEntity->Damage( this, this, Vector3_Origin, "damage_moverCrush", damage, INVALID_JOINT );
 	}
 }
 
@@ -4431,8 +4431,8 @@ idDoor::Event_Touch
 */
 void idDoor::Event_Touch( idEntity* other, trace_t* trace )
 {
-	budVec3		contact, translate;
-	budVec3		planeaxis1, planeaxis2, normal;
+	Vector3		contact, translate;
+	Vector3		planeaxis1, planeaxis2, normal;
 	budBounds	bounds;
 	
 	if( common->IsClient() )
@@ -4472,7 +4472,7 @@ idDoor::Event_SpectatorTouch
 */
 void idDoor::Event_SpectatorTouch( idEntity* other, trace_t* trace )
 {
-	budVec3		contact, translate, normal;
+	Vector3		contact, translate, normal;
 	budBounds	bounds;
 	budPlayer*	p;
 	
@@ -4903,8 +4903,8 @@ void idPlat::ClientThink( const int curTime, const float fraction, const bool pr
 	//idMover_Binary::ClientThink( curTime, fraction, predict );
 	
 	/*
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	// Dont bother with blocking entities on clients.. host tells us our move state.
 	RunPhysics_NoBlocking();
@@ -4929,8 +4929,8 @@ idPlat::Think
 */
 void idPlat::Think()
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	idMover_Binary::Think();
 	
@@ -4975,8 +4975,8 @@ idPlat::GetLocalTriggerPosition
 */
 void idPlat::GetLocalTriggerPosition( const budClipModel* trigger )
 {
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( !trigger )
 	{
@@ -4993,11 +4993,11 @@ void idPlat::GetLocalTriggerPosition( const budClipModel* trigger )
 idPlat::SpawnPlatTrigger
 ===============
 */
-void idPlat::SpawnPlatTrigger( budVec3& pos )
+void idPlat::SpawnPlatTrigger( Vector3& pos )
 {
 	budBounds		bounds;
-	budVec3			tmin;
-	budVec3			tmax;
+	Vector3			tmin;
+	Vector3			tmax;
 	
 	// the middle trigger will be a thin trigger just
 	// above the starting position
@@ -5071,7 +5071,7 @@ void idPlat::Event_PartBlocked( idEntity* blockingEntity )
 {
 	if( damage > 0.0f )
 	{
-		blockingEntity->Damage( this, this, vec3_origin, "damage_moverCrush", damage, INVALID_JOINT );
+		blockingEntity->Damage( this, this, Vector3_Origin, "damage_moverCrush", damage, INVALID_JOINT );
 	}
 }
 
@@ -5173,7 +5173,7 @@ void idMover_Periodic::Event_PartBlocked( idEntity* blockingEntity )
 {
 	if( damage > 0.0f )
 	{
-		blockingEntity->Damage( this, this, vec3_origin, "damage_moverCrush", damage, INVALID_JOINT );
+		blockingEntity->Damage( this, this, Vector3_Origin, "damage_moverCrush", damage, INVALID_JOINT );
 	}
 }
 
@@ -5243,7 +5243,7 @@ void idRotater::Spawn()
 	{
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, gameLocal.slow.time, 0, GetPhysics()->GetOrigin(), vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, gameLocal.slow.time, 0, GetPhysics()->GetOrigin(), Vector3_Origin, Vector3_Origin );
 	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.slow.time, 0, GetPhysics()->GetAxis().ToAngles(), ang_zero, ang_zero );
 	SetPhysics( &physicsObj );
 	
@@ -5283,7 +5283,7 @@ void idRotater::Event_Activate( idEntity* activator )
 	float		speed;
 	bool		x_axis;
 	bool		y_axis;
-	budAngles	delta;
+	Angles	delta;
 	
 	activatedBy = activator;
 	
@@ -5351,7 +5351,7 @@ void idBobber::Spawn()
 	float	phase;
 	bool	x_axis;
 	bool	y_axis;
-	budVec3	delta;
+	Vector3	delta;
 	
 	spawnArgs.GetFloat( "speed", "4", speed );
 	spawnArgs.GetFloat( "height", "32", height );
@@ -5360,7 +5360,7 @@ void idBobber::Spawn()
 	spawnArgs.GetBool( "y_axis", "0", y_axis );
 	
 	// set the axis of bobbing
-	delta = vec3_origin;
+	delta = Vector3_Origin;
 	if( x_axis )
 	{
 		delta[ 0 ] = height;
@@ -5383,7 +5383,7 @@ void idBobber::Spawn()
 	{
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), phase * 1000, speed * 500, GetPhysics()->GetOrigin(), delta * 2.0f, vec3_origin );
+	physicsObj.SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), phase * 1000, speed * 500, GetPhysics()->GetOrigin(), delta * 2.0f, Vector3_Origin );
 	SetPhysics( &physicsObj );
 }
 
@@ -5433,13 +5433,13 @@ void idPendulum::Spawn()
 	else
 	{
 		// find pendulum length
-		length = budMath::Fabs( GetPhysics()->GetBounds()[0][2] );
+		length = Math::Fabs( GetPhysics()->GetBounds()[0][2] );
 		if( length < 8 )
 		{
 			length = 8;
 		}
 		
-		freq = 1 / ( budMath::TWO_PI ) * budMath::Sqrt( g_gravity.GetFloat() / ( 3 * length ) );
+		freq = 1 / ( Math::TWO_PI ) * Math::Sqrt( g_gravity.GetFloat() / ( 3 * length ) );
 	}
 	
 	physicsObj.SetSelf( this );
@@ -5451,8 +5451,8 @@ void idPendulum::Spawn()
 	{
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), vec3_origin, vec3_origin );
-	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), phase * 1000, 500 / freq, GetPhysics()->GetAxis().ToAngles(), budAngles( 0, 0, speed * 2.0f ), ang_zero );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), Vector3_Origin, Vector3_Origin );
+	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), phase * 1000, 500 / freq, GetPhysics()->GetAxis().ToAngles(), Angles( 0, 0, speed * 2.0f ), ang_zero );
 	SetPhysics( &physicsObj );
 }
 
@@ -5499,7 +5499,7 @@ void idRiser::Spawn()
 	{
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), vec3_origin, vec3_origin );
+	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), Vector3_Origin, Vector3_Origin );
 	SetPhysics( &physicsObj );
 }
 
@@ -5520,14 +5520,14 @@ void idRiser::Event_Activate( idEntity* activator )
 		Show();
 		float	time;
 		float	height;
-		budVec3	delta;
+		Vector3	delta;
 		
 		spawnArgs.GetFloat( "time", "4", time );
 		spawnArgs.GetFloat( "height", "32", height );
 		
-		delta = vec3_origin;
+		delta = Vector3_Origin;
 		delta[ 2 ] = height;
 		
-		physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, gameLocal.slow.time, time * 1000, physicsObj.GetOrigin(), delta, vec3_origin );
+		physicsObj.SetLinearExtrapolation( EXTRAPOLATION_LINEAR, gameLocal.slow.time, time * 1000, physicsObj.GetOrigin(), delta, Vector3_Origin );
 	}
 }

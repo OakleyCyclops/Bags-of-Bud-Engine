@@ -57,11 +57,11 @@ void idMenuScreen_Shell_ModeSelect::Initialize( idMenuHandler* data )
 	helpWidget->SetSpritePath( GetSpritePath(), "info", "helpTooltip" );
 	AddChild( helpWidget );
 	
-	const budStrList& modes = common->GetModeDisplayList();
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+	const StringList& modes = common->GetModeDisplayList();
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 	for( int i = 0; i < modes.Num(); ++i )
 	{
-		budList< budStr > option;
+		List< String > option;
 		option.Append( modes[i] );
 		menuOptions.Append( option );
 	}

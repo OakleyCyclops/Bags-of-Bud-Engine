@@ -119,7 +119,7 @@ private:
 	bool					leadin;			// true if this sound has a leadin
 	float					leadinVolume;	// allows light breaking leadin sounds to be much louder than the broken loop
 	
-	budList<idSoundSample*, TAG_AUDIO>	entries;
+	List<idSoundSample*, TAG_AUDIO>	entries;
 	
 private:
 	void					Init();
@@ -153,7 +153,7 @@ public:
 	
 	// the parms specified will be the default overrides for all sounds started on this emitter.
 	// NULL is acceptable for parms
-	virtual void			UpdateEmitter( const budVec3& origin, int listenerId, const soundShaderParms_t* parms ) = 0;
+	virtual void			UpdateEmitter( const Vector3& origin, int listenerId, const soundShaderParms_t* parms ) = 0;
 	
 	// returns the length of the started sound in msec
 	virtual int				StartSound( const idSoundShader* shader, const s_channelType channel, float diversity = 0, int shaderFlags = 0, bool allowSlow = true ) = 0;
@@ -209,7 +209,7 @@ public:
 	
 	// where is the camera/microphone
 	// listenerId allows listener-private and antiPrivate sounds to be filtered
-	virtual void			PlaceListener( const budVec3& origin, const budMat3& axis, const int listenerId ) = 0;
+	virtual void			PlaceListener( const Vector3& origin, const Matrix3& axis, const int listenerId ) = 0;
 	
 	// fade all sounds in the world with a given shader soundClass
 	// to is in Db, over is in seconds
@@ -264,8 +264,8 @@ public:
 
 typedef struct
 {
-	budStr					name;
-	budStr					format;
+	String					name;
+	String					format;
 	int						numChannels;
 	int						numSamplesPerSecond;
 	int						num44kHzSamples;

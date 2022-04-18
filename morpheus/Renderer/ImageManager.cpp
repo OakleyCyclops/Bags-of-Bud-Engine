@@ -37,7 +37,7 @@ If you have questions concerning this license or the applicable additional terms
 budImageManager	imageManager;
 budImageManager* globalImages = &imageManager;
 
-budCVar preLoad_Images( "preLoad_Images", "1", CVAR_SYSTEM | CVAR_BOOL, "preload images during beginlevelload" );
+CVar preLoad_Images( "preLoad_Images", "1", CVAR_SYSTEM | CVAR_BOOL, "preload images during beginlevelload" );
 
 /*
 ===============
@@ -51,13 +51,13 @@ New r_texturesize/r_texturedepth variables will take effect on reload
 reloadImages <all>
 ===============
 */
-void R_ReloadImages_f( const budCmdArgs& args )
+void R_ReloadImages_f( const CmdArgs& args )
 {
 	bool all = false;
 	
 	if( args.Argc() == 2 )
 	{
-		if( !budStr::Icmp( args.Argv( 1 ), "all" ) )
+		if( !String::Icmp( args.Argv( 1 ), "all" ) )
 		{
 			all = true;
 		}
@@ -98,7 +98,7 @@ static int R_QsortImageSizes( const void* a, const void* b )
 	{
 		return 1;
 	}
-	return budStr::Icmp( ea->image->GetName(), eb->image->GetName() );
+	return String::Icmp( ea->image->GetName(), eb->image->GetName() );
 }
 
 /*
@@ -113,7 +113,7 @@ static int R_QsortImageName( const void* a, const void* b )
 	ea = ( sortedImage_t* )a;
 	eb = ( sortedImage_t* )b;
 	
-	return budStr::Icmp( ea->image->GetName(), eb->image->GetName() );
+	return String::Icmp( ea->image->GetName(), eb->image->GetName() );
 }
 
 /*
@@ -121,7 +121,7 @@ static int R_QsortImageName( const void* a, const void* b )
 R_ListImages_f
 ===============
 */
-void R_ListImages_f( const budCmdArgs& args )
+void R_ListImages_f( const CmdArgs& args )
 {
 	int		i, partialSize;
 	budImage*	image;
@@ -141,27 +141,27 @@ void R_ListImages_f( const budCmdArgs& args )
 	}
 	else if( args.Argc() == 2 )
 	{
-		if( budStr::Icmp( args.Argv( 1 ), "uncompressed" ) == 0 )
+		if( String::Icmp( args.Argv( 1 ), "uncompressed" ) == 0 )
 		{
 			uncompressedOnly = true;
 		}
-		else if( budStr::Icmp( args.Argv( 1 ), "sorted" ) == 0 )
+		else if( String::Icmp( args.Argv( 1 ), "sorted" ) == 0 )
 		{
 			sorted = true;
 		}
-		else if( budStr::Icmp( args.Argv( 1 ), "namesort" ) == 0 )
+		else if( String::Icmp( args.Argv( 1 ), "namesort" ) == 0 )
 		{
 			sortByName = true;
 		}
-		else if( budStr::Icmp( args.Argv( 1 ), "unloaded" ) == 0 )
+		else if( String::Icmp( args.Argv( 1 ), "unloaded" ) == 0 )
 		{
 			unloaded = true;
 		}
-		else if( budStr::Icmp( args.Argv( 1 ), "duplicated" ) == 0 )
+		else if( String::Icmp( args.Argv( 1 ), "duplicated" ) == 0 )
 		{
 			duplicated = true;
 		}
-		else if( budStr::Icmp( args.Argv( 1 ), "oversized" ) == 0 )
+		else if( String::Icmp( args.Argv( 1 ), "oversized" ) == 0 )
 		{
 			sorted = true;
 			overSized = true;
@@ -187,7 +187,7 @@ void R_ListImages_f( const budCmdArgs& args )
 	
 	totalSize = 0;
 	
-	budList< budImage* >& images = globalImages->images;
+	List< budImage* >& images = globalImages->images;
 	const int numImages = images.Num();
 	
 	sortedImage_t* sortedArray = ( sortedImage_t* )alloca( sizeof( sortedImage_t ) * numImages );
@@ -214,7 +214,7 @@ void R_ListImages_f( const budCmdArgs& args )
 			int j;
 			for( j = i + 1 ; j < numImages ; j++ )
 			{
-				if( budStr::Icmp( image->GetName(), images[ j ]->GetName() ) == 0 )
+				if( String::Icmp( image->GetName(), images[ j ]->GetName() ) == 0 )
 				{
 					break;
 				}
@@ -284,7 +284,7 @@ budImage* budImageManager::AllocImage( const char* name )
 		libBud::Error( "budImageManager::AllocImage: \"%s\" is too long\n", name );
 	}
 	
-	int hash = budStr( name ).FileNameHash();
+	int hash = String( name ).FileNameHash();
 	
 	budImage* image = new( TAG_IMAGE ) budImage( name );
 	
@@ -326,7 +326,7 @@ budImage* budImageManager::ImageFromFunction( const char* _name, void ( *generat
 {
 
 	// strip any .tga file extensions from anywhere in the _name
-	budStr name = _name;
+	String name = _name;
 	name.Replace( ".tga", "" );
 	name.BackSlashesToSlashes();
 	
@@ -369,22 +369,22 @@ budImage*	budImageManager::ImageFromFile( const char* _name, textureFilter_t fil
 		textureRepeat_t repeat, textureUsage_t usage, cubeFiles_t cubeMap )
 {
 
-	if( !_name || !_name[0] || budStr::Icmp( _name, "default" ) == 0 || budStr::Icmp( _name, "_default" ) == 0 )
+	if( !_name || !_name[0] || String::Icmp( _name, "default" ) == 0 || String::Icmp( _name, "_default" ) == 0 )
 	{
 		declManager->MediaPrint( "DEFAULTED\n" );
 		return globalImages->defaultImage;
 	}
-	if( budStr::Icmpn( _name, "fonts", 5 ) == 0 || budStr::Icmpn( _name, "newfonts", 8 ) == 0 )
+	if( String::Icmpn( _name, "fonts", 5 ) == 0 || String::Icmpn( _name, "newfonts", 8 ) == 0 )
 	{
 		usage = TD_FONT;
 	}
-	if( budStr::Icmpn( _name, "lights", 6 ) == 0 )
+	if( String::Icmpn( _name, "lights", 6 ) == 0 )
 	{
 		usage = TD_LIGHT;
 	}
 	
 	// strip any .tga file extensions from anywhere in the _name, including image program parameters
-	budStrStatic< MAX_OSPATH > name = _name;
+	StringStatic< MAX_OSPATH > name = _name;
 	name.Replace( ".tga", "" );
 	name.BackSlashesToSlashes();
 	
@@ -476,7 +476,7 @@ budImage* budImageManager::ScratchImage( const char* _name, budImageOpts* imgOpt
 		libBud::FatalError( "budImageManager::ScratchImage called with NULL imgOpts" );
 	}
 	
-	budStr name = _name;
+	String name = _name;
 	
 	//
 	// see if the image is already loaded, unless we
@@ -568,14 +568,14 @@ budImageManager::GetImage
 budImage* budImageManager::GetImage( const char* _name ) const
 {
 
-	if( !_name || !_name[0] || budStr::Icmp( _name, "default" ) == 0 || budStr::Icmp( _name, "_default" ) == 0 )
+	if( !_name || !_name[0] || String::Icmp( _name, "default" ) == 0 || String::Icmp( _name, "_default" ) == 0 )
 	{
 		declManager->MediaPrint( "DEFAULTED\n" );
 		return globalImages->defaultImage;
 	}
 	
 	// strip any .tga file extensions from anywhere in the _name, including image program parameters
-	budStr name = _name;
+	String name = _name;
 	name.Replace( ".tga", "" );
 	name.BackSlashesToSlashes();
 	
@@ -629,7 +629,7 @@ Used to combine animations of six separate tga files into
 a serials of 6x taller tga files, for preparation to roq compress
 ===============
 */
-void R_CombineCubeImages_f( const budCmdArgs& args )
+void R_CombineCubeImages_f( const CmdArgs& args )
 {
 	if( args.Argc() != 2 )
 	{
@@ -639,7 +639,7 @@ void R_CombineCubeImages_f( const budCmdArgs& args )
 		return;
 	}
 	
-	budStr	baseName = args.Argv( 1 );
+	String	baseName = args.Argv( 1 );
 	common->SetRefreshOnPrint( true );
 	
 	for( int frameNum = 1 ; frameNum < 10000 ; frameNum++ )
@@ -697,7 +697,7 @@ void R_CombineCubeImages_f( const budCmdArgs& args )
 			break;
 		}
 		
-		idTempArray<byte> buf( width * height * 6 * 4 );
+		TempArray<byte> buf( width * height * 6 * 4 );
 		byte*	combined = ( byte* )buf.Ptr();
 		for( side = 0 ; side < 6 ; side++ )
 		{
@@ -785,7 +785,7 @@ budImageManager::ExcludePreloadImage
 */
 bool budImageManager::ExcludePreloadImage( const char* name )
 {
-	budStrStatic< MAX_OSPATH > imgName = name;
+	StringStatic< MAX_OSPATH > imgName = name;
 	imgName.ToLower();
 	if( imgName.Find( "newfonts/", false ) >= 0 )
 	{
@@ -881,7 +881,7 @@ void budImageManager::EndLevelLoad()
 	int	end = Sys_Milliseconds();
 	libBud::Printf( "%5i images loaded in %5.1f seconds\n", loadCount, ( end - start ) * 0.001 );
 	libBud::Printf( "----------------------------------------\n" );
-	//R_ListImages_f( budCmdArgs( "sorted sorted", false ) );
+	//R_ListImages_f( CmdArgs( "sorted sorted", false ) );
 }
 
 /*
@@ -931,12 +931,12 @@ void budImageManager::PrintMemInfo( MemInfo_t* mi )
 		size = im->StorageSize();
 		total += size;
 		
-		f->Printf( "%s %3i %s\n", budStr::FormatNumber( size ).c_str(), im->refCount, im->GetName() );
+		f->Printf( "%s %3i %s\n", String::FormatNumber( size ).c_str(), im->refCount, im->GetName() );
 	}
 	
 	delete [] sortIndex;
 	mi->imageAssetsTotal = total;
 	
-	f->Printf( "\nTotal image bytes allocated: %s\n", budStr::FormatNumber( total ).c_str() );
+	f->Printf( "\nTotal image bytes allocated: %s\n", String::FormatNumber( total ).c_str() );
 	fileSystem->CloseFile( f );
 }

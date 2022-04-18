@@ -52,7 +52,7 @@ public:
 	virtual void	ReadFromSaveGame( budFile* savefile );
 	
 	void		InitCrosshairs();
-	void		Draw( const budVec2& cursor );
+	void		Draw( const Vector2& cursor );
 };
 
 enum
@@ -73,19 +73,19 @@ public:
 	//SSDEntity Information
 	int					type;
 	int					id;
-	budStr				materialName;
+	String				materialName;
 	const budMaterial*	material;
-	budVec3				position;
-	budVec2				size;
+	Vector3				position;
+	Vector2				size;
 	float				radius;
 	float				hitRadius;
 	float				rotation;
 	
-	budVec4				matColor;
+	Vector4				matColor;
 	
-	budStr				text;
+	String				text;
 	float				textScale;
-	budVec4				foreColor;
+	Vector4				foreColor;
 	
 	budGameSSDWindow*	game;
 	int					currentTime;
@@ -110,13 +110,13 @@ public:
 	
 	void				SetGame( budGameSSDWindow* _game );
 	void				SetMaterial( const char* _name );
-	void				SetPosition( const budVec3& _position );
-	void				SetSize( const budVec2& _size );
+	void				SetPosition( const Vector3& _position );
+	void				SetSize( const Vector2& _size );
 	void				SetRadius( float _radius, float _hitFactor = 1.0f );
 	void				SetRotation( float _rotation );
 	
 	void				Update();
-	bool				HitTest( const budVec2& pt );
+	bool				HitTest( const Vector2& pt );
 	
 	
 	virtual void		EntityUpdate() {};
@@ -127,9 +127,9 @@ public:
 	virtual void		OnStrikePlayer() {};
 	
 	budBounds			WorldToScreen( const budBounds worldBounds );
-	budVec3				WorldToScreen( const budVec3& worldPos );
+	Vector3				WorldToScreen( const Vector3& worldPos );
 	
-	budVec3				ScreenToWorld( const budVec3& screenPos );
+	Vector3				ScreenToWorld( const Vector3& screenPos );
 	
 };
 
@@ -143,7 +143,7 @@ class SSDMover : public SSDEntity
 {
 
 public:
-	budVec3				speed;
+	Vector3				speed;
 	float				rotationSpeed;
 	
 public:
@@ -153,7 +153,7 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game );
 	
-	void				MoverInit( const budVec3& _speed, float _rotationSpeed );
+	void				MoverInit( const Vector3& _speed, float _rotationSpeed );
 	
 	virtual void		EntityUpdate();
 	
@@ -182,10 +182,10 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game );
 	
-	void				Init( budGameSSDWindow* _game, const budVec3& startPosition, const budVec2& _size, float _speed, float rotate, int _health );
+	void				Init( budGameSSDWindow* _game, const Vector3& startPosition, const Vector2& _size, float _speed, float rotate, int _health );
 	
 	virtual void		EntityUpdate();
-	static SSDAsteroid*	GetNewAsteroid( budGameSSDWindow* _game, const budVec3& startPosition, const budVec2& _size, float _speed, float rotate, int _health );
+	static SSDAsteroid*	GetNewAsteroid( budGameSSDWindow* _game, const Vector3& startPosition, const Vector2& _size, float _speed, float rotate, int _health );
 	static SSDAsteroid*	GetSpecificAsteroid( int id );
 	static void			WriteAsteroids( budFile* savefile );
 	static void			ReadAsteroids( budFile* savefile, budGameSSDWindow* _game );
@@ -218,9 +218,9 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game );
 	
-	void					Init( budGameSSDWindow* _game, const budVec3& startPosition, float _speed, float rotate, int _health );
+	void					Init( budGameSSDWindow* _game, const Vector3& startPosition, float _speed, float rotate, int _health );
 	
-	static SSDAstronaut*	GetNewAstronaut( budGameSSDWindow* _game, const budVec3& startPosition, float _speed, float rotate, int _health );
+	static SSDAstronaut*	GetNewAstronaut( budGameSSDWindow* _game, const Vector3& startPosition, float _speed, float rotate, int _health );
 	static SSDAstronaut*	GetSpecificAstronaut( int id );
 	static void				WriteAstronauts( budFile* savefile );
 	static void				ReadAstronauts( budFile* savefile, budGameSSDWindow* _game );
@@ -241,7 +241,7 @@ class SSDExplosion : public SSDEntity
 {
 
 public:
-	budVec2	finalSize;
+	Vector2	finalSize;
 	int		length;
 	int		beginTime;
 	int		endTime;
@@ -265,10 +265,10 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game );
 	
-	void				Init( budGameSSDWindow* _game, const budVec3& _position, const budVec2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy = true, bool _followBuddy = true );
+	void				Init( budGameSSDWindow* _game, const Vector3& _position, const Vector2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy = true, bool _followBuddy = true );
 	
 	virtual void		EntityUpdate();
-	static SSDExplosion*	GetNewExplosion( budGameSSDWindow* _game, const budVec3& _position, const budVec2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy = true, bool _followBuddy = true );
+	static SSDExplosion*	GetNewExplosion( budGameSSDWindow* _game, const Vector3& _position, const Vector2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy = true, bool _followBuddy = true );
 	static SSDExplosion*	GetSpecificExplosion( int id );
 	static void				WriteExplosions( budFile* savefile );
 	static void				ReadExplosions( budFile* savefile, budGameSSDWindow* _game );
@@ -287,11 +287,11 @@ class SSDPoints : public SSDEntity
 	int		beginTime;
 	int		endTime;
 	
-	budVec3	beginPosition;
-	budVec3	endPosition;
+	Vector3	beginPosition;
+	Vector3	endPosition;
 	
-	budVec4	beginColor;
-	budVec4	endColor;
+	Vector4	beginColor;
+	Vector4	endColor;
 	
 	
 public:
@@ -301,10 +301,10 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game );
 	
-	void				Init( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const budVec4& color );
+	void				Init( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const Vector4& color );
 	virtual void		EntityUpdate();
 	
-	static SSDPoints*	GetNewPoints( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const budVec4& color );
+	static SSDPoints*	GetNewPoints( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const Vector4& color );
 	static SSDPoints*	GetSpecificPoints( int id );
 	static void			WritePoints( budFile* savefile );
 	static void			ReadPoints( budFile* savefile, budGameSSDWindow* _game );
@@ -318,12 +318,12 @@ protected:
 class SSDProjectile : public SSDEntity
 {
 
-	budVec3	dir;
-	budVec3	speed;
+	Vector3	dir;
+	Vector3	speed;
 	int		beginTime;
 	int		endTime;
 	
-	budVec3	endPosition;
+	Vector3	endPosition;
 	
 public:
 	SSDProjectile();
@@ -332,10 +332,10 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game );
 	
-	void				Init( budGameSSDWindow* _game, const budVec3& _beginPosition, const budVec3& _endPosition, float _speed, float _size );
+	void				Init( budGameSSDWindow* _game, const Vector3& _beginPosition, const Vector3& _endPosition, float _speed, float _size );
 	virtual void		EntityUpdate();
 	
-	static SSDProjectile* GetNewProjectile( budGameSSDWindow* _game, const budVec3& _beginPosition, const budVec3& _endPosition, float _speed, float _size );
+	static SSDProjectile* GetNewProjectile( budGameSSDWindow* _game, const Vector3& _beginPosition, const Vector3& _endPosition, float _speed, float _size );
 	static SSDProjectile* GetSpecificProjectile( int id );
 	static void				WriteProjectiles( budFile* savefile );
 	static void				ReadProjectiles( budFile* savefile, budGameSSDWindow* _game );
@@ -538,11 +538,11 @@ private:
 
 	//Initialization
 	virtual bool		ParseInternalVar( const char* name, budTokenParser* src );
-	void				ParseLevelData( int level, const budStr& levelDataString );
-	void				ParseAsteroidData( int level, const budStr& asteroidDataString );
-	void				ParseWeaponData( int weapon, const budStr& weaponDataString );
-	void				ParseAstronautData( int level, const budStr& astronautDataString );
-	void				ParsePowerupData( int level, const budStr& powerupDataString );
+	void				ParseLevelData( int level, const String& levelDataString );
+	void				ParseAsteroidData( int level, const String& asteroidDataString );
+	void				ParseWeaponData( int weapon, const String& weaponDataString );
+	void				ParseAstronautData( int level, const String& astronautDataString );
+	void				ParsePowerupData( int level, const String& powerupDataString );
 	
 	void				CommonInit();
 	void				ResetGameStats();
@@ -571,10 +571,10 @@ private:
 	void				SpawnAsteroid();
 	
 	void				FireWeapon( int key );
-	SSDEntity*			EntityHitTest( const budVec2& pt );
+	SSDEntity*			EntityHitTest( const Vector2& pt );
 	
 	void				HitAsteroid( SSDAsteroid* asteroid, int key );
-	void				AsterobudStruckPlayer( SSDAsteroid* asteroid );
+	void				AsteroStringuckPlayer( SSDAsteroid* asteroid );
 	
 	
 	
@@ -582,7 +582,7 @@ private:
 	
 	void				RefreshGuiData();
 	
-	budVec2				GetCursorWorld();
+	Vector2				GetCursorWorld();
 	
 	//Astronaut Methods
 	void				SpawnAstronaut();
@@ -614,21 +614,21 @@ public:
 	
 	//Level Data
 	int							levelCount;
-	budList<SSDLevelData_t>		levelData;
-	budList<SSDAsteroidData_t>	asteroidData;
-	budList<SSDAstronautData_t>	astronautData;
-	budList<SSDPowerupData_t>	powerupData;
+	List<SSDLevelData_t>		levelData;
+	List<SSDAsteroidData_t>	asteroidData;
+	List<SSDAstronautData_t>	astronautData;
+	List<SSDPowerupData_t>	powerupData;
 	
 	
 	//Weapon Data
 	int							weaponCount;
-	budList<SSDWeaponData_t>		weaponData;
+	List<SSDWeaponData_t>		weaponData;
 	
 	int							superBlasterTimeout;
 	
 	//All current game data is stored in this structure (except the entity list)
 	SSDGameStats_t				gameStats;
-	budList<SSDEntity*>			entities;
+	List<SSDEntity*>			entities;
 	
 	int							currentSound;
 	

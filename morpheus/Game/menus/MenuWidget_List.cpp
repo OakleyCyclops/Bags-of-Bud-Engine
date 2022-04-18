@@ -442,7 +442,7 @@ void idMenuWidget_GameBrowserList::ClearGames()
 idMenuWidget_GameBrowserList::PrepareListElement
 ========================
 */
-void idMenuWidget_GameBrowserList::AddGame( budStr name_, budStrId mapName_, budStr modeName_, int index_, int players_, int maxPlayers_, bool joinable_, bool validMap_ )
+void idMenuWidget_GameBrowserList::AddGame( String name_, StringId mapName_, String modeName_, int index_, int players_, int maxPlayers_, bool joinable_, bool validMap_ )
 {
 
 	idBrowserEntry_t entry;

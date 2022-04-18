@@ -41,7 +41,7 @@ void budAASBuild::SetPortalFlags_r( idBrushBSPNode* node )
 {
 	int s;
 	idBrushBSPPortal* p;
-	budVec3 normal;
+	Vector3 normal;
 	
 	if( !node )
 	{
@@ -94,7 +94,7 @@ budAASBuild::PortalIsGap
 */
 bool budAASBuild::PortalIsGap( idBrushBSPPortal* portal, int side )
 {
-	budVec3 normal;
+	Vector3 normal;
 	
 	// if solid at the other side of the portal
 	if( portal->GetNode( !side )->GetContents() & AREACONTENTS_SOLID )
@@ -131,7 +131,7 @@ void budAASBuild::GravSubdivLeafNode( idBrushBSPNode* node )
 	int numSplits, numSplitters;
 	idBrushBSPPortal* p1, *p2;
 	idWinding* w1, *w2;
-	budVec3 normal;
+	Vector3 normal;
 	budPlane plane;
 	budPlaneSet planeList;
 	float d, min, max;
@@ -231,7 +231,7 @@ void budAASBuild::GravSubdivLeafNode( idBrushBSPNode* node )
 						{
 							break;	// point at the same side of the plane as the gap
 						}
-						d = budMath::Fabs( d );
+						d = Math::Fabs( d );
 						if( d < min )
 						{
 							min = d;
@@ -251,7 +251,7 @@ void budAASBuild::GravSubdivLeafNode( idBrushBSPNode* node )
 						{
 							break;	// point at the same side of the plane as the gap
 						}
-						d = budMath::Fabs( d );
+						d = Math::Fabs( d );
 						if( d < min )
 						{
 							min = d;

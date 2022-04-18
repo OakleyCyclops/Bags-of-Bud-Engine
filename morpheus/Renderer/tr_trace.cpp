@@ -180,7 +180,7 @@ static void R_TracePointCullStatic( byte* cullBits, byte& totalOr, const float r
 	
 		for( ; i <= nextNumVerts; i++ )
 		{
-			const budVec3& v = vertsODS[i].xyz;
+			const Vector3& v = vertsODS[i].xyz;
 	
 			const float d0 = planes[0].Distance( v );
 			const float d1 = planes[1].Distance( v );
@@ -365,7 +365,7 @@ static void R_TracePointCullSkinned( byte* cullBits, byte& totalOr, const float 
 	
 		for( ; i <= nextNumVerts; i++ )
 		{
-			const budVec3 v = Scalar_LoadSkinnedDrawVertPosition( vertsODS[i], joints );
+			const Vector3 v = Scalar_LoadSkinnedDrawVertPosition( vertsODS[i], joints );
 	
 			const float d0 = planes[0].Distance( v );
 			const float d1 = planes[1].Distance( v );
@@ -412,7 +412,7 @@ R_LineIntersectsTriangleExpandedWithCircle
 The triangle is expanded in the plane with a circle of the given radius.
 ====================
 */
-static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const budVec3& start, const budVec3& end, const float circleRadius, const budVec3& triVert0, const budVec3& triVert1, const budVec3& triVert2 )
+static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const Vector3& start, const Vector3& end, const float circleRadius, const Vector3& triVert0, const Vector3& triVert1, const Vector3& triVert2 )
 {
 	const budPlane plane( triVert0, triVert1, triVert2 );
 	
@@ -431,7 +431,7 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 	
 	const float planeDelta = planeDistStart - planeDistEnd;
 	
-	if( planeDelta < budMath::FLT_SMALLEST_NON_DENORMAL )
+	if( planeDelta < Math::FLT_SMALLEST_NON_DENORMAL )
 	{
 		return false;		// coming at the triangle from behind or parallel
 	}
@@ -449,17 +449,17 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 	}
 	
 	// find the exact point of impact with the plane
-	const budVec3 point = start + fraction * ( end - start );
+	const Vector3 point = start + fraction * ( end - start );
 	
 	// see if the point is within the three edges
 	// if radius > 0 the triangle is expanded with a circle in the triangle plane
 	
 	const float radiusSqr = circleRadius * circleRadius;
 	
-	const budVec3 dir0 = triVert0 - point;
-	const budVec3 dir1 = triVert1 - point;
+	const Vector3 dir0 = triVert0 - point;
+	const Vector3 dir1 = triVert1 - point;
 	
-	const budVec3 cross0 = dir0.Cross( dir1 );
+	const Vector3 cross0 = dir0.Cross( dir1 );
 	float d0 = plane.Normal() * cross0;
 	if( d0 > 0.0f )
 	{
@@ -467,7 +467,7 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 		{
 			return false;
 		}
-		budVec3 edge = triVert0 - triVert1;
+		Vector3 edge = triVert0 - triVert1;
 		const float edgeLengthSqr = edge.LengthSqr();
 		if( cross0.LengthSqr() > edgeLengthSqr * radiusSqr )
 		{
@@ -500,9 +500,9 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 		}
 	}
 	
-	const budVec3 dir2 = triVert2 - point;
+	const Vector3 dir2 = triVert2 - point;
 	
-	const budVec3 cross1 = dir1.Cross( dir2 );
+	const Vector3 cross1 = dir1.Cross( dir2 );
 	float d1 = plane.Normal() * cross1;
 	if( d1 > 0.0f )
 	{
@@ -510,7 +510,7 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 		{
 			return false;
 		}
-		budVec3 edge = triVert1 - triVert2;
+		Vector3 edge = triVert1 - triVert2;
 		const float edgeLengthSqr = edge.LengthSqr();
 		if( cross1.LengthSqr() > edgeLengthSqr * radiusSqr )
 		{
@@ -543,7 +543,7 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 		}
 	}
 	
-	const budVec3 cross2 = dir2.Cross( dir0 );
+	const Vector3 cross2 = dir2.Cross( dir0 );
 	float d2 = plane.Normal() * cross2;
 	if( d2 > 0.0f )
 	{
@@ -551,7 +551,7 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 		{
 			return false;
 		}
-		budVec3 edge = triVert2 - triVert0;
+		Vector3 edge = triVert2 - triVert0;
 		const float edgeLengthSqr = edge.LengthSqr();
 		if( cross2.LengthSqr() > edgeLengthSqr * radiusSqr )
 		{
@@ -597,14 +597,14 @@ static bool R_LineIntersectsTriangleExpandedWithCircle( localTrace_t& hit, const
 R_LocalTrace
 ====================
 */
-localTrace_t R_LocalTrace( const budVec3& start, const budVec3& end, const float radius, const srfTriangles_t* tri )
+localTrace_t R_LocalTrace( const Vector3& start, const Vector3& end, const float radius, const srfTriangles_t* tri )
 {
 	localTrace_t hit;
 	hit.fraction = 1.0f;
 	
 	ALIGNTYPE16 budPlane planes[4];
 	// create two planes orthogonal to each other that intersect along the trace
-	budVec3 startDir = end - start;
+	Vector3 startDir = end - start;
 	startDir.Normalize();
 	startDir.NormalVectors( planes[0].Normal(), planes[1].Normal() );
 	planes[0][3] = - start * planes[0].Normal();
@@ -673,9 +673,9 @@ localTrace_t R_LocalTrace( const budVec3& start, const budVec3& end, const float
 				continue;
 			}
 			
-			const budVec3 triVert0 = budDrawVert::GetSkinnedDrawVertPosition( idODSObject< budDrawVert > ( & tri->verts[i0] ), joints );
-			const budVec3 triVert1 = budDrawVert::GetSkinnedDrawVertPosition( idODSObject< budDrawVert > ( & tri->verts[i1] ), joints );
-			const budVec3 triVert2 = budDrawVert::GetSkinnedDrawVertPosition( idODSObject< budDrawVert > ( & tri->verts[i2] ), joints );
+			const Vector3 triVert0 = budDrawVert::GetSkinnedDrawVertPosition( idODSObject< budDrawVert > ( & tri->verts[i0] ), joints );
+			const Vector3 triVert1 = budDrawVert::GetSkinnedDrawVertPosition( idODSObject< budDrawVert > ( & tri->verts[i1] ), joints );
+			const Vector3 triVert2 = budDrawVert::GetSkinnedDrawVertPosition( idODSObject< budDrawVert > ( & tri->verts[i2] ), joints );
 			
 			if( R_LineIntersectsTriangleExpandedWithCircle( hit, start, end, radius, triVert0, triVert1, triVert2 ) )
 			{

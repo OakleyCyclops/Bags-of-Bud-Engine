@@ -31,9 +31,9 @@ If you have questions concerning this license or the applicable additional terms
 
 const static int NUM_LOBBY_OPTIONS = 8;
 
-extern budCVar net_inviteOnly;
-extern budCVar si_map;
-extern budCVar si_mode;
+extern CVar net_inviteOnly;
+extern CVar si_map;
+extern CVar si_mode;
 
 enum partyLobbyCmds_t
 {
@@ -215,7 +215,7 @@ void idMenuScreen_Shell_PartyLobby::UpdateOptions()
 	{
 	
 		menuOptions.Clear();
-		budList< budStr > option;
+		List< String > option;
 		
 		isHost = true;
 		isPeer = false;
@@ -308,7 +308,7 @@ void idMenuScreen_Shell_PartyLobby::UpdateOptions()
 		{
 		
 			menuOptions.Clear();
-			budList< budStr > option;
+			List< String > option;
 			
 			idMenuWidget_Button* buttonWidget = NULL;
 			option.Append( "#str_swf_leaderboards" );	// Play With Friends
@@ -601,9 +601,9 @@ bool idMenuScreen_Shell_PartyLobby::HandleAction( idWidgetAction& action, const 
 						matchParameters.matchFlags |= MATCH_INVITE_ONLY;
 					}
 					
-					int mode = budMath::ClampInt( -1, GAME_COUNT - 1, si_mode.GetInteger() );
-					const budList< mpMap_t > maps = common->GetMapList();
-					int map = budMath::ClampInt( -1, maps.Num() - 1, si_map.GetInteger() );
+					int mode = Math::ClampInt( -1, GAME_COUNT - 1, si_mode.GetInteger() );
+					const List< mpMap_t > maps = common->GetMapList();
+					int map = Math::ClampInt( -1, maps.Num() - 1, si_map.GetInteger() );
 					
 					matchParameters.gameMap = map;
 					matchParameters.gameMode = mode;

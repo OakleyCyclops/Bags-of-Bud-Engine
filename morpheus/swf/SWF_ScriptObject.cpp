@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 #include "PCH.hpp"
 
-budCVar swf_debugShowAddress( "swf_debugShowAddress", "0", CVAR_BOOL, "shows addresses along with object types when they are serialized" );
+CVar swf_debugShowAddress( "swf_debugShowAddress", "0", CVAR_BOOL, "shows addresses along with object types when they are serialized" );
 
 
 /*
@@ -313,7 +313,7 @@ void budSWFScriptObject::Set( const char* name, const budSWFScriptVar& value )
 {
 	if( objectType == SWF_OBJECT_ARRAY )
 	{
-		if( budStr::Cmp( name, "length" ) == 0 )
+		if( String::Cmp( name, "length" ) == 0 )
 		{
 			int newLength = value.ToInteger();
 			for( int i = 0; i < variables.Num(); i++ )
@@ -331,7 +331,7 @@ void budSWFScriptObject::Set( const char* name, const budSWFScriptVar& value )
 			}
 			for( int i = 0; i < variables.Num(); i++ )
 			{
-				int hash = budStr::Hash( variables[i].name.c_str() ) & ( VARIABLE_HASH_BUCKETS - 1 );
+				int hash = String::Hash( variables[i].name.c_str() ) & ( VARIABLE_HASH_BUCKETS - 1 );
 				variables[i].hashNext = variablesHash[hash];
 				variablesHash[hash] = i;
 			}
@@ -339,7 +339,7 @@ void budSWFScriptObject::Set( const char* name, const budSWFScriptVar& value )
 		else
 		{
 			int iName = atoi( name );
-			if( iName > 0 || ( iName == 0 && budStr::Cmp( name, "0" ) == 0 ) )
+			if( iName > 0 || ( iName == 0 && String::Cmp( name, "0" ) == 0 ) )
 			{
 				swfNamedVar_t* lengthVar = GetVariable( "length", true );
 				if( lengthVar->value.ToInteger() <= iName )
@@ -370,7 +370,7 @@ void budSWFScriptObject::Set( int index, const budSWFScriptVar& value )
 {
 	if( index < 0 )
 	{
-		extern budCVar swf_debug;
+		extern CVar swf_debug;
 		if( swf_debug.GetBool() )
 		{
 			libBud::Printf( "SWF: Trying to set a negative array index.\n" );
@@ -507,7 +507,7 @@ budSWFScriptObject::swfNamedVar_t* budSWFScriptObject::GetVariable( int index, b
 		variable->index = index;
 		variable->name = va( "%d", index );
 		variable->native = NULL;
-		int hash = budStr::Hash( variable->name ) & ( VARIABLE_HASH_BUCKETS - 1 );
+		int hash = String::Hash( variable->name ) & ( VARIABLE_HASH_BUCKETS - 1 );
 		variable->hashNext = variablesHash[hash];
 		variablesHash[hash] = variables.Num() - 1;
 		return variable;
@@ -522,7 +522,7 @@ budSWFScriptObject::GetVariable
 */
 budSWFScriptObject::swfNamedVar_t* budSWFScriptObject::GetVariable( const char* name, bool create )
 {
-	int hash = budStr::Hash( name ) & ( VARIABLE_HASH_BUCKETS - 1 );
+	int hash = String::Hash( name ) & ( VARIABLE_HASH_BUCKETS - 1 );
 	for( int i = variablesHash[hash]; i >= 0; i = variables[i].hashNext )
 	{
 		if( variables[i].name == name )
@@ -546,7 +546,7 @@ budSWFScriptObject::swfNamedVar_t* budSWFScriptObject::GetVariable( const char* 
 		swfNamedVar_t* variable = &variables.Alloc();
 		variable->flags = SWF_VAR_FLAG_NONE;
 		variable->index = atoi( name );
-		if( variable->index == 0 && budStr::Cmp( name, "0" ) != 0 )
+		if( variable->index == 0 && String::Cmp( name, "0" ) != 0 )
 		{
 			variable->index = -1;
 		}
@@ -671,7 +671,7 @@ void budSWFScriptObject::PrintToConsole() const
 		for( int i = 0; i < variables.Num(); ++i )
 		{
 			const budSWFScriptObject::swfNamedVar_t& nv = variables[ i ];
-			const int nameLength = budStr::Length( nv.name );
+			const int nameLength = String::Length( nv.name );
 			if( maxVarLength < nameLength )
 			{
 				maxVarLength = nameLength;

@@ -33,18 +33,18 @@ If you have questions concerning this license or the applicable additional terms
 
 #pragma warning(disable: 4355) // 'this' : used in base member initializer list
 
-budCVar swf_loadBinary( "swf_loadBinary", "1", CVAR_INTEGER, "used to set whether to load binary swf from generated" );
+CVar swf_loadBinary( "swf_loadBinary", "1", CVAR_INTEGER, "used to set whether to load binary swf from generated" );
 // RB begin
-budCVar postLoadExportFlashAtlas( "postLoadExportFlashAtlas", "0", CVAR_INTEGER, "" );
-budCVar postLoadExportFlashToSWF( "postLoadExportFlashToSWF", "0", CVAR_INTEGER, "" );
-budCVar postLoadExportFlashToJSON( "postLoadExportFlashToJSON", "0", CVAR_INTEGER, "" );
+CVar postLoadExportFlashAtlas( "postLoadExportFlashAtlas", "0", CVAR_INTEGER, "" );
+CVar postLoadExportFlashToSWF( "postLoadExportFlashToSWF", "0", CVAR_INTEGER, "" );
+CVar postLoadExportFlashToJSON( "postLoadExportFlashToJSON", "0", CVAR_INTEGER, "" );
 // RB end
 
 int budSWF::mouseX = -1;
 int budSWF::mouseY = -1;
 bool budSWF::isMouseInClientArea = false;
 
-extern budCVar in_useJoystick;
+extern CVar in_useJoystick;
 
 
 
@@ -117,7 +117,7 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 	soundWorld = NULL;
 	forceNonPCPlatform = false;
 	
-	if( budStr::Cmpn( filename_, "swf/", 4 ) != 0 )
+	if( String::Cmpn( filename_, "swf/", 4 ) != 0 )
 	{
 		// if it doesn't already have swf/ in front of it, add it
 		filename = "swf/";
@@ -136,12 +136,12 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 	mainsprite = new( TAG_SWF ) budSWFSprite( this );
 	mainspriteInstance = NULL;
 	
-	budStr binaryFileName = "generated/";
+	String binaryFileName = "generated/";
 	binaryFileName += filename;
 	binaryFileName.SetFileExtension( ".bswf" );
 	
 	// RB: add JSON alternative
-	budStr jsonFileName = filename;
+	String jsonFileName = filename;
 	jsonFileName.SetFileExtension( ".json" );
 	ID_TIME_T jsonSourceTime = fileSystem->GetTimestamp( jsonFileName );
 	
@@ -181,14 +181,14 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 	
 	if( postLoadExportFlashToSWF.GetBool() )
 	{
-		budStr jsonFileName = "exported/";
+		String jsonFileName = "exported/";
 		jsonFileName += filename;
 		jsonFileName.SetFileExtension( ".json" );
 		
 		WriteJSON( jsonFileName );
 	}
 	
-	budStr atlasFileName = binaryFileName;
+	String atlasFileName = binaryFileName;
 	atlasFileName.SetFileExtension( ".tga" );
 	atlasMaterial = declManager->FindMaterial( atlasFileName );
 	
@@ -198,7 +198,7 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 	
 	if( /*!loadedFromJSON &&*/ ( postLoadExportFlashToJSON.GetBool() || postLoadExportFlashAtlas.GetBool() || postLoadExportFlashToSWF.GetBool() ) )
 	{
-		budStrStatic< MAX_OSPATH > generatedName = atlasFileName;
+		StringStatic< MAX_OSPATH > generatedName = atlasFileName;
 		generatedName.StripFileExtension();
 		budImage::GetGeneratedName( generatedName, TD_DEFAULT, CF_2D );
 		
@@ -214,7 +214,7 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 			
 			//( img.level, 0, 0, img.destZ, img.width, img.height, data );
 			
-			idTempArray<byte> rgba( img.width * img.height * 4 );
+			TempArray<byte> rgba( img.width * img.height * 4 );
 			memset( rgba.Ptr(), 255, rgba.Size() );
 			
 			if( imgHeader.format == FMT_DXT1 )
@@ -290,7 +290,7 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 				}
 			}
 			
-			budStr atlasFileNameExport = atlasFileName;
+			String atlasFileNameExport = atlasFileName;
 			atlasFileNameExport.Replace( "generated/", "exported/" );
 			atlasFileNameExport.SetFileExtension( ".png" );
 			
@@ -308,7 +308,7 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 	
 	if( postLoadExportFlashToSWF.GetBool() )
 	{
-		budStr swfFileName = "exported/";
+		String swfFileName = "exported/";
 		swfFileName += filename;
 		swfFileName.SetFileExtension( ".swf" );
 		
@@ -370,7 +370,7 @@ budSWF::budSWF( const char* filename_, budSoundWorld* soundWorld_ )
 	
 	// Do this to touch any external references (like sounds)
 	// But disable script warnings because many globals won't have been created yet
-	extern budCVar swf_debug;
+	extern CVar swf_debug;
 	int debug = swf_debug.GetInteger();
 	swf_debug.SetInteger( 0 );
 	
@@ -631,9 +631,9 @@ budSWFScriptVar budSWF::budSWFScriptFunction_strReplace::Call( budSWFScriptObjec
 		return "";
 	}
 	
-	budStr str = parms[0].ToString();
-	budStr repString = parms[1].ToString();
-	budStr val = parms[2].ToString();
+	String str = parms[0].ToString();
+	String repString = parms[1].ToString();
+	String val = parms[2].ToString();
 	str.Replace( repString, val );
 	
 	return str;
@@ -652,7 +652,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_getLocalString::Call( budSWFScriptO
 		return budSWFScriptVar();
 	}
 	
-	budStr val = budLocalization::GetString( parms[0].ToString() );
+	String val = budLocalization::GetString( parms[0].ToString() );
 	return val;
 }
 
@@ -726,7 +726,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_acos::Call( budSWFScriptObject* thi
 	{
 		return budSWFScriptVar();
 	}
-	return budMath::ACos( parms[0].ToFloat() );
+	return Math::ACos( parms[0].ToFloat() );
 }
 
 /*
@@ -740,7 +740,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_cos::Call( budSWFScriptObject* this
 	{
 		return budSWFScriptVar();
 	}
-	return budMath::Cos( parms[0].ToFloat() );
+	return Math::Cos( parms[0].ToFloat() );
 }
 
 /*
@@ -754,7 +754,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_sin::Call( budSWFScriptObject* this
 	{
 		return budSWFScriptVar();
 	}
-	return ( budMath::Sin( parms[0].ToFloat() ) );
+	return ( Math::Sin( parms[0].ToFloat() ) );
 }
 
 /*
@@ -768,7 +768,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_round::Call( budSWFScriptObject* th
 	{
 		return budSWFScriptVar();
 	}
-	int value = budMath::Ftoi( parms[0].ToFloat() + 0.5f );
+	int value = Math::Ftoi( parms[0].ToFloat() + 0.5f );
 	return value;
 }
 
@@ -786,7 +786,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_pow::Call( budSWFScriptObject* this
 	
 	float value = parms[0].ToFloat();
 	float power = parms[1].ToFloat();
-	return ( budMath::Pow( value, power ) );
+	return ( Math::Pow( value, power ) );
 }
 
 /*
@@ -802,7 +802,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_sqrt::Call( budSWFScriptObject* thi
 	}
 	
 	float value = parms[0].ToFloat();
-	return ( budMath::Sqrt( value ) );
+	return ( Math::Sqrt( value ) );
 }
 
 /*
@@ -817,7 +817,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_abs::Call( budSWFScriptObject* this
 		return budSWFScriptVar();
 	}
 	
-	float value = budMath::Fabs( parms[0].ToFloat() );
+	float value = Math::Fabs( parms[0].ToFloat() );
 	return value;
 }
 
@@ -860,7 +860,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_floor::Call( budSWFScriptObject* th
 	
 	float num = parms[0].ToFloat();
 	
-	return budSWFScriptVar( budMath::Floor( num ) );
+	return budSWFScriptVar( Math::Floor( num ) );
 }
 
 /*
@@ -878,7 +878,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_ceil::Call( budSWFScriptObject* thi
 	
 	float num = parms[0].ToFloat();
 	
-	return budSWFScriptVar( budMath::Ceil( num ) );
+	return budSWFScriptVar( Math::Ceil( num ) );
 }
 
 /*
@@ -894,7 +894,7 @@ budSWFScriptVar budSWF::budSWFScriptFunction_toUpper::Call( budSWFScriptObject* 
 		return budSWFScriptVar();
 	}
 	
-	budStr val = budLocalization::GetString( parms[0].ToString() );
+	String val = budLocalization::GetString( parms[0].ToString() );
 	val.ToUpper();
 	return val;
 }

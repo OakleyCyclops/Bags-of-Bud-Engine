@@ -57,8 +57,8 @@ typedef struct singleSmoke_s
 	int							privateStartTime;	// start time for this particular particle
 	int							index;				// particle index in system, 0 <= index < stage->totalParticles
 	idRandom					random;
-	budVec3						origin;
-	budMat3						axis;
+	Vector3						origin;
+	Matrix3						axis;
 	int							timeGroup;
 } singleSmoke_t;
 
@@ -80,7 +80,7 @@ public:
 	
 	// spits out a particle, returning false if the system will not emit any more particles in the future
 	bool						EmitSmoke( const budDeclParticle* smoke, const int startTime, const float diversity,
-										   const budVec3& origin, const budMat3& axis, int timeGroup /*_D3XP*/ );
+										   const Vector3& origin, const Matrix3& axis, int timeGroup /*_D3XP*/ );
 										   
 	// free old smokes
 	void						FreeSmokes();
@@ -94,7 +94,7 @@ private:
 	static const int			MAX_SMOKE_PARTICLES = 10000;
 	singleSmoke_t				smokes[MAX_SMOKE_PARTICLES];
 	
-	budList<activeSmokeStage_t, TAG_PARTICLE>	activeStages;
+	List<activeSmokeStage_t, TAG_PARTICLE>	activeStages;
 	singleSmoke_t* 				freeSmokes;
 	int							numActiveSmokes;
 	int							currentParticleTime;	// don't need to recalculate if == view time

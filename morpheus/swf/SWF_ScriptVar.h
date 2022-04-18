@@ -36,12 +36,12 @@ class budSWFScriptFunction;
 A reference counted string
 ========================
 */
-class budSWFScriptString : public budStr
+class budSWFScriptString : public String
 {
 public:
-	budSWFScriptString( const budStr& s ) : budStr( s ), refCount( 1 ) { }
+	budSWFScriptString( const String& s ) : String( s ), refCount( 1 ) { }
 	
-	static budSWFScriptString* Alloc( const budStr& s )
+	static budSWFScriptString* Alloc( const String& s )
 	{
 		return new( TAG_SWF ) budSWFScriptString( s );
 	}
@@ -77,17 +77,17 @@ public:
 	{
 		SetObject( o );
 	}
-	budSWFScriptVar( budStrId s ) : type( SWF_VAR_UNDEF )
+	budSWFScriptVar( StringId s ) : type( SWF_VAR_UNDEF )
 	{
 		SetString( s );
 	}
-	budSWFScriptVar( const budStr& s ) : type( SWF_VAR_UNDEF )
+	budSWFScriptVar( const String& s ) : type( SWF_VAR_UNDEF )
 	{
 		SetString( s );
 	}
 	budSWFScriptVar( const char* s ) : type( SWF_VAR_UNDEF )
 	{
-		SetString( budStr( s ) );
+		SetString( String( s ) );
 	}
 	budSWFScriptVar( float f ) : type( SWF_VAR_UNDEF )
 	{
@@ -113,13 +113,13 @@ public:
 	bool AbstractEquals( const budSWFScriptVar& other );
 	bool StrictEquals( const budSWFScriptVar& other );
 	
-	void SetString( budStrId s )
+	void SetString( StringId s )
 	{
 		Free();
 		type = SWF_VAR_STRINGID;
 		value.i = s.GetIndex();
 	}
-	void SetString( const budStr& s )
+	void SetString( const String& s )
 	{
 		Free();
 		type = SWF_VAR_STRING;
@@ -140,7 +140,7 @@ public:
 	}
 	
 	// RB begin
-	void SetResult( const budStr& s )
+	void SetResult( const String& s )
 	{
 		Free();
 		type = SWF_VAR_RESULT;
@@ -186,7 +186,7 @@ public:
 	void SetObject( budSWFScriptObject* o );
 	void SetFunction( budSWFScriptFunction* f );
 	
-	budStr	ToString() const;
+	String	ToString() const;
 	float	ToFloat() const;
 	bool	ToBool() const;
 	int32	ToInteger() const;

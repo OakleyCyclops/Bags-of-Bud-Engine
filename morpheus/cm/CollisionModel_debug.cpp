@@ -89,15 +89,15 @@ int cm_contentsFlagByIndex[] =
 	0
 };
 
-budCVar cm_drawMask(	"cm_drawMask",			"none",		CVAR_GAME,				"collision mask", cm_contentsNameByIndex, budCmdSystem::ArgCompletion_String<cm_contentsNameByIndex> );
-budCVar cm_drawColor(	"cm_drawColor",			"1 0 0 .5",	CVAR_GAME,				"color used to draw the collision models" );
-budCVar cm_drawFilled(	"cm_drawFilled",		"0",		CVAR_GAME | CVAR_BOOL,	"draw filled polygons" );
-budCVar cm_drawInternal(	"cm_drawInternal",		"1",		CVAR_GAME | CVAR_BOOL,	"draw internal edges green" );
-budCVar cm_drawNormals(	"cm_drawNormals",		"0",		CVAR_GAME | CVAR_BOOL,	"draw polygon and edge normals" );
-budCVar cm_backFaceCull(	"cm_backFaceCull",		"0",		CVAR_GAME | CVAR_BOOL,	"cull back facing polygons" );
-budCVar cm_debugCollision(	"cm_debugCollision",	"0",		CVAR_GAME | CVAR_BOOL,	"debug the collision detection" );
+CVar cm_drawMask(	"cm_drawMask",			"none",		CVAR_GAME,				"collision mask", cm_contentsNameByIndex, CmdSystem::ArgCompletion_String<cm_contentsNameByIndex> );
+CVar cm_drawColor(	"cm_drawColor",			"1 0 0 .5",	CVAR_GAME,				"color used to draw the collision models" );
+CVar cm_drawFilled(	"cm_drawFilled",		"0",		CVAR_GAME | CVAR_BOOL,	"draw filled polygons" );
+CVar cm_drawInternal(	"cm_drawInternal",		"1",		CVAR_GAME | CVAR_BOOL,	"draw internal edges green" );
+CVar cm_drawNormals(	"cm_drawNormals",		"0",		CVAR_GAME | CVAR_BOOL,	"draw polygon and edge normals" );
+CVar cm_backFaceCull(	"cm_backFaceCull",		"0",		CVAR_GAME | CVAR_BOOL,	"cull back facing polygons" );
+CVar cm_debugCollision(	"cm_debugCollision",	"0",		CVAR_GAME | CVAR_BOOL,	"debug the collision detection" );
 
-static budVec4 cm_color;
+static Vector4 cm_color;
 
 /*
 ================
@@ -107,7 +107,7 @@ budCollisionModelManagerLocal::ContentsFromString
 int budCollisionModelManagerLocal::ContentsFromString( const char* string ) const
 {
 	int i, contents = 0;
-	budLexer src( string, budStr::Length( string ), "ContentsFromString" );
+	budLexer src( string, String::Length( string ), "ContentsFromString" );
 	budToken token;
 	
 	while( src.ReadToken( &token ) )
@@ -147,9 +147,9 @@ const char* budCollisionModelManagerLocal::StringFromContents( const int content
 		{
 			if( length != 0 )
 			{
-				length += budStr::snPrintf( contentsString + length, sizeof( contentsString ) - length, "," );
+				length += String::snPrintf( contentsString + length, sizeof( contentsString ) - length, "," );
 			}
-			length += budStr::snPrintf( contentsString + length, sizeof( contentsString ) - length, cm_contentsNameByIndex[i] );
+			length += String::snPrintf( contentsString + length, sizeof( contentsString ) - length, cm_contentsNameByIndex[i] );
 		}
 	}
 	
@@ -161,11 +161,11 @@ const char* budCollisionModelManagerLocal::StringFromContents( const int content
 budCollisionModelManagerLocal::DrawEdge
 ================
 */
-void budCollisionModelManagerLocal::DrawEdge( cm_model_t* model, int edgeNum, const budVec3& origin, const budMat3& axis )
+void budCollisionModelManagerLocal::DrawEdge( cm_model_t* model, int edgeNum, const Vector3& origin, const Matrix3& axis )
 {
 	int side;
 	cm_edge_t* edge;
-	budVec3 start, end, mid;
+	Vector3 start, end, mid;
 	bool isRotated;
 	
 	isRotated = axis.IsRotated();
@@ -222,11 +222,11 @@ void budCollisionModelManagerLocal::DrawEdge( cm_model_t* model, int edgeNum, co
 budCollisionModelManagerLocal::DrawPolygon
 ================
 */
-void budCollisionModelManagerLocal::DrawPolygon( cm_model_t* model, cm_polygon_t* p, const budVec3& origin, const budMat3& axis, const budVec3& viewOrigin )
+void budCollisionModelManagerLocal::DrawPolygon( cm_model_t* model, cm_polygon_t* p, const Vector3& origin, const Matrix3& axis, const Vector3& viewOrigin )
 {
 	int i, edgeNum;
 	cm_edge_t* edge;
-	budVec3 center, end, dir;
+	Vector3 center, end, dir;
 	
 	if( cm_backFaceCull.GetBool() )
 	{
@@ -241,7 +241,7 @@ void budCollisionModelManagerLocal::DrawPolygon( cm_model_t* model, cm_polygon_t
 	
 	if( cm_drawNormals.GetBool() )
 	{
-		center = vec3_origin;
+		center = Vector3_Origin;
 		for( i = 0; i < p->numEdges; i++ )
 		{
 			edgeNum = p->edges[i];
@@ -295,8 +295,8 @@ budCollisionModelManagerLocal::DrawNodePolygons
 ================
 */
 void budCollisionModelManagerLocal::DrawNodePolygons( cm_model_t* model, cm_node_t* node,
-		const budVec3& origin, const budMat3& axis,
-		const budVec3& viewOrigin, const float radius )
+		const Vector3& origin, const Matrix3& axis,
+		const Vector3& viewOrigin, const float radius )
 {
 	int i;
 	cm_polygon_t* p;
@@ -363,12 +363,12 @@ void budCollisionModelManagerLocal::DrawNodePolygons( cm_model_t* model, cm_node
 budCollisionModelManagerLocal::DrawModel
 ================
 */
-void budCollisionModelManagerLocal::DrawModel( cmHandle_t handle, const budVec3& modelOrigin, const budMat3& modelAxis,
-		const budVec3& viewOrigin, const float radius )
+void budCollisionModelManagerLocal::DrawModel( cmHandle_t handle, const Vector3& modelOrigin, const Matrix3& modelAxis,
+		const Vector3& viewOrigin, const float radius )
 {
 
 	cm_model_t* model;
-	budVec3 viewPos;
+	Vector3 viewPos;
 	
 	if( handle < 0 && handle >= numModels )
 	{
@@ -395,19 +395,19 @@ Speed test code
 ===============================================================================
 */
 
-static budCVar cm_testCollision(	"cm_testCollision",		"0",					CVAR_GAME | CVAR_BOOL,		"" );
-static budCVar cm_testRotation(	"cm_testRotation",		"1",					CVAR_GAME | CVAR_BOOL,		"" );
-static budCVar cm_testModel(	"cm_testModel",			"0",					CVAR_GAME | CVAR_INTEGER,	"" );
-static budCVar cm_testTimes(	"cm_testTimes",			"1000",					CVAR_GAME | CVAR_INTEGER,	"" );
-static budCVar cm_testRandomMany(	"cm_testRandomMany",	"0",					CVAR_GAME | CVAR_BOOL,		"" );
-static budCVar cm_testOrigin(	"cm_testOrigin",		"0 0 0",				CVAR_GAME,					"" );
-static budCVar cm_testReset(	"cm_testReset",			"0",					CVAR_GAME | CVAR_BOOL,		"" );
-static budCVar cm_testBox(	"cm_testBox",			"-16 -16 0 16 16 64",	CVAR_GAME,					"" );
-static budCVar cm_testBoxRotation(	"cm_testBoxRotation",	"0 0 0",				CVAR_GAME,					"" );
-static budCVar cm_testWalk(	"cm_testWalk",			"1",					CVAR_GAME | CVAR_BOOL,		"" );
-static budCVar cm_testLength(	"cm_testLength",		"1024",					CVAR_GAME | CVAR_FLOAT,		"" );
-static budCVar cm_testRadius(	"cm_testRadius",		"64",					CVAR_GAME | CVAR_FLOAT,		"" );
-static budCVar cm_testAngle(	"cm_testAngle",			"60",					CVAR_GAME | CVAR_FLOAT,		"" );
+static CVar cm_testCollision(	"cm_testCollision",		"0",					CVAR_GAME | CVAR_BOOL,		"" );
+static CVar cm_testRotation(	"cm_testRotation",		"1",					CVAR_GAME | CVAR_BOOL,		"" );
+static CVar cm_testModel(	"cm_testModel",			"0",					CVAR_GAME | CVAR_INTEGER,	"" );
+static CVar cm_testTimes(	"cm_testTimes",			"1000",					CVAR_GAME | CVAR_INTEGER,	"" );
+static CVar cm_testRandomMany(	"cm_testRandomMany",	"0",					CVAR_GAME | CVAR_BOOL,		"" );
+static CVar cm_testOrigin(	"cm_testOrigin",		"0 0 0",				CVAR_GAME,					"" );
+static CVar cm_testReset(	"cm_testReset",			"0",					CVAR_GAME | CVAR_BOOL,		"" );
+static CVar cm_testBox(	"cm_testBox",			"-16 -16 0 16 16 64",	CVAR_GAME,					"" );
+static CVar cm_testBoxRotation(	"cm_testBoxRotation",	"0 0 0",				CVAR_GAME,					"" );
+static CVar cm_testWalk(	"cm_testWalk",			"1",					CVAR_GAME | CVAR_BOOL,		"" );
+static CVar cm_testLength(	"cm_testLength",		"1024",					CVAR_GAME | CVAR_FLOAT,		"" );
+static CVar cm_testRadius(	"cm_testRadius",		"64",					CVAR_GAME | CVAR_FLOAT,		"" );
+static CVar cm_testAngle(	"cm_testAngle",			"60",					CVAR_GAME | CVAR_FLOAT,		"" );
 
 static int total_translation;
 static int min_translation = 999999;
@@ -417,18 +417,18 @@ static int total_rotation;
 static int min_rotation = 999999;
 static int max_rotation = -999999;
 static int num_rotation = 0;
-static budVec3 start;
-static budVec3* testend;
+static Vector3 start;
+static Vector3* testend;
 
 #include "../sys/sys_public.h"
 
-void budCollisionModelManagerLocal::DebugOutput( const budVec3& origin )
+void budCollisionModelManagerLocal::DebugOutput( const Vector3& origin )
 {
 	int i, k, t;
 	char buf[128];
-	budVec3 end;
-	budAngles boxAngles;
-	budMat3 modelAxis, boxAxis;
+	Vector3 end;
+	Angles boxAngles;
+	Matrix3 modelAxis, boxAxis;
 	budBounds bounds;
 	trace_t trace;
 	
@@ -437,7 +437,7 @@ void budCollisionModelManagerLocal::DebugOutput( const budVec3& origin )
 		return;
 	}
 	
-	testend = ( budVec3* ) Mem_Alloc( cm_testTimes.GetInteger() * sizeof( budVec3 ), TAG_COLLISION );
+	testend = ( Vector3* ) Mem_Alloc( cm_testTimes.GetInteger() * sizeof( Vector3 ), TAG_COLLISION );
 	
 	if( cm_testReset.GetBool() || ( cm_testWalk.GetBool() && !start.Compare( start ) ) )
 	{
@@ -497,7 +497,7 @@ void budCollisionModelManagerLocal::DebugOutput( const budVec3& origin )
 	timer.Start();
 	for( i = 0; i < cm_testTimes.GetInteger(); i++ )
 	{
-		Translation( &trace, start, testend[i], &itm, boxAxis, CONTENTS_SOLID | CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), vec3_origin, modelAxis );
+		Translation( &trace, start, testend[i], &itm, boxAxis, CONTENTS_SOLID | CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), Vector3_Origin, modelAxis );
 	}
 	timer.Stop();
 	t = timer.Milliseconds();
@@ -542,16 +542,16 @@ void budCollisionModelManagerLocal::DebugOutput( const budVec3& origin )
 	if( cm_testRotation.GetBool() )
 	{
 		// rotational collision detection
-		budVec3 vec( random.CRandomFloat(), random.CRandomFloat(), random.RandomFloat() );
+		Vector3 vec( random.CRandomFloat(), random.CRandomFloat(), random.RandomFloat() );
 		vec.Normalize();
-		budRotation rotation( vec3_origin, vec, cm_testAngle.GetFloat() );
+		Rotation rotation( Vector3_Origin, vec, cm_testAngle.GetFloat() );
 		
 		timer.Clear();
 		timer.Start();
 		for( i = 0; i < cm_testTimes.GetInteger(); i++ )
 		{
 			rotation.SetOrigin( testend[i] );
-			Rotation( &trace, start, rotation, &itm, boxAxis, CONTENTS_SOLID | CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), vec3_origin, modelAxis );
+			Rotation( &trace, start, rotation, &itm, boxAxis, CONTENTS_SOLID | CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), Vector3_Origin, modelAxis );
 		}
 		timer.Stop();
 		t = timer.Milliseconds();

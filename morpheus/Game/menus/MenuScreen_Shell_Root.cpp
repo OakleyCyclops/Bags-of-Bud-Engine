@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../Game_local.h"
 
-extern budCVar g_demoMode;
+extern CVar g_demoMode;
 const static int NUM_MAIN_OPTIONS = 6;
 /*
 ========================
@@ -146,8 +146,8 @@ void idMenuScreen_Shell_Root::ShowScreen( const mainMenuTransition_t transitionT
 
 	if( menuData != NULL && menuData->GetPlatform() != 2 )
 	{
-		budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
-		budList< budStr > option;
+		List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+		List< String > option;
 		
 		int index = 0;
 		
@@ -290,7 +290,7 @@ void idMenuScreen_Shell_Root::ShowScreen( const mainMenuTransition_t transitionT
 	}
 	else
 	{
-		budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
+		List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > menuOptions;
 		options->SetListData( menuOptions );
 	}
 	
@@ -354,13 +354,13 @@ void idMenuScreen_Shell_Root::HandleExitGameBtn()
 	};
 	
 	budStaticList< budSWFScriptFunction*, 4 > callbacks;
-	budStaticList< budStrId, 4 > optionText;
+	budStaticList< StringId, 4 > optionText;
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_QuitDialog( GDM_QUIT_GAME, 1 ) );
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_QuitDialog( GDM_QUIT_GAME, 0 ) );
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_QuitDialog( GDM_QUIT_GAME, -1 ) );
-	optionText.Append( budStrId( "#STR_SWF_ACCEPT" ) );
-	optionText.Append( budStrId( "#STR_SWF_CANCEL" ) );
-	optionText.Append( budStrId( "#str_swf_change_game" ) );
+	optionText.Append( StringId( "#STR_SWF_ACCEPT" ) );
+	optionText.Append( StringId( "#STR_SWF_CANCEL" ) );
+	optionText.Append( StringId( "#str_swf_change_game" ) );
 	
 	common->Dialog().AddDynamicDialog( GDM_QUIT_GAME, callbacks, optionText, true, "" );
 }

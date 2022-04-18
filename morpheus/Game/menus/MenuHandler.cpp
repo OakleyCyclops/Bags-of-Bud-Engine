@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../Game_local.h"
 
-extern budCVar in_useJoystick;
+extern CVar in_useJoystick;
 
 /*
 ================================================

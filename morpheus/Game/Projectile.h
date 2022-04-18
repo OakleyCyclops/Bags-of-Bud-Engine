@@ -52,25 +52,25 @@ public :
 	void					Save( idSaveGame* savefile ) const;
 	void					Restore( idRestoreGame* savefile );
 	
-	void					Create( idEntity* owner, const budVec3& start, const budVec3& dir );
-	virtual void			Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
+	void					Create( idEntity* owner, const Vector3& start, const Vector3& dir );
+	virtual void			Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
 	virtual void			FreeLightDef();
 	
 	idEntity* 				GetOwner() const;
 	void					CatchProjectile( idEntity* o, const char* reflectName );
 	int						GetProjectileState();
-	void					Event_CreateProjectile( idEntity* owner, const budVec3& start, const budVec3& dir );
-	void					Event_LaunchProjectile( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity );
+	void					Event_CreateProjectile( idEntity* owner, const Vector3& start, const Vector3& dir );
+	void					Event_LaunchProjectile( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity );
 	void					Event_SetGravity( float gravity );
 	
 	virtual void			Think();
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
 	virtual void			Explode( const trace_t& collision, idEntity* ignore );
 	void					Fizzle();
 	
-	static budVec3			GetVelocity( const idDict* projectile );
-	static budVec3			GetGravity( const idDict* projectile );
+	static Vector3			GetVelocity( const Dict* projectile );
+	static Vector3			GetGravity( const Dict* projectile );
 	
 	enum
 	{
@@ -87,8 +87,8 @@ public :
 		return launchedFromGrabber;
 	}
 	
-	static void				DefaultDamageEffect( idEntity* soundEnt, const idDict& projectileDef, const trace_t& collision, const budVec3& velocity );
-	static bool				ClientPredictionCollide( idEntity* soundEnt, const idDict& projectileDef, const trace_t& collision, const budVec3& velocity, bool addDamageEffect );
+	static void				DefaultDamageEffect( idEntity* soundEnt, const Dict& projectileDef, const trace_t& collision, const Vector3& velocity );
+	static bool				ClientPredictionCollide( idEntity* soundEnt, const Dict& projectileDef, const trace_t& collision, const Vector3& velocity, bool addDamageEffect );
 	virtual void			ClientPredictionThink();
 	virtual void			ClientThink( const int curTime, const float fraction, const bool predict );
 	virtual void			WriteToSnapshot( budBitMsg& msg ) const;
@@ -131,10 +131,10 @@ protected:
 	
 	renderLight_t			renderLight;
 	qhandle_t				lightDefHandle;				// handle to renderer light def
-	budVec3					lightOffset;
+	Vector3					lightOffset;
 	int						lightStartTime;
 	int						lightEndTime;
-	budVec3					lightColor;
+	Vector3					lightColor;
 	
 	idForce_Constant		thruster;
 	idPhysics_RigidBody		physicsObj;
@@ -160,10 +160,10 @@ protected:
 	
 private:
 
-	budVec3					launchOrigin;
-	budMat3					launchAxis;
+	Vector3					launchOrigin;
+	Matrix3					launchAxis;
 	
-	void					AddDefaultDamageEffect( const trace_t& collision, const budVec3& velocity );
+	void					AddDefaultDamageEffect( const trace_t& collision, const Vector3& velocity );
 	void					AddParticlesAndLight();
 	
 	void					Event_Explode();
@@ -186,19 +186,19 @@ public :
 	
 	void					Spawn();
 	virtual void			Think();
-	virtual void			Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
+	virtual void			Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
 	void					SetEnemy( idEntity* ent );
 	void					Event_SetEnemy( idEntity* ent );
 	
 protected:
 	float					speed;
 	idEntityPtr<idEntity>	enemy;
-	virtual void			GetSeekPos( budVec3& out );
+	virtual void			GetSeekPos( Vector3& out );
 	
 private:
-	budAngles				rndScale;
-	budAngles				rndAng;
-	budAngles				angles;
+	Angles				rndScale;
+	Angles				rndAng;
+	Angles				angles;
 	int						rndUpdateTime;
 	float					turn_max;
 	float					clamp_dist;
@@ -218,22 +218,22 @@ public:
 	
 	void					Spawn();
 	virtual void			Think();
-	virtual void			Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire = 0.0f, const float power = 1.0f, const float dmgPower = 1.0f );
+	virtual void			Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire = 0.0f, const float power = 1.0f, const float dmgPower = 1.0f );
 	
 protected:
-	virtual void			GetSeekPos( budVec3& out );
+	virtual void			GetSeekPos( Vector3& out );
 	void					ReturnToOwner();
-	void					KillTarget( const budVec3& dir );
+	void					KillTarget( const Vector3& dir );
 	
 private:
-	budVec3					startingVelocity;
-	budVec3					endingVelocity;
+	Vector3					startingVelocity;
+	Vector3					endingVelocity;
 	float					accelTime;
 	int						launchTime;
 	bool					killPhase;
 	bool					returnPhase;
-	budVec3					destOrg;
-	budVec3					orbitOrg;
+	Vector3					destOrg;
+	Vector3					orbitOrg;
 	int						orbitTime;
 	int						smokeKillTime;
 	const budDeclParticle* 	smokeKill;
@@ -259,15 +259,15 @@ public :
 	
 	void					Spawn();
 	virtual void			Think();
-	virtual void			Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
+	virtual void			Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
 	virtual void			Explode( const trace_t& collision, idEntity* ignore );
 	
 private:
-	budList<beamTarget_t, TAG_PROJECTILE>	beamTargets;
+	List<beamTarget_t, TAG_PROJECTILE>	beamTargets;
 	renderEntity_t			secondModel;
 	qhandle_t				secondModelDefHandle;
 	int						nextDamageTime;
-	budStr					damageFreq;
+	String					damageFreq;
 	
 	void					FreeBeams();
 	void					Event_RemoveBeams();
@@ -287,20 +287,20 @@ public :
 	
 	void					Spawn();
 	virtual void			Think();
-	virtual void			Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
+	virtual void			Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
 	void					SetEnemy( idEntity* ent );
-	void					SetSeekPos( budVec3 pos );
+	void					SetSeekPos( Vector3 pos );
 	void					Event_SetEnemy( idEntity* ent );
 	
 protected:
 	float					speed;
 	idEntityPtr<idEntity>	enemy;
-	budVec3					seekPos;
+	Vector3					seekPos;
 	
 private:
-	budAngles				rndScale;
-	budAngles				rndAng;
-	budAngles				angles;
+	Angles				rndScale;
+	Angles				rndAng;
+	Angles				angles;
 	float					turn_max;
 	float					clamp_dist;
 	bool					burstMode;
@@ -332,13 +332,13 @@ public :
 	
 	void					Spawn();
 	
-	void					Create( idEntity* owner, const budVec3& start, const budMat3& axis );
+	void					Create( idEntity* owner, const Vector3& start, const Matrix3& axis );
 	void					Launch();
 	void					Think();
-	void					Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	void					Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	void					Explode();
 	void					Fizzle();
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
 	
 	
 private:

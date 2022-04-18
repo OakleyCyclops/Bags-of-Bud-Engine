@@ -64,7 +64,7 @@ budSWFDictionaryEntry::~budSWFDictionaryEntry()
 /*
 ========================
 budSWF::budSWFDictionaryEntry::operator=
-This exists mostly so budList works right
+This exists mostly so List works right
 ========================
 */
 budSWFDictionaryEntry& budSWFDictionaryEntry::operator=( budSWFDictionaryEntry& other )

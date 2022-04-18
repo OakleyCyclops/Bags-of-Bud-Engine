@@ -77,10 +77,10 @@ public:
 	virtual void				Shutdown() = 0;
 	
 	// Sets the serverinfo at map loads and when it changes.
-	virtual void				SetServerInfo( const idDict& serverInfo ) = 0;
+	virtual void				SetServerInfo( const Dict& serverInfo ) = 0;
 	
 	// Gets the serverinfo, common calls this before saving the game
-	virtual const idDict& 		GetServerInfo() = 0;
+	virtual const Dict& 		GetServerInfo() = 0;
 	
 	// Interpolated server time
 	virtual void				SetServerGameTimeMs( const int time ) = 0;
@@ -92,10 +92,10 @@ public:
 	virtual int					GetSSStartTime() const = 0;
 	
 	// common calls this before moving the single player game to a new level.
-	virtual const idDict& 		GetPersistentPlayerInfo( int clientNum ) = 0;
+	virtual const Dict& 		GetPersistentPlayerInfo( int clientNum ) = 0;
 	
 	// common calls this right before a new level is loaded.
-	virtual void				SetPersistentPlayerInfo( int clientNum, const idDict& playerInfo ) = 0;
+	virtual void				SetPersistentPlayerInfo( int clientNum, const Dict& playerInfo ) = 0;
 	
 	// Loads a map and spawns all the entities.
 	virtual void				InitFromNewMap( const char* mapName, budRenderWorld* renderWorld, budSoundWorld* soundWorld, int gameMode, int randseed ) = 0;
@@ -113,7 +113,7 @@ public:
 	virtual void				MapShutdown() = 0;
 	
 	// Caches media referenced from in key/value pairs in the given dictionary.
-	virtual void				CacheDictionaryMedia( const idDict* dict ) = 0;
+	virtual void				CacheDictionaryMedia( const Dict* dict ) = 0;
 	
 	virtual void				Preload( const idPreloadManifest& manifest ) = 0;
 	
@@ -157,7 +157,7 @@ public:
 	virtual int					GetLocalClientNum() const = 0;
 	
 	// compute an angle offset to be applied to the given client's aim
-	virtual void				GetAimAssistAngles( budAngles& angles ) = 0;
+	virtual void				GetAimAssistAngles( Angles& angles ) = 0;
 	virtual float				GetAimAssistSensitivity() = 0;
 	
 	// Release the mouse when the PDA is open
@@ -209,7 +209,7 @@ typedef struct
 {
 	idSoundEmitter* 			referenceSound;	// this is the interface to the sound system, created
 	// with budSoundWorld::AllocSoundEmitter() when needed
-	budVec3						origin;
+	Vector3						origin;
 	int							listenerId;		// SSF_PRIVATE_SOUND only plays if == listenerId from PlaceListener
 	// no spatialization will be performed if == listenerID
 	const idSoundShader* 		shader;			// this really shouldn't be here, it is a holdover from single channel behavior
@@ -237,30 +237,30 @@ class budGameEdit
 public:
 	virtual						~budGameEdit() {}
 	
-	// These are the canonical idDict to parameter parsing routines used by both the game and tools.
-	virtual void				ParseSpawnArgsToRenderLight( const idDict* args, renderLight_t* renderLight );
-	virtual void				ParseSpawnArgsToRenderEntity( const idDict* args, renderEntity_t* renderEntity );
-	virtual void				ParseSpawnArgsToRefSound( const idDict* args, refSound_t* refSound );
+	// These are the canonical Dict to parameter parsing routines used by both the game and tools.
+	virtual void				ParseSpawnArgsToRenderLight( const Dict* args, renderLight_t* renderLight );
+	virtual void				ParseSpawnArgsToRenderEntity( const Dict* args, renderEntity_t* renderEntity );
+	virtual void				ParseSpawnArgsToRefSound( const Dict* args, refSound_t* refSound );
 	
 	// Animation system calls for non-game based skeletal rendering.
 	virtual budRenderModel* 		ANIM_GetModelFromEntityDef( const char* classname );
-	virtual const budVec3&		 ANIM_GetModelOffsetFromEntityDef( const char* classname );
-	virtual budRenderModel* 		ANIM_GetModelFromEntityDef( const idDict* args );
+	virtual const Vector3&		 ANIM_GetModelOffsetFromEntityDef( const char* classname );
+	virtual budRenderModel* 		ANIM_GetModelFromEntityDef( const Dict* args );
 	virtual budRenderModel* 		ANIM_GetModelFromName( const char* modelName );
 	virtual const budMD5Anim* 	ANIM_GetAnimFromEntityDef( const char* classname, const char* animname );
-	virtual int					ANIM_GetNumAnimsFromEntityDef( const idDict* args );
-	virtual const char* 		ANIM_GetAnimNameFromEntityDef( const idDict* args, int animNum );
+	virtual int					ANIM_GetNumAnimsFromEntityDef( const Dict* args );
+	virtual const char* 		ANIM_GetAnimNameFromEntityDef( const Dict* args, int animNum );
 	virtual const budMD5Anim* 	ANIM_GetAnim( const char* fileName );
 	virtual int					ANIM_GetLength( const budMD5Anim* anim );
 	virtual int					ANIM_GetNumFrames( const budMD5Anim* anim );
-	virtual void				ANIM_CreateAnimFrame( const budRenderModel* model, const budMD5Anim* anim, int numJoints, budJointMat* frame, int time, const budVec3& offset, bool remove_origin_offset );
+	virtual void				ANIM_CreateAnimFrame( const budRenderModel* model, const budMD5Anim* anim, int numJoints, budJointMat* frame, int time, const Vector3& offset, bool remove_origin_offset );
 	virtual budRenderModel* 		ANIM_CreateMeshForAnim( budRenderModel* model, const char* classname, const char* animname, int frame, bool remove_origin_offset );
 	
 	// Articulated Figure calls for AF editor and Radiant.
 	virtual bool				AF_SpawnEntity( const char* fileName );
 	virtual void				AF_UpdateEntities( const char* fileName );
 	virtual void				AF_UndoChanges();
-	virtual budRenderModel* 		AF_CreateMesh( const idDict& args, budVec3& meshOrigin, budMat3& meshAxis, bool& poseIsSet );
+	virtual budRenderModel* 		AF_CreateMesh( const Dict& args, Vector3& meshOrigin, Matrix3& meshAxis, bool& poseIsSet );
 	
 	
 	// Entity selection.
@@ -272,43 +272,43 @@ public:
 	virtual void				TriggerSelected();
 	
 	// Entity defs and spawning.
-	virtual const idDict* 		FindEntityDefDict( const char* name, bool makeDefault = true ) const;
-	virtual void				SpawnEntityDef( const idDict& args, idEntity** ent );
+	virtual const Dict* 		FindEntityDefDict( const char* name, bool makeDefault = true ) const;
+	virtual void				SpawnEntityDef( const Dict& args, idEntity** ent );
 	virtual idEntity* 			FindEntity( const char* name ) const;
 	virtual const char* 		GetUniqueEntityName( const char* classname ) const;
 	
 	// Entity methods.
-	virtual void				EntityGetOrigin( idEntity* ent, budVec3& org ) const;
-	virtual void				EntityGetAxis( idEntity* ent, budMat3& axis ) const;
-	virtual void				EntitySetOrigin( idEntity* ent, const budVec3& org );
-	virtual void				EntitySetAxis( idEntity* ent, const budMat3& axis );
-	virtual void				EntityTranslate( idEntity* ent, const budVec3& org );
-	virtual const idDict* 		EntityGetSpawnArgs( idEntity* ent ) const;
-	virtual void				EntityUpdateChangeableSpawnArgs( idEntity* ent, const idDict* dict );
-	virtual void				EntityChangeSpawnArgs( idEntity* ent, const idDict* newArgs );
+	virtual void				EntityGetOrigin( idEntity* ent, Vector3& org ) const;
+	virtual void				EntityGetAxis( idEntity* ent, Matrix3& axis ) const;
+	virtual void				EntitySetOrigin( idEntity* ent, const Vector3& org );
+	virtual void				EntitySetAxis( idEntity* ent, const Matrix3& axis );
+	virtual void				EntityTranslate( idEntity* ent, const Vector3& org );
+	virtual const Dict* 		EntityGetSpawnArgs( idEntity* ent ) const;
+	virtual void				EntityUpdateChangeableSpawnArgs( idEntity* ent, const Dict* dict );
+	virtual void				EntityChangeSpawnArgs( idEntity* ent, const Dict* newArgs );
 	virtual void				EntityUpdateVisuals( idEntity* ent );
 	virtual void				EntitySetModel( idEntity* ent, const char* val );
 	virtual void				EntityStopSound( idEntity* ent );
 	virtual void				EntityDelete( idEntity* ent );
-	virtual void				EntitySetColor( idEntity* ent, const budVec3 color );
+	virtual void				EntitySetColor( idEntity* ent, const Vector3 color );
 	
 	// Player methods.
 	virtual bool				PlayerIsValid() const;
-	virtual void				PlayerGetOrigin( budVec3& org ) const;
-	virtual void				PlayerGetAxis( budMat3& axis ) const;
-	virtual void				PlayerGetViewAngles( budAngles& angles ) const;
-	virtual void				PlayerGetEyePosition( budVec3& org ) const;
+	virtual void				PlayerGetOrigin( Vector3& org ) const;
+	virtual void				PlayerGetAxis( Matrix3& axis ) const;
+	virtual void				PlayerGetViewAngles( Angles& angles ) const;
+	virtual void				PlayerGetEyePosition( Vector3& org ) const;
 	
 	// In game map editing support.
-	virtual const idDict* 		MapGetEntityDict( const char* name ) const;
+	virtual const Dict* 		MapGetEntityDict( const char* name ) const;
 	virtual void				MapSave( const char* path = NULL ) const;
 	virtual void				MapSetEntityKeyVal( const char* name, const char* key, const char* val ) const ;
-	virtual void				MapCopyDictToEntity( const char* name, const idDict* dict ) const;
+	virtual void				MapCopyDictToEntity( const char* name, const Dict* dict ) const;
 	virtual int					MapGetUniqueMatchingKeyVals( const char* key, const char* list[], const int max ) const;
-	virtual void				MapAddEntity( const idDict* dict ) const;
+	virtual void				MapAddEntity( const Dict* dict ) const;
 	virtual int					MapGetEntitiesMatchingClassWithString( const char* classname, const char* match, const char* list[], const int max ) const;
 	virtual void				MapRemoveEntity( const char* name ) const;
-	virtual void				MapEntityTranslate( const char* name, const budVec3& v ) const;
+	virtual void				MapEntityTranslate( const char* name, const Vector3& v ) const;
 	
 };
 
@@ -331,8 +331,8 @@ typedef struct
 	int							version;				// API version
 	budSys* 						sys;					// non-portable system services
 	budCommon* 					common;					// common
-	budCmdSystem* 				cmdSystem;				// console command system
-	budCVarSystem* 				cvarSystem;				// console variable system
+	CmdSystem* 				cmdSystem;				// console command system
+	CVarSystem* 				cvarSystem;				// console variable system
 	budFileSystem* 				fileSystem;				// file system
 	budRenderSystem* 			renderSystem;			// render system
 	idSoundSystem* 				soundSystem;			// sound system

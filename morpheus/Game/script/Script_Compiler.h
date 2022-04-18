@@ -236,7 +236,7 @@ private:
 	void			NextToken();
 	void			ExpectToken( const char* string );
 	bool			CheckToken( const char* string );
-	void			ParseName( budStr& name );
+	void			ParseName( String& name );
 	void			SkipOutOfFunction();
 	void			SkipToSemicolon();
 	idTypeDef*		CheckType();

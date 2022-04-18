@@ -38,7 +38,7 @@ If you have questions concerning this license or the applicable additional terms
 R_ListRenderLightDefs_f
 ===================
 */
-void R_ListRenderLightDefs_f( const budCmdArgs& args )
+void R_ListRenderLightDefs_f( const CmdArgs& args )
 {
 	int			i;
 	budRenderLightLocal*	ldef;
@@ -88,7 +88,7 @@ void R_ListRenderLightDefs_f( const budCmdArgs& args )
 R_ListRenderEntityDefs_f
 ===================
 */
-void R_ListRenderEntityDefs_f( const budCmdArgs& args )
+void R_ListRenderEntityDefs_f( const CmdArgs& args )
 {
 	int			i;
 	budRenderEntityLocal*	mdef;
@@ -616,7 +616,7 @@ const renderLight_t* budRenderWorldLocal::GetRenderLight( qhandle_t lightHandle 
 budRenderWorldLocal::ProjectDecalOntoWorld
 ================
 */
-void budRenderWorldLocal::ProjectDecalOntoWorld( const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime )
+void budRenderWorldLocal::ProjectDecalOntoWorld( const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime )
 {
 	decalProjectionParms_t globalParms;
 	
@@ -686,7 +686,7 @@ void budRenderWorldLocal::ProjectDecalOntoWorld( const budFixedWinding& winding,
 budRenderWorldLocal::ProjectDecal
 ====================
 */
-void budRenderWorldLocal::ProjectDecal( qhandle_t entityHandle, const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime )
+void budRenderWorldLocal::ProjectDecal( qhandle_t entityHandle, const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime )
 {
 	if( entityHandle < 0 || entityHandle >= entityDefs.Num() )
 	{
@@ -958,7 +958,7 @@ void budRenderWorldLocal::RenderScene( const renderView_t* renderView )
 	
 	// see if the view needs to reverse the culling sense in mirrors
 	// or environment cube sides
-	budVec3	cross;
+	Vector3	cross;
 	cross = parms->renderView.viewaxis[1].Cross( parms->renderView.viewaxis[2] );
 	if( cross * parms->renderView.viewaxis[0] > 0 )
 	{
@@ -1100,7 +1100,7 @@ Will return -1 if the point is not in an area, otherwise
 it will return 0 <= value < tr.world->numPortalAreas
 ===============
 */
-int budRenderWorldLocal::PointInArea( const budVec3& point ) const
+int budRenderWorldLocal::PointInArea( const Vector3& point ) const
 {
 	areaNode_t*	node;
 	int			nodeNum;
@@ -1234,7 +1234,7 @@ this doesn't do any occlusion testing, simply ignoring non-gui surfaces.
 start / end are in global world coordinates.
 ================
 */
-guiPoint_t budRenderWorldLocal::GuiTrace( qhandle_t entityHandle, const budVec3 start, const budVec3 end ) const
+guiPoint_t budRenderWorldLocal::GuiTrace( qhandle_t entityHandle, const Vector3 start, const Vector3 end ) const
 {
 	guiPoint_t	pt;
 	pt.x = pt.y = -1;
@@ -1260,7 +1260,7 @@ guiPoint_t budRenderWorldLocal::GuiTrace( qhandle_t entityHandle, const budVec3 
 	}
 	
 	// transform the points into local space
-	budVec3 localStart, localEnd;
+	Vector3 localStart, localEnd;
 	R_GlobalPointToLocal( def->modelMatrix, start, localStart );
 	R_GlobalPointToLocal( def->modelMatrix, end, localEnd );
 	
@@ -1288,10 +1288,10 @@ guiPoint_t budRenderWorldLocal::GuiTrace( qhandle_t entityHandle, const budVec3 
 		localTrace_t local = R_LocalTrace( localStart, localEnd, 0.0f, tri );
 		if( local.fraction < 1.0f )
 		{
-			budVec3 origin, axis[3];
+			Vector3 origin, axis[3];
 			
 			R_SurfaceToTextureAxis( tri, origin, axis );
-			const budVec3 cursor = local.point - origin;
+			const Vector3 cursor = local.point - origin;
 			
 			float axisLen[2];
 			axisLen[0] = axis[0].Length();
@@ -1313,7 +1313,7 @@ guiPoint_t budRenderWorldLocal::GuiTrace( qhandle_t entityHandle, const budVec3 
 budRenderWorldLocal::ModelTrace
 ===================
 */
-bool budRenderWorldLocal::ModelTrace( modelTrace_t& trace, qhandle_t entityHandle, const budVec3& start, const budVec3& end, const float radius ) const
+bool budRenderWorldLocal::ModelTrace( modelTrace_t& trace, qhandle_t entityHandle, const Vector3& start, const Vector3& end, const float radius ) const
 {
 
 	memset( &trace, 0, sizeof( trace ) );
@@ -1341,8 +1341,8 @@ bool budRenderWorldLocal::ModelTrace( modelTrace_t& trace, qhandle_t entityHandl
 	
 	// transform the points into local space
 	float modelMatrix[16];
-	budVec3 localStart;
-	budVec3 localEnd;
+	Vector3 localStart;
+	Vector3 localEnd;
 	R_AxisToModelMatrix( refEnt->axis, refEnt->origin, modelMatrix );
 	R_GlobalPointToLocal( modelMatrix, start, localStart );
 	R_GlobalPointToLocal( modelMatrix, end, localEnd );
@@ -1428,7 +1428,7 @@ const char* playerMaterialExcludeList[] =
 	NULL
 };
 
-bool budRenderWorldLocal::Trace( modelTrace_t& trace, const budVec3& start, const budVec3& end, const float radius, bool skipDynamic, bool skipPlayer /*_D3XP*/ ) const
+bool budRenderWorldLocal::Trace( modelTrace_t& trace, const Vector3& start, const Vector3& end, const float radius, bool skipDynamic, bool skipPlayer /*_D3XP*/ ) const
 {
 	trace.fraction = 1.0f;
 	trace.point = end;
@@ -1475,7 +1475,7 @@ bool budRenderWorldLocal::Trace( modelTrace_t& trace, const budVec3& start, cons
 					bool exclude = false;
 					for( int k = 0; playerModelExcludeList[k] != NULL; k++ )
 					{
-						if( budStr::Cmp( model->Name(), playerModelExcludeList[k] ) == 0 )
+						if( String::Cmp( model->Name(), playerModelExcludeList[k] ) == 0 )
 						{
 							exclude = true;
 							break;
@@ -1523,7 +1523,7 @@ bool budRenderWorldLocal::Trace( modelTrace_t& trace, const budVec3& start, cons
 					bool exclude = false;
 					for( int k = 0; playerMaterialExcludeList[k] != NULL; k++ )
 					{
-						if( budStr::Cmp( shader->GetName(), playerMaterialExcludeList[k] ) == 0 )
+						if( String::Cmp( shader->GetName(), playerMaterialExcludeList[k] ) == 0 )
 						{
 							exclude = true;
 							break;
@@ -1550,7 +1550,7 @@ bool budRenderWorldLocal::Trace( modelTrace_t& trace, const budVec3& start, cons
 				
 				// transform the points into local space
 				float modelMatrix[16];
-				budVec3 localStart, localEnd;
+				Vector3 localStart, localEnd;
 				R_AxisToModelMatrix( def->parms.axis, def->parms.origin, modelMatrix );
 				R_GlobalPointToLocal( modelMatrix, start, localStart );
 				R_GlobalPointToLocal( modelMatrix, end, localEnd );
@@ -1581,11 +1581,11 @@ bool budRenderWorldLocal::Trace( modelTrace_t& trace, const budVec3& start, cons
 budRenderWorldLocal::RecurseProcBSP
 ==================
 */
-void budRenderWorldLocal::RecurseProcBSP_r( modelTrace_t* results, int parentNodeNum, int nodeNum, float p1f, float p2f, const budVec3& p1, const budVec3& p2 ) const
+void budRenderWorldLocal::RecurseProcBSP_r( modelTrace_t* results, int parentNodeNum, int nodeNum, float p1f, float p2f, const Vector3& p1, const Vector3& p2 ) const
 {
 	float		t1, t2;
 	float		frac;
-	budVec3		mid;
+	Vector3		mid;
 	int			side;
 	float		midf;
 	areaNode_t* node;
@@ -1643,7 +1643,7 @@ void budRenderWorldLocal::RecurseProcBSP_r( modelTrace_t* results, int parentNod
 budRenderWorldLocal::FastWorldTrace
 ==================
 */
-bool budRenderWorldLocal::FastWorldTrace( modelTrace_t& results, const budVec3& start, const budVec3& end ) const
+bool budRenderWorldLocal::FastWorldTrace( modelTrace_t& results, const Vector3& start, const Vector3& end ) const
 {
 	memset( &results, 0, sizeof( modelTrace_t ) );
 	results.fraction = 1.0f;
@@ -1973,7 +1973,7 @@ void budRenderWorldLocal::DebugClearLines( int time )
 budRenderWorldLocal::DebugLine
 ====================
 */
-void budRenderWorldLocal::DebugLine( const budVec4& color, const budVec3& start, const budVec3& end, const int lifetime, const bool depthTest )
+void budRenderWorldLocal::DebugLine( const Vector4& color, const Vector3& start, const Vector3& end, const int lifetime, const bool depthTest )
 {
 	RB_AddDebugLine( color, start, end, lifetime, depthTest );
 }
@@ -1983,9 +1983,9 @@ void budRenderWorldLocal::DebugLine( const budVec4& color, const budVec3& start,
 budRenderWorldLocal::DebugArrow
 ================
 */
-void budRenderWorldLocal::DebugArrow( const budVec4& color, const budVec3& start, const budVec3& end, int size, const int lifetime )
+void budRenderWorldLocal::DebugArrow( const Vector4& color, const Vector3& start, const Vector3& end, int size, const int lifetime )
 {
-	budVec3 forward, right, up, v1, v2;
+	Vector3 forward, right, up, v1, v2;
 	float a, s;
 	int i;
 	static float arrowCos[40];
@@ -2004,8 +2004,8 @@ void budRenderWorldLocal::DebugArrow( const budVec4& color, const budVec3& start
 		arrowStep = r_debugArrowStep.GetInteger();
 		for( i = 0, a = 0; a < 360.0f; a += arrowStep, i++ )
 		{
-			arrowCos[i] = budMath::Cos16( DEG2RAD( a ) );
-			arrowSin[i] = budMath::Sin16( DEG2RAD( a ) );
+			arrowCos[i] = Math::Cos16( DEG2RAD( a ) );
+			arrowSin[i] = Math::Sin16( DEG2RAD( a ) );
 		}
 		arrowCos[i] = arrowCos[0];
 		arrowSin[i] = arrowSin[0];
@@ -2038,10 +2038,10 @@ void budRenderWorldLocal::DebugArrow( const budVec4& color, const budVec3& start
 budRenderWorldLocal::DebugWinding
 ====================
 */
-void budRenderWorldLocal::DebugWinding( const budVec4& color, const idWinding& w, const budVec3& origin, const budMat3& axis, const int lifetime, const bool depthTest )
+void budRenderWorldLocal::DebugWinding( const Vector4& color, const idWinding& w, const Vector3& origin, const Matrix3& axis, const int lifetime, const bool depthTest )
 {
 	int i;
-	budVec3 point, lastPoint;
+	Vector3 point, lastPoint;
 	
 	if( w.GetNumPoints() < 2 )
 	{
@@ -2062,11 +2062,11 @@ void budRenderWorldLocal::DebugWinding( const budVec4& color, const idWinding& w
 budRenderWorldLocal::DebugCircle
 ====================
 */
-void budRenderWorldLocal::DebugCircle( const budVec4& color, const budVec3& origin, const budVec3& dir, const float radius, const int numSteps, const int lifetime, const bool depthTest )
+void budRenderWorldLocal::DebugCircle( const Vector4& color, const Vector3& origin, const Vector3& dir, const float radius, const int numSteps, const int lifetime, const bool depthTest )
 {
 	int i;
 	float a;
-	budVec3 left, up, point, lastPoint;
+	Vector3 left, up, point, lastPoint;
 	
 	dir.OrthogonalBasis( left, up );
 	left *= radius;
@@ -2074,8 +2074,8 @@ void budRenderWorldLocal::DebugCircle( const budVec4& color, const budVec3& orig
 	lastPoint = origin + up;
 	for( i = 1; i <= numSteps; i++ )
 	{
-		a = budMath::TWO_PI * i / numSteps;
-		point = origin + budMath::Sin16( a ) * left + budMath::Cos16( a ) * up;
+		a = Math::TWO_PI * i / numSteps;
+		point = origin + Math::Sin16( a ) * left + Math::Cos16( a ) * up;
 		DebugLine( color, lastPoint, point, lifetime, depthTest );
 		lastPoint = point;
 	}
@@ -2086,15 +2086,15 @@ void budRenderWorldLocal::DebugCircle( const budVec4& color, const budVec3& orig
 budRenderWorldLocal::DebugSphere
 ============
 */
-void budRenderWorldLocal::DebugSphere( const budVec4& color, const budSphere& sphere, const int lifetime, const bool depthTest /*_D3XP*/ )
+void budRenderWorldLocal::DebugSphere( const Vector4& color, const budSphere& sphere, const int lifetime, const bool depthTest /*_D3XP*/ )
 {
 	int i, j, n, num;
 	float s, c;
-	budVec3 p, lastp, *lastArray;
+	Vector3 p, lastp, *lastArray;
 	
 	num = 360 / 15;
-	lastArray = ( budVec3* ) _alloca16( num * sizeof( budVec3 ) );
-	lastArray[0] = sphere.GetOrigin() + budVec3( 0, 0, sphere.GetRadius() );
+	lastArray = ( Vector3* ) _alloca16( num * sizeof( Vector3 ) );
+	lastArray[0] = sphere.GetOrigin() + Vector3( 0, 0, sphere.GetRadius() );
 	for( n = 1; n < num; n++ )
 	{
 		lastArray[n] = lastArray[0];
@@ -2102,15 +2102,15 @@ void budRenderWorldLocal::DebugSphere( const budVec4& color, const budSphere& sp
 	
 	for( i = 15; i <= 360; i += 15 )
 	{
-		s = budMath::Sin16( DEG2RAD( i ) );
-		c = budMath::Cos16( DEG2RAD( i ) );
+		s = Math::Sin16( DEG2RAD( i ) );
+		c = Math::Cos16( DEG2RAD( i ) );
 		lastp[0] = sphere.GetOrigin()[0];
 		lastp[1] = sphere.GetOrigin()[1] + sphere.GetRadius() * s;
 		lastp[2] = sphere.GetOrigin()[2] + sphere.GetRadius() * c;
 		for( n = 0, j = 15; j <= 360; j += 15, n++ )
 		{
-			p[0] = sphere.GetOrigin()[0] + budMath::Sin16( DEG2RAD( j ) ) * sphere.GetRadius() * s;
-			p[1] = sphere.GetOrigin()[1] + budMath::Cos16( DEG2RAD( j ) ) * sphere.GetRadius() * s;
+			p[0] = sphere.GetOrigin()[0] + Math::Sin16( DEG2RAD( j ) ) * sphere.GetRadius() * s;
+			p[1] = sphere.GetOrigin()[1] + Math::Cos16( DEG2RAD( j ) ) * sphere.GetRadius() * s;
 			p[2] = lastp[2];
 			
 			DebugLine( color, lastp, p, lifetime, depthTest );
@@ -2127,10 +2127,10 @@ void budRenderWorldLocal::DebugSphere( const budVec4& color, const budSphere& sp
 budRenderWorldLocal::DebugBounds
 ====================
 */
-void budRenderWorldLocal::DebugBounds( const budVec4& color, const budBounds& bounds, const budVec3& org, const int lifetime )
+void budRenderWorldLocal::DebugBounds( const Vector4& color, const budBounds& bounds, const Vector3& org, const int lifetime )
 {
 	int i;
-	budVec3 v[8];
+	Vector3 v[8];
 	
 	if( bounds.IsCleared() )
 	{
@@ -2156,10 +2156,10 @@ void budRenderWorldLocal::DebugBounds( const budVec4& color, const budBounds& bo
 budRenderWorldLocal::DebugBox
 ====================
 */
-void budRenderWorldLocal::DebugBox( const budVec4& color, const budBox& box, const int lifetime )
+void budRenderWorldLocal::DebugBox( const Vector4& color, const budBox& box, const int lifetime )
 {
 	int i;
-	budVec3 v[8];
+	Vector3 v[8];
 	
 	box.ToPoints( v );
 	for( i = 0; i < 4; i++ )
@@ -2179,11 +2179,11 @@ budRenderWorldLocal::DebugCone
   radius2 is the radius at apex+dir
 ============
 */
-void budRenderWorldLocal::DebugCone( const budVec4& color, const budVec3& apex, const budVec3& dir, float radius1, float radius2, const int lifetime )
+void budRenderWorldLocal::DebugCone( const Vector4& color, const Vector3& apex, const Vector3& dir, float radius1, float radius2, const int lifetime )
 {
 	int i;
-	budMat3 axis;
-	budVec3 top, p1, p2, lastp1, lastp2, d;
+	Matrix3 axis;
+	Vector3 top, p1, p2, lastp1, lastp2, d;
 	
 	axis[2] = dir;
 	axis[2].Normalize();
@@ -2197,7 +2197,7 @@ void budRenderWorldLocal::DebugCone( const budVec4& color, const budVec3& apex, 
 	{
 		for( i = 20; i <= 360; i += 20 )
 		{
-			d = budMath::Sin16( DEG2RAD( i ) ) * axis[0] + budMath::Cos16( DEG2RAD( i ) ) * axis[1];
+			d = Math::Sin16( DEG2RAD( i ) ) * axis[0] + Math::Cos16( DEG2RAD( i ) ) * axis[1];
 			p2 = top + d * radius2;
 			DebugLine( color, lastp2, p2, lifetime );
 			DebugLine( color, p2, apex, lifetime );
@@ -2209,7 +2209,7 @@ void budRenderWorldLocal::DebugCone( const budVec4& color, const budVec3& apex, 
 		lastp1 = apex + radius1 * axis[1];
 		for( i = 20; i <= 360; i += 20 )
 		{
-			d = budMath::Sin16( DEG2RAD( i ) ) * axis[0] + budMath::Cos16( DEG2RAD( i ) ) * axis[1];
+			d = Math::Sin16( DEG2RAD( i ) ) * axis[0] + Math::Cos16( DEG2RAD( i ) ) * axis[1];
 			p1 = apex + d * radius1;
 			p2 = top + d * radius2;
 			DebugLine( color, lastp1, p1, lifetime );
@@ -2226,10 +2226,10 @@ void budRenderWorldLocal::DebugCone( const budVec4& color, const budVec3& apex, 
 budRenderWorldLocal::DebugAxis
 ================
 */
-void budRenderWorldLocal::DebugAxis( const budVec3& origin, const budMat3& axis )
+void budRenderWorldLocal::DebugAxis( const Vector3& origin, const Matrix3& axis )
 {
-	budVec3 start = origin;
-	budVec3 end = start + axis[0] * 20.0f;
+	Vector3 start = origin;
+	Vector3 end = start + axis[0] * 20.0f;
 	DebugArrow( colorWhite, start, end, 2 );
 	end = start + axis[0] * -20.0f;
 	DebugArrow( colorWhite, start, end, 2 );
@@ -2258,7 +2258,7 @@ void budRenderWorldLocal::DebugClearPolygons( int time )
 budRenderWorldLocal::DebugPolygon
 ====================
 */
-void budRenderWorldLocal::DebugPolygon( const budVec4& color, const idWinding& winding, const int lifeTime, const bool depthTest )
+void budRenderWorldLocal::DebugPolygon( const Vector4& color, const idWinding& winding, const int lifeTime, const bool depthTest )
 {
 	RB_AddDebugPolygon( color, winding, lifeTime, depthTest );
 }
@@ -2268,19 +2268,19 @@ void budRenderWorldLocal::DebugPolygon( const budVec4& color, const idWinding& w
 budRenderWorldLocal::DebugScreenRect
 ================
 */
-void budRenderWorldLocal::DebugScreenRect( const budVec4& color, const budScreenRect& rect, const viewDef_t* viewDef, const int lifetime )
+void budRenderWorldLocal::DebugScreenRect( const Vector4& color, const budScreenRect& rect, const viewDef_t* viewDef, const int lifetime )
 {
 	int i;
 	float centerx, centery, dScale, hScale, vScale;
 	budBounds bounds;
-	budVec3 p[4];
+	Vector3 p[4];
 	
 	centerx = ( viewDef->viewport.x2 - viewDef->viewport.x1 ) * 0.5f;
 	centery = ( viewDef->viewport.y2 - viewDef->viewport.y1 ) * 0.5f;
 	
 	dScale = r_znear.GetFloat() + 1.0f;
-	hScale = dScale * budMath::Tan16( DEG2RAD( viewDef->renderView.fov_x * 0.5f ) );
-	vScale = dScale * budMath::Tan16( DEG2RAD( viewDef->renderView.fov_y * 0.5f ) );
+	hScale = dScale * Math::Tan16( DEG2RAD( viewDef->renderView.fov_x * 0.5f ) );
+	vScale = dScale * Math::Tan16( DEG2RAD( viewDef->renderView.fov_y * 0.5f ) );
 	
 	bounds[0][0] = bounds[1][0] = dScale;
 	bounds[0][1] = -( rect.x1 - centerx ) / centerx * hScale;
@@ -2321,7 +2321,7 @@ budRenderWorldLocal::DrawText
   align can be 0-left, 1-center (default), 2-right
 ================
 */
-void budRenderWorldLocal::DrawText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align, const int lifetime, const bool depthTest )
+void budRenderWorldLocal::DrawText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align, const int lifetime, const bool depthTest )
 {
 	RB_AddDebugText( text, origin, scale, color, viewAxis, align, lifetime, depthTest );
 }

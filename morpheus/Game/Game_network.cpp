@@ -54,12 +54,12 @@ static const int SNAP_LAST_CLIENT_FRAME_END = SNAP_LAST_CLIENT_FRAME + MAX_PLAYE
 ===============================================================================
 */
 
-budCVar net_clientSmoothing( "net_clientSmoothing", "0.8", CVAR_GAME | CVAR_FLOAT, "smooth other clients angles and position.", 0.0f, 0.95f );
-budCVar net_clientSelfSmoothing( "net_clientSelfSmoothing", "0.6", CVAR_GAME | CVAR_FLOAT, "smooth self position if network causes prediction error.", 0.0f, 0.95f );
-extern budCVar net_clientMaxPrediction;
+CVar net_clientSmoothing( "net_clientSmoothing", "0.8", CVAR_GAME | CVAR_FLOAT, "smooth other clients angles and position.", 0.0f, 0.95f );
+CVar net_clientSelfSmoothing( "net_clientSelfSmoothing", "0.6", CVAR_GAME | CVAR_FLOAT, "smooth self position if network causes prediction error.", 0.0f, 0.95f );
+extern CVar net_clientMaxPrediction;
 
-budCVar cg_predictedSpawn_debug( "cg_predictedSpawn_debug", "0", CVAR_BOOL, "Debug predictive spawning of presentables" );
-budCVar g_clientFire_checkLineOfSightDebug( "g_clientFire_checkLineOfSightDebug", "0", CVAR_BOOL, "" );
+CVar cg_predictedSpawn_debug( "cg_predictedSpawn_debug", "0", CVAR_BOOL, "Debug predictive spawning of presentables" );
+CVar g_clientFire_checkLineOfSightDebug( "g_clientFire_checkLineOfSightDebug", "0", CVAR_BOOL, "" );
 
 
 /*
@@ -72,7 +72,7 @@ void budGameLocal::InitAsyncNetwork()
 	eventQueue.Init();
 	savedEventQueue.Init();
 	
-	entityDefBits = -( budMath::BitsForInteger( declManager->GetNumDecls( DECL_ENTITYDEF ) ) + 1 );
+	entityDefBits = -( Math::BitsForInteger( declManager->GetNumDecls( DECL_ENTITYDEF ) ) + 1 );
 	realClientTime = 0;
 	fast.Set( 0, 0, 0 );
 	slow.Set( 0, 0, 0 );
@@ -255,7 +255,7 @@ void budGameLocal::ServerSendNetworkSyncCvars()
 	
 	outMsg.InitWrite( msgBuf, sizeof( msgBuf ) );
 	outMsg.BeginWriting();
-	idDict syncedCvars;
+	Dict syncedCvars;
 	cvarSystem->MoveCVarsToDict( CVAR_NETWORKSYNC, syncedCvars, true );
 	outMsg.WriteDeltaDict( syncedCvars, NULL );
 	lobby.SendReliable( GAME_RELIABLE_MESSAGE_SYNCEDCVARS, outMsg, false );
@@ -286,7 +286,7 @@ void budGameLocal::ServerWriteInitialReliableMessages( int clientNum, lobbyUserI
 	
 	outMsg.InitWrite( msgBuf, sizeof( msgBuf ) );
 	outMsg.BeginWriting();
-	idDict syncedCvars;
+	Dict syncedCvars;
 	cvarSystem->MoveCVarsToDict( CVAR_NETWORKSYNC, syncedCvars, true );
 	outMsg.WriteDeltaDict( syncedCvars, NULL );
 	lobby.SendReliableToLobbyUser( lobbyUserID, GAME_RELIABLE_MESSAGE_SYNCEDCVARS, outMsg );
@@ -302,7 +302,7 @@ void budGameLocal::ServerWriteInitialReliableMessages( int clientNum, lobbyUserI
 		outMsg.WriteBits( event->spawnId, 32 );
 		outMsg.WriteByte( event->event );
 		outMsg.WriteLong( event->time );
-		outMsg.WriteBits( event->paramsSize, budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+		outMsg.WriteBits( event->paramsSize, Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 		if( event->paramsSize )
 		{
 			outMsg.WriteData( event->paramsBuf, event->paramsSize );
@@ -474,11 +474,11 @@ void budGameLocal::NetworkEventWarning( const entityNetEvent_t* event, const cha
 	int entityNum	= event->spawnId & ( ( 1 << GENTITYNUM_BITS ) - 1 );
 	int id			= event->spawnId >> GENTITYNUM_BITS;
 	
-	length += budStr::snPrintf( buf + length, sizeof( buf ) - 1 - length, "event %d for entity %d %d: ", event->event, entityNum, id );
+	length += String::snPrintf( buf + length, sizeof( buf ) - 1 - length, "event %d for entity %d %d: ", event->event, entityNum, id );
 	va_start( argptr, fmt );
-	length = budStr::vsnPrintf( buf + length, sizeof( buf ) - 1 - length, fmt, argptr );
+	length = String::vsnPrintf( buf + length, sizeof( buf ) - 1 - length, fmt, argptr );
 	va_end( argptr );
-	budStr::Append( buf, sizeof( buf ), "\n" );
+	String::Append( buf, sizeof( buf ), "\n" );
 	
 	common->DWarning( buf );
 }
@@ -590,7 +590,7 @@ void budGameLocal::ServerProcessReliableMessage( int clientNum, int type, const 
 			event->event = msg.ReadByte();
 			event->time = msg.ReadLong();
 			
-			event->paramsSize = msg.ReadBits( budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+			event->paramsSize = msg.ReadBits( Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 			if( event->paramsSize )
 			{
 				if( event->paramsSize > MAX_EVENT_PARAM_SIZE )
@@ -638,7 +638,7 @@ void budGameLocal::ServerProcessReliableMessage( int clientNum, int type, const 
 		{
 			const int attackerNum = msg.ReadShort();
 			const int victimNum = msg.ReadShort();
-			budVec3 dir;
+			Vector3 dir;
 			msg.ReadVectorFloat( dir );
 			const int damageDefIndex = msg.ReadLong();
 			const float damageScale = msg.ReadFloat();
@@ -675,12 +675,12 @@ void budGameLocal::ServerProcessReliableMessage( int clientNum, int type, const 
 			// Line of sight check. As a basic precaution against cheating,
 			// the server performs a ray intersection from the client's position
 			// to the joint he hit on the target.
-			budVec3 muzzleOrigin;
-			budMat3 muzzleAxis;
+			Vector3 muzzleOrigin;
+			Matrix3 muzzleAxis;
 			
 			attacker.weapon.GetEntity()->GetProjectileLaunchOriginAndAxis( muzzleOrigin, muzzleAxis );
 			
-			budVec3 targetLocation = victim.GetRenderEntity()->origin + victim.GetRenderEntity()->joints[location].ToVec3() * victim.GetRenderEntity()->axis;
+			Vector3 targetLocation = victim.GetRenderEntity()->origin + victim.GetRenderEntity()->joints[location].ToVec3() * victim.GetRenderEntity()->axis;
 			
 			trace_t tr;
 			gameLocal.clip.Translation( tr, muzzleOrigin, targetLocation, NULL, mat3_identity, MASK_SHOT_RENDERMODEL, &attacker );
@@ -912,7 +912,7 @@ void budGameLocal::ClientReadSnapshot( const budSnapShot& ss )
 			}
 			else
 			{
-				idDict args;
+				Dict args;
 				args.SetInt( "spawn_entnum", entityNumber );
 				args.Set( "name", va( "entity%d", entityNumber ) );
 				
@@ -1057,7 +1057,7 @@ void budGameLocal::ClientProcessReliableMessage( int type, const budBitMsg& msg 
 	{
 		case GAME_RELIABLE_MESSAGE_SYNCEDCVARS:
 		{
-			idDict syncedCvars;
+			Dict syncedCvars;
 			msg.ReadDeltaDict( syncedCvars, NULL );
 			
 			libBud::Printf( "Got networkSync cvars:\n" );
@@ -1112,7 +1112,7 @@ void budGameLocal::ClientProcessReliableMessage( int type, const budBitMsg& msg 
 			event->event = msg.ReadByte();
 			event->time = msg.ReadLong();
 			
-			event->paramsSize = msg.ReadBits( budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+			event->paramsSize = msg.ReadBits( Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 			if( event->paramsSize )
 			{
 				if( event->paramsSize > MAX_EVENT_PARAM_SIZE )
@@ -1268,12 +1268,12 @@ void budGameLocal::ClientRunFrame( budUserCmdMgr& cmdMgr, bool lastPredictFrame,
 budGameLocal::Tokenize
 ===============
 */
-void budGameLocal::Tokenize( budStrList& out, const char* in )
+void budGameLocal::Tokenize( StringList& out, const char* in )
 {
 	char buf[ MAX_STRING_CHARS ];
 	char* token, *next;
 	
-	budStr::Copynz( buf, in, MAX_STRING_CHARS );
+	String::Copynz( buf, in, MAX_STRING_CHARS );
 	token = buf;
 	next = strchr( token, ';' );
 	while( token )
@@ -1282,7 +1282,7 @@ void budGameLocal::Tokenize( budStrList& out, const char* in )
 		{
 			*next = '\0';
 		}
-		budStr::ToLower( token );
+		String::ToLower( token );
 		out.Append( token );
 		if( next )
 		{

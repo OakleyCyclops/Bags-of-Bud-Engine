@@ -63,7 +63,7 @@ public:
 	idForce_Field();
 	virtual				~idForce_Field();
 	// uniform constant force
-	void				Uniform( const budVec3& force );
+	void				Uniform( const Vector3& force );
 	// explosion from clip model origin
 	void				Explosion( float force );
 	// implosion towards clip model origin
@@ -96,7 +96,7 @@ private:
 	forceFieldType		type;
 	forceFieldApplyType	applyType;
 	float				magnitude;
-	budVec3				dir;
+	Vector3				dir;
 	float				randomTorque;
 	bool				playerOnly;
 	bool				monsterOnly;

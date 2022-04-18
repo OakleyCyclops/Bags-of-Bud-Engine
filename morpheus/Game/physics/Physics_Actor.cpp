@@ -138,7 +138,7 @@ void idPhysics_Actor::SetClipModelAxis()
 idPhysics_Actor::GetGravityAxis
 ================
 */
-const budMat3& idPhysics_Actor::GetGravityAxis() const
+const Matrix3& idPhysics_Actor::GetGravityAxis() const
 {
 	return clipModelAxis;
 }
@@ -280,7 +280,7 @@ bool idPhysics_Actor::IsPushable() const
 idPhysics_Actor::GetOrigin
 ================
 */
-const budVec3& idPhysics_Actor::GetOrigin( int id ) const
+const Vector3& idPhysics_Actor::GetOrigin( int id ) const
 {
 	return clipModel->GetOrigin();
 }
@@ -290,7 +290,7 @@ const budVec3& idPhysics_Actor::GetOrigin( int id ) const
 idPhysics_Player::GetAxis
 ================
 */
-const budMat3& idPhysics_Actor::GetAxis( int id ) const
+const Matrix3& idPhysics_Actor::GetAxis( int id ) const
 {
 	return clipModel->GetAxis();
 }
@@ -300,7 +300,7 @@ const budMat3& idPhysics_Actor::GetAxis( int id ) const
 idPhysics_Actor::SetGravity
 ================
 */
-void idPhysics_Actor::SetGravity( const budVec3& newGravity )
+void idPhysics_Actor::SetGravity( const Vector3& newGravity )
 {
 	if( newGravity != gravityVector )
 	{
@@ -314,7 +314,7 @@ void idPhysics_Actor::SetGravity( const budVec3& newGravity )
 idPhysics_Actor::ClipTranslation
 ================
 */
-void idPhysics_Actor::ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const
+void idPhysics_Actor::ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const
 {
 	if( model )
 	{
@@ -334,7 +334,7 @@ void idPhysics_Actor::ClipTranslation( trace_t& results, const budVec3& translat
 idPhysics_Actor::ClipRotation
 ================
 */
-void idPhysics_Actor::ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const
+void idPhysics_Actor::ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const
 {
 	if( model )
 	{

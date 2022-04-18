@@ -62,10 +62,10 @@ typedef enum
 
 typedef struct playerPState_s
 {
-	budVec3					origin;
-	budVec3					velocity;
-	budVec3					localOrigin;
-	budVec3					pushVelocity;
+	Vector3					origin;
+	Vector3					velocity;
+	Vector3					localOrigin;
+	Vector3					pushVelocity;
 	float					stepUp;
 	int						movementType;
 	int						movementFlags;
@@ -101,7 +101,7 @@ public:
 	float					GetMaxStepHeight() const;
 	void					SetMaxJumpHeight( const float newMaxJumpHeight );
 	void					SetMovementType( const pmtype_t type );
-	void					SetPlayerInput( const usercmd_t& cmd, const budVec3& forwardVector );
+	void					SetPlayerInput( const usercmd_t& cmd, const Vector3& forwardVector );
 	void					SetKnockBack( const int knockBackTime );
 	void					SetDebugLevel( bool set );
 	// feed back from last physics frame
@@ -112,7 +112,7 @@ public:
 	float					GetStepUp() const;
 	bool					IsCrouching() const;
 	bool					OnLadder() const;
-	const budVec3& 			PlayerGetOrigin() const;	// != GetOrigin
+	const Vector3& 			PlayerGetOrigin() const;	// != GetOrigin
 	
 public:	// common physics interface
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
@@ -120,28 +120,28 @@ public:	// common physics interface
 	void					UpdateTime( int endTimeMSec );
 	int						GetTime() const;
 	
-	void					GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const;
-	void					ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse );
+	void					GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const;
+	void					ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse );
 	bool					IsAtRest() const;
 	int						GetRestStartTime() const;
 	
 	void					SaveState();
 	void					RestoreState();
 	
-	void					SetOrigin( const budVec3& newOrigin, int id = -1 );
-	void					SetAxis( const budMat3& newAxis, int id = -1 );
+	void					SetOrigin( const Vector3& newOrigin, int id = -1 );
+	void					SetAxis( const Matrix3& newAxis, int id = -1 );
 	
-	void					Translate( const budVec3& translation, int id = -1 );
-	void					Rotate( const budRotation& rotation, int id = -1 );
+	void					Translate( const Vector3& translation, int id = -1 );
+	void					Rotate( const Rotation& rotation, int id = -1 );
 	
-	void					SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 );
+	void					SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 );
 	
-	const budVec3& 			GetLinearVelocity( int id = 0 ) const;
+	const Vector3& 			GetLinearVelocity( int id = 0 ) const;
 	
 	bool					ClientPusherLocked( bool& justBecameUnlocked );
 	void					SetPushed( int deltaTime );
 	void					SetPushedWithAbnormalVelocityHack( int deltaTime );
-	const budVec3& 			GetPushedLinearVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedLinearVelocity( const int id = 0 ) const;
 	void					ClearPushedVelocity();
 	
 	void					SetMaster( idEntity* master, const bool orientated = true );
@@ -173,14 +173,14 @@ private:
 	
 	// player input
 	usercmd_t				command;
-	budVec3					commandForward;		// can't use cmd.angles cause of the delta_angles and head tracking
+	Vector3					commandForward;		// can't use cmd.angles cause of the delta_angles and head tracking
 	
 	// run-time variables
 	int						framemsec;
 	float					frametime;
 	float					playerSpeed;
-	budVec3					viewForward;
-	budVec3					viewRight;
+	Vector3					viewForward;
+	Vector3					viewRight;
 	
 	// walk movement
 	bool					walking;
@@ -190,7 +190,7 @@ private:
 	
 	// ladder movement
 	bool					ladder;
-	budVec3					ladderNormal;
+	Vector3					ladderNormal;
 	
 	// results of last evaluate
 	waterLevel_t			waterLevel;
@@ -200,7 +200,7 @@ private:
 	
 private:
 	float					CmdScale( const usercmd_t& cmd ) const;
-	void					Accelerate( const budVec3& wishdir, const float wishspeed, const float accel );
+	void					Accelerate( const Vector3& wishdir, const float wishspeed, const float accel );
 	bool					SlideMove( bool gravity, bool stepUp, bool stepDown, bool push );
 	void					Friction();
 	void					WaterJumpMove();

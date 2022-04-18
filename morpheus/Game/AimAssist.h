@@ -52,7 +52,7 @@ public:
 	
 	void		Init( budPlayer* player );
 	void		Update();
-	void		GetAngleCorrection( budAngles& correction ) const
+	void		GetAngleCorrection( Angles& correction ) const
 	{
 		correction = angleCorrection;
 	}
@@ -65,21 +65,21 @@ public:
 	{
 		return targetEntity;
 	}
-	idEntity* 	FindAimAssistTarget( budVec3& targetPos );
+	idEntity* 	FindAimAssistTarget( Vector3& targetPos );
 	
 private:
 	void		UpdateNewAimAssist();
-	float		ComputeEntityAimAssistScore( const budVec3& targetPos, const budVec3& cameraPos, const budMat3& cameraAxis );
-	bool		ComputeTargetPos( idEntity* pTarget, budVec3& primaryTargetPos, budVec3& secondaryTargetPos );
+	float		ComputeEntityAimAssistScore( const Vector3& targetPos, const Vector3& cameraPos, const Matrix3& cameraAxis );
+	bool		ComputeTargetPos( idEntity* pTarget, Vector3& primaryTargetPos, Vector3& secondaryTargetPos );
 	float		ComputeFrictionRadius( float distanceToTarget );
-	void		UpdateAdhesion( idEntity* pTarget, const budVec3& targetPos );
-	void		UpdateFriction( idEntity* pTarget, const budVec3& targetPos );
+	void		UpdateAdhesion( idEntity* pTarget, const Vector3& targetPos );
+	void		UpdateFriction( idEntity* pTarget, const Vector3& targetPos );
 	
 	budPlayer* 				player;						// player associated with this object
-	budAngles				angleCorrection;			// the angle delta to apply for aim assistance
+	Angles				angleCorrection;			// the angle delta to apply for aim assistance
 	float					frictionScalar;				// friction scalar
 	idEntityPtr<idEntity>	targetEntity;				// the last target we had (updated every frame)
-	budVec3					lastTargetPos;				// the last target position ( updated every frame );
+	Vector3					lastTargetPos;				// the last target position ( updated every frame );
 };
 
 #endif // !__AIMASSIST_H__

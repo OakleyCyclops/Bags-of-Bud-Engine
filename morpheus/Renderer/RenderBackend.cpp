@@ -36,15 +36,15 @@ If you have questions concerning this license or the applicable additional terms
 #include "Framebuffer.h"
 
 
-budCVar r_drawEyeColor( "r_drawEyeColor", "0", CVAR_RENDERER | CVAR_BOOL, "Draw a colored box, red = left eye, blue = right eye, grey = non-stereo" );
-budCVar r_motionBlur( "r_motionBlur", "0", CVAR_RENDERER | CVAR_INTEGER | CVAR_ARCHIVE, "1 - 5, log2 of the number of motion blur samples" );
-budCVar r_forceZPassStencilShadows( "r_forceZPassStencilShadows", "0", CVAR_RENDERER | CVAR_BOOL, "force Z-pass rendering for performance testing" );
-budCVar r_useStencilShadowPreload( "r_useStencilShadowPreload", "1", CVAR_RENDERER | CVAR_BOOL, "use stencil shadow preload algorithm instead of Z-fail" );
-budCVar r_skipShaderPasses( "r_skipShaderPasses", "0", CVAR_RENDERER | CVAR_BOOL, "" );
-budCVar r_skipInteractionFastPath( "r_skipInteractionFastPath", "1", CVAR_RENDERER | CVAR_BOOL, "" );
-budCVar r_useLightStencilSelect( "r_useLightStencilSelect", "0", CVAR_RENDERER | CVAR_BOOL, "use stencil select pass" );
+CVar r_drawEyeColor( "r_drawEyeColor", "0", CVAR_RENDERER | CVAR_BOOL, "Draw a colored box, red = left eye, blue = right eye, grey = non-stereo" );
+CVar r_motionBlur( "r_motionBlur", "0", CVAR_RENDERER | CVAR_INTEGER | CVAR_ARCHIVE, "1 - 5, log2 of the number of motion blur samples" );
+CVar r_forceZPassStencilShadows( "r_forceZPassStencilShadows", "0", CVAR_RENDERER | CVAR_BOOL, "force Z-pass rendering for performance testing" );
+CVar r_useStencilShadowPreload( "r_useStencilShadowPreload", "1", CVAR_RENDERER | CVAR_BOOL, "use stencil shadow preload algorithm instead of Z-fail" );
+CVar r_skipShaderPasses( "r_skipShaderPasses", "0", CVAR_RENDERER | CVAR_BOOL, "" );
+CVar r_skipInteractionFastPath( "r_skipInteractionFastPath", "1", CVAR_RENDERER | CVAR_BOOL, "" );
+CVar r_useLightStencilSelect( "r_useLightStencilSelect", "0", CVAR_RENDERER | CVAR_BOOL, "use stencil select pass" );
 
-extern budCVar stereoRender_swapEyes;
+extern CVar stereoRender_swapEyes;
 
 
 /*
@@ -577,7 +577,7 @@ void budRenderBackend::BindVariableStageImage( const textureStage_t* texture, co
 		// offset time by shaderParm[7] (FIXME: make the time offset a parameter of the shader?)
 		// We make no attempt to optimize for multiple identical cinematics being in view, or
 		// for cinematics going at a lower framerate than the renderer.
-		cin = texture->cinematic->ImageForTime( viewDef->renderView.time[0] + budMath::Ftoi( 1000.0f * viewDef->renderView.shaderParms[11] ) );
+		cin = texture->cinematic->ImageForTime( viewDef->renderView.time[0] + Math::Ftoi( 1000.0f * viewDef->renderView.shaderParms[11] ) );
 		if( cin.imageY != NULL )
 		{
 			GL_SelectTexture( 0 );
@@ -696,18 +696,18 @@ void budRenderBackend::PrepareStageTexturing( const shaderStage_t* pStage,  cons
 	
 		const int* parms = surf->material->GetTexGenRegisters();
 		
-		float wobbleDegrees = surf->shaderRegisters[ parms[0] ] * ( budMath::PI / 180.0f );
-		float wobbleSpeed = surf->shaderRegisters[ parms[1] ] * ( 2.0f * budMath::PI / 60.0f );
-		float rotateSpeed = surf->shaderRegisters[ parms[2] ] * ( 2.0f * budMath::PI / 60.0f );
+		float wobbleDegrees = surf->shaderRegisters[ parms[0] ] * ( Math::PI / 180.0f );
+		float wobbleSpeed = surf->shaderRegisters[ parms[1] ] * ( 2.0f * Math::PI / 60.0f );
+		float rotateSpeed = surf->shaderRegisters[ parms[2] ] * ( 2.0f * Math::PI / 60.0f );
 		
-		budVec3 axis[3];
+		Vector3 axis[3];
 		{
 			// very ad-hoc "wobble" transform
 			float s, c;
-			budMath::SinCos( wobbleSpeed * viewDef->renderView.time[0] * 0.001f, s, c );
+			Math::SinCos( wobbleSpeed * viewDef->renderView.time[0] * 0.001f, s, c );
 			
 			float ws, wc;
-			budMath::SinCos( wobbleDegrees, ws, wc );
+			Math::SinCos( wobbleDegrees, ws, wc );
 			
 			axis[2][0] = ws * c;
 			axis[2][1] = ws * s;
@@ -715,7 +715,7 @@ void budRenderBackend::PrepareStageTexturing( const shaderStage_t* pStage,  cons
 			
 			axis[1][0] = -s * s * ws;
 			axis[1][2] = -s * ws * ws;
-			axis[1][1] = budMath::Sqrt( budMath::Fabs( 1.0f - ( axis[1][0] * axis[1][0] + axis[1][2] * axis[1][2] ) ) );
+			axis[1][1] = Math::Sqrt( Math::Fabs( 1.0f - ( axis[1][0] * axis[1][0] + axis[1][2] * axis[1][2] ) ) );
 			
 			// make the second vector exactly perpendicular to the first
 			axis[1] -= ( axis[2] * axis[1] ) * axis[2];
@@ -727,7 +727,7 @@ void budRenderBackend::PrepareStageTexturing( const shaderStage_t* pStage,  cons
 		
 		// add the rotate
 		float rs, rc;
-		budMath::SinCos( rotateSpeed * viewDef->renderView.time[0] * 0.001f, rs, rc );
+		Math::SinCos( rotateSpeed * viewDef->renderView.time[0] * 0.001f, rs, rc );
 		
 		float transform[12];
 		transform[0 * 4 + 0] = axis[0][0] * rc + axis[1][0] * rs;
@@ -918,7 +918,7 @@ void budRenderBackend::FillDepthBufferGeneric( const drawSurf_t* const* drawSurf
 		}
 		
 		// subviews will just down-modulate the color buffer
-		budVec4 color;
+		Vector4 color;
 		if( shader->GetSort() == SS_SUBVIEW )
 		{
 			surfGLState |= GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ZERO | GLS_DEPTHFUNC_LESS;
@@ -991,7 +991,7 @@ void budRenderBackend::FillDepthBufferGeneric( const drawSurf_t* const* drawSurf
 				GL_Color( color );
 				
 				GL_State( stageGLState );
-				budVec4 alphaTestValue( regs[ pStage->alphaTestRegister ] );
+				Vector4 alphaTestValue( regs[ pStage->alphaTestRegister ] );
 				SetFragmentParm( RENDERPARM_ALPHA_TEST, alphaTestValue.ToFloatPtr() );
 				
 				if( drawSurf->jointCache )
@@ -1208,7 +1208,7 @@ budRenderBackend::SetupInteractionStage
 ==================
 */
 void budRenderBackend::SetupInteractionStage( const shaderStage_t* surfaceStage, const float* surfaceRegs, const float lightColor[4],
-		budVec4 matrix[2], float color[4] )
+		Vector4 matrix[2], float color[4] )
 {
 
 	if( surfaceStage->texture.hasMatrix )
@@ -1227,11 +1227,11 @@ void budRenderBackend::SetupInteractionStage( const shaderStage_t* surfaceStage,
 		// center rotations and center scales can still generate offsets that need to be > 1
 		if( matrix[0][3] < -40.0f || matrix[0][3] > 40.0f )
 		{
-			matrix[0][3] -= budMath::Ftoi( matrix[0][3] );
+			matrix[0][3] -= Math::Ftoi( matrix[0][3] );
 		}
 		if( matrix[1][3] < -40.0f || matrix[1][3] > 40.0f )
 		{
-			matrix[1][3] -= budMath::Ftoi( matrix[1][3] );
+			matrix[1][3] -= Math::Ftoi( matrix[1][3] );
 		}
 	}
 	else
@@ -1254,7 +1254,7 @@ void budRenderBackend::SetupInteractionStage( const shaderStage_t* surfaceStage,
 			// clamp here, so cards with a greater range don't look different.
 			// we could perform overbrighting like we do for lights, but
 			// it doesn't currently look worth it.
-			color[i] = budMath::ClampFloat( 0.0f, 1.0f, surfaceRegs[surfaceStage->color.registers[i]] ) * lightColor[i];
+			color[i] = Math::ClampFloat( 0.0f, 1.0f, surfaceRegs[surfaceStage->color.registers[i]] ) * lightColor[i];
 		}
 	}
 }
@@ -1336,10 +1336,10 @@ RB_SetupForFastPathInteractions
 These are common for all fast path surfaces
 =================
 */
-static void RB_SetupForFastPathInteractions( const budVec4& diffuseColor, const budVec4& specularColor )
+static void RB_SetupForFastPathInteractions( const Vector4& diffuseColor, const Vector4& specularColor )
 {
-	const budVec4 sMatrix( 1, 0, 0, 0 );
-	const budVec4 tMatrix( 0, 1, 0, 0 );
+	const Vector4 sMatrix( 1, 0, 0, 0 );
+	const Vector4 tMatrix( 0, 1, 0, 0 );
 	
 	// bump matrix
 	SetVertexParm( RENDERPARM_BUMPMATRIX_S, sMatrix.ToFloatPtr() );
@@ -1512,14 +1512,14 @@ void budRenderBackend::RenderInteractions( const drawSurf_t* surfList, const vie
 			continue;
 		}
 		
-		const budVec4 lightColor(
+		const Vector4 lightColor(
 			lightScale * lightRegs[ lightStage->color.registers[0] ],
 			lightScale * lightRegs[ lightStage->color.registers[1] ],
 			lightScale * lightRegs[ lightStage->color.registers[2] ],
 			lightRegs[ lightStage->color.registers[3] ] );
 		// apply the world-global overbright and the 2x factor for specular
-		const budVec4 diffuseColor = lightColor;
-		const budVec4 specularColor = lightColor * 2.0f;
+		const Vector4 diffuseColor = lightColor;
+		const Vector4 specularColor = lightColor * 2.0f;
 		
 		float lightTextureMatrix[16];
 		if( lightStage->texture.hasMatrix )
@@ -1685,13 +1685,13 @@ void budRenderBackend::RenderInteractions( const drawSurf_t* surfList, const vie
 				budRenderMatrix::Transpose( *( budRenderMatrix* )surf->space->modelViewMatrix, modelViewMatrix );
 				SetVertexParms( RENDERPARM_MODELVIEWMATRIX_X, modelViewMatrix[0], 4 );
 				
-				budVec4 globalLightOrigin( vLight->globalLightOrigin.x, vLight->globalLightOrigin.y, vLight->globalLightOrigin.z, 1.0f );
+				Vector4 globalLightOrigin( vLight->globalLightOrigin.x, vLight->globalLightOrigin.y, vLight->globalLightOrigin.z, 1.0f );
 				SetVertexParm( RENDERPARM_GLOBALLIGHTORIGIN, globalLightOrigin.ToFloatPtr() );
 				// RB end
 				
 				// tranform the light/view origin into model local space
-				budVec4 localLightOrigin( 0.0f );
-				budVec4 localViewOrigin( 1.0f );
+				Vector4 localLightOrigin( 0.0f );
+				Vector4 localViewOrigin( 1.0f );
 				R_GlobalPointToLocal( surf->space->modelMatrix, vLight->globalLightOrigin, localLightOrigin.ToVec3() );
 				R_GlobalPointToLocal( surf->space->modelMatrix, viewDef->renderView.vieworg, localViewOrigin.ToVec3() );
 				
@@ -1977,12 +1977,12 @@ void budRenderBackend::AmbientPass( const drawSurf_t* const* drawSurfs, int numD
 	GL_Color( colorWhite );
 	
 	const float lightScale = 1.0f; //r_lightScale.GetFloat();
-	const budVec4 lightColor = colorWhite * lightScale;
+	const Vector4 lightColor = colorWhite * lightScale;
 	// apply the world-global overbright and the 2x factor for specular
-	const budVec4 diffuseColor = lightColor;
-	const budVec4 specularColor = lightColor * 2.0f;
+	const Vector4 diffuseColor = lightColor;
+	const Vector4 specularColor = lightColor * 2.0f;
 	
-	budVec4 ambientColor;
+	Vector4 ambientColor;
 	float ambientBoost = 1.0f;
 	ambientBoost += r_useSSAO.GetBool() ? 0.2f : 0.0f;
 	ambientBoost *= r_useHDR.GetBool() ? 1.1f : 1.0f;
@@ -2027,7 +2027,7 @@ void budRenderBackend::AmbientPass( const drawSurf_t* const* drawSurfs, int numD
 			continue;
 		}
 		
-		//bool isWorldModel = ( drawSurf->space->entityDef->parms.origin == vec3_origin );
+		//bool isWorldModel = ( drawSurf->space->entityDef->parms.origin == Vector3_Origin );
 		
 		//if( isWorldModel )
 		//{
@@ -2071,15 +2071,15 @@ void budRenderBackend::AmbientPass( const drawSurf_t* const* drawSurfs, int numD
 			RB_SetMVP( drawSurf->space->mvp );
 			
 			// tranform the view origin into model local space
-			budVec4 localViewOrigin( 1.0f );
+			Vector4 localViewOrigin( 1.0f );
 			R_GlobalPointToLocal( drawSurf->space->modelMatrix, viewDef->renderView.vieworg, localViewOrigin.ToVec3() );
 			SetVertexParm( RENDERPARM_LOCALVIEWORIGIN, localViewOrigin.ToFloatPtr() );
 			
 			//if( !isWorldModel )
 			//{
 			//	// tranform the light direction into model local space
-			//	budVec3 globalLightDirection( 0.0f, 0.0f, -1.0f ); // HACK
-			//	budVec4 localLightDirection( 0.0f );
+			//	Vector3 globalLightDirection( 0.0f, 0.0f, -1.0f ); // HACK
+			//	Vector4 localLightDirection( 0.0f );
 			//	R_GlobalVectorToLocal( drawSurf->space->modelMatrix, globalLightDirection, localLightDirection.ToVec3() );
 			//
 			//	SetVertexParm( RENDERPARM_LOCALLIGHTORIGIN, localLightDirection.ToFloatPtr() );
@@ -2100,13 +2100,13 @@ void budRenderBackend::AmbientPass( const drawSurf_t* const* drawSurfs, int numD
 #if 0
 		if( !isWorldModel )
 		{
-			budVec4 directedColor;
+			Vector4 directedColor;
 			directedColor.x = drawSurf->space->gridDirectedLight.x;
 			directedColor.y = drawSurf->space->gridDirectedLight.y;
 			directedColor.z = drawSurf->space->gridDirectedLight.z;
 			directedColor.w = 1;
 			
-			budVec4 ambientColor;
+			Vector4 ambientColor;
 			ambientColor.x = drawSurf->space->grbudAmbientLight.x;
 			ambientColor.y = drawSurf->space->grbudAmbientLight.y;
 			ambientColor.z = drawSurf->space->grbudAmbientLight.z;
@@ -2128,7 +2128,7 @@ void budRenderBackend::AmbientPass( const drawSurf_t* const* drawSurfs, int numD
 		}
 		
 		// subviews will just down-modulate the color buffer
-		budVec4 color;
+		Vector4 color;
 		if( surfaceMaterial->GetSort() == SS_SUBVIEW )
 		{
 			surfGLState |= GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ZERO | GLS_DEPTHFUNC_LESS;
@@ -2436,7 +2436,7 @@ void budRenderBackend::StencilShadowPass( const drawSurf_t* drawSurfs, const vie
 			RB_SetMVP( drawSurf->space->mvp );
 			
 			// set the local light position to allow the vertex program to project the shadow volume end cap to infinity
-			budVec4 localLight( 0.0f );
+			Vector4 localLight( 0.0f );
 			R_GlobalPointToLocal( drawSurf->space->modelMatrix, vLight->globalLightOrigin, localLight.ToVec3() );
 			SetVertexParm( RENDERPARM_LOCALLIGHTORIGIN, localLight.ToFloatPtr() );
 			
@@ -2631,7 +2631,7 @@ static void MatrixOrthogonalProjectionRH( float m[16], float left, float right, 
 	m[15] = 1;
 }
 
-void MatrixCrop( float m[16], const budVec3 mins, const budVec3 maxs )
+void MatrixCrop( float m[16], const Vector3 mins, const Vector3 maxs )
 {
 	float			scaleX, scaleY, scaleZ;
 	float			offsetX, offsetY, offsetZ;
@@ -2663,11 +2663,11 @@ void MatrixCrop( float m[16], const budVec3 mins, const budVec3 maxs )
 	m[15] = 1;
 }
 
-void MatrixLookAtRH( float m[16], const budVec3& eye, const budVec3& dir, const budVec3& up )
+void MatrixLookAtRH( float m[16], const Vector3& eye, const Vector3& dir, const Vector3& up )
 {
-	budVec3 dirN;
-	budVec3 upN;
-	budVec3 sideN;
+	Vector3 dirN;
+	Vector3 upN;
+	Vector3 sideN;
 	
 	sideN = dir.Cross( up );
 	sideN.Normalize();
@@ -2753,18 +2753,18 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 		assert( side >= 0 && side < 6 );
 		
 		// original light direction is from surface to light origin
-		budVec3 lightDir = -vLight->lightCenter;
+		Vector3 lightDir = -vLight->lightCenter;
 		if( lightDir.Normalize() == 0.0f )
 		{
 			lightDir[2] = -1.0f;
 		}
 		
-		budMat3 rotation = lightDir.ToMat3();
-		//budAngles angles = lightDir.ToAngles();
-		//budMat3 rotation = angles.ToMat3();
+		Matrix3 rotation = lightDir.ToMat3();
+		//Angles angles = lightDir.ToAngles();
+		//Matrix3 rotation = angles.ToMat3();
 		
-		const budVec3 viewDir = viewDef->renderView.viewaxis[0];
-		const budVec3 viewPos = viewDef->renderView.vieworg;
+		const Vector3 viewDir = viewDef->renderView.viewaxis[0];
+		const Vector3 viewPos = viewDef->renderView.vieworg;
 		
 #if 1
 		budRenderMatrix::CreateViewMatrix( viewDef->renderView.vieworg, rotation, lightViewRenderMatrix );
@@ -2780,7 +2780,7 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 		ALIGNTYPE16 frustumCorners_t corners;
 		budRenderMatrix::GetFrustumCorners( corners, vLight->inverseBaseLightProject, bounds_zeroOneCube );
 		
-		budVec4 point, transf;
+		Vector4 point, transf;
 		for( int j = 0; j < 8; j++ )
 		{
 			point[0] = corners.x[j];
@@ -2826,14 +2826,14 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 			splitFrustumBounds.AddPoint( point.ToVec3() );
 		}
 		
-		budVec3 center = splitFrustumBounds.GetCenter();
+		Vector3 center = splitFrustumBounds.GetCenter();
 		float radius = splitFrustumBounds.GetRadius( center );
 		
 		//ALIGNTYPE16 frustumCorners_t splitFrustumCorners;
-		splitFrustumBounds[0] = budVec3( -radius, -radius, -radius );
-		splitFrustumBounds[1] = budVec3( radius, radius, radius );
+		splitFrustumBounds[0] = Vector3( -radius, -radius, -radius );
+		splitFrustumBounds[1] = Vector3( radius, radius, radius );
 		splitFrustumBounds.TranslateSelf( viewPos );
-		budVec3 splitFrustumCorners2[8];
+		Vector3 splitFrustumCorners2[8];
 		splitFrustumBounds.ToPoints( splitFrustumCorners2 );
 		
 		for( int j = 0; j < 8; j++ )
@@ -2913,8 +2913,8 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 		
 		float	viewMatrix[16];
 		
-		budVec3	vec;
-		budVec3	origin = vLight->globalLightOrigin;
+		Vector3	vec;
+		Vector3	origin = vLight->globalLightOrigin;
 		
 		// side of a point light
 		memset( viewMatrix, 0, sizeof( viewMatrix ) );
@@ -2986,10 +2986,10 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 		const float zNear = 4;
 		const float	fov = r_shadowMapFrustumFOV.GetFloat();
 		
-		float ymax = zNear * tan( fov * budMath::PI / 360.0f );
+		float ymax = zNear * tan( fov * Math::PI / 360.0f );
 		float ymin = -ymax;
 		
-		float xmax = zNear * tan( fov * budMath::PI / 360.0f );
+		float xmax = zNear * tan( fov * Math::PI / 360.0f );
 		float xmin = -xmax;
 		
 		const float width = xmax - xmin;
@@ -3118,7 +3118,7 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 			
 			// set the local light position to allow the vertex program to project the shadow volume end cap to infinity
 			/*
-			budVec4 localLight( 0.0f );
+			Vector4 localLight( 0.0f );
 			R_GlobalPointToLocal( drawSurf->space->modelMatrix, vLight->globalLightOrigin, localLight.ToVec3() );
 			SetVertexParm( RENDERPARM_LOCALLIGHTORIGIN, localLight.ToFloatPtr() );
 			*/
@@ -3132,7 +3132,7 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 		
 		// get the expressions for conditionals / color / texcoords
 		const float* regs = drawSurf->shaderRegisters;
-		budVec4 color( 0, 0, 0, 1 );
+		Vector4 color( 0, 0, 0, 1 );
 		
 		uint64 surfGLState = 0;
 		
@@ -3187,7 +3187,7 @@ void budRenderBackend::ShadowMapPass( const drawSurf_t* drawSurfs, const viewLig
 				GL_Color( color );
 				
 				GL_State( stageGLState );
-				budVec4 alphaTestValue( regs[ pStage->alphaTestRegister ] );
+				Vector4 alphaTestValue( regs[ pStage->alphaTestRegister ] );
 				SetFragmentParm( RENDERPARM_ALPHA_TEST, alphaTestValue.ToFloatPtr() );
 				
 				if( drawSurf->jointCache )
@@ -3586,7 +3586,7 @@ int budRenderBackend::DrawShaderPasses( const drawSurf_t* const* const drawSurfs
 			}
 			
 			// set eye position in local space
-			budVec4 localViewOrigin( 1.0f );
+			Vector4 localViewOrigin( 1.0f );
 			R_GlobalPointToLocal( space->modelMatrix, viewDef->renderView.vieworg, localViewOrigin.ToVec3() );
 			SetVertexParm( RENDERPARM_LOCALVIEWORIGIN, localViewOrigin.ToFloatPtr() );
 			
@@ -3717,7 +3717,7 @@ int budRenderBackend::DrawShaderPasses( const drawSurf_t* const* const drawSurfs
 				// set rpEnableSkinning if the shader has optional support for skinning
 				if( surf->jointCache && renderProgManager.ShaderHasOptionalSkinning() )
 				{
-					const budVec4 skinningParm( 1.0f );
+					const Vector4 skinningParm( 1.0f );
 					SetVertexParm( RENDERPARM_ENABLE_SKINNING, skinningParm.ToFloatPtr() );
 				}
 				
@@ -3738,7 +3738,7 @@ int budRenderBackend::DrawShaderPasses( const drawSurf_t* const* const drawSurfs
 				// clear rpEnableSkinning if it was set
 				if( surf->jointCache && renderProgManager.ShaderHasOptionalSkinning() )
 				{
-					const budVec4 skinningParm( 0.0f );
+					const Vector4 skinningParm( 0.0f );
 					SetVertexParm( RENDERPARM_ENABLE_SKINNING, skinningParm.ToFloatPtr() );
 				}
 				
@@ -3756,7 +3756,7 @@ int budRenderBackend::DrawShaderPasses( const drawSurf_t* const* const drawSurfs
 			//--------------------------
 			
 			// set the color
-			budVec4 color;
+			Vector4 color;
 			color[0] = regs[ pStage->color.registers[0] ];
 			color[1] = regs[ pStage->color.registers[1] ];
 			color[2] = regs[ pStage->color.registers[2] ];
@@ -4010,7 +4010,7 @@ void budRenderBackend::BlendLight( const drawSurf_t* drawSurfs, const drawSurf_t
 		}
 		
 		// get the modulate values from the light, including alpha, unlike normal lights
-		budVec4 lightColor;
+		Vector4 lightColor;
 		lightColor[0] = regs[ stage->color.registers[0] ];
 		lightColor[1] = regs[ stage->color.registers[1] ];
 		lightColor[2] = regs[ stage->color.registers[2] ];
@@ -4121,7 +4121,7 @@ void budRenderBackend::FogPass( const drawSurf_t* drawSurfs,  const drawSurf_t* 
 	// assume fog shaders have only a single stage
 	const shaderStage_t* stage = lightShader->GetStage( 0 );
 	
-	budVec4 lightColor;
+	Vector4 lightColor;
 	lightColor[0] = regs[ stage->color.registers[0] ];
 	lightColor[1] = regs[ stage->color.registers[1] ];
 	lightColor[2] = regs[ stage->color.registers[2] ];
@@ -4249,8 +4249,8 @@ void budRenderBackend::CalculateAutomaticExposure()
 	float			avgLuminance;
 	float			maxLuminance;
 	double			sum;
-	const budVec3    LUMINANCE_SRGB( 0.2125f, 0.7154f, 0.0721f ); // be careful wether this should be linear RGB or sRGB
-	budVec4			color;
+	const Vector3    LUMINANCE_SRGB( 0.2125f, 0.7154f, 0.0721f ); // be careful wether this should be linear RGB or sRGB
+	Vector4			color;
 	float			newAdaptation;
 	float			newMaximum;
 	
@@ -4316,11 +4316,11 @@ void budRenderBackend::CalculateAutomaticExposure()
 		
 		//if(r_hdrMaxLuminance->value)
 		{
-			hdrAverageLuminance = budMath::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), hdrAverageLuminance );
-			avgLuminance = budMath::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), avgLuminance );
+			hdrAverageLuminance = Math::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), hdrAverageLuminance );
+			avgLuminance = Math::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), avgLuminance );
 			
-			hdrMaxLuminance = budMath::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), hdrMaxLuminance );
-			maxLuminance = budMath::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), maxLuminance );
+			hdrMaxLuminance = Math::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), hdrMaxLuminance );
+			maxLuminance = Math::ClampFloat( r_hdrMinLuminance.GetFloat(), r_hdrMaxLuminance.GetFloat(), maxLuminance );
 		}
 		
 		newAdaptation = hdrAverageLuminance + ( avgLuminance - hdrAverageLuminance ) * ( 1.0f - powf( 0.98f, 30.0f * deltaTime ) );
@@ -4418,19 +4418,19 @@ void budRenderBackend::Tonemap( const viewDef_t* _viewDef )
 	{
 		if( r_hdrAutoExposure.GetBool() )
 		{
-			float exposureOffset = Lerp( -0.01f, 0.02f, budMath::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) );
+			float exposureOffset = Lerp( -0.01f, 0.02f, Math::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) );
 			
 			screenCorrectionParm[0] = hdrKey + exposureOffset;
 			screenCorrectionParm[1] = hdrAverageLuminance;
 			screenCorrectionParm[2] = hdrMaxLuminance;
 			screenCorrectionParm[3] = exposureOffset;
-			//screenCorrectionParm[3] = Lerp( -1, 5, budMath::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) );
+			//screenCorrectionParm[3] = Lerp( -1, 5, Math::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) );
 		}
 		else
 		{
-			//float exposureOffset = ( budMath::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) * 2.0f - 1.0f ) * 0.01f;
+			//float exposureOffset = ( Math::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) * 2.0f - 1.0f ) * 0.01f;
 			
-			float exposureOffset = Lerp( -0.01f, 0.01f, budMath::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) );
+			float exposureOffset = Lerp( -0.01f, 0.01f, Math::ClampFloat( 0.0, 1.0, r_exposure.GetFloat() ) );
 			
 			screenCorrectionParm[0] = 0.015f + exposureOffset;
 			screenCorrectionParm[1] = 0.005f;
@@ -5651,7 +5651,7 @@ void budRenderBackend::MotionBlur()
 	renderProgManager.BindShader_MotionBlur();
 	
 	// let the fragment program know how many samples we are going to use
-	budVec4 samples( ( float )( 1 << r_motionBlur.GetInteger() ) );
+	Vector4 samples( ( float )( 1 << r_motionBlur.GetInteger() ) );
 	SetFragmentParm( RENDERPARM_OVERBRIGHT, samples.ToFloatPtr() );
 	
 	GL_SelectTexture( 0 );
@@ -5779,7 +5779,7 @@ budRenderBackend::PostProcess
 
 ==================
 */
-extern budCVar rs_enable;
+extern CVar rs_enable;
 void budRenderBackend::PostProcess( const void* data )
 {
 	// only do the post process step if resolution scaling is enabled. Prevents the unnecessary copying of the framebuffer and

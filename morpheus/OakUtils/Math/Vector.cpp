@@ -27,30 +27,30 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 #pragma hdrstop
-#include "libBudPCH.hpp"
+#include "oakUtilsPCH.hpp"
 
-budVec2 vec2_origin( 0.0f, 0.0f );
-budVec3 vec3_origin( 0.0f, 0.0f, 0.0f );
-budVec4 vec4_origin( 0.0f, 0.0f, 0.0f, 0.0f );
-budVec5 vec5_origin( 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
-budVec6 vec6_origin( 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
-budVec6 vec6_infinity( budMath::INFINITY, budMath::INFINITY, budMath::INFINITY, budMath::INFINITY, budMath::INFINITY, budMath::INFINITY );
+Vector2 Vector2_Origin( 0.0f, 0.0f );
+Vector3 Vector3_Origin( 0.0f, 0.0f, 0.0f );
+Vector4 Vector4_Origin( 0.0f, 0.0f, 0.0f, 0.0f );
+Vector5 Vector5_Origin( 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
+Vector6 Vector6_Origin( 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f );
+Vector6 Vector6_Infinity( Math::INFINITY, Math::INFINITY, Math::INFINITY, Math::INFINITY, Math::INFINITY, Math::INFINITY );
 
 
 //===============================================================
 //
-//	budVec2
+//	Vector2
 //
 //===============================================================
 
 /*
 =============
-budVec2::ToString
+Vector2::ToString
 =============
 */
-const char* budVec2::ToString( int precision ) const
+const char* Vector2::ToString( int precision ) const
 {
-	return budStr::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 /*
@@ -60,7 +60,7 @@ Lerp
 Linearly inperpolates one vector to another.
 =============
 */
-void budVec2::Lerp( const budVec2& v1, const budVec2& v2, const float l )
+void Vector2::Lerp( const Vector2& v1, const Vector2& v2, const float l )
 {
 	if( l <= 0.0f )
 	{
@@ -79,16 +79,16 @@ void budVec2::Lerp( const budVec2& v1, const budVec2& v2, const float l )
 
 //===============================================================
 //
-//	budVec3
+//	Vector3
 //
 //===============================================================
 
 /*
 =============
-budVec3::ToYaw
+Vector3::ToYaw
 =============
 */
-float budVec3::ToYaw() const
+float Vector3::ToYaw() const
 {
 	float yaw;
 	
@@ -110,10 +110,10 @@ float budVec3::ToYaw() const
 
 /*
 =============
-budVec3::ToPitch
+Vector3::ToPitch
 =============
 */
-float budVec3::ToPitch() const
+float Vector3::ToPitch() const
 {
 	float	forward;
 	float	pitch;
@@ -131,7 +131,7 @@ float budVec3::ToPitch() const
 	}
 	else
 	{
-		forward = ( float )budMath::Sqrt( x * x + y * y );
+		forward = ( float )Math::Sqrt( x * x + y * y );
 		pitch = RAD2DEG( atan2( z, forward ) );
 		if( pitch < 0.0f )
 		{
@@ -144,10 +144,10 @@ float budVec3::ToPitch() const
 
 /*
 =============
-budVec3::ToAngles
+Vector3::ToAngles
 =============
 */
-budAngles budVec3::ToAngles() const
+Angles Vector3::ToAngles() const
 {
 	float forward;
 	float yaw;
@@ -173,7 +173,7 @@ budAngles budVec3::ToAngles() const
 			yaw += 360.0f;
 		}
 		
-		forward = ( float )budMath::Sqrt( x * x + y * y );
+		forward = ( float )Math::Sqrt( x * x + y * y );
 		pitch = RAD2DEG( atan2( z, forward ) );
 		if( pitch < 0.0f )
 		{
@@ -181,15 +181,15 @@ budAngles budVec3::ToAngles() const
 		}
 	}
 	
-	return budAngles( -pitch, yaw, 0.0f );
+	return Angles( -pitch, yaw, 0.0f );
 }
 
 /*
 =============
-budVec3::ToPolar
+Vector3::ToPolar
 =============
 */
-idPolar3 budVec3::ToPolar() const
+Polar3 Vector3::ToPolar() const
 {
 	float forward;
 	float yaw;
@@ -215,24 +215,24 @@ idPolar3 budVec3::ToPolar() const
 			yaw += 360.0f;
 		}
 		
-		forward = ( float )budMath::Sqrt( x * x + y * y );
+		forward = ( float )Math::Sqrt( x * x + y * y );
 		pitch = RAD2DEG( atan2( z, forward ) );
 		if( pitch < 0.0f )
 		{
 			pitch += 360.0f;
 		}
 	}
-	return idPolar3( budMath::Sqrt( x * x + y * y + z * z ), yaw, -pitch );
+	return Polar3( Math::Sqrt( x * x + y * y + z * z ), yaw, -pitch );
 }
 
 /*
 =============
-budVec3::ToMat3
+Vector3::ToMat3
 =============
 */
-budMat3 budVec3::ToMat3() const
+Matrix3 Vector3::ToMat3() const
 {
-	budMat3	mat;
+	Matrix3	mat;
 	float	d;
 	
 	mat[0] = *this;
@@ -245,7 +245,7 @@ budMat3 budVec3::ToMat3() const
 	}
 	else
 	{
-		d = budMath::InvSqrt( d );
+		d = Math::InvSqrt( d );
 		mat[1][0] = -y * d;
 		mat[1][1] = x * d;
 		mat[1][2] = 0.0f;
@@ -257,12 +257,12 @@ budMat3 budVec3::ToMat3() const
 
 /*
 =============
-budVec3::ToString
+Vector3::ToString
 =============
 */
-const char* budVec3::ToString( int precision ) const
+const char* Vector3::ToString( int precision ) const
 {
-	return budStr::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 /*
@@ -272,7 +272,7 @@ Lerp
 Linearly inperpolates one vector to another.
 =============
 */
-void budVec3::Lerp( const budVec3& v1, const budVec3& v2, const float l )
+void Vector3::Lerp( const Vector3& v1, const Vector3& v2, const float l )
 {
 	if( l <= 0.0f )
 	{
@@ -298,7 +298,7 @@ Vectors are expected to be normalized.
 */
 #define LERP_DELTA 1e-6
 
-void budVec3::SLerp( const budVec3& v1, const budVec3& v2, const float t )
+void Vector3::SLerp( const Vector3& v1, const Vector3& v2, const float t )
 {
 	float omega, cosom, sinom, scale0, scale1;
 	
@@ -337,7 +337,7 @@ ProjectSelfOntoSphere
 Projects the z component onto a sphere.
 =============
 */
-void budVec3::ProjectSelfOntoSphere( const float radius )
+void Vector3::ProjectSelfOntoSphere( const float radius )
 {
 	float rsqr = radius * radius;
 	float len = Length();
@@ -355,18 +355,18 @@ void budVec3::ProjectSelfOntoSphere( const float radius )
 
 //===============================================================
 //
-//	budVec4
+//	Vector4
 //
 //===============================================================
 
 /*
 =============
-budVec4::ToString
+Vector4::ToString
 =============
 */
-const char* budVec4::ToString( int precision ) const
+const char* Vector4::ToString( int precision ) const
 {
-	return budStr::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 /*
@@ -376,7 +376,7 @@ Lerp
 Linearly inperpolates one vector to another.
 =============
 */
-void budVec4::Lerp( const budVec4& v1, const budVec4& v2, const float l )
+void Vector4::Lerp( const Vector4& v1, const Vector4& v2, const float l )
 {
 	if( l <= 0.0f )
 	{
@@ -395,26 +395,26 @@ void budVec4::Lerp( const budVec4& v1, const budVec4& v2, const float l )
 
 //===============================================================
 //
-//	budVec5
+//	Vector5
 //
 //===============================================================
 
 /*
 =============
-budVec5::ToString
+Vector5::ToString
 =============
 */
-const char* budVec5::ToString( int precision ) const
+const char* Vector5::ToString( int precision ) const
 {
-	return budStr::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 /*
 =============
-budVec5::Lerp
+Vector5::Lerp
 =============
 */
-void budVec5::Lerp( const budVec5& v1, const budVec5& v2, const float l )
+void Vector5::Lerp( const Vector5& v1, const Vector5& v2, const float l )
 {
 	if( l <= 0.0f )
 	{
@@ -437,16 +437,16 @@ void budVec5::Lerp( const budVec5& v1, const budVec5& v2, const float l )
 
 //===============================================================
 //
-//	budVec6
+//	Vector6
 //
 //===============================================================
 
 /*
 =============
-budVec6::ToString
+Vector6::ToString
 =============
 */
-const char* budVec6::ToString( int precision ) const
+const char* Vector6::ToString( int precision ) const
 {
-	return budStr::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }

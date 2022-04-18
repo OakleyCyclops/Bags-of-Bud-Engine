@@ -72,27 +72,27 @@ public:
 	void				Init();
 	void				Shutdown();
 	// get the area(s) the source is in
-	int					GetPVSArea( const budVec3& point ) const;		// returns the area number
+	int					GetPVSArea( const Vector3& point ) const;		// returns the area number
 	int					GetPVSAreas( const budBounds& bounds, int* areas, int maxAreas ) const;	// returns number of areas
 	// setup current PVS for the source
-	pvsHandle_t			SetupCurrentPVS( const budVec3& source, const pvsType_t type = PVS_NORMAL ) const;
+	pvsHandle_t			SetupCurrentPVS( const Vector3& source, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			SetupCurrentPVS( const budBounds& source, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			SetupCurrentPVS( const int sourceArea, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			SetupCurrentPVS( const int* sourceAreas, const int numSourceAreas, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			MergeCurrentPVS( pvsHandle_t pvs1, pvsHandle_t pvs2 ) const;
 	void				FreeCurrentPVS( pvsHandle_t handle ) const;
 	// returns true if the target is within the current PVS
-	bool				InCurrentPVS( const pvsHandle_t handle, const budVec3& target ) const;
+	bool				InCurrentPVS( const pvsHandle_t handle, const Vector3& target ) const;
 	bool				InCurrentPVS( const pvsHandle_t handle, const budBounds& target ) const;
 	bool				InCurrentPVS( const pvsHandle_t handle, const int targetArea ) const;
 	bool				InCurrentPVS( const pvsHandle_t handle, const int* targetAreas, int numTargetAreas ) const;
 	// draw all portals that are within the PVS of the source
-	void				DrawPVS( const budVec3& source, const pvsType_t type = PVS_NORMAL ) const;
+	void				DrawPVS( const Vector3& source, const pvsType_t type = PVS_NORMAL ) const;
 	void				DrawPVS( const budBounds& source, const pvsType_t type = PVS_NORMAL ) const;
 	// visualize the PVS the handle points to
-	void				DrawCurrentPVS( const pvsHandle_t handle, const budVec3& source ) const;
+	void				DrawCurrentPVS( const pvsHandle_t handle, const Vector3& source ) const;
 	
-	bool				CheckAreasForPortalSky( const pvsHandle_t handle, const budVec3& origin );
+	bool				CheckAreasForPortalSky( const pvsHandle_t handle, const Vector3& origin );
 	
 private:
 	int					numAreas;

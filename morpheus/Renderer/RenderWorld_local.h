@@ -122,8 +122,8 @@ public:
 	virtual	void			GenerateAllInteractions();
 	virtual void			RegenerateWorld();
 	
-	virtual void			ProjectDecalOntoWorld( const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime );
-	virtual void			ProjectDecal( qhandle_t entityHandle, const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime );
+	virtual void			ProjectDecalOntoWorld( const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime );
+	virtual void			ProjectDecal( qhandle_t entityHandle, const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime );
 	virtual void			ProjectOverlay( qhandle_t entityHandle, const budPlane localTextureAxis[2], const budMaterial* material, const int startTime );
 	virtual void			RemoveDecals( qhandle_t entityHandle );
 	
@@ -131,36 +131,36 @@ public:
 	virtual	void			RenderScene( const renderView_t* renderView );
 	
 	virtual	int				NumAreas() const;
-	virtual int				PointInArea( const budVec3& point ) const;
+	virtual int				PointInArea( const Vector3& point ) const;
 	virtual int				BoundsInAreas( const budBounds& bounds, int* areas, int maxAreas ) const;
 	virtual	int				NumPortalsInArea( int areaNum );
 	virtual exitPortal_t	GetPortal( int areaNum, int portalNum );
 	
-	virtual	guiPoint_t		GuiTrace( qhandle_t entityHandle, const budVec3 start, const budVec3 end ) const;
-	virtual bool			ModelTrace( modelTrace_t& trace, qhandle_t entityHandle, const budVec3& start, const budVec3& end, const float radius ) const;
-	virtual bool			Trace( modelTrace_t& trace, const budVec3& start, const budVec3& end, const float radius, bool skipDynamic = true, bool skipPlayer = false ) const;
-	virtual bool			FastWorldTrace( modelTrace_t& trace, const budVec3& start, const budVec3& end ) const;
+	virtual	guiPoint_t		GuiTrace( qhandle_t entityHandle, const Vector3 start, const Vector3 end ) const;
+	virtual bool			ModelTrace( modelTrace_t& trace, qhandle_t entityHandle, const Vector3& start, const Vector3& end, const float radius ) const;
+	virtual bool			Trace( modelTrace_t& trace, const Vector3& start, const Vector3& end, const float radius, bool skipDynamic = true, bool skipPlayer = false ) const;
+	virtual bool			FastWorldTrace( modelTrace_t& trace, const Vector3& start, const Vector3& end ) const;
 	
 	virtual void			DebugClearLines( int time );
-	virtual void			DebugLine( const budVec4& color, const budVec3& start, const budVec3& end, const int lifetime = 0, const bool depthTest = false );
-	virtual void			DebugArrow( const budVec4& color, const budVec3& start, const budVec3& end, int size, const int lifetime = 0 );
-	virtual void			DebugWinding( const budVec4& color, const idWinding& w, const budVec3& origin, const budMat3& axis, const int lifetime = 0, const bool depthTest = false );
-	virtual void			DebugCircle( const budVec4& color, const budVec3& origin, const budVec3& dir, const float radius, const int numSteps, const int lifetime = 0, const bool depthTest = false );
-	virtual void			DebugSphere( const budVec4& color, const budSphere& sphere, const int lifetime = 0, bool depthTest = false );
-	virtual void			DebugBounds( const budVec4& color, const budBounds& bounds, const budVec3& org = vec3_origin, const int lifetime = 0 );
-	virtual void			DebugBox( const budVec4& color, const budBox& box, const int lifetime = 0 );
-	virtual void			DebugCone( const budVec4& color, const budVec3& apex, const budVec3& dir, float radius1, float radius2, const int lifetime = 0 );
-	virtual void			DebugScreenRect( const budVec4& color, const budScreenRect& rect, const viewDef_t* viewDef, const int lifetime = 0 );
-	virtual void			DebugAxis( const budVec3& origin, const budMat3& axis );
+	virtual void			DebugLine( const Vector4& color, const Vector3& start, const Vector3& end, const int lifetime = 0, const bool depthTest = false );
+	virtual void			DebugArrow( const Vector4& color, const Vector3& start, const Vector3& end, int size, const int lifetime = 0 );
+	virtual void			DebugWinding( const Vector4& color, const idWinding& w, const Vector3& origin, const Matrix3& axis, const int lifetime = 0, const bool depthTest = false );
+	virtual void			DebugCircle( const Vector4& color, const Vector3& origin, const Vector3& dir, const float radius, const int numSteps, const int lifetime = 0, const bool depthTest = false );
+	virtual void			DebugSphere( const Vector4& color, const budSphere& sphere, const int lifetime = 0, bool depthTest = false );
+	virtual void			DebugBounds( const Vector4& color, const budBounds& bounds, const Vector3& org = Vector3_Origin, const int lifetime = 0 );
+	virtual void			DebugBox( const Vector4& color, const budBox& box, const int lifetime = 0 );
+	virtual void			DebugCone( const Vector4& color, const Vector3& apex, const Vector3& dir, float radius1, float radius2, const int lifetime = 0 );
+	virtual void			DebugScreenRect( const Vector4& color, const budScreenRect& rect, const viewDef_t* viewDef, const int lifetime = 0 );
+	virtual void			DebugAxis( const Vector3& origin, const Matrix3& axis );
 	
 	virtual void			DebugClearPolygons( int time );
-	virtual void			DebugPolygon( const budVec4& color, const idWinding& winding, const int lifeTime = 0, const bool depthTest = false );
+	virtual void			DebugPolygon( const Vector4& color, const idWinding& winding, const int lifeTime = 0, const bool depthTest = false );
 	
-	virtual void			DrawText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align = 1, const int lifetime = 0, bool depthTest = false );
+	virtual void			DrawText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align = 1, const int lifetime = 0, bool depthTest = false );
 	
 	//-----------------------
 	
-	budStr					mapName;				// ie: maps/tim_dm2.proc, written to demoFile
+	String					mapName;				// ie: maps/tim_dm2.proc, written to demoFile
 	ID_TIME_T				mapTimeStamp;			// for fast reloads of the same level
 	
 	areaNode_t* 			areaNodes;
@@ -175,13 +175,13 @@ public:
 	doublePortal_t* 		doublePortals;
 	int						numInterAreaPortals;
 	
-	budList<budRenderModel*, TAG_MODEL>	localModels;
+	List<budRenderModel*, TAG_MODEL>	localModels;
 	
-	budList<budRenderEntityLocal*, TAG_ENTITY>	entityDefs;
-	budList<budRenderLightLocal*, TAG_LIGHT>		lightDefs;
+	List<budRenderEntityLocal*, TAG_ENTITY>	entityDefs;
+	List<budRenderLightLocal*, TAG_LIGHT>		lightDefs;
 	
-	idBlockAlloc<areaReference_t, 1024> areaReferenceAllocator;
-	idBlockAlloc<budInteraction, 256>	interactionAllocator;
+	BlockAlloc<areaReference_t, 1024> areaReferenceAllocator;
+	BlockAlloc<budInteraction, 256>	interactionAllocator;
 	
 #ifdef ID_PC
 	static const int MAX_DECAL_SURFACES = 32;
@@ -232,8 +232,8 @@ public:
 	void					AddAreaToView( int areaNum, const portalStack_t* ps );
 	budScreenRect			ScreenRectFromWinding( const idWinding* w, const viewEntity_t* space );
 	bool					PortalIsFoggedOut( const portal_t* p );
-	void					FloodViewThroughArea_r( const budVec3& origin, int areaNum, const portalStack_t* ps );
-	void					FlowViewThroughPortals( const budVec3& origin, int numPlanes, const budPlane* planes );
+	void					FloodViewThroughArea_r( const Vector3& origin, int areaNum, const portalStack_t* ps );
+	void					FlowViewThroughPortals( const Vector3& origin, int numPlanes, const budPlane* planes );
 	void					BuildConnectedAreas_r( int areaNum );
 	void					BuildConnectedAreas();
 	void					FindViewLightsAndEntities();
@@ -282,7 +282,7 @@ public:
 	void					AddEntityRefToArea( budRenderEntityLocal* def, portalArea_t* area );
 	void					AddLightRefToArea( budRenderLightLocal* light, portalArea_t* area );
 	
-	void					RecurseProcBSP_r( modelTrace_t* results, int parentNodeNum, int nodeNum, float p1f, float p2f, const budVec3& p1, const budVec3& p2 ) const;
+	void					RecurseProcBSP_r( modelTrace_t* results, int parentNodeNum, int nodeNum, float p1f, float p2f, const Vector3& p1, const Vector3& p2 ) const;
 	void					BoundsInAreas_r( int nodeNum, const budBounds& bounds, int* areas, int* numAreas, int maxAreas ) const;
 	
 	float					DrawTextLength( const char* text, float scale, int len = 0 );
@@ -305,7 +305,7 @@ public:
 // means that the combination has not yet been tested for having surfaces.
 static budInteraction* const INTERACTION_EMPTY = ( budInteraction* )1;
 
-void R_ListRenderLightDefs_f( const budCmdArgs& args );
-void R_ListRenderEntityDefs_f( const budCmdArgs& args );
+void R_ListRenderLightDefs_f( const CmdArgs& args );
+void R_ListRenderEntityDefs_f( const CmdArgs& args );
 
 #endif /* !__RENDERWORLDLOCAL_H__ */

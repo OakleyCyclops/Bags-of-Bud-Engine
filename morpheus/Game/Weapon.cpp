@@ -134,13 +134,13 @@ EVENT( EV_Weapon_StopWeaponLight,			idWeapon::Event_StopWeaponLight )
 END_CLASS
 
 
-budCVar cg_projectile_clientAuthoritative_maxCatchup( "cg_projectile_clientAuthoritative_maxCatchup", "500", CVAR_INTEGER, "" );
+CVar cg_projectile_clientAuthoritative_maxCatchup( "cg_projectile_clientAuthoritative_maxCatchup", "500", CVAR_INTEGER, "" );
 
-budCVar g_useWeaponDepthHack( "g_useWeaponDepthHack", "1", CVAR_BOOL, "Crunch z depth on weapons" );
+CVar g_useWeaponDepthHack( "g_useWeaponDepthHack", "1", CVAR_BOOL, "Crunch z depth on weapons" );
 
-budCVar g_weaponShadows( "g_weaponShadows", "0", CVAR_BOOL | CVAR_ARCHIVE, "Cast shadows from weapons" );
+CVar g_weaponShadows( "g_weaponShadows", "0", CVAR_BOOL | CVAR_ARCHIVE, "Cast shadows from weapons" );
 
-extern budCVar cg_predictedSpawn_debug;
+extern CVar cg_predictedSpawn_debug;
 
 /***********************************************************************
 
@@ -166,7 +166,7 @@ idWeapon::idWeapon()
 	memset( &nozzleGlow, 0, sizeof( nozzleGlow ) );
 	
 	muzzleFlashEnd			= 0;
-	flashColor				= vec3_origin;
+	flashColor				= Vector3_Origin;
 	muzzleFlashHandle		= -1;
 	worldMuzzleFlashHandle	= -1;
 	guiLightHandle			= -1;
@@ -530,7 +530,7 @@ void idWeapon::Restore( idRestoreGame* savefile )
 	
 	savefile->ReadVec3( pushVelocity );
 	
-	budStr objectname;
+	String objectname;
 	savefile->ReadString( objectname );
 	weaponDef = gameLocal.FindEntityDef( objectname );
 	meleeDef = gameLocal.FindEntityDef( weaponDef->dict.GetString( "def_melee" ), false );
@@ -674,7 +674,7 @@ void idWeapon::Restore( idRestoreGame* savefile )
 		WeaponParticle_t newParticle;
 		memset( &newParticle, 0, sizeof( newParticle ) );
 		
-		budStr name, particlename;
+		String name, particlename;
 		savefile->ReadString( name );
 		savefile->ReadString( particlename );
 		
@@ -704,7 +704,7 @@ void idWeapon::Restore( idRestoreGame* savefile )
 		WeaponLight_t newLight;
 		memset( &newLight, 0, sizeof( newLight ) );
 		
-		budStr name;
+		String name;
 		savefile->ReadString( name );
 		strcpy( newLight.name, name.c_str() );
 		
@@ -968,7 +968,7 @@ void idWeapon::InitWorldModel( const budDeclEntityDef* def )
 		ent->GetPhysics()->SetContents( 0 );
 		ent->GetPhysics()->SetClipModel( NULL, 1.0f );
 		ent->BindToJoint( owner, attach, true );
-		ent->GetPhysics()->SetOrigin( vec3_origin );
+		ent->GetPhysics()->SetOrigin( Vector3_Origin );
 		ent->GetPhysics()->SetAxis( mat3_identity );
 		
 		// We don't want to interpolate the world model of weapons, let them
@@ -1103,7 +1103,7 @@ void idWeapon::GetWeaponDef( const char* objectname, int ammoinclip )
 	guiLightJointView = animator.GetJointHandle( "guiLight" );
 	ventLightJointView = animator.GetJointHandle( "ventLight" );
 	
-	budStr smokeJoint = weaponDef->dict.GetString( "smoke_joint" );
+	String smokeJoint = weaponDef->dict.GetString( "smoke_joint" );
 	if( smokeJoint.Length() > 0 )
 	{
 		smokeJointView = animator.GetJointHandle( smokeJoint );
@@ -1141,9 +1141,9 @@ void idWeapon::GetWeaponDef( const char* objectname, int ammoinclip )
 	
 	// set up muzzleflash render light
 	const budMaterial* flashShader;
-	budVec3			flashTarget;
-	budVec3			flashUp;
-	budVec3			flashRight;
+	Vector3			flashTarget;
+	Vector3			flashUp;
+	Vector3			flashRight;
 	float			flashRadius;
 	bool			flashPointLight;
 	
@@ -1318,17 +1318,17 @@ void idWeapon::GetWeaponDef( const char* objectname, int ammoinclip )
 			WeaponParticle_t newParticle;
 			memset( &newParticle, 0, sizeof( newParticle ) );
 			
-			budStr name = pkv->GetValue();
+			String name = pkv->GetValue();
 			
 			strcpy( newParticle.name, name.c_str() );
 			
-			budStr jointName = weaponDef->dict.GetString( va( "%s_joint", name.c_str() ) );
+			String jointName = weaponDef->dict.GetString( va( "%s_joint", name.c_str() ) );
 			newParticle.joint = animator.GetJointHandle( jointName.c_str() );
 			newParticle.smoke = weaponDef->dict.GetBool( va( "%s_smoke", name.c_str() ) );
 			newParticle.active = false;
 			newParticle.startTime = 0;
 			
-			budStr particle = weaponDef->dict.GetString( va( "%s_particle", name.c_str() ) );
+			String particle = weaponDef->dict.GetString( va( "%s_particle", name.c_str() ) );
 			strcpy( newParticle.particlename, particle.c_str() );
 			
 			if( newParticle.smoke )
@@ -1337,7 +1337,7 @@ void idWeapon::GetWeaponDef( const char* objectname, int ammoinclip )
 			}
 			else
 			{
-				idDict args;
+				Dict args;
 				
 				const budDeclEntityDef* emitterDef = gameLocal.FindEntityDef( "func_emitter", false );
 				args = emitterDef->dict;
@@ -1369,13 +1369,13 @@ void idWeapon::GetWeaponDef( const char* objectname, int ammoinclip )
 			newLight.active = false;
 			newLight.startTime = 0;
 			
-			budStr name = lkv->GetValue();
+			String name = lkv->GetValue();
 			strcpy( newLight.name, name.c_str() );
 			
-			budStr jointName = weaponDef->dict.GetString( va( "%s_joint", name.c_str() ) );
+			String jointName = weaponDef->dict.GetString( va( "%s_joint", name.c_str() ) );
 			newLight.joint = animator.GetJointHandle( jointName.c_str() );
 			
-			budStr shader = weaponDef->dict.GetString( va( "%s_shader", name.c_str() ) );
+			String shader = weaponDef->dict.GetString( va( "%s_shader", name.c_str() ) );
 			newLight.light.shader = declManager->FindMaterial( shader, false );
 			
 			float radius = weaponDef->dict.GetFloat( va( "%s_radius", name.c_str() ) );
@@ -1527,22 +1527,22 @@ void idWeapon::UpdateFlashPosition()
 		static float pscale = 2.0f;
 		static float yscale = 0.25f;
 		
-// 		static budVec3 baseAdjustPos = vec3_zero;	//budVec3( 0.0f, 10.0f, 0.0f );
-// 		budVec3 adjustPos = baseAdjustPos;
+// 		static Vector3 baseAdjustPos = vec3_zero;	//Vector3( 0.0f, 10.0f, 0.0f );
+// 		Vector3 adjustPos = baseAdjustPos;
 //		muzzleFlash.origin += adjustPos.x * muzzleFlash.axis[1] + adjustPos.y * muzzleFlash.axis[0] + adjustPos.z * muzzleFlash.axis[2];
 		muzzleFlash.origin += owner->GetViewBob();
 		
-//		static budAngles baseAdjustAng = ang_zero;	//budAngles( 0.0f, 10.0f, 0.0f );
-		budAngles adjustAng = /*baseAdjustAng +*/ budAngles( fraccos * yscale, 0.0f, fraccos2 * pscale );
-		budAngles bobAngles = owner->GetViewBobAngles();
+//		static Angles baseAdjustAng = ang_zero;	//Angles( 0.0f, 10.0f, 0.0f );
+		Angles adjustAng = /*baseAdjustAng +*/ Angles( fraccos * yscale, 0.0f, fraccos2 * pscale );
+		Angles bobAngles = owner->GetViewBobAngles();
 		SwapValues( bobAngles.pitch, bobAngles.roll );
 		adjustAng += bobAngles * 3.0f;
 		muzzleFlash.axis = adjustAng.ToMat3() * muzzleFlash.axis /** adjustAng.ToMat3()*/;
 	}
 	
 	// if the desired point is inside or very close to a wall, back it up until it is clear
-	budVec3	start = muzzleFlash.origin - playerViewAxis[0] * 16;
-	budVec3	end = muzzleFlash.origin + playerViewAxis[0] * 8;
+	Vector3	start = muzzleFlash.origin - playerViewAxis[0] * 16;
+	Vector3	end = muzzleFlash.origin + playerViewAxis[0] * 8;
 	trace_t	tr;
 	gameLocal.clip.TracePoint( tr, start, end, MASK_SHOT_RENDERMODEL, owner );
 	// be at least 8 units away from a solid
@@ -1721,7 +1721,7 @@ idWeapon::GetGlobalJointTransform
 This returns the offset and axis of a weapon bone in world space, suitable for attaching models or lights
 ================
 */
-bool idWeapon::GetGlobalJointTransform( bool viewModel, const jointHandle_t jointHandle, budVec3& offset, budMat3& axis )
+bool idWeapon::GetGlobalJointTransform( bool viewModel, const jointHandle_t jointHandle, Vector3& offset, Matrix3& axis )
 {
 	if( viewModel )
 	{
@@ -1753,7 +1753,7 @@ bool idWeapon::GetGlobalJointTransform( bool viewModel, const jointHandle_t join
 idWeapon::SetPushVelocity
 ================
 */
-void idWeapon::SetPushVelocity( const budVec3& pushVelocity )
+void idWeapon::SetPushVelocity( const Vector3& pushVelocity )
 {
 	this->pushVelocity = pushVelocity;
 }
@@ -2039,7 +2039,7 @@ idWeapon::ShowCrosshair
 bool idWeapon::ShowCrosshair() const
 {
 // JDC: this code would never function as written, I'm assuming they wanted the following behavior
-//	return !( state == budStr( WP_RISING ) || state == budStr( WP_LOWERING ) || state == budStr( WP_HOLSTERED ) );
+//	return !( state == String( WP_RISING ) || state == String( WP_LOWERING ) || state == String( WP_HOLSTERED ) );
 	return !( status == WP_RISING || status == WP_LOWERING || status == WP_HOLSTERED || status == WP_RELOAD );
 }
 
@@ -2091,7 +2091,7 @@ void idWeapon::WeaponStolen()
 idWeapon::DropItem
 =====================
 */
-idEntity* idWeapon::DropItem( const budVec3& velocity, int activateDelay, int removeDelay, bool died )
+idEntity* idWeapon::DropItem( const Vector3& velocity, int activateDelay, int removeDelay, bool died )
 {
 	if( !weaponDef || !worldModel.GetEntity() )
 	{
@@ -2228,8 +2228,8 @@ idWeapon::BloodSplat
 bool idWeapon::BloodSplat( float size )
 {
 	float s, c;
-	budMat3 localAxis, axistemp;
-	budVec3 localOrigin, normal;
+	Matrix3 localAxis, axistemp;
+	Vector3 localOrigin, normal;
 	
 	if( hasBloodSplat )
 	{
@@ -2252,10 +2252,10 @@ bool idWeapon::BloodSplat( float size )
 	localOrigin[1] += gameLocal.random.RandomFloat() * 1.0f;
 	localOrigin[2] += gameLocal.random.RandomFloat() * -2.0f;
 	
-	normal = budVec3( gameLocal.random.CRandomFloat(), -gameLocal.random.RandomFloat(), -1 );
+	normal = Vector3( gameLocal.random.CRandomFloat(), -gameLocal.random.RandomFloat(), -1 );
 	normal.Normalize();
 	
-	budMath::SinCos16( gameLocal.random.RandomFloat() * budMath::TWO_PI, s, c );
+	Math::SinCos16( gameLocal.random.RandomFloat() * Math::TWO_PI, s, c );
 	
 	localAxis[2] = -normal;
 	localAxis[2].NormalVectors( axistemp[0], axistemp[1] );
@@ -2294,12 +2294,12 @@ idWeapon::MuzzleRise
 The machinegun and chaingun will incrementally back up as they are being fired
 ================
 */
-void idWeapon::MuzzleRise( budVec3& origin, budMat3& axis )
+void idWeapon::MuzzleRise( Vector3& origin, Matrix3& axis )
 {
 	int			time;
 	float		amount;
-	budAngles	ang;
-	budVec3		offset;
+	Angles	ang;
+	Vector3		offset;
 	
 	time = kick_endtime - gameLocal.time;
 	if( time <= 0 )
@@ -2442,7 +2442,7 @@ void idWeapon::AlertMonsters()
 {
 	trace_t	tr;
 	idEntity* ent;
-	budVec3 end = muzzleFlash.origin + muzzleFlash.axis * muzzleFlash.target;
+	Vector3 end = muzzleFlash.origin + muzzleFlash.axis * muzzleFlash.target;
 	
 	gameLocal.clip.TracePoint( tr, muzzleFlash.origin, end, CONTENTS_OPAQUE | MASK_SHOT_RENDERMODEL | CONTENTS_FLASHLIGHT_TRIGGER, owner );
 	if( g_debugWeapon.GetBool() )
@@ -2466,8 +2466,8 @@ void idWeapon::AlertMonsters()
 	}
 	
 	// jitter the trace to try to catch cases where a trace down the center doesn't hit the monster
-	end += muzzleFlash.axis * muzzleFlash.right * budMath::Sin16( MS2SEC( gameLocal.time ) * 31.34f );
-	end += muzzleFlash.axis * muzzleFlash.up * budMath::Sin16( MS2SEC( gameLocal.time ) * 12.17f );
+	end += muzzleFlash.axis * muzzleFlash.right * Math::Sin16( MS2SEC( gameLocal.time ) * 31.34f );
+	end += muzzleFlash.axis * muzzleFlash.up * Math::Sin16( MS2SEC( gameLocal.time ) * 12.17f );
 	gameLocal.clip.TracePoint( tr, muzzleFlash.origin, end, CONTENTS_OPAQUE | MASK_SHOT_RENDERMODEL | CONTENTS_FLASHLIGHT_TRIGGER, owner );
 	if( g_debugWeapon.GetBool() )
 	{
@@ -2506,11 +2506,11 @@ the pragmatic move right now.
 Returns false for hands, grenades, and chainsaw.
 ================
 */
-bool idWeapon::GetMuzzlePositionWithHacks( budVec3& origin, budMat3& axis )
+bool idWeapon::GetMuzzlePositionWithHacks( Vector3& origin, Matrix3& axis )
 {
 	// I couldn't find a simple enum to identify the weapons that need
 	// workaround hacks...
-	const budStr& weaponIconName = pdaIcon;
+	const String& weaponIconName = pdaIcon;
 	
 	origin = playerViewOrigin;
 	axis = playerViewAxis;
@@ -2545,7 +2545,7 @@ bool idWeapon::GetMuzzlePositionWithHacks( budVec3& origin, budMat3& axis )
 	
 	// get better axis joints for weapons where the barrelJointView isn't
 	// animated properly
-	budVec3	discardedOrigin;
+	Vector3	discardedOrigin;
 	if( weaponIconName == "guis/assets/hud/icons/pistol_new.tga" )
 	{
 		// muzzle doesn't animate during firing, Bod does
@@ -2570,14 +2570,14 @@ bool idWeapon::GetMuzzlePositionWithHacks( budVec3& origin, budMat3& axis )
 	// point
 	if( weaponDef != NULL )
 	{
-		if( ( budStr::Icmp( "weapon_shotgun_double", weaponDef->GetName() ) == 0 ) || ( budStr::Icmp( "weapon_shotgun_double_mp", weaponDef->GetName() ) == 0 ) )
+		if( ( String::Icmp( "weapon_shotgun_double", weaponDef->GetName() ) == 0 ) || ( String::Icmp( "weapon_shotgun_double_mp", weaponDef->GetName() ) == 0 ) )
 		{
 			// joint doesn't point straight, so rotate it
 			std::swap( axis[0], axis[2] );
 		}
-		else if( budStr::Icmp( "weapon_grabber", weaponDef->GetName() ) == 0 )
+		else if( String::Icmp( "weapon_grabber", weaponDef->GetName() ) == 0 )
 		{
-			budVec3 forward = axis[0];
+			Vector3 forward = axis[0];
 			forward.Normalize();
 			const float scaleOffset = 4.0f;
 			forward *= scaleOffset;
@@ -2603,21 +2603,21 @@ void idWeapon::PresentWeapon( bool showViewModel )
 		viewWeaponOrigin = playerViewOrigin;
 		viewWeaponAxis = playerViewAxis;
 		
-		fraccos = cos( ( gameLocal.framenum & 255 ) / 127.0f * budMath::PI );
+		fraccos = cos( ( gameLocal.framenum & 255 ) / 127.0f * Math::PI );
 		
 		static unsigned int divisor = 32;
 		unsigned int val = ( gameLocal.framenum + gameLocal.framenum / divisor ) & 255;
-		fraccos2 = cos( val / 127.0f * budMath::PI );
+		fraccos2 = cos( val / 127.0f * Math::PI );
 		
-		static budVec3 baseAdjustPos = budVec3( -8.0f, -20.0f, -10.0f );		// rt, fwd, up
+		static Vector3 baseAdjustPos = Vector3( -8.0f, -20.0f, -10.0f );		// rt, fwd, up
 		static float pscale = 0.5f;
 		static float yscale = 0.125f;
-		budVec3 adjustPos = baseAdjustPos;// + ( budVec3( fraccos, 0.0f, fraccos2 ) * scale );
+		Vector3 adjustPos = baseAdjustPos;// + ( Vector3( fraccos, 0.0f, fraccos2 ) * scale );
 		viewWeaponOrigin += adjustPos.x * viewWeaponAxis[1] + adjustPos.y * viewWeaponAxis[0] + adjustPos.z * viewWeaponAxis[2];
 //		viewWeaponOrigin += owner->viewBob;
 
-		static budAngles baseAdjustAng = budAngles( 88.0f, 10.0f, 0.0f );		//
-		budAngles adjustAng = baseAdjustAng + budAngles( fraccos * pscale, fraccos2 * yscale, 0.0f );
+		static Angles baseAdjustAng = Angles( 88.0f, 10.0f, 0.0f );		//
+		Angles adjustAng = baseAdjustAng + Angles( fraccos * pscale, fraccos2 * yscale, 0.0f );
 //		adjustAng += owner->GetViewBobAngles();
 		viewWeaponAxis = adjustAng.ToMat3() * viewWeaponAxis;
 	}
@@ -3002,7 +3002,7 @@ idWeapon::GetAmmoNumForName
 ammo_t idWeapon::GetAmmoNumForName( const char* ammoname )
 {
 	int num;
-	const idDict* ammoDict;
+	const Dict* ammoDict;
 	
 	assert( ammoname );
 	
@@ -3041,7 +3041,7 @@ const char* idWeapon::GetAmmoNameForNum( ammo_t ammonum )
 {
 	int i;
 	int num;
-	const idDict* ammoDict;
+	const Dict* ammoDict;
 	const idKeyValue* kv;
 	char text[ 32 ];
 	
@@ -3076,7 +3076,7 @@ const char* idWeapon::GetAmmoPickupNameForNum( ammo_t ammonum )
 {
 	int i;
 	int num;
-	const idDict* ammoDict;
+	const Dict* ammoDict;
 	const idKeyValue* kv;
 	
 	ammoDict = gameLocal.FindEntityDefDict( "ammo_names", false );
@@ -3093,7 +3093,7 @@ const char* idWeapon::GetAmmoPickupNameForNum( ammo_t ammonum )
 		for( i = 0; i < num; i++ )
 		{
 			kv = ammoDict->GetKeyVal( i );
-			if( budStr::Icmp( kv->GetKey(), name ) == 0 )
+			if( String::Icmp( kv->GetKey(), name ) == 0 )
 			{
 				return kv->GetValue();
 			}
@@ -3952,7 +3952,7 @@ void idWeapon::Event_CreateProjectile()
 idWeapon::GetProjectileLaunchOriginAndAxis
 ================
 */
-void idWeapon::GetProjectileLaunchOriginAndAxis( budVec3& origin, budMat3& axis )
+void idWeapon::GetProjectileLaunchOriginAndAxis( Vector3& origin, Matrix3& axis )
 {
 	assert( owner != NULL );
 	
@@ -3983,13 +3983,13 @@ void idWeapon::Event_LaunchProjectiles( int num_projectiles, float spread, float
 	idProjectile*	proj;
 	idEntity*		ent;
 	int				i;
-	budVec3			dir;
+	Vector3			dir;
 	float			ang;
 	float			spin;
 	float			distance;
 	trace_t			tr;
-	budVec3			start;
-	budVec3			muzzle_pos;
+	Vector3			start;
+	Vector3			muzzle_pos;
 	budBounds		ownerBounds, projBounds;
 	
 	assert( owner != NULL );
@@ -4091,9 +4091,9 @@ void idWeapon::Event_LaunchProjectiles( int num_projectiles, float spread, float
 		float spreadRad = DEG2RAD( spread );
 		for( i = 0; i < num_projectiles; i++ )
 		{
-			ang = budMath::Sin( spreadRad * gameLocal.random.RandomFloat() );
+			ang = Math::Sin( spreadRad * gameLocal.random.RandomFloat() );
 			spin = ( float )DEG2RAD( 360.0f ) * gameLocal.random.RandomFloat();
-			dir = muzzleAxis[ 0 ] + muzzleAxis[ 2 ] * ( ang * budMath::Sin( spin ) ) - muzzleAxis[ 1 ] * ( ang * budMath::Cos( spin ) );
+			dir = muzzleAxis[ 0 ] + muzzleAxis[ 2 ] * ( ang * Math::Sin( spin ) ) - muzzleAxis[ 1 ] * ( ang * Math::Cos( spin ) );
 			dir.Normalize();
 			
 			if( projectileEnt )
@@ -4171,7 +4171,7 @@ void idWeapon::Event_LaunchProjectiles( int num_projectiles, float spread, float
 			{
 				int serverTimeOnClient = owner->usercmd.serverGameMilliseconds;
 				
-				int delta = budMath::ClampInt( 0, cg_projectile_clientAuthoritative_maxCatchup.GetInteger(), gameLocal.GetServerGameTimeMs() - serverTimeOnClient );
+				int delta = Math::ClampInt( 0, cg_projectile_clientAuthoritative_maxCatchup.GetInteger(), gameLocal.GetServerGameTimeMs() - serverTimeOnClient );
 				
 				int startTime = gameLocal.GetServerGameTimeMs() - delta;
 				
@@ -4221,13 +4221,13 @@ void idWeapon::Event_LaunchProjectilesEllipse( int num_projectiles, float spread
 	idProjectile*	proj;
 	idEntity*		ent;
 	int				i;
-	budVec3			dir;
+	Vector3			dir;
 	float			anga, angb;
 	float			spin;
 	float			distance;
 	trace_t			tr;
-	budVec3			start;
-	budVec3			muzzle_pos;
+	Vector3			start;
+	Vector3			muzzle_pos;
 	budBounds		ownerBounds, projBounds;
 	
 	if( IsHidden() )
@@ -4317,9 +4317,9 @@ void idWeapon::Event_LaunchProjectilesEllipse( int num_projectiles, float spread
 		{
 			//Ellipse Form
 			spin = ( float )DEG2RAD( 360.0f ) * gameLocal.random.RandomFloat();
-			anga = budMath::Sin( spreadRadA * gameLocal.random.RandomFloat() );
-			angb = budMath::Sin( spreadRadB * gameLocal.random.RandomFloat() );
-			dir = playerViewAxis[ 0 ] + playerViewAxis[ 2 ] * ( angb * budMath::Sin( spin ) ) - playerViewAxis[ 1 ] * ( anga * budMath::Cos( spin ) );
+			anga = Math::Sin( spreadRadA * gameLocal.random.RandomFloat() );
+			angb = Math::Sin( spreadRadB * gameLocal.random.RandomFloat() );
+			dir = playerViewAxis[ 0 ] + playerViewAxis[ 2 ] * ( angb * Math::Sin( spin ) ) - playerViewAxis[ 1 ] * ( anga * Math::Cos( spin ) );
 			dir.Normalize();
 			
 			gameLocal.SpawnEntityDef( projectileDict, &ent );
@@ -4522,8 +4522,8 @@ void idWeapon::Event_Melee()
 	
 	if( !common->IsClient() )
 	{
-		budVec3 start = playerViewOrigin;
-		budVec3 end = start + playerViewAxis[0] * ( meleeDistance * owner->PowerUpModifier( MELEE_DISTANCE ) );
+		Vector3 start = playerViewOrigin;
+		Vector3 end = start + playerViewAxis[0] * ( meleeDistance * owner->PowerUpModifier( MELEE_DISTANCE ) );
 		gameLocal.clip.TracePoint( tr, start, end, MASK_SHOT_RENDERMODEL, owner );
 		if( tr.fraction < 1.0f )
 		{
@@ -4550,7 +4550,7 @@ void idWeapon::Event_Melee()
 		{
 		
 			float push = meleeDef->dict.GetFloat( "push" );
-			budVec3 impulse = -push * owner->PowerUpModifier( SPEED ) * tr.c.normal;
+			Vector3 impulse = -push * owner->PowerUpModifier( SPEED ) * tr.c.normal;
 			
 			if( gameLocal.world->spawnArgs.GetBool( "no_Weapons" ) && ( ent->IsType( budActor::Type ) || ent->IsType( budAFAttachment::Type ) ) )
 			{
@@ -4577,7 +4577,7 @@ void idWeapon::Event_Melee()
 			
 			if( ent->fl.takedamage )
 			{
-				budVec3 kickDir, globalKickDir;
+				Vector3 kickDir, globalKickDir;
 				meleeDef->dict.GetVector( "kickDir", "0 0 0", kickDir );
 				globalKickDir = muzzleAxis * kickDir;
 				//Adjust the melee powerup modifier for the invulnerability boss fight
@@ -4709,8 +4709,8 @@ void idWeapon::Event_EjectBrass()
 		return;
 	}
 	
-	budMat3 axis;
-	budVec3 origin, linear_velocity, angular_velocity;
+	Matrix3 axis;
+	Vector3 origin, linear_velocity, angular_velocity;
 	idEntity* ent;
 	
 	if( !GetGlobalJointTransform( true, ejectJointView, origin, axis ) )

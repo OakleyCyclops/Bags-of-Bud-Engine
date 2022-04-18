@@ -170,7 +170,7 @@ void DrawAuxWinding( const idWinding* w )
 	glFlush();
 }
 
-void DrawLine( budVec3 v1, budVec3 v2, int color )
+void DrawLine( Vector3 v1, Vector3 v2, int color )
 {
 	if( !dmapGlobals.drawflag )
 		return;

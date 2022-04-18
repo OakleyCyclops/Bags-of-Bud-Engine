@@ -125,8 +125,8 @@ typedef struct renderEntity_s
 	// axis rotation vectors must be unit length for many
 	// R_LocalToGlobal functions to work, so don't scale models!
 	// axis vectors are [0] = forward, [1] = left, [2] = up
-	budVec3					origin;
-	budMat3					axis;
+	Vector3					origin;
+	Matrix3					axis;
 	
 	// texturing
 	const budMaterial* 		customShader;			// if non-0, all surfaces will use this
@@ -167,8 +167,8 @@ typedef struct renderEntity_s
 
 typedef struct renderLight_s
 {
-	budMat3					axis;				// rotation vectors, must be unit length
-	budVec3					origin;
+	Matrix3					axis;				// rotation vectors, must be unit length
+	Vector3					origin;
 	
 	// if non-zero, the light will not show up in the specific view,
 	// which may be used if we want to have slightly different muzzle
@@ -188,18 +188,18 @@ typedef struct renderLight_s
 	
 	bool					pointLight;			// otherwise a projection light (should probably invert the sense of this, because points are way more common)
 	bool					parallel;			// lightCenter gives the direction to the light at infinity
-	budVec3					lightRadius;		// xyz radius for point lights
-	budVec3					lightCenter;		// offset the lighting direction for shading and
+	Vector3					lightRadius;		// xyz radius for point lights
+	Vector3					lightCenter;		// offset the lighting direction for shading and
 	// shadows, relative to origin
 	
 	// frustum definition for projected lights, all reletive to origin
 	// FIXME: we should probably have real plane equations here, and offer
 	// a helper function for conversion from this format
-	budVec3					target;
-	budVec3					right;
-	budVec3					up;
-	budVec3					start;
-	budVec3					end;
+	Vector3					target;
+	Vector3					right;
+	Vector3					up;
+	Vector3					start;
+	Vector3					end;
 	
 	// Dmap will generate an optimized shadow volume named _prelight_<lightName>
 	// for the light against all the _area* models in the map.  The renderer will
@@ -223,9 +223,9 @@ typedef struct renderView_s
 	int						viewID;
 	
 	float					fov_x, fov_y;		// in degrees
-	budVec3					vieworg;			// has already been adjusted for stereo world seperation
-	budVec3					vieworg_weapon;		// has already been adjusted for stereo world seperation
-	budMat3					viewaxis;			// transformation matrix, view looks down the positive X axis
+	Vector3					vieworg;			// has already been adjusted for stereo world seperation
+	Vector3					vieworg_weapon;		// has already been adjusted for stereo world seperation
+	Matrix3					viewaxis;			// transformation matrix, view looks down the positive X axis
 	
 	bool					cramZNear;			// for cinematics, we want to set ZNear much lower
 	bool					flipProjection;
@@ -264,8 +264,8 @@ typedef struct
 typedef struct modelTrace_s
 {
 	float					fraction;			// fraction of trace completed
-	budVec3					point;				// end point of trace in global space
-	budVec3					normal;				// hit triangle normal vector in global space
+	Vector3					point;				// end point of trace in global space
+	Vector3					normal;				// hit triangle normal vector in global space
 	const budMaterial* 		material;			// material of hit surface
 	const renderEntity_t* 	entity;				// render entity that was hit
 	int						jointNumber;		// md5 joint nearest to the hit triangle
@@ -329,10 +329,10 @@ public:
 	// The decals are projected onto world geometry between the winding plane and the projection origin.
 	// The decals are depth faded from the winding plane to a certain distance infront of the
 	// winding plane and the same distance from the projection origin towards the winding.
-	virtual void			ProjectDecalOntoWorld( const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime ) = 0;
+	virtual void			ProjectDecalOntoWorld( const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime ) = 0;
 	
 	// Creates decals on static models.
-	virtual void			ProjectDecal( qhandle_t entityHandle, const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime ) = 0;
+	virtual void			ProjectDecal( qhandle_t entityHandle, const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime ) = 0;
 	
 	// Creates overlays on dynamic models.
 	virtual void			ProjectOverlay( qhandle_t entityHandle, const budPlane localTextureAxis[2], const budMaterial* material, const int startTime ) = 0;
@@ -377,7 +377,7 @@ public:
 	
 	// Will return -1 if the point is not in an area, otherwise
 	// it will return 0 <= value < NumAreas()
-	virtual int				PointInArea( const budVec3& point ) const = 0;
+	virtual int				PointInArea( const Vector3& point ) const = 0;
 	
 	// fills the *areas array with the numbers of the areas the bounds cover
 	// returns the total number of areas the bounds cover
@@ -395,16 +395,16 @@ public:
 	// fraction location of the trace on the gui surface, or -1,-1 if no hit.
 	// This doesn't do any occlusion testing, simply ignoring non-gui surfaces.
 	// start / end are in global world coordinates.
-	virtual guiPoint_t		GuiTrace( qhandle_t entityHandle, const budVec3 start, const budVec3 end ) const = 0;
+	virtual guiPoint_t		GuiTrace( qhandle_t entityHandle, const Vector3 start, const Vector3 end ) const = 0;
 	
 	// Traces vs the render model, possibly instantiating a dynamic version, and returns true if something was hit
-	virtual bool			ModelTrace( modelTrace_t& trace, qhandle_t entityHandle, const budVec3& start, const budVec3& end, const float radius ) const = 0;
+	virtual bool			ModelTrace( modelTrace_t& trace, qhandle_t entityHandle, const Vector3& start, const Vector3& end, const float radius ) const = 0;
 	
 	// Traces vs the whole rendered world. FIXME: we need some kind of material flags.
-	virtual bool			Trace( modelTrace_t& trace, const budVec3& start, const budVec3& end, const float radius, bool skipDynamic = true, bool skipPlayer = false ) const = 0;
+	virtual bool			Trace( modelTrace_t& trace, const Vector3& start, const Vector3& end, const float radius, bool skipDynamic = true, bool skipPlayer = false ) const = 0;
 	
 	// Traces vs the world model bsp tree.
-	virtual bool			FastWorldTrace( modelTrace_t& trace, const budVec3& start, const budVec3& end ) const = 0;
+	virtual bool			FastWorldTrace( modelTrace_t& trace, const Vector3& start, const Vector3& end ) const = 0;
 	
 	//-------------- Demo Control  -----------------
 	
@@ -429,22 +429,22 @@ public:
 	
 	// Line drawing for debug visualization
 	virtual void			DebugClearLines( int time ) = 0;		// a time of 0 will clear all lines and text
-	virtual void			DebugLine( const budVec4& color, const budVec3& start, const budVec3& end, const int lifetime = 0, const bool depthTest = false ) = 0;
-	virtual void			DebugArrow( const budVec4& color, const budVec3& start, const budVec3& end, int size, const int lifetime = 0 ) = 0;
-	virtual void			DebugWinding( const budVec4& color, const idWinding& w, const budVec3& origin, const budMat3& axis, const int lifetime = 0, const bool depthTest = false ) = 0;
-	virtual void			DebugCircle( const budVec4& color, const budVec3& origin, const budVec3& dir, const float radius, const int numSteps, const int lifetime = 0, const bool depthTest = false ) = 0;
-	virtual void			DebugSphere( const budVec4& color, const budSphere& sphere, const int lifetime = 0, bool depthTest = false ) = 0;
-	virtual void			DebugBounds( const budVec4& color, const budBounds& bounds, const budVec3& org = vec3_origin, const int lifetime = 0 ) = 0;
-	virtual void			DebugBox( const budVec4& color, const budBox& box, const int lifetime = 0 ) = 0;
-	virtual void			DebugCone( const budVec4& color, const budVec3& apex, const budVec3& dir, float radius1, float radius2, const int lifetime = 0 ) = 0;
-	virtual void			DebugAxis( const budVec3& origin, const budMat3& axis ) = 0;
+	virtual void			DebugLine( const Vector4& color, const Vector3& start, const Vector3& end, const int lifetime = 0, const bool depthTest = false ) = 0;
+	virtual void			DebugArrow( const Vector4& color, const Vector3& start, const Vector3& end, int size, const int lifetime = 0 ) = 0;
+	virtual void			DebugWinding( const Vector4& color, const idWinding& w, const Vector3& origin, const Matrix3& axis, const int lifetime = 0, const bool depthTest = false ) = 0;
+	virtual void			DebugCircle( const Vector4& color, const Vector3& origin, const Vector3& dir, const float radius, const int numSteps, const int lifetime = 0, const bool depthTest = false ) = 0;
+	virtual void			DebugSphere( const Vector4& color, const budSphere& sphere, const int lifetime = 0, bool depthTest = false ) = 0;
+	virtual void			DebugBounds( const Vector4& color, const budBounds& bounds, const Vector3& org = Vector3_Origin, const int lifetime = 0 ) = 0;
+	virtual void			DebugBox( const Vector4& color, const budBox& box, const int lifetime = 0 ) = 0;
+	virtual void			DebugCone( const Vector4& color, const Vector3& apex, const Vector3& dir, float radius1, float radius2, const int lifetime = 0 ) = 0;
+	virtual void			DebugAxis( const Vector3& origin, const Matrix3& axis ) = 0;
 	
 	// Polygon drawing for debug visualization.
 	virtual void			DebugClearPolygons( int time ) = 0;		// a time of 0 will clear all polygons
-	virtual void			DebugPolygon( const budVec4& color, const idWinding& winding, const int lifeTime = 0, const bool depthTest = false ) = 0;
+	virtual void			DebugPolygon( const Vector4& color, const idWinding& winding, const int lifeTime = 0, const bool depthTest = false ) = 0;
 	
 	// Text drawing for debug visualization.
-	virtual void			DrawText( const char* text, const budVec3& origin, float scale, const budVec4& color, const budMat3& viewAxis, const int align = 1, const int lifetime = 0, bool depthTest = false ) = 0;
+	virtual void			DrawText( const char* text, const Vector3& origin, float scale, const Vector4& color, const Matrix3& viewAxis, const int align = 1, const int lifetime = 0, bool depthTest = false ) = 0;
 };
 
 #endif /* !__RENDERWORLD_H__ */

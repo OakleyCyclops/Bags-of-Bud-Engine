@@ -34,7 +34,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #if !defined(USE_VULKAN)
 
-static void R_ListFramebuffers_f( const budCmdArgs& args )
+static void R_ListFramebuffers_f( const CmdArgs& args )
 {
 	if( !glConfig.framebufferObjectAvailable )
 	{

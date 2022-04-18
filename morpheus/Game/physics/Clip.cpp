@@ -57,13 +57,13 @@ typedef struct trmCache_s
 	budTraceModel			trm;
 	int						refCount;
 	float					volume;
-	budVec3					centerOfMass;
-	budMat3					inertiaTensor;
+	Vector3					centerOfMass;
+	Matrix3					inertiaTensor;
 } trmCache_t;
 
-budVec3 vec3_boxEpsilon( CM_BOX_EPSILON, CM_BOX_EPSILON, CM_BOX_EPSILON );
+Vector3 vec3_boxEpsilon( CM_BOX_EPSILON, CM_BOX_EPSILON, CM_BOX_EPSILON );
 
-idBlockAlloc<clipLink_t, 1024>	clipLinkAllocator;
+BlockAlloc<clipLink_t, 1024>	clipLinkAllocator;
 
 
 /*
@@ -74,8 +74,8 @@ idBlockAlloc<clipLink_t, 1024>	clipLinkAllocator;
 ===============================================================
 */
 
-static budList<trmCache_s*>		traceModelCache;
-static budList<trmCache_s*>		traceModelCache_Unsaved;
+static List<trmCache_s*>		traceModelCache;
+static List<trmCache_s*>		traceModelCache_Unsaved;
 static budHashIndex				traceModelHash;
 static budHashIndex				traceModelHash_Unsaved;
 const static int				TRACE_MODEL_SAVED = BIT( 16 );
@@ -252,8 +252,8 @@ budClipModel::GetTraceModelHashKey
 */
 int budClipModel::GetTraceModelHashKey( const budTraceModel& trm )
 {
-	const budVec3& v = trm.bounds[0];
-	return ( trm.type << 8 ) ^ ( trm.numVerts << 4 ) ^ ( trm.numEdges << 2 ) ^ ( trm.numPolys << 0 ) ^ budMath::FloatHash( v.ToFloatPtr(), v.GetDimension() );
+	const Vector3& v = trm.bounds[0];
+	return ( trm.type << 8 ) ^ ( trm.numVerts << 4 ) ^ ( trm.numEdges << 2 ) ^ ( trm.numPolys << 0 ) ^ Math::FloatHash( v.ToFloatPtr(), v.GetDimension() );
 }
 
 /*
@@ -544,7 +544,7 @@ budClipModel::Restore
 */
 void budClipModel::Restore( idRestoreGame* savefile )
 {
-	budStr collisionModelName;
+	String collisionModelName;
 	bool linked;
 	
 	savefile->ReadBool( enabled );
@@ -592,7 +592,7 @@ void budClipModel::Restore( idRestoreGame* savefile )
 budClipModel::SetPosition
 ================
 */
-void budClipModel::SetPosition( const budVec3& newOrigin, const budMat3& newAxis )
+void budClipModel::SetPosition( const Vector3& newOrigin, const Matrix3& newAxis )
 {
 	if( clipLinks )
 	{
@@ -631,7 +631,7 @@ cmHandle_t budClipModel::Handle() const
 budClipModel::GetMassProperties
 ================
 */
-void budClipModel::GetMassProperties( const float density, float& mass, budVec3& centerOfMass, budMat3& inertiaTensor ) const
+void budClipModel::GetMassProperties( const float density, float& mass, Vector3& centerOfMass, Matrix3& inertiaTensor ) const
 {
 	if( traceModelIndex == -1 )
 	{
@@ -762,7 +762,7 @@ void budClipModel::Link( idClip& clp )
 budClipModel::Link
 ===============
 */
-void budClipModel::Link( idClip& clp, idEntity* ent, int newId, const budVec3& newOrigin, const budMat3& newAxis, int renderModelHandle )
+void budClipModel::Link( idClip& clp, idEntity* ent, int newId, const Vector3& newOrigin, const Matrix3& newAxis, int renderModelHandle )
 {
 
 	this->entity = ent;
@@ -820,11 +820,11 @@ idClip::CreateClipSectors_r
 Builds a uniformly subdivided tree for the given world size
 ===============
 */
-clipSector_t* idClip::CreateClipSectors_r( const int depth, const budBounds& bounds, budVec3& maxSector )
+clipSector_t* idClip::CreateClipSectors_r( const int depth, const budBounds& bounds, Vector3& maxSector )
 {
 	int				i;
 	clipSector_t*	anode;
-	budVec3			size;
+	Vector3			size;
 	budBounds		front, back;
 	
 	anode = &clipSectors[idClip::numClipSectors];
@@ -880,7 +880,7 @@ idClip::Init
 void idClip::Init()
 {
 	cmHandle_t h;
-	budVec3 size, maxSector = vec3_origin;
+	Vector3 size, maxSector = Vector3_Origin;
 	
 	// clear clip sectors
 	clipSectors = new( TAG_PHYSICS_CLIP ) clipSector_t[MAX_SECTORS];
@@ -898,7 +898,7 @@ void idClip::Init()
 	gameLocal.Printf( "max clip sector is (%1.1f, %1.1f, %1.1f)\n", maxSector[0], maxSector[1], maxSector[2] );
 	
 	// initialize a default clip model
-	defaultClipModel.LoadModel( budTraceModel( budBounds( budVec3( 0, 0, 0 ) ).Expand( 8 ) ) );
+	defaultClipModel.LoadModel( budTraceModel( budBounds( Vector3( 0, 0, 0 ) ).Expand( 8 ) ) );
 	
 	// set counters to zero
 	numRotations = numTranslations = numMotions = numRenderModelTraces = numContents = numContacts = 0;
@@ -1146,7 +1146,7 @@ int idClip::GetTraceClipModels( const budBounds& bounds, int contentMask, const 
 idClip::TraceRenderModel
 ============
 */
-void idClip::TraceRenderModel( trace_t& trace, const budVec3& start, const budVec3& end, const float radius, const budMat3& axis, budClipModel* touch ) const
+void idClip::TraceRenderModel( trace_t& trace, const Vector3& start, const Vector3& end, const float radius, const Matrix3& axis, budClipModel* touch ) const
 {
 	trace.fraction = 1.0f;
 	
@@ -1208,7 +1208,7 @@ const budTraceModel* idClip::TraceModelForClipModel( const budClipModel* mdl ) c
 idClip::TestHugeTranslation
 ============
 */
-BUD_INLINE bool TestHugeTranslation( trace_t& results, const budClipModel* mdl, const budVec3& start, const budVec3& end, const budMat3& trmAxis )
+BUD_INLINE bool TestHugeTranslation( trace_t& results, const budClipModel* mdl, const Vector3& start, const Vector3& end, const Matrix3& trmAxis )
 {
 	if( mdl != NULL && ( end - start ).LengthSqr() > Square( CM_MAX_TRACE_DIST ) )
 	{
@@ -1244,8 +1244,8 @@ BUD_INLINE bool TestHugeTranslation( trace_t& results, const budClipModel* mdl, 
 idClip::TranslationEntities
 ============
 */
-void idClip::TranslationEntities( trace_t& results, const budVec3& start, const budVec3& end,
-								  const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity )
+void idClip::TranslationEntities( trace_t& results, const Vector3& start, const Vector3& end,
+								  const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity )
 {
 	int i, num;
 	budClipModel* touch, *clipModelList[MAX_GENTITIES];
@@ -1317,8 +1317,8 @@ void idClip::TranslationEntities( trace_t& results, const budVec3& start, const 
 idClip::Translation
 ============
 */
-bool idClip::Translation( trace_t& results, const budVec3& start, const budVec3& end,
-						  const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity )
+bool idClip::Translation( trace_t& results, const Vector3& start, const Vector3& end,
+						  const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity )
 {
 	int i, num;
 	budClipModel* touch, *clipModelList[MAX_GENTITIES];
@@ -1338,7 +1338,7 @@ bool idClip::Translation( trace_t& results, const budVec3& start, const budVec3&
 	{
 		// test world
 		idClip::numTranslations++;
-		collisionModelManager->Translation( &results, start, end, trm, trmAxis, contentMask, 0, vec3_origin, mat3_default );
+		collisionModelManager->Translation( &results, start, end, trm, trmAxis, contentMask, 0, Vector3_Origin, mat3_default );
 		results.c.entityNum = results.fraction != 1.0f ? ENTITYNUM_WORLD : ENTITYNUM_NONE;
 		if( results.fraction == 0.0f )
 		{
@@ -1407,8 +1407,8 @@ bool idClip::Translation( trace_t& results, const budVec3& start, const budVec3&
 idClip::Rotation
 ============
 */
-bool idClip::Rotation( trace_t& results, const budVec3& start, const budRotation& rotation,
-					   const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity )
+bool idClip::Rotation( trace_t& results, const Vector3& start, const Rotation& rotation,
+					   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity )
 {
 	int i, num;
 	budClipModel* touch, *clipModelList[MAX_GENTITIES];
@@ -1422,7 +1422,7 @@ bool idClip::Rotation( trace_t& results, const budVec3& start, const budRotation
 	{
 		// test world
 		idClip::numRotations++;
-		collisionModelManager->Rotation( &results, start, rotation, trm, trmAxis, contentMask, 0, vec3_origin, mat3_default );
+		collisionModelManager->Rotation( &results, start, rotation, trm, trmAxis, contentMask, 0, Vector3_Origin, mat3_default );
 		results.c.entityNum = results.fraction != 1.0f ? ENTITYNUM_WORLD : ENTITYNUM_NONE;
 		if( results.fraction == 0.0f )
 		{
@@ -1487,16 +1487,16 @@ bool idClip::Rotation( trace_t& results, const budVec3& start, const budRotation
 idClip::Motion
 ============
 */
-bool idClip::Motion( trace_t& results, const budVec3& start, const budVec3& end, const budRotation& rotation,
-					 const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity )
+bool idClip::Motion( trace_t& results, const Vector3& start, const Vector3& end, const Rotation& rotation,
+					 const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity )
 {
 	int i, num;
 	budClipModel* touch, *clipModelList[MAX_GENTITIES];
-	budVec3 dir, endPosition;
+	Vector3 dir, endPosition;
 	budBounds traceBounds;
 	float radius;
 	trace_t translationalTrace, rotationalTrace, trace;
-	budRotation endRotation;
+	Rotation endRotation;
 	const budTraceModel* trm;
 	
 	assert( rotation.GetOrigin() == start );
@@ -1506,7 +1506,7 @@ bool idClip::Motion( trace_t& results, const budVec3& start, const budVec3& end,
 		return true;
 	}
 	
-	if( mdl != NULL && rotation.GetAngle() != 0.0f && rotation.GetVec() != vec3_origin )
+	if( mdl != NULL && rotation.GetAngle() != 0.0f && rotation.GetVec() != Vector3_Origin )
 	{
 		// if no translation
 		if( start == end )
@@ -1537,7 +1537,7 @@ bool idClip::Motion( trace_t& results, const budVec3& start, const budVec3& end,
 	{
 		// translational collision with world
 		idClip::numTranslations++;
-		collisionModelManager->Translation( &translationalTrace, start, end, trm, trmAxis, contentMask, 0, vec3_origin, mat3_default );
+		collisionModelManager->Translation( &translationalTrace, start, end, trm, trmAxis, contentMask, 0, Vector3_Origin, mat3_default );
 		translationalTrace.c.entityNum = translationalTrace.fraction != 1.0f ? ENTITYNUM_WORLD : ENTITYNUM_NONE;
 	}
 	else
@@ -1613,7 +1613,7 @@ bool idClip::Motion( trace_t& results, const budVec3& start, const budVec3& end,
 	{
 		// rotational collision with world
 		idClip::numRotations++;
-		collisionModelManager->Rotation( &rotationalTrace, endPosition, endRotation, trm, trmAxis, contentMask, 0, vec3_origin, mat3_default );
+		collisionModelManager->Rotation( &rotationalTrace, endPosition, endRotation, trm, trmAxis, contentMask, 0, Vector3_Origin, mat3_default );
 		rotationalTrace.c.entityNum = rotationalTrace.fraction != 1.0f ? ENTITYNUM_WORLD : ENTITYNUM_NONE;
 	}
 	else
@@ -1685,8 +1685,8 @@ bool idClip::Motion( trace_t& results, const budVec3& start, const budVec3& end,
 idClip::Contacts
 ============
 */
-int idClip::Contacts( contactInfo_t* contacts, const int maxContacts, const budVec3& start, const budVec6& dir, const float depth,
-					  const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity )
+int idClip::Contacts( contactInfo_t* contacts, const int maxContacts, const Vector3& start, const Vector6& dir, const float depth,
+					  const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity )
 {
 	int i, j, num, n, numContacts;
 	budClipModel* touch, *clipModelList[MAX_GENTITIES];
@@ -1699,7 +1699,7 @@ int idClip::Contacts( contactInfo_t* contacts, const int maxContacts, const budV
 	{
 		// test world
 		idClip::numContacts++;
-		numContacts = collisionModelManager->Contacts( contacts, maxContacts, start, dir, depth, trm, trmAxis, contentMask, 0, vec3_origin, mat3_default );
+		numContacts = collisionModelManager->Contacts( contacts, maxContacts, start, dir, depth, trm, trmAxis, contentMask, 0, Vector3_Origin, mat3_default );
 	}
 	else
 	{
@@ -1770,7 +1770,7 @@ int idClip::Contacts( contactInfo_t* contacts, const int maxContacts, const budV
 idClip::Contents
 ============
 */
-int idClip::Contents( const budVec3& start, const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity )
+int idClip::Contents( const Vector3& start, const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity )
 {
 	int i, num, contents;
 	budClipModel* touch, *clipModelList[MAX_GENTITIES];
@@ -1783,7 +1783,7 @@ int idClip::Contents( const budVec3& start, const budClipModel* mdl, const budMa
 	{
 		// test world
 		idClip::numContents++;
-		contents = collisionModelManager->Contents( start, trm, trmAxis, contentMask, 0, vec3_origin, mat3_default );
+		contents = collisionModelManager->Contents( start, trm, trmAxis, contentMask, 0, Vector3_Origin, mat3_default );
 	}
 	else
 	{
@@ -1849,9 +1849,9 @@ int idClip::Contents( const budVec3& start, const budClipModel* mdl, const budMa
 idClip::TranslationModel
 ============
 */
-void idClip::TranslationModel( trace_t& results, const budVec3& start, const budVec3& end,
-							   const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-							   cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+void idClip::TranslationModel( trace_t& results, const Vector3& start, const Vector3& end,
+							   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+							   cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	const budTraceModel* trm = TraceModelForClipModel( mdl );
 	idClip::numTranslations++;
@@ -1863,9 +1863,9 @@ void idClip::TranslationModel( trace_t& results, const budVec3& start, const bud
 idClip::RotationModel
 ============
 */
-void idClip::RotationModel( trace_t& results, const budVec3& start, const budRotation& rotation,
-							const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-							cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+void idClip::RotationModel( trace_t& results, const Vector3& start, const Rotation& rotation,
+							const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+							cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	const budTraceModel* trm = TraceModelForClipModel( mdl );
 	idClip::numRotations++;
@@ -1877,9 +1877,9 @@ void idClip::RotationModel( trace_t& results, const budVec3& start, const budRot
 idClip::ContactsModel
 ============
 */
-int idClip::ContactsModel( contactInfo_t* contacts, const int maxContacts, const budVec3& start, const budVec6& dir, const float depth,
-						   const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-						   cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+int idClip::ContactsModel( contactInfo_t* contacts, const int maxContacts, const Vector3& start, const Vector6& dir, const float depth,
+						   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+						   cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	const budTraceModel* trm = TraceModelForClipModel( mdl );
 	idClip::numContacts++;
@@ -1891,9 +1891,9 @@ int idClip::ContactsModel( contactInfo_t* contacts, const int maxContacts, const
 idClip::ContentsModel
 ============
 */
-int idClip::ContentsModel( const budVec3& start,
-						   const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-						   cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis )
+int idClip::ContentsModel( const Vector3& start,
+						   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+						   cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis )
 {
 	const budTraceModel* trm = TraceModelForClipModel( mdl );
 	idClip::numContents++;
@@ -1909,7 +1909,7 @@ bool idClip::GetModelContactFeature( const contactInfo_t& contact, const budClip
 {
 	int i;
 	cmHandle_t handle;
-	budVec3 start, end;
+	Vector3 start, end;
 	
 	handle = -1;
 	winding.Clear();
@@ -1994,7 +1994,7 @@ void idClip::PrintStatistics()
 idClip::DrawClipModels
 ============
 */
-void idClip::DrawClipModels( const budVec3& eye, const float radius, const idEntity* passEntity )
+void idClip::DrawClipModels( const Vector3& eye, const float radius, const idEntity* passEntity )
 {
 	int				i, num;
 	budBounds		bounds;
@@ -2031,7 +2031,7 @@ idClip::DrawModelContactFeature
 bool idClip::DrawModelContactFeature( const contactInfo_t& contact, const budClipModel* clipModel, int lifetime ) const
 {
 	int i;
-	budMat3 axis;
+	Matrix3 axis;
 	budFixedWinding winding;
 	
 	if( !GetModelContactFeature( contact, clipModel, winding ) )

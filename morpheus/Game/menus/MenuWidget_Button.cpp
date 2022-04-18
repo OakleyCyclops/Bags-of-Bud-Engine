@@ -249,7 +249,7 @@ bool idMenuWidget_Button::ExecuteEvent( const idWidgetEvent& event )
 idMenuWidget_Button::AddValue
 ========================
 */
-void idMenuWidget_Button::SetValues( budList< budStr >& list )
+void idMenuWidget_Button::SetValues( List< String >& list )
 {
 	values.Clear();
 	for( int i = 0; i < list.Num(); ++ i )
@@ -263,7 +263,7 @@ void idMenuWidget_Button::SetValues( budList< budStr >& list )
 idMenuWidget_Button::GetValue
 ========================
 */
-const budStr& idMenuWidget_Button::GetValue( int index ) const
+const String& idMenuWidget_Button::GetValue( int index ) const
 {
 
 	return values[ index ];
@@ -539,7 +539,7 @@ void idMenuWidget_ServerButton::Update()
 idMenuWidget_ServerButton::SetButtonInfo
 ========================
 */
-void idMenuWidget_ServerButton::SetButtonInfo( budStr name_, budStrId mapName_, budStr modeName_, int index_, int players_, int maxPlayers_, bool joinable_, bool validMap_ )
+void idMenuWidget_ServerButton::SetButtonInfo( String name_, StringId mapName_, String modeName_, int index_, int players_, int maxPlayers_, bool joinable_, bool validMap_ )
 {
 	serverName = name_;
 	index = index_;
@@ -550,12 +550,12 @@ void idMenuWidget_ServerButton::SetButtonInfo( budStr name_, budStrId mapName_, 
 	mapName = mapName_;
 	modeName = modeName_;
 	
-	budStr desc;
+	String desc;
 	if( index >= 0 )
 	{
-		budStr playerVal = va( "%s %d/%d", budLocalization::GetString( "#str_02396" ), players, maxPlayers );
-		budStr lobbyMapName = va( "%s %s", budLocalization::GetString( "#str_02045" ), mapName.GetLocalizedString() );
-		budStr lobbyMode;
+		String playerVal = va( "%s %d/%d", budLocalization::GetString( "#str_02396" ), players, maxPlayers );
+		String lobbyMapName = va( "%s %s", budLocalization::GetString( "#str_02045" ), mapName.GetLocalizedString() );
+		String lobbyMode;
 		if( !modeName.IsEmpty() )
 		{
 			lobbyMode = va( "%s %s", budLocalization::GetString( "#str_02044" ), modeName.c_str() );
@@ -618,7 +618,7 @@ void idMenuWidget_LobbyButton::Update()
 idMenuWidget_LobbyButton::SetButtonInfo
 ========================
 */
-void idMenuWidget_LobbyButton::SetButtonInfo( budStr name_, voiceStateDisplay_t voiceState_ )
+void idMenuWidget_LobbyButton::SetButtonInfo( String name_, voiceStateDisplay_t voiceState_ )
 {
 	name = name_;
 	voiceState = voiceState_;
@@ -689,7 +689,7 @@ void idMenuWidget_ScoreboardButton::Update()
 idMenuWidget_ScoreboardButton::SetButtonInfo
 ========================
 */
-void idMenuWidget_ScoreboardButton::SetButtonInfo( int index_, budList< budStr >& list, voiceStateDisplay_t voiceState_ )
+void idMenuWidget_ScoreboardButton::SetButtonInfo( int index_, List< String >& list, voiceStateDisplay_t voiceState_ )
 {
 	index = index_;
 	voiceState = voiceState_;

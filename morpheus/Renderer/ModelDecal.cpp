@@ -76,7 +76,7 @@ budRenderModelDecal::~budRenderModelDecal()
 budRenderModelDecal::CreateProjectionParms
 =================
 */
-bool budRenderModelDecal::CreateProjectionParms( decalProjectionParms_t& parms, const budFixedWinding& winding, const budVec3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime )
+bool budRenderModelDecal::CreateProjectionParms( decalProjectionParms_t& parms, const budFixedWinding& winding, const Vector3& projectionOrigin, const bool parallel, const float fadeDepth, const budMaterial* material, const int startTime )
 {
 
 	if( winding.GetNumPoints() != NUM_DECAL_BOUNDING_PLANES - 2 )
@@ -115,7 +115,7 @@ bool budRenderModelDecal::CreateProjectionParms( decalProjectionParms_t& parms, 
 	{
 		for( int i = 0; i < winding.GetNumPoints(); i++ )
 		{
-			budVec3 edge = winding[( i + 1 ) % winding.GetNumPoints()].ToVec3() - winding[i].ToVec3();
+			Vector3 edge = winding[( i + 1 ) % winding.GetNumPoints()].ToVec3() - winding[i].ToVec3();
 			parms.boundingPlanes[i].Normal().Cross( windingPlane.Normal(), edge );
 			parms.boundingPlanes[i].Normalize();
 			parms.boundingPlanes[i].FitThroughPoint( winding[i].ToVec3() );
@@ -140,12 +140,12 @@ bool budRenderModelDecal::CreateProjectionParms( decalProjectionParms_t& parms, 
 	
 	// calculate the texture vectors for the winding
 	float	len, texArea, inva;
-	budVec3	temp;
-	budVec5	d0, d1;
+	Vector3	temp;
+	Vector5	d0, d1;
 	
-	const budVec5& a = winding[0];
-	const budVec5& b = winding[1];
-	const budVec5& c = winding[2];
+	const Vector5& a = winding[0];
+	const Vector5& b = winding[1];
+	const Vector5& c = winding[2];
 	
 	d0 = b.ToVec3() - a.ToVec3();
 	d0.s = b.s - a.s;
@@ -179,7 +179,7 @@ bool budRenderModelDecal::CreateProjectionParms( decalProjectionParms_t& parms, 
 budRenderModelDecal::GlobalProjectionParmsToLocal
 =================
 */
-void budRenderModelDecal::GlobalProjectionParmsToLocal( decalProjectionParms_t& localParms, const decalProjectionParms_t& globalParms, const budVec3& origin, const budMat3& axis )
+void budRenderModelDecal::GlobalProjectionParmsToLocal( decalProjectionParms_t& localParms, const decalProjectionParms_t& globalParms, const Vector3& origin, const Matrix3& axis )
 {
 	float modelMatrix[16];
 	
@@ -427,7 +427,7 @@ static void R_DecalPointCullStatic( byte* cullBits, const budPlane* planes, cons
 	
 		for( ; i <= nextNumVerts; i++ )
 		{
-			const budVec3& v = vertsODS[i].xyz;
+			const Vector3& v = vertsODS[i].xyz;
 	
 			const float d0 = planes[0].Distance( v );
 			const float d1 = planes[1].Distance( v );
@@ -468,7 +468,7 @@ void budRenderModelDecal::CreateDecal( const budRenderModel* model, const decalP
 		}
 	}
 	
-	idTempArray< byte > cullBits( ALIGN( maxVerts, 4 ) );
+	TempArray< byte > cullBits( ALIGN( maxVerts, 4 ) );
 	
 	// check all model surfaces
 	for( int surfNum = 0; surfNum < model->NumSurfaces(); surfNum++ )
@@ -552,10 +552,10 @@ void budRenderModelDecal::CreateDecal( const budRenderModel* model, const decalP
 				{
 					for( int j = 0; j < 3; j++ )
 					{
-						const budVec3 dir = verts[j]->xyz - localParms.projectionOrigin;
+						const Vector3 dir = verts[j]->xyz - localParms.projectionOrigin;
 						float scale;
 						localParms.boundingPlanes[NUM_DECAL_BOUNDING_PLANES - 1].RayIntersection( verts[j]->xyz, dir, scale );
-						const budVec3 intersection = verts[j]->xyz + scale * dir;
+						const Vector3 intersection = verts[j]->xyz + scale * dir;
 						
 						fw[j] = verts[j]->xyz;
 						fw[j].s = localParms.textureAxis[0].Distance( intersection );
@@ -731,7 +731,7 @@ static void R_CopyDecalSurface( budDrawVert* verts, int numVerts, triIndex_t* in
 		verts[numVerts + i] = decal->verts[i];
 		for( int j = 0; j < 4; j++ )
 		{
-			verts[numVerts + i].color[j] = budMath::Ftob( fadeColor[j] * decal->vertDepthFade[i] );
+			verts[numVerts + i].color[j] = Math::Ftob( fadeColor[j] * decal->vertDepthFade[i] );
 		}
 	}
 	

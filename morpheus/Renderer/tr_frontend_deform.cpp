@@ -89,14 +89,14 @@ static drawSurf_t* R_AutospriteDeform( drawSurf_t* surf )
 	const budJointMat* joints = ( srcTri->staticModelWithJoints != NULL && r_useGPUSkinning.GetBool() && glConfig.gpuSkinningAvailable ) ? srcTri->staticModelWithJoints->jointsInverted : NULL;
 	// RB end
 	
-	budVec3 leftDir;
-	budVec3 upDir;
+	Vector3 leftDir;
+	Vector3 upDir;
 	R_GlobalVectorToLocal( surf->space->modelMatrix, tr.viewDef->renderView.viewaxis[1], leftDir );
 	R_GlobalVectorToLocal( surf->space->modelMatrix, tr.viewDef->renderView.viewaxis[2], upDir );
 	
 	if( tr.viewDef->isMirror )
 	{
-		leftDir = vec3_origin - leftDir;
+		leftDir = Vector3_Origin - leftDir;
 	}
 	
 	// the srfTriangles_t are in frame memory and will be automatically disposed of
@@ -115,16 +115,16 @@ static drawSurf_t* R_AutospriteDeform( drawSurf_t* surf )
 		newVerts[i + 2] = budDrawVert::GetSkinnedDrawVert( srcTri->verts[i + 2], joints );
 		newVerts[i + 3] = budDrawVert::GetSkinnedDrawVert( srcTri->verts[i + 3], joints );
 		
-		budVec3 mid;
+		Vector3 mid;
 		mid[0] = 0.25f * ( newVerts[i + 0].xyz[0] + newVerts[i + 1].xyz[0] + newVerts[i + 2].xyz[0] + newVerts[i + 3].xyz[0] );
 		mid[1] = 0.25f * ( newVerts[i + 0].xyz[1] + newVerts[i + 1].xyz[1] + newVerts[i + 2].xyz[1] + newVerts[i + 3].xyz[1] );
 		mid[2] = 0.25f * ( newVerts[i + 0].xyz[2] + newVerts[i + 1].xyz[2] + newVerts[i + 2].xyz[2] + newVerts[i + 3].xyz[2] );
 		
-		const budVec3 delta = newVerts[i + 0].xyz - mid;
-		const float radius = delta.Length() * budMath::SQRT_1OVER2;
+		const Vector3 delta = newVerts[i + 0].xyz - mid;
+		const float radius = delta.Length() * Math::SQRT_1OVER2;
 		
-		const budVec3 left = leftDir * radius;
-		const budVec3 up = upDir * radius;
+		const Vector3 left = leftDir * radius;
+		const Vector3 up = upDir * radius;
 		
 		newVerts[i + 0].xyz = mid + left + up;
 		newVerts[i + 0].SetTexCoord( 0, 0 );
@@ -188,7 +188,7 @@ static drawSurf_t* R_TubeDeform( drawSurf_t* surf )
 	
 	// we need the view direction to project the minor axis of the tube
 	// as the view changes
-	budVec3	localView;
+	Vector3	localView;
 	R_GlobalPointToLocal( surf->space->modelMatrix, tr.viewDef->renderView.vieworg, localView );
 	
 	// the srfTriangles_t are in frame memory and will be automatically disposed of
@@ -212,8 +212,8 @@ static drawSurf_t* R_TubeDeform( drawSurf_t* surf )
 		
 		for( int j = 0; j < 6; j++ )
 		{
-			const budVec3 v1 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[j][0]]], joints );
-			const budVec3 v2 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[j][1]]], joints );
+			const Vector3 v1 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[j][0]]], joints );
+			const Vector3 v2 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[j][1]]], joints );
 			
 			const float l = ( v1 - v2 ).Length();
 			if( l < lengths[0] )
@@ -232,11 +232,11 @@ static drawSurf_t* R_TubeDeform( drawSurf_t* surf )
 		
 		// find the midpoints of the two short edges, which
 		// will give us the major axis in object coordinates
-		budVec3 mid[2];
+		Vector3 mid[2];
 		for( int j = 0; j < 2; j++ )
 		{
-			const budVec3 v1 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[nums[j]][0]]], joints );
-			const budVec3 v2 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[nums[j]][1]]], joints );
+			const Vector3 v1 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[nums[j]][0]]], joints );
+			const Vector3 v2 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[i + edgeVerts[nums[j]][1]]], joints );
 			
 			mid[j][0] = 0.5f * ( v1[0] + v2[0] );
 			mid[j][1] = 0.5f * ( v1[1] + v2[1] );
@@ -244,7 +244,7 @@ static drawSurf_t* R_TubeDeform( drawSurf_t* surf )
 		}
 		
 		// find the vector of the major axis
-		const budVec3 major = mid[1] - mid[0];
+		const Vector3 major = mid[1] - mid[0];
 		
 		// re-project the points
 		for( int j = 0; j < 2; j++ )
@@ -258,8 +258,8 @@ static drawSurf_t* R_TubeDeform( drawSurf_t* surf )
 			const float l = 0.5f * lengths[j];
 			
 			// cross this with the view direction to get minor axis
-			budVec3 dir = mid[j] - localView;
-			budVec3 minor;
+			Vector3 dir = mid[j] - localView;
+			Vector3 minor;
 			minor.Cross( major, dir );
 			minor.Normalize();
 			
@@ -408,7 +408,7 @@ static drawSurf_t* R_FlareDeform( drawSurf_t* surf )
 	plane.FromPoints( srcTri->verts[srcTri->indexes[0]].xyz, srcTri->verts[srcTri->indexes[1]].xyz, srcTri->verts[srcTri->indexes[2]].xyz );
 	
 	// if viewer is behind the plane, draw nothing
-	budVec3 localViewer;
+	Vector3 localViewer;
 	R_GlobalPointToLocal( surf->space->modelMatrix, tr.viewDef->renderView.vieworg, localViewer );
 	float distFromPlane = localViewer * plane.Normal() + plane[3];
 	if( distFromPlane <= 0 )
@@ -416,20 +416,20 @@ static drawSurf_t* R_FlareDeform( drawSurf_t* surf )
 		return NULL;
 	}
 	
-	budVec3 center = srcTri->verts[0].xyz;
+	Vector3 center = srcTri->verts[0].xyz;
 	for( int i = 1; i < srcTri->numVerts; i++ )
 	{
 		center += srcTri->verts[i].xyz;
 	}
 	center *= 1.0f / srcTri->numVerts;
 	
-	budVec3 dir = localViewer - center;
+	Vector3 dir = localViewer - center;
 	dir.Normalize();
 	
 	const float dot = dir * plane.Normal();
 	
 	// set vertex colors based on plane angle
-	int color = budMath::Ftoi( dot * 8 * 256 );
+	int color = Math::Ftoi( dot * 8 * 256 );
 	if( color > 255 )
 	{
 		color = 255;
@@ -454,7 +454,7 @@ static drawSurf_t* R_FlareDeform( drawSurf_t* surf )
 	
 	budDrawVert* newVerts = ( budDrawVert* )_alloca16( ALIGN( maxVerts * sizeof( budDrawVert ), 16 ) );
 	
-	budVec3 edgeDir[4][3];
+	Vector3 edgeDir[4][3];
 	
 	// calculate vector directions
 	for( int i = 0; i < 4; i++ )
@@ -467,16 +467,16 @@ static drawSurf_t* R_FlareDeform( drawSurf_t* surf )
 		newVerts[i].color[2] = color;
 		newVerts[i].color[3] = 255;
 		
-		budVec3 toEye = srcTri->verts[ indexes[i] ].xyz - localViewer;
+		Vector3 toEye = srcTri->verts[ indexes[i] ].xyz - localViewer;
 		toEye.Normalize();
 		
-		budVec3 d1 = srcTri->verts[ indexes[( i + 1 ) % 4] ].xyz - localViewer;
+		Vector3 d1 = srcTri->verts[ indexes[( i + 1 ) % 4] ].xyz - localViewer;
 		d1.Normalize();
 		edgeDir[i][2].Cross( toEye, d1 );
 		edgeDir[i][2].Normalize();
-		edgeDir[i][2] = vec3_origin - edgeDir[i][2];
+		edgeDir[i][2] = Vector3_Origin - edgeDir[i][2];
 		
-		budVec3 d2 = srcTri->verts[ indexes[( i + 3 ) % 4] ].xyz - localViewer;
+		Vector3 d2 = srcTri->verts[ indexes[( i + 3 ) % 4] ].xyz - localViewer;
 		d2.Normalize();
 		edgeDir[i][0].Cross( toEye, d2 );
 		edgeDir[i][0].Normalize();
@@ -490,9 +490,9 @@ static drawSurf_t* R_FlareDeform( drawSurf_t* surf )
 	for( int i = 4; i < 16; i++ )
 	{
 		const int index = ( i - 4 ) / 3;
-		budVec3 v = srcTri->verts[indexes[index]].xyz + spread * edgeDir[index][( i - 4 ) % 3];
+		Vector3 v = srcTri->verts[indexes[index]].xyz + spread * edgeDir[index][( i - 4 ) % 3];
 		
-		budVec3 dir = v - localViewer;
+		Vector3 dir = v - localViewer;
 		const float len = dir.Normalize();
 		const float ang = dir * plane.Normal();
 		const float newLen = -( distFromPlane / ang );
@@ -614,7 +614,7 @@ static drawSurf_t* R_TurbulentDeform( drawSurf_t* surf )
 		f = timeOfs + domain * f;
 		f += timeOfs;
 		
-		budVec2 tempST = srcTri->verts[i].GetTexCoord();
+		Vector2 tempST = srcTri->verts[i].GetTexCoord();
 		tempST[0] += range * table->TableLookup( f );
 		tempST[1] += range * table->TableLookup( f + tOfs );
 		
@@ -638,7 +638,7 @@ typedef struct
 	int			tris[MAX_EYEBALL_TRIS];
 	int			numTris;
 	budBounds	bounds;
-	budVec3		mid;
+	Vector3		mid;
 } eyeIsland_t;
 
 static void AddTriangleToIsland_r( const srfTriangles_t* tri, int triangleNum, bool* usedList, eyeIsland_t* island )
@@ -663,9 +663,9 @@ static void AddTriangleToIsland_r( const srfTriangles_t* tri, int triangleNum, b
 	const int b = tri->indexes[triangleNum * 3 + 1];
 	const int c = tri->indexes[triangleNum * 3 + 2];
 	
-	const budVec3 va = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[a], joints );
-	const budVec3 vb = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[b], joints );
-	const budVec3 vc = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[c], joints );
+	const Vector3 va = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[a], joints );
+	const Vector3 vb = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[b], joints );
+	const Vector3 vc = budDrawVert::GetSkinnedDrawVertPosition( tri->verts[c], joints );
 	
 	island->bounds.AddPoint( va );
 	island->bounds.AddPoint( vb );
@@ -774,15 +774,15 @@ static drawSurf_t* R_EyeballDeform( drawSurf_t* surf )
 		
 		// the closest single triangle point will be the eye origin
 		// and the next-to-farthest will be the focal point
-		budVec3 origin;
-		budVec3 focus;
+		Vector3 origin;
+		Vector3 focus;
 		int originIsland = 0;
 		float dist[MAX_EYEBALL_ISLANDS];
 		int sortOrder[MAX_EYEBALL_ISLANDS];
 		
 		for( int j = 0; j < numIslands; j++ )
 		{
-			budVec3 dir = islands[j].mid - island->mid;
+			Vector3 dir = islands[j].mid - island->mid;
 			dist[j] = dir.Length();
 			sortOrder[j] = j;
 			for( int k = j - 1; k >= 0; k-- )
@@ -805,20 +805,20 @@ static drawSurf_t* R_EyeballDeform( drawSurf_t* surf )
 		focus = islands[sortOrder[2]].mid;
 		
 		// determine the projection directions based on the origin island triangle
-		budVec3 dir = focus - origin;
+		Vector3 dir = focus - origin;
 		dir.Normalize();
 		
-		const budVec3 p1 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[islands[originIsland].tris[0] + 0]], joints );
-		const budVec3 p2 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[islands[originIsland].tris[0] + 1]], joints );
-		const budVec3 p3 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[islands[originIsland].tris[0] + 2]], joints );
+		const Vector3 p1 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[islands[originIsland].tris[0] + 0]], joints );
+		const Vector3 p2 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[islands[originIsland].tris[0] + 1]], joints );
+		const Vector3 p3 = budDrawVert::GetSkinnedDrawVertPosition( srcTri->verts[srcTri->indexes[islands[originIsland].tris[0] + 2]], joints );
 		
-		budVec3 v1 = p2 - p1;
+		Vector3 v1 = p2 - p1;
 		v1.Normalize();
-		budVec3 v2 = p3 - p1;
+		Vector3 v2 = p3 - p1;
 		v2.Normalize();
 		
 		// texVec[0] will be the normal to the origin triangle
-		budVec3 texVec[2];
+		Vector3 texVec[2];
 		texVec[0].Cross( v1, v2 );
 		texVec[1].Cross( texVec[0], dir );
 		
@@ -840,7 +840,7 @@ static drawSurf_t* R_EyeballDeform( drawSurf_t* surf )
 				
 				newVerts[index] = budDrawVert::GetSkinnedDrawVert( srcTri->verts[index], joints );
 				
-				const budVec3 local = newVerts[index].xyz - origin;
+				const Vector3 local = newVerts[index].xyz - origin;
 				newVerts[index].SetTexCoord( 0.5f + local * texVec[0], 0.5f + local * texVec[1] );
 			}
 		}
@@ -928,7 +928,7 @@ static drawSurf_t* R_ParticleDeform( drawSurf_t* surf, bool useArea )
 		
 		// we interpret stage->totalParticles as "particles per map square area"
 		// so the systems look the same on different size surfaces
-		const int totalParticles = ( useArea ) ? budMath::Ftoi( stage->totalParticles * totalArea * ( 1.0f / 4096.0f ) ) : ( stage->totalParticles );
+		const int totalParticles = ( useArea ) ? Math::Ftoi( stage->totalParticles * totalArea * ( 1.0f / 4096.0f ) ) : ( stage->totalParticles );
 		const int numQuads = totalParticles * stage->NumQuadsPerParticle() * ( ( useArea ) ? 1 : numSourceTris );
 		
 		maxStageParticles[stageNum] = totalParticles;
@@ -941,9 +941,9 @@ static drawSurf_t* R_ParticleDeform( drawSurf_t* surf, bool useArea )
 		return NULL;
 	}
 	
-	idTempArray<byte> tempVerts( ALIGN( maxQuads * 4 * sizeof( budDrawVert ), 16 ) );
+	TempArray<byte> tempVerts( ALIGN( maxQuads * 4 * sizeof( budDrawVert ), 16 ) );
 	budDrawVert* newVerts = ( budDrawVert* ) tempVerts.Ptr();
-	idTempArray<byte> tempIndex( ALIGN( maxQuads * 6 * sizeof( triIndex_t ), 16 ) );
+	TempArray<byte> tempIndex( ALIGN( maxQuads * 6 * sizeof( triIndex_t ), 16 ) );
 	triIndex_t* newIndexes = ( triIndex_t* ) tempIndex.Ptr();
 	
 	drawSurf_t* drawSurfList = NULL;
@@ -964,12 +964,12 @@ static drawSurf_t* R_ParticleDeform( drawSurf_t* surf, bool useArea )
 			idRandom steppingRandom;
 			idRandom steppingRandom2;
 			
-			int stageAge = g.renderView->time[renderEntity->timeGroup] + budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_TIMEOFFSET] * 1000.0f - stage->timeOffset * 1000.0f );
+			int stageAge = g.renderView->time[renderEntity->timeGroup] + Math::Ftoi( renderEntity->shaderParms[SHADERPARM_TIMEOFFSET] * 1000.0f - stage->timeOffset * 1000.0f );
 			int stageCycle = stageAge / stage->cycleMsec;
 			
 			// some particles will be in this cycle, some will be in the previous cycle
-			steppingRandom.SetSeed( ( ( stageCycle << 10 ) & idRandom::MAX_RAND ) ^ budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND ) );
-			steppingRandom2.SetSeed( ( ( ( stageCycle - 1 ) << 10 ) & idRandom::MAX_RAND ) ^ budMath::Ftoi( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND ) );
+			steppingRandom.SetSeed( ( ( stageCycle << 10 ) & idRandom::MAX_RAND ) ^ Math::Ftoi( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND ) );
+			steppingRandom2.SetSeed( ( ( ( stageCycle - 1 ) << 10 ) & idRandom::MAX_RAND ) ^ Math::Ftoi( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND ) );
 			
 			for( int index = 0; index < maxStageParticles[stageNum]; index++ )
 			{
@@ -980,7 +980,7 @@ static drawSurf_t* R_ParticleDeform( drawSurf_t* surf, bool useArea )
 				steppingRandom2.RandomInt();
 				
 				// calculate local age for this index
-				int bunchOffset = budMath::Ftoi( stage->particleLife * 1000 * stage->spawnBunching * index / maxStageParticles[stageNum] );
+				int bunchOffset = Math::Ftoi( stage->particleLife * 1000 * stage->spawnBunching * index / maxStageParticles[stageNum] );
 				
 				int particleAge = stageAge - bunchOffset;
 				int particleCycle = particleAge / stage->cycleMsec;

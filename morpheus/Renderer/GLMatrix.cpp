@@ -45,7 +45,7 @@ OLD MATRIX MATH
 R_AxisToModelMatrix
 ======================
 */
-void R_AxisToModelMatrix( const budMat3& axis, const budVec3& origin, float modelMatrix[16] )
+void R_AxisToModelMatrix( const Matrix3& axis, const Vector3& origin, float modelMatrix[16] )
 {
 	modelMatrix[0 * 4 + 0] = axis[0][0];
 	modelMatrix[1 * 4 + 0] = axis[1][0];
@@ -169,7 +169,7 @@ void R_MatrixTranspose( const float in[16], float out[16] )
 R_TransformModelToClip
 ==========================
 */
-void R_TransformModelToClip( const budVec3& src, const float* modelMatrix, const float* projectionMatrix, budPlane& eye, budPlane& dst )
+void R_TransformModelToClip( const Vector3& src, const float* modelMatrix, const float* projectionMatrix, budPlane& eye, budPlane& dst )
 {
 	for( int i = 0; i < 4; i++ )
 	{
@@ -195,7 +195,7 @@ R_TransformClipToDevice
 Clip to normalized device coordinates
 ==========================
 */
-void R_TransformClipToDevice( const budPlane& clip, budVec3& ndc )
+void R_TransformClipToDevice( const budPlane& clip, Vector3& ndc )
 {
 	const float invW = 1.0f / clip[3];
 	ndc[0] = clip[0] * invW;
@@ -210,7 +210,7 @@ R_GlobalToNormalizedDeviceCoordinates
 -1 to 1 range in x, y, and z
 ==========================
 */
-void R_GlobalToNormalizedDeviceCoordinates( const budVec3& global, budVec3& ndc )
+void R_GlobalToNormalizedDeviceCoordinates( const Vector3& global, Vector3& ndc )
 {
 	budPlane	view;
 	budPlane	clip;
@@ -247,7 +247,7 @@ R_LocalPointToGlobal
 NOTE: assumes no skewing or scaling transforms
 ======================
 */
-void R_LocalPointToGlobal( const float modelMatrix[16], const budVec3& in, budVec3& out )
+void R_LocalPointToGlobal( const float modelMatrix[16], const Vector3& in, Vector3& out )
 {
 	out[0] = in[0] * modelMatrix[0 * 4 + 0] + in[1] * modelMatrix[1 * 4 + 0] + in[2] * modelMatrix[2 * 4 + 0] + modelMatrix[3 * 4 + 0];
 	out[1] = in[0] * modelMatrix[0 * 4 + 1] + in[1] * modelMatrix[1 * 4 + 1] + in[2] * modelMatrix[2 * 4 + 1] + modelMatrix[3 * 4 + 1];
@@ -261,9 +261,9 @@ R_GlobalPointToLocal
 NOTE: assumes no skewing or scaling transforms
 ======================
 */
-void R_GlobalPointToLocal( const float modelMatrix[16], const budVec3& in, budVec3& out )
+void R_GlobalPointToLocal( const float modelMatrix[16], const Vector3& in, Vector3& out )
 {
-	budVec3 temp;
+	Vector3 temp;
 	
 	temp[0] = in[0] - modelMatrix[3 * 4 + 0];
 	temp[1] = in[1] - modelMatrix[3 * 4 + 1];
@@ -281,7 +281,7 @@ R_LocalVectorToGlobal
 NOTE: assumes no skewing or scaling transforms
 ======================
 */
-void R_LocalVectorToGlobal( const float modelMatrix[16], const budVec3& in, budVec3& out )
+void R_LocalVectorToGlobal( const float modelMatrix[16], const Vector3& in, Vector3& out )
 {
 	out[0] = in[0] * modelMatrix[0 * 4 + 0] + in[1] * modelMatrix[1 * 4 + 0] + in[2] * modelMatrix[2 * 4 + 0];
 	out[1] = in[0] * modelMatrix[0 * 4 + 1] + in[1] * modelMatrix[1 * 4 + 1] + in[2] * modelMatrix[2 * 4 + 1];
@@ -295,7 +295,7 @@ R_GlobalVectorToLocal
 NOTE: assumes no skewing or scaling transforms
 ======================
 */
-void R_GlobalVectorToLocal( const float modelMatrix[16], const budVec3& in, budVec3& out )
+void R_GlobalVectorToLocal( const float modelMatrix[16], const Vector3& in, Vector3& out )
 {
 	out[0] = in[0] * modelMatrix[0 * 4 + 0] + in[1] * modelMatrix[0 * 4 + 1] + in[2] * modelMatrix[0 * 4 + 2];
 	out[1] = in[0] * modelMatrix[1 * 4 + 0] + in[1] * modelMatrix[1 * 4 + 1] + in[2] * modelMatrix[1 * 4 + 2];
@@ -368,8 +368,8 @@ void R_SetupViewMatrix( viewDef_t* viewDef )
 	world->modelMatrix[2 * 4 + 2] = 1.0f;
 	
 	// transform by the camera placement
-	const budVec3& origin = viewDef->renderView.vieworg;
-	const budMat3& axis = viewDef->renderView.viewaxis;
+	const Vector3& origin = viewDef->renderView.vieworg;
+	const Matrix3& axis = viewDef->renderView.viewaxis;
 	
 	float viewerMatrix[16];
 	viewerMatrix[0 * 4 + 0] = axis[0][0];
@@ -404,8 +404,8 @@ R_SetupProjectionMatrix
 This uses the "infinite far z" trick
 ======================
 */
-budCVar r_centerX( "r_centerX", "0", CVAR_FLOAT, "projection matrix center adjust" );
-budCVar r_centerY( "r_centerY", "0", CVAR_FLOAT, "projection matrix center adjust" );
+CVar r_centerX( "r_centerX", "0", CVAR_FLOAT, "projection matrix center adjust" );
+CVar r_centerY( "r_centerY", "0", CVAR_FLOAT, "projection matrix center adjust" );
 
 void R_SetupProjectionMatrix( viewDef_t* viewDef )
 {
@@ -430,10 +430,10 @@ void R_SetupProjectionMatrix( viewDef_t* viewDef )
 	//
 	const float zNear = ( viewDef->renderView.cramZNear ) ? ( r_znear.GetFloat() * 0.25f ) : r_znear.GetFloat();
 	
-	float ymax = zNear * tan( viewDef->renderView.fov_y * budMath::PI / 360.0f );
+	float ymax = zNear * tan( viewDef->renderView.fov_y * Math::PI / 360.0f );
 	float ymin = -ymax;
 	
-	float xmax = zNear * tan( viewDef->renderView.fov_x * budMath::PI / 360.0f );
+	float xmax = zNear * tan( viewDef->renderView.fov_x * Math::PI / 360.0f );
 	float xmin = -xmax;
 	
 	const float width = xmax - xmin;
@@ -499,10 +499,10 @@ void R_SetupProjectionMatrix( viewDef_t* viewDef )
 // RB: standard OpenGL projection matrix
 void R_SetupProjectionMatrix2( const viewDef_t* viewDef, const float zNear, const float zFar, float projectionMatrix[16] )
 {
-	float ymax = zNear * tan( viewDef->renderView.fov_y * budMath::PI / 360.0f );
+	float ymax = zNear * tan( viewDef->renderView.fov_y * Math::PI / 360.0f );
 	float ymin = -ymax;
 	
-	float xmax = zNear * tan( viewDef->renderView.fov_x * budMath::PI / 360.0f );
+	float xmax = zNear * tan( viewDef->renderView.fov_x * Math::PI / 360.0f );
 	float xmin = -xmax;
 	
 	const float width = xmax - xmin;
@@ -578,7 +578,7 @@ void R_SetupUnprojection( viewDef_t* viewDef )
 
 void R_MatrixFullInverse( const float a[16], float r[16] )
 {
-	budMat4	am;
+	Matrix4	am;
 	
 	for( int i = 0 ; i < 4 ; i++ )
 	{
@@ -588,8 +588,8 @@ void R_MatrixFullInverse( const float a[16], float r[16] )
 		}
 	}
 	
-//	budVec4 test( 100, 100, 100, 1 );
-//	budVec4	transformed, inverted;
+//	Vector4 test( 100, 100, 100, 1 );
+//	Vector4	transformed, inverted;
 //	transformed = test * am;
 
 	if( !am.InverseSelf() )

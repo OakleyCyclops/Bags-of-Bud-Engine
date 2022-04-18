@@ -84,10 +84,10 @@ private:
 	int							waitingUntil;
 	idInterpreter				interpreter;
 	
-	idDict						spawnArgs;
+	Dict						spawnArgs;
 	
 	int 						threadNum;
-	budStr 						threadName;
+	String 						threadName;
 	
 	int							lastExecuteTime;
 	int							creationTime;
@@ -95,7 +95,7 @@ private:
 	bool						manualControl;
 	
 	static int					threadIndex;
-	static budList<idThread*, TAG_THREAD>	threadList;
+	static List<idThread*, TAG_THREAD>	threadList;
 	
 	static trace_t				trace;
 	
@@ -131,42 +131,42 @@ private:
 	void						Event_SetSpawnArg( const char* key, const char* value );
 	void						Event_SpawnString( const char* key, const char* defaultvalue );
 	void						Event_SpawnFloat( const char* key, float defaultvalue );
-	void						Event_SpawnVector( const char* key, budVec3& defaultvalue );
+	void						Event_SpawnVector( const char* key, Vector3& defaultvalue );
 	void						Event_ClearPersistantArgs();
 	void 						Event_SetPersistantArg( const char* key, const char* value );
 	void 						Event_GetPersistantString( const char* key );
 	void 						Event_GetPersistantFloat( const char* key );
 	void 						Event_GetPersistantVector( const char* key );
-	void						Event_AngToForward( budAngles& ang );
-	void						Event_AngToRight( budAngles& ang );
-	void						Event_AngToUp( budAngles& ang );
+	void						Event_AngToForward( Angles& ang );
+	void						Event_AngToRight( Angles& ang );
+	void						Event_AngToUp( Angles& ang );
 	void						Event_GetSine( float angle );
 	void						Event_GetCosine( float angle );
 	void						Event_GetArcSine( float a );
 	void						Event_GetArcCosine( float a );
 	void						Event_GetSquareRoot( float theSquare );
-	void						Event_VecNormalize( budVec3& vec );
-	void						Event_VecLength( budVec3& vec );
-	void						Event_VecDotProduct( budVec3& vec1, budVec3& vec2 );
-	void						Event_VecCrossProduct( budVec3& vec1, budVec3& vec2 );
-	void						Event_VecToAngles( budVec3& vec );
-	void						Event_VecToOrthoBasisAngles( budVec3& vec );
-	void						Event_RotateVector( budVec3& vec, budVec3& ang );
+	void						Event_VecNormalize( Vector3& vec );
+	void						Event_VecLength( Vector3& vec );
+	void						Event_VecDotProduct( Vector3& vec1, Vector3& vec2 );
+	void						Event_VecCrossProduct( Vector3& vec1, Vector3& vec2 );
+	void						Event_VecToAngles( Vector3& vec );
+	void						Event_VecToOrthoBasisAngles( Vector3& vec );
+	void						Event_RotateVector( Vector3& vec, Vector3& ang );
 	void						Event_OnSignal( int signal, idEntity* ent, const char* func );
 	void						Event_ClearSignalThread( int signal, idEntity* ent );
 	void						Event_SetCamera( idEntity* ent );
 	void						Event_FirstPerson();
-	void						Event_Trace( const budVec3& start, const budVec3& end, const budVec3& mins, const budVec3& maxs, int contents_mask, idEntity* passEntity );
-	void						Event_TracePoint( const budVec3& start, const budVec3& end, int contents_mask, idEntity* passEntity );
+	void						Event_Trace( const Vector3& start, const Vector3& end, const Vector3& mins, const Vector3& maxs, int contents_mask, idEntity* passEntity );
+	void						Event_TracePoint( const Vector3& start, const Vector3& end, int contents_mask, idEntity* passEntity );
 	void						Event_GetTraceFraction();
 	void						Event_GetTraceEndPos();
 	void						Event_GetTraceNormal();
 	void						Event_GetTraceEntity();
 	void						Event_GetTraceJoint();
 	void						Event_GetTraceBody();
-	void						Event_FadeIn( budVec3& color, float time );
-	void						Event_FadeOut( budVec3& color, float time );
-	void						Event_FadeTo( budVec3& color, float alpha, float time );
+	void						Event_FadeIn( Vector3& color, float time );
+	void						Event_FadeOut( Vector3& color, float time );
+	void						Event_FadeTo( Vector3& color, float alpha, float time );
 	void						Event_SetShaderParm( int parmnum, float value );
 	void						Event_StartMusic( const char* name );
 	void						Event_Warning( const char* text );
@@ -177,17 +177,17 @@ private:
 	void 						Event_StrSkip( const char* string, int num );
 	void 						Event_StrMid( const char* string, int start, int num );
 	void						Event_StrToFloat( const char* string );
-	void						Event_RadiusDamage( const budVec3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignore, const char* damageDefName, float dmgPower );
+	void						Event_RadiusDamage( const Vector3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignore, const char* damageDefName, float dmgPower );
 	void						Event_IsClient();
 	void 						Event_IsMultiplayer();
 	void 						Event_GetFrameTime();
 	void 						Event_GetTicsPerSecond();
 	void						Event_CacheSoundShader( const char* soundName );
-	void						Event_DebugLine( const budVec3& color, const budVec3& start, const budVec3& end, const float lifetime );
-	void						Event_DebugArrow( const budVec3& color, const budVec3& start, const budVec3& end, const int size, const float lifetime );
-	void						Event_DebugCircle( const budVec3& color, const budVec3& origin, const budVec3& dir, const float radius, const int numSteps, const float lifetime );
-	void						Event_DebugBounds( const budVec3& color, const budVec3& mins, const budVec3& maxs, const float lifetime );
-	void						Event_DrawText( const char* text, const budVec3& origin, float scale, const budVec3& color, const int align, const float lifetime );
+	void						Event_DebugLine( const Vector3& color, const Vector3& start, const Vector3& end, const float lifetime );
+	void						Event_DebugArrow( const Vector3& color, const Vector3& start, const Vector3& end, const int size, const float lifetime );
+	void						Event_DebugCircle( const Vector3& color, const Vector3& origin, const Vector3& dir, const float radius, const int numSteps, const float lifetime );
+	void						Event_DebugBounds( const Vector3& color, const Vector3& mins, const Vector3& maxs, const float lifetime );
+	void						Event_DrawText( const char* text, const Vector3& origin, float scale, const Vector3& color, const int align, const float lifetime );
 	void						Event_InfluenceActive();
 	
 public:
@@ -229,11 +229,11 @@ public:
 	
 	void						DisplayInfo();
 	static idThread*				GetThread( int num );
-	static void					ListThreads_f( const budCmdArgs& args );
+	static void					ListThreads_f( const CmdArgs& args );
 	static void					Restart();
 	static void					ObjectMoveDone( int threadnum, idEntity* obj );
 	
-	static budList<idThread*>&	GetThreads();
+	static List<idThread*>&	GetThreads();
 	
 	bool						IsDoneProcessing();
 	bool						IsDying();
@@ -287,7 +287,7 @@ public:
 	static void					ReturnString( const char* text );
 	static void					ReturnFloat( float value );
 	static void					ReturnInt( int value );
-	static void					ReturnVector( budVec3 const& vec );
+	static void					ReturnVector( Vector3 const& vec );
 	static void					ReturnEntity( idEntity* ent );
 };
 
@@ -336,7 +336,7 @@ BUD_INLINE const char* idThread::GetThreadName()
 idThread::GetThreads
 ================
 */
-BUD_INLINE budList<idThread*>& idThread::GetThreads()
+BUD_INLINE List<idThread*>& idThread::GetThreads()
 {
 	return threadList;
 }

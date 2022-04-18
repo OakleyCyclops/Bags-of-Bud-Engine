@@ -189,8 +189,8 @@ public:
 	{
 		currentHellTimeKills = 0;
 	}
-	void		SavePersistentData( idDict& playerInfo );
-	void		RestorePersistentData( const idDict& spawnArgs );
+	void		SavePersistentData( Dict& playerInfo );
+	void		RestorePersistentData( const Dict& spawnArgs );
 	
 	static void LocalUser_CompleteAchievement( achievement_t id );
 	

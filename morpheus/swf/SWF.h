@@ -59,11 +59,11 @@ public:
 	budSWFText* 			text;
 	budSWFEditText* 		edittext;
 	
-	budVec2i				imageSize;
-	budVec2i				imageAtlasOffset;
+	Vector2i				imageSize;
+	Vector2i				imageAtlasOffset;
 	// the compressed images are normalize to reduce compression artifacts,
 	// color must be scaled down by this
-	budVec4				channelScale;
+	Vector4				channelScale;
 };
 
 struct purgableSwfImage_t
@@ -215,7 +215,7 @@ public:
 	budSWFScriptObject* HitTest( budSWFSpriteInstance* spriteInstance, const swfRenderState_t& renderState, int x, int y, budSWFScriptObject* parentObject );
 	
 private:
-	budStr			filename;
+	String			filename;
 	ID_TIME_T		timestamp;
 	
 	float			frameWidth;
@@ -224,7 +224,7 @@ private:
 	float			renderBorder;
 	float			swfScale;
 	
-	budVec2			scaleToVirtual;
+	Vector2			scaleToVirtual;
 	
 	int				lastRenderTime;
 	
@@ -265,8 +265,8 @@ private:
 	
 	const budMaterial* 		atlasMaterial;
 	
-	idBlockAlloc< budSWFSpriteInstance, 16 >	spriteInstanceAllocator;
-	idBlockAlloc< budSWFTextInstance, 16 >	textInstanceAllocator;
+	BlockAlloc< budSWFSpriteInstance, 16 >	spriteInstanceAllocator;
+	BlockAlloc< budSWFTextInstance, 16 >	textInstanceAllocator;
 	
 #define SWF_NATIVE_FUNCTION_SWF_DECLARE( x ) \
 	class budSWFScriptFunction_##x : public budSWFScriptFunction_Nested< budSWF > { \
@@ -326,7 +326,7 @@ private:
 		budSWFScriptObject object;
 	} scriptFunction_Object;
 	
-	budList< budSWFDictionaryEntry, TAG_SWF >	dictionary;
+	List< budSWFDictionaryEntry, TAG_SWF >	dictionary;
 	
 	struct keyButtonImages_t
 	{
@@ -358,7 +358,7 @@ private:
 		int height;
 		int baseline;
 	};
-	budList< keyButtonImages_t, TAG_SWF > tooltipButtonImage;
+	List< keyButtonImages_t, TAG_SWF > tooltipButtonImage;
 	
 	struct tooltipIcon_t
 	{
@@ -379,7 +379,7 @@ private:
 		short				imageHeight;
 		int					baseline;
 	};
-	budList< tooltipIcon_t, TAG_SWF > tooltipIconList;
+	List< tooltipIcon_t, TAG_SWF > tooltipIconList;
 	
 	const budMaterial* guiSolid;
 	const budMaterial* guiCursor_arrow;
@@ -434,22 +434,22 @@ private:
 	// SWF_Render.cpp
 	//----------------------------------
 	void			DrawStretchPic( float x, float y, float w, float h, float s1, float t1, float s2, float t2, const budMaterial* material );
-	void			DrawStretchPic( const budVec4& topLeft, const budVec4& topRight, const budVec4& bottomRight, const budVec4& bottomLeft, const budMaterial* material );
+	void			DrawStretchPic( const Vector4& topLeft, const Vector4& topRight, const Vector4& bottomRight, const Vector4& bottomLeft, const budMaterial* material );
 	void			RenderSprite( budRenderSystem* gui, budSWFSpriteInstance* sprite, const swfRenderState_t& renderState, int time, bool isSplitscreen = false );
 	void			RenderMask( budRenderSystem* gui, const swfDisplayEntry_t* mask, const swfRenderState_t& renderState, const int stencilMode );
 	void			RenderShape( budRenderSystem* gui, const budSWFShape* shape, const swfRenderState_t& renderState );
 	void			RenderMorphShape( budRenderSystem* gui, const budSWFShape* shape, const swfRenderState_t& renderState );
 	void			DrawEditCursor( budRenderSystem* gui, float x, float y, float w, float h, const swfMatrix_t& matrix );
-	void			DrawLine( budRenderSystem* gui, const budVec2& p1, const budVec2& p2, float width, const swfMatrix_t& matrix );
+	void			DrawLine( budRenderSystem* gui, const Vector2& p1, const Vector2& p2, float width, const swfMatrix_t& matrix );
 	void			RenderEditText( budRenderSystem* gui, budSWFTextInstance* textInstance, const swfRenderState_t& renderState, int time, bool isSplitscreen = false );
 	uint64			GLStateForRenderState( const swfRenderState_t& renderState );
-	void			FindTooltipIcons( budStr* text );
+	void			FindTooltipIcons( String* text );
 	
 	// RB: debugging tools
 	swfRect_t		CalcRect( const budSWFSpriteInstance* sprite, const swfRenderState_t& renderState );
-	void			DrawRect( budRenderSystem* gui, const swfRect_t& rect, const budVec4& color );
-	int				DrawText( budRenderSystem* gui, float x, float y, float scale, budVec4 color, const char* text, float adjust, int limit, int style );
-	int				DrawText( budRenderSystem* gui, const char* text, float textScale, int textAlign, budVec4 color, const swfRect_t& rectDraw, bool wrap, int cursor = -1, bool calcOnly = false, budList<int>* breaks = NULL, int limit = 0 );
+	void			DrawRect( budRenderSystem* gui, const swfRect_t& rect, const Vector4& color );
+	int				DrawText( budRenderSystem* gui, float x, float y, float scale, Vector4 color, const char* text, float adjust, int limit, int style );
+	int				DrawText( budRenderSystem* gui, const char* text, float textScale, int textAlign, Vector4 color, const swfRect_t& rectDraw, bool wrap, int cursor = -1, bool calcOnly = false, List<int>* breaks = NULL, int limit = 0 );
 	// RB end
 	
 	//----------------------------------
@@ -484,12 +484,12 @@ private:
 	struct imageToPack_t
 	{
 		int	characterID;
-		budVec2i	trueSize;	// in texels
+		Vector2i	trueSize;	// in texels
 		byte* imageData;	// trueSize.x * trueSize.y * 4
-		budVec2i	allocSize;	// in DXT tiles, includes a border texel and rounding up to DXT blocks
+		Vector2i	allocSize;	// in DXT tiles, includes a border texel and rounding up to DXT blocks
 	};
 	
-	class budSortBlocks : public budSort_Quick< imageToPack_t, budSortBlocks >
+	class SortBlocks : public SortQuick< imageToPack_t, SortBlocks >
 	{
 	public:
 		int Compare( const imageToPack_t& a, const imageToPack_t& b ) const
@@ -498,7 +498,7 @@ private:
 		}
 	};
 	
-	budList<imageToPack_t, TAG_SWF>	packImages;	// only used during creation
+	List<imageToPack_t, TAG_SWF>	packImages;	// only used during creation
 	void			WriteSwfImageAtlas( const char* filename );
 	
 	//----------------------------------

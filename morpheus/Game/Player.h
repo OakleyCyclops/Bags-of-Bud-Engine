@@ -74,7 +74,7 @@ const int DEATH_VOLUME = 15;			// volume at death
 
 const int SAVING_THROW_TIME = 5000;		// maximum one "saving throw" every five seconds
 
-const int ASYNC_PLAYER_INV_AMMO_BITS = budMath::BitsForInteger( 3000 );
+const int ASYNC_PLAYER_INV_AMMO_BITS = Math::BitsForInteger( 3000 );
 const int ASYNC_PLAYER_INV_CLIP_BITS = -7;								// -7 bits to cover the range [-1, 60]
 
 enum gameExpansionType_t
@@ -87,15 +87,15 @@ enum gameExpansionType_t
 
 struct idObjectiveInfo
 {
-	budStr title;
-	budStr text;
+	String title;
+	String text;
 	const budMaterial* screenshot;
 };
 
 struct idLevelTriggerInfo
 {
-	budStr levelName;
-	budStr triggerName;
+	String levelName;
+	String triggerName;
 };
 
 // powerups - the "type" in item .def must match
@@ -141,7 +141,7 @@ typedef struct
 typedef struct
 {
 	char		name[64];
-	budList<int, TAG_LIBBUD_LIST_PLAYER>	toggleList;
+	List<int, TAG_LIBBUD_LIST_PLAYER>	toggleList;
 	int			lastUsed;
 } WeaponToggle_t;
 
@@ -172,18 +172,18 @@ public:
 	int						selVideo;
 	int						selAudio;
 	bool					pdaOpened;
-	budList<idDict*>		items;
-	budList<budStr>			pdaSecurity;
-	budList<const budDeclPDA*>	pdas;
-	budList<const budDeclVideo*>	videos;
-	budList<const budDeclEmail*>	emails;
+	List<Dict*>		items;
+	List<String>			pdaSecurity;
+	List<const budDeclPDA*>	pdas;
+	List<const budDeclVideo*>	videos;
+	List<const budDeclEmail*>	emails;
 	
 	bool					ammoPulse;
 	bool					weaponPulse;
 	bool					armorPulse;
 	int						lastGiveTime;
 	
-	budList<idLevelTriggerInfo, TAG_LIBBUD_LIST_PLAYER> levelTriggers;
+	List<idLevelTriggerInfo, TAG_LIBBUD_LIST_PLAYER> levelTriggers;
 	
 	idInventory()
 	{
@@ -201,14 +201,14 @@ public:
 	void					Clear();
 	void					GivePowerUp( budPlayer* player, int powerup, int msec );
 	void					ClearPowerUps();
-	void					GetPersistantData( idDict& dict );
-	void					RestoreInventory( budPlayer* owner, const idDict& dict );
-	bool					Give( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value,
+	void					GetPersistantData( Dict& dict );
+	void					RestoreInventory( budPlayer* owner, const Dict& dict );
+	bool					Give( budPlayer* owner, const Dict& spawnArgs, const char* statname, const char* value,
 								  idPredictedValue< int >* idealWeapon, bool updateHud, unsigned int giveFlags );
-	void					Drop( const idDict& spawnArgs, const char* weapon_classname, int weapon_index );
+	void					Drop( const Dict& spawnArgs, const char* weapon_classname, int weapon_index );
 	ammo_t					AmmoIndexForAmmoClass( const char* ammo_classname ) const;
 	int						MaxAmmoForAmmoClass( const budPlayer* owner, const char* ammo_classname ) const;
-	int						WeaponIndexForAmmoClass( const idDict& spawnArgs, const char* ammo_classname ) const;
+	int						WeaponIndexForAmmoClass( const Dict& spawnArgs, const char* ammo_classname ) const;
 	ammo_t					AmmoIndexForWeaponClass( const char* weapon_classname, int* ammoRequired );
 	const char* 			AmmoPickupNameForIndex( ammo_t ammonum ) const;
 	void					AddPickupName( const char* name, budPlayer* owner );   //_D3XP
@@ -235,12 +235,12 @@ public:
 	int						nextItemPickup;
 	int						nextItemNum;
 	int						onePickupTime;
-	budList<budStr>			pickupItemNames;
-	budList<idObjectiveInfo>	objectiveNames;
+	List<String>			pickupItemNames;
+	List<idObjectiveInfo>	objectiveNames;
 	
 	void					InitRechargeAmmo( budPlayer* owner );
 	void					RechargeAmmo( budPlayer* owner );
-	bool					CanGive( budPlayer* owner, const idDict& spawnArgs, const char* statname, const char* value );
+	bool					CanGive( budPlayer* owner, const Dict& spawnArgs, const char* statname, const char* value );
 	
 private:
 	budArray< idPredictedValue< int >, AMMO_NUMTYPES >		ammo;
@@ -250,13 +250,13 @@ private:
 typedef struct
 {
 	int		time;
-	budVec3	dir;		// scaled larger for running
+	Vector3	dir;		// scaled larger for running
 } loggedAccel_t;
 
 typedef struct
 {
 	int		areaNum;
-	budVec3	pos;
+	Vector3	pos;
 } aasLocation_t;
 
 class budPlayer : public budActor
@@ -292,14 +292,14 @@ public:
 	bool					godmode;
 	
 	bool					spawnAnglesSet;		// on first usercmd, we must set deltaAngles
-	budAngles				spawnAngles;
-	budAngles				viewAngles;			// player view angles
-	budAngles				cmdAngles;			// player cmd angles
+	Angles				spawnAngles;
+	Angles				viewAngles;			// player view angles
+	Angles				cmdAngles;			// player cmd angles
 	float					independentWeaponPitchAngle;	// viewAngles[PITCH} when head tracking is active
 	
 	// For interpolating angles between snapshots
-	idQuat					previousViewQuat;
-	idQuat					nextViewQuat;
+	Quat					previousViewQuat;
+	Quat					nextViewQuat;
 	
 	int						buttonMask;
 	int						oldButtons;
@@ -419,8 +419,8 @@ public:
 	
 	// the first person view values are always calculated, even
 	// if a third person view is used
-	budVec3					firstPersonViewOrigin;
-	budMat3					firstPersonViewAxis;
+	Vector3					firstPersonViewOrigin;
+	Matrix3					firstPersonViewAxis;
 	
 	idDragEntity			dragEntity;
 	
@@ -460,9 +460,9 @@ public:
 	virtual void			Restart();
 	void					LinkScriptVariables();
 	void					SetupWeaponEntity();
-	void					SelectInitialSpawnPoint( budVec3& origin, budAngles& angles );
+	void					SelectInitialSpawnPoint( Vector3& origin, Angles& angles );
 	void					SpawnFromSpawnSpot();
-	void					SpawnToPoint( const budVec3&	spawn_origin, const budAngles& spawn_angles );
+	void					SpawnToPoint( const Vector3&	spawn_origin, const Angles& spawn_angles );
 	void					SetClipModel();	// spectator mode uses a different bbox size
 	
 	void					SavePersistantInfo();
@@ -475,7 +475,7 @@ public:
 	void					ExitCinematic();
 	
 	void					UpdateConditions();
-	void					SetViewAngles( const budAngles& angles );
+	void					SetViewAngles( const Angles& angles );
 	
 	// Controller Shake
 	void					ControllerShakeFromDamage( int damage );
@@ -489,45 +489,45 @@ public:
 	}
 	
 	// delta view angles to allow movers to rotate the view of the player
-	void					UpdateDeltaViewAngles( const budAngles& angles );
+	void					UpdateDeltaViewAngles( const Angles& angles );
 	
-	virtual bool			Collide( const trace_t& collision, const budVec3& velocity );
+	virtual bool			Collide( const trace_t& collision, const Vector3& velocity );
 	
-	virtual void			GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const;
-	virtual void			GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, budVec3& chestPos );
+	virtual void			GetAASLocation( budAAS* aas, Vector3& pos, int& areaNum ) const;
+	virtual void			GetAIAimTargets( const Vector3& lastSightPos, Vector3& headPos, Vector3& chestPos );
 	virtual void			DamageFeedback( idEntity* victim, idEntity* inflictor, int& damage );
-	void					CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const idDict* damageDef,
+	void					CalcDamagePoints( idEntity* inflictor, idEntity* attacker, const Dict* damageDef,
 			const float damageScale, const int location, int* health, int* armor );
-	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir, const char* damageDefName, const float damageScale, const int location );
+	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir, const char* damageDefName, const float damageScale, const int location );
 	
 	// New damage path for instant client feedback.
-	void					ServerDealDamage( int damage, idEntity& inflictor, idEntity& attacker, const budVec3& dir, const char* damageDefName, const int location );     // Actually updates the player's health independent of feedback.
+	void					ServerDealDamage( int damage, idEntity& inflictor, idEntity& attacker, const Vector3& dir, const char* damageDefName, const int location );     // Actually updates the player's health independent of feedback.
 	int						AdjustDamageAmount( const int inputDamage );
 	
 	// use exitEntityNum to specify a teleport with private camera view and delayed exit
-	virtual void			Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination );
+	virtual void			Teleport( const Vector3& origin, const Angles& angles, idEntity* destination );
 	
 	void					Kill( bool delayRespawn, bool nodamage );
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	void					StartFxOnBone( const char* fx, const char* bone );
 	
 	renderView_t* 			GetRenderView();
 	void					CalculateRenderView();	// called every tic by player code
 	void					CalculateFirstPersonView();
 	
-	void					AddChatMessage( int index, int alpha, const budStr& message );
+	void					AddChatMessage( int index, int alpha, const String& message );
 	void					UpdateSpectatingText();
 	void					ClearChatMessage( int index );
 	
 	void					DrawHUD( idMenuHandler_HUD* hudManager );
 	
-	void					WeaponFireFeedback( const idDict* weaponDef );
+	void					WeaponFireFeedback( const Dict* weaponDef );
 	
 	float					DefaultFov() const;
 	float					CalcFov( bool honorZoom );
-	void					CalculateViewWeaponPos( budVec3& origin, budMat3& axis );
-	budVec3					GetEyePosition() const;
-	void					GetViewPos( budVec3& origin, budMat3& axis ) const;
+	void					CalculateViewWeaponPos( Vector3& origin, Matrix3& axis );
+	Vector3					GetEyePosition() const;
+	void					GetViewPos( Vector3& origin, Matrix3& axis ) const;
 	void					OffsetThirdPersonView( float angle, float range, float height, bool clip );
 	
 	bool					Give( const char* statname, const char* value, unsigned int giveFlags );
@@ -548,12 +548,12 @@ public:
 	{
 		return inventory;
 	}
-	bool					GiveInventoryItem( idDict* item, unsigned int giveFlags );
-	void					RemoveInventoryItem( idDict* item );
+	bool					GiveInventoryItem( Dict* item, unsigned int giveFlags );
+	void					RemoveInventoryItem( Dict* item );
 	bool					GiveInventoryItem( const char* name );
 	void					RemoveInventoryItem( const char* name );
-	idDict* 				FindInventoryItem( const char* name );
-	idDict* 				FindInventoryItem( int index );
+	Dict* 				FindInventoryItem( const char* name );
+	Dict* 				FindInventoryItem( int index );
 	int						GetNumInventoryItems();
 	void					PlayAudioLog( const idSoundShader* sound );
 	void					EndAudioLog();
@@ -664,8 +664,8 @@ public:
 	
 	virtual bool			ServerReceiveEvent( int event, int time, const budBitMsg& msg );
 	
-	virtual bool			GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis );
-	virtual bool			GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis );
+	virtual bool			GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis );
+	virtual bool			GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis );
 	
 	virtual bool			ClientReceiveEvent( int event, int time, const budBitMsg& msg );
 	bool					IsRespawning();
@@ -709,7 +709,7 @@ public:
 	void					StartHealthRecharge( int speed );
 	void					StopHealthRecharge();
 	
-	budStr					GetCurrentWeapon();
+	String					GetCurrentWeapon();
 	int						GetCurrentWeaponSlot()
 	{
 		return currentWeapon;
@@ -735,11 +735,11 @@ public:
 	bool					SelfSmooth();
 	void					SetSelfSmooth( bool b );
 	
-	const budAngles& 		GetViewBobAngles()
+	const Angles& 		GetViewBobAngles()
 	{
 		return viewBobAngles;
 	}
-	const budVec3& 			GetViewBob()
+	const Vector3& 			GetViewBob()
 	{
 		return viewBob;
 	}
@@ -804,7 +804,7 @@ private:
 	
 	idPhysics_Player		physicsObj;			// player physics
 	
-	budList<aasLocation_t, TAG_LIBBUD_LIST_PLAYER>	aasLocation;		// for AI tracking the player
+	List<aasLocation_t, TAG_LIBBUD_LIST_PLAYER>	aasLocation;		// for AI tracking the player
 	
 	int						bobFoot;
 	float					bobFrac;
@@ -817,8 +817,8 @@ private:
 	float					legsYaw;
 	bool					legsForward;
 	float					oldViewYaw;
-	budAngles				viewBobAngles;
-	budVec3					viewBob;
+	Angles				viewBobAngles;
+	Vector3					viewBob;
 	int						landChange;
 	int						landTime;
 	
@@ -843,7 +843,7 @@ private:
 	
 	bool					gibDeath;
 	bool					gibsLaunched;
-	budVec3					gibsDir;
+	Vector3					gibsDir;
 	
 	idInterpolate<float>	zoomFov;
 	idInterpolate<float>	centerView;
@@ -859,7 +859,7 @@ private:
 	idCamera* 				privateCameraView;
 	
 	static const int		NUM_LOGGED_VIEW_ANGLES = 64;		// for weapon turning angle offsets
-	budAngles				loggedViewAngles[NUM_LOGGED_VIEW_ANGLES];	// [gameLocal.framenum&(LOGGED_VIEW_ANGLES-1)]
+	Angles				loggedViewAngles[NUM_LOGGED_VIEW_ANGLES];	// [gameLocal.framenum&(LOGGED_VIEW_ANGLES-1)]
 	static const int		NUM_LOGGED_ACCELS = 16;			// for weapon turning angle offsets
 	loggedAccel_t			loggedAccel[NUM_LOGGED_ACCELS];	// [currentLoggedAccel & (NUM_LOGGED_ACCELS-1)]
 	int						currentLoggedAccel;
@@ -883,12 +883,12 @@ private:
 	bool					objectiveUp;
 	
 	int						lastDamageDef;
-	budVec3					lastDamageDir;
+	Vector3					lastDamageDir;
 	int						lastDamageLocation;
 	int						smoothedFrame;
 	bool					smoothedOriginUpdated;
-	budVec3					smoothedOrigin;
-	budAngles				smoothedAngles;
+	Vector3					smoothedOrigin;
+	Angles				smoothedAngles;
 	
 	budHashTable<WeaponToggle_t>	weaponToggles;
 	
@@ -931,12 +931,12 @@ private:
 	void					UpdateSpectating();
 	void					SpectateFreeFly( bool force );	// ignore the timeout to force when followed spec is no longer valid
 	void					SpectateCycle();
-	budAngles				GunTurningOffset();
-	budVec3					GunAcceleratingOffset();
+	Angles				GunTurningOffset();
+	Vector3					GunAcceleratingOffset();
 	
 	void					UseObjects();
-	void					CrashLand( const budVec3& oldOrigin, const budVec3& oldVelocity );
-	void					BobCycle( const budVec3& pushVelocity );
+	void					CrashLand( const Vector3& oldOrigin, const Vector3& oldVelocity );
+	void					BobCycle( const Vector3& pushVelocity );
 	void					UpdateViewAngles();
 	void					EvaluateControls();
 	void					AdjustSpeed();
@@ -982,7 +982,7 @@ private:
 	void					Event_HideTip();
 	void					Event_LevelTrigger();
 	void					Event_Gibbed();
-	void					Event_ForceOrigin( budVec3& origin, budAngles& angles );
+	void					Event_ForceOrigin( Vector3& origin, Angles& angles );
 	void					Event_GiveInventoryItem( const char* name );
 	void					Event_RemoveInventoryItem( const char* name );
 	
@@ -1031,7 +1031,7 @@ BUD_INLINE void budPlayer::SetSelfSmooth( bool b )
 	selfSmooth = b;
 }
 
-extern budCVar g_infiniteAmmo;
+extern CVar g_infiniteAmmo;
 
 #endif /* !__GAME_PLAYER_H__ */
 

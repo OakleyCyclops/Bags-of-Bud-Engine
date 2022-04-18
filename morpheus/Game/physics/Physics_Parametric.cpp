@@ -219,8 +219,8 @@ void idPhysics_Parametric_RestorePState( idRestoreGame* savefile, parametricPSta
 {
 	extrapolation_t etype;
 	float startTime, duration, accelTime, decelTime, startValue, endValue;
-	budVec3 linearStartValue, linearBaseSpeed, linearSpeed, startPos, endPos;
-	budAngles angularStartValue, angularBaseSpeed, angularSpeed, startAng, endAng;
+	Vector3 linearStartValue, linearBaseSpeed, linearSpeed, startPos, endPos;
+	Angles angularStartValue, angularBaseSpeed, angularSpeed, startAng, endAng;
 	
 	savefile->ReadInt( state.time );
 	savefile->ReadInt( state.atRest );
@@ -350,7 +350,7 @@ bool idPhysics_Parametric::IsPusher() const
 idPhysics_Parametric::SetLinearExtrapolation
 ================
 */
-void idPhysics_Parametric::SetLinearExtrapolation( extrapolation_t type, int time, int duration, const budVec3& base, const budVec3& speed, const budVec3& baseSpeed )
+void idPhysics_Parametric::SetLinearExtrapolation( extrapolation_t type, int time, int duration, const Vector3& base, const Vector3& speed, const Vector3& baseSpeed )
 {
 	current.time = gameLocal.time;
 	current.linearExtrapolation.Init( time, duration, base, baseSpeed, speed, type );
@@ -363,7 +363,7 @@ void idPhysics_Parametric::SetLinearExtrapolation( extrapolation_t type, int tim
 idPhysics_Parametric::SetAngularExtrapolation
 ================
 */
-void idPhysics_Parametric::SetAngularExtrapolation( extrapolation_t type, int time, int duration, const budAngles& base, const budAngles& speed, const budAngles& baseSpeed )
+void idPhysics_Parametric::SetAngularExtrapolation( extrapolation_t type, int time, int duration, const Angles& base, const Angles& speed, const Angles& baseSpeed )
 {
 	current.time = gameLocal.time;
 	current.angularExtrapolation.Init( time, duration, base, baseSpeed, speed, type );
@@ -396,7 +396,7 @@ extrapolation_t idPhysics_Parametric::GetAngularExtrapolationType() const
 idPhysics_Parametric::SetLinearInterpolation
 ================
 */
-void idPhysics_Parametric::SetLinearInterpolation( int time, int accelTime, int decelTime, int duration, const budVec3& startPos, const budVec3& endPos )
+void idPhysics_Parametric::SetLinearInterpolation( int time, int accelTime, int decelTime, int duration, const Vector3& startPos, const Vector3& endPos )
 {
 	current.time = gameLocal.time;
 	current.linearInterpolation.Init( time, accelTime, decelTime, duration, startPos, endPos );
@@ -409,7 +409,7 @@ void idPhysics_Parametric::SetLinearInterpolation( int time, int accelTime, int 
 idPhysics_Parametric::SetAngularInterpolation
 ================
 */
-void idPhysics_Parametric::SetAngularInterpolation( int time, int accelTime, int decelTime, int duration, const budAngles& startAng, const budAngles& endAng )
+void idPhysics_Parametric::SetAngularInterpolation( int time, int accelTime, int decelTime, int duration, const Angles& startAng, const Angles& endAng )
 {
 	current.time = gameLocal.time;
 	current.angularInterpolation.Init( time, accelTime, decelTime, duration, startAng, endAng );
@@ -422,7 +422,7 @@ void idPhysics_Parametric::SetAngularInterpolation( int time, int accelTime, int
 idPhysics_Parametric::SetSpline
 ================
 */
-void idPhysics_Parametric::SetSpline( idCurve_Spline<budVec3>* spline, int accelTime, int decelTime, bool useSplineAngles )
+void idPhysics_Parametric::SetSpline( idCurve_Spline<Vector3>* spline, int accelTime, int decelTime, bool useSplineAngles )
 {
 	if( current.spline != NULL )
 	{
@@ -446,7 +446,7 @@ void idPhysics_Parametric::SetSpline( idCurve_Spline<budVec3>* spline, int accel
 idPhysics_Parametric::GetSpline
 ================
 */
-idCurve_Spline<budVec3>* idPhysics_Parametric::GetSpline() const
+idCurve_Spline<Vector3>* idPhysics_Parametric::GetSpline() const
 {
 	return current.spline;
 }
@@ -486,7 +486,7 @@ bool idPhysics_Parametric::UsingSplineAngles() const
 idPhysics_Parametric::GetLocalOrigin
 ================
 */
-void idPhysics_Parametric::GetLocalOrigin( budVec3& curOrigin ) const
+void idPhysics_Parametric::GetLocalOrigin( Vector3& curOrigin ) const
 {
 	curOrigin = current.localOrigin;
 }
@@ -496,7 +496,7 @@ void idPhysics_Parametric::GetLocalOrigin( budVec3& curOrigin ) const
 idPhysics_Parametric::GetLocalAngles
 ================
 */
-void idPhysics_Parametric::GetLocalAngles( budAngles& curAngles ) const
+void idPhysics_Parametric::GetLocalAngles( Angles& curAngles ) const
 {
 	curAngles = current.localAngles;
 }
@@ -621,9 +621,9 @@ idPhysics_Parametric::Evaluate
 */
 bool idPhysics_Parametric::Evaluate( int timeStepMSec, int endTimeMSec )
 {
-	budVec3 oldLocalOrigin, oldOrigin, masterOrigin;
-	budAngles oldLocalAngles, oldAngles;
-	budMat3 oldAxis, masterAxis;
+	Vector3 oldLocalOrigin, oldOrigin, masterOrigin;
+	Angles oldLocalAngles, oldAngles;
+	Matrix3 oldAxis, masterAxis;
 	
 	isBlocked = false;
 	oldLocalOrigin = current.localOrigin;
@@ -736,8 +736,8 @@ bool idPhysics_Parametric::Interpolate( const float fraction )
 		return false;
 	}
 	
-	budVec3 oldOrigin = current.origin;
-	budMat3 oldAxis = current.axis;
+	Vector3 oldOrigin = current.origin;
+	Matrix3 oldAxis = current.axis;
 	
 	const bool hasChanged = InterpolatePhysicsState( current, previous, next, fraction );
 	
@@ -844,10 +844,10 @@ void idPhysics_Parametric::RestoreState()
 idPhysics_Parametric::SetOrigin
 ================
 */
-void idPhysics_Parametric::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_Parametric::SetOrigin( const Vector3& newOrigin, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.linearExtrapolation.SetStartValue( newOrigin );
 	current.linearInterpolation.SetStartValue( newOrigin );
@@ -874,10 +874,10 @@ void idPhysics_Parametric::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics_Parametric::SetAxis
 ================
 */
-void idPhysics_Parametric::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_Parametric::SetAxis( const Matrix3& newAxis, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localAngles = newAxis.ToAngles();
 	
@@ -908,7 +908,7 @@ void idPhysics_Parametric::SetAxis( const budMat3& newAxis, int id )
 idPhysics_Parametric::Move
 ================
 */
-void idPhysics_Parametric::Translate( const budVec3& translation, int id )
+void idPhysics_Parametric::Translate( const Vector3& translation, int id )
 {
 }
 
@@ -917,7 +917,7 @@ void idPhysics_Parametric::Translate( const budVec3& translation, int id )
 idPhysics_Parametric::Rotate
 ================
 */
-void idPhysics_Parametric::Rotate( const budRotation& rotation, int id )
+void idPhysics_Parametric::Rotate( const Rotation& rotation, int id )
 {
 }
 
@@ -926,7 +926,7 @@ void idPhysics_Parametric::Rotate( const budRotation& rotation, int id )
 idPhysics_Parametric::GetOrigin
 ================
 */
-const budVec3& idPhysics_Parametric::GetOrigin( int id ) const
+const Vector3& idPhysics_Parametric::GetOrigin( int id ) const
 {
 	return current.origin;
 }
@@ -936,7 +936,7 @@ const budVec3& idPhysics_Parametric::GetOrigin( int id ) const
 idPhysics_Parametric::GetAxis
 ================
 */
-const budMat3& idPhysics_Parametric::GetAxis( int id ) const
+const Matrix3& idPhysics_Parametric::GetAxis( int id ) const
 {
 	return current.axis;
 }
@@ -946,7 +946,7 @@ const budMat3& idPhysics_Parametric::GetAxis( int id ) const
 idPhysics_Parametric::GetAngles
 ================
 */
-void idPhysics_Parametric::GetAngles( budAngles& curAngles ) const
+void idPhysics_Parametric::GetAngles( Angles& curAngles ) const
 {
 	curAngles = current.angles;
 }
@@ -956,9 +956,9 @@ void idPhysics_Parametric::GetAngles( budAngles& curAngles ) const
 idPhysics_Parametric::SetLinearVelocity
 ================
 */
-void idPhysics_Parametric::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_Parametric::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
-	SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.time, 0, current.origin, newLinearVelocity, vec3_origin );
+	SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.time, 0, current.origin, newLinearVelocity, Vector3_Origin );
 	current.linearInterpolation.Init( 0, 0, 0, 0, vec3_zero, vec3_zero );
 	Activate();
 }
@@ -968,15 +968,15 @@ void idPhysics_Parametric::SetLinearVelocity( const budVec3& newLinearVelocity, 
 idPhysics_Parametric::SetAngularVelocity
 ================
 */
-void idPhysics_Parametric::SetAngularVelocity( const budVec3& newAngularVelocity, int id )
+void idPhysics_Parametric::SetAngularVelocity( const Vector3& newAngularVelocity, int id )
 {
-	budRotation rotation;
-	budVec3 vec;
+	Rotation rotation;
+	Vector3 vec;
 	float angle;
 	
 	vec = newAngularVelocity;
 	angle = vec.Normalize();
-	rotation.Set( vec3_origin, vec, ( float ) RAD2DEG( angle ) );
+	rotation.Set( Vector3_Origin, vec, ( float ) RAD2DEG( angle ) );
 	
 	SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.time, 0, current.angles, rotation.ToAngles(), ang_zero );
 	current.angularInterpolation.Init( 0, 0, 0, 0, ang_zero, ang_zero );
@@ -988,9 +988,9 @@ void idPhysics_Parametric::SetAngularVelocity( const budVec3& newAngularVelocity
 idPhysics_Parametric::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_Parametric::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_Parametric::GetLinearVelocity( int id ) const
 {
-	static budVec3 curLinearVelocity;
+	static Vector3 curLinearVelocity;
 	
 	curLinearVelocity = current.linearExtrapolation.GetCurrentSpeed( gameLocal.time );
 	return curLinearVelocity;
@@ -1001,10 +1001,10 @@ const budVec3& idPhysics_Parametric::GetLinearVelocity( int id ) const
 idPhysics_Parametric::GetAngularVelocity
 ================
 */
-const budVec3& idPhysics_Parametric::GetAngularVelocity( int id ) const
+const Vector3& idPhysics_Parametric::GetAngularVelocity( int id ) const
 {
-	static budVec3 curAngularVelocity;
-	budAngles angles;
+	static Vector3 curAngularVelocity;
+	Angles angles;
 	
 	angles = current.angularExtrapolation.GetCurrentSpeed( gameLocal.time );
 	curAngularVelocity = angles.ToAngularVelocity();
@@ -1094,8 +1094,8 @@ idPhysics_Parametric::SetMaster
 */
 void idPhysics_Parametric::SetMaster( idEntity* master, const bool orientated )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( master )
 	{
@@ -1127,7 +1127,7 @@ void idPhysics_Parametric::SetMaster( idEntity* master, const bool orientated )
 			// transform from master space to world space
 			current.localOrigin = current.origin;
 			current.localAngles = current.angles;
-			SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, current.origin, vec3_origin, vec3_origin );
+			SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, current.origin, Vector3_Origin, Vector3_Origin );
 			SetAngularExtrapolation( EXTRAPOLATION_NONE, 0, 0, current.angles, ang_zero, ang_zero );
 			hasMaster = false;
 		}
@@ -1143,7 +1143,7 @@ int idPhysics_Parametric::GetLinearEndTime() const
 {
 	if( current.spline != NULL )
 	{
-		if( current.spline->GetBoundaryType() != idCurve_Spline<budVec3>::BT_CLOSED )
+		if( current.spline->GetBoundaryType() != idCurve_Spline<Vector3>::BT_CLOSED )
 		{
 			return current.spline->GetTime( current.spline->GetNumValues() - 1 );
 		}
@@ -1187,7 +1187,7 @@ idPhysics_Parametric::WriteToSnapshot
 void idPhysics_Parametric::WriteToSnapshot( budBitMsg& msg ) const
 {
 
-	const idQuat currentQuat = current.axis.ToQuat();
+	const Quat currentQuat = current.axis.ToQuat();
 	
 	WriteFloatArray( msg, current.origin );
 	WriteFloatArray( msg, currentQuat );
@@ -1203,8 +1203,8 @@ void idPhysics_Parametric::ReadFromSnapshot( const budBitMsg& msg )
 
 	previous = next;
 	
-	next.origin = ReadFloatArray< budVec3 >( msg );
-	next.axis = ReadFloatArray< idQuat >( msg );
+	next.origin = ReadFloatArray< Vector3 >( msg );
+	next.axis = ReadFloatArray< Quat >( msg );
 	
 	if( self->GetNumSnapshotsReceived() <= 1 )
 	{

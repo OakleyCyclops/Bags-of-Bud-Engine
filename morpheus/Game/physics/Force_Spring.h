@@ -48,8 +48,8 @@ public:
 	// initialize the spring
 	void				InitSpring( float Kstretch, float Kcompress, float damping, float restLength );
 	// set the entities and positions on these entities the spring is attached to
-	void				SetPosition(	idPhysics* physics1, int id1, const budVec3& p1,
-										idPhysics* physics2, int id2, const budVec3& p2 );
+	void				SetPosition(	idPhysics* physics1, int id1, const Vector3& p1,
+										idPhysics* physics2, int id2, const Vector3& p2 );
 										
 public: // common force interface
 	virtual void		Evaluate( int time );
@@ -66,10 +66,10 @@ private:
 	// positioning
 	idPhysics* 			physics1;	// first physics object
 	int					id1;		// clip model id of first physics object
-	budVec3				p1;			// position on clip model
+	Vector3				p1;			// position on clip model
 	idPhysics* 			physics2;	// second physics object
 	int					id2;		// clip model id of second physics object
-	budVec3				p2;			// position on clip model
+	Vector3				p2;			// position on clip model
 	
 };
 

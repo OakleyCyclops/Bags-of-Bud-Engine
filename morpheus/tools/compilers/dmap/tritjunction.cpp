@@ -90,12 +90,12 @@ If you have questions concerning this license or the applicable additional terms
 typedef struct hashVert_s
 {
 	struct hashVert_s*	next;
-	budVec3				v;
+	Vector3				v;
 	int					iv[3];
 } hashVert_t;
 
 static budBounds	hashBounds;
-static budVec3	hashScale;
+static Vector3	hashScale;
 static hashVert_t*	hashVerts[HASH_BINS][HASH_BINS][HASH_BINS];
 static int		numHashVerts, numTotalVerts;
 static int		hashIntMins[3], hashIntScale[3];
@@ -107,7 +107,7 @@ GetHashVert
 Also modifies the original vert to the snapped value
 ===============
 */
-struct hashVert_s*	GetHashVert( budVec3& v )
+struct hashVert_s*	GetHashVert( Vector3& v )
 {
 	int		iv[3];
 	int		block[3];
@@ -326,13 +326,13 @@ static mapTri_t* FixTriangleAgainstHashVert( const mapTri_t* a, const hashVert_t
 	int			i;
 	const budDrawVert*	v1, *v2, *v3;
 	budDrawVert	split;
-	budVec3		dir;
+	Vector3		dir;
 	float		len;
 	float		frac;
 	mapTri_t*	new1, *new2;
-	budVec3		temp;
+	Vector3		temp;
 	float		d, off;
-	const budVec3* v;
+	const Vector3* v;
 	budPlane		plane1, plane2;
 	
 	v = &hv->v;
@@ -379,15 +379,15 @@ static mapTri_t* FixTriangleAgainstHashVert( const mapTri_t* a, const hashVert_t
 		frac = d / len;
 		
 		// RB begin
-		const budVec2 v1ST = v1->GetTexCoord();
-		const budVec2 v2ST = v2->GetTexCoord();
+		const Vector2 v1ST = v1->GetTexCoord();
+		const Vector2 v2ST = v2->GetTexCoord();
 		
 		split.SetTexCoord(	v1ST.x + frac * ( v2ST.x - v1ST.x ),
 							v1ST.y + frac * ( v2ST.y - v1ST.y ) );
 							
-		budVec3 splitNormal;
-		budVec3 v1Normal = v1->GetNormal();
-		budVec3 v2Normal = v2->GetNormal();
+		Vector3 splitNormal;
+		Vector3 v1Normal = v1->GetNormal();
+		Vector3 v2Normal = v2->GetNormal();
 		
 		splitNormal[0] = v1Normal[0] + frac * ( v2Normal[0] - v1Normal[0] );
 		splitNormal[1] = v1Normal[1] + frac * ( v2Normal[1] - v1Normal[1] );
@@ -670,7 +670,7 @@ void	FixGlobalTjunctions( uEntity_t* e )
 		{
 			uEntity_t* entity = &dmapGlobals.uEntities[eNum];
 			const char* className = entity->mapEntity->epairs.GetString( "classname" );
-			if( budStr::Icmp( className, "func_static" ) )
+			if( String::Icmp( className, "func_static" ) )
 			{
 				continue;
 			}
@@ -690,14 +690,14 @@ void	FixGlobalTjunctions( uEntity_t* e )
 			
 //			common->Printf( "adding T junction verts for %s.\n", entity->mapEntity->epairs.GetString( "name" ) );
 
-			budMat3	axis;
+			Matrix3	axis;
 			// get the rotation matrix in either full form, or single angle form
 			if( !entity->mapEntity->epairs.GetMatrix( "rotation", "1 0 0 0 1 0 0 0 1", axis ) )
 			{
 				float angle = entity->mapEntity->epairs.GetFloat( "angle" );
 				if( angle != 0.0f )
 				{
-					axis = budAngles( 0.0f, angle, 0.0f ).ToMat3();
+					axis = Angles( 0.0f, angle, 0.0f ).ToMat3();
 				}
 				else
 				{
@@ -705,7 +705,7 @@ void	FixGlobalTjunctions( uEntity_t* e )
 				}
 			}
 			
-			budVec3	origin = entity->mapEntity->epairs.GetVector( "origin" );
+			Vector3	origin = entity->mapEntity->epairs.GetVector( "origin" );
 			
 			for( i = 0 ; i < model->NumSurfaces() ; i++ )
 			{
@@ -722,7 +722,7 @@ void	FixGlobalTjunctions( uEntity_t* e )
 				}
 				for( int j = 0 ; j < tri->numVerts ; j += 3 )
 				{
-					budVec3 v = tri->verts[j].xyz * axis + origin;
+					Vector3 v = tri->verts[j].xyz * axis + origin;
 					GetHashVert( v );
 				}
 			}

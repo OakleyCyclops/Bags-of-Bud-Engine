@@ -109,7 +109,7 @@ void idMenuScreen_Shell_Bindings::Initialize( idMenuHandler* data )
 	
 	btnBack = new( TAG_SWF ) idMenuWidget_Button();
 	btnBack->Initialize( data );
-	budStr controls( budLocalization::GetString( "#str_04158" ) );
+	String controls( budLocalization::GetString( "#str_04158" ) );
 	controls.ToUpper();
 	btnBack->SetLabel( controls );
 	btnBack->SetSpritePath( GetSpritePath(), "info", "btnBack" );
@@ -251,7 +251,7 @@ void idMenuScreen_Shell_Bindings::HideScreen( const mainMenuTransition_t transit
 	idMenuScreen::HideScreen( transitionType );
 }
 
-extern budCVar in_useJoystick;
+extern CVar in_useJoystick;
 
 /*
 ========================
@@ -261,23 +261,23 @@ idMenuScreen_Shell_Bindings::UpdateBindingDisplay
 void idMenuScreen_Shell_Bindings::UpdateBindingDisplay()
 {
 
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > bindList;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > bindList;
 	
 	for( int i = 0; i < numBinds; ++i )
 	{
-		budList< budStr > option;
+		List< String > option;
 		
 		option.Append( keyboardBinds[i].display );
 		
-		if( ( budStr::Icmp( keyboardBinds[i].bind, "" ) != 0 ) )
+		if( ( String::Icmp( keyboardBinds[i].bind, "" ) != 0 ) )
 		{
 			keyBindings_t bind = idKeyInput::KeyBindingsFromBinding( keyboardBinds[i].bind, false, true );
 			
-			budStr bindings;
+			String bindings;
 			
 			if( !bind.gamepad.IsEmpty() && in_useJoystick.GetBool() )
 			{
-				budStrList joyBinds;
+				StringList joyBinds;
 				int start = 0;
 				while( start < bind.gamepad.Length() )
 				{
@@ -547,7 +547,7 @@ bool idMenuScreen_Shell_Bindings::HandleAction( idWidgetAction& action, const id
 			if( options->GetViewIndex() != listIndex )
 			{
 			
-				if( budStr::Icmp( keyboardBinds[ listIndex ].bind, "" ) == 0 )
+				if( String::Icmp( keyboardBinds[ listIndex ].bind, "" ) == 0 )
 				{
 					return true;
 				}
@@ -597,7 +597,7 @@ bool idMenuScreen_Shell_Bindings::HandleAction( idWidgetAction& action, const id
 					}
 					else
 					{
-						if( budStr::Icmp( keyboardBinds[curIndex + dir].bind, "" ) == 0 )
+						if( String::Icmp( keyboardBinds[curIndex + dir].bind, "" ) == 0 )
 						{
 							scroll = dir * 2;
 						}

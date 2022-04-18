@@ -315,11 +315,11 @@ bool idMenuHandler_Scoreboard::HandleAction( idWidgetAction& action, const idWid
 idMenuHandler_Scoreboard::AddPlayerInfo
 ========================
 */
-void idMenuHandler_Scoreboard::AddPlayerInfo( int index, voiceStateDisplay_t voiceState, int team, budStr name, int score, int wins, int ping, budStr spectateData )
+void idMenuHandler_Scoreboard::AddPlayerInfo( int index, voiceStateDisplay_t voiceState, int team, String name, int score, int wins, int ping, String spectateData )
 {
 
 	scoreboardInfo_t info;
-	budList< budStr > values;
+	List< String > values;
 	values.Append( name );
 	
 	if( spectateData.IsEmpty() || gameLocal.mpGame.GetGameState() == idMultiplayerGame::GAMEREVIEW )
@@ -353,7 +353,7 @@ void idMenuHandler_Scoreboard::AddPlayerInfo( int index, voiceStateDisplay_t voi
 idMenuHandler_Scoreboard::UpdateScoreboard
 ========================
 */
-void idMenuHandler_Scoreboard::UpdateSpectating( budStr spectate, budStr follow )
+void idMenuHandler_Scoreboard::UpdateSpectating( String spectate, String follow )
 {
 
 	if( nextScreen == SCOREBOARD_AREA_DEFAULT )
@@ -379,7 +379,7 @@ void idMenuHandler_Scoreboard::UpdateSpectating( budStr spectate, budStr follow 
 idMenuHandler_Scoreboard::UpdateScoreboard
 ========================
 */
-void idMenuHandler_Scoreboard::UpdateScoreboard( budList< mpScoreboardInfo >& data, budStr gameInfo )
+void idMenuHandler_Scoreboard::UpdateScoreboard( List< mpScoreboardInfo >& data, String gameInfo )
 {
 
 	bool changed = false;
@@ -425,7 +425,7 @@ void idMenuHandler_Scoreboard::UpdateScoreboard( budList< mpScoreboardInfo >& da
 		AddPlayerInfo( data[i].playerNum, data[i].voiceState, data[i].team, data[i].name, data[i].score, data[i].wins, data[i].ping, data[i].spectateData );
 	}
 	
-	budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > listItemInfo;
+	List< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU > listItemInfo;
 	for( int i = 0; i < redInfo.Num(); ++i )
 	{
 		listItemInfo.Append( redInfo[i] );
@@ -520,8 +520,8 @@ idMenuHandler_Scoreboard::GetUserID
 */
 void idMenuHandler_Scoreboard::GetUserID( int slot, lobbyUserID_t& luid )
 {
-	budList< int > redList;
-	budList< int > blueList;
+	List< int > redList;
+	List< int > blueList;
 	
 	for( int i = 0; i < scoreboardInfo.Num(); ++i )
 	{
@@ -535,7 +535,7 @@ void idMenuHandler_Scoreboard::GetUserID( int slot, lobbyUserID_t& luid )
 		}
 	}
 	
-	budList< int > displayList;
+	List< int > displayList;
 	
 	for( int i = 0; i < redList.Num(); ++i )
 	{

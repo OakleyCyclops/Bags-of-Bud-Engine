@@ -141,7 +141,7 @@ TriangleFacing
 Returns 255 if the triangle is facing the light origin, otherwise returns 0.
 =====================
 */
-static byte TriangleFacing_Generic( const budVec3& v1, const budVec3& v2, const budVec3& v3, const budVec3& lightOrigin )
+static byte TriangleFacing_Generic( const Vector3& v1, const Vector3& v2, const Vector3& v3, const Vector3& lightOrigin )
 {
 	const float sx = v2.x - v1.x;
 	const float sy = v2.y - v1.y;
@@ -168,10 +168,10 @@ Returns 255 if the triangle is culled to the light projection matrix, otherwise 
 The clip space of the 'lightProject' is assumed to be in the range [0, 1].
 =====================
 */
-static byte TriangleCulled_Generic( const budVec3& v1, const budVec3& v2, const budVec3& v3, const budRenderMatrix& lightProject )
+static byte TriangleCulled_Generic( const Vector3& v1, const Vector3& v2, const Vector3& v3, const budRenderMatrix& lightProject )
 {
 	// transform the triangle
-	budVec4 c[3];
+	Vector4 c[3];
 	for( int i = 0; i < 4; i++ )
 	{
 		c[0][i] = v1[0] * lightProject[i][0] + v1[1] * lightProject[i][1] + v1[2] * lightProject[i][2] + lightProject[i][3];
@@ -226,7 +226,7 @@ CalculateTriangleFacingCulledStatic
 */
 static int CalculateTriangleFacingCulledStatic( byte* __restrict facing, byte* __restrict culled, const triIndex_t* __restrict indexes, int numIndexes,
 		const budDrawVert* __restrict verts, const int numVerts,
-		const budVec3& lightOrigin, const budVec3& viewOrigin,
+		const Vector3& lightOrigin, const Vector3& viewOrigin,
 		bool cullShadowTrianglesToLight, const budRenderMatrix& lightProject,
 		bool* insideShadowVolume, const float radius )
 {
@@ -241,12 +241,12 @@ static int CalculateTriangleFacingCulledStatic( byte* __restrict facing, byte* _
 	}
 	
 	// calculate the start, end, dir and length of the line from the view origin to the light origin
-	const budVec3 lineStart = viewOrigin;
-	const budVec3 lineEnd = lightOrigin;
-	const budVec3 lineDelta = lineEnd - lineStart;
+	const Vector3 lineStart = viewOrigin;
+	const Vector3 lineEnd = lightOrigin;
+	const Vector3 lineDelta = lineEnd - lineStart;
 	const float lineLengthSqr = lineDelta.LengthSqr();
-	const float lineLengthRcp = budMath::InvSqrt( lineLengthSqr );
-	const budVec3 lineDir = lineDelta * lineLengthRcp;
+	const float lineLengthRcp = Math::InvSqrt( lineLengthSqr );
+	const Vector3 lineDir = lineDelta * lineLengthRcp;
 	const float lineLength = lineLengthSqr * lineLengthRcp;
 	
 #if defined(USE_INTRINSICS)
@@ -379,9 +379,9 @@ static int CalculateTriangleFacingCulledStatic( byte* __restrict facing, byte* _
 	
 		for( ; i <= batchEnd - 3; i += 3, j++ )
 		{
-			const budVec3& v1 = indexedVertsODS[i + 0].xyz;
-			const budVec3& v2 = indexedVertsODS[i + 1].xyz;
-			const budVec3& v3 = indexedVertsODS[i + 2].xyz;
+			const Vector3& v1 = indexedVertsODS[i + 0].xyz;
+			const Vector3& v2 = indexedVertsODS[i + 1].xyz;
+			const Vector3& v3 = indexedVertsODS[i + 2].xyz;
 	
 			const byte triangleCulled = TriangleCulled_Generic( v1, v2, v3, lightProject );
 	
@@ -424,9 +424,9 @@ static int CalculateTriangleFacingCulledStatic( byte* __restrict facing, byte* _
 CalculateTriangleFacingCulledSkinned
 =====================
 */
-static int CalculateTriangleFacingCulledSkinned( byte* __restrict facing, byte* __restrict culled, budVec4* __restrict tempVerts, const triIndex_t* __restrict indexes, int numIndexes,
+static int CalculateTriangleFacingCulledSkinned( byte* __restrict facing, byte* __restrict culled, Vector4* __restrict tempVerts, const triIndex_t* __restrict indexes, int numIndexes,
 		const budDrawVert* __restrict verts, const int numVerts, const budJointMat* __restrict joints,
-		const budVec3& lightOrigin, const budVec3& viewOrigin,
+		const Vector3& lightOrigin, const Vector3& viewOrigin,
 		bool cullShadowTrianglesToLight, const budRenderMatrix& lightProject,
 		bool* insideShadowVolume, const float radius )
 {
@@ -441,12 +441,12 @@ static int CalculateTriangleFacingCulledSkinned( byte* __restrict facing, byte* 
 	}
 	
 	// calculate the start, end, dir and length of the line from the view origin to the light origin
-	const budVec3 lineStart = viewOrigin;
-	const budVec3 lineEnd = lightOrigin;
-	const budVec3 lineDelta = lineEnd - lineStart;
+	const Vector3 lineStart = viewOrigin;
+	const Vector3 lineEnd = lightOrigin;
+	const Vector3 lineDelta = lineEnd - lineStart;
 	const float lineLengthSqr = lineDelta.LengthSqr();
-	const float lineLengthRcp = budMath::InvSqrt( lineLengthSqr );
-	const budVec3 lineDir = lineDelta * lineLengthRcp;
+	const float lineLengthRcp = Math::InvSqrt( lineLengthSqr );
+	const Vector3 lineDir = lineDelta * lineLengthRcp;
 	const float lineLength = lineLengthSqr * lineLengthRcp;
 	
 #if defined(USE_INTRINSICS)
@@ -630,9 +630,9 @@ static int CalculateTriangleFacingCulledSkinned( byte* __restrict facing, byte* 
 			const int i1 = indexesODS[i + 1];
 			const int i2 = indexesODS[i + 2];
 	
-			const budVec3& v1 = tempVerts[i0].ToVec3();
-			const budVec3& v2 = tempVerts[i1].ToVec3();
-			const budVec3& v3 = tempVerts[i2].ToVec3();
+			const Vector3& v1 = tempVerts[i0].ToVec3();
+			const Vector3& v2 = tempVerts[i1].ToVec3();
+			const Vector3& v3 = tempVerts[i2].ToVec3();
 	
 			const byte triangleCulled = TriangleCulled_Generic( v1, v2, v3, lightProject );
 	
@@ -1186,7 +1186,7 @@ void DynamicShadowVolumeJob( const dynamicShadowVolumeParms_t* parms )
 	}
 	if( parms->tempVerts == NULL && parms->joints != NULL )
 	{
-		*const_cast< budVec4** >( &parms->tempVerts ) = ( budVec4* )_alloca16( TEMP_VERTS( parms->numVerts ) );
+		*const_cast< Vector4** >( &parms->tempVerts ) = ( Vector4* )_alloca16( TEMP_VERTS( parms->numVerts ) );
 	}
 	if( parms->indexBuffer == NULL )
 	{

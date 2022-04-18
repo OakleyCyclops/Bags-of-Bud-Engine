@@ -83,7 +83,7 @@ enum InputType
 /** Contains all data for one of the different transformation types */
 struct Transform
 {
-	budStr mID;  ///< SID of the transform step, by which anim channels address their target node
+	String mID;  ///< SID of the transform step, by which anim channels address their target node
 	TransformType mType;
 	float f[16]; ///< Interpretation of data depends on the type of the transformation
 };
@@ -101,7 +101,7 @@ struct Camera
 	{}
 	
 	// Name of camera
-	budStr mName;
+	String mName;
 	
 	// True if it is an orthografic camera
 	bool mOrtho;
@@ -139,7 +139,7 @@ struct Light
 	unsigned int mType;
 	
 	//! Color of the light
-	budVec3 mColor;
+	Vector3 mColor;
 	
 	//! Light attenuation
 	float mAttConstant, mAttLinear, mAttQuadratic;
@@ -177,13 +177,13 @@ struct InputSemanticMapEntry
 struct SemanticMappingTable
 {
 	//! Name of material
-	budStr mMatName;
+	String mMatName;
 	
 	//! List of semantic map commands, grouped by effect semantic name
 	budHashTable<InputSemanticMapEntry> mMap;
 	
 	//! For std::find
-	bool operator == ( const budStr& s ) const
+	bool operator == ( const String& s ) const
 	{
 		return s == mMatName;
 	}
@@ -195,60 +195,60 @@ struct SemanticMappingTable
 struct MeshInstance
 {
 	///< ID of the mesh or controller to be instanced
-	budStr mMeshOrController;
+	String mMeshOrController;
 	
 	///< Map of materials by the subgroup ID they're applied to
 	//budHashTable<SemanticMappingTable> mMaterials;
-	budStrList mMaterials;
+	StringList mMaterials;
 };
 
 /** A reference to a camera inside a node*/
 struct CameraInstance
 {
 	///< ID of the camera
-	budStr mCamera;
+	String mCamera;
 };
 
 /** A reference to a light inside a node*/
 struct LightInstance
 {
 	///< ID of the camera
-	budStr mLight;
+	String mLight;
 };
 
 /** A reference to a node inside a node*/
 struct NodeInstance
 {
 	///< ID of the node
-	budStr mNode;
+	String mNode;
 };
 
 /** A node in a scene hierarchy */
 struct Node
 {
-	budStr mName;
-	budStr mID;
-	budStr mSID;
+	String mName;
+	String mID;
+	String mSID;
 	Node* mParent;
-	budList<Node*> mChildren;
+	List<Node*> mChildren;
 	
 	/** Operations in order to calculate the resulting transformation to parent. */
-	budList<Transform> mTransforms;
+	List<Transform> mTransforms;
 	
 	/** Meshes at this node */
-	budList<MeshInstance> mMeshes;
+	List<MeshInstance> mMeshes;
 	
 	/** Lights at this node */
-	budList<LightInstance> mLights;
+	List<LightInstance> mLights;
 	
 	/** Cameras at this node */
-	budList<CameraInstance> mCameras;
+	List<CameraInstance> mCameras;
 	
 	/** Node instances at this node */
-	budList<NodeInstance> mNodeInstances;
+	List<NodeInstance> mNodeInstances;
 	
 	/** Rootnodes: Name of primary camera, if any */
-	budStr mPrimaryCamera;
+	String mPrimaryCamera;
 	
 	//! Constructor. Begin with a zero parent
 	Node()
@@ -267,8 +267,8 @@ struct Node
 struct Data
 {
 	bool mIsStringArray;
-	budList<float> mValues;
-	budList<budStr> mStrings;
+	List<float> mValues;
+	List<String> mStrings;
 };
 
 /** Accessor to a data array */
@@ -278,10 +278,10 @@ struct Accessor
 	size_t mSize;    // size of an object, in elements (floats or strings, mostly 1)
 	size_t mOffset;  // in number of values
 	size_t mStride;  // Stride in number of values
-	budList<budStr> mParams; // names of the data streams in the accessors. Empty string tells to ignore.
+	List<String> mParams; // names of the data streams in the accessors. Empty string tells to ignore.
 	size_t mSubOffset[4]; // Suboffset inside the object for the common 4 elements. For a vector, thats XYZ, for a color RGBA and so on.
 	// For example, SubOffset[0] denotes which of the values inside the object is the vector X component.
-	budStr mSource;   // URL of the source array
+	String mSource;   // URL of the source array
 	mutable const Data* mData; // Pointer to the source array, if resolved. NULL else
 	
 	Accessor()
@@ -298,7 +298,7 @@ struct Accessor
 /** A single face in a mesh */
 struct Face
 {
-	budList<size_t> mIndices;
+	List<size_t> mIndices;
 };
 
 /** An input channel for mesh data, referring to a single accessor */
@@ -307,7 +307,7 @@ struct InputChannel
 	InputType mType;      // Type of the data
 	size_t mIndex;		  // Optional index, if multiple sets of the same data type are given
 	size_t mOffset;       // Index offset in the indices array of per-face indices. Don't ask, can't explain that any better.
-	budStr mAccessor; // ID of the accessor where to read the actual values from.
+	String mAccessor; // ID of the accessor where to read the actual values from.
 	mutable const Accessor* mResolved; // Pointer to the accessor, if resolved. NULL else
 	
 	InputChannel()
@@ -322,7 +322,7 @@ struct InputChannel
 /** Subset of a mesh with a certain material */
 struct SubMesh
 {
-	budStr mMaterial; ///< subgroup identifier
+	String mMaterial; ///< subgroup identifier
 	size_t mNumFaces; ///< number of faces in this submesh
 };
 
@@ -337,31 +337,31 @@ struct Mesh
 	
 	// just to check if there's some sophisticated addressing involved...
 	// which we don't support, and therefore should warn about.
-	budStr mVertexID;
+	String mVertexID;
 	
 	// Vertex data addressed by vertex indices
-	budList<InputChannel> mPerVertexData;
+	List<InputChannel> mPerVertexData;
 	
 	// actual mesh data, assembled on encounter of a <p> element. Verbose format, not indexed
-	budList<budVec3> mPositions;
-	budList<budVec3> mNormals;
-	budList<budVec3> mTangents;
-	budList<budVec3> mBitangents;
-	budList<budVec2> mTexCoords;
-	budList<dword> mColors;
+	List<Vector3> mPositions;
+	List<Vector3> mNormals;
+	List<Vector3> mTangents;
+	List<Vector3> mBitangents;
+	List<Vector2> mTexCoords;
+	List<dword> mColors;
 	
 	//unsigned int mNumUVComponents[AI_MAX_NUMBER_OF_TEXTURECOORDS];
 	
 	// Faces. Stored are only the number of vertices for each face.
 	// 1 == point, 2 == line, 3 == triangle, 4+ == poly
-	budList<int> mFaceSize;
+	List<int> mFaceSize;
 	
 	// Position indices for all faces in the sequence given in mFaceSize -
 	// necessary for bone weight assignment
-	budList<int> mFacePosIndices;
+	List<int> mFacePosIndices;
 	
 	// Submeshes in this mesh, each with a given material
-	budList<SubMesh> mSubMeshes;
+	List<SubMesh> mSubMeshes;
 };
 
 /** Which type of primitives the ReadPrimitives() function is going to read */
@@ -387,16 +387,16 @@ struct WeightPair
 struct Controller
 {
 	// the URL of the mesh deformed by the controller.
-	budStr mMeshId;
+	String mMeshId;
 	
 	// accessor URL of the joint names
-	budStr mJointNameSource;
+	String mJointNameSource;
 	
 	///< The bind shape matrix, as array of floats. I'm not sure what this matrix actually describes, but it can't be ignored in all cases
 	float mBindShapeMatrix[16];
 	
 	// accessor URL of the joint inverse bind matrices
-	budStr mJointOffsetMatrixSource;
+	String mJointOffsetMatrixSource;
 	
 	// input channel: joint names.
 	InputChannel mWeightInputJoints;
@@ -404,16 +404,16 @@ struct Controller
 	InputChannel mWeightInputWeights;
 	
 	// Number of weights per vertex.
-	budList<size_t> mWeightCounts;
+	List<size_t> mWeightCounts;
 	
 	// JointIndex-WeightIndex pairs for all vertices
-	budList< WeightPair > mWeights;
+	List< WeightPair > mWeights;
 };
 
 /** A collada material. Pretty much the only member is a reference to an effect. */
 struct Material
 {
-	budStr mEffect;
+	String mEffect;
 };
 
 /** Type of the effect param */
@@ -427,7 +427,7 @@ enum ParamType
 struct EffectParam
 {
 	ParamType mType;
-	budStr mReference; // to which other thing the param is referring to.
+	String mReference; // to which other thing the param is referring to.
 };
 
 /** Shading type supported by the standard effect spec of Collada */
@@ -456,7 +456,7 @@ struct Sampler
 	
 	/** Name of image reference
 	 */
-	budStr mName;
+	String mName;
 	
 	/** Wrap U?
 	 */
@@ -484,7 +484,7 @@ struct Sampler
 	
 	/** Name of source UV channel
 	 */
-	//budStr mUVChannel;
+	//String mUVChannel;
 	
 	/** Resolved UV channel index or UINT_MAX if not known
 	 */
@@ -510,7 +510,7 @@ struct Effect
 	ShadeType mShadeType;
 	
 	// Colors
-	budVec4 mEmissive, mAmbient, mDiffuse, mSpecular,
+	Vector4 mEmissive, mAmbient, mDiffuse, mSpecular,
 		   mTransparent, mReflective;
 		   
 	// Textures
@@ -551,16 +551,16 @@ struct Effect
 /** An image, meaning texture */
 struct Image
 {
-	budStr mFileName;
+	String mFileName;
 	
 	/** If image file name is zero, embedded image data
 	 */
-	budList<uint8_t> mImageData;
+	List<uint8_t> mImageData;
 	
 	/** If image file name is zero, file format of
 	 *  embedded image data.
 	 */
-	budStr mEmbeddedFormat;
+	String mEmbeddedFormat;
 	
 };
 
@@ -570,25 +570,25 @@ struct AnimationChannel
 	/** URL of the data to animate. Could be about anything, but we support only the
 	 * "NodeID/TransformID.SubElement" notation
 	 */
-	budStr mTarget;
+	String mTarget;
 	
 	/** Source URL of the time values. Collada calls them "input". Meh. */
-	budStr mSourceTimes;
+	String mSourceTimes;
 	/** Source URL of the value values. Collada calls them "output". */
-	budStr mSourceValues;
+	String mSourceValues;
 };
 
 /** An animation. Container for 0-x animation channels or 0-x animations */
 struct Animation
 {
 	/** Anim name */
-	budStr mName;
+	String mName;
 	
 	/** the animation channels, if any */
-	budList<AnimationChannel> mChannels;
+	List<AnimationChannel> mChannels;
 	
 	/** the sub-animations, if any */
-	budList<Animation*> mSubAnims;
+	List<Animation*> mSubAnims;
 	
 	/** Destructor */
 	~Animation()
@@ -601,7 +601,7 @@ struct Animation
 struct ChannelEntry
 {
 	const Collada::AnimationChannel* mChannel; ///> the source channel
-	budStr mTransformId;   // the ID of the transformation step of the node which is influenced
+	String mTransformId;   // the ID of the transformation step of the node which is influenced
 	size_t mTransformIndex; // Index into the node's transform chain to apply the channel to
 	size_t mSubElement; // starting index inside the transform data
 	

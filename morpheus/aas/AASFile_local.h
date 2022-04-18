@@ -47,24 +47,24 @@ public:
 	virtual 					~budAASFileLocal();
 	
 public:
-	virtual budVec3				EdgeCenter( int edgeNum ) const;
-	virtual budVec3				FaceCenter( int faceNum ) const;
-	virtual budVec3				AreaCenter( int areaNum ) const;
+	virtual Vector3				EdgeCenter( int edgeNum ) const;
+	virtual Vector3				FaceCenter( int faceNum ) const;
+	virtual Vector3				AreaCenter( int areaNum ) const;
 	
 	virtual budBounds			EdgeBounds( int edgeNum ) const;
 	virtual budBounds			FaceBounds( int faceNum ) const;
 	virtual budBounds			AreaBounds( int areaNum ) const;
 	
-	virtual int					PointAreaNum( const budVec3& origin ) const;
-	virtual int					PointReachableAreaNum( const budVec3& origin, const budBounds& searchBounds, const int areaFlags, const int excludeTravelFlags ) const;
+	virtual int					PointAreaNum( const Vector3& origin ) const;
+	virtual int					PointReachableAreaNum( const Vector3& origin, const budBounds& searchBounds, const int areaFlags, const int excludeTravelFlags ) const;
 	virtual int					BoundsReachableAreaNum( const budBounds& bounds, const int areaFlags, const int excludeTravelFlags ) const;
-	virtual void				PushPointIntoAreaNum( int areaNum, budVec3& point ) const;
-	virtual bool				Trace( aasTrace_t& trace, const budVec3& start, const budVec3& end ) const;
+	virtual void				PushPointIntoAreaNum( int areaNum, Vector3& point ) const;
+	virtual bool				Trace( aasTrace_t& trace, const Vector3& start, const Vector3& end ) const;
 	virtual void				PrintInfo() const;
 	
 public:
-	bool						Load( const budStr& fileName, unsigned int mapFileCRC );
-	bool						Write( const budStr& fileName, unsigned int mapFileCRC );
+	bool						Load( const String& fileName, unsigned int mapFileCRC );
+	bool						Write( const String& fileName, unsigned int mapFileCRC );
 	
 	int							MemorySize() const;
 	void						ReportRoutingEfficiency() const;
@@ -77,7 +77,7 @@ public:
 	void						DeleteClusters();
 	
 private:
-	bool						ParseIndex( budLexer& src, budList<aasIndex_t>& indexes );
+	bool						ParseIndex( budLexer& src, List<aasIndex_t>& indexes );
 	bool						ParsePlanes( budLexer& src );
 	bool						ParseVertices( budLexer& src );
 	bool						ParseEdges( budLexer& src );
@@ -93,7 +93,7 @@ private:
 	void						MaxTreeDepth_r( int nodeNum, int& depth, int& maxDepth ) const;
 	int							MaxTreeDepth() const;
 	int							AreaContentsTravelFlags( int areaNum ) const;
-	budVec3						AreaReachableGoal( int areaNum ) const;
+	Vector3						AreaReachableGoal( int areaNum ) const;
 	int							NumReachabilities() const;
 };
 

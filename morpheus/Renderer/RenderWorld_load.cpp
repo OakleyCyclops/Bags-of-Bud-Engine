@@ -123,7 +123,7 @@ budRenderWorldLocal::ReadBinaryShadowModel
 */
 budRenderModel* budRenderWorldLocal::ReadBinaryModel( budFile* fileIn )
 {
-	budStrStatic< MAX_OSPATH > name;
+	StringStatic< MAX_OSPATH > name;
 	fileIn->ReadString( name );
 	budRenderModel* model = renderModelManager->AllocModel();
 	model->InitEmpty( name );
@@ -134,7 +134,7 @@ budRenderModel* budRenderWorldLocal::ReadBinaryModel( budFile* fileIn )
 	return NULL;
 }
 
-extern budCVar binaryLoadRenderModels;
+extern CVar binaryLoadRenderModels;
 
 /*
 ================
@@ -184,14 +184,14 @@ budRenderModel* budRenderWorldLocal::ParseModel( budLexer* src, const char* mapN
 		tri->numIndexes = src->ParseInt();
 		
 		// parse the vertices
-		idTempArray<float> verts( tri->numVerts * 8 );
+		TempArray<float> verts( tri->numVerts * 8 );
 		for( int j = 0; j < tri->numVerts; j++ )
 		{
 			src->Parse1DMatrix( 8, &verts[j * 8] );
 		}
 		
 		// parse the indices
-		idTempArray<triIndex_t> indexes( tri->numIndexes );
+		TempArray<triIndex_t> indexes( tri->numIndexes );
 		for( int j = 0; j < tri->numIndexes; j++ )
 		{
 			indexes[j] = src->ParseInt();
@@ -199,8 +199,8 @@ budRenderModel* budRenderWorldLocal::ParseModel( budLexer* src, const char* mapN
 		
 #if 1
 		// find the island that each vertex belongs to
-		idTempArray<int> vertIslands( tri->numVerts );
-		idTempArray<bool> trisVisited( tri->numIndexes );
+		TempArray<int> vertIslands( tri->numVerts );
+		TempArray<bool> trisVisited( tri->numIndexes );
 		vertIslands.Zero();
 		trisVisited.Zero();
 		int numIslands = 0;
@@ -217,7 +217,7 @@ budRenderModel* budRenderWorldLocal::ParseModel( budLexer* src, const char* mapN
 			vertIslands[indexes[j + 2]] = islandNum;
 			trisVisited[j] = true;
 			
-			budList<int> queue;
+			List<int> queue;
 			queue.Append( j );
 			for( int n = 0; n < queue.Num(); n++ )
 			{
@@ -246,10 +246,10 @@ budRenderModel* budRenderWorldLocal::ParseModel( budLexer* src, const char* mapN
 		// center the texture coordinates for each island for maximum 16-bit precision
 		for( int j = 1; j <= numIslands; j++ )
 		{
-			float minS = budMath::INFINITY;
-			float minT = budMath::INFINITY;
-			float maxS = -budMath::INFINITY;
-			float maxT = -budMath::INFINITY;
+			float minS = Math::INFINITY;
+			float minT = Math::INFINITY;
+			float maxS = -Math::INFINITY;
+			float maxT = -Math::INFINITY;
 			for( int k = 0; k < tri->numVerts; k++ )
 			{
 				if( vertIslands[k] == j )
@@ -260,8 +260,8 @@ budRenderModel* budRenderWorldLocal::ParseModel( budLexer* src, const char* mapN
 					maxT = Max( maxT, verts[k * 8 + 4] );
 				}
 			}
-			const float averageS = budMath::Ftoi( ( minS + maxS ) * 0.5f );
-			const float averageT = budMath::Ftoi( ( minT + maxT ) * 0.5f );
+			const float averageS = Math::Ftoi( ( minS + maxS ) * 0.5f );
+			const float averageT = Math::Ftoi( ( minT + maxT ) * 0.5f );
 			for( int k = 0; k < tri->numVerts; k++ )
 			{
 				if( vertIslands[k] == j )
@@ -313,7 +313,7 @@ budRenderWorldLocal::ReadBinaryShadowModel
 */
 budRenderModel* budRenderWorldLocal::ReadBinaryShadowModel( budFile* fileIn )
 {
-	budStrStatic< MAX_OSPATH > name;
+	StringStatic< MAX_OSPATH > name;
 	fileIn->ReadString( name );
 	budRenderModel* model = renderModelManager->AllocModel();
 	model->InitEmpty( name );
@@ -818,11 +818,11 @@ bool budRenderWorldLocal::InitFromMap( const char* name )
 	}
 	
 	// load it
-	budStrStatic< MAX_OSPATH > filename = name;
+	StringStatic< MAX_OSPATH > filename = name;
 	filename.SetFileExtension( PROC_FILE_EXT );
 	
 	// check for generated file
-	budStrStatic< MAX_OSPATH > generatedFileName = filename;
+	StringStatic< MAX_OSPATH > generatedFileName = filename;
 	generatedFileName.Insert( "generated/", 0 );
 	generatedFileName.SetFileExtension( "bproc" );
 	
@@ -864,7 +864,7 @@ bool budRenderWorldLocal::InitFromMap( const char* name )
 			loaded = true;
 			for( int i = 0; i < numEntries; i++ )
 			{
-				budStrStatic< MAX_OSPATH > type;
+				StringStatic< MAX_OSPATH > type;
 				file->ReadString( type );
 				type.ToLower();
 				if( type == "model" )
@@ -1100,7 +1100,7 @@ void budRenderWorldLocal::AddWorldModelEntities()
 		{
 			const modelSurface_t* surf = hModel->Surface( j );
 			
-			if( surf->shader->GetName() == budStr( "textures/smf/portal_sky" ) )
+			if( surf->shader->GetName() == String( "textures/smf/portal_sky" ) )
 			{
 				def->needsPortalSky = true;
 			}

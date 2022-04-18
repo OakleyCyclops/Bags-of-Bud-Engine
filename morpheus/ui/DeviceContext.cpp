@@ -32,20 +32,20 @@ If you have questions concerning this license or the applicable additional terms
 #include "DeviceContext.h"
 #include "../renderer/GuiModel.h"
 
-extern budCVar in_useJoystick;
+extern CVar in_useJoystick;
 
 // bypass rendersystem to directly work on guiModel
 extern budGuiModel* tr_guiModel;
 
-budVec4 idDeviceContext::colorPurple;
-budVec4 idDeviceContext::colorOrange;
-budVec4 idDeviceContext::colorYellow;
-budVec4 idDeviceContext::colorGreen;
-budVec4 idDeviceContext::colorBlue;
-budVec4 idDeviceContext::colorRed;
-budVec4 idDeviceContext::colorBlack;
-budVec4 idDeviceContext::colorWhite;
-budVec4 idDeviceContext::colorNone;
+Vector4 idDeviceContext::colorPurple;
+Vector4 idDeviceContext::colorOrange;
+Vector4 idDeviceContext::colorYellow;
+Vector4 idDeviceContext::colorGreen;
+Vector4 idDeviceContext::colorBlue;
+Vector4 idDeviceContext::colorRed;
+Vector4 idDeviceContext::colorBlack;
+Vector4 idDeviceContext::colorWhite;
+Vector4 idDeviceContext::colorNone;
 
 void idDeviceContext::Init()
 {
@@ -56,15 +56,15 @@ void idDeviceContext::Init()
 	whiteImage = declManager->FindMaterial( "guis/assets/white.tga" );
 	whiteImage->SetSort( SS_GUI );
 	activeFont = renderSystem->RegisterFont( "" );
-	colorPurple = budVec4( 1, 0, 1, 1 );
-	colorOrange = budVec4( 1, 1, 0, 1 );
-	colorYellow = budVec4( 0, 1, 1, 1 );
-	colorGreen = budVec4( 0, 1, 0, 1 );
-	colorBlue = budVec4( 0, 0, 1, 1 );
-	colorRed = budVec4( 1, 0, 0, 1 );
-	colorWhite = budVec4( 1, 1, 1, 1 );
-	colorBlack = budVec4( 0, 0, 0, 1 );
-	colorNone = budVec4( 0, 0, 0, 0 );
+	colorPurple = Vector4( 1, 0, 1, 1 );
+	colorOrange = Vector4( 1, 1, 0, 1 );
+	colorYellow = Vector4( 0, 1, 1, 1 );
+	colorGreen = Vector4( 0, 1, 0, 1 );
+	colorBlue = Vector4( 0, 0, 1, 1 );
+	colorRed = Vector4( 1, 0, 0, 1 );
+	colorWhite = Vector4( 1, 1, 1, 1 );
+	colorBlack = Vector4( 0, 0, 0, 1 );
+	colorNone = Vector4( 0, 0, 0, 0 );
 	cursorImages[CURSOR_ARROW] = declManager->FindMaterial( "ui/assets/guicursor_arrow.tga" );
 	cursorImages[CURSOR_HAND] = declManager->FindMaterial( "ui/assets/guicursor_hand.tga" );
 	cursorImages[CURSOR_HAND_JOY1] = declManager->FindMaterial( "ui/assets/guicursor_hand_cross.tga" );
@@ -116,7 +116,7 @@ idDeviceContext::idDeviceContext()
 	Clear();
 }
 
-void idDeviceContext::SetTransformInfo( const budVec3& org, const budMat3& m )
+void idDeviceContext::SetTransformInfo( const Vector3& org, const Matrix3& m )
 {
 	origin = org;
 	mat = m;
@@ -125,7 +125,7 @@ void idDeviceContext::SetTransformInfo( const budVec3& org, const budMat3& m )
 
 //
 //  added method
-void idDeviceContext::GetTransformInfo( budVec3& org, budMat3& m )
+void idDeviceContext::GetTransformInfo( Vector3& org, Matrix3& m )
 {
 	m = mat;
 	org = origin;
@@ -309,10 +309,10 @@ void idDeviceContext::DrawStretchPic( float x, float y, float w, float h, float 
 	}
 	
 	budFixedWinding winding;
-	winding.AddPoint( budVec5( x, y, 0.0f, s1, t1 ) );
-	winding.AddPoint( budVec5( x + w, y, 0.0f, s2, t1 ) );
-	winding.AddPoint( budVec5( x + w, y + h, 0.0f, s2, t2 ) );
-	winding.AddPoint( budVec5( x, y + h, 0.0f, s1, t2 ) );
+	winding.AddPoint( Vector5( x, y, 0.0f, s1, t1 ) );
+	winding.AddPoint( Vector5( x + w, y, 0.0f, s2, t1 ) );
+	winding.AddPoint( Vector5( x + w, y + h, 0.0f, s2, t2 ) );
+	winding.AddPoint( Vector5( x, y + h, 0.0f, s1, t2 ) );
 	
 	for( int i = 0; i < winding.GetNumPoints(); i++ )
 	{
@@ -325,7 +325,7 @@ void idDeviceContext::DrawStretchPic( float x, float y, float w, float h, float 
 }
 
 
-void idDeviceContext::DrawMaterial( float x, float y, float w, float h, const budMaterial* mat, const budVec4& color, float scalex, float scaley )
+void idDeviceContext::DrawMaterial( float x, float y, float w, float h, const budMaterial* mat, const Vector4& color, float scalex, float scaley )
 {
 
 	renderSystem->SetColor( color );
@@ -376,7 +376,7 @@ void idDeviceContext::DrawMaterial( float x, float y, float w, float h, const bu
 	DrawStretchPic( x, y, w, h, s0, t0, s1, t1, mat );
 }
 
-void idDeviceContext::DrawMaterialRotated( float x, float y, float w, float h, const budMaterial* mat, const budVec4& color, float scalex, float scaley, float angle )
+void idDeviceContext::DrawMaterialRotated( float x, float y, float w, float h, const budMaterial* mat, const Vector4& color, float scalex, float scaley, float angle )
 {
 
 	renderSystem->SetColor( color );
@@ -431,10 +431,10 @@ void idDeviceContext::DrawStretchPicRotated( float x, float y, float w, float h,
 {
 
 	budFixedWinding winding;
-	winding.AddPoint( budVec5( x, y, 0.0f, s1, t1 ) );
-	winding.AddPoint( budVec5( x + w, y, 0.0f, s2, t1 ) );
-	winding.AddPoint( budVec5( x + w, y + h, 0.0f, s2, t2 ) );
-	winding.AddPoint( budVec5( x, y + h, 0.0f, s1, t2 ) );
+	winding.AddPoint( Vector5( x, y, 0.0f, s1, t1 ) );
+	winding.AddPoint( Vector5( x + w, y, 0.0f, s2, t1 ) );
+	winding.AddPoint( Vector5( x + w, y + h, 0.0f, s2, t2 ) );
+	winding.AddPoint( Vector5( x, y + h, 0.0f, s1, t2 ) );
 	
 	for( int i = 0; i < winding.GetNumPoints(); i++ )
 	{
@@ -444,17 +444,17 @@ void idDeviceContext::DrawStretchPicRotated( float x, float y, float w, float h,
 	}
 	
 	//Generate a translation so we can translate to the center of the image rotate and draw
-	budVec3 origTrans;
+	Vector3 origTrans;
 	origTrans.x = x + ( w / 2 );
 	origTrans.y = y + ( h / 2 );
 	origTrans.z = 0;
 	
 	
 	//Rotate the verts about the z axis before drawing them
-	budMat3 rotz;
+	Matrix3 rotz;
 	rotz.Identity();
 	float sinAng, cosAng;
-	budMath::SinCos( angle, sinAng, cosAng );
+	Math::SinCos( angle, sinAng, cosAng );
 	rotz[0][0] = cosAng;
 	rotz[0][1] = sinAng;
 	rotz[1][0] = -sinAng;
@@ -469,7 +469,7 @@ void idDeviceContext::DrawStretchPicRotated( float x, float y, float w, float h,
 	DrawWinding( winding, shader );
 }
 
-void idDeviceContext::DrawFilledRect( float x, float y, float w, float h, const budVec4& color )
+void idDeviceContext::DrawFilledRect( float x, float y, float w, float h, const Vector4& color )
 {
 
 	if( color.w == 0.0f )
@@ -488,7 +488,7 @@ void idDeviceContext::DrawFilledRect( float x, float y, float w, float h, const 
 }
 
 
-void idDeviceContext::DrawRect( float x, float y, float w, float h, float size, const budVec4& color )
+void idDeviceContext::DrawRect( float x, float y, float w, float h, float size, const Vector4& color )
 {
 
 	if( color.w == 0.0f )
@@ -509,7 +509,7 @@ void idDeviceContext::DrawRect( float x, float y, float w, float h, float size, 
 	DrawStretchPic( x, y + h - size, w, size, 0, 0, 0, 0, whiteImage );
 }
 
-void idDeviceContext::DrawMaterialRect( float x, float y, float w, float h, float size, const budMaterial* mat, const budVec4& color )
+void idDeviceContext::DrawMaterialRect( float x, float y, float w, float h, float size, const budMaterial* mat, const Vector4& color )
 {
 
 	if( color.w == 0.0f )
@@ -623,18 +623,18 @@ void idDeviceContext::PaintChar( float x, float y, const scaledGlyphInfo_t& glyp
 	DrawStretchPic( x, y, w, h, s, t, s2, t2, hShader );
 }
 
-int idDeviceContext::DrawText( float x, float y, float scale, budVec4 color, const char* text, float adjust, int limit, int style, int cursor )
+int idDeviceContext::DrawText( float x, float y, float scale, Vector4 color, const char* text, float adjust, int limit, int style, int cursor )
 {
 	int			len;
-	budVec4		newColor;
+	Vector4		newColor;
 	
-	budStr drawText = text;
+	String drawText = text;
 	int charIndex = 0;
 	
 	if( text && color.w != 0.0f )
 	{
 		renderSystem->SetColor( color );
-		memcpy( &newColor[0], &color[0], sizeof( budVec4 ) );
+		memcpy( &newColor[0], &color[0], sizeof( Vector4 ) );
 		len = drawText.Length();
 		if( limit > 0 && len > limit )
 		{
@@ -647,7 +647,7 @@ int idDeviceContext::DrawText( float x, float y, float scale, budVec4 color, con
 		{
 			uint32 textChar = drawText.UTF8Char( charIndex );
 			
-			if( budStr::IsColor( drawText.c_str() + charIndex ) )
+			if( String::IsColor( drawText.c_str() + charIndex ) )
 			{
 				if( drawText[ charIndex++ ] == C_COLOR_DEFAULT )
 				{
@@ -655,7 +655,7 @@ int idDeviceContext::DrawText( float x, float y, float scale, budVec4 color, con
 				}
 				else
 				{
-					newColor = budStr::ColorForIndex( charIndex );
+					newColor = String::ColorForIndex( charIndex );
 					newColor[3] = color[3];
 				}
 				if( cursor == charIndex - 1 || cursor == charIndex )
@@ -715,7 +715,7 @@ void idDeviceContext::SetOffset( float x, float y )
 
 int idDeviceContext::CharWidth( const char c, float scale )
 {
-	return budMath::Ftoi( activeFont->GetGlyphWidth( scale, c ) );
+	return Math::Ftoi( activeFont->GetGlyphWidth( scale, c ) );
 }
 
 int idDeviceContext::TextWidth( const char* text, float scale, int limit )
@@ -731,7 +731,7 @@ int idDeviceContext::TextWidth( const char* text, float scale, int limit )
 	{
 		for( i = 0; text[i] != '\0' && i < limit; i++ )
 		{
-			if( budStr::IsColor( text + i ) )
+			if( String::IsColor( text + i ) )
 			{
 				i++;
 			}
@@ -745,7 +745,7 @@ int idDeviceContext::TextWidth( const char* text, float scale, int limit )
 	{
 		for( i = 0; text[i] != '\0'; i++ )
 		{
-			if( budStr::IsColor( text + i ) )
+			if( String::IsColor( text + i ) )
 			{
 				i++;
 			}
@@ -755,22 +755,22 @@ int idDeviceContext::TextWidth( const char* text, float scale, int limit )
 			}
 		}
 	}
-	return budMath::Ftoi( width );
+	return Math::Ftoi( width );
 }
 
 int idDeviceContext::TextHeight( const char* text, float scale, int limit )
 {
-	return budMath::Ftoi( activeFont->GetLineHeight( scale ) );
+	return Math::Ftoi( activeFont->GetLineHeight( scale ) );
 }
 
 int idDeviceContext::MaxCharWidth( float scale )
 {
-	return budMath::Ftoi( activeFont->GetMaxCharWidth( scale ) );
+	return Math::Ftoi( activeFont->GetMaxCharWidth( scale ) );
 }
 
 int idDeviceContext::MaxCharHeight( float scale )
 {
-	return budMath::Ftoi( activeFont->GetLineHeight( scale ) );
+	return Math::Ftoi( activeFont->GetLineHeight( scale ) );
 }
 
 const budMaterial* idDeviceContext::GetScrollBarImage( int index )
@@ -800,7 +800,7 @@ void idDeviceContext::DrawEditCursor( float x, float y, float scale )
 	PaintChar( x, y, glyphInfo );
 }
 
-int idDeviceContext::DrawText( const char* text, float textScale, int textAlign, budVec4 color, idRectangle rectDraw, bool wrap, int cursor, bool calcOnly, budList<int>* breaks, int limit )
+int idDeviceContext::DrawText( const char* text, float textScale, int textAlign, Vector4 color, idRectangle rectDraw, bool wrap, int cursor, bool calcOnly, List<int>* breaks, int limit )
 {
 	int			count = 0;
 	int			charIndex = 0;
@@ -815,8 +815,8 @@ int idDeviceContext::DrawText( const char* text, float textScale, int textAlign,
 	bool		lineBreak = false;
 	bool		wordBreak = false;
 	
-	budStr drawText = text;
-	budStr textBuffer;
+	String drawText = text;
+	String textBuffer;
 	
 	if( !calcOnly && !( text && *text ) )
 	{
@@ -825,7 +825,7 @@ int idDeviceContext::DrawText( const char* text, float textScale, int textAlign,
 			renderSystem->SetColor( color );
 			DrawEditCursor( rectDraw.x, lineSkip + rectDraw.y, textScale );
 		}
-		return budMath::Ftoi( rectDraw.w / charSkip );
+		return Math::Ftoi( rectDraw.w / charSkip );
 	}
 	
 	y = lineSkip + rectDraw.y;
@@ -987,7 +987,7 @@ int idDeviceContext::DrawText( const char* text, float textScale, int textAlign,
 		}
 	}
 	
-	return budMath::Ftoi( rectDraw.w / charSkip );
+	return Math::Ftoi( rectDraw.w / charSkip );
 }
 
 /*
@@ -1174,7 +1174,7 @@ idDeviceContextOptimized::DrawText
 =============
 */
 static triIndex_t quadPicIndexes[6] = { 3, 0, 2, 2, 0, 1 };
-int idDeviceContextOptimized::DrawText( float x, float y, float scale, budVec4 color, const char* text, float adjust, int limit, int style, int cursor )
+int idDeviceContextOptimized::DrawText( float x, float y, float scale, Vector4 color, const char* text, float adjust, int limit, int style, int cursor )
 {
 	if( !matIsIdentity || cursor != -1 )
 	{
@@ -1182,7 +1182,7 @@ int idDeviceContextOptimized::DrawText( float x, float y, float scale, budVec4 c
 		return idDeviceContext::DrawText( x, y, scale, color, text, adjust, limit, style, cursor );
 	}
 	
-	budStr drawText = text;
+	String drawText = text;
 	
 	if( drawText.Length() == 0 )
 	{
@@ -1210,7 +1210,7 @@ int idDeviceContextOptimized::DrawText( float x, float y, float scale, budVec4 c
 		{
 			// I'm not sure if inline text color codes are used anywhere in the game,
 			// they may only be needed for multi-color user names
-			budVec4		newColor;
+			Vector4		newColor;
 			uint32 colorIndex = drawText.UTF8Char( charIndex );
 			if( colorIndex == C_COLOR_DEFAULT )
 			{
@@ -1218,7 +1218,7 @@ int idDeviceContextOptimized::DrawText( float x, float y, float scale, budVec4 c
 			}
 			else
 			{
-				newColor = budStr::ColorForIndex( colorIndex );
+				newColor = String::ColorForIndex( colorIndex );
 				newColor[3] = color[3];
 			}
 			renderSystem->SetColor( newColor );

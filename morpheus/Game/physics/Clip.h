@@ -72,11 +72,11 @@ public:
 	void					Restore( idRestoreGame* savefile );
 	
 	void					Link( idClip& clp );				// must have been linked with an entity and id before
-	void					Link( idClip& clp, idEntity* ent, int newId, const budVec3& newOrigin, const budMat3& newAxis, int renderModelHandle = -1 );
+	void					Link( idClip& clp, idEntity* ent, int newId, const Vector3& newOrigin, const Matrix3& newAxis, int renderModelHandle = -1 );
 	void					Unlink();						// unlink from sectors
-	void					SetPosition( const budVec3& newOrigin, const budMat3& newAxis );	// unlinks the clip model
-	void					Translate( const budVec3& translation );							// unlinks the clip model
-	void					Rotate( const budRotation& rotation );							// unlinks the clip model
+	void					SetPosition( const Vector3& newOrigin, const Matrix3& newAxis );	// unlinks the clip model
+	void					Translate( const Vector3& translation );							// unlinks the clip model
+	void					Rotate( const Rotation& rotation );							// unlinks the clip model
 	void					Enable();						// enable for clipping
 	void					Disable();					// keep linked but disable for clipping
 	void					SetMaterial( const budMaterial* m );
@@ -91,8 +91,8 @@ public:
 	idEntity* 				GetOwner() const;
 	const budBounds& 		GetBounds() const;
 	const budBounds& 		GetAbsBounds() const;
-	const budVec3& 			GetOrigin() const;
-	const budMat3& 			GetAxis() const;
+	const Vector3& 			GetOrigin() const;
+	const Matrix3& 			GetAxis() const;
 	bool					IsTraceModel() const;			// returns true if this is a trace model
 	bool					IsRenderModel() const;		// returns true if this is a render model
 	bool					IsLinked() const;				// returns true if the clip model is linked
@@ -100,7 +100,7 @@ public:
 	bool					IsEqual( const budTraceModel& trm ) const;
 	cmHandle_t				Handle() const;				// returns handle used to collide vs this model
 	const budTraceModel* 	GetTraceModel() const;
-	void					GetMassProperties( const float density, float& mass, budVec3& centerOfMass, budMat3& inertiaTensor ) const;
+	void					GetMassProperties( const float density, float& mass, Vector3& centerOfMass, Matrix3& inertiaTensor ) const;
 	
 	static cmHandle_t		CheckModel( const char* name );
 	static void				ClearTraceModelCache();
@@ -114,8 +114,8 @@ private:
 	idEntity* 				entity;					// entity using this clip model
 	int						id;						// id for entities that use multiple clip models
 	idEntity* 				owner;					// owner of the entity that owns this clip model
-	budVec3					origin;					// origin of clip model
-	budMat3					axis;					// orientation of clip model
+	Vector3					origin;					// origin of clip model
+	Matrix3					axis;					// orientation of clip model
 	budBounds				bounds;					// bounds
 	budBounds				absBounds;				// absolute bounds
 	const budMaterial* 		material;				// material for trace models
@@ -138,13 +138,13 @@ private:
 };
 
 
-BUD_INLINE void budClipModel::Translate( const budVec3& translation )
+BUD_INLINE void budClipModel::Translate( const Vector3& translation )
 {
 	Unlink();
 	origin += translation;
 }
 
-BUD_INLINE void budClipModel::Rotate( const budRotation& rotation )
+BUD_INLINE void budClipModel::Rotate( const Rotation& rotation )
 {
 	Unlink();
 	origin *= rotation;
@@ -221,12 +221,12 @@ BUD_INLINE const budBounds& budClipModel::GetAbsBounds() const
 	return absBounds;
 }
 
-BUD_INLINE const budVec3& budClipModel::GetOrigin() const
+BUD_INLINE const Vector3& budClipModel::GetOrigin() const
 {
 	return origin;
 }
 
-BUD_INLINE const budMat3& budClipModel::GetAxis() const
+BUD_INLINE const Matrix3& budClipModel::GetAxis() const
 {
 	return axis;
 }
@@ -284,40 +284,40 @@ public:
 	void					Shutdown();
 	
 	// clip versus the rest of the world
-	bool					Translation( trace_t& results, const budVec3& start, const budVec3& end,
-										 const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity );
-	bool					Rotation( trace_t& results, const budVec3& start, const budRotation& rotation,
-									  const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity );
-	bool					Motion( trace_t& results, const budVec3& start, const budVec3& end, const budRotation& rotation,
-									const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity );
-	int						Contacts( contactInfo_t* contacts, const int maxContacts, const budVec3& start, const budVec6& dir, const float depth,
-									  const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity );
-	int						Contents( const budVec3& start,
-									  const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity );
+	bool					Translation( trace_t& results, const Vector3& start, const Vector3& end,
+										 const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity );
+	bool					Rotation( trace_t& results, const Vector3& start, const Rotation& rotation,
+									  const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity );
+	bool					Motion( trace_t& results, const Vector3& start, const Vector3& end, const Rotation& rotation,
+									const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity );
+	int						Contacts( contactInfo_t* contacts, const int maxContacts, const Vector3& start, const Vector6& dir, const float depth,
+									  const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity );
+	int						Contents( const Vector3& start,
+									  const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity );
 									  
 	// special case translations versus the rest of the world
-	bool					TracePoint( trace_t& results, const budVec3& start, const budVec3& end,
+	bool					TracePoint( trace_t& results, const Vector3& start, const Vector3& end,
 										int contentMask, const idEntity* passEntity );
-	bool					TraceBounds( trace_t& results, const budVec3& start, const budVec3& end, const budBounds& bounds,
+	bool					TraceBounds( trace_t& results, const Vector3& start, const Vector3& end, const budBounds& bounds,
 										 int contentMask, const idEntity* passEntity );
 										 
 	// clip versus a specific model
-	void					TranslationModel( trace_t& results, const budVec3& start, const budVec3& end,
-			const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-			cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis );
-	void					RotationModel( trace_t& results, const budVec3& start, const budRotation& rotation,
-										   const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-										   cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis );
-	int						ContactsModel( contactInfo_t* contacts, const int maxContacts, const budVec3& start, const budVec6& dir, const float depth,
-										   const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-										   cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis );
-	int						ContentsModel( const budVec3& start,
-										   const budClipModel* mdl, const budMat3& trmAxis, int contentMask,
-										   cmHandle_t model, const budVec3& modelOrigin, const budMat3& modelAxis );
+	void					TranslationModel( trace_t& results, const Vector3& start, const Vector3& end,
+			const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+			cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis );
+	void					RotationModel( trace_t& results, const Vector3& start, const Rotation& rotation,
+										   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+										   cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis );
+	int						ContactsModel( contactInfo_t* contacts, const int maxContacts, const Vector3& start, const Vector6& dir, const float depth,
+										   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+										   cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis );
+	int						ContentsModel( const Vector3& start,
+										   const budClipModel* mdl, const Matrix3& trmAxis, int contentMask,
+										   cmHandle_t model, const Vector3& modelOrigin, const Matrix3& modelAxis );
 										   
 	// clip versus all entities but not the world
-	void					TranslationEntities( trace_t& results, const budVec3& start, const budVec3& end,
-			const budClipModel* mdl, const budMat3& trmAxis, int contentMask, const idEntity* passEntity );
+	void					TranslationEntities( trace_t& results, const Vector3& start, const Vector3& end,
+			const budClipModel* mdl, const Matrix3& trmAxis, int contentMask, const idEntity* passEntity );
 			
 	// get a contact feature
 	bool					GetModelContactFeature( const contactInfo_t& contact, const budClipModel* clipModel, budFixedWinding& winding ) const;
@@ -331,7 +331,7 @@ public:
 	
 	// stats and debug drawing
 	void					PrintStatistics();
-	void					DrawClipModels( const budVec3& eye, const float radius, const idEntity* passEntity );
+	void					DrawClipModels( const Vector3& eye, const float radius, const idEntity* passEntity );
 	bool					DrawModelContactFeature( const contactInfo_t& contact, const budClipModel* clipModel, int lifetime ) const;
 	
 private:
@@ -350,21 +350,21 @@ private:
 	int						numContacts;
 	
 private:
-	struct clipSector_s* 	CreateClipSectors_r( const int depth, const budBounds& bounds, budVec3& maxSector );
+	struct clipSector_s* 	CreateClipSectors_r( const int depth, const budBounds& bounds, Vector3& maxSector );
 	void					ClipModelsTouchingBounds_r( const struct clipSector_s* node, struct listParms_s& parms ) const;
 	const budTraceModel* 	TraceModelForClipModel( const budClipModel* mdl ) const;
 	int						GetTraceClipModels( const budBounds& bounds, int contentMask, const idEntity* passEntity, budClipModel** clipModelList ) const;
-	void					TraceRenderModel( trace_t& trace, const budVec3& start, const budVec3& end, const float radius, const budMat3& axis, budClipModel* touch ) const;
+	void					TraceRenderModel( trace_t& trace, const Vector3& start, const Vector3& end, const float radius, const Matrix3& axis, budClipModel* touch ) const;
 };
 
 
-BUD_INLINE bool idClip::TracePoint( trace_t& results, const budVec3& start, const budVec3& end, int contentMask, const idEntity* passEntity )
+BUD_INLINE bool idClip::TracePoint( trace_t& results, const Vector3& start, const Vector3& end, int contentMask, const idEntity* passEntity )
 {
 	Translation( results, start, end, NULL, mat3_identity, contentMask, passEntity );
 	return ( results.fraction < 1.0f );
 }
 
-BUD_INLINE bool idClip::TraceBounds( trace_t& results, const budVec3& start, const budVec3& end, const budBounds& bounds, int contentMask, const idEntity* passEntity )
+BUD_INLINE bool idClip::TraceBounds( trace_t& results, const Vector3& start, const Vector3& end, const budBounds& bounds, int contentMask, const idEntity* passEntity )
 {
 	temporaryClipModel.LoadModel( budTraceModel( bounds ) );
 	Translation( results, start, end, &temporaryClipModel, mat3_identity, contentMask, passEntity );

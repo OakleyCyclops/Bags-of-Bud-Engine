@@ -148,20 +148,20 @@ void idMenuScreen_Shell_Load::UpdateSaveEnumerations()
 
 	const saveGameDetailsList_t& saveGameInfo = session->GetSaveGameManager().GetEnumeratedSavegames();
 	sortedSaves = saveGameInfo;
-	sortedSaves.Sort( budSort_SavesByDate() );
+	sortedSaves.Sort( Sort_SavesByDate() );
 	
 	if( options != NULL )
 	{
-		budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > saveList;
+		List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU > saveList;
 		if( session->GetSaveGameManager().IsWorking() )
 		{
-			budList< budStr > saveName;
+			List< String > saveName;
 			saveName.Append( "#str_dlg_refreshing" );
 			saveList.Append( saveName );
 		}
 		else if( sortedSaves.Num() == 0 )
 		{
-			budList< budStr > saveName;
+			List< String > saveName;
 			saveName.Append( "#str_no_saves_found" );
 			saveList.Append( saveName );
 		}
@@ -171,7 +171,7 @@ void idMenuScreen_Shell_Load::UpdateSaveEnumerations()
 			saveList.SetNum( sortedSaves.Num() );
 			for( int slot = 0; slot < sortedSaves.Num(); ++slot )
 			{
-				budStr& slotSaveName = saveList[slot].Alloc();
+				String& slotSaveName = saveList[slot].Alloc();
 				const idSaveGameDetails& details = sortedSaves[slot];
 				if( details.damaged )
 				{
@@ -344,9 +344,9 @@ void idMenuScreen_Shell_Load::LoadDamagedGame( int index )
 	budStaticList< budSWFScriptFunction*, 4 > callbacks;
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_LoadDamaged( GDM_LOAD_DAMAGED_FILE, true, index, this ) );
 	callbacks.Append( new( TAG_SWF ) budSWFScriptFunction_LoadDamaged( GDM_LOAD_DAMAGED_FILE, false, index, this ) );
-	budStaticList< budStrId, 4 > optionText;
-	optionText.Append( budStrId( "#str_02315" ) );	// DELETE
-	optionText.Append( budStrId( "#STR_SWF_CANCEL" ) );
+	budStaticList< StringId, 4 > optionText;
+	optionText.Append( StringId( "#str_02315" ) );	// DELETE
+	optionText.Append( StringId( "#STR_SWF_CANCEL" ) );
 	
 	common->Dialog().AddDynamicDialog( GDM_LOAD_DAMAGED_FILE, callbacks, optionText, false, "" );
 }
@@ -408,7 +408,7 @@ void idMenuScreen_Shell_Load::LoadGame( int index )
 		
 		if( index < sortedSaves.Num() )
 		{
-			const budStr& name = sortedSaves[ index ].slotName;
+			const String& name = sortedSaves[ index ].slotName;
 			common->Dialog().AddDialog( GDM_SP_LOAD_SAVE, DIALOG_ACCEPT_CANCEL, new budSWFScriptFunction_LoadDialog( GDM_SP_LOAD_SAVE, true, name.c_str() ), new budSWFScriptFunction_LoadDialog( GDM_SP_LOAD_SAVE, false, name.c_str() ), false );
 		}
 		
@@ -417,7 +417,7 @@ void idMenuScreen_Shell_Load::LoadGame( int index )
 	{
 		if( index < sortedSaves.Num() )
 		{
-			const budStr& name = sortedSaves[ index ].slotName;
+			const String& name = sortedSaves[ index ].slotName;
 			
 			cmdSystem->AppendCommandText( va( "loadgame %s\n", name.c_str() ) );
 		}

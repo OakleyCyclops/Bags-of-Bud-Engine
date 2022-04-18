@@ -41,8 +41,8 @@ typedef struct
 {
 	int						vertexNum[3];
 	int						tVertexNum[3];
-	budVec3					faceNormal;
-	budVec3					vertexNormals[3];
+	Vector3					faceNormal;
+	Vector3					vertexNormals[3];
 	byte					vertexColors[3][4];
 } aseFace_t;
 
@@ -57,13 +57,13 @@ typedef struct
 	int						numTVFaces;
 	int						numCVFaces;
 	
-	budVec3					transform[4];			// applied to normals
+	Vector3					transform[4];			// applied to normals
 	
 	bool					colorsParsed;
 	bool					normalsParsed;
-	budVec3* 				vertexes;
-	budVec2* 				tvertexes;
-	budVec3* 				cvertexes;
+	Vector3* 				vertexes;
+	Vector2* 				tvertexes;
+	Vector3* 				cvertexes;
 	aseFace_t* 				faces;
 } aseMesh_t;
 
@@ -83,14 +83,14 @@ typedef struct
 	aseMesh_t				mesh;
 	
 	// frames are only present with animations
-	budList<aseMesh_t*, TAG_MODEL>		frames;			// aseMesh_t
+	List<aseMesh_t*, TAG_MODEL>		frames;			// aseMesh_t
 } aseObject_t;
 
 typedef struct aseModel_s
 {
 	ID_TIME_T					timeStamp;
-	budList<aseMaterial_t*, TAG_MODEL>	materials;
-	budList<aseObject_t*, TAG_MODEL>	objects;
+	List<aseMaterial_t*, TAG_MODEL>	materials;
+	List<aseObject_t*, TAG_MODEL>	objects;
 } aseModel_t;
 
 

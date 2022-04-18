@@ -296,13 +296,13 @@ bool idMenuScreen_Shell_GameOptions::HandleAction( idWidgetAction& action, const
 // SCREEN SETTINGS
 /////////////////////////////////
 
-extern budCVar ui_autoSwitch;
-extern budCVar ui_autoReload;
-extern budCVar aa_targetAimAssistEnable;
-extern budCVar in_alwaysRun;
-extern budCVar g_checkpoints;
-extern budCVar g_weaponShadows;
-extern budCVar g_muzzleFlash;
+extern CVar ui_autoSwitch;
+extern CVar ui_autoReload;
+extern CVar aa_targetAimAssistEnable;
+extern CVar in_alwaysRun;
+extern CVar g_checkpoints;
+extern CVar g_weaponShadows;
+extern CVar g_muzzleFlash;
 
 /*
 ========================
@@ -367,7 +367,7 @@ void idMenuScreen_Shell_GameOptions::idMenuDataSource_GameSettings::AdjustField(
 {
 	if( fieldIndex == GAME_FIELD_FOV )
 	{
-		fields[ fieldIndex ].SetInteger( budMath::ClampInt( MIN_FOV, MAX_FOV, fields[ fieldIndex ].ToInteger() + adjustAmount * 5 ) );
+		fields[ fieldIndex ].SetInteger( Math::ClampInt( MIN_FOV, MAX_FOV, fields[ fieldIndex ].ToInteger() + adjustAmount * 5 ) );
 	}
 	else
 	{

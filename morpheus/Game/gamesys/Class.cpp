@@ -85,8 +85,8 @@ idTypeInfo::idTypeInfo( const char* classname, const char* superclass, idEventFu
 	// Check if any subclasses were initialized before their superclass
 	for( type = typelist; type != NULL; type = type->next )
 	{
-		if( ( type->super == NULL ) && !budStr::Cmp( type->superclass, this->classname ) &&
-				budStr::Cmp( type->classname, "idClass" ) )
+		if( ( type->super == NULL ) && !String::Cmp( type->superclass, this->classname ) &&
+				String::Cmp( type->classname, "idClass" ) )
 		{
 			type->super	= this;
 		}
@@ -95,8 +95,8 @@ idTypeInfo::idTypeInfo( const char* classname, const char* superclass, idEventFu
 	// Insert sorted
 	for( insert = &typelist; *insert; insert = &( *insert )->next )
 	{
-		assert( budStr::Cmp( classname, ( *insert )->classname ) );
-		if( budStr::Cmp( classname, ( *insert )->classname ) < 0 )
+		assert( String::Cmp( classname, ( *insert )->classname ) );
+		if( String::Cmp( classname, ( *insert )->classname ) < 0 )
 		{
 			next = *insert;
 			*insert = this;
@@ -257,9 +257,9 @@ EVENT( EV_SafeRemove,			idClass::Event_SafeRemove )
 END_CLASS
 
 // alphabetical order
-budList<idTypeInfo*, TAG_IDCLASS>	idClass::types;
+List<idTypeInfo*, TAG_IDCLASS>	idClass::types;
 // typenum order
-budList<idTypeInfo*, TAG_IDCLASS>	idClass::typenums;
+List<idTypeInfo*, TAG_IDCLASS>	idClass::typenums;
 
 bool	idClass::initialized	= false;
 int		idClass::typeNumBits	= 0;
@@ -355,7 +355,7 @@ idClass::~idClass()
 idClass::DisplayInfo_f
 ================
 */
-void idClass::DisplayInfo_f( const budCmdArgs& args )
+void idClass::DisplayInfo_f( const CmdArgs& args )
 {
 	gameLocal.Printf( "Class memory status: %i bytes allocated in %i objects\n", memused, numobjects );
 }
@@ -365,7 +365,7 @@ void idClass::DisplayInfo_f( const budCmdArgs& args )
 idClass::ListClasses_f
 ================
 */
-void idClass::ListClasses_f( const budCmdArgs& args )
+void idClass::ListClasses_f( const CmdArgs& args )
 {
 	int			i;
 	idTypeInfo* type;
@@ -441,7 +441,7 @@ void idClass::Init()
 	}
 	
 	// number of bits needed to send types over network
-	typeNumBits = budMath::BitsForInteger( num );
+	typeNumBits = Math::BitsForInteger( num );
 	
 	// create a list of the types so we can do quick lookups
 	// one list in alphabetical order, one in typenum order
@@ -537,7 +537,7 @@ idTypeInfo* idClass::GetClass( const char* name )
 		// idClass::Init hasn't been called yet, so do a slow lookup
 		for( c = typelist; c != NULL; c = c->next )
 		{
-			if( !budStr::Cmp( c->classname, name ) )
+			if( !String::Cmp( c->classname, name ) )
 			{
 				return c;
 			}
@@ -552,7 +552,7 @@ idTypeInfo* idClass::GetClass( const char* name )
 		{
 			mid = ( min + max ) / 2;
 			c = types[ mid ];
-			order = budStr::Cmp( c->classname, name );
+			order = String::Cmp( c->classname, name );
 			if( !order )
 			{
 				return c;

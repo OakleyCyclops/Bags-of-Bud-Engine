@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "snd_local.h"
 
-extern budCVar s_maxSamples;
+extern CVar s_maxSamples;
 
 typedef enum
 {
@@ -102,7 +102,7 @@ idSoundShader::SetDefaultText
 */
 bool idSoundShader::SetDefaultText()
 {
-	budStr wavname;
+	String wavname;
 	
 	wavname = GetName();
 	wavname.DefaultFileExtension( ".wav" );		// if the name has .ogg in it, that will stay
@@ -111,7 +111,7 @@ bool idSoundShader::SetDefaultText()
 	if( 1 )    //fileSystem->ReadFile( wavname, NULL ) != -1 ) {
 	{
 		char generated[2048];
-		budStr::snPrintf( generated, sizeof( generated ),
+		String::snPrintf( generated, sizeof( generated ),
 						 "sound %s // IMPLICITLY GENERATED\n"
 						 "{\n"
 						 "%s\n"
@@ -404,7 +404,7 @@ idSoundShader::List
 */
 void idSoundShader::List() const
 {
-	budStrList	shaders;
+	StringList	shaders;
 	
 	common->Printf( "%4i: %s\n", Index(), GetName() );
 	for( int k = 0; k < entries.Num(); k++ )

@@ -141,20 +141,20 @@ void idSimpleWindow::StateChanged( bool redraw )
 
 void idSimpleWindow::SetupTransforms( float x, float y )
 {
-	static budMat3 trans;
-	static budVec3 org;
+	static Matrix3 trans;
+	static Vector3 org;
 	
 	trans.Identity();
 	org.Set( origin.x + x, origin.y + y, 0 );
 	if( rotate )
 	{
-		static budRotation rot;
-		static budVec3 vec( 0, 0, 1 );
+		static Rotation rot;
+		static Vector3 vec( 0, 0, 1 );
 		rot.Set( org, vec, rotate );
 		trans = rot.ToMat3();
 	}
 	
-	static budMat3 smat;
+	static Matrix3 smat;
 	smat.Identity();
 	if( shear.x() || shear.y() )
 	{
@@ -269,7 +269,7 @@ void idSimpleWindow::Redraw( float x, float y )
 	DrawBorderAndCaption( drawRect );
 	if( textShadow )
 	{
-		budStr shadowText = text;
+		String shadowText = text;
 		idRectangle shadowRect = textRect;
 		
 		shadowText.RemoveColors();
@@ -279,7 +279,7 @@ void idSimpleWindow::Redraw( float x, float y )
 		dc->DrawText( shadowText, textScale, textAlign, colorBlack, shadowRect, !( flags & WIN_NOWRAP ), -1 );
 	}
 	dc->DrawText( text, textScale, textAlign, foreColor, textRect, !( flags & WIN_NOWRAP ), -1 );
-	dc->SetTransformInfo( vec3_origin, mat3_identity );
+	dc->SetTransformInfo( Vector3_Origin, mat3_identity );
 	if( flags & WIN_NOCLIP )
 	{
 		dc->EnableClipping( true );
@@ -340,47 +340,47 @@ int idSimpleWindow::GetWinVarOffset( idWinVar* wv, drawWin_t* owner )
 idWinVar* idSimpleWindow::GetWinVarByName( const char* _name )
 {
 	idWinVar* retVar = NULL;
-	if( budStr::Icmp( _name, "background" ) == 0 )
+	if( String::Icmp( _name, "background" ) == 0 )
 	{
 		retVar = &backGroundName;
 	}
-	if( budStr::Icmp( _name, "visible" ) == 0 )
+	if( String::Icmp( _name, "visible" ) == 0 )
 	{
 		retVar = &visible;
 	}
-	if( budStr::Icmp( _name, "rect" ) == 0 )
+	if( String::Icmp( _name, "rect" ) == 0 )
 	{
 		retVar = &rect;
 	}
-	if( budStr::Icmp( _name, "backColor" ) == 0 )
+	if( String::Icmp( _name, "backColor" ) == 0 )
 	{
 		retVar = &backColor;
 	}
-	if( budStr::Icmp( _name, "matColor" ) == 0 )
+	if( String::Icmp( _name, "matColor" ) == 0 )
 	{
 		retVar = &matColor;
 	}
-	if( budStr::Icmp( _name, "foreColor" ) == 0 )
+	if( String::Icmp( _name, "foreColor" ) == 0 )
 	{
 		retVar = &foreColor;
 	}
-	if( budStr::Icmp( _name, "borderColor" ) == 0 )
+	if( String::Icmp( _name, "borderColor" ) == 0 )
 	{
 		retVar = &borderColor;
 	}
-	if( budStr::Icmp( _name, "textScale" ) == 0 )
+	if( String::Icmp( _name, "textScale" ) == 0 )
 	{
 		retVar = &textScale;
 	}
-	if( budStr::Icmp( _name, "rotate" ) == 0 )
+	if( String::Icmp( _name, "rotate" ) == 0 )
 	{
 		retVar = &rotate;
 	}
-	if( budStr::Icmp( _name, "shear" ) == 0 )
+	if( String::Icmp( _name, "shear" ) == 0 )
 	{
 		retVar = &shear;
 	}
-	if( budStr::Icmp( _name, "text" ) == 0 )
+	if( String::Icmp( _name, "text" ) == 0 )
 	{
 		retVar = &text;
 	}
@@ -463,7 +463,7 @@ void idSimpleWindow::ReadFromSaveGame( budFile* savefile )
 	savefile->Read( &textAligny, sizeof( textAligny ) );
 	savefile->Read( &textShadow, sizeof( textShadow ) );
 //	if ( savefile->GetFileVersion() >= BUILD_NUMBER_8TH_ANNIVERSARY_1 ) {
-	budStr fontName;
+	String fontName;
 	savefile->ReadString( fontName );
 	font = renderSystem->RegisterFont( fontName );
 //	}
@@ -485,7 +485,7 @@ void idSimpleWindow::ReadFromSaveGame( budFile* savefile )
 	savefile->Read( &stringLen, sizeof( stringLen ) );
 	if( stringLen > 0 )
 	{
-		budStr backName;
+		String backName;
 		
 		backName.Fill( ' ', stringLen );
 		savefile->Read( &( backName )[0], stringLen );

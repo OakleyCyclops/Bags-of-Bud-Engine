@@ -54,7 +54,7 @@ public:
 	void					Save( idSaveGame* savefile ) const;
 	void					Restore( idRestoreGame* savefile );
 	
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	virtual void			ClientThink( const int curTime, const float fraction, const bool predict );
 	virtual void			WriteToSnapshot( budBitMsg& msg ) const;
 	virtual void			ReadFromSnapshot( const budBitMsg& msg );
@@ -106,7 +106,7 @@ protected:
 		int					acceleration;
 		int					movetime;
 		int					deceleration;
-		budVec3				dir;
+		Vector3				dir;
 	} moveState_t;
 	
 	typedef struct
@@ -115,7 +115,7 @@ protected:
 		int					acceleration;
 		int					movetime;
 		int					deceleration;
-		budAngles			rot;
+		Angles			rot;
 	} rotationState_t;
 	
 	idPhysics_Parametric	physicsObj;
@@ -124,7 +124,7 @@ protected:
 	void					Event_ClosePortal();
 	void					Event_PartBlocked( idEntity* blockingEntity );
 	
-	void					MoveToPos( const budVec3& pos );
+	void					MoveToPos( const Vector3& pos );
 	void					UpdateMoveSound( moveStage_t stage );
 	void					UpdateRotationSound( moveStage_t stage );
 	void					SetGuiStates( const char* state );
@@ -142,10 +142,10 @@ private:
 	
 	int						move_thread;
 	int						rotate_thread;
-	budAngles				dest_angles;
-	budAngles				angle_delta;
-	budVec3					dest_position;
-	budVec3					move_delta;
+	Angles				dest_angles;
+	Angles				angle_delta;
+	Vector3					dest_position;
+	Vector3					move_delta;
 	float					move_speed;
 	int						move_time;
 	int						deceltime;
@@ -158,10 +158,10 @@ private:
 	
 	qhandle_t				areaPortal;		// 0 = no portal
 	
-	budList< idEntityPtr<idEntity>, TAG_MOVER >	guiTargets;
+	List< idEntityPtr<idEntity>, TAG_MOVER >	guiTargets;
 	
-	void					VectorForDir( float dir, budVec3& vec );
-	idCurve_Spline<budVec3>* GetSpline( idEntity* splineEntity ) const;
+	void					VectorForDir( float dir, Vector3& vec );
+	idCurve_Spline<Vector3>* GetSpline( idEntity* splineEntity ) const;
 	
 	void					Event_SetCallback();
 	void					Event_TeamBlocked( idEntity* blockedPart, idEntity* blockingEntity );
@@ -174,17 +174,17 @@ private:
 	void					Event_SetDecelerationTime( float time );
 	void					Event_SetAccellerationTime( float time );
 	void					Event_MoveTo( idEntity* ent );
-	void					Event_MoveToPos( budVec3& pos );
+	void					Event_MoveToPos( Vector3& pos );
 	void					Event_MoveDir( float angle, float distance );
 	void					Event_MoveAccelerateTo( float speed, float time );
 	void					Event_MoveDecelerateTo( float speed, float time );
 	void					Event_RotateDownTo( int axis, float angle );
 	void					Event_RotateUpTo( int axis, float angle );
-	void					Event_RotateTo( budAngles& angles );
-	void					Event_Rotate( budAngles& angles );
-	void					Event_RotateOnce( budAngles& angles );
-	void					Event_Bob( float speed, float phase, budVec3& depth );
-	void					Event_Sway( float speed, float phase, budAngles& depth );
+	void					Event_RotateTo( Angles& angles );
+	void					Event_Rotate( Angles& angles );
+	void					Event_RotateOnce( Angles& angles );
+	void					Event_Bob( float speed, float phase, Vector3& depth );
+	void					Event_Sway( float speed, float phase, Angles& depth );
 	void					Event_SetAccelSound( const char* sound );
 	void					Event_SetDecelSound( const char* sound );
 	void					Event_SetMoveSound( const char* sound );
@@ -214,8 +214,8 @@ public:
 
 struct floorInfo_s
 {
-	budVec3					pos;
-	budStr					door;
+	Vector3					pos;
+	String					door;
 	int						floor;
 };
 
@@ -238,7 +238,7 @@ public:
 protected:
 	virtual void			DoneMoving();
 	virtual void			BeginMove( idThread* thread = NULL );
-	void					SpawnTrigger( const budVec3& pos );
+	void					SpawnTrigger( const Vector3& pos );
 	void					GetLocalTriggerPosition();
 	void					Event_Touch( idEntity* other, trace_t* trace );
 	
@@ -251,7 +251,7 @@ private:
 	} elevatorState_t;
 	
 	elevatorState_t			state;
-	budList<floorInfo_s, TAG_MOVER>		floorInfo;
+	List<floorInfo_s, TAG_MOVER>		floorInfo;
 	int						currentFloor;
 	int						pendingFloor;
 	int						lastFloor;
@@ -310,8 +310,8 @@ public:
 	virtual void			PostBind();
 	
 	void					Enable( bool b );
-	void					InitSpeed( budVec3& mpos1, budVec3& mpos2, float mspeed, float maccelTime, float mdecelTime );
-	void					InitTime( budVec3& mpos1, budVec3& mpos2, float mtime, float maccelTime, float mdecelTime );
+	void					InitSpeed( Vector3& mpos1, Vector3& mpos2, float mspeed, float maccelTime, float mdecelTime );
+	void					InitTime( Vector3& mpos1, Vector3& mpos2, float mtime, float maccelTime, float mdecelTime );
 	void					GotoPosition1();
 	void					GotoPosition2();
 	void					Use_BinaryMover( idEntity* activator );
@@ -336,8 +336,8 @@ public:
 	void					SetPortalState( bool open );
 	
 protected:
-	budVec3					pos1;
-	budVec3					pos2;
+	Vector3					pos1;
+	Vector3					pos2;
 	moverState_t			moverState;
 	idMover_Binary* 		moveMaster;
 	idMover_Binary* 		activateChain;
@@ -353,16 +353,16 @@ protected:
 	int						decelTime;
 	idEntityPtr<idEntity>	activatedBy;
 	int						stateStartTime;
-	budStr					team;
+	String					team;
 	bool					enabled;
 	int						move_thread;
 	int						updateStatus;		// 1 = lock behaviour, 2 = open close status
-	budStrList				buddies;
+	StringList				buddies;
 	idPhysics_Parametric	physicsObj;
 	qhandle_t				areaPortal;			// 0 = no portal
 	bool					blocked;
 	bool					playerOnly;
-	budList< idEntityPtr<idEntity>, TAG_MOVER >	guiTargets;
+	List< idEntityPtr<idEntity>, TAG_MOVER >	guiTargets;
 	
 	void					MatchActivateTeam( moverState_t newstate, int time );
 	void					JoinActivateTeam( idMover_Binary* master );
@@ -388,7 +388,7 @@ protected:
 	void					Event_FindGuiTargets();
 	void					Event_InitGuiTargets();
 	
-	static void				GetMovedir( float dir, budVec3& movedir );
+	static void				GetMovedir( float dir, Vector3& movedir );
 };
 
 class idDoor : public idMover_Binary
@@ -426,15 +426,15 @@ private:
 	bool					crusher;
 	bool					noTouch;
 	bool					aas_area_closed;
-	budStr					buddyStr;
+	String					buddyStr;
 	budClipModel* 			trigger;
 	budClipModel* 			sndTrigger;
 	int						nextSndTriggerTime;
-	budVec3					localTriggerOrigin;
-	budMat3					localTriggerAxis;
-	budStr					requires;
+	Vector3					localTriggerOrigin;
+	Matrix3					localTriggerAxis;
+	String					requires;
 	int						removeItem;
-	budStr					syncLock;
+	String					syncLock;
 	int						normalAxisIndex;		// door faces X or Y for spectator teleports
 	idDoor* 				companionDoor;
 	
@@ -481,11 +481,11 @@ public:
 	
 private:
 	budClipModel* 			trigger;
-	budVec3					localTriggerOrigin;
-	budMat3					localTriggerAxis;
+	Vector3					localTriggerOrigin;
+	Matrix3					localTriggerAxis;
 	
 	void					GetLocalTriggerPosition( const budClipModel* trigger );
-	void					SpawnPlatTrigger( budVec3& pos );
+	void					SpawnPlatTrigger( Vector3& pos );
 	
 	void					Event_TeamBlocked( idEntity* blockedEntity, idEntity* blockingEntity );
 	void					Event_PartBlocked( idEntity* blockingEntity );

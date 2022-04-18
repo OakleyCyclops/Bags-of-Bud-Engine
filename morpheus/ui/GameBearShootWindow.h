@@ -34,15 +34,15 @@ class BSEntity
 {
 public:
 	const budMaterial* 		material;
-	budStr					materialName;
+	String					materialName;
 	float					width, height;
 	bool					visible;
 	
-	budVec4					entColor;
-	budVec2					position;
+	Vector4					entColor;
+	Vector2					position;
 	float					rotation;
 	float					rotationSpeed;
-	budVec2					velocity;
+	Vector2					velocity;
 	
 	bool					fadeIn;
 	bool					fadeOut;
@@ -121,7 +121,7 @@ private:
 	float				windForce;
 	int					windUpdateTime;
 	
-	budList<BSEntity*>	entities;
+	List<BSEntity*>	entities;
 	
 	BSEntity*			turret;
 	BSEntity*			bear;

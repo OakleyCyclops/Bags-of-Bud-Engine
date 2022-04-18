@@ -38,11 +38,11 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 // map processing (also see SuperOptimizeOccluders in tr_local.h)
-void Dmap_f( const budCmdArgs& args );
+void Dmap_f( const CmdArgs& args );
 
 // AAS file compiler
-void RunAAS_f( const budCmdArgs& args );
-void RunAASDir_f( const budCmdArgs& args );
-void RunReach_f( const budCmdArgs& args );
+void RunAAS_f( const CmdArgs& args );
+void RunAASDir_f( const CmdArgs& args );
+void RunReach_f( const CmdArgs& args );
 
 #endif	/* !__COMPILER_PUBLIC_H__ */

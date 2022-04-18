@@ -162,7 +162,7 @@ public:
 		return sizeof( *this ) + mEvent->Size();
 	}
 	
-	budStr				mName;
+	String				mName;
 	budGuiScriptList*	mEvent;
 };
 
@@ -170,7 +170,7 @@ struct idTransitionData
 {
 	idWinVar* data;
 	int	offset;
-	idInterpolateAccelDecelLinear<budVec4> interp;
+	idInterpolateAccelDecelLinear<Vector4> interp;
 };
 
 
@@ -245,7 +245,7 @@ public:
 	bool Contains( float x, float y );
 	size_t Size();
 	virtual size_t Allocated();
-	budStr* GetStrPtrByName( const char* _name );
+	String* GetStrPtrByName( const char* _name );
 	
 	virtual idWinVar* GetWinVarByName( const char* _name, bool winLookup = false, drawWin_t** owner = NULL );
 	// DG: the return value is a pointer, so use intptr_t
@@ -274,10 +274,10 @@ public:
 	void	CalcRects( float x, float y );
 	virtual void Redraw( float x, float y, bool hud );
 	
-	virtual void ArchiveToDictionary( idDict* dict, bool useNames = true );
-	virtual void InitFromDictionary( idDict* dict, bool byName = true );
+	virtual void ArchiveToDictionary( Dict* dict, bool useNames = true );
+	virtual void InitFromDictionary( Dict* dict, bool byName = true );
 	virtual void PostParse();
-	virtual void Activate( bool activate, budStr& act );
+	virtual void Activate( bool activate, String& act );
 	virtual void Trigger();
 	virtual void GainFocus();
 	virtual void LoseFocus();
@@ -301,7 +301,7 @@ public:
 	void			WriteSaveGameString( const char* string, budFile* savefile );
 	void			WriteSaveGameTransition( idTransitionData& trans, budFile* savefile );
 	virtual void	WriteToSaveGame( budFile* savefile );
-	void			ReadSaveGameString( budStr& string, budFile* savefile );
+	void			ReadSaveGameString( String& string, budFile* savefile );
 	void			ReadSaveGameTransition( idTransitionData& trans, budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile );
 	void			FixupTransitions();
@@ -309,7 +309,7 @@ public:
 	virtual void HasScripts() {};
 	
 	void FixupParms();
-	void GetScriptString( const char* name, budStr& out );
+	void GetScriptString( const char* name, String& out );
 	void SetScriptParams();
 	bool HasOps()
 	{
@@ -317,7 +317,7 @@ public:
 	};
 	float EvalRegs( int test = -1, bool force = false );
 	void StartTransition();
-	void AddTransition( idWinVar* dest, budVec4 from, budVec4 to, int time, float accelTime, float decelTime );
+	void AddTransition( idWinVar* dest, Vector4 from, Vector4 to, int time, float accelTime, float decelTime );
 	void ResetTime( int time );
 	void ResetCinematics();
 	
@@ -351,7 +351,7 @@ public:
 		comment = p;
 	}
 	
-	budStr cmd;
+	String cmd;
 	
 	virtual void RunNamedEvent( const char* eventName );
 	
@@ -367,7 +367,7 @@ public:
 	void		ScreenToClient( idRectangle* rect );
 	void		ClientToScreen( idRectangle* rect );
 	
-	bool		UpdateFromDictionary( idDict& dict );
+	bool		UpdateFromDictionary( Dict& dict );
 	
 protected:
 
@@ -401,9 +401,9 @@ protected:
 	bool ParseScriptEntry( const char* name, budTokenParser* src );
 	bool ParseRegEntry( const char* name, budTokenParser* src );
 	virtual bool ParseInternalVar( const char* name, budTokenParser* src );
-	void ParseString( budTokenParser* src, budStr& out );
-	void ParseVec4( budTokenParser* src, budVec4& out );
-	void ConvertRegEntry( const char* name, budTokenParser* src, budStr& out, int tabs );
+	void ParseString( budTokenParser* src, String& out );
+	void ParseVec4( budTokenParser* src, Vector4& out );
+	void ConvertRegEntry( const char* name, budTokenParser* src, String& out, int tabs );
 	
 	float actualX;					// physical coords
 	float actualY;					// ''
@@ -412,7 +412,7 @@ protected:
 	int lastTimeRun;				//
 	idRectangle drawRect;			// overall rect
 	idRectangle clientRect;			// client area
-	budVec2	origin;
+	Vector2	origin;
 	
 	int timeLine;					// time stamp used for various fx
 	float xOffset;
@@ -424,9 +424,9 @@ protected:
 	float borderSize;
 	float textAlignx;
 	float textAligny;
-	budStr	name;
-	budStr	comment;
-	budVec2	shear;
+	String	name;
+	String	comment;
+	Vector2	shear;
 	
 	class budFont* font;
 	signed char	textShadow;
@@ -447,15 +447,15 @@ protected:
 	idWinStr	text;
 	idWinBackground	backGroundName;			//
 	
-	budList<idWinVar*, TAG_OLD_UI> definedVars;
-	budList<idWinVar*, TAG_OLD_UI> updateVars;
+	List<idWinVar*, TAG_OLD_UI> definedVars;
+	List<idWinVar*, TAG_OLD_UI> updateVars;
 	
 	idRectangle textRect;			// text extented rect
 	const budMaterial* background;         // background asset
 	
 	idWindow* parent;				// parent window
-	budList<idWindow*, TAG_OLD_UI> children;		// child windows
-	budList<drawWin_t, TAG_OLD_UI> drawWindows;
+	List<idWindow*, TAG_OLD_UI> children;		// child windows
+	List<drawWin_t, TAG_OLD_UI> drawWindows;
 	
 	idWindow* focusedChild;			// if a child window has the focus
 	idWindow* captureChild;			// if a child window has mouse capture
@@ -464,22 +464,22 @@ protected:
 	
 	budUserInterfaceLocal* gui;
 	
-	static budCVar gui_debug;
-	static budCVar gui_edit;
+	static CVar gui_debug;
+	static CVar gui_edit;
 	
 	budGuiScriptList* scripts[SCRIPT_COUNT];
 	bool* saveTemps;
 	
-	budList<idTimeLineEvent*, TAG_OLD_UI> timeLineEvents;
-	budList<idTransitionData, TAG_OLD_UI> transitions;
+	List<idTimeLineEvent*, TAG_OLD_UI> timeLineEvents;
+	List<idTransitionData, TAG_OLD_UI> transitions;
 	
 	static bool registerIsTemporary[MAX_EXPRESSION_REGISTERS]; // statics to assist during parsing
 	
-	budList<wexpOp_t, TAG_OLD_UI> ops;			   	// evaluate to make expressionRegisters
-	budList<float, TAG_OLD_UI> expressionRegisters;
-	budList<wexpOp_t, TAG_OLD_UI>* saveOps;			   	// evaluate to make expressionRegisters
-	budList<rvNamedEvent*, TAG_OLD_UI>		namedEvents;		//  added named events
-	budList<float, TAG_OLD_UI>* saveRegs;
+	List<wexpOp_t, TAG_OLD_UI> ops;			   	// evaluate to make expressionRegisters
+	List<float, TAG_OLD_UI> expressionRegisters;
+	List<wexpOp_t, TAG_OLD_UI>* saveOps;			   	// evaluate to make expressionRegisters
+	List<rvNamedEvent*, TAG_OLD_UI>		namedEvents;		//  added named events
+	List<float, TAG_OLD_UI>* saveRegs;
 	
 	idRegisterList regList;
 	

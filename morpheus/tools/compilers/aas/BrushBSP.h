@@ -221,9 +221,9 @@ public:
 	// portalize the bsp tree
 	void					Portalize();
 	// remove subspaces outside the map not reachable by entities
-	bool					RemoveOutside( const budMapFile* mapFile, int contents, const budStrList& classNames );
+	bool					RemoveOutside( const budMapFile* mapFile, int contents, const StringList& classNames );
 	// write file with a trace going through a leak
-	void					LeakFile( const budStr& fileName );
+	void					LeakFile( const String& fileName );
 	// try to merge portals
 	void					MergePortals( int skipContents );
 	// try to merge the two leaf nodes at either side of the portal
@@ -232,7 +232,7 @@ public:
 	// melt portal windings
 	void					MeltPortals( int skipContents );
 	// write a map file with a brush for every leaf node that has the given contents
-	void					WriteBrushMap( const budStr& fileName, const budStr& ext, int contents );
+	void					WriteBrushMap( const String& fileName, const String& ext, int contents );
 	// bounds for the whole tree
 	const budBounds& 		GetTreeBounds() const
 	{
@@ -259,7 +259,7 @@ private:
 	int						insideLeafNodes;
 	int						numMergedPortals;
 	int						numInsertedPoints;
-	budVec3					leakOrigin;
+	Vector3					leakOrigin;
 	int						brushMapContents;
 	idBrushMap* 			brushMap;
 	
@@ -276,7 +276,7 @@ private:
 	void					SetSplitterUsed( idBrushBSPNode* node, int planeNum );
 	idBrushBSPNode* 		BuildBrushBSP_r( idBrushBSPNode* node, const budPlaneSet& planeList, bool* testedPlanes, int skipContents );
 	idBrushBSPNode* 		ProcessGridCell( idBrushBSPNode* node, int skipContents );
-	void					BuildGrid_r( budList<idBrushBSPNode*>& gridCells, idBrushBSPNode* node );
+	void					BuildGrid_r( List<idBrushBSPNode*>& gridCells, idBrushBSPNode* node );
 	void					PruneTree_r( idBrushBSPNode* node, int contents );
 	void					MakeOutsidePortals();
 	idWinding* 				BaseWindingForNode( idBrushBSPNode* node );
@@ -284,8 +284,8 @@ private:
 	void					SplitNodePortals( idBrushBSPNode* node );
 	void					MakeTreePortals_r( idBrushBSPNode* node );
 	void					FloodThroughPortals_r( idBrushBSPNode* node, int contents, int depth );
-	bool					FloodFromOrigin( const budVec3& origin, int contents );
-	bool					FloodFromEntities( const budMapFile* mapFile, int contents, const budStrList& classNames );
+	bool					FloodFromOrigin( const Vector3& origin, int contents );
+	bool					FloodFromEntities( const budMapFile* mapFile, int contents, const StringList& classNames );
 	void					RemoveOutside_r( idBrushBSPNode* node, int contents );
 	void					SetPortalPlanes_r( idBrushBSPNode* node, budPlaneSet& planeList );
 	void					SetPortalPlanes();
@@ -294,9 +294,9 @@ private:
 	void					UpdateTreeAfterMerge_r( idBrushBSPNode* node, const budBounds& bounds, idBrushBSPNode* oldNode, idBrushBSPNode* newNode );
 	void					RemoveLeafNodeColinearPoints( idBrushBSPNode* node );
 	void					RemoveColinearPoints_r( idBrushBSPNode* node, int skipContents );
-	void					MeltFlood_r( idBrushBSPNode* node, int skipContents, budBounds& bounds, budVectorSet<budVec3, 3>& vertexList );
-	void					MeltLeafNodePortals( idBrushBSPNode* node, int skipContents, budVectorSet<budVec3, 3>& vertexList );
-	void					MeltPortals_r( idBrushBSPNode* node, int skipContents, budVectorSet<budVec3, 3>& vertexList );
+	void					MeltFlood_r( idBrushBSPNode* node, int skipContents, budBounds& bounds, VectortorSet<Vector3, 3>& vertexList );
+	void					MeltLeafNodePortals( idBrushBSPNode* node, int skipContents, VectortorSet<Vector3, 3>& vertexList );
+	void					MeltPortals_r( idBrushBSPNode* node, int skipContents, VectortorSet<Vector3, 3>& vertexList );
 };
 
 #endif /* !__BRUSHBSP_H__ */

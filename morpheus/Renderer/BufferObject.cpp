@@ -31,7 +31,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "RenderCommon.h"
 
-budCVar r_showBuffers( "r_showBuffers", "0", CVAR_INTEGER, "" );
+CVar r_showBuffers( "r_showBuffers", "0", CVAR_INTEGER, "" );
 
 #ifdef _WIN32
 /*

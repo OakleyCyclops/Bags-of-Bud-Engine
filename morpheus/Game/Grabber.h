@@ -55,10 +55,10 @@ public:
 private:
 	idEntityPtr<idEntity>	dragEnt;			// entity being dragged
 	idForce_Grab			drag;
-	budVec3					saveGravity;
+	Vector3					saveGravity;
 	
 	int						id;					// id of body being dragged
-	budVec3					localPlayerPoint;	// dragged point in player space
+	Vector3					localPlayerPoint;	// dragged point in player space
 	idEntityPtr<budPlayer>	owner;
 	int						oldImpulseSequence;
 	bool					holdingAF;

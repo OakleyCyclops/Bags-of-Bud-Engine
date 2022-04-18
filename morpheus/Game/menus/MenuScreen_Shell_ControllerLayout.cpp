@@ -245,12 +245,12 @@ void idMenuScreen_Shell_ControllerLayout::UpdateBindingInfo()
 			}
 			else if( keyNum == K_JOY7 )
 			{
-				budStr action = budLocalization::GetString( va( "#str_swf_action%s", binding ) );
+				String action = budLocalization::GetString( va( "#str_swf_action%s", binding ) );
 				txtVal->SetText( action.c_str() );
 			}
 			else if( keyNum == K_JOY8 )
 			{
-				budStr action = budLocalization::GetString( va( "#str_swf_action%s", binding ) );
+				String action = budLocalization::GetString( va( "#str_swf_action%s", binding ) );
 				txtVal->SetText( action.c_str() );
 			}
 			else

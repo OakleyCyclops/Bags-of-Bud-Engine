@@ -75,7 +75,7 @@ void idMenuScreen_Shell_Gamepad::Initialize( idMenuHandler* data )
 	
 	btnBack = new( TAG_SWF ) idMenuWidget_Button();
 	btnBack->Initialize( data );
-	budStr controls( budLocalization::GetString( "#str_04158" ) );
+	String controls( budLocalization::GetString( "#str_04158" ) );
 	controls.ToUpper();
 	btnBack->SetLabel( controls );
 	btnBack->SetSpritePath( GetSpritePath(), "info", "btnBack" );
@@ -389,12 +389,12 @@ bool idMenuScreen_Shell_Gamepad::HandleAction( idWidgetAction& action, const idW
 // SCREEN SETTINGS
 /////////////////////////////////
 
-extern budCVar in_invertLook;
-extern budCVar in_joystickRumble;
-extern budCVar joy_pitchSpeed;
-extern budCVar joy_yawSpeed;
-extern budCVar joy_gammaLook;
-extern budCVar joy_mergedThreshold;
+extern CVar in_invertLook;
+extern CVar in_joystickRumble;
+extern CVar joy_pitchSpeed;
+extern CVar joy_yawSpeed;
+extern CVar joy_gammaLook;
+extern CVar joy_mergedThreshold;
 
 /*
 ========================
@@ -467,7 +467,7 @@ void idMenuScreen_Shell_Gamepad::idMenuDataSource_GamepadSettings::AdjustField( 
 	}
 	else
 	{
-		float newValue = budMath::ClampFloat( 0.0f, 100.0f, fields[ fieldIndex ].ToFloat() + adjustAmount );
+		float newValue = Math::ClampFloat( 0.0f, 100.0f, fields[ fieldIndex ].ToFloat() + adjustAmount );
 		fields[ fieldIndex ].SetFloat( newValue );
 	}
 }

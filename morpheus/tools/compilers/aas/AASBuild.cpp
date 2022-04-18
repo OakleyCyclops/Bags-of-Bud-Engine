@@ -129,7 +129,7 @@ budAASBuild::LoadProcBSP
 */
 bool budAASBuild::LoadProcBSP( const char* name, ID_TIME_T minFileTime )
 {
-	budStr fileName;
+	String fileName;
 	budToken token;
 	budLexer* src;
 	
@@ -218,7 +218,7 @@ void budAASBuild::DeleteProcBSP()
 budAASBuild::ChoppedAwayByProcBSP
 ============
 */
-bool budAASBuild::ChoppedAwayByProcBSP( int nodeNum, budFixedWinding* w, const budVec3& normal, const budVec3& origin, const float radius )
+bool budAASBuild::ChoppedAwayByProcBSP( int nodeNum, budFixedWinding* w, const Vector3& normal, const Vector3& origin, const float radius )
 {
 	int res;
 	budFixedWinding back;
@@ -299,7 +299,7 @@ void budAASBuild::ClipBrushSidesWithProcBSP( idBrushList& brushList )
 	budFixedWinding neww;
 	budBounds bounds;
 	float radius;
-	budVec3 origin;
+	Vector3 origin;
 	
 	// if the .proc file has no BSP tree
 	if( budAASBuild::procNodes == NULL )
@@ -370,12 +370,12 @@ int budAASBuild::ContentsForAAS( int contents )
 budAASBuild::AddBrushForMapBrush
 ============
 */
-idBrushList budAASBuild::AddBrushesForMapBrush( const idMapBrush* mapBrush, const budVec3& origin, const budMat3& axis, int entityNum, int primitiveNum, idBrushList brushList )
+idBrushList budAASBuild::AddBrushesForMapBrush( const idMapBrush* mapBrush, const Vector3& origin, const Matrix3& axis, int entityNum, int primitiveNum, idBrushList brushList )
 {
 	int contents, i;
 	idMapBrushSide* mapSide;
 	const budMaterial* mat;
-	budList<idBrushSide*> sideList;
+	List<idBrushSide*> sideList;
 	idBrush* brush;
 	budPlane plane;
 	
@@ -423,14 +423,14 @@ idBrushList budAASBuild::AddBrushesForMapBrush( const idMapBrush* mapBrush, cons
 budAASBuild::AddBrushesForPatch
 ============
 */
-idBrushList budAASBuild::AddBrushesForMapPatch( const idMapPatch* mapPatch, const budVec3& origin, const budMat3& axis, int entityNum, int primitiveNum, idBrushList brushList )
+idBrushList budAASBuild::AddBrushesForMapPatch( const idMapPatch* mapPatch, const Vector3& origin, const Matrix3& axis, int entityNum, int primitiveNum, idBrushList brushList )
 {
 	int i, j, contents, validBrushes;
 	float dot;
 	int v1, v2, v3, v4;
 	budFixedWinding w;
 	budPlane plane;
-	budVec3 d1, d2;
+	Vector3 d1, d2;
 	idBrush* brush;
 	idSurface_Patch mesh;
 	const budMaterial* mat;
@@ -475,7 +475,7 @@ idBrushList budAASBuild::AddBrushesForMapPatch( const idMapPatch* mapPatch, cons
 				plane.FitThroughPoint( mesh[v1].xyz );
 				dot = plane.Distance( mesh[v4].xyz );
 				// if we can turn it into a quad
-				if( budMath::Fabs( dot ) < 0.1f )
+				if( Math::Fabs( dot ) < 0.1f )
 				{
 					w.Clear();
 					w += mesh[v1].xyz;
@@ -573,8 +573,8 @@ budAASBuild::AddBrushesForMapEntity
 idBrushList budAASBuild::AddBrushesForMapEntity( const idMapEntity* mapEnt, int entityNum, idBrushList brushList )
 {
 	int i;
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( mapEnt->GetNumPrimitives() < 1 )
 	{
@@ -587,7 +587,7 @@ idBrushList budAASBuild::AddBrushesForMapEntity( const idMapEntity* mapEnt, int 
 		float angle = mapEnt->epairs.GetFloat( "angle" );
 		if( angle != 0.0f )
 		{
-			axis = budAngles( 0.0f, angle, 0.0f ).ToMat3();
+			axis = Angles( 0.0f, angle, 0.0f ).ToMat3();
 		}
 		else
 		{
@@ -635,7 +635,7 @@ idBrushList budAASBuild::AddBrushesForMapFile( const budMapFile* mapFile, idBrus
 	{
 		const char* classname = mapFile->GetEntity( i )->epairs.GetString( "classname" );
 		
-		if( budStr::Icmp( classname, "func_aas_obstacle" ) == 0 )
+		if( String::Icmp( classname, "func_aas_obstacle" ) == 0 )
 		{
 			brushList = AddBrushesForMapEntity( mapFile->GetEntity( i ), i, brushList );
 		}
@@ -651,10 +651,10 @@ idBrushList budAASBuild::AddBrushesForMapFile( const budMapFile* mapFile, idBrus
 budAASBuild::CheckForEntities
 ============
 */
-bool budAASBuild::CheckForEntities( const budMapFile* mapFile, budStrList& entityClassNames ) const
+bool budAASBuild::CheckForEntities( const budMapFile* mapFile, StringList& entityClassNames ) const
 {
 	int		i;
-	budStr	classname;
+	String	classname;
 	
 	com_editors |= EDITOR_AAS;
 	
@@ -729,18 +729,18 @@ void budAASBuild::ChangeMultipleBoundingBoxContents_r( idBrushBSPNode* node, int
 budAASBuild::Build
 ============
 */
-bool budAASBuild::Build( const budStr& fileName, const budAASSettings* settings )
+bool budAASBuild::Build( const String& fileName, const budAASSettings* settings )
 {
 	int i, bit, mask, startTime;
 	budMapFile* mapFile;
 	idBrushList brushList;
-	budList<idBrushList*> expandedBrushes;
+	List<idBrushList*> expandedBrushes;
 	idBrush* b;
 	idBrushBSP bsp;
-	budStr name;
+	String name;
 	budAASReach reach;
 	budAASCluster cluster;
-	budStrList entityClassNames;
+	StringList entityClassNames;
 	
 	startTime = Sys_Milliseconds();
 	
@@ -897,11 +897,11 @@ bool budAASBuild::Build( const budStr& fileName, const budAASSettings* settings 
 budAASBuild::BuildReachability
 ============
 */
-bool budAASBuild::BuildReachability( const budStr& fileName, const budAASSettings* settings )
+bool budAASBuild::BuildReachability( const String& fileName, const budAASSettings* settings )
 {
 	int startTime;
 	budMapFile* mapFile;
-	budStr name;
+	String name;
 	budAASReach reach;
 	budAASCluster cluster;
 	
@@ -954,10 +954,10 @@ bool budAASBuild::BuildReachability( const budStr& fileName, const budAASSetting
 ParseOptions
 ============
 */
-int ParseOptions( const budCmdArgs& args, budAASSettings& settings )
+int ParseOptions( const CmdArgs& args, budAASSettings& settings )
 {
 	int i;
-	budStr str;
+	String str;
 	
 	for( i = 1; i < args.Argc(); i++ )
 	{
@@ -994,12 +994,12 @@ int ParseOptions( const budCmdArgs& args, budAASSettings& settings )
 RunAAS_f
 ============
 */
-void RunAAS_f( const budCmdArgs& args )
+void RunAAS_f( const CmdArgs& args )
 {
 	int i;
 	budAASBuild aas;
 	budAASSettings settings;
-	budStr mapName;
+	String mapName;
 	
 	if( args.Argc() <= 1 )
 	{
@@ -1016,7 +1016,7 @@ void RunAAS_f( const budCmdArgs& args )
 	common->SetRefreshOnPrint( true );
 	
 	// get the aas settings definitions
-	const idDict* dict = gameEdit->FindEntityDefDict( "aas_types", false );
+	const Dict* dict = gameEdit->FindEntityDefDict( "aas_types", false );
 	if( !dict )
 	{
 		common->Error( "Unable to find entityDef for 'aas_types'" );
@@ -1025,7 +1025,7 @@ void RunAAS_f( const budCmdArgs& args )
 	const idKeyValue* kv = dict->MatchPrefix( "type" );
 	while( kv != NULL )
 	{
-		const idDict* settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
+		const Dict* settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
 		if( !settingsDict )
 		{
 			common->Warning( "Unable to find '%s' in def/aas.def", kv->GetValue().c_str() );
@@ -1058,7 +1058,7 @@ void RunAAS_f( const budCmdArgs& args )
 RunAASDir_f
 ============
 */
-void RunAASDir_f( const budCmdArgs& args )
+void RunAASDir_f( const CmdArgs& args )
 {
 	int i;
 	budAASBuild aas;
@@ -1076,14 +1076,14 @@ void RunAASDir_f( const budCmdArgs& args )
 	common->SetRefreshOnPrint( true );
 	
 	// get the aas settings definitions
-	const idDict* dict = gameEdit->FindEntityDefDict( "aas_types", false );
+	const Dict* dict = gameEdit->FindEntityDefDict( "aas_types", false );
 	if( !dict )
 	{
 		common->Error( "Unable to find entityDef for 'aas_types'" );
 	}
 	
 	// scan for .map files
-	mapFiles = fileSystem->ListFiles( budStr( "maps/" ) + args.Argv( 1 ), ".map" );
+	mapFiles = fileSystem->ListFiles( String( "maps/" ) + args.Argv( 1 ), ".map" );
 	
 	// create AAS files for all the .map files
 	for( i = 0; i < mapFiles->GetNumFiles(); i++ )
@@ -1096,7 +1096,7 @@ void RunAASDir_f( const budCmdArgs& args )
 		const idKeyValue* kv = dict->MatchPrefix( "type" );
 		while( kv != NULL )
 		{
-			const idDict* settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
+			const Dict* settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
 			if( !settingsDict )
 			{
 				common->Warning( "Unable to find '%s' in def/aas.def", kv->GetValue().c_str() );
@@ -1104,7 +1104,7 @@ void RunAASDir_f( const budCmdArgs& args )
 			else
 			{
 				settings.FromDict( kv->GetValue(), settingsDict );
-				aas.Build( budStr( "maps/" ) + args.Argv( 1 ) + "/" + mapFiles->GetFile( i ), &settings );
+				aas.Build( String( "maps/" ) + args.Argv( 1 ) + "/" + mapFiles->GetFile( i ), &settings );
 			}
 			
 			kv = dict->MatchPrefix( "type", kv );
@@ -1126,7 +1126,7 @@ void RunAASDir_f( const budCmdArgs& args )
 RunReach_f
 ============
 */
-void RunReach_f( const budCmdArgs& args )
+void RunReach_f( const CmdArgs& args )
 {
 	int i;
 	budAASBuild aas;
@@ -1143,7 +1143,7 @@ void RunReach_f( const budCmdArgs& args )
 	common->SetRefreshOnPrint( true );
 	
 	// get the aas settings definitions
-	const idDict* dict = gameEdit->FindEntityDefDict( "aas_types", false );
+	const Dict* dict = gameEdit->FindEntityDefDict( "aas_types", false );
 	if( !dict )
 	{
 		common->Error( "Unable to find entityDef for 'aas_types'" );
@@ -1152,7 +1152,7 @@ void RunReach_f( const budCmdArgs& args )
 	const idKeyValue* kv = dict->MatchPrefix( "type" );
 	while( kv != NULL )
 	{
-		const idDict* settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
+		const Dict* settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
 		if( !settingsDict )
 		{
 			common->Warning( "Unable to find '%s' in def/aas.def", kv->GetValue().c_str() );
@@ -1161,7 +1161,7 @@ void RunReach_f( const budCmdArgs& args )
 		{
 			settings.FromDict( kv->GetValue(), settingsDict );
 			i = ParseOptions( args, settings );
-			aas.BuildReachability( budStr( "maps/" ) + args.Argv( i ), &settings );
+			aas.BuildReachability( String( "maps/" ) + args.Argv( i ), &settings );
 		}
 		
 		kv = dict->MatchPrefix( "type", kv );

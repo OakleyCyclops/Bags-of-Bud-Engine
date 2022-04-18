@@ -111,7 +111,7 @@ idEventDef::idEventDef( const char* command, const char* formatspec, char return
 				break;
 				
 			case D_EVENT_VECTOR :
-				// RB: 64 bit fix, changed sizeof( budVec3 ) to E_EVENT_SIZEOF_VEC
+				// RB: 64 bit fix, changed sizeof( Vector3 ) to E_EVENT_SIZEOF_VEC
 				argsize += E_EVENT_SIZEOF_VEC;
 				// RB end
 				break;
@@ -247,7 +247,7 @@ static idEvent EventPool[ MAX_EVENTS ];
 
 bool idEvent::initialized = false;
 
-idDynamicBlockAlloc<byte, 16 * 1024, 256>	idEvent::eventDataAllocator;
+DynamicBlockAlloc<byte, 16 * 1024, 256>	idEvent::eventDataAllocator;
 
 /*
 ================
@@ -326,14 +326,14 @@ idEvent* idEvent::Alloc( const idEventDef* evdef, int numargs, va_list args )
 			case D_EVENT_VECTOR :
 				if( arg->value )
 				{
-					*reinterpret_cast<budVec3*>( dataPtr ) = *reinterpret_cast<const budVec3*>( arg->value );
+					*reinterpret_cast<Vector3*>( dataPtr ) = *reinterpret_cast<const Vector3*>( arg->value );
 				}
 				break;
 				
 			case D_EVENT_STRING :
 				if( arg->value )
 				{
-					budStr::Copynz( reinterpret_cast<char*>( dataPtr ), reinterpret_cast<const char*>( arg->value ), MAX_STRING_LEN );
+					String::Copynz( reinterpret_cast<char*>( dataPtr ), reinterpret_cast<const char*>( arg->value ), MAX_STRING_LEN );
 				}
 				break;
 				
@@ -354,7 +354,7 @@ idEvent* idEvent::Alloc( const idEventDef* evdef, int numargs, va_list args )
 					if( reinterpret_cast<const trace_t*>( arg->value )->c.material )
 					{
 						materialName = reinterpret_cast<const trace_t*>( arg->value )->c.material->GetName();
-						budStr::Copynz( reinterpret_cast<char*>( dataPtr + sizeof( bool ) + sizeof( trace_t ) ), materialName, MAX_STRING_LEN );
+						String::Copynz( reinterpret_cast<char*>( dataPtr + sizeof( bool ) + sizeof( trace_t ) ), materialName, MAX_STRING_LEN );
 					}
 				}
 				else
@@ -606,7 +606,7 @@ void idEvent::ServiceEvents()
 					break;
 					
 				case D_EVENT_VECTOR :
-					*reinterpret_cast<budVec3**>( &args[ i ] ) = reinterpret_cast<budVec3*>( &data[ offset ] );
+					*reinterpret_cast<Vector3**>( &args[ i ] ) = reinterpret_cast<Vector3*>( &data[ offset ] );
 					break;
 					
 				case D_EVENT_STRING :
@@ -718,7 +718,7 @@ void idEvent::ServiceFastEvents()
 					break;
 					
 				case D_EVENT_VECTOR :
-					*reinterpret_cast<budVec3**>( &args[ i ] ) = reinterpret_cast<budVec3*>( &data[ offset ] );
+					*reinterpret_cast<Vector3**>( &args[ i ] ) = reinterpret_cast<Vector3*>( &data[ offset ] );
 					break;
 					
 				case D_EVENT_STRING :
@@ -856,7 +856,7 @@ void idEvent::Save( idSaveGame* savefile )
 	bool validTrace;
 	const char*	format;
 	// RB: for missing D_EVENT_STRING
-	budStr s;
+	String s;
 	// RB end
 	
 	savefile->WriteInt( EventQueue.Num() );
@@ -895,7 +895,7 @@ void idEvent::Save( idSaveGame* savefile )
 					// RB end
 					break;
 				case D_EVENT_VECTOR :
-					savefile->WriteVec3( *reinterpret_cast<budVec3*>( dataPtr ) );
+					savefile->WriteVec3( *reinterpret_cast<Vector3*>( dataPtr ) );
 					// RB: 64 bit fix, changed sizeof( int ) to E_EVENT_SIZEOF_VEC
 					size += E_EVENT_SIZEOF_VEC;
 					// RB end
@@ -962,12 +962,12 @@ void idEvent::Restore( idRestoreGame* savefile )
 {
 	char*    str;
 	int		num, argsize, i, j, size;
-	budStr	name;
+	String	name;
 	byte* dataPtr;
 	idEvent*	event;
 	const char*	format;
 	// RB: for missing D_EVENT_STRING
-	budStr s;
+	String s;
 	// RB end
 	
 	savefile->ReadInt( num );
@@ -1043,7 +1043,7 @@ void idEvent::Restore( idRestoreGame* savefile )
 						// RB end
 						break;
 					case D_EVENT_VECTOR :
-						savefile->ReadVec3( *reinterpret_cast<budVec3*>( dataPtr ) );
+						savefile->ReadVec3( *reinterpret_cast<Vector3*>( dataPtr ) );
 						// RB: 64 bit fix, changed sizeof( int ) to E_EVENT_SIZEOF_VEC
 						size += E_EVENT_SIZEOF_VEC;
 						// RB end
@@ -1052,9 +1052,9 @@ void idEvent::Restore( idRestoreGame* savefile )
 					// RB: added missing D_EVENT_STRING case
 					case D_EVENT_STRING :
 						savefile->ReadString( s );
-						//budStr::Copynz(reinterpret_cast<char *>( dataPtr ), s, s.Length() );
+						//String::Copynz(reinterpret_cast<char *>( dataPtr ), s, s.Length() );
 						//size += s.Length();
-						budStr::Copynz( reinterpret_cast<char*>( dataPtr ), s, MAX_STRING_LEN );
+						String::Copynz( reinterpret_cast<char*>( dataPtr ), s, MAX_STRING_LEN );
 						size += MAX_STRING_LEN;
 						break;
 						// RB end
@@ -1205,8 +1205,8 @@ void CreateEventCallbackHandler()
 	int count;
 	int i, j, k;
 	char argString[ D_EVENT_MAXARGS + 1 ];
-	budStr string1;
-	budStr string2;
+	String string1;
+	String string2;
 	budFile* file;
 	
 	file = fileSystem->OpenFileWrite( "Callbacks.cpp" );

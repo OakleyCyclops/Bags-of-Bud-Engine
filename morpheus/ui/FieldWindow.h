@@ -48,7 +48,7 @@ private:
 	int lastCursorPos;
 	int paintOffset;
 	bool showCursor;
-	budStr cursorVar;
+	String cursorVar;
 };
 
 #endif // __FIELDWINDOW_H

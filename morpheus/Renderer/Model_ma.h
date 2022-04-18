@@ -51,9 +51,9 @@ typedef struct
 
 typedef struct maTransform_s
 {
-	budVec3					translate;
-	budVec3					rotate;
-	budVec3					scale;
+	Vector3					translate;
+	Vector3					rotate;
+	Vector3					scale;
 	maTransform_s*			parent;
 } maTransform_t;
 
@@ -63,7 +63,7 @@ typedef struct
 	int						vertexNum[3];
 	int						tVertexNum[3];
 	int						vertexColors[3];
-	budVec3					vertexNormals[3];
+	Vector3					vertexNormals[3];
 } maFace_t;
 
 typedef struct
@@ -74,18 +74,18 @@ typedef struct
 	
 	//Verts
 	int						numVertexes;
-	budVec3* 				vertexes;
+	Vector3* 				vertexes;
 	int						numVertTransforms;
-	budVec4* 				vertTransforms;
+	Vector4* 				vertTransforms;
 	int						nextVertTransformIndex;
 	
 	//Texture Coordinates
 	int						numTVertexes;
-	budVec2* 				tvertexes;
+	Vector2* 				tvertexes;
 	
 	//Edges
 	int						numEdges;
-	budVec3* 				edges;
+	Vector3* 				edges;
 	
 	//Colors
 	int						numColors;
@@ -97,7 +97,7 @@ typedef struct
 	
 	//Normals
 	int						numNormals;
-	budVec3* 				normals;
+	Vector3* 				normals;
 	bool					normalsParsed;
 	int						nextNormal;
 	
@@ -139,8 +139,8 @@ typedef struct maMaterialNode_s
 typedef struct maModel_s
 {
 	ID_TIME_T						timeStamp;
-	budList<maMaterial_t*, TAG_MODEL>		materials;
-	budList<maObject_t*, TAG_MODEL>		objects;
+	List<maMaterial_t*, TAG_MODEL>		materials;
+	List<maObject_t*, TAG_MODEL>		objects;
 	budHashTable<maTransform_t*> transforms;
 	
 	//Material Resolution

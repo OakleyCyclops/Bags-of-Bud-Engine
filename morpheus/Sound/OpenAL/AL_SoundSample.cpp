@@ -32,14 +32,14 @@ If you have questions concerning this license or the applicable additional terms
 #include "PCH.hpp"
 #include "../snd_local.h"
 
-extern budCVar s_useCompression;
-extern budCVar s_noSound;
+extern CVar s_useCompression;
+extern CVar s_noSound;
 
 #define GPU_CONVERT_CPU_TO_CPU_CACHED_READONLY_ADDRESS( x ) x
 
 const uint32 SOUND_MAGIC_IDMSA = 0x6D7A7274;
 
-extern budCVar sys_lang;
+extern CVar sys_lang;
 
 /*
 ========================
@@ -124,16 +124,16 @@ void idSoundSample_OpenAL::WriteGeneratedSample( budFile* fileOut )
 idSoundSample_OpenAL::WriteAllSamples
 ========================
 */
-void idSoundSample_OpenAL::WriteAllSamples( const budStr& sampleName )
+void idSoundSample_OpenAL::WriteAllSamples( const String& sampleName )
 {
 	idSoundSample_OpenAL* samplePC = new idSoundSample_OpenAL();
 	{
-		budStrStatic< MAX_OSPATH > inName = sampleName;
+		StringStatic< MAX_OSPATH > inName = sampleName;
 		inName.Append( ".msadpcm" );
-		budStrStatic< MAX_OSPATH > inName2 = sampleName;
+		StringStatic< MAX_OSPATH > inName2 = sampleName;
 		inName2.Append( ".wav" );
 		
-		budStrStatic< MAX_OSPATH > outName = "generated/";
+		StringStatic< MAX_OSPATH > outName = "generated/";
 		outName.Append( sampleName );
 		outName.Append( ".idwav" );
 		
@@ -152,7 +152,7 @@ void idSoundSample_OpenAL::WriteAllSamples( const budStr& sampleName )
 idSoundSample_OpenAL::LoadGeneratedSound
 ========================
 */
-bool idSoundSample_OpenAL::LoadGeneratedSample( const budStr& filename )
+bool idSoundSample_OpenAL::LoadGeneratedSample( const String& filename )
 {
 #if 1
 	budFileLocal fileIn( fileSystem->OpenFileReadMemory( filename ) );
@@ -196,7 +196,7 @@ void idSoundSample_OpenAL::LoadResource()
 {
 	FreeData();
 	
-	if( budStr::Icmpn( GetName(), "_default", 8 ) == 0 )
+	if( String::Icmpn( GetName(), "_default", 8 ) == 0 )
 	{
 		MakeDefault();
 		return;
@@ -212,12 +212,12 @@ void idSoundSample_OpenAL::LoadResource()
 	
 	for( int i = 0; i < 2; i++ )
 	{
-		budStrStatic< MAX_OSPATH > sampleName = GetName();
+		StringStatic< MAX_OSPATH > sampleName = GetName();
 		if( ( i == 0 ) && !sampleName.Replace( "/vo/", va( "/vo/%s/", sys_lang.GetString() ) ) )
 		{
 			i++;
 		}
-		budStrStatic< MAX_OSPATH > generatedName = "generated/";
+		StringStatic< MAX_OSPATH > generatedName = "generated/";
 		generatedName.Append( sampleName );
 		
 		{
@@ -251,11 +251,11 @@ void idSoundSample_OpenAL::LoadResource()
 					for( int i = 0; i < Sys_NumLangs(); i++ )
 					{
 						const char* lang = Sys_Lang( i );
-						if( budStr::Icmp( lang, ID_LANG_ENGLISH ) == 0 )
+						if( String::Icmp( lang, ID_LANG_ENGLISH ) == 0 )
 						{
 							continue;
 						}
-						budStrStatic< MAX_OSPATH > locName = GetName();
+						StringStatic< MAX_OSPATH > locName = GetName();
 						locName.Replace( "/vo/", va( "/vo/%s/", Sys_Lang( i ) ) );
 						WriteAllSamples( locName );
 					}
@@ -365,7 +365,7 @@ void idSoundSample_OpenAL::CreateOpenALBuffer()
 idSoundSample_OpenAL::LoadWav
 ========================
 */
-bool idSoundSample_OpenAL::LoadWav( const budStr& filename )
+bool idSoundSample_OpenAL::LoadWav( const String& filename )
 {
 
 	// load the wave
@@ -375,7 +375,7 @@ bool idSoundSample_OpenAL::LoadWav( const budStr& filename )
 		return false;
 	}
 	
-	budStrStatic< MAX_OSPATH > sampleName = filename;
+	StringStatic< MAX_OSPATH > sampleName = filename;
 	sampleName.SetFileExtension( "amp" );
 	LoadAmplitude( sampleName );
 	
@@ -561,7 +561,7 @@ void idSoundSample_OpenAL::MakeDefault()
 	short* defaultBuffer = ( short* )AllocBuffer( totalBufferSize, GetName() );
 	for( int i = 0; i < DEFAULT_NUM_SAMPLES; i += 2 )
 	{
-		float v = sin( budMath::PI * 2 * i / 64 );
+		float v = sin( Math::PI * 2 * i / 64 );
 		int sample = v * 0x4000;
 		defaultBuffer[i + 0] = sample;
 		defaultBuffer[i + 1] = sample;
@@ -647,7 +647,7 @@ void idSoundSample_OpenAL::FreeData()
 idSoundSample_OpenAL::LoadAmplitude
 ========================
 */
-bool idSoundSample_OpenAL::LoadAmplitude( const budStr& name )
+bool idSoundSample_OpenAL::LoadAmplitude( const String& name )
 {
 	amplitude.Clear();
 	budFileLocal f( fileSystem->OpenFileRead( name ) );
@@ -1067,7 +1067,7 @@ int idSoundSample_OpenAL::MS_ADPCM_decode( uint8** audio_buf, uint32* audio_len 
 		state[0]->hPredictor = *encoded++;
 		
 		assert( state[0]->hPredictor < format.extra.adpcm.numCoef );
-		state[0]->hPredictor = budMath::ClampInt( 0, 6, state[0]->hPredictor );
+		state[0]->hPredictor = Math::ClampInt( 0, 6, state[0]->hPredictor );
 		
 		state[0]->coef1 = format.extra.adpcm.aCoef[state[0]->hPredictor].coef1;
 		state[0]->coef2 = format.extra.adpcm.aCoef[state[0]->hPredictor].coef2;
@@ -1077,7 +1077,7 @@ int idSoundSample_OpenAL::MS_ADPCM_decode( uint8** audio_buf, uint32* audio_len 
 			state[1]->hPredictor = *encoded++;
 			
 			assert( state[1]->hPredictor < format.extra.adpcm.numCoef );
-			state[1]->hPredictor = budMath::ClampInt( 0, 6, state[1]->hPredictor );
+			state[1]->hPredictor = Math::ClampInt( 0, 6, state[1]->hPredictor );
 			
 			state[1]->coef1 = format.extra.adpcm.aCoef[state[1]->hPredictor].coef1;
 			state[1]->coef2 = format.extra.adpcm.aCoef[state[1]->hPredictor].coef2;

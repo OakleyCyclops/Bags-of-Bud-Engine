@@ -41,15 +41,15 @@ struct OBJFace
 	}
 	
 	const budMaterial*			material;
-	budList<budDrawVert>			verts;
-	budList<triIndex_t>			indexes;
+	List<budDrawVert>			verts;
+	List<triIndex_t>			indexes;
 };
 
 struct OBJGroup
 {
-	budStr						name;
-	//budList<OBJObject>			objects;
-	budList<OBJFace>				faces;
+	String						name;
+	//List<OBJObject>			objects;
+	List<OBJFace>				faces;
 };
 
 int PortalVisibleSides( uPortal_t* p )
@@ -192,7 +192,7 @@ void CollectPortals_r( node_t* node, OBJGroup& group )
 }
 
 
-void OutputQuad( const budVec3 verts[4], OBJGroup* group, bool reverse )
+void OutputQuad( const Vector3 verts[4], OBJGroup* group, bool reverse )
 {
 	OBJFace& face = group->faces.Alloc();
 	
@@ -218,7 +218,7 @@ void OutputQuad( const budVec3 verts[4], OBJGroup* group, bool reverse )
 	}
 }
 
-void OutputNode( const node_t* node, budList<OBJGroup>& groups )
+void OutputNode( const node_t* node, List<OBJGroup>& groups )
 {
 	const budBounds& bounds = node->bounds;
 	
@@ -274,7 +274,7 @@ void OutputNode( const node_t* node, budList<OBJGroup>& groups )
 	
 	if( group )
 	{
-		budVec3 verts[4];
+		Vector3 verts[4];
 		
 		verts[0].Set( bounds[0][0], bounds[0][1], bounds[0][2] );
 		verts[1].Set( bounds[0][0], bounds[1][1], bounds[0][2] );
@@ -314,7 +314,7 @@ void OutputNode( const node_t* node, budList<OBJGroup>& groups )
 	}
 }
 
-void OutputSplitPlane( const node_t* node, budList<OBJGroup>& groups )
+void OutputSplitPlane( const node_t* node, List<OBJGroup>& groups )
 {
 	const budBounds& bounds = node->bounds;
 	
@@ -356,7 +356,7 @@ void OutputSplitPlane( const node_t* node, budList<OBJGroup>& groups )
 	}
 }
 
-void OutputAreaPortalTriangles( const node_t* node, budList<OBJGroup>& groups )
+void OutputAreaPortalTriangles( const node_t* node, List<OBJGroup>& groups )
 {
 	const budBounds& bounds = node->bounds;
 	
@@ -384,7 +384,7 @@ void OutputAreaPortalTriangles( const node_t* node, budList<OBJGroup>& groups )
 	}
 }
 
-void CollectNodes_r( node_t* node, budList<OBJGroup>& groups )
+void CollectNodes_r( node_t* node, List<OBJGroup>& groups )
 {
 	OutputNode( node, groups );
 	OutputSplitPlane( node, groups );
@@ -415,7 +415,7 @@ int NumberNodes_r( node_t* node, int nextNode, int& nextLeaf )
 	return nextNode;
 }
 
-void OutputAreaPortals( budList<OBJGroup>& groups )
+void OutputAreaPortals( List<OBJGroup>& groups )
 {
 	int			i;
 	interAreaPortal_t*	iap;
@@ -455,14 +455,14 @@ void WriteGLView( tree_t* tree, const char* source, int entityNum, bool force )
 		return;
 	}
 	
-	budStrStatic< MAX_OSPATH > path;
+	StringStatic< MAX_OSPATH > path;
 	path.Format( "%s_BSP_%s_%i.obj", dmapGlobals.mapFileBase, source, entityNum );
 	budFileLocal objFile( fileSystem->OpenFileWrite( path, "fs_basepath" ) );
 	
 	//path.SetFileExtension( ".mtl" );
 	//budFileLocal mtlFile( fileSystem->OpenFileWrite( path, "fs_basepath" ) );
 	
-	budList<OBJGroup> groups;
+	List<OBJGroup> groups;
 	
 	OBJGroup& portals = groups.Alloc();
 	portals.name = "portals";
@@ -495,7 +495,7 @@ void WriteGLView( tree_t* tree, const char* source, int entityNum, bool force )
 			
 			for( int j = 0; j < face.verts.Num(); j++ )
 			{
-				const budVec3& v = face.verts[j].xyz;
+				const Vector3& v = face.verts[j].xyz;
 				
 				objFile->Printf( "v %1.6f %1.6f %1.6f\n", v.x, v.y, v.z );
 			}
@@ -503,14 +503,14 @@ void WriteGLView( tree_t* tree, const char* source, int entityNum, bool force )
 			/*
 			for( int j = 0; j < face.verts.Num(); j++ )
 			{
-				const budVec2& vST = face.verts[j].GetTexCoord();
+				const Vector2& vST = face.verts[j].GetTexCoord();
 			
 				objFile->Printf( "vt %1.6f %1.6f\n", vST.x, vST.y );
 			}
 			
 			for( int j = 0; j < face.verts.Num(); j++ )
 			{
-				const budVec3& n = face.verts[j].GetNormal();
+				const Vector3& n = face.verts[j].GetNormal();
 			
 				objFile->Printf( "vn %1.6f %1.6f %1.6f\n", n.x, n.y, n.z );
 			}
@@ -541,14 +541,14 @@ void WriteGLView( bspface_t* list, const char* source )
 		return;
 	}
 	
-	budStrStatic< MAX_OSPATH > path;
+	StringStatic< MAX_OSPATH > path;
 	path.Format( "%s_BSP_%s_%i.obj", dmapGlobals.mapFileBase, source, dmapGlobals.entityNum );
 	budFileLocal objFile( fileSystem->OpenFileWrite( path, "fs_basepath" ) );
 	
 	//path.SetFileExtension( ".mtl" );
 	//budFileLocal mtlFile( fileSystem->OpenFileWrite( path, "fs_basepath" ) );
 	
-	budList<OBJFace> faces;
+	List<OBJFace> faces;
 	
 	for( bspface_t*	face = list ; face ; face = face->next )
 	{
@@ -577,7 +577,7 @@ void WriteGLView( bspface_t* list, const char* source )
 		
 		for( int j = 0; j < face.verts.Num(); j++ )
 		{
-			const budVec3& v = face.verts[j].xyz;
+			const Vector3& v = face.verts[j].xyz;
 			
 			objFile->Printf( "v %1.6f %1.6f %1.6f\n", v.x, v.y, v.z );
 		}

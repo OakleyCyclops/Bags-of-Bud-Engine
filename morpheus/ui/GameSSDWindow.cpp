@@ -91,7 +91,7 @@ void SSDCrossHair::InitCrosshairs()
 	
 }
 
-void SSDCrossHair::Draw( const budVec2& cursor )
+void SSDCrossHair::Draw( const Vector2& cursor )
 {
 
 	float x, y;
@@ -218,12 +218,12 @@ void SSDEntity::SetMaterial( const char* name )
 	material->SetSort( SS_GUI );
 }
 
-void SSDEntity::SetPosition( const budVec3& _position )
+void SSDEntity::SetPosition( const Vector3& _position )
 {
 	position = _position;
 }
 
-void SSDEntity::SetSize( const budVec2& _size )
+void SSDEntity::SetSize( const Vector2& _size )
 {
 	size = _size;
 }
@@ -258,7 +258,7 @@ void SSDEntity::Update()
 	lastUpdate = currentTime;
 }
 
-bool SSDEntity::HitTest( const budVec2& pt )
+bool SSDEntity::HitTest( const Vector2& pt )
 {
 
 	if( noHit )
@@ -266,7 +266,7 @@ bool SSDEntity::HitTest( const budVec2& pt )
 		return false;
 	}
 	
-	budVec3 screenPos = WorldToScreen( position );
+	Vector3 screenPos = WorldToScreen( position );
 	
 	
 	//Scale the radius based on the distance from the player
@@ -276,8 +276,8 @@ bool SSDEntity::HitTest( const budVec2& pt )
 	//So we can compare against the square of the length between two points
 	float scaleRadSqr = scaledRad * scaledRad;
 	
-	budVec2 diff = screenPos.ToVec2() - pt;
-	float dist = budMath::Fabs( diff.LengthSqr() );
+	Vector2 diff = screenPos.ToVec2() - pt;
+	float dist = Math::Fabs( diff.LengthSqr() );
 	
 	if( dist < scaleRadSqr )
 	{
@@ -290,18 +290,18 @@ void SSDEntity::Draw()
 {
 
 
-	budVec2 persize;
+	Vector2 persize;
 	float x, y;
 	
 	budBounds bounds;
-	bounds[0] = budVec3( position.x - ( size.x / 2.0f ), position.y - ( size.y / 2.0f ), position.z );
-	bounds[1] = budVec3( position.x + ( size.x / 2.0f ), position.y + ( size.y / 2.0f ), position.z );
+	bounds[0] = Vector3( position.x - ( size.x / 2.0f ), position.y - ( size.y / 2.0f ), position.z );
+	bounds[1] = Vector3( position.x + ( size.x / 2.0f ), position.y + ( size.y / 2.0f ), position.z );
 	
 	budBounds screenBounds = WorldToScreen( bounds );
-	persize.x = budMath::Fabs( screenBounds[1].x - screenBounds[0].x );
-	persize.y = budMath::Fabs( screenBounds[1].y - screenBounds[0].y );
+	persize.x = Math::Fabs( screenBounds[1].x - screenBounds[0].x );
+	persize.y = Math::Fabs( screenBounds[1].y - screenBounds[0].y );
 	
-	budVec3 center = screenBounds.GetCenter();
+	Vector3 center = screenBounds.GetCenter();
 	
 	x = screenBounds[0].x;
 	y = screenBounds[1].y;
@@ -323,25 +323,25 @@ void SSDEntity::DestroyEntity()
 budBounds SSDEntity::WorldToScreen( const budBounds worldBounds )
 {
 
-	budVec3 screenMin = WorldToScreen( worldBounds[0] );
-	budVec3 screenMax = WorldToScreen( worldBounds[1] );
+	Vector3 screenMin = WorldToScreen( worldBounds[0] );
+	Vector3 screenMax = WorldToScreen( worldBounds[1] );
 	
 	budBounds screenBounds( screenMin, screenMax );
 	return screenBounds;
 }
 
-budVec3 SSDEntity::WorldToScreen( const budVec3& worldPos )
+Vector3 SSDEntity::WorldToScreen( const Vector3& worldPos )
 {
 
-	float d = 0.5f * V_WIDTH * budMath::Tan( DEG2RAD( 90.0f ) / 2.0f );
+	float d = 0.5f * V_WIDTH * Math::Tan( DEG2RAD( 90.0f ) / 2.0f );
 	
 	//World To Camera Coordinates
-	budVec3 cameraTrans( 0, 0, d );
-	budVec3 cameraPos;
+	Vector3 cameraTrans( 0, 0, d );
+	Vector3 cameraPos;
 	cameraPos = worldPos + cameraTrans;
 	
 	//Camera To Screen Coordinates
-	budVec3 screenPos;
+	Vector3 screenPos;
 	screenPos.x = d * cameraPos.x / cameraPos.z + ( 0.5f * V_WIDTH - 0.5f );
 	screenPos.y = -d * cameraPos.y / cameraPos.z + ( 0.5f * V_HEIGHT - 0.5f );
 	screenPos.z = cameraPos.z;
@@ -349,10 +349,10 @@ budVec3 SSDEntity::WorldToScreen( const budVec3& worldPos )
 	return screenPos;
 }
 
-budVec3 SSDEntity::ScreenToWorld( const budVec3& screenPos )
+Vector3 SSDEntity::ScreenToWorld( const Vector3& screenPos )
 {
 
-	budVec3 worldPos;
+	Vector3 worldPos;
 	
 	worldPos.x = screenPos.x - 0.5f * V_WIDTH;
 	worldPos.y = -( screenPos.y  - 0.5f * V_HEIGHT );
@@ -391,7 +391,7 @@ void SSDMover::ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game )
 	savefile->Read( &rotationSpeed, sizeof( rotationSpeed ) );
 }
 
-void SSDMover::MoverInit( const budVec3& _speed, float _rotationSpeed )
+void SSDMover::MoverInit( const Vector3& _speed, float _rotationSpeed )
 {
 
 	speed = _speed;
@@ -404,7 +404,7 @@ void SSDMover::EntityUpdate()
 	SSDEntity::EntityUpdate();
 	
 	//Move forward based on speed (units per second)
-	budVec3 moved = ( ( float )elapsed / 1000.0f ) * speed;
+	Vector3 moved = ( ( float )elapsed / 1000.0f ) * speed;
 	position += moved;
 	
 	float rotated = ( ( float )elapsed / 1000.0f ) * rotationSpeed * 360.0f;
@@ -452,11 +452,11 @@ void SSDAsteroid::ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game 
 	savefile->Read( &health, sizeof( health ) );
 }
 
-void SSDAsteroid::Init( budGameSSDWindow* _game, const budVec3& startPosition, const budVec2& _size, float _speed, float rotate, int _health )
+void SSDAsteroid::Init( budGameSSDWindow* _game, const Vector3& startPosition, const Vector2& _size, float _speed, float rotate, int _health )
 {
 
 	EntityInit();
-	MoverInit( budVec3( 0, 0, -_speed ), rotate );
+	MoverInit( Vector3( 0, 0, -_speed ), rotate );
 	
 	SetGame( _game );
 	
@@ -479,7 +479,7 @@ void SSDAsteroid::EntityUpdate()
 	SSDMover::EntityUpdate();
 }
 
-SSDAsteroid* SSDAsteroid::GetNewAsteroid( budGameSSDWindow* _game, const budVec3& startPosition, const budVec2& _size, float _speed, float rotate, int _health )
+SSDAsteroid* SSDAsteroid::GetNewAsteroid( budGameSSDWindow* _game, const Vector3& startPosition, const Vector2& _size, float _speed, float rotate, int _health )
 {
 	for( int i = 0; i < MAX_ASTEROIDS; i++ )
 	{
@@ -567,18 +567,18 @@ void SSDAstronaut::ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game
 	savefile->Read( &health, sizeof( health ) );
 }
 
-void SSDAstronaut::Init( budGameSSDWindow* _game, const budVec3& startPosition, float _speed, float rotate, int _health )
+void SSDAstronaut::Init( budGameSSDWindow* _game, const Vector3& startPosition, float _speed, float rotate, int _health )
 {
 
 	EntityInit();
-	MoverInit( budVec3( 0, 0, -_speed ), rotate );
+	MoverInit( Vector3( 0, 0, -_speed ), rotate );
 	
 	SetGame( _game );
 	
 	type = SSD_ENTITY_ASTRONAUT;
 	
 	SetMaterial( ASTRONAUT_MATERIAL );
-	SetSize( budVec2( 256, 256 ) );
+	SetSize( Vector2( 256, 256 ) );
 	SetRadius( Max( size.x, size.y ), 0.3f );
 	SetRotation( game->random.RandomInt( 360 ) );
 	
@@ -586,7 +586,7 @@ void SSDAstronaut::Init( budGameSSDWindow* _game, const budVec3& startPosition, 
 	health = _health;
 }
 
-SSDAstronaut* SSDAstronaut::GetNewAstronaut( budGameSSDWindow* _game, const budVec3& startPosition, float _speed, float rotate, int _health )
+SSDAstronaut* SSDAstronaut::GetNewAstronaut( budGameSSDWindow* _game, const Vector3& startPosition, float _speed, float rotate, int _health )
 {
 	for( int i = 0; i < MAX_ASTRONAUT; i++ )
 	{
@@ -710,7 +710,7 @@ void SSDExplosion::ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game
 	savefile->Read( &followBuddy, sizeof( followBuddy ) );
 }
 
-void SSDExplosion::Init( budGameSSDWindow* _game, const budVec3& _position, const budVec2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy, bool _followBuddy )
+void SSDExplosion::Init( budGameSSDWindow* _game, const Vector3& _position, const Vector2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy, bool _followBuddy )
 {
 
 	EntityInit();
@@ -773,7 +773,7 @@ void SSDExplosion::EntityUpdate()
 	}
 }
 
-SSDExplosion* SSDExplosion::GetNewExplosion( budGameSSDWindow* _game, const budVec3& _position, const budVec2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy, bool _followBuddy )
+SSDExplosion* SSDExplosion::GetNewExplosion( budGameSSDWindow* _game, const Vector3& _position, const Vector2& _size, int _length, int _type, SSDEntity* _buddy, bool _killBuddy, bool _followBuddy )
 {
 	for( int i = 0; i < MAX_EXPLOSIONS; i++ )
 	{
@@ -877,7 +877,7 @@ void SSDPoints::ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _game )
 	savefile->Read( &endColor, sizeof( endColor ) );
 }
 
-void SSDPoints::Init( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const budVec4& color )
+void SSDPoints::Init( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const Vector4& color )
 {
 
 	EntityInit();
@@ -939,7 +939,7 @@ void SSDPoints::EntityUpdate()
 	}
 }
 
-SSDPoints* SSDPoints::GetNewPoints( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const budVec4& color )
+SSDPoints* SSDPoints::GetNewPoints( budGameSSDWindow* _game, SSDEntity* _ent, int _points, int _length, int _distance, const Vector4& color )
 {
 	for( int i = 0; i < MAX_POINTS; i++ )
 	{
@@ -1036,7 +1036,7 @@ void SSDProjectile::ReadFromSaveGame( budFile* savefile,  budGameSSDWindow* _gam
 	savefile->Read( &endPosition, sizeof( endPosition ) );
 }
 
-void SSDProjectile::Init( budGameSSDWindow* _game, const budVec3& _beginPosition, const budVec3& _endPosition, float _speed, float _size )
+void SSDProjectile::Init( budGameSSDWindow* _game, const Vector3& _beginPosition, const Vector3& _endPosition, float _speed, float _size )
 {
 
 	EntityInit();
@@ -1064,7 +1064,7 @@ void SSDProjectile::EntityUpdate()
 	SSDEntity::EntityUpdate();
 	
 	//Move forward based on speed (units per second)
-	budVec3 moved = dir * ( ( float )elapsed / 1000.0f ) * speed.z;
+	Vector3 moved = dir * ( ( float )elapsed / 1000.0f ) * speed.z;
 	position += moved;
 	
 	if( position.z > endPosition.z )
@@ -1074,7 +1074,7 @@ void SSDProjectile::EntityUpdate()
 	}
 }
 
-SSDProjectile* SSDProjectile::GetNewProjectile( budGameSSDWindow* _game, const budVec3& _beginPosition, const budVec3& _endPosition, float _speed, float _size )
+SSDProjectile* SSDProjectile::GetNewProjectile( budGameSSDWindow* _game, const Vector3& _beginPosition, const Vector3& _endPosition, float _speed, float _size )
 {
 	for( int i = 0; i < MAX_PROJECTILES; i++ )
 	{
@@ -1261,15 +1261,15 @@ void SSDPowerup::Init( budGameSSDWindow* _game, float _speed, float _rotation )
 {
 
 	EntityInit();
-	MoverInit( budVec3( 0, 0, -_speed ), _rotation );
+	MoverInit( Vector3( 0, 0, -_speed ), _rotation );
 	
 	SetGame( _game );
-	SetSize( budVec2( 200, 200 ) );
+	SetSize( Vector2( 200, 200 ) );
 	SetRadius( Max( size.x, size.y ), 0.3f );
 	
 	type = SSD_ENTITY_POWERUP;
 	
-	budVec3 startPosition;
+	Vector3 startPosition;
 	startPosition.x = game->random.RandomInt( V_WIDTH ) - ( V_WIDTH / 2.0f );
 	startPosition.y = game->random.RandomInt( V_HEIGHT ) - ( V_HEIGHT / 2.0f );
 	startPosition.z = ENTITY_START_DIST;
@@ -1526,21 +1526,21 @@ idWinVar* budGameSSDWindow::GetWinVarByName( const char* _name, bool winLookup, 
 
 	idWinVar* retVar = NULL;
 	
-	if( budStr::Icmp( _name, "beginLevel" ) == 0 )
+	if( String::Icmp( _name, "beginLevel" ) == 0 )
 	{
 		retVar = &beginLevel;
 	}
 	
-	if( budStr::Icmp( _name, "resetGame" ) == 0 )
+	if( String::Icmp( _name, "resetGame" ) == 0 )
 	{
 		retVar = &resetGame;
 	}
 	
-	if( budStr::Icmp( _name, "continueGame" ) == 0 )
+	if( String::Icmp( _name, "continueGame" ) == 0 )
 	{
 		retVar = &continueGame;
 	}
-	if( budStr::Icmp( _name, "refreshGuiData" ) == 0 )
+	if( String::Icmp( _name, "refreshGuiData" ) == 0 )
 	{
 		retVar = &refreshGuiData;
 	}
@@ -1575,7 +1575,7 @@ void budGameSSDWindow::Draw( int time, float x, float y )
 		}
 		
 		//The last thing to draw is the crosshair
-		budVec2 cursor;
+		Vector2 cursor;
 		//GetCursor(cursor);
 		cursor.x = gui->CursorX();
 		cursor.y = gui->CursorY();
@@ -1588,28 +1588,28 @@ void budGameSSDWindow::Draw( int time, float x, float y )
 bool budGameSSDWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
 
-	if( budStr::Icmp( _name, "beginLevel" ) == 0 )
+	if( String::Icmp( _name, "beginLevel" ) == 0 )
 	{
 		beginLevel = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "resetGame" ) == 0 )
+	if( String::Icmp( _name, "resetGame" ) == 0 )
 	{
 		resetGame = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "continueGame" ) == 0 )
+	if( String::Icmp( _name, "continueGame" ) == 0 )
 	{
 		continueGame = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "refreshGuiData" ) == 0 )
+	if( String::Icmp( _name, "refreshGuiData" ) == 0 )
 	{
 		refreshGuiData = src->ParseBool();
 		return true;
 	}
 	
-	if( budStr::Icmp( _name, "levelcount" ) == 0 )
+	if( String::Icmp( _name, "levelcount" ) == 0 )
 	{
 		levelCount = src->ParseInt();
 		for( int i = 0; i < levelCount; i++ )
@@ -1634,7 +1634,7 @@ bool budGameSSDWindow::ParseInternalVar( const char* _name, budTokenParser* src 
 		}
 		return true;
 	}
-	if( budStr::Icmp( _name, "weaponCount" ) == 0 )
+	if( String::Icmp( _name, "weaponCount" ) == 0 )
 	{
 		weaponCount = src->ParseInt();
 		for( int i = 0; i < weaponCount; i++ )
@@ -1646,56 +1646,56 @@ bool budGameSSDWindow::ParseInternalVar( const char* _name, budTokenParser* src 
 		return true;
 	}
 	
-	if( budStr::FindText( _name, "leveldata", false ) >= 0 )
+	if( String::FindText( _name, "leveldata", false ) >= 0 )
 	{
-		budStr tempName = _name;
+		String tempName = _name;
 		int level = atoi( tempName.Right( 2 ) ) - 1;
 		
-		budStr levelData;
+		String levelData;
 		ParseString( src, levelData );
 		ParseLevelData( level, levelData );
 		return true;
 	}
 	
-	if( budStr::FindText( _name, "asteroiddata", false ) >= 0 )
+	if( String::FindText( _name, "asteroiddata", false ) >= 0 )
 	{
-		budStr tempName = _name;
+		String tempName = _name;
 		int level = atoi( tempName.Right( 2 ) ) - 1;
 		
-		budStr asteroidData;
+		String asteroidData;
 		ParseString( src, asteroidData );
 		ParseAsteroidData( level, asteroidData );
 		return true;
 	}
 	
-	if( budStr::FindText( _name, "weapondata", false ) >= 0 )
+	if( String::FindText( _name, "weapondata", false ) >= 0 )
 	{
-		budStr tempName = _name;
+		String tempName = _name;
 		int weapon = atoi( tempName.Right( 2 ) ) - 1;
 		
-		budStr weaponData;
+		String weaponData;
 		ParseString( src, weaponData );
 		ParseWeaponData( weapon, weaponData );
 		return true;
 	}
 	
-	if( budStr::FindText( _name, "astronautdata", false ) >= 0 )
+	if( String::FindText( _name, "astronautdata", false ) >= 0 )
 	{
-		budStr tempName = _name;
+		String tempName = _name;
 		int level = atoi( tempName.Right( 2 ) ) - 1;
 		
-		budStr astronautData;
+		String astronautData;
 		ParseString( src, astronautData );
 		ParseAstronautData( level, astronautData );
 		return true;
 	}
 	
-	if( budStr::FindText( _name, "powerupdata", false ) >= 0 )
+	if( String::FindText( _name, "powerupdata", false ) >= 0 )
 	{
-		budStr tempName = _name;
+		String tempName = _name;
 		int level = atoi( tempName.Right( 2 ) ) - 1;
 		
-		budStr powerupData;
+		String powerupData;
 		ParseString( src, powerupData );
 		ParsePowerupData( level, powerupData );
 		return true;
@@ -1704,7 +1704,7 @@ bool budGameSSDWindow::ParseInternalVar( const char* _name, budTokenParser* src 
 	return idWindow::ParseInternalVar( _name, src );
 }
 
-void budGameSSDWindow::ParseLevelData( int level, const budStr& levelDataString )
+void budGameSSDWindow::ParseLevelData( int level, const String& levelDataString )
 {
 
 	budParser parser;
@@ -1716,7 +1716,7 @@ void budGameSSDWindow::ParseLevelData( int level, const budStr& levelDataString 
 	
 }
 
-void budGameSSDWindow::ParseAsteroidData( int level, const budStr& asteroidDataString )
+void budGameSSDWindow::ParseAsteroidData( int level, const String& asteroidDataString )
 {
 
 	budParser parser;
@@ -1740,7 +1740,7 @@ void budGameSSDWindow::ParseAsteroidData( int level, const budStr& asteroidDataS
 	asteroidData[level].asteroidPoints = parser.ParseInt(); //Points awarded for destruction
 }
 
-void budGameSSDWindow::ParsePowerupData( int level, const budStr& powerupDataString )
+void budGameSSDWindow::ParsePowerupData( int level, const String& powerupDataString )
 {
 
 	budParser parser;
@@ -1758,7 +1758,7 @@ void budGameSSDWindow::ParsePowerupData( int level, const budStr& powerupDataStr
 	
 }
 
-void budGameSSDWindow::ParseWeaponData( int weapon, const budStr& weaponDataString )
+void budGameSSDWindow::ParseWeaponData( int weapon, const String& weaponDataString )
 {
 
 	budParser parser;
@@ -1770,7 +1770,7 @@ void budGameSSDWindow::ParseWeaponData( int weapon, const budStr& weaponDataStri
 	weaponData[weapon].size = parser.ParseFloat();
 }
 
-void budGameSSDWindow::ParseAstronautData( int level, const budStr& astronautDataString )
+void budGameSSDWindow::ParseAstronautData( int level, const String& astronautDataString )
 {
 
 	budParser parser;
@@ -1804,7 +1804,7 @@ void budGameSSDWindow::CommonInit()
 	ssdTime = 0;
 	levelCount = 0;
 	weaponCount = 0;
-	screenBounds = budBounds( budVec3( -320, -240, 0 ), budVec3( 320, 240, 0 ) );
+	screenBounds = budBounds( Vector3( -320, -240, 0 ), Vector3( 320, 240, 0 ) );
 	
 	superBlasterTimeout = 0;
 	
@@ -2010,7 +2010,7 @@ void budGameSSDWindow::UpdateGame()
 		}
 		
 		//Find if we are targeting and enemy
-		budVec2 cursor;
+		Vector2 cursor;
 		//GetCursor(cursor);
 		cursor.x = gui->CursorX();
 		cursor.y = gui->CursorY();
@@ -2060,7 +2060,7 @@ void budGameSSDWindow::CheckForHits()
 			{
 			
 				//Is the object still in the screen
-				budVec3 entPos = ent->position;
+				Vector3 entPos = ent->position;
 				entPos.z = 0;
 				
 				budBounds entBounds( entPos );
@@ -2074,7 +2074,7 @@ void budGameSSDWindow::CheckForHits()
 					//The entity hit the player figure out what is was and act appropriately
 					if( ent->type == SSD_ENTITY_ASTEROID )
 					{
-						AsterobudStruckPlayer( static_cast<SSDAsteroid*>( ent ) );
+						AsteroStringuckPlayer( static_cast<SSDAsteroid*>( ent ) );
 					}
 					else if( ent->type == SSD_ENTITY_ASTRONAUT )
 					{
@@ -2128,7 +2128,7 @@ void budGameSSDWindow::SpawnAsteroid()
 	}
 	
 	//Lets spawn it
-	budVec3 startPosition;
+	Vector3 startPosition;
 	
 	float spawnBuffer = levelData[gameStats.currentLevel].spawnBuffer * 2.0f;
 	startPosition.x = random.RandomInt( V_WIDTH + spawnBuffer ) - ( ( V_WIDTH / 2.0f ) + spawnBuffer );
@@ -2139,7 +2139,7 @@ void budGameSSDWindow::SpawnAsteroid()
 	float size = random.RandomInt( asteroidData[gameStats.currentLevel].sizeMax - asteroidData[gameStats.currentLevel].sizeMin ) + asteroidData[gameStats.currentLevel].sizeMin;
 	float rotate = ( random.RandomFloat() * ( asteroidData[gameStats.currentLevel].rotateMax - asteroidData[gameStats.currentLevel].rotateMin ) ) + asteroidData[gameStats.currentLevel].rotateMin;
 	
-	SSDAsteroid* asteroid = SSDAsteroid::GetNewAsteroid( this, startPosition, budVec2( size, size ), speed, rotate, asteroidData[gameStats.currentLevel].asteroidHealth );
+	SSDAsteroid* asteroid = SSDAsteroid::GetNewAsteroid( this, startPosition, Vector2( size, size ), speed, rotate, asteroidData[gameStats.currentLevel].asteroidHealth );
 	entities.Append( asteroid );
 	
 	gameStats.levelStats.nextAsteroidSpawnTime = currentTime + random.RandomInt( asteroidData[gameStats.currentLevel].spawnMax - asteroidData[gameStats.currentLevel].spawnMin ) + asteroidData[gameStats.currentLevel].spawnMin;
@@ -2148,8 +2148,8 @@ void budGameSSDWindow::SpawnAsteroid()
 void budGameSSDWindow::FireWeapon( int key )
 {
 
-	budVec2 cursorWorld = GetCursorWorld();
-	budVec2 cursor;
+	Vector2 cursorWorld = GetCursorWorld();
+	Vector2 cursor;
 	//GetCursor(cursor);
 	cursor.x = gui->CursorX();
 	cursor.y = gui->CursorY();
@@ -2162,10 +2162,10 @@ void budGameSSDWindow::FireWeapon( int key )
 		if( gameStats.levelStats.targetEnt )
 		{
 			//Aim the projectile from the bottom of the screen directly at the ent
-			//SSDProjectile* newProj = new (TAG_OLD_UI) SSDProjectile(this, budVec3(320,0,0), gameStats.levelStats.targetEnt->position, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size);
-			SSDProjectile* newProj = SSDProjectile::GetNewProjectile( this, budVec3( 0, -180, 0 ), gameStats.levelStats.targetEnt->position, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size );
+			//SSDProjectile* newProj = new (TAG_OLD_UI) SSDProjectile(this, Vector3(320,0,0), gameStats.levelStats.targetEnt->position, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size);
+			SSDProjectile* newProj = SSDProjectile::GetNewProjectile( this, Vector3( 0, -180, 0 ), gameStats.levelStats.targetEnt->position, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size );
 			entities.Append( newProj );
-			//newProj = SSDProjectile::GetNewProjectile(this, budVec3(-320,-0,0), gameStats.levelStats.targetEnt->position, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size);
+			//newProj = SSDProjectile::GetNewProjectile(this, Vector3(-320,-0,0), gameStats.levelStats.targetEnt->position, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size);
 			//entities.Append(newProj);
 			
 			//We hit something
@@ -2185,12 +2185,12 @@ void budGameSSDWindow::FireWeapon( int key )
 		else
 		{
 			////Aim the projectile at the cursor position all the way to the far clipping
-			//SSDProjectile* newProj = SSDProjectile::GetNewProjectile(this, budVec3(0,-180,0), budVec3(cursorWorld.x, cursorWorld.y, (Z_FAR-Z_NEAR)/2.0f), weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size);
+			//SSDProjectile* newProj = SSDProjectile::GetNewProjectile(this, Vector3(0,-180,0), Vector3(cursorWorld.x, cursorWorld.y, (Z_FAR-Z_NEAR)/2.0f), weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size);
 			
 			//Aim the projectile so it crosses the cursor 1/4 of screen
-			budVec3 vec = budVec3( cursorWorld.x, cursorWorld.y, ( Z_FAR - Z_NEAR ) / 8.0f );
+			Vector3 vec = Vector3( cursorWorld.x, cursorWorld.y, ( Z_FAR - Z_NEAR ) / 8.0f );
 			vec *= 8;
-			SSDProjectile* newProj = SSDProjectile::GetNewProjectile( this, budVec3( 0, -180, 0 ), vec, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size );
+			SSDProjectile* newProj = SSDProjectile::GetNewProjectile( this, Vector3( 0, -180, 0 ), vec, weaponData[gameStats.currentWeapon].speed, weaponData[gameStats.currentWeapon].size );
 			entities.Append( newProj );
 			
 		}
@@ -2208,7 +2208,7 @@ void budGameSSDWindow::FireWeapon( int key )
 	}*/
 }
 
-SSDEntity* budGameSSDWindow::EntityHitTest( const budVec2& pt )
+SSDEntity* budGameSSDWindow::EntityHitTest( const Vector2& pt )
 {
 
 	for( int i = 0; i < entities.Num(); i++ )
@@ -2257,7 +2257,7 @@ void budGameSSDWindow::HitAsteroid( SSDAsteroid* asteroid, int key )
 	}
 }
 
-void budGameSSDWindow::AsterobudStruckPlayer( SSDAsteroid* asteroid )
+void budGameSSDWindow::AsteroStringuckPlayer( SSDAsteroid* asteroid )
 {
 
 	asteroid->noPlayerDamage = true;
@@ -2277,11 +2277,11 @@ void budGameSSDWindow::AddScore( SSDEntity* ent, int points )
 	
 	if( points > 0 )
 	{
-		pointsEnt = SSDPoints::GetNewPoints( this, ent, points, 1000, 50, budVec4( 0, 1, 0, 1 ) );
+		pointsEnt = SSDPoints::GetNewPoints( this, ent, points, 1000, 50, Vector4( 0, 1, 0, 1 ) );
 	}
 	else
 	{
-		pointsEnt = SSDPoints::GetNewPoints( this, ent, points, 1000, 50, budVec4( 1, 0, 0, 1 ) );
+		pointsEnt = SSDPoints::GetNewPoints( this, ent, points, 1000, 50, Vector4( 1, 0, 0, 1 ) );
 	}
 	entities.Append( pointsEnt );
 	
@@ -2426,10 +2426,10 @@ void budGameSSDWindow::RefreshGuiData()
 	}
 }
 
-budVec2 budGameSSDWindow::GetCursorWorld()
+Vector2 budGameSSDWindow::GetCursorWorld()
 {
 
-	budVec2 cursor;
+	Vector2 cursor;
 	//GetCursor(cursor);
 	cursor.x = gui->CursorX();
 	cursor.y = gui->CursorY();
@@ -2450,7 +2450,7 @@ void budGameSSDWindow::SpawnAstronaut()
 	}
 	
 	//Lets spawn it
-	budVec3 startPosition;
+	Vector3 startPosition;
 	
 	startPosition.x = random.RandomInt( V_WIDTH ) - ( V_WIDTH / 2.0f );
 	startPosition.y = random.RandomInt( V_HEIGHT ) - ( V_HEIGHT / 2.0f );

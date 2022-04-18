@@ -72,7 +72,7 @@ typedef struct mtrParsingData_s
 	bool			forceOverlays;
 } mtrParsingData_t;
 
-budCVar r_forceSoundOpAmplitude( "r_forceSoundOpAmplitude", "0", CVAR_FLOAT, "Don't call into the sound system for amplitudes" );
+CVar r_forceSoundOpAmplitude( "r_forceSoundOpAmplitude", "0", CVAR_FLOAT, "Don't call into the sound system for amplitudes" );
 
 /*
 =============
@@ -916,7 +916,7 @@ void budMaterial::ClearStage( shaderStage_t* ss )
 budMaterial::NameToSrcBlendMode
 ===============
 */
-int budMaterial::NameToSrcBlendMode( const budStr& name )
+int budMaterial::NameToSrcBlendMode( const String& name )
 {
 	if( !name.Icmp( "GL_ONE" ) )
 	{
@@ -967,7 +967,7 @@ int budMaterial::NameToSrcBlendMode( const budStr& name )
 budMaterial::NameToDstBlendMode
 ===============
 */
-int budMaterial::NameToDstBlendMode( const budStr& name )
+int budMaterial::NameToDstBlendMode( const String& name )
 {
 	if( !name.Icmp( "GL_ONE" ) )
 	{
@@ -1415,7 +1415,7 @@ void budMaterial::ParseStage( budLexer& src, const textureRepeat_t trpDefault )
 		if( !token.Icmp( "map" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr::Copynz( imageName, str, sizeof( imageName ) );
+			String::Copynz( imageName, str, sizeof( imageName ) );
 			continue;
 		}
 		
@@ -1499,7 +1499,7 @@ void budMaterial::ParseStage( budLexer& src, const textureRepeat_t trpDefault )
 		if( !token.Icmp( "cubeMap" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr::Copynz( imageName, str, sizeof( imageName ) );
+			String::Copynz( imageName, str, sizeof( imageName ) );
 			cubeMap = CF_NATIVE;
 			continue;
 		}
@@ -1507,7 +1507,7 @@ void budMaterial::ParseStage( budLexer& src, const textureRepeat_t trpDefault )
 		if( !token.Icmp( "cameraCubeMap" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr::Copynz( imageName, str, sizeof( imageName ) );
+			String::Copynz( imageName, str, sizeof( imageName ) );
 			cubeMap = CF_CAMERA;
 			continue;
 		}
@@ -2107,7 +2107,7 @@ void budMaterial::AddImplicitStages( const textureRepeat_t trpDefault /* = TR_RE
 	
 	if( !hasBump )
 	{
-		budStr::snPrintf( buffer, sizeof( buffer ), "blend bumpmap\nmap _flat\n}\n" );
+		String::snPrintf( buffer, sizeof( buffer ), "blend bumpmap\nmap _flat\n}\n" );
 		newSrc.LoadMemory( buffer, strlen( buffer ), "bumpmap" );
 		newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 		ParseStage( newSrc, trpDefault );
@@ -2116,7 +2116,7 @@ void budMaterial::AddImplicitStages( const textureRepeat_t trpDefault /* = TR_RE
 	
 	if( !hasDiffuse && !hasSpecular && !hasReflection )
 	{
-		budStr::snPrintf( buffer, sizeof( buffer ), "blend diffusemap\nmap _white\n}\n" );
+		String::snPrintf( buffer, sizeof( buffer ), "blend diffusemap\nmap _white\n}\n" );
 		newSrc.LoadMemory( buffer, strlen( buffer ), "diffusemap" );
 		newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 		ParseStage( newSrc, trpDefault );
@@ -2398,7 +2398,7 @@ void budMaterial::ParseMaterial( budLexer& src )
 		else if( !token.Icmp( "lightFalloffImage" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr	copy;
+			String	copy;
 			
 			copy = str;	// so other things don't step on it
 			lightFalloffImage = globalImages->ImageFromFile( copy, TF_DEFAULT, TR_CLAMP /* TR_CLAMP_TO_ZERO */, TD_DEFAULT );
@@ -2468,7 +2468,7 @@ void budMaterial::ParseMaterial( budLexer& src )
 		else if( !token.Icmp( "diffusemap" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr::snPrintf( buffer, sizeof( buffer ), "blend diffusemap\nmap %s\n}\n", str );
+			String::snPrintf( buffer, sizeof( buffer ), "blend diffusemap\nmap %s\n}\n", str );
 			newSrc.LoadMemory( buffer, strlen( buffer ), "diffusemap" );
 			newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 			ParseStage( newSrc, trpDefault );
@@ -2479,7 +2479,7 @@ void budMaterial::ParseMaterial( budLexer& src )
 		else if( !token.Icmp( "specularmap" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr::snPrintf( buffer, sizeof( buffer ), "blend specularmap\nmap %s\n}\n", str );
+			String::snPrintf( buffer, sizeof( buffer ), "blend specularmap\nmap %s\n}\n", str );
 			newSrc.LoadMemory( buffer, strlen( buffer ), "specularmap" );
 			newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 			ParseStage( newSrc, trpDefault );
@@ -2490,7 +2490,7 @@ void budMaterial::ParseMaterial( budLexer& src )
 		else if( !token.Icmp( "bumpmap" ) )
 		{
 			str = R_ParsePastImageProgram( src );
-			budStr::snPrintf( buffer, sizeof( buffer ), "blend bumpmap\nmap %s\n}\n", str );
+			String::snPrintf( buffer, sizeof( buffer ), "blend bumpmap\nmap %s\n}\n", str );
 			newSrc.LoadMemory( buffer, strlen( buffer ), "bumpmap" );
 			newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 			ParseStage( newSrc, trpDefault );
@@ -3276,7 +3276,7 @@ bool budMaterial::SetDefaultText()
 	if( 1 )    //fileSystem->ReadFile( GetName(), NULL ) != -1 ) {
 	{
 		char generated[2048];
-		budStr::snPrintf( generated, sizeof( generated ),
+		String::snPrintf( generated, sizeof( generated ),
 						 "material %s // IMPLICITLY GENERATED\n"
 						 "{\n"
 						 "{\n"
@@ -3396,7 +3396,7 @@ void budMaterial::SetFastPathImages()
 		// check for non-identity colors
 		for( int i = 0; i < 4; i++ )
 		{
-			if( budMath::Fabs( constantRegisters[surfaceStage->color.registers[i]] - 1.0f ) > 0.1f )
+			if( Math::Fabs( constantRegisters[surfaceStage->color.registers[i]] - 1.0f ) > 0.1f )
 			{
 				goto fail;
 			}

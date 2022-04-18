@@ -104,7 +104,7 @@ public:
 	{
 		return type;
 	}
-	const budStr& 			GetName() const
+	const String& 			GetName() const
 	{
 		return name;
 	}
@@ -120,36 +120,36 @@ public:
 	{
 		physics = p;
 	}
-	const budVecX& 			GetMultiplier();
+	const VectorX& 			GetMultiplier();
 	virtual void			SetBody1( budAFBody* body );
 	virtual void			SetBody2( budAFBody* body );
 	virtual void			DebugDraw();
-	virtual void			GetForce( budAFBody* body, budVec6& force );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			GetForce( budAFBody* body, Vector6& force );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
 	constraintType_t		type;						// constraint type
-	budStr					name;						// name of constraint
+	String					name;						// name of constraint
 	budAFBody* 				body1;						// first constrained body
 	budAFBody* 				body2;						// second constrained body, NULL for world
 	idPhysics_AF* 			physics;					// for adding additional constraints like limits
 	
 	// simulation variables set by Evaluate
 	budMatX					J1, J2;						// matrix with left hand side of constraint equations
-	budVecX					c1, c2;						// right hand side of constraint equations
-	budVecX					lo, hi, e;					// low and high bounds and lcp epsilon
+	VectorX					c1, c2;						// right hand side of constraint equations
+	VectorX					lo, hi, e;					// low and high bounds and lcp epsilon
 	budAFConstraint* 		boxConstraint;				// constraint the boxIndex refers to
 	int						boxIndex[6];				// indexes for special box constrained variables
 	
 	// simulation variables used during calculations
 	budMatX					invI;						// transformed inertia
 	budMatX					J;							// transformed constraint matrix
-	budVecX					s;							// temp solution
-	budVecX					lm;							// lagrange multipliers
+	VectorX					s;							// temp solution
+	VectorX					lm;							// lagrange multipliers
 	int						firstIndex;					// index of the first constraint row in the lcp matrix
 	
 	struct constraintFlags_s
@@ -173,27 +173,27 @@ class budAFConstraint_Fixed : public budAFConstraint
 {
 
 public:
-	budAFConstraint_Fixed( const budStr& name, budAFBody* body1, budAFBody* body2 );
-	void					SetRelativeOrigin( const budVec3& origin )
+	budAFConstraint_Fixed( const String& name, budAFBody* body1, budAFBody* body2 );
+	void					SetRelativeOrigin( const Vector3& origin )
 	{
 		this->offset = origin;
 	}
-	void					SetRelativeAxis( const budMat3& axis )
+	void					SetRelativeAxis( const Matrix3& axis )
 	{
 		this->relAxis = axis;
 	}
 	virtual void			SetBody1( budAFBody* body );
 	virtual void			SetBody2( budAFBody* body );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					offset;						// offset of body1 relative to body2 in body2 space
-	budMat3					relAxis;					// rotation of body1 relative to body2
+	Vector3					offset;						// offset of body1 relative to body2 in body2 space
+	Matrix3					relAxis;					// rotation of body1 relative to body2
 	
 protected:
 	virtual void			Evaluate( float invTimeStep );
@@ -207,14 +207,14 @@ class budAFConstraint_BallAndSocketJoint : public budAFConstraint
 {
 
 public:
-	budAFConstraint_BallAndSocketJoint( const budStr& name, budAFBody* body1, budAFBody* body2 );
+	budAFConstraint_BallAndSocketJoint( const String& name, budAFBody* body1, budAFBody* body2 );
 	~budAFConstraint_BallAndSocketJoint();
-	void					SetAnchor( const budVec3& worldPosition );
-	budVec3					GetAnchor() const;
+	void					SetAnchor( const Vector3& worldPosition );
+	Vector3					GetAnchor() const;
 	void					SetNoLimit();
-	void					SetConeLimit( const budVec3& coneAxis, const float coneAngle, const budVec3& body1Axis );
-	void					SetPyramidLimit( const budVec3& pyrambudAxis, const budVec3& baseAxis,
-			const float angle1, const float angle2, const budVec3& body1Axis );
+	void					SetConeLimit( const Vector3& coneAxis, const float coneAngle, const Vector3& body1Axis );
+	void					SetPyramidLimit( const Vector3& pyrambudAxis, const Vector3& baseAxis,
+			const float angle1, const float angle2, const Vector3& body1Axis );
 	void					SetLimitEpsilon( const float e );
 	void					SetFriction( const float f )
 	{
@@ -222,16 +222,16 @@ public:
 	}
 	float					GetFriction() const;
 	virtual void			DebugDraw();
-	virtual void			GetForce( budAFBody* body, budVec6& force );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			GetForce( budAFBody* body, Vector6& force );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					anchor1;					// anchor in body1 space
-	budVec3					anchor2;					// anchor in body2 space
+	Vector3					anchor1;					// anchor in body1 space
+	Vector3					anchor2;					// anchor in body2 space
 	float					friction;					// joint friction
 	budAFConstraint_ConeLimit* coneLimit;				// cone shaped limit
 	budAFConstraint_PyramidLimit* pyramidLimit;			// pyramid shaped limit
@@ -250,8 +250,8 @@ public:
 	budAFConstraint_BallAndSocketJointFriction();
 	void					Setup( budAFConstraint_BallAndSocketJoint* cc );
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
 	budAFConstraint_BallAndSocketJoint* joint;
@@ -267,19 +267,19 @@ class budAFConstraint_UniversalJoint : public budAFConstraint
 {
 
 public:
-	budAFConstraint_UniversalJoint( const budStr& name, budAFBody* body1, budAFBody* body2 );
+	budAFConstraint_UniversalJoint( const String& name, budAFBody* body1, budAFBody* body2 );
 	~budAFConstraint_UniversalJoint();
-	void					SetAnchor( const budVec3& worldPosition );
-	budVec3					GetAnchor() const;
-	void					SetShafts( const budVec3& cardanShaft1, const budVec3& cardanShaft2 );
-	void					GetShafts( budVec3& cardanShaft1, budVec3& cardanShaft2 )
+	void					SetAnchor( const Vector3& worldPosition );
+	Vector3					GetAnchor() const;
+	void					SetShafts( const Vector3& cardanShaft1, const Vector3& cardanShaft2 );
+	void					GetShafts( Vector3& cardanShaft1, Vector3& cardanShaft2 )
 	{
 		cardanShaft1 = shaft1;
 		cardanShaft2 = shaft2;
 	}
 	void					SetNoLimit();
-	void					SetConeLimit( const budVec3& coneAxis, const float coneAngle );
-	void					SetPyramidLimit( const budVec3& pyrambudAxis, const budVec3& baseAxis,
+	void					SetConeLimit( const Vector3& coneAxis, const float coneAngle );
+	void					SetPyramidLimit( const Vector3& pyrambudAxis, const Vector3& baseAxis,
 			const float angle1, const float angle2 );
 	void					SetLimitEpsilon( const float e );
 	void					SetFriction( const float f )
@@ -288,20 +288,20 @@ public:
 	}
 	float					GetFriction() const;
 	virtual void			DebugDraw();
-	virtual void			GetForce( budAFBody* body, budVec6& force );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			GetForce( budAFBody* body, Vector6& force );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					anchor1;					// anchor in body1 space
-	budVec3					anchor2;					// anchor in body2 space
-	budVec3					shaft1;						// body1 cardan shaft in body1 space
-	budVec3					shaft2;						// body2 cardan shaft in body2 space
-	budVec3					axis1;						// cardan axis in body1 space
-	budVec3					axis2;						// cardan axis in body2 space
+	Vector3					anchor1;					// anchor in body1 space
+	Vector3					anchor2;					// anchor in body2 space
+	Vector3					shaft1;						// body1 cardan shaft in body1 space
+	Vector3					shaft2;						// body2 cardan shaft in body2 space
+	Vector3					axis1;						// cardan axis in body1 space
+	Vector3					axis2;						// cardan axis in body2 space
 	float					friction;					// joint friction
 	budAFConstraint_ConeLimit* coneLimit;				// cone shaped limit
 	budAFConstraint_PyramidLimit* pyramidLimit;			// pyramid shaped limit
@@ -320,8 +320,8 @@ public:
 	budAFConstraint_UniversalJointFriction();
 	void					Setup( budAFConstraint_UniversalJoint* cc );
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
 	budAFConstraint_UniversalJoint* joint;			// universal joint
@@ -337,10 +337,10 @@ class budAFConstraint_CylindricalJoint : public budAFConstraint
 {
 
 public:
-	budAFConstraint_CylindricalJoint( const budStr& name, budAFBody* body1, budAFBody* body2 );
+	budAFConstraint_CylindricalJoint( const String& name, budAFBody* body1, budAFBody* body2 );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
 
@@ -355,19 +355,19 @@ class budAFConstraint_Hinge : public budAFConstraint
 {
 
 public:
-	budAFConstraint_Hinge( const budStr& name, budAFBody* body1, budAFBody* body2 );
+	budAFConstraint_Hinge( const String& name, budAFBody* body1, budAFBody* body2 );
 	~budAFConstraint_Hinge();
-	void					SetAnchor( const budVec3& worldPosition );
-	budVec3					GetAnchor() const;
-	void					SetAxis( const budVec3& axis );
-	void					GetAxis( budVec3& a1, budVec3& a2 ) const
+	void					SetAnchor( const Vector3& worldPosition );
+	Vector3					GetAnchor() const;
+	void					SetAxis( const Vector3& axis );
+	void					GetAxis( Vector3& a1, Vector3& a2 ) const
 	{
 		a1 = axis1;
 		a2 = axis2;
 	}
-	budVec3					GetAxis() const;
+	Vector3					GetAxis() const;
 	void					SetNoLimit();
-	void					SetLimit( const budVec3& axis, const float angle, const budVec3& body1Axis );
+	void					SetLimit( const Vector3& axis, const float angle, const Vector3& body1Axis );
 	void					SetLimitEpsilon( const float e );
 	float					GetAngle() const;
 	void					SetSteerAngle( const float degrees );
@@ -378,19 +378,19 @@ public:
 	}
 	float					GetFriction() const;
 	virtual void			DebugDraw();
-	virtual void			GetForce( budAFBody* body, budVec6& force );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			GetForce( budAFBody* body, Vector6& force );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					anchor1;					// anchor in body1 space
-	budVec3					anchor2;					// anchor in body2 space
-	budVec3					axis1;						// axis in body1 space
-	budVec3					axis2;						// axis in body2 space
-	budMat3					initialAxis;				// initial axis of body1 relative to body2
+	Vector3					anchor1;					// anchor in body1 space
+	Vector3					anchor2;					// anchor in body2 space
+	Vector3					axis1;						// axis in body1 space
+	Vector3					axis2;						// axis in body2 space
+	Matrix3					initialAxis;				// initial axis of body1 relative to body2
 	float					friction;					// hinge friction
 	budAFConstraint_ConeLimit* coneLimit;				// cone limit
 	budAFConstraint_HingeSteering* steering;				// steering
@@ -409,8 +409,8 @@ public:
 	budAFConstraint_HingeFriction();
 	void					Setup( budAFConstraint_Hinge* cc );
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
 	budAFConstraint_Hinge* 	hinge;						// hinge
@@ -440,8 +440,8 @@ public:
 		epsilon = e;
 	}
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
@@ -463,19 +463,19 @@ class budAFConstraint_Slider : public budAFConstraint
 {
 
 public:
-	budAFConstraint_Slider( const budStr& name, budAFBody* body1, budAFBody* body2 );
-	void					SetAxis( const budVec3& ax );
+	budAFConstraint_Slider( const String& name, budAFBody* body1, budAFBody* body2 );
+	void					SetAxis( const Vector3& ax );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					axis;						// axis along which body1 slides in body2 space
-	budVec3					offset;						// offset of body1 relative to body2
-	budMat3					relAxis;					// rotation of body1 relative to body2
+	Vector3					axis;						// axis along which body1 slides in body2 space
+	Vector3					offset;						// offset of body1 relative to body2
+	Matrix3					relAxis;					// rotation of body1 relative to body2
 	
 protected:
 	virtual void			Evaluate( float invTimeStep );
@@ -488,10 +488,10 @@ class budAFConstraint_Line : public budAFConstraint
 {
 
 public:
-	budAFConstraint_Line( const budStr& name, budAFBody* body1, budAFBody* body2 );
+	budAFConstraint_Line( const String& name, budAFBody* body1, budAFBody* body2 );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
 
@@ -506,18 +506,18 @@ class budAFConstraint_Plane : public budAFConstraint
 {
 
 public:
-	budAFConstraint_Plane( const budStr& name, budAFBody* body1, budAFBody* body2 );
-	void					SetPlane( const budVec3& normal, const budVec3& anchor );
+	budAFConstraint_Plane( const String& name, budAFBody* body1, budAFBody* body2 );
+	void					SetPlane( const Vector3& normal, const Vector3& anchor );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					anchor1;					// anchor in body1 space
-	budVec3					anchor2;					// anchor in body2 space
-	budVec3					planeNormal;				// plane normal in body2 space
+	Vector3					anchor1;					// anchor in body1 space
+	Vector3					anchor2;					// anchor in body2 space
+	Vector3					planeNormal;				// plane normal in body2 space
 	
 protected:
 	virtual void			Evaluate( float invTimeStep );
@@ -530,20 +530,20 @@ class budAFConstraint_Spring : public budAFConstraint
 {
 
 public:
-	budAFConstraint_Spring( const budStr& name, budAFBody* body1, budAFBody* body2 );
-	void					SetAnchor( const budVec3& worldAnchor1, const budVec3& worldAnchor2 );
+	budAFConstraint_Spring( const String& name, budAFBody* body1, budAFBody* body2 );
+	void					SetAnchor( const Vector3& worldAnchor1, const Vector3& worldAnchor2 );
 	void					SetSpring( const float stretch, const float compress, const float damping, const float restLength );
 	void					SetLimit( const float minLength, const float maxLength );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					anchor1;					// anchor in body1 space
-	budVec3					anchor2;					// anchor in body2 space
+	Vector3					anchor1;					// anchor in body1 space
+	Vector3					anchor2;					// anchor in body2 space
 	float					kstretch;					// spring constant when stretched
 	float					kcompress;					// spring constant when compressed
 	float					damping;					// spring damping
@@ -569,9 +569,9 @@ public:
 		return contact;
 	}
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
-	virtual void			GetCenter( budVec3& center );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
+	virtual void			GetCenter( Vector3& center );
 	
 protected:
 	contactInfo_t			contact;					// contact information
@@ -591,8 +591,8 @@ public:
 	void					Setup( budAFConstraint_Contact* cc );
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
 	budAFConstraint_Contact* cc;							// contact constraint
@@ -608,25 +608,25 @@ class budAFConstraint_ConeLimit : public budAFConstraint
 
 public:
 	budAFConstraint_ConeLimit();
-	void					Setup( budAFBody* b1, budAFBody* b2, const budVec3& coneAnchor, const budVec3& coneAxis,
-								   const float coneAngle, const budVec3& body1Axis );
-	void					SetAnchor( const budVec3& coneAnchor );
-	void					SetBody1Axis( const budVec3& body1Axis );
+	void					Setup( budAFBody* b1, budAFBody* b2, const Vector3& coneAnchor, const Vector3& coneAxis,
+								   const float coneAngle, const Vector3& body1Axis );
+	void					SetAnchor( const Vector3& coneAnchor );
+	void					SetBody1Axis( const Vector3& body1Axis );
 	void					SetEpsilon( const float e )
 	{
 		epsilon = e;
 	}
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					coneAnchor;					// top of the cone in body2 space
-	budVec3					coneAxis;					// cone axis in body2 space
-	budVec3					body1Axis;					// axis in body1 space that should stay within the cone
+	Vector3					coneAnchor;					// top of the cone in body2 space
+	Vector3					coneAxis;					// cone axis in body2 space
+	Vector3					body1Axis;					// axis in body1 space that should stay within the cone
 	float					cosAngle;					// cos( coneAngle / 2 )
 	float					sinHalfAngle;				// sin( coneAngle / 4 )
 	float					cosHalfAngle;				// cos( coneAngle / 4 )
@@ -643,26 +643,26 @@ class budAFConstraint_PyramidLimit : public budAFConstraint
 
 public:
 	budAFConstraint_PyramidLimit();
-	void					Setup( budAFBody* b1, budAFBody* b2, const budVec3& pyrambudAnchor,
-								   const budVec3& pyrambudAxis, const budVec3& baseAxis,
-								   const float pyrambudAngle1, const float pyrambudAngle2, const budVec3& body1Axis );
-	void					SetAnchor( const budVec3& pyrambudAxis );
-	void					SetBody1Axis( const budVec3& body1Axis );
+	void					Setup( budAFBody* b1, budAFBody* b2, const Vector3& pyrambudAnchor,
+								   const Vector3& pyrambudAxis, const Vector3& baseAxis,
+								   const float pyrambudAngle1, const float pyrambudAngle2, const Vector3& body1Axis );
+	void					SetAnchor( const Vector3& pyrambudAxis );
+	void					SetBody1Axis( const Vector3& body1Axis );
 	void					SetEpsilon( const float e )
 	{
 		epsilon = e;
 	}
 	bool					Add( idPhysics_AF* phys, float invTimeStep );
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	virtual void			Save( idSaveGame* saveFile ) const;
 	virtual void			Restore( idRestoreGame* saveFile );
 	
 protected:
-	budVec3					pyrambudAnchor;				// top of the pyramid in body2 space
-	budMat3					pyramidBasis;				// pyramid basis in body2 space with base[2] being the pyramid axis
-	budVec3					body1Axis;					// axis in body1 space that should stay within the cone
+	Vector3					pyrambudAnchor;				// top of the pyramid in body2 space
+	Matrix3					pyramidBasis;				// pyramid basis in body2 space with base[2] being the pyramid axis
+	Vector3					body1Axis;					// axis in body1 space that should stay within the cone
 	float					cosAngle[2];				// cos( pyrambudAngle / 2 )
 	float					sinHalfAngle[2];			// sin( pyrambudAngle / 4 )
 	float					cosHalfAngle[2];			// cos( pyrambudAngle / 4 )
@@ -680,7 +680,7 @@ class budAFConstraint_Suspension : public budAFConstraint
 public:
 	budAFConstraint_Suspension();
 	
-	void					Setup( const char* name, budAFBody* body, const budVec3& origin, const budMat3& axis, budClipModel* clipModel );
+	void					Setup( const char* name, budAFBody* body, const Vector3& origin, const Matrix3& axis, budClipModel* clipModel );
 	void					SetSuspension( const float up, const float down, const float k, const float d, const float f );
 	
 	void					SetSteerAngle( const float degrees )
@@ -703,15 +703,15 @@ public:
 	{
 		epsilon = e;
 	}
-	const budVec3			GetWheelOrigin() const;
+	const Vector3			GetWheelOrigin() const;
 	
 	virtual void			DebugDraw();
-	virtual void			Translate( const budVec3& translation );
-	virtual void			Rotate( const budRotation& rotation );
+	virtual void			Translate( const Vector3& translation );
+	virtual void			Rotate( const Rotation& rotation );
 	
 protected:
-	budVec3					localOrigin;				// position of suspension relative to body1
-	budMat3					localAxis;					// orientation of suspension relative to body1
+	Vector3					localOrigin;				// position of suspension relative to body1
+	Matrix3					localAxis;					// orientation of suspension relative to body1
 	float					suspensionUp;				// suspension up movement
 	float					suspensionDown;				// suspension down movement
 	float					suspensionKCompress;		// spring compress constant
@@ -722,7 +722,7 @@ protected:
 	float					motorForce;					// motor force
 	float					motorVelocity;				// desired velocity
 	budClipModel* 			wheelModel;					// wheel model
-	budVec3					wheelOffset;				// wheel position relative to body1
+	Vector3					wheelOffset;				// wheel position relative to body1
 	trace_t					trace;						// contact point with the ground
 	float					epsilon;					// lcp epsilon
 	
@@ -740,10 +740,10 @@ protected:
 
 typedef struct AFBodyPState_s
 {
-	budVec3					worldOrigin;				// position in world space
-	budMat3					worldAxis;					// axis at worldOrigin
-	budVec6					spatialVelocity;			// linear and rotational velocity of body
-	budVec6					externalForce;				// external force and torque applied to body
+	Vector3					worldOrigin;				// position in world space
+	Matrix3					worldAxis;					// axis at worldOrigin
+	Vector6					spatialVelocity;			// linear and rotational velocity of body
+	Vector6					externalForce;				// external force and torque applied to body
 } AFBodyPState_t;
 
 
@@ -755,32 +755,32 @@ class budAFBody
 	
 public:
 	budAFBody();
-	budAFBody( const budStr& name, budClipModel* clipModel, float density );
+	budAFBody( const String& name, budClipModel* clipModel, float density );
 	~budAFBody();
 	
 	void					Init();
-	const budStr& 			GetName() const
+	const String& 			GetName() const
 	{
 		return name;
 	}
-	const budVec3& 			GetWorldOrigin() const
+	const Vector3& 			GetWorldOrigin() const
 	{
 		return current->worldOrigin;
 	}
-	const budMat3& 			GetWorldAxis() const
+	const Matrix3& 			GetWorldAxis() const
 	{
 		return current->worldAxis;
 	}
-	const budVec3& 			GetLinearVelocity() const
+	const Vector3& 			GetLinearVelocity() const
 	{
 		return current->spatialVelocity.SubVec3( 0 );
 	}
-	const budVec3& 			GetAngularVelocity() const
+	const Vector3& 			GetAngularVelocity() const
 	{
 		return current->spatialVelocity.SubVec3( 1 );
 	}
-	budVec3					GetPointVelocity( const budVec3& point ) const;
-	const budVec3& 			GetCenterOfMass() const
+	Vector3					GetPointVelocity( const Vector3& point ) const;
+	const Vector3& 			GetCenterOfMass() const
 	{
 		return centerOfMass;
 	}
@@ -802,19 +802,19 @@ public:
 	{
 		fl.selfCollision = enable;
 	}
-	void					SetWorldOrigin( const budVec3& origin )
+	void					SetWorldOrigin( const Vector3& origin )
 	{
 		current->worldOrigin = origin;
 	}
-	void					SetWorldAxis( const budMat3& axis )
+	void					SetWorldAxis( const Matrix3& axis )
 	{
 		current->worldAxis = axis;
 	}
-	void					SetLinearVelocity( const budVec3& linear ) const
+	void					SetLinearVelocity( const Vector3& linear ) const
 	{
 		current->spatialVelocity.SubVec3( 0 ) = linear;
 	}
-	void					SetAngularVelocity( const budVec3& angular ) const
+	void					SetAngularVelocity( const Vector3& angular ) const
 	{
 		current->spatialVelocity.SubVec3( 1 ) = angular;
 	}
@@ -828,21 +828,21 @@ public:
 	{
 		return bouncyness;
 	}
-	void					SetDensity( float density, const budMat3& inertiaScale = mat3_identity );
+	void					SetDensity( float density, const Matrix3& inertiaScale = mat3_identity );
 	float					GetInverseMass() const
 	{
 		return invMass;
 	}
-	budMat3					GetInverseWorldInertia() const
+	Matrix3					GetInverseWorldInertia() const
 	{
 		return current->worldAxis.Transpose() * inverseInertiaTensor * current->worldAxis;
 	}
 	
-	void					SetFrictionDirection( const budVec3& dir );
-	bool					GetFrictionDirection( budVec3& dir ) const;
+	void					SetFrictionDirection( const Vector3& dir );
+	bool					GetFrictionDirection( Vector3& dir ) const;
 	
-	void					SetContactMotorDirection( const budVec3& dir );
-	bool					GetContactMotorDirection( budVec3& dir ) const;
+	void					SetContactMotorDirection( const Vector3& dir );
+	bool					GetContactMotorDirection( Vector3& dir ) const;
 	void					SetContactMotorVelocity( float vel )
 	{
 		contactMotorVelocity = vel;
@@ -860,11 +860,11 @@ public:
 		return contactMotorForce;
 	}
 	
-	void					AddForce( const budVec3& point, const budVec3& force );
-	void					InverseWorldSpatialInertiaMultiply( budVecX& dst, const float* v ) const;
-	budVec6& 				GetResponseForce( int index )
+	void					AddForce( const Vector3& point, const Vector3& force );
+	void					InverseWorldSpatialInertiaMultiply( VectorX& dst, const float* v ) const;
+	Vector6& 				GetResponseForce( int index )
 	{
-		return reinterpret_cast<budVec6&>( response[ index * 8 ] );
+		return reinterpret_cast<Vector6&>( response[ index * 8 ] );
 	}
 	
 	void					Save( idSaveGame* saveFile );
@@ -872,46 +872,46 @@ public:
 	
 private:
 	// properties
-	budStr					name;						// name of body
+	String					name;						// name of body
 	budAFBody* 				parent;						// parent of this body
-	budList<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		children;					// children of this body
+	List<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		children;					// children of this body
 	budClipModel* 			clipModel;					// model used for collision detection
 	budAFConstraint* 		primaryConstraint;			// primary constraint (this->constraint->body1 = this)
-	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>constraints;				// all constraints attached to this body
+	List<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>constraints;				// all constraints attached to this body
 	budAFTree* 				tree;						// tree structure this body is part of
 	float					linearFriction;				// translational friction
 	float					angularFriction;			// rotational friction
 	float					contactFriction;			// friction with contact surfaces
 	float					bouncyness;					// bounce
 	int						clipMask;					// contents this body collides with
-	budVec3					frictionDir;				// specifies a single direction of friction in body space
-	budVec3					contactMotorDir;			// contact motor direction
+	Vector3					frictionDir;				// specifies a single direction of friction in body space
+	Vector3					contactMotorDir;			// contact motor direction
 	float					contactMotorVelocity;		// contact motor velocity
 	float					contactMotorForce;			// maximum force applied to reach the motor velocity
 	
 	// derived properties
 	float					mass;						// mass of body
 	float					invMass;					// inverse mass
-	budVec3					centerOfMass;				// center of mass of body
-	budMat3					inertiaTensor;				// inertia tensor
-	budMat3					inverseInertiaTensor;		// inverse inertia tensor
+	Vector3					centerOfMass;				// center of mass of body
+	Matrix3					inertiaTensor;				// inertia tensor
+	Matrix3					inverseInertiaTensor;		// inverse inertia tensor
 	
 	// physics state
 	AFBodyPState_t			state[2];
 	AFBodyPState_t* 		current;					// current physics state
 	AFBodyPState_t* 		next;						// next physics state
 	AFBodyPState_t			saved;						// saved physics state
-	budVec3					atRestOrigin;				// origin at rest
-	budMat3					atRestAxis;					// axis at rest
+	Vector3					atRestOrigin;				// origin at rest
+	Matrix3					atRestAxis;					// axis at rest
 	
 	// simulation variables used during calculations
 	budMatX					inverseWorldSpatialInertia;	// inverse spatial inertia in world space
 	budMatX					I, invI;					// transformed inertia
 	budMatX					J;							// transformed constraint matrix
-	budVecX					s;							// temp solution
-	budVecX					totalForce;					// total force acting on body
-	budVecX					auxForce;					// force from auxiliary constraints
-	budVecX					acceleration;				// acceleration
+	VectorX					s;							// temp solution
+	VectorX					totalForce;					// total force acting on body
+	VectorX					auxForce;					// force from auxiliary constraints
+	VectorX					acceleration;				// acceleration
 	float* 					response;					// forces on body in response to auxiliary constraint forces
 	int* 					responseIndex;				// index to response forces
 	int						numResponses;				// number of response forces
@@ -947,11 +947,11 @@ public:
 	void					CalculateForces( float timeStep ) const;
 	void					SetMaxSubTreeAuxiliaryIndex();
 	void					SortBodies();
-	void					SortBodies_r( budList<budAFBody*>& sortedList, budAFBody* body );
-	void					DebugDraw( const budVec4& color ) const;
+	void					SortBodies_r( List<budAFBody*>& sortedList, budAFBody* body );
+	void					DebugDraw( const Vector4& color ) const;
 	
 private:
-	budList<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		sortedBodies;
+	List<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		sortedBodies;
 };
 
 
@@ -967,7 +967,7 @@ typedef struct AFPState_s
 	float					noMoveTime;					// time the articulated figure is hardly moving
 	float					activateTime;				// time since last activation
 	float					lastTimeStep;				// last time step
-	budVec6					pushVelocity;				// velocity with which the af is pushed
+	Vector6					pushVelocity;				// velocity with which the af is pushed
 } AFPState_t;
 
 typedef struct AFCollision_s
@@ -1022,7 +1022,7 @@ public:
 	// set the default friction for bodies
 	void					SetDefaultFriction( float linear, float angular, float contact );
 	// suspend settings
-	void					SetSuspendSpeed( const budVec2& velocity, const budVec2& acceleration );
+	void					SetSuspendSpeed( const Vector2& velocity, const Vector2& acceleration );
 	// set the time and tolerances used to determine if the simulation can be suspended when the figure hardly moves for a while
 	void					SetSuspendTolerance( const float noMoveTime, const float translationTolerance, const float rotationTolerance );
 	// set minimum and maximum simulation time in seconds
@@ -1106,9 +1106,9 @@ public:	// common physics interface
 	void					UpdateTime( int endTimeMSec );
 	int						GetTime() const;
 	
-	void					GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const;
-	void					ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse );
-	void					AddForce( const int id, const budVec3& point, const budVec3& force );
+	void					GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const;
+	void					ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse );
+	void					AddForce( const int id, const Vector3& point, const Vector3& force );
 	bool					IsAtRest() const;
 	int						GetRestStartTime() const;
 	void					Activate();
@@ -1118,23 +1118,23 @@ public:	// common physics interface
 	void					SaveState();
 	void					RestoreState();
 	
-	void					SetOrigin( const budVec3& newOrigin, int id = -1 );
-	void					SetAxis( const budMat3& newAxis, int id = -1 );
+	void					SetOrigin( const Vector3& newOrigin, int id = -1 );
+	void					SetAxis( const Matrix3& newAxis, int id = -1 );
 	
-	void					Translate( const budVec3& translation, int id = -1 );
-	void					Rotate( const budRotation& rotation, int id = -1 );
+	void					Translate( const Vector3& translation, int id = -1 );
+	void					Rotate( const Rotation& rotation, int id = -1 );
 	
-	const budVec3& 			GetOrigin( int id = 0 ) const;
-	const budMat3& 			GetAxis( int id = 0 ) const;
+	const Vector3& 			GetOrigin( int id = 0 ) const;
+	const Matrix3& 			GetAxis( int id = 0 ) const;
 	
-	void					SetLinearVelocity( const budVec3& newLinearVelocity, int id = 0 );
-	void					SetAngularVelocity( const budVec3& newAngularVelocity, int id = 0 );
+	void					SetLinearVelocity( const Vector3& newLinearVelocity, int id = 0 );
+	void					SetAngularVelocity( const Vector3& newAngularVelocity, int id = 0 );
 	
-	const budVec3& 			GetLinearVelocity( int id = 0 ) const;
-	const budVec3& 			GetAngularVelocity( int id = 0 ) const;
+	const Vector3& 			GetLinearVelocity( int id = 0 ) const;
+	const Vector3& 			GetAngularVelocity( int id = 0 ) const;
 	
-	void					ClipTranslation( trace_t& results, const budVec3& translation, const budClipModel* model ) const;
-	void					ClipRotation( trace_t& results, const budRotation& rotation, const budClipModel* model ) const;
+	void					ClipTranslation( trace_t& results, const Vector3& translation, const budClipModel* model ) const;
+	void					ClipRotation( trace_t& results, const Rotation& rotation, const budClipModel* model ) const;
 	int						ClipContents( const budClipModel* model ) const;
 	
 	void					DisableClip();
@@ -1146,8 +1146,8 @@ public:	// common physics interface
 	bool					EvaluateContacts();
 	
 	void					SetPushed( int deltaTime );
-	const budVec3& 			GetPushedLinearVelocity( const int id = 0 ) const;
-	const budVec3& 			GetPushedAngularVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedLinearVelocity( const int id = 0 ) const;
+	const Vector3& 			GetPushedAngularVelocity( const int id = 0 ) const;
 	
 	void					SetMaster( idEntity* master, const bool orientated = true );
 	
@@ -1156,15 +1156,15 @@ public:	// common physics interface
 	
 private:
 	// articulated figure
-	budList<budAFTree*, TAG_LIBBUD_LIST_PHYSICS>		trees;							// tree structures
-	budList<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		bodies;							// all bodies
-	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>constraints;					// all frame independent constraints
-	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>primaryConstraints;				// list with primary constraints
-	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>auxiliaryConstraints;			// list with auxiliary constraints
-	budList<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>frameConstraints;				// constraints that only live one frame
-	budList<budAFConstraint_Contact*, TAG_LIBBUD_LIST_PHYSICS>contactConstraints;		// contact constraints
-	budList<int, TAG_LIBBUD_LIST_PHYSICS>				contactBodies;					// body id for each contact
-	budList<AFCollision_t, TAG_LIBBUD_LIST_PHYSICS>	collisions;						// collisions
+	List<budAFTree*, TAG_LIBBUD_LIST_PHYSICS>		trees;							// tree structures
+	List<budAFBody*, TAG_LIBBUD_LIST_PHYSICS>		bodies;							// all bodies
+	List<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>constraints;					// all frame independent constraints
+	List<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>primaryConstraints;				// list with primary constraints
+	List<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>auxiliaryConstraints;			// list with auxiliary constraints
+	List<budAFConstraint*, TAG_LIBBUD_LIST_PHYSICS>frameConstraints;				// constraints that only live one frame
+	List<budAFConstraint_Contact*, TAG_LIBBUD_LIST_PHYSICS>contactConstraints;		// contact constraints
+	List<int, TAG_LIBBUD_LIST_PHYSICS>				contactBodies;					// body id for each contact
+	List<AFCollision_t, TAG_LIBBUD_LIST_PHYSICS>	collisions;						// collisions
 	bool					changedAF;						// true when the articulated figure just changed
 	
 	// properties
@@ -1175,8 +1175,8 @@ private:
 	float					totalMass;						// total mass of articulated figure
 	float					forceTotalMass;					// force this total mass
 	
-	budVec2					suspendVelocity;				// simulation may not be suspended if a body has more velocity
-	budVec2					suspendAcceleration;			// simulation may not be suspended if a body has more acceleration
+	Vector2					suspendVelocity;				// simulation may not be suspended if a body has more velocity
+	Vector2					suspendAcceleration;			// simulation may not be suspended if a body has more acceleration
 	float					noMoveTime;						// suspend simulation if hardly any movement for this many seconds
 	float					noMoveTranslation;				// maximum translation considered no movement
 	float					noMoveRotation;					// maximum rotation considered no movement
@@ -1239,7 +1239,7 @@ private:
 	void					SwapStates();
 	bool					TestIfAtRest( float timeStep );
 	void					Rest();
-	void					AddPushVelocity( const budVec6& pushVelocity );
+	void					AddPushVelocity( const Vector6& pushVelocity );
 	void					DebugDraw();
 };
 

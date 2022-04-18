@@ -943,7 +943,7 @@ void idMenuScreen_Shell_Credits::UpdateCredits()
 			{
 			
 				int type = creditList[ curIndex ].type;
-				budStr entry = creditList[ curIndex ].entry;
+				String entry = creditList[ curIndex ].entry;
 				
 				if( heading )
 				{

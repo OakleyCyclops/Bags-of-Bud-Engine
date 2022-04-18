@@ -56,7 +56,7 @@ idWorldspawn::Spawn
 */
 void idWorldspawn::Spawn()
 {
-	budStr				scriptname;
+	String				scriptname;
 	idThread*			thread;
 	const function_t*	func;
 	const idKeyValue*	kv;

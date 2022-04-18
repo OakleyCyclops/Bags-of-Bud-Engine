@@ -32,6 +32,6 @@ include_directories(.)
 include_directories(../Core/)
 include_directories(../Interfaces/)
 
-add_library(Bud SHARED ${LIB_HEADERS} ${LIB_SOURCES})
+add_library(OakUtils SHARED ${LIB_HEADERS} ${LIB_SOURCES})
 
-target_precompile_headers(Bud PUBLIC libBudPCH.hpp)
+target_precompile_headers(OakUtils PUBLIC oakUtilsPCH.hpp)

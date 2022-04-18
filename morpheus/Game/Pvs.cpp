@@ -509,7 +509,7 @@ idPVS::AddPassageBoundaries
 void idPVS::AddPassageBoundaries( const idWinding& source, const idWinding& pass, bool flipClip, budPlane* bounds, int& numBounds, int maxBounds ) const
 {
 	int			i, j, k, l;
-	budVec3		v1, v2, normal;
+	Vector3		v1, v2, normal;
 	float		d, dist;
 	bool		flipTest, front;
 	budPlane		plane;
@@ -1065,7 +1065,7 @@ void idPVS::GetConnectedAreas( int srcArea, bool* areas ) const
 idPVS::GetPVSArea
 ================
 */
-int idPVS::GetPVSArea( const budVec3& point ) const
+int idPVS::GetPVSArea( const Vector3& point ) const
 {
 	return gameRenderWorld->PointInArea( point );
 }
@@ -1085,7 +1085,7 @@ int idPVS::GetPVSAreas( const budBounds& bounds, int* areas, int maxAreas ) cons
 idPVS::SetupCurrentPVS
 ================
 */
-pvsHandle_t idPVS::SetupCurrentPVS( const budVec3& source, const pvsType_t type ) const
+pvsHandle_t idPVS::SetupCurrentPVS( const Vector3& source, const pvsType_t type ) const
 {
 	int sourceArea;
 	
@@ -1317,7 +1317,7 @@ void idPVS::FreeCurrentPVS( pvsHandle_t handle ) const
 idPVS::InCurrentPVS
 ================
 */
-bool idPVS::InCurrentPVS( const pvsHandle_t handle, const budVec3& target ) const
+bool idPVS::InCurrentPVS( const pvsHandle_t handle, const Vector3& target ) const
 {
 	int targetArea;
 	
@@ -1424,13 +1424,13 @@ bool idPVS::InCurrentPVS( const pvsHandle_t handle, const int* targetAreas, int 
 idPVS::DrawPVS
 ================
 */
-void idPVS::DrawPVS( const budVec3& source, const pvsType_t type ) const
+void idPVS::DrawPVS( const Vector3& source, const pvsType_t type ) const
 {
 	int i, j, k, numPoints, n, sourceArea;
 	exitPortal_t portal;
 	budPlane plane;
-	budVec3 offset;
-	budVec4* color;
+	Vector3 offset;
+	Vector4* color;
 	pvsHandle_t handle;
 	
 	sourceArea = gameRenderWorld->PointInArea( source );
@@ -1490,8 +1490,8 @@ void idPVS::DrawPVS( const budBounds& source, const pvsType_t type ) const
 	int i, j, k, numPoints, n, num, areas[MAX_BOUNDS_AREAS];
 	exitPortal_t portal;
 	budPlane plane;
-	budVec3 offset;
-	budVec4* color;
+	Vector3 offset;
+	Vector4* color;
 	pvsHandle_t handle;
 	
 	num = gameRenderWorld->BoundsInAreas( source, areas, MAX_BOUNDS_AREAS );
@@ -1553,13 +1553,13 @@ void idPVS::DrawPVS( const budBounds& source, const pvsType_t type ) const
 idPVS::DrawPVS
 ================
 */
-void idPVS::DrawCurrentPVS( const pvsHandle_t handle, const budVec3& source ) const
+void idPVS::DrawCurrentPVS( const pvsHandle_t handle, const Vector3& source ) const
 {
 	int i, j, k, numPoints, n, sourceArea;
 	exitPortal_t portal;
 	budPlane plane;
-	budVec3 offset;
-	budVec4* color;
+	Vector3 offset;
+	Vector4* color;
 	
 	if( handle.i < 0 || handle.i >= MAX_CURRENT_PVS ||
 			handle.h != currentPVS[handle.i].handle.h )
@@ -1616,7 +1616,7 @@ void idPVS::DrawCurrentPVS( const pvsHandle_t handle, const budVec3& source ) co
 idPVS::CheckAreasForPortalSky
 ================
 */
-bool idPVS::CheckAreasForPortalSky( const pvsHandle_t handle, const budVec3& origin )
+bool idPVS::CheckAreasForPortalSky( const pvsHandle_t handle, const Vector3& origin )
 {
 	int j, sourceArea;
 	

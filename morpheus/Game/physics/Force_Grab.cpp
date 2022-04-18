@@ -104,7 +104,7 @@ void idForce_Grab::Init( float damping )
 idForce_Grab::SetPhysics
 ================
 */
-void idForce_Grab::SetPhysics( idPhysics* phys, int id, const budVec3& goal )
+void idForce_Grab::SetPhysics( idPhysics* phys, int id, const Vector3& goal )
 {
 	this->physics = phys;
 	this->id = id;
@@ -116,7 +116,7 @@ void idForce_Grab::SetPhysics( idPhysics* phys, int id, const budVec3& goal )
 idForce_Grab::SetGoalPosition
 ================
 */
-void idForce_Grab::SetGoalPosition( const budVec3& goal )
+void idForce_Grab::SetGoalPosition( const Vector3& goal )
 {
 	this->goalPosition = goal;
 }
@@ -142,7 +142,7 @@ void idForce_Grab::Evaluate( int time )
 	{
 		return;
 	}
-	budVec3			forceDir, v, objectCenter;
+	Vector3			forceDir, v, objectCenter;
 	float			forceAmt;
 	float			mass = physics->GetMass( id );
 	
@@ -151,7 +151,7 @@ void idForce_Grab::Evaluate( int time )
 	if( g_grabberRandomMotion.GetBool() && !common->IsMultiplayer() )
 	{
 		// Jitter the objectCenter around so it doesn't remain stationary
-		float SinOffset = budMath::Sin( ( float )( gameLocal.time ) / 66.f );
+		float SinOffset = Math::Sin( ( float )( gameLocal.time ) / 66.f );
 		float randScale1 = gameLocal.random.RandomFloat();
 		float randScale2 = gameLocal.random.CRandomFloat();
 		objectCenter.x += ( SinOffset * 3.5f * randScale1 ) + ( randScale2 * 1.2f );

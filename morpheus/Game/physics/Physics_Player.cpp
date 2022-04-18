@@ -67,7 +67,7 @@ const int PMF_ALL_TIMES			= ( PMF_TIME_WATERJUMP | PMF_TIME_LAND | PMF_TIME_KNOC
 
 int c_pmove = 0;
 
-extern budCVar pm_clientInterpolation_Divergence;
+extern CVar pm_clientInterpolation_Divergence;
 
 /*
 ============
@@ -110,7 +110,7 @@ float idPhysics_Player::CmdScale( const usercmd_t& cmd ) const
 		return 0.0f;
 	}
 	
-	total = budMath::Sqrt( ( float ) forwardmove * forwardmove + rightmove * rightmove + upmove * upmove );
+	total = Math::Sqrt( ( float ) forwardmove * forwardmove + rightmove * rightmove + upmove * upmove );
 	scale = ( float ) playerSpeed * max / ( 127.0f * total );
 	
 	return scale;
@@ -123,7 +123,7 @@ idPhysics_Player::Accelerate
 Handles user intended acceleration
 ==============
 */
-void idPhysics_Player::Accelerate( const budVec3& wishdir, const float wishspeed, const float accel )
+void idPhysics_Player::Accelerate( const Vector3& wishdir, const float wishspeed, const float accel )
 {
 #if 1
 	// q2 style
@@ -144,8 +144,8 @@ void idPhysics_Player::Accelerate( const budVec3& wishdir, const float wishspeed
 	current.velocity += accelspeed * wishdir;
 #else
 	// proper way (avoids strafe jump maxspeed bug), but feels bad
-	budVec3		wishVelocity;
-	budVec3		pushDir;
+	Vector3		wishVelocity;
+	Vector3		pushDir;
 	float		pushLen;
 	float		canPush;
 	
@@ -177,8 +177,8 @@ bool idPhysics_Player::SlideMove( bool gravity, bool stepUp, bool stepDown, bool
 	int			i, j, k, pushFlags;
 	int			bumpcount, numbumps, numplanes;
 	float		d, time_left, into, totalMass;
-	budVec3		dir, planes[MAX_CLIP_PLANES];
-	budVec3		end, stepEnd, primal_velocity, endVelocity, endClipVelocity, clipVelocity;
+	Vector3		dir, planes[MAX_CLIP_PLANES];
+	Vector3		end, stepEnd, primal_velocity, endVelocity, endClipVelocity, clipVelocity;
 	trace_t		trace, stepTrace, downTrace;
 	bool		nearGround, stepped, pushed;
 	
@@ -316,7 +316,7 @@ bool idPhysics_Player::SlideMove( bool gravity, bool stepUp, bool stepDown, bool
 			if( totalMass > 0.0f )
 			{
 				// decrease velocity based on the total mass of the objects being pushed ?
-				current.velocity *= 1.0f - budMath::ClampFloat( 0.0f, 1000.0f, totalMass - 20.0f ) * ( 1.0f / 950.0f );
+				current.velocity *= 1.0f - Math::ClampFloat( 0.0f, 1000.0f, totalMass - 20.0f ) * ( 1.0f / 950.0f );
 				pushed = true;
 			}
 			
@@ -340,7 +340,7 @@ bool idPhysics_Player::SlideMove( bool gravity, bool stepUp, bool stepDown, bool
 		{
 			// MrElusive: I think we have some relatively high poly LWO models with a lot of slanted tris
 			// where it may hit the max clip planes
-			current.velocity = vec3_origin;
+			current.velocity = Vector3_Origin;
 			return true;
 		}
 		
@@ -431,7 +431,7 @@ bool idPhysics_Player::SlideMove( bool gravity, bool stepUp, bool stepDown, bool
 					}
 					
 					// stop dead at a tripple plane interaction
-					current.velocity = vec3_origin;
+					current.velocity = Vector3_Origin;
 					return true;
 				}
 			}
@@ -482,7 +482,7 @@ Handles both ground friction and water friction
 */
 void idPhysics_Player::Friction()
 {
-	budVec3	vel;
+	Vector3	vel;
 	float	speed, newspeed, control;
 	float	drop;
 	
@@ -581,9 +581,9 @@ idPhysics_Player::WaterMove
 */
 void idPhysics_Player::WaterMove()
 {
-	budVec3	wishvel;
+	Vector3	wishvel;
 	float	wishspeed;
-	budVec3	wishdir;
+	Vector3	wishdir;
 	float	scale;
 	float	vel;
 	
@@ -639,9 +639,9 @@ idPhysics_Player::FlyMove
 */
 void idPhysics_Player::FlyMove()
 {
-	budVec3	wishvel;
+	Vector3	wishvel;
 	float	wishspeed;
-	budVec3	wishdir;
+	Vector3	wishdir;
 	float	scale;
 	
 	// normal slowdown
@@ -651,7 +651,7 @@ void idPhysics_Player::FlyMove()
 	
 	if( !scale )
 	{
-		wishvel = vec3_origin;
+		wishvel = Vector3_Origin;
 	}
 	else
 	{
@@ -674,8 +674,8 @@ idPhysics_Player::AirMove
 */
 void idPhysics_Player::AirMove()
 {
-	budVec3		wishvel;
-	budVec3		wishdir;
+	Vector3		wishvel;
+	Vector3		wishdir;
 	float		wishspeed;
 	float		scale;
 	
@@ -716,12 +716,12 @@ idPhysics_Player::WalkMove
 */
 void idPhysics_Player::WalkMove()
 {
-	budVec3		wishvel;
-	budVec3		wishdir;
+	Vector3		wishvel;
+	Vector3		wishdir;
 	float		wishspeed;
 	float		scale;
 	float		accelerate;
-	budVec3		oldVelocity, vel;
+	Vector3		oldVelocity, vel;
 	float		oldVel, newVel;
 	
 	if( waterLevel > WATERLEVEL_WAIST && ( viewForward * groundTrace.c.normal ) > 0.0f )
@@ -810,7 +810,7 @@ void idPhysics_Player::WalkMove()
 			if( oldVel > 1.0f )
 			{
 				// don't decrease velocity when going up or down a slope
-				current.velocity *= budMath::Sqrt( oldVel / newVel );
+				current.velocity *= Math::Sqrt( oldVel / newVel );
 			}
 		}
 	}
@@ -846,7 +846,7 @@ void idPhysics_Player::DeadMove()
 	forward -= 20;
 	if( forward <= 0 )
 	{
-		current.velocity = vec3_origin;
+		current.velocity = Vector3_Origin;
 	}
 	else
 	{
@@ -864,13 +864,13 @@ void idPhysics_Player::NoclipMove()
 {
 	float		speed, drop, friction, newspeed, stopspeed;
 	float		scale, wishspeed;
-	budVec3		wishdir;
+	Vector3		wishdir;
 	
 	// friction
 	speed = current.velocity.Length();
 	if( speed < 20.0f )
 	{
-		current.velocity = vec3_origin;
+		current.velocity = Vector3_Origin;
 	}
 	else
 	{
@@ -913,13 +913,13 @@ idPhysics_Player::SpectatorMove
 */
 void idPhysics_Player::SpectatorMove()
 {
-	budVec3	wishvel;
+	Vector3	wishvel;
 	float	wishspeed;
-	budVec3	wishdir;
+	Vector3	wishdir;
 	float	scale;
 	
 	trace_t	trace;
-	budVec3	end;
+	Vector3	end;
 	
 	// fly movement
 	
@@ -929,7 +929,7 @@ void idPhysics_Player::SpectatorMove()
 	
 	if( !scale )
 	{
-		wishvel = vec3_origin;
+		wishvel = Vector3_Origin;
 	}
 	else
 	{
@@ -951,7 +951,7 @@ idPhysics_Player::LadderMove
 */
 void idPhysics_Player::LadderMove()
 {
-	budVec3	wishdir, wishvel, right;
+	Vector3	wishdir, wishvel, right;
 	float	wishspeed, scale;
 	float	upscale;
 	
@@ -1075,7 +1075,7 @@ idPhysics_Player::CheckGround
 void idPhysics_Player::CheckGround()
 {
 	int i, contents;
-	budVec3 point;
+	Vector3 point;
 	bool hadGroundContacts;
 	
 	hadGroundContacts = HasGroundContacts();
@@ -1203,7 +1203,7 @@ Sets clip model size
 void idPhysics_Player::CheckDuck()
 {
 	trace_t	trace;
-	budVec3 end;
+	Vector3 end;
 	budBounds bounds;
 	float maxZ;
 	
@@ -1268,7 +1268,7 @@ idPhysics_Player::CheckLadder
 */
 void idPhysics_Player::CheckLadder()
 {
-	budVec3		forward, start, end;
+	Vector3		forward, start, end;
 	trace_t		trace;
 	float		tracedist;
 	
@@ -1337,7 +1337,7 @@ idPhysics_Player::CheckJump
 */
 bool idPhysics_Player::CheckJump()
 {
-	budVec3 addVelocity;
+	Vector3 addVelocity;
 	
 	if( ( command.buttons & BUTTON_JUMP ) == 0 )
 	{
@@ -1362,7 +1362,7 @@ bool idPhysics_Player::CheckJump()
 	current.movementFlags |= PMF_JUMP_HELD | PMF_JUMPED;
 	
 	addVelocity = 2.0f * maxJumpHeight * -gravityVector;
-	addVelocity *= budMath::Sqrt( addVelocity.Normalize() );
+	addVelocity *= Math::Sqrt( addVelocity.Normalize() );
 	current.velocity += addVelocity;
 	
 	return true;
@@ -1375,9 +1375,9 @@ idPhysics_Player::CheckWaterJump
 */
 bool idPhysics_Player::CheckWaterJump()
 {
-	budVec3	spot;
+	Vector3	spot;
 	int		cont;
-	budVec3	flatforward;
+	Vector3	flatforward;
 	
 	if( current.movementTime )
 	{
@@ -1423,7 +1423,7 @@ idPhysics_Player::SetWaterLevel
 */
 void idPhysics_Player::SetWaterLevel()
 {
-	budVec3		point;
+	Vector3		point;
 	budBounds	bounds;
 	int			contents;
 	
@@ -1699,7 +1699,7 @@ idPhysics_Player::idPhysics_Player()
 	maxStepHeight = 0;
 	maxJumpHeight = 0;
 	memset( &command, 0, sizeof( command ) );
-	commandForward = budVec3( 1, 0, 0 );
+	commandForward = Vector3( 1, 0, 0 );
 	framemsec = 0;
 	frametime = 0;
 	playerSpeed = 0;
@@ -1830,7 +1830,7 @@ void idPhysics_Player::Restore( idRestoreGame* savefile )
 idPhysics_Player::SetPlayerInput
 ================
 */
-void idPhysics_Player::SetPlayerInput( const usercmd_t& cmd, const budVec3& forwardVector )
+void idPhysics_Player::SetPlayerInput( const usercmd_t& cmd, const Vector3& forwardVector )
 {
 	command = cmd;
 	commandForward = forwardVector;		// can't use cmd.angles cause of the delta_angles
@@ -1919,8 +1919,8 @@ idPhysics_Player::Evaluate
 */
 bool idPhysics_Player::Evaluate( int timeStepMSec, int endTimeMSec )
 {
-	budVec3 masterOrigin, oldOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin, oldOrigin;
+	Matrix3 masterAxis;
 	
 	waterLevel = WATERLEVEL_NONE;
 	waterType = 0;
@@ -1974,8 +1974,8 @@ bool idPhysics_Player::Interpolate( const float fraction )
 	// Test to see how far we are interolating to, if it's a large jump
 	// in positions, then dont interpolate just do a straight set.
 	
-	budVec3 deltaVec = previous.origin - next.origin;
-	float deltaLengthSq = budMath::Fabs( deltaVec.LengthSqr() );
+	Vector3 deltaVec = previous.origin - next.origin;
+	float deltaLengthSq = Math::Fabs( deltaVec.LengthSqr() );
 	
 	if( deltaLengthSq > pm_clientInterpolation_Divergence.GetFloat() )
 	{
@@ -2037,7 +2037,7 @@ int idPhysics_Player::GetTime() const
 idPhysics_Player::GetImpactInfo
 ================
 */
-void idPhysics_Player::GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const
+void idPhysics_Player::GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const
 {
 	info->invMass = invMass;
 	info->invInertiaTensor.Zero();
@@ -2050,7 +2050,7 @@ void idPhysics_Player::GetImpactInfo( const int id, const budVec3& point, impact
 idPhysics_Player::ApplyImpulse
 ================
 */
-void idPhysics_Player::ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse )
+void idPhysics_Player::ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse )
 {
 	if( current.movementType != PM_NOCLIP )
 	{
@@ -2107,10 +2107,10 @@ void idPhysics_Player::RestoreState()
 idPhysics_Player::SetOrigin
 ================
 */
-void idPhysics_Player::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_Player::SetOrigin( const Vector3& newOrigin, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localOrigin = newOrigin;
 	if( masterEntity )
@@ -2133,7 +2133,7 @@ void idPhysics_Player::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics_Player::GetOrigin
 ================
 */
-const budVec3& idPhysics_Player::PlayerGetOrigin() const
+const Vector3& idPhysics_Player::PlayerGetOrigin() const
 {
 	return current.origin;
 }
@@ -2143,7 +2143,7 @@ const budVec3& idPhysics_Player::PlayerGetOrigin() const
 idPhysics_Player::SetAxis
 ================
 */
-void idPhysics_Player::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_Player::SetAxis( const Matrix3& newAxis, int id )
 {
 	clipModel->Link( gameLocal.clip, self, 0, clipModel->GetOrigin(), newAxis );
 	
@@ -2155,7 +2155,7 @@ void idPhysics_Player::SetAxis( const budMat3& newAxis, int id )
 idPhysics_Player::Translate
 ================
 */
-void idPhysics_Player::Translate( const budVec3& translation, int id )
+void idPhysics_Player::Translate( const Vector3& translation, int id )
 {
 
 	current.localOrigin += translation;
@@ -2171,10 +2171,10 @@ void idPhysics_Player::Translate( const budVec3& translation, int id )
 idPhysics_Player::Rotate
 ================
 */
-void idPhysics_Player::Rotate( const budRotation& rotation, int id )
+void idPhysics_Player::Rotate( const Rotation& rotation, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.origin *= rotation;
 	if( masterEntity )
@@ -2195,7 +2195,7 @@ void idPhysics_Player::Rotate( const budRotation& rotation, int id )
 idPhysics_Player::SetLinearVelocity
 ================
 */
-void idPhysics_Player::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_Player::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
 	current.velocity = newLinearVelocity;
 }
@@ -2205,7 +2205,7 @@ void idPhysics_Player::SetLinearVelocity( const budVec3& newLinearVelocity, int 
 idPhysics_Player::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_Player::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_Player::GetLinearVelocity( int id ) const
 {
 	return current.velocity;
 }
@@ -2217,7 +2217,7 @@ idPhysics_Player::SetPushed
 */
 void idPhysics_Player::SetPushed( int deltaTime )
 {
-	budVec3 velocity;
+	Vector3 velocity;
 	float d;
 	
 	// Dont push non Local clients on clients.
@@ -2227,7 +2227,7 @@ void idPhysics_Player::SetPushed( int deltaTime )
 	}
 	
 	// velocity with which the player is pushed
-	velocity = ( current.origin - saved.origin ) / ( deltaTime * budMath::M_MS2SEC );
+	velocity = ( current.origin - saved.origin ) / ( deltaTime * Math::M_MS2SEC );
 	
 	// remove any downward push velocity
 	d = velocity * gravityNormal;
@@ -2248,7 +2248,7 @@ NOTE: Aside from the velocity hack, this MUST be identical to idPhysics_Player::
 */
 void idPhysics_Player::SetPushedWithAbnormalVelocityHack( int deltaTime )
 {
-	budVec3 velocity;
+	Vector3 velocity;
 	float d;
 	
 	// Dont push non Local clients on clients.
@@ -2258,7 +2258,7 @@ void idPhysics_Player::SetPushedWithAbnormalVelocityHack( int deltaTime )
 	}
 	
 	// velocity with which the player is pushed
-	velocity = ( current.origin - saved.origin ) / ( deltaTime * budMath::M_MS2SEC );
+	velocity = ( current.origin - saved.origin ) / ( deltaTime * Math::M_MS2SEC );
 	
 	// START ABNORMAL VELOCITY HACK
 	// There is a bug where on the first 1 to 2 frames after a load, the player on the boat
@@ -2292,7 +2292,7 @@ void idPhysics_Player::SetPushedWithAbnormalVelocityHack( int deltaTime )
 idPhysics_Player::GetPushedLinearVelocity
 ================
 */
-const budVec3& idPhysics_Player::GetPushedLinearVelocity( const int id ) const
+const Vector3& idPhysics_Player::GetPushedLinearVelocity( const int id ) const
 {
 	return current.pushVelocity;
 }
@@ -2370,8 +2370,8 @@ idPhysics_Player::SetMaster
 */
 void idPhysics_Player::SetMaster( idEntity* master, const bool orientated )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( master )
 	{
@@ -2396,7 +2396,7 @@ void idPhysics_Player::SetMaster( idEntity* master, const bool orientated )
 
 const float	PLAYER_VELOCITY_MAX				= 4000;
 const int	PLAYER_VELOCITY_TOTAL_BITS		= 16;
-const int	PLAYER_VELOCITY_EXPONENT_BITS	= budMath::BitsForInteger( budMath::BitsForFloat( PLAYER_VELOCITY_MAX ) ) + 1;
+const int	PLAYER_VELOCITY_EXPONENT_BITS	= Math::BitsForInteger( Math::BitsForFloat( PLAYER_VELOCITY_MAX ) ) + 1;
 const int	PLAYER_VELOCITY_MANTISSA_BITS	= PLAYER_VELOCITY_TOTAL_BITS - 1 - PLAYER_VELOCITY_EXPONENT_BITS;
 const int	PLAYER_MOVEMENT_TYPE_BITS		= 3;
 const int	PLAYER_MOVEMENT_FLAGS_BITS		= 8;
@@ -2430,7 +2430,7 @@ void idPhysics_Player::ReadFromSnapshot( const budBitMsg& msg )
 
 	previous = next;
 	
-	next.origin = ReadFloatArray< budVec3 >( msg );
+	next.origin = ReadFloatArray< Vector3 >( msg );
 	next.velocity[0] = msg.ReadFloat( PLAYER_VELOCITY_EXPONENT_BITS, PLAYER_VELOCITY_MANTISSA_BITS );
 	next.velocity[1] = msg.ReadFloat( PLAYER_VELOCITY_EXPONENT_BITS, PLAYER_VELOCITY_MANTISSA_BITS );
 	next.velocity[2] = msg.ReadFloat( PLAYER_VELOCITY_EXPONENT_BITS, PLAYER_VELOCITY_MANTISSA_BITS );

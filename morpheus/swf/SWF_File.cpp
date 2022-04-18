@@ -46,7 +46,7 @@ budFile_SWF::~budFile_SWF()
 
 int budFile_SWF::BitCountS( const int64 value, bool isSigned )
 {
-	int number = budMath::Abs( value );
+	int number = Math::Abs( value );
 	
 	int64 x = 1;
 	int i;
@@ -63,7 +63,7 @@ int budFile_SWF::BitCountS( const int64 value, bool isSigned )
 
 int budFile_SWF::BitCountU( const int value )
 {
-	//int nBits = budMath::BitCount( value );
+	//int nBits = Math::BitCount( value );
 	int nBits = BitCountS( value, false );
 	
 	return nBits;

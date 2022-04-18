@@ -32,11 +32,11 @@ If you have questions concerning this license or the applicable additional terms
 #include "Model_local.h"
 #include "RenderCommon.h"	// just for R_FreeWorldInteractions and R_CreateWorldInteractions
 
-budCVar binaryLoadRenderModels( "binaryLoadRenderModels", "1", 0, "enable binary load/write of render models" );
-budCVar preload_MapModels( "preload_MapModels", "1", CVAR_SYSTEM | CVAR_BOOL, "preload models during begin or end levelload" );
+CVar binaryLoadRenderModels( "binaryLoadRenderModels", "1", 0, "enable binary load/write of render models" );
+CVar preload_MapModels( "preload_MapModels", "1", CVAR_SYSTEM | CVAR_BOOL, "preload models during begin or end levelload" );
 
 // RB begin
-budCVar postLoadExportModels( "postLoadExportModels", "0", CVAR_BOOL | CVAR_RENDERER, "export models after loading to OBJ model format" );
+CVar postLoadExportModels( "postLoadExportModels", "0", CVAR_BOOL | CVAR_RENDERER, "export models after loading to OBJ model format" );
 // RB end
 
 class budRenderModelManagerLocal : public budRenderModelManager
@@ -64,7 +64,7 @@ public:
 	virtual	void			PrintMemInfo( MemInfo_t* mi );
 	
 private:
-	budList<budRenderModel*, TAG_MODEL>	models;
+	List<budRenderModel*, TAG_MODEL>	models;
 	budHashIndex				hash;
 	budRenderModel* 			defaultModel;
 	budRenderModel* 			beamModel;
@@ -73,10 +73,10 @@ private:
 	
 	budRenderModel* 			GetModel( const char* modelName, bool createIfNotFound );
 	
-	static void				PrintModel_f( const budCmdArgs& args );
-	static void				ListModels_f( const budCmdArgs& args );
-	static void				ReloadModels_f( const budCmdArgs& args );
-	static void				TouchModel_f( const budCmdArgs& args );
+	static void				PrintModel_f( const CmdArgs& args );
+	static void				ListModels_f( const CmdArgs& args );
+	static void				ReloadModels_f( const CmdArgs& args );
+	static void				TouchModel_f( const CmdArgs& args );
 };
 
 
@@ -101,7 +101,7 @@ budRenderModelManagerLocal::budRenderModelManagerLocal()
 budRenderModelManagerLocal::PrintModel_f
 ==============
 */
-void budRenderModelManagerLocal::PrintModel_f( const budCmdArgs& args )
+void budRenderModelManagerLocal::PrintModel_f( const CmdArgs& args )
 {
 	budRenderModel*	model;
 	
@@ -126,7 +126,7 @@ void budRenderModelManagerLocal::PrintModel_f( const budCmdArgs& args )
 budRenderModelManagerLocal::ListModels_f
 ==============
 */
-void budRenderModelManagerLocal::ListModels_f( const budCmdArgs& args )
+void budRenderModelManagerLocal::ListModels_f( const CmdArgs& args )
 {
 	int		totalMem = 0;
 	int		inUse = 0;
@@ -159,9 +159,9 @@ void budRenderModelManagerLocal::ListModels_f( const budCmdArgs& args )
 budRenderModelManagerLocal::ReloadModels_f
 ==============
 */
-void budRenderModelManagerLocal::ReloadModels_f( const budCmdArgs& args )
+void budRenderModelManagerLocal::ReloadModels_f( const CmdArgs& args )
 {
-	if( budStr::Icmp( args.Argv( 1 ), "all" ) == 0 )
+	if( String::Icmp( args.Argv( 1 ), "all" ) == 0 )
 	{
 		localModelManager.ReloadModels( true );
 	}
@@ -178,7 +178,7 @@ budRenderModelManagerLocal::TouchModel_f
 Precache a specific model
 ==============
 */
-void budRenderModelManagerLocal::TouchModel_f( const budCmdArgs& args )
+void budRenderModelManagerLocal::TouchModel_f( const CmdArgs& args )
 {
 	const char*	model = args.Argv( 1 );
 	
@@ -232,9 +232,9 @@ budRenderModelManagerLocal::Init
 void budRenderModelManagerLocal::Init()
 {
 	cmdSystem->AddCommand( "listModels", ListModels_f, CMD_FL_RENDERER, "lists all models" );
-	cmdSystem->AddCommand( "printModel", PrintModel_f, CMD_FL_RENDERER, "prints model info", budCmdSystem::ArgCompletion_ModelName );
+	cmdSystem->AddCommand( "printModel", PrintModel_f, CMD_FL_RENDERER, "prints model info", CmdSystem::ArgCompletion_ModelName );
 	cmdSystem->AddCommand( "reloadModels", ReloadModels_f, CMD_FL_RENDERER | CMD_FL_CHEAT, "reloads models" );
-	cmdSystem->AddCommand( "touchModel", TouchModel_f, CMD_FL_RENDERER, "touches a model", budCmdSystem::ArgCompletion_ModelName );
+	cmdSystem->AddCommand( "touchModel", TouchModel_f, CMD_FL_RENDERER, "touches a model", CmdSystem::ArgCompletion_ModelName );
 	
 	insideLevelLoad = false;
 	
@@ -284,10 +284,10 @@ budRenderModel* budRenderModelManagerLocal::GetModel( const char* _modelName, bo
 		return NULL;
 	}
 	
-	budStrStatic< MAX_OSPATH > canonical = _modelName;
+	StringStatic< MAX_OSPATH > canonical = _modelName;
 	canonical.ToLower();
 	
-	budStrStatic< MAX_OSPATH > extension;
+	StringStatic< MAX_OSPATH > extension;
 	canonical.ExtractFileExtension( extension );
 	
 	// see if it is already present
@@ -301,7 +301,7 @@ budRenderModel* budRenderModelManagerLocal::GetModel( const char* _modelName, bo
 			if( !model->IsLoaded() )
 			{
 				// reload it if it was purged
-				budStr generatedFileName = "generated/rendermodels/";
+				String generatedFileName = "generated/rendermodels/";
 				generatedFileName.AppendPath( canonical );
 				generatedFileName.SetFileExtension( va( "b%s", extension.c_str() ) );
 				
@@ -362,7 +362,7 @@ budRenderModel* budRenderModelManagerLocal::GetModel( const char* _modelName, bo
 		model = new( TAG_MODEL ) budRenderModelLiquid;
 	}
 	
-	budStrStatic< MAX_OSPATH > generatedFileName;
+	StringStatic< MAX_OSPATH > generatedFileName;
 	
 	if( model != NULL )
 	{
@@ -443,7 +443,7 @@ budRenderModel* budRenderModelManagerLocal::GetModel( const char* _modelName, bo
 	// RB begin
 	if( postLoadExportModels.GetBool() && ( model != defaultModel && model != beamModel && model != spriteModel ) )
 	{
-		budStrStatic< MAX_OSPATH > exportedFileName;
+		StringStatic< MAX_OSPATH > exportedFileName;
 		
 		exportedFileName = "exported/rendermodels/";
 		exportedFileName.AppendPath( canonical );
@@ -677,18 +677,18 @@ void budRenderModelManagerLocal::Preload( const idPreloadManifest& manifest )
 		// preload this levels images
 		int	start = Sys_Milliseconds();
 		int numLoaded = 0;
-		budList< preloadSort_t > preloadSort;
+		List< preloadSort_t > preloadSort;
 		preloadSort.Resize( manifest.NumResources() );
 		for( int i = 0; i < manifest.NumResources(); i++ )
 		{
 			const preloadEntry_s& p = manifest.GetPreloadByIndex( i );
 			idResourceCacheEntry rc;
-			budStrStatic< MAX_OSPATH > filename;
+			StringStatic< MAX_OSPATH > filename;
 			if( p.resType == PRELOAD_MODEL )
 			{
 				filename = "generated/rendermodels/";
 				filename += p.resourceName;
-				budStrStatic< 16 > ext;
+				StringStatic< 16 > ext;
 				filename.ExtractFileExtension( ext );
 				filename.SetFileExtension( va( "b%s", ext.c_str() ) );
 			}
@@ -710,7 +710,7 @@ void budRenderModelManagerLocal::Preload( const idPreloadManifest& manifest )
 			}
 		}
 		
-		preloadSort.SortWithTemplate( budSort_Preload() );
+		preloadSort.SortWithTemplate( Sort_Preload() );
 		
 		for( int i = 0; i < preloadSort.Num(); i++ )
 		{
@@ -877,12 +877,12 @@ void budRenderModelManagerLocal::PrintMemInfo( MemInfo_t* mi )
 		
 		mem = model->Memory();
 		totalMem += mem;
-		f->Printf( "%s %s\n", budStr::FormatNumber( mem ).c_str(), model->Name() );
+		f->Printf( "%s %s\n", String::FormatNumber( mem ).c_str(), model->Name() );
 	}
 	
 	delete [] sortIndex;
 	mi->modelAssetsTotal = totalMem;
 	
-	f->Printf( "\nTotal model bytes allocated: %s\n", budStr::FormatNumber( totalMem ).c_str() );
+	f->Printf( "\nTotal model bytes allocated: %s\n", String::FormatNumber( totalMem ).c_str() );
 	fileSystem->CloseFile( f );
 }

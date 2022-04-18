@@ -80,12 +80,12 @@ public:
 		value = *reinterpret_cast<int*>( &data );
 	};
 	// RB: 64 bit fixes, changed int to intptr_t
-	idEventArg( budVec3& data )
+	idEventArg( Vector3& data )
 	{
 		type = D_EVENT_VECTOR;
 		value = reinterpret_cast<intptr_t>( &data );
 	};
-	idEventArg( const budStr& data )
+	idEventArg( const String& data )
 	{
 		type = D_EVENT_STRING;
 		value = reinterpret_cast<intptr_t>( data.c_str() );
@@ -292,10 +292,10 @@ public:
 	static void					Init();
 	static void					Shutdown();
 	static idTypeInfo* 			GetClass( const char* name );
-	static void					DisplayInfo_f( const budCmdArgs& args );
-	static void					ListClasses_f( const budCmdArgs& args );
+	static void					DisplayInfo_f( const CmdArgs& args );
+	static void					ListClasses_f( const CmdArgs& args );
 	// RB begin
-	static void					ExportScriptEvents_f( const budCmdArgs& args );
+	static void					ExportScriptEvents_f( const CmdArgs& args );
 	// RB end
 	static idClass* 			CreateInstance( const char* name );
 	static int					GetNumTypes()
@@ -317,8 +317,8 @@ private:
 	void						Event_SafeRemove();
 	
 	static bool					initialized;
-	static budList<idTypeInfo*, TAG_IDCLASS>	types;
-	static budList<idTypeInfo*, TAG_IDCLASS>	typenums;
+	static List<idTypeInfo*, TAG_IDCLASS>	types;
+	static List<idTypeInfo*, TAG_IDCLASS>	typenums;
 	static int					typeNumBits;
 	static int					memused;
 	static int					numobjects;

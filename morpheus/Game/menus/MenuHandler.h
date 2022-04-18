@@ -228,8 +228,8 @@ public:
 	int ping;
 	int team;
 	int playerNum;
-	budStr spectateData;
-	budStr name;
+	String spectateData;
+	String name;
 	
 };
 
@@ -304,9 +304,9 @@ protected:
 	budSWF* 						gui;
 	actionRepeater_t			actionRepeater;
 	idMenuScreen* 				menuScreens[MAX_SCREEN_AREAS];
-	budList< idMenuWidget*, TAG_LIBBUD_LIST_MENU>	children;
+	List< idMenuWidget*, TAG_LIBBUD_LIST_MENU>	children;
 	
-	budStaticList< budStr, NUM_GUI_SOUNDS >		sounds;
+	budStaticList< String, NUM_GUI_SOUNDS >		sounds;
 	
 	idMenuWidget_CommandBar* 	cmdBar;
 };
@@ -324,7 +324,7 @@ struct lobbyPlayerInfo_t
 	{
 	}
 	
-	budStr					name;
+	String					name;
 	int						partyToken;
 	voiceStateDisplay_t		voiceState;
 };
@@ -383,8 +383,8 @@ public:
 		return smallFrameShowing;
 	}
 	void					UpdateBGState();
-	void					GetMapName( int index, budStr& name );
-	void					GetModeName( int index, budStr& name );
+	void					GetMapName( int index, String& name );
+	void					GetModeName( int index, String& name );
 	
 	idMenuWidget* 			GetPacifier()
 	{
@@ -398,7 +398,7 @@ public:
 	{
 		return ( pacifier != NULL && pacifier->GetSprite() != NULL ) ? pacifier->GetSprite()->IsVisible() : false;
 	}
-	void					ShowPacifier( const budStr& msg );
+	void					ShowPacifier( const String& msg );
 	void					HidePacifier();
 	
 	void					SetTimeRemaining( int time )
@@ -467,8 +467,8 @@ private:
 	const char* 			waitBind;
 	//budSysSignal				deviceRequestedSignal;
 	
-	budList<const char*, TAG_LIBBUD_LIST_MENU>	mpGameModes;
-	budList<mpMap_t, TAG_LIBBUD_LIST_MENU>			mpGameMaps;
+	List<const char*, TAG_LIBBUD_LIST_MENU>	mpGameModes;
+	List<mpMap_t, TAG_LIBBUD_LIST_MENU>			mpGameMaps;
 	idMenuWidget_MenuBar* 	menuBar;
 	idMenuWidget* 			pacifier;
 	int						timeRemaining;
@@ -484,7 +484,7 @@ private:
 	const budMaterial* 		roeIntro;
 	const budMaterial* 		lmIntro;
 	const budMaterial* 		marsRotation;
-	budList< budStr, TAG_LIBBUD_LIST_MENU>			navOptions;
+	List< String, TAG_LIBBUD_LIST_MENU>			navOptions;
 	
 };
 
@@ -524,8 +524,8 @@ protected:
 
 	bool							audioLogPlaying;
 	bool							videoPlaying;
-	budList< budList< budStr, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		pdaNames;
-	budList< budStr, TAG_LIBBUD_LIST_MENU >					navOptions;
+	List< List< String, TAG_LIBBUD_LIST_MENU >, TAG_LIBBUD_LIST_MENU >		pdaNames;
+	List< String, TAG_LIBBUD_LIST_MENU >					navOptions;
 	const budDeclAudio* 				audioFile;
 	idMenuWidget_ScrollBar pdaScrollBar;
 	idMenuWidget_DynamicList pdaList;
@@ -595,10 +595,10 @@ public:
 	virtual idMenuScreen* 	GetMenuScreen( int index );
 	virtual bool			HandleAction( idWidgetAction& action, const idWidgetEvent& event, idMenuWidget* widget, bool forceHandled = false );
 	
-	void					AddPlayerInfo( int index, voiceStateDisplay_t voiceState, int team, budStr name, int score, int wins, int ping, budStr spectateData );
-	void					UpdateScoreboard( budList< mpScoreboardInfo >& data, budStr gameInfo );
+	void					AddPlayerInfo( int index, voiceStateDisplay_t voiceState, int team, String name, int score, int wins, int ping, String spectateData );
+	void					UpdateScoreboard( List< mpScoreboardInfo >& data, String gameInfo );
 	void					UpdateVoiceStates();
-	void					UpdateSpectating( budStr spectate, budStr follow );
+	void					UpdateSpectating( String spectate, String follow );
 	void					SetTeamScores( int r, int b );
 	int						GetNumPlayers( int team );
 	void					SetActivationScreen( int screen, int trans );
@@ -613,9 +613,9 @@ protected:
 	int		blueScore;
 	int		activationScreen;
 	
-	budList< mpScoreboardInfo > scoreboardInfo;
-	budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU >		redInfo;
-	budList< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU>		blueInfo;
+	List< mpScoreboardInfo > scoreboardInfo;
+	List< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU >		redInfo;
+	List< scoreboardInfo_t, TAG_LIBBUD_LIST_MENU>		blueInfo;
 	
 };
 

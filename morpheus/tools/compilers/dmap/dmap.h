@@ -51,7 +51,7 @@ typedef struct
 {
 	idMapEntity* 		mapEntity;		// points into mapFile_t data
 	
-	budVec3				origin;
+	Vector3				origin;
 	primitive_t* 		primitives;
 	struct tree_s* 		tree;
 	
@@ -114,7 +114,7 @@ typedef struct bspface_s
 
 typedef struct
 {
-	budVec4		v[2];		// the offset value will always be in the 0.0 to 1.0 range
+	Vector4		v[2];		// the offset value will always be in the 0.0 to 1.0 range
 } textureVectors_t;
 
 typedef struct side_s
@@ -235,7 +235,7 @@ typedef struct optimizeGroup_s
 	
 	mapTri_t* 			triList;
 	mapTri_t* 			regeneratedTris;	// after each island optimization
-	budVec3				axis[2];			// orthogonal to the plane, so optimization can be 2D
+	Vector3				axis[2];			// orthogonal to the plane, so optimization can be 2D
 } optimizeGroup_t;
 
 // all primitives from the map are added to optimzeGroups, creating new ones as needed
@@ -274,7 +274,7 @@ typedef struct
 	
 	int			entityNum;
 	
-	budList<mapLight_t*>	mapLights;
+	List<mapLight_t*>	mapLights;
 	
 	bool	verbose;
 	
@@ -352,7 +352,7 @@ void Draw_ClearWindow();
 void DrawWinding( const idWinding* w );
 void DrawAuxWinding( const idWinding* w );
 
-void DrawLine( budVec3 v1, budVec3 v2, int color );
+void DrawLine( Vector3 v1, Vector3 v2, int color );
 
 void GLS_BeginScene();
 void GLS_Winding( const idWinding* w, int code );
@@ -378,7 +378,7 @@ struct interAreaPortal_t
 	// RB end
 };
 
-extern budList<interAreaPortal_t> interAreaPortals;
+extern List<interAreaPortal_t> interAreaPortals;
 
 bool FloodEntities( tree_t* tree );
 void FillOutside( uEntity_t* e );
@@ -417,7 +417,7 @@ bspface_t*	MakeStructuralBspFaceList( primitive_t* list );
 //bspface_t*	MakeVisibleBspFaceList( primitive_t* list );
 tree_t*		FaceBSP( bspface_t* list );
 
-node_t*		NodeForPoint( node_t* node, const budVec3& origin );
+node_t*		NodeForPoint( node_t* node, const Vector3& origin );
 
 //=============================================================================
 
@@ -437,7 +437,7 @@ void	FilterMeshesIntoTree( uEntity_t* e );
 
 // tritjunction.cpp
 
-struct hashVert_s*	GetHashVert( budVec3& v );
+struct hashVert_s*	GetHashVert( Vector3& v );
 void	HashTriangles( optimizeGroup_t* groupList );
 void	FreeTJunctionHash();
 int		CountGroupListTris( const optimizeGroup_t* groupList );
@@ -456,7 +456,7 @@ void	FixGlobalTjunctions( uEntity_t* e );
 typedef struct optVertex_s
 {
 	budDrawVert	v;
-	budVec3	pv;					// projected against planar axis, third value is 0
+	Vector3	pv;					// projected against planar axis, third value is 0
 	struct optEdge_s* edges;
 	struct optVertex_s*	islandLink;
 	bool	addedToIsland;
@@ -477,7 +477,7 @@ typedef struct optEdge_s
 typedef struct optTri_s
 {
 	struct optTri_s*	next;
-	budVec3		midpoint;
+	Vector3		midpoint;
 	optVertex_t*	v[3];
 	bool	filled;
 } optTri_t;

@@ -79,15 +79,15 @@ protected:
 	int conditionReg;
 	budGuiScriptList* ifList;
 	budGuiScriptList* elseList;
-	budList<idGSWinVar, TAG_OLD_UI> parms;
-	void ( *handler )( idWindow* window, budList<idGSWinVar, TAG_OLD_UI>* src );
+	List<idGSWinVar, TAG_OLD_UI> parms;
+	void ( *handler )( idWindow* window, List<idGSWinVar, TAG_OLD_UI>* src );
 	
 };
 
 
 class budGuiScriptList
 {
-	budList<budGuiScript*, TAG_OLD_UI> list;
+	List<budGuiScript*, TAG_OLD_UI> list;
 public:
 	budGuiScriptList()
 	{

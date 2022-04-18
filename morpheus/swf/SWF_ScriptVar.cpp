@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 #include "PCH.hpp"
 
-extern budCVar swf_debugShowAddress;
+extern CVar swf_debugShowAddress;
 
 /*
 ========================
@@ -284,12 +284,12 @@ bool budSWFScriptVar::AbstractEquals( const budSWFScriptVar& other )
 budSWFScriptVar::ToString
 ========================
 */
-budStr budSWFScriptVar::ToString() const
+String budSWFScriptVar::ToString() const
 {
 	switch( type )
 	{
 		case SWF_VAR_STRINGID:
-			return budStrId( value.i ).GetLocalizedString();
+			return StringId( value.i ).GetLocalizedString();
 		case SWF_VAR_STRING:
 			return *value.string;
 		// RB begin
@@ -402,7 +402,7 @@ int32 budSWFScriptVar::ToInteger() const
 			return atoi( *value.string );
 			
 		case SWF_VAR_FLOAT:
-			return budMath::Ftoi( value.f );
+			return Math::Ftoi( value.f );
 			
 		case SWF_VAR_BOOL:
 			return value.b ? 1 : 0;

@@ -1,3 +1,6 @@
+#ifndef __HEART_HPP__
+#define __HEART_HPP__
+
 /*
 =========
 coreHeart : public INTFheart
@@ -9,11 +12,14 @@ used throughout the engine, so things like Init(), Shutdown(), Print(), stuff li
 class Heart final : public INTFheart
 {
     public:
-    
         void            Init(int argc, const char* const* argv)         override;
         void            Shutdown()                                      override;
         void            Tick()                                          override;
 
     private:
-        Console     console;
+        InputSystem     inputSystem;
+        ConsoleShell    consoleShell;
+        Console         console;
 };
+
+#endif /* !__HEART_HPP__ */

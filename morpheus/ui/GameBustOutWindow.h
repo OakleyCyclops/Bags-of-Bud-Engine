@@ -42,12 +42,12 @@ class BOEntity
 public:
 	bool					visible;
 	
-	budStr					materialName;
+	String					materialName;
 	const budMaterial* 		material;
 	float					width, height;
-	budVec4					color;
-	budVec2					position;
-	budVec2					velocity;
+	Vector4					color;
+	Vector2					position;
+	Vector2					velocity;
 	
 	powerupType_t			powerup;
 	
@@ -104,8 +104,8 @@ public:
 	virtual void	WriteToSaveGame( budFile* savefile );
 	virtual void	ReadFromSaveGame( budFile* savefile, budGameBustOutWindow* game );
 	
-	void			SetColor( budVec4 bcolor );
-	collideDir_t	checkCollision( budVec2 pos, budVec2 vel );
+	void			SetColor( Vector4 bcolor );
+	collideDir_t	checkCollision( Vector2 pos, Vector2 vel );
 	
 private:
 };
@@ -127,7 +127,7 @@ public:
 	virtual const char*	Activate( bool activate );
 	virtual idWinVar* 	GetWinVarByName( const char* _name, bool winLookup = false, drawWin_t** owner = NULL );
 	
-	budList<BOEntity*>	entities;
+	List<BOEntity*>	entities;
 	
 private:
 	void				CommonInit();
@@ -180,11 +180,11 @@ private:
 	int					ballsInPlay;
 	bool				ballHitCeiling;
 	
-	budList<BOEntity*>	balls;
-	budList<BOEntity*>	powerUps;
+	List<BOEntity*>	balls;
+	List<BOEntity*>	powerUps;
 	
 	BOBrick*				paddle;
-	budList<BOBrick*>	board[BOARD_ROWS];
+	List<BOBrick*>	board[BOARD_ROWS];
 };
 
 #endif //__GAME_BUSTOUT_WINDOW_H__

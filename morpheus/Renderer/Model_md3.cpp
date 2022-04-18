@@ -348,7 +348,7 @@ budRenderModel* budRenderModelMD3::InstantiateDynamicModel( const struct renderE
 		}
 		tri->numIndexes += indexes;
 		
-		const budVec2* texCoords = ( budVec2* )( ( byte* )surface + surface->ofsSt );
+		const Vector2* texCoords = ( Vector2* )( ( byte* )surface + surface->ofsSt );
 		
 		numVerts = surface->numVerts;
 		for( j = 0; j < numVerts; j++ )
@@ -384,8 +384,8 @@ budBounds budRenderModelMD3::Bounds( const struct renderEntity_s* ent ) const
 	if( !ent || !md3 )
 	{
 		// just give it the editor bounds
-		ret.AddPoint( budVec3( -10, -10, -10 ) );
-		ret.AddPoint( budVec3( 10, 10, 10 ) );
+		ret.AddPoint( Vector3( -10, -10, -10 ) );
+		ret.AddPoint( Vector3( 10, 10, 10 ) );
 		return ret;
 	}
 	

@@ -239,12 +239,12 @@ void ResetDmapGlobals()
 Dmap
 ============
 */
-void Dmap( const budCmdArgs& args )
+void Dmap( const CmdArgs& args )
 {
 	int			i;
 	int			start, end;
 	char		path[1024];
-	budStr		passedName;
+	String		passedName;
 	bool		leaked = false;
 	bool		noCM = false;
 	bool		noAAS = false;
@@ -281,72 +281,72 @@ void Dmap( const budCmdArgs& args )
 			}
 		}
 		
-		if( !budStr::Icmp( s, "glview" ) )
+		if( !String::Icmp( s, "glview" ) )
 		{
 			dmapGlobals.glview = true;
 		}
-		else if( !budStr::Icmp( s, "v" ) )
+		else if( !String::Icmp( s, "v" ) )
 		{
 			common->Printf( "verbose = true\n" );
 			dmapGlobals.verbose = true;
 		}
-		else if( !budStr::Icmp( s, "draw" ) )
+		else if( !String::Icmp( s, "draw" ) )
 		{
 			common->Printf( "drawflag = true\n" );
 			dmapGlobals.drawflag = true;
 		}
-		else if( !budStr::Icmp( s, "noFlood" ) )
+		else if( !String::Icmp( s, "noFlood" ) )
 		{
 			common->Printf( "noFlood = true\n" );
 			dmapGlobals.noFlood = true;
 		}
-		else if( !budStr::Icmp( s, "noLightCarve" ) )
+		else if( !String::Icmp( s, "noLightCarve" ) )
 		{
 			common->Printf( "noLightCarve = true\n" );
 			dmapGlobals.noLightCarve = true;
 		}
-		else if( !budStr::Icmp( s, "lightCarve" ) )
+		else if( !String::Icmp( s, "lightCarve" ) )
 		{
 			common->Printf( "noLightCarve = false\n" );
 			dmapGlobals.noLightCarve = false;
 		}
-		else if( !budStr::Icmp( s, "noOpt" ) )
+		else if( !String::Icmp( s, "noOpt" ) )
 		{
 			common->Printf( "noOptimize = true\n" );
 			dmapGlobals.noOptimize = true;
 		}
-		else if( !budStr::Icmp( s, "verboseentities" ) )
+		else if( !String::Icmp( s, "verboseentities" ) )
 		{
 			common->Printf( "verboseentities = true\n" );
 			dmapGlobals.verboseentities = true;
 		}
-		else if( !budStr::Icmp( s, "noCurves" ) )
+		else if( !String::Icmp( s, "noCurves" ) )
 		{
 			common->Printf( "noCurves = true\n" );
 			dmapGlobals.noCurves = true;
 		}
-		else if( !budStr::Icmp( s, "noModels" ) )
+		else if( !String::Icmp( s, "noModels" ) )
 		{
 			common->Printf( "noModels = true\n" );
 			dmapGlobals.noModelBrushes = true;
 		}
-		else if( !budStr::Icmp( s, "noClipSides" ) )
+		else if( !String::Icmp( s, "noClipSides" ) )
 		{
 			common->Printf( "noClipSides = true\n" );
 			dmapGlobals.noClipSides = true;
 		}
-		else if( !budStr::Icmp( s, "noCarve" ) )
+		else if( !String::Icmp( s, "noCarve" ) )
 		{
 			common->Printf( "noCarve = true\n" );
 			dmapGlobals.fullCarve = false;
 		}
-		else if( !budStr::Icmp( s, "shadowOpt" ) )
+		else if( !String::Icmp( s, "shadowOpt" ) )
 		{
 			dmapGlobals.shadowOptLevel = ( shadowOptLevel_t )atoi( args.Argv( i + 1 ) );
 			common->Printf( "shadowOpt = %i\n", dmapGlobals.shadowOptLevel );
 			i += 1;
 		}
-		else if( !budStr::Icmp( s, "noTjunc" ) )
+		else if( !String::Icmp( s, "noTjunc" ) )
 		{
 			// triangle optimization won't work properly without tjunction fixing
 			common->Printf( "noTJunc = true\n" );
@@ -354,12 +354,12 @@ void Dmap( const budCmdArgs& args )
 			dmapGlobals.noOptimize = true;
 			common->Printf( "forcing noOptimize = true\n" );
 		}
-		else if( !budStr::Icmp( s, "noCM" ) )
+		else if( !String::Icmp( s, "noCM" ) )
 		{
 			noCM = true;
 			common->Printf( "noCM = true\n" );
 		}
-		else if( !budStr::Icmp( s, "noAAS" ) )
+		else if( !String::Icmp( s, "noAAS" ) )
 		{
 			noAAS = true;
 			common->Printf( "noAAS = true\n" );
@@ -382,15 +382,15 @@ void Dmap( const budCmdArgs& args )
 		passedName = "maps/" + passedName;
 	}
 	
-	budStr stripped = passedName;
+	String stripped = passedName;
 	stripped.StripFileExtension();
-	budStr::Copynz( dmapGlobals.mapFileBase, stripped, sizeof( dmapGlobals.mapFileBase ) );
+	String::Copynz( dmapGlobals.mapFileBase, stripped, sizeof( dmapGlobals.mapFileBase ) );
 	
 	bool region = false;
 	// if this isn't a regioned map, delete the last saved region map
 	if( passedName.Right( 4 ) != ".reg" )
 	{
-		budStr::snPrintf( path, sizeof( path ), "%s.reg", dmapGlobals.mapFileBase );
+		String::snPrintf( path, sizeof( path ), "%s.reg", dmapGlobals.mapFileBase );
 		fileSystem->RemoveFile( path );
 	}
 	else
@@ -402,11 +402,11 @@ void Dmap( const budCmdArgs& args )
 	passedName = stripped;
 	
 	// delete any old line leak files
-	budStr::snPrintf( path, sizeof( path ), "%s.lin", dmapGlobals.mapFileBase );
+	String::snPrintf( path, sizeof( path ), "%s.lin", dmapGlobals.mapFileBase );
 	fileSystem->RemoveFile( path );
 	
 	// delete any old generated binary proc files
-	budStr generated = va( "generated/%s.bproc", dmapGlobals.mapFileBase );
+	String generated = va( "generated/%s.bproc", dmapGlobals.mapFileBase );
 	fileSystem->RemoveFile( generated.c_str() );
 	
 	//
@@ -485,7 +485,7 @@ void Dmap( const budCmdArgs& args )
 Dmap_f
 ============
 */
-void Dmap_f( const budCmdArgs& args )
+void Dmap_f( const CmdArgs& args )
 {
 
 	common->ClearWarnings( "running dmap" );

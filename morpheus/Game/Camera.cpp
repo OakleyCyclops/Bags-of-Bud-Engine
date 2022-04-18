@@ -219,7 +219,7 @@ void idCameraView::GetViewParms( renderView_t* view )
 		return;
 	}
 	
-	budVec3 dir;
+	Vector3 dir;
 	idEntity* ent;
 	
 	if( attachedTo )
@@ -361,7 +361,7 @@ void idCameraAnim::LoadAnim()
 	int			numFrames;
 	int			numCuts;
 	int			i;
-	budStr		filename;
+	String		filename;
 	const char*	key;
 	
 	key = spawnArgs.GetString( "anim" );
@@ -527,7 +527,7 @@ void idCameraAnim::GetViewParms( renderView_t* view )
 	cameraFrame_t*	camFrame;
 	int				i;
 	int				cut;
-	idQuat			q1, q2, q3;
+	Quat			q1, q2, q3;
 	
 	assert( view );
 	if( !view )
@@ -649,14 +649,14 @@ void idCameraAnim::GetViewParms( renderView_t* view )
 	
 #if 0
 	static int lastFrame = 0;
-	static budVec3 lastFrameVec( 0.0f, 0.0f, 0.0f );
+	static Vector3 lastFrameVec( 0.0f, 0.0f, 0.0f );
 	if( gameLocal.time != lastFrame )
 	{
-		gameRenderWorld->DebugBounds( colorCyan, budBounds( view->vieworg ).Expand( 16.0f ), vec3_origin, 1 );
-		gameRenderWorld->DebugLine( colorRed, view->vieworg, view->vieworg + budVec3( 0.0f, 0.0f, 2.0f ), 10000, false );
+		gameRenderWorld->DebugBounds( colorCyan, budBounds( view->vieworg ).Expand( 16.0f ), Vector3_Origin, 1 );
+		gameRenderWorld->DebugLine( colorRed, view->vieworg, view->vieworg + Vector3( 0.0f, 0.0f, 2.0f ), 10000, false );
 		gameRenderWorld->DebugLine( colorCyan, lastFrameVec, view->vieworg, 10000, false );
 		gameRenderWorld->DebugLine( colorYellow, view->vieworg + view->viewaxis[ 0 ] * 64.0f, view->vieworg + view->viewaxis[ 0 ] * 66.0f, 10000, false );
-		gameRenderWorld->DebugLine( colorOrange, view->vieworg + view->viewaxis[ 0 ] * 64.0f, view->vieworg + view->viewaxis[ 0 ] * 64.0f + budVec3( 0.0f, 0.0f, 2.0f ), 10000, false );
+		gameRenderWorld->DebugLine( colorOrange, view->vieworg + view->viewaxis[ 0 ] * 64.0f, view->vieworg + view->viewaxis[ 0 ] * 64.0f + Vector3( 0.0f, 0.0f, 2.0f ), 10000, false );
 		lastFrameVec = view->vieworg;
 		lastFrame = gameLocal.time;
 	}

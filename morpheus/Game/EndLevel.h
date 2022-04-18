@@ -48,10 +48,10 @@ public:
 	// session when there is something to give
 	
 private:
-	budStr	exitCommand;
+	String	exitCommand;
 	
-	budVec3	initialViewOrg;
-	budVec3	initialViewAngles;
+	Vector3	initialViewOrg;
+	Vector3	initialViewAngles;
 	// set when the player triggers the exit
 	
 	budUserInterface*	gui;

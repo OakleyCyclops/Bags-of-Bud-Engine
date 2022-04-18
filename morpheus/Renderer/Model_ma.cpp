@@ -133,7 +133,7 @@ bool MA_ParseAttribHeader( budParser& parser, maAttribHeader_t* header )
 	return true;
 }
 
-bool MA_ReadVec3( budParser& parser, budVec3& vec )
+bool MA_ReadVec3( budParser& parser, Vector3& vec )
 {
 	budToken token;
 	if( !parser.SkipUntilString( "double3" ) )
@@ -241,7 +241,7 @@ bool MA_ParseVertex( budParser& parser, maAttribHeader_t* header )
 	if( !pMesh->vertexes )
 	{
 		pMesh->numVertexes = header->size;
-		pMesh->vertexes = ( budVec3* )Mem_Alloc( sizeof( budVec3 ) * pMesh->numVertexes, TAG_MODEL );
+		pMesh->vertexes = ( Vector3* )Mem_Alloc( sizeof( Vector3 ) * pMesh->numVertexes, TAG_MODEL );
 	}
 	
 	//Get the start and end index for this attribute
@@ -278,7 +278,7 @@ bool MA_ParseVertexTransforms( budParser& parser, maAttribHeader_t* header )
 		}
 		
 		pMesh->numVertTransforms = header->size;
-		pMesh->vertTransforms = ( budVec4* )Mem_Alloc( sizeof( budVec4 ) * pMesh->numVertTransforms, TAG_MODEL );
+		pMesh->vertTransforms = ( Vector4* )Mem_Alloc( sizeof( Vector4 ) * pMesh->numVertTransforms, TAG_MODEL );
 		pMesh->nextVertTransformIndex = 0;
 	}
 	
@@ -336,7 +336,7 @@ bool MA_ParseEdge( budParser& parser, maAttribHeader_t* header )
 	if( !pMesh->edges )
 	{
 		pMesh->numEdges = header->size;
-		pMesh->edges = ( budVec3* )Mem_Alloc( sizeof( budVec3 ) * pMesh->numEdges, TAG_MODEL );
+		pMesh->edges = ( Vector3* )Mem_Alloc( sizeof( Vector3 ) * pMesh->numEdges, TAG_MODEL );
 	}
 	
 	//Get the start and end index for this attribute
@@ -368,7 +368,7 @@ bool MA_ParseNormal( budParser& parser, maAttribHeader_t* header )
 	if( !pMesh->normals )
 	{
 		pMesh->numNormals = header->size;
-		pMesh->normals = ( budVec3* )Mem_Alloc( sizeof( budVec3 ) * pMesh->numNormals, TAG_MODEL );
+		pMesh->normals = ( Vector3* )Mem_Alloc( sizeof( Vector3 ) * pMesh->numNormals, TAG_MODEL );
 	}
 	
 	//Get the start and end index for this attribute
@@ -566,7 +566,7 @@ bool MA_ParseTVert( budParser& parser, maAttribHeader_t* header )
 	if( !pMesh->tvertexes )
 	{
 		pMesh->numTVertexes = header->size;
-		pMesh->tvertexes = ( budVec2* )Mem_Alloc( sizeof( budVec2 ) * pMesh->numTVertexes, TAG_MODEL );
+		pMesh->tvertexes = ( Vector2* )Mem_Alloc( sizeof( Vector2 ) * pMesh->numTVertexes, TAG_MODEL );
 	}
 	
 	//Get the start and end index for this attribute
@@ -623,7 +623,7 @@ bool MA_QuickIsVertShared( int faceIndex, int vertIndex )
 		int edge = pMesh->faces[faceIndex].edge[i];
 		if( edge < 0 )
 		{
-			edge = budMath::Fabs( edge ) - 1;
+			edge = Math::Fabs( edge ) - 1;
 		}
 		if( pMesh->edges[edge].z == 1 && ( pMesh->edges[edge].x == vertNum || pMesh->edges[edge].y == vertNum ) )
 		{
@@ -649,7 +649,7 @@ void MA_GetSharedFace( int faceIndex, int vertIndex, int& sharedFace, int& share
 		int edge = pMesh->faces[faceIndex].edge[edgeIndex];
 		if( edge < 0 )
 		{
-			edge = budMath::Fabs( edge ) - 1;
+			edge = Math::Fabs( edge ) - 1;
 		}
 		
 		if( pMesh->edges[edge].z == 1 && ( pMesh->edges[edge].x == vertNum || pMesh->edges[edge].y == vertNum ) )
@@ -764,7 +764,7 @@ void MA_ParseMesh( budParser& parser )
 			int edge = pMesh->faces[i].edge[j];
 			if( edge < 0 )
 			{
-				edge = budMath::Fabs( edge ) - 1;
+				edge = Math::Fabs( edge ) - 1;
 				pMesh->faces[i].vertexNum[j] = pMesh->edges[edge].y;
 			}
 			else
@@ -819,7 +819,7 @@ void MA_ParseMesh( budParser& parser )
 		pMesh->faces[i].vertexNum[1] = pMesh->faces[i].vertexNum[2];
 		pMesh->faces[i].vertexNum[2] = tmp;
 		
-		budVec3 tmpVec = pMesh->faces[i].vertexNormals[1];
+		Vector3 tmpVec = pMesh->faces[i].vertexNormals[1];
 		pMesh->faces[i].vertexNormals[1] = pMesh->faces[i].vertexNormals[2];
 		pMesh->faces[i].vertexNormals[2] = tmpVec;
 		
@@ -953,7 +953,7 @@ int MA_AddMaterial( const char* materialName )
 			memset( material, 0, sizeof( maMaterial_t ) );
 			
 			//Remove the OS stuff
-			budStr qPath;
+			String qPath;
 			qPath = fileSystem->OSPathToRelativePath( matNode->file->path );
 			
 			strcpy( material->name, qPath.c_str() );
@@ -968,11 +968,11 @@ int MA_AddMaterial( const char* materialName )
 bool MA_ParseConnectAttr( budParser& parser )
 {
 
-	budStr temp;
-	budStr srcName;
-	budStr srcType;
-	budStr destName;
-	budStr destType;
+	String temp;
+	String srcName;
+	String srcType;
+	String destName;
+	String destType;
 	
 	budToken token;
 	parser.ReadToken( &token );
@@ -1043,7 +1043,7 @@ bool MA_ParseConnectAttr( budParser& parser )
 }
 
 
-void MA_BuildScale( budMat4& mat, float x, float y, float z )
+void MA_BuildScale( Matrix4& mat, float x, float y, float z )
 {
 	mat.Identity();
 	mat[0][0] = x;
@@ -1051,11 +1051,11 @@ void MA_BuildScale( budMat4& mat, float x, float y, float z )
 	mat[2][2] = z;
 }
 
-void MA_BuildAxisRotation( budMat4& mat, float ang, int axis )
+void MA_BuildAxisRotation( Matrix4& mat, float ang, int axis )
 {
 
-	float sinAng = budMath::Sin( ang );
-	float cosAng = budMath::Cos( ang );
+	float sinAng = Math::Sin( ang );
+	float cosAng = Math::Cos( ang );
 	
 	mat.Identity();
 	switch( axis )
@@ -1094,8 +1094,8 @@ void MA_ApplyTransformation( maModel_t* model )
 		while( transform )
 		{
 		
-			budMat4 rotx, roty, rotz;
-			budMat4 scale;
+			Matrix4 rotx, roty, rotz;
+			Matrix4 scale;
 			
 			rotx.Identity();
 			roty.Identity();
@@ -1149,7 +1149,7 @@ maModel_t* MA_Parse( const char* buffer, const char* filename, bool verbose )
 	
 	maGlobal.currentObject = NULL;
 	
-	// NOTE: using new operator because aseModel_t contains budList class objects
+	// NOTE: using new operator because aseModel_t contains List class objects
 	maGlobal.model = new( TAG_MODEL ) maModel_t;
 	maGlobal.model->objects.Resize( 32, 32 );
 	maGlobal.model->materials.Resize( 32, 32 );

@@ -51,9 +51,9 @@ public:
 	void				Restore( idRestoreGame* savefile );
 	
 	// constant force
-	void				SetForce( const budVec3& force );
+	void				SetForce( const Vector3& force );
 	// set force position
-	void				SetPosition( idPhysics* physics, int id, const budVec3& point );
+	void				SetPosition( idPhysics* physics, int id, const Vector3& point );
 	
 	void				SetPhysics( idPhysics* physics );
 	
@@ -63,10 +63,10 @@ public: // common force interface
 	
 private:
 	// force properties
-	budVec3				force;
+	Vector3				force;
 	idPhysics* 			physics;
 	int					id;
-	budVec3				point;
+	Vector3				point;
 };
 
 #endif /* !__FORCE_CONSTANT_H__ */

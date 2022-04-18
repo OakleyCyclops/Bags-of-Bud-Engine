@@ -451,7 +451,7 @@ idVarDef* idCompiler::FindImmediate( const idTypeDef* type, const eval_t* eval, 
 				break;
 				
 			case ev_string :
-				if( budStr::Cmp( def->value.stringPtr, string ) == 0 )
+				if( String::Cmp( def->value.stringPtr, string ) == 0 )
 				{
 					return def;
 				}
@@ -544,7 +544,7 @@ idVarDef* idCompiler::OptimizeOpcode( const opcode_t* op, idVarDef* var_a, idVar
 		return NULL;
 	}
 	
-	budVec3& vec_c = *reinterpret_cast<budVec3*>( &c.vector[ 0 ] );
+	Vector3& vec_c = *reinterpret_cast<Vector3*>( &c.vector[ 0 ] );
 	
 	memset( &c, 0, sizeof( c ) );
 	switch( op - opcodes )
@@ -1024,7 +1024,7 @@ idCompiler::ParseName
 Checks to see if the current token is a valid name
 ============
 */
-void idCompiler::ParseName( budStr& name )
+void idCompiler::ParseName( String& name )
 {
 	if( token.type != TT_NAME )
 	{
@@ -1587,7 +1587,7 @@ idVarDef* idCompiler::ParseValue()
 {
 	idVarDef*	def;
 	idVarDef*	namespaceDef;
-	budStr		name;
+	String		name;
 	
 	if( immediateType == &type_entity )
 	{
@@ -2474,7 +2474,7 @@ void idCompiler::ParseObjectDef( const char* objname )
 	idTypeDef*	type;
 	idTypeDef*	parentType;
 	idTypeDef*	fieldtype;
-	budStr		name;
+	String		name;
 	const char*  fieldname;
 	idTypeDef	newtype( ev_field, NULL, "", 0, NULL );
 	idVarDef*	oldscope;
@@ -2578,7 +2578,7 @@ idTypeDef* idCompiler::ParseFunction( idTypeDef* returnType, const char* name )
 	
 	if( !CheckToken( ")" ) )
 	{
-		budStr parmName;
+		String parmName;
 		do
 		{
 			type = ParseType();
@@ -2679,7 +2679,7 @@ void idCompiler::ParseFunctionDef( idTypeDef* returnType, const char* name )
 	func->firstStatement = gameLocal.program.NumStatements();
 	
 	// check if we should call the super class constructor
-	if( oldscope->TypeDef()->Inherits( &type_object ) && !budStr::Icmp( name, "init" ) )
+	if( oldscope->TypeDef()->Inherits( &type_object ) && !String::Icmp( name, "init" ) )
 	{
 		idTypeDef* superClass;
 		function_t* constructorFunc = NULL;
@@ -2711,7 +2711,7 @@ void idCompiler::ParseFunctionDef( idTypeDef* returnType, const char* name )
 	}
 	
 	// check if we should call the super class destructor
-	if( oldscope->TypeDef()->Inherits( &type_object ) && !budStr::Icmp( name, "destroy" ) )
+	if( oldscope->TypeDef()->Inherits( &type_object ) && !String::Icmp( name, "destroy" ) )
 	{
 		idTypeDef* superClass;
 		function_t* destructorFunc = NULL;
@@ -2964,7 +2964,7 @@ void idCompiler::ParseEventDef( idTypeDef* returnType, const char* name )
 	int				num;
 	const char*		format;
 	const idEventDef* ev;
-	budStr			parmName;
+	String			parmName;
 	
 	ev = idEventDef::FindEvent( name );
 	if( ev == NULL )
@@ -3062,7 +3062,7 @@ Called at the outer layer and when a local statement is hit
 */
 void idCompiler::ParseDefs()
 {
-	budStr 		name;
+	String 		name;
 	idTypeDef*	type;
 	idVarDef*	def;
 	idVarDef*	oldscope;
@@ -3229,7 +3229,7 @@ void idCompiler::CompileFile( const char* text, const char* filename, bool toCon
 #if defined(USE_EXCEPTIONS)
 	catch( idCompileError& err )
 	{
-		budStr error;
+		String error;
 		
 		if( console )
 		{

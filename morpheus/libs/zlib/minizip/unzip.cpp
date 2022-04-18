@@ -79,11 +79,11 @@ The file was renamed from unzip.c to unzip.cpp so we can use C++ functions from 
 
 #if 0 // DG: these cvars were defined in the original d3 bfg code, probably for some debug purpose?
 // they are only used in unz64local_GetCurrentFileInfoInternal()
-budCVar zip_numSeeks( "zip_numSeeks", "0", CVAR_INTEGER, "" );
-budCVar zip_skippedSeeks( "zip_skippedSeeks", "0", CVAR_INTEGER, "" );
-budCVar zip_seeksForward( "zip_seeksForward", "0", CVAR_INTEGER, "" );
-budCVar zip_seeksBackward( "zip_seeksBackward", "0", CVAR_INTEGER, "" );
-budCVar zip_avgSeekDistance( "zip_avgSeekDistance", "0", CVAR_INTEGER, "" );
+CVar zip_numSeeks( "zip_numSeeks", "0", CVAR_INTEGER, "" );
+CVar zip_skippedSeeks( "zip_skippedSeeks", "0", CVAR_INTEGER, "" );
+CVar zip_seeksForward( "zip_seeksForward", "0", CVAR_INTEGER, "" );
+CVar zip_seeksBackward( "zip_seeksBackward", "0", CVAR_INTEGER, "" );
+CVar zip_avgSeekDistance( "zip_avgSeekDistance", "0", CVAR_INTEGER, "" );
 #endif
 
 #if 0 // we don't really want system includes here

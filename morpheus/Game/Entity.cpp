@@ -39,8 +39,8 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 */
 
-budCVar net_errorSmoothingMaxDecay( "net_errorSmoothingMaxDecay", "25.0", CVAR_FLOAT, "Max rate at which origin error smoothing decays (in units per game frame)" );
-budCVar net_errorSmoothingDecay( "net_errorSmoothingDecay", "0.06", CVAR_FLOAT, "Rate at which error smoothing decays (in percent per game frame)" );
+CVar net_errorSmoothingMaxDecay( "net_errorSmoothingMaxDecay", "25.0", CVAR_FLOAT, "Max rate at which origin error smoothing decays (in units per game frame)" );
+CVar net_errorSmoothingDecay( "net_errorSmoothingDecay", "0.06", CVAR_FLOAT, "Rate at which error smoothing decays (in percent per game frame)" );
 
 // overridable events
 const idEventDef EV_PostSpawn( "<postspawn>", NULL );
@@ -192,7 +192,7 @@ END_CLASS
 UpdateGuiParms
 ================
 */
-void UpdateGuiParms( budUserInterface* gui, const idDict* args )
+void UpdateGuiParms( budUserInterface* gui, const Dict* args )
 {
 	if( gui == NULL || args == NULL )
 	{
@@ -213,7 +213,7 @@ void UpdateGuiParms( budUserInterface* gui, const idDict* args )
 AddRenderGui
 ================
 */
-void AddRenderGui( const char* name, budUserInterface** gui, const idDict* args )
+void AddRenderGui( const char* name, budUserInterface** gui, const Dict* args )
 {
 	const idKeyValue* kv = args->MatchPrefix( "gui_parm", NULL );
 	*gui = uiManager->FindGui( name, true, ( kv != NULL ) );
@@ -229,11 +229,11 @@ this is the canonical renderEntity parm parsing,
 which should be used by dmap and the editor
 ================
 */
-void budGameEdit::ParseSpawnArgsToRenderEntity( const idDict* args, renderEntity_t* renderEntity )
+void budGameEdit::ParseSpawnArgsToRenderEntity( const Dict* args, renderEntity_t* renderEntity )
 {
 	int			i;
 	const char*	temp;
-	budVec3		color;
+	Vector3		color;
 	float		angle;
 	const budDeclModelDef* modelDef;
 	
@@ -287,7 +287,7 @@ void budGameEdit::ParseSpawnArgsToRenderEntity( const idDict* args, renderEntity
 		angle = args->GetFloat( "angle" );
 		if( angle != 0.0f )
 		{
-			renderEntity->axis = budAngles( 0.0f, angle, 0.0f ).ToMat3();
+			renderEntity->axis = Angles( 0.0f, angle, 0.0f ).ToMat3();
 		}
 		else
 		{
@@ -341,7 +341,7 @@ this is the canonical refSound parm parsing,
 which should be used by dmap and the editor
 ================
 */
-void budGameEdit::ParseSpawnArgsToRefSound( const idDict* args, refSound_t* refSound )
+void budGameEdit::ParseSpawnArgsToRefSound( const Dict* args, refSound_t* refSound )
 {
 	const char*	temp;
 	
@@ -401,7 +401,7 @@ properly. An optional source may be provided if the values reside in an outside 
 first need copied over to spawnArgs
 ===============
 */
-void idEntity::UpdateChangeableSpawnArgs( const idDict* source )
+void idEntity::UpdateChangeableSpawnArgs( const Dict* source )
 {
 	int i;
 	const char* target;
@@ -496,7 +496,7 @@ void idEntity::FixupLocalizedStrings()
 	for( int i = 0; i < spawnArgs.GetNumKeyVals(); i++ )
 	{
 		const idKeyValue* kv = spawnArgs.GetKeyVal( i );
-		if( budStr::Cmpn( kv->GetValue(), STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
+		if( String::Cmpn( kv->GetValue(), STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 )
 		{
 			spawnArgs.Set( kv->GetKey(), budLocalization::GetString( kv->GetValue() ) );
 		}
@@ -512,8 +512,8 @@ void idEntity::Spawn()
 {
 	int					i;
 	const char*			temp;
-	budVec3				origin;
-	budMat3				axis;
+	Vector3				origin;
+	Matrix3				axis;
 	const idKeyValue*	networkSync;
 	const char*			classname;
 	const char*			scriptObjectName;
@@ -539,7 +539,7 @@ void idEntity::Spawn()
 	xraySkin = NULL;
 	renderEntity.xrayIndex = 1;
 	
-	budStr str;
+	String str;
 	if( spawnArgs.GetString( "skin_xray", "", str ) )
 	{
 		xraySkin = declManager->FindSkin( str.c_str() );
@@ -793,7 +793,7 @@ void idEntity::Restore( idRestoreGame* savefile )
 {
 	int			i, j;
 	int			num;
-	budStr		funcname;
+	String		funcname;
 	
 	savefile->ReadInt( entityNumber );
 	savefile->ReadInt( entityDefNumber );
@@ -1189,7 +1189,7 @@ void idEntity::SetColor( float red, float green, float blue )
 idEntity::SetColor
 ================
 */
-void idEntity::SetColor( const budVec3& color )
+void idEntity::SetColor( const Vector3& color )
 {
 	SetColor( color[ 0 ], color[ 1 ], color[ 2 ] );
 	UpdateVisuals();
@@ -1200,7 +1200,7 @@ void idEntity::SetColor( const budVec3& color )
 idEntity::GetColor
 ================
 */
-void idEntity::GetColor( budVec3& out ) const
+void idEntity::GetColor( Vector3& out ) const
 {
 	out[ 0 ] = renderEntity.shaderParms[ SHADERPARM_RED ];
 	out[ 1 ] = renderEntity.shaderParms[ SHADERPARM_GREEN ];
@@ -1212,7 +1212,7 @@ void idEntity::GetColor( budVec3& out ) const
 idEntity::SetColor
 ================
 */
-void idEntity::SetColor( const budVec4& color )
+void idEntity::SetColor( const Vector4& color )
 {
 	renderEntity.shaderParms[ SHADERPARM_RED ]		= color[ 0 ];
 	renderEntity.shaderParms[ SHADERPARM_GREEN ]	= color[ 1 ];
@@ -1226,7 +1226,7 @@ void idEntity::SetColor( const budVec4& color )
 idEntity::GetColor
 ================
 */
-void idEntity::GetColor( budVec4& out ) const
+void idEntity::GetColor( Vector4& out ) const
 {
 	out[ 0 ] = renderEntity.shaderParms[ SHADERPARM_RED ];
 	out[ 1 ] = renderEntity.shaderParms[ SHADERPARM_GREEN ];
@@ -1368,8 +1368,8 @@ idEntity::UpdateModelTransform
 */
 void idEntity::UpdateModelTransform()
 {
-	budVec3 origin;
-	budMat3 axis;
+	Vector3 origin;
+	Matrix3 axis;
 	
 	if( GetPhysicsToVisualTransform( origin, axis ) )
 	{
@@ -1475,7 +1475,7 @@ void idEntity::UpdatePVSAreas()
 idEntity::UpdatePVSAreas
 ================
 */
-void idEntity::UpdatePVSAreas( const budVec3& pos )
+void idEntity::UpdatePVSAreas( const Vector3& pos )
 {
 	int i;
 	
@@ -1573,11 +1573,11 @@ void idEntity::BecomeReplicated()
 idEntity::ProjectOverlay
 ==============
 */
-void idEntity::ProjectOverlay( const budVec3& origin, const budVec3& dir, float size, const char* material )
+void idEntity::ProjectOverlay( const Vector3& origin, const Vector3& dir, float size, const char* material )
 {
 	float s, c;
-	budMat3 axis, axistemp;
-	budVec3 localOrigin, localAxis[2];
+	Matrix3 axis, axistemp;
+	Vector3 localOrigin, localAxis[2];
 	budPlane localPlane[2];
 	
 	// make sure the entity has a valid model handle
@@ -1592,7 +1592,7 @@ void idEntity::ProjectOverlay( const budVec3& origin, const budVec3& dir, float 
 		return;
 	}
 	
-	budMath::SinCos16( gameLocal.random.RandomFloat() * budMath::TWO_PI, s, c );
+	Math::SinCos16( gameLocal.random.RandomFloat() * Math::TWO_PI, s, c );
 	
 	axis[2] = -dir;
 	axis[2].NormalVectors( axistemp[0], axistemp[1] );
@@ -1816,7 +1816,7 @@ bool idEntity::StartSound( const char* soundName, const s_channelType channel, i
 	
 	// we should ALWAYS be playing sounds from the def.
 	// hardcoded sounds MUST be avoided at all times because they won't get precached.
-	assert( budStr::Icmpn( soundName, "snd_", 4 ) == 0 );
+	assert( String::Icmpn( soundName, "snd_", 4 ) == 0 );
 	
 	if( !spawnArgs.GetString( soundName, "", &sound ) )
 	{
@@ -1955,8 +1955,8 @@ void idEntity::UpdateSound()
 {
 	if( refSound.referenceSound )
 	{
-		budVec3 origin;
-		budMat3 axis;
+		Vector3 origin;
+		Matrix3 axis;
 		
 		if( GetPhysicsToSoundTransform( origin, axis ) )
 		{
@@ -2460,7 +2460,7 @@ idEntity* idEntity::GetNextTeamEntity() const
 idEntity::ConvertLocalToWorldTransform
 =====================
 */
-void idEntity::ConvertLocalToWorldTransform( budVec3& offset, budMat3& axis )
+void idEntity::ConvertLocalToWorldTransform( Vector3& offset, Matrix3& axis )
 {
 	UpdateModelTransform();
 	
@@ -2479,17 +2479,17 @@ Note: Does not take origin into acount.  Use getLocalCoordinate to
 convert coordinates.
 ================
 */
-budVec3 idEntity::GetLocalVector( const budVec3& vec ) const
+Vector3 idEntity::GetLocalVector( const Vector3& vec ) const
 {
-	budVec3	pos;
+	Vector3	pos;
 	
 	if( !bindMaster )
 	{
 		return vec;
 	}
 	
-	budVec3	masterOrigin;
-	budMat3	masterAxis;
+	Vector3	masterOrigin;
+	Matrix3	masterAxis;
 	
 	GetMasterPosition( masterOrigin, masterAxis );
 	masterAxis.ProjectVector( vec, pos );
@@ -2505,17 +2505,17 @@ Takes a vector in world coordinates and transforms it into the parent
 object's local coordinates.
 ================
 */
-budVec3 idEntity::GetLocalCoordinates( const budVec3& vec ) const
+Vector3 idEntity::GetLocalCoordinates( const Vector3& vec ) const
 {
-	budVec3	pos;
+	Vector3	pos;
 	
 	if( !bindMaster )
 	{
 		return vec;
 	}
 	
-	budVec3	masterOrigin;
-	budMat3	masterAxis;
+	Vector3	masterOrigin;
+	Matrix3	masterAxis;
 	
 	GetMasterPosition( masterOrigin, masterAxis );
 	masterAxis.ProjectVector( vec - masterOrigin, pos );
@@ -2534,17 +2534,17 @@ Note: Does not take origin into acount.  Use getWorldCoordinate to
 convert coordinates.
 ================
 */
-budVec3 idEntity::GetWorldVector( const budVec3& vec ) const
+Vector3 idEntity::GetWorldVector( const Vector3& vec ) const
 {
-	budVec3	pos;
+	Vector3	pos;
 	
 	if( !bindMaster )
 	{
 		return vec;
 	}
 	
-	budVec3	masterOrigin;
-	budMat3	masterAxis;
+	Vector3	masterOrigin;
+	Matrix3	masterAxis;
 	
 	GetMasterPosition( masterOrigin, masterAxis );
 	masterAxis.UnprojectVector( vec, pos );
@@ -2560,17 +2560,17 @@ Takes a vector in the parent object's local coordinates and transforms
 it into world coordinates.
 ================
 */
-budVec3 idEntity::GetWorldCoordinates( const budVec3& vec ) const
+Vector3 idEntity::GetWorldCoordinates( const Vector3& vec ) const
 {
-	budVec3	pos;
+	Vector3	pos;
 	
 	if( !bindMaster )
 	{
 		return vec;
 	}
 	
-	budVec3	masterOrigin;
-	budMat3	masterAxis;
+	Vector3	masterOrigin;
+	Matrix3	masterAxis;
 	
 	GetMasterPosition( masterOrigin, masterAxis );
 	masterAxis.UnprojectVector( vec, pos );
@@ -2584,10 +2584,10 @@ budVec3 idEntity::GetWorldCoordinates( const budVec3& vec ) const
 idEntity::GetMasterPosition
 ================
 */
-bool idEntity::GetMasterPosition( budVec3& masterOrigin, budMat3& masterAxis ) const
+bool idEntity::GetMasterPosition( Vector3& masterOrigin, Matrix3& masterAxis ) const
 {
-	budVec3		localOrigin;
-	budMat3		localAxis;
+	Vector3		localOrigin;
+	Matrix3		localAxis;
 	budAnimator*	masterAnimator;
 	
 	if( bindMaster )
@@ -2598,7 +2598,7 @@ bool idEntity::GetMasterPosition( budVec3& masterOrigin, budMat3& masterAxis ) c
 			masterAnimator = bindMaster->GetAnimator();
 			if( !masterAnimator )
 			{
-				masterOrigin = vec3_origin;
+				masterOrigin = Vector3_Origin;
 				masterAxis = mat3_identity;
 				return false;
 			}
@@ -2623,7 +2623,7 @@ bool idEntity::GetMasterPosition( budVec3& masterOrigin, budMat3& masterAxis ) c
 	}
 	else
 	{
-		masterOrigin = vec3_origin;
+		masterOrigin = Vector3_Origin;
 		masterAxis = mat3_identity;
 		return false;
 	}
@@ -2634,7 +2634,7 @@ bool idEntity::GetMasterPosition( budVec3& masterOrigin, budMat3& masterAxis ) c
 idEntity::GetWorldVelocities
 ================
 */
-void idEntity::GetWorldVelocities( budVec3& linearVelocity, budVec3& angularVelocity ) const
+void idEntity::GetWorldVelocities( Vector3& linearVelocity, Vector3& angularVelocity ) const
 {
 
 	linearVelocity = physics->GetLinearVelocity();
@@ -2642,8 +2642,8 @@ void idEntity::GetWorldVelocities( budVec3& linearVelocity, budVec3& angularVelo
 	
 	if( bindMaster )
 	{
-		budVec3 masterOrigin, masterLinearVelocity, masterAngularVelocity;
-		budMat3 masterAxis;
+		Vector3 masterOrigin, masterLinearVelocity, masterAngularVelocity;
+		Matrix3 masterAxis;
 		
 		// get position of master
 		GetMasterPosition( masterOrigin, masterAxis );
@@ -2810,7 +2810,7 @@ void idEntity::QuitTeam()
 idEntity::InitDefaultPhysics
 ================
 */
-void idEntity::InitDefaultPhysics( const budVec3& origin, const budMat3& axis )
+void idEntity::InitDefaultPhysics( const Vector3& origin, const Matrix3& axis )
 {
 	const char* temp;
 	budClipModel* clipModel = NULL;
@@ -2830,7 +2830,7 @@ void idEntity::InitDefaultPhysics( const budVec3& origin, const budMat3& axis )
 		// check if mins/maxs or size key/value pairs are set
 		if( !clipModel )
 		{
-			budVec3 size;
+			Vector3 size;
 			budBounds bounds;
 			bool setClipModel = false;
 			
@@ -3084,7 +3084,7 @@ bool idEntity::RunPhysics()
 	// This is to hack around an issue when reloading a game saved on certain movers would
 	// eject the player randomly through the world due to the first couple of frames imparting
 	// large pushVelocities.
-	const bool useAbnormalVelocityHack = ( budStr::Cmp( name, "houndola" ) == 0 );
+	const bool useAbnormalVelocityHack = ( String::Cmp( name, "houndola" ) == 0 );
 	
 	// Disable motion blur if this object pushes the local player
 	renderEntity.skipMotionBlur = false;
@@ -3358,7 +3358,7 @@ void idEntity::UpdateFromPhysics( bool moveBack )
 		// set master delta angles for actors
 		if( GetBindMaster() )
 		{
-			budAngles delta = actor->GetDeltaViewAngles();
+			Angles delta = actor->GetDeltaViewAngles();
 			if( moveBack )
 			{
 				delta.yaw -= static_cast<idPhysics_Actor*>( physics )->GetMasterDeltaYaw();
@@ -3389,7 +3389,7 @@ int idEntity::GetPhysicsTimeStep() const
 idEntity::SetOrigin
 ================
 */
-void idEntity::SetOrigin( const budVec3& org )
+void idEntity::SetOrigin( const Vector3& org )
 {
 
 	GetPhysics()->SetOrigin( org );
@@ -3402,7 +3402,7 @@ void idEntity::SetOrigin( const budVec3& org )
 idEntity::SetAxis
 ================
 */
-void idEntity::SetAxis( const budMat3& axis )
+void idEntity::SetAxis( const Matrix3& axis )
 {
 
 	if( GetPhysics()->IsType( idPhysics_Actor::Type ) )
@@ -3422,7 +3422,7 @@ void idEntity::SetAxis( const budMat3& axis )
 idEntity::SetAngles
 ================
 */
-void idEntity::SetAngles( const budAngles& ang )
+void idEntity::SetAngles( const Angles& ang )
 {
 	SetAxis( ang.ToMat3() );
 }
@@ -3432,7 +3432,7 @@ void idEntity::SetAngles( const budAngles& ang )
 idEntity::GetFloorPos
 ================
 */
-bool idEntity::GetFloorPos( float max_dist, budVec3& floorpos ) const
+bool idEntity::GetFloorPos( float max_dist, Vector3& floorpos ) const
 {
 	trace_t result;
 	
@@ -3462,7 +3462,7 @@ bool idEntity::GetFloorPos( float max_dist, budVec3& floorpos ) const
 idEntity::GetPhysicsToVisualTransform
 ================
 */
-bool idEntity::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
+bool idEntity::GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis )
 {
 	return false;
 }
@@ -3472,7 +3472,7 @@ bool idEntity::GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis )
 idEntity::GetPhysicsToSoundTransform
 ================
 */
-bool idEntity::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
+bool idEntity::GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis )
 {
 	// by default play the sound at the center of the bounding box of the first clip model
 	if( GetPhysics()->GetNumClipModels() > 0 )
@@ -3489,7 +3489,7 @@ bool idEntity::GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis )
 idEntity::Collide
 ================
 */
-bool idEntity::Collide( const trace_t& collision, const budVec3& velocity )
+bool idEntity::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	// this entity collides with collision.c.entityNum
 	return false;
@@ -3500,7 +3500,7 @@ bool idEntity::Collide( const trace_t& collision, const budVec3& velocity )
 idEntity::GetImpactInfo
 ================
 */
-void idEntity::GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info )
+void idEntity::GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info )
 {
 	GetPhysics()->GetImpactInfo( id, point, info );
 }
@@ -3510,7 +3510,7 @@ void idEntity::GetImpactInfo( idEntity* ent, int id, const budVec3& point, impac
 idEntity::ApplyImpulse
 ================
 */
-void idEntity::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse )
+void idEntity::ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse )
 {
 	GetPhysics()->ApplyImpulse( id, point, impulse );
 }
@@ -3520,7 +3520,7 @@ void idEntity::ApplyImpulse( idEntity* ent, int id, const budVec3& point, const 
 idEntity::AddForce
 ================
 */
-void idEntity::AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force )
+void idEntity::AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force )
 {
 	GetPhysics()->AddForce( id, point, force );
 }
@@ -3591,11 +3591,11 @@ Returns true if the inflictor can directly damage the target.  Used for
 explosions and melee attacks.
 ============
 */
-bool idEntity::CanDamage( const budVec3& origin, budVec3& damagePoint ) const
+bool idEntity::CanDamage( const Vector3& origin, Vector3& damagePoint ) const
 {
-	budVec3 	dest;
+	Vector3 	dest;
 	trace_t	tr;
-	budVec3 	midpoint;
+	Vector3 	midpoint;
 	
 	// use the midpoint of the bounds instead of the origin, because
 	// bmodels may have their origin at 0,0,0
@@ -3700,7 +3700,7 @@ inflictor, attacker, dir, and point can be NULL for environmental effects
 
 ============
 */
-void idEntity::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir,
+void idEntity::Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir,
 					   const char* damageDefName, const float damageScale, const int location )
 {
 	if( !fl.takedamage )
@@ -3720,7 +3720,7 @@ void idEntity::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 		attacker = gameLocal.world;
 	}
 	
-	const idDict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
+	const Dict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
 	if( damageDef == NULL )
 	{
 		gameLocal.Error( "Unknown damageDef '%s'\n", damageDefName );
@@ -3756,7 +3756,7 @@ void idEntity::Damage( idEntity* inflictor, idEntity* attacker, const budVec3& d
 idEntity::AddDamageEffect
 ================
 */
-void idEntity::AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName )
+void idEntity::AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName )
 {
 	const char* sound, *decal, *key;
 	
@@ -3791,7 +3791,7 @@ void idEntity::AddDamageEffect( const trace_t& collision, const budVec3& velocit
 		}
 		if( *decal != '\0' )
 		{
-			budVec3 dir = velocity;
+			Vector3 dir = velocity;
 			dir.Normalize();
 			ProjectOverlay( collision.c.point, dir, 20.0f, decal );
 		}
@@ -3806,7 +3806,7 @@ Called whenever an entity recieves damage.  Returns whether the entity responds 
 This is a virtual function that subclasses are expected to implement.
 ============
 */
-bool idEntity::Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+bool idEntity::Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	return false;
 }
@@ -3819,7 +3819,7 @@ Called whenever an entity's health is reduced to 0 or less.
 This is a virtual function that subclasses are expected to implement.
 ============
 */
-void idEntity::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idEntity::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 }
 
@@ -4273,7 +4273,7 @@ bool idEntity::HandleGuiCommands( idEntity* entityGui, const char* cmds )
 			// handy for debugging GUI stuff
 			if( !token.Icmp( "print" ) )
 			{
-				budStr msg;
+				String msg;
 				while( src.ReadToken( &token2 ) )
 				{
 					if( token2 == ";" )
@@ -4427,7 +4427,7 @@ void idEntity::ActivateTargets( idEntity* activator ) const
 idEntity::Teleport
 ================
 */
-void idEntity::Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination )
+void idEntity::Teleport( const Vector3& origin, const Angles& angles, idEntity* destination )
 {
 	GetPhysics()->SetOrigin( origin );
 	GetPhysics()->SetAxis( angles.ToMat3() );
@@ -4505,13 +4505,13 @@ bool idEntity::TouchTriggers() const
 idEntity::GetSpline
 ================
 */
-idCurve_Spline<budVec3>* idEntity::GetSpline() const
+idCurve_Spline<Vector3>* idEntity::GetSpline() const
 {
 	int i, numPoints, t;
 	const idKeyValue* kv;
 	budLexer lex;
-	budVec3 v;
-	idCurve_Spline<budVec3>* spline;
+	Vector3 v;
+	idCurve_Spline<Vector3>* spline;
 	const char* curveTag = "curve_";
 	
 	kv = spawnArgs.MatchPrefix( curveTag );
@@ -4520,25 +4520,25 @@ idCurve_Spline<budVec3>* idEntity::GetSpline() const
 		return NULL;
 	}
 	
-	budStr str = kv->GetKey().Right( kv->GetKey().Length() - strlen( curveTag ) );
+	String str = kv->GetKey().Right( kv->GetKey().Length() - strlen( curveTag ) );
 	if( str.Icmp( "CatmullRomSpline" ) == 0 )
 	{
-		spline = new( TAG_ENTITY ) idCurve_CatmullRomSpline<budVec3>();
+		spline = new( TAG_ENTITY ) idCurve_CatmullRomSpline<Vector3>();
 	}
 	else if( str.Icmp( "nubs" ) == 0 )
 	{
-		spline = new( TAG_ENTITY ) idCurve_NonUniformBSpline<budVec3>();
+		spline = new( TAG_ENTITY ) idCurve_NonUniformBSpline<Vector3>();
 	}
 	else if( str.Icmp( "nurbs" ) == 0 )
 	{
-		spline = new( TAG_ENTITY ) idCurve_NURBS<budVec3>();
+		spline = new( TAG_ENTITY ) idCurve_NURBS<Vector3>();
 	}
 	else
 	{
-		spline = new( TAG_ENTITY ) idCurve_BSpline<budVec3>();
+		spline = new( TAG_ENTITY ) idCurve_BSpline<Vector3>();
 	}
 	
-	spline->SetBoundaryType( idCurve_Spline<budVec3>::BT_CLAMPED );
+	spline->SetBoundaryType( idCurve_Spline<Vector3>::BT_CLAMPED );
 	
 	lex.LoadMemory( kv->GetValue(), kv->GetValue().Length(), curveTag );
 	numPoints = lex.ParseInt();
@@ -4761,7 +4761,7 @@ void idEntity::Event_SpawnBind()
 	
 	if( spawnArgs.GetString( "bind", "", &bind ) )
 	{
-		if( budStr::Icmp( bind, "worldspawn" ) == 0 )
+		if( String::Icmp( bind, "worldspawn" ) == 0 )
 		{
 			//FIXME: Completely unneccessary since the worldspawn is called "world"
 			parent = gameLocal.world;
@@ -4925,7 +4925,7 @@ idEntity::Event_GetColor
 */
 void idEntity::Event_GetColor()
 {
-	budVec3 out;
+	Vector3 out;
 	
 	GetColor( out );
 	idThread::ReturnVector( out );
@@ -5041,9 +5041,9 @@ void idEntity::Event_GetWorldOrigin()
 idEntity::Event_SetWorldOrigin
 ================
 */
-void idEntity::Event_SetWorldOrigin( budVec3 const& org )
+void idEntity::Event_SetWorldOrigin( Vector3 const& org )
 {
-	budVec3 neworg = GetLocalCoordinates( org );
+	Vector3 neworg = GetLocalCoordinates( org );
 	SetOrigin( neworg );
 }
 
@@ -5052,7 +5052,7 @@ void idEntity::Event_SetWorldOrigin( budVec3 const& org )
 idEntity::Event_SetOrigin
 ================
 */
-void idEntity::Event_SetOrigin( budVec3 const& org )
+void idEntity::Event_SetOrigin( Vector3 const& org )
 {
 	SetOrigin( org );
 }
@@ -5072,7 +5072,7 @@ void idEntity::Event_GetOrigin()
 idEntity::Event_SetAngles
 ================
 */
-void idEntity::Event_SetAngles( budAngles const& ang )
+void idEntity::Event_SetAngles( Angles const& ang )
 {
 	SetAngles( ang );
 }
@@ -5084,8 +5084,8 @@ idEntity::Event_GetAngles
 */
 void idEntity::Event_GetAngles()
 {
-	budAngles ang = GetPhysics()->GetAxis().ToAngles();
-	idThread::ReturnVector( budVec3( ang[0], ang[1], ang[2] ) );
+	Angles ang = GetPhysics()->GetAxis().ToAngles();
+	idThread::ReturnVector( Vector3( ang[0], ang[1], ang[2] ) );
 }
 
 /*
@@ -5093,7 +5093,7 @@ void idEntity::Event_GetAngles()
 idEntity::Event_SetLinearVelocity
 ================
 */
-void idEntity::Event_SetLinearVelocity( const budVec3& velocity )
+void idEntity::Event_SetLinearVelocity( const Vector3& velocity )
 {
 	GetPhysics()->SetLinearVelocity( velocity );
 }
@@ -5113,7 +5113,7 @@ void idEntity::Event_GetLinearVelocity()
 idEntity::Event_SetAngularVelocity
 ================
 */
-void idEntity::Event_SetAngularVelocity( const budVec3& velocity )
+void idEntity::Event_SetAngularVelocity( const Vector3& velocity )
 {
 	GetPhysics()->SetAngularVelocity( velocity );
 }
@@ -5133,7 +5133,7 @@ void idEntity::Event_GetAngularVelocity()
 idEntity::Event_SetSize
 ================
 */
-void idEntity::Event_SetSize( budVec3 const& mins, budVec3 const& maxs )
+void idEntity::Event_SetSize( Vector3 const& mins, Vector3 const& maxs )
 {
 	GetPhysics()->SetClipBox( budBounds( mins, maxs ), 1.0f );
 }
@@ -5201,7 +5201,7 @@ void idEntity::Event_SetGuiParm( const char* key, const char* val )
 	{
 		if( renderEntity.gui[ i ] )
 		{
-			if( budStr::Icmpn( key, "gui_", 4 ) == 0 )
+			if( String::Icmpn( key, "gui_", 4 ) == 0 )
 			{
 				spawnArgs.Set( key, val );
 			}
@@ -5317,7 +5317,7 @@ idEntity::Event_GetVectorKey
 */
 void idEntity::Event_GetVectorKey( const char* key )
 {
-	budVec3 value;
+	Vector3 value;
 	
 	spawnArgs.GetVector( key, "0 0 0", value );
 	idThread::ReturnVector( value );
@@ -5355,9 +5355,9 @@ idEntity::Event_RestorePosition
 */
 void idEntity::Event_RestorePosition()
 {
-	budVec3		org;
-	budAngles	angles;
-	budMat3		axis;
+	Vector3		org;
+	Angles	angles;
+	Matrix3		axis;
 	idEntity* 	part;
 	
 	spawnArgs.GetVector( "origin", "0 0 0", org );
@@ -5405,7 +5405,7 @@ void idEntity::Event_UpdateCameraTarget()
 {
 	const char* target;
 	const idKeyValue* kv;
-	budVec3 dir;
+	Vector3 dir;
 	
 	target = spawnArgs.GetString( "cameraTarget" );
 	
@@ -5417,7 +5417,7 @@ void idEntity::Event_UpdateCameraTarget()
 		while( kv )
 		{
 			idEntity* ent = gameLocal.FindEntity( kv->GetValue() );
-			if( ent != NULL && budStr::Icmp( ent->GetEntityDefName(), "target_null" ) == 0 )
+			if( ent != NULL && String::Icmp( ent->GetEntityDefName(), "target_null" ) == 0 )
 			{
 				dir = ent->GetPhysics()->GetOrigin() - cameraTarget->GetPhysics()->GetOrigin();
 				dir.Normalize();
@@ -5455,7 +5455,7 @@ void idEntity::Event_DistanceTo( idEntity* ent )
 idEntity::Event_DistanceToPoint
 ================
 */
-void idEntity::Event_DistanceToPoint( const budVec3& point )
+void idEntity::Event_DistanceToPoint( const Vector3& point )
 {
 	float dist = ( GetPhysics()->GetOrigin() - point ).LengthFast();
 	idThread::ReturnFloat( dist );
@@ -5758,7 +5758,7 @@ idEntity::WriteColorToSnapshot
 */
 void idEntity::WriteColorToSnapshot( budBitMsg& msg ) const
 {
-	budVec4 color;
+	Vector4 color;
 	
 	color[0] = renderEntity.shaderParms[ SHADERPARM_RED ];
 	color[1] = renderEntity.shaderParms[ SHADERPARM_GREEN ];
@@ -5774,7 +5774,7 @@ idEntity::ReadColorFromSnapshot
 */
 void idEntity::ReadColorFromSnapshot( const budBitMsg& msg )
 {
-	budVec4 color;
+	Vector4 color;
 	
 	UnpackColor( msg.ReadLong(), color );
 	renderEntity.shaderParms[ SHADERPARM_RED ] = color[0];
@@ -5909,12 +5909,12 @@ void idEntity::ServerSendEvent( int eventId, const budBitMsg* msg, bool saveEven
 	outMsg.WriteLong( gameLocal.time );
 	if( msg )
 	{
-		outMsg.WriteBits( msg->GetSize(), budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+		outMsg.WriteBits( msg->GetSize(), Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 		outMsg.WriteData( msg->GetReadData(), msg->GetSize() );
 	}
 	else
 	{
-		outMsg.WriteBits( 0, budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+		outMsg.WriteBits( 0, Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 	}
 	
 	idLobbyBase& lobby = session->GetActingGameStateLobbyBase();
@@ -5959,12 +5959,12 @@ void idEntity::ClientSendEvent( int eventId, const budBitMsg* msg ) const
 	outMsg.WriteLong( gameLocal.serverTime );
 	if( msg )
 	{
-		outMsg.WriteBits( msg->GetSize(), budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+		outMsg.WriteBits( msg->GetSize(), Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 		outMsg.WriteData( msg->GetReadData(), msg->GetSize() );
 	}
 	else
 	{
-		outMsg.WriteBits( 0, budMath::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
+		outMsg.WriteBits( 0, Math::BitsForInteger( MAX_EVENT_PARAM_SIZE ) );
 	}
 	
 	session->GetActingGameStateLobbyBase().SendReliableToHost( GAME_RELIABLE_MESSAGE_EVENT, outMsg );
@@ -6080,7 +6080,7 @@ idEntity::DecayOriginAndAxisDelta
 */
 void idEntity::DecayOriginAndAxisDelta()
 {
-	budVec3 delta = vec3_zero - originDelta;
+	Vector3 delta = vec3_zero - originDelta;
 	float length = delta.Length();
 	
 	if( length > 0.01f )
@@ -6100,7 +6100,7 @@ void idEntity::DecayOriginAndAxisDelta()
 		originDelta = vec3_zero;
 	}
 	
-	idQuat q;
+	Quat q;
 	q.Slerp( axisDelta.ToQuat(), mat3_identity.ToQuat(), net_errorSmoothingDecay.GetFloat() );
 	axisDelta = q.ToMat3();
 }
@@ -6110,7 +6110,7 @@ void idEntity::DecayOriginAndAxisDelta()
 idEntity::CreateDeltasFromOldOriginAndAxis
 ========================
 */
-void idEntity::CreateDeltasFromOldOriginAndAxis( const budVec3& oldOrigin, const budMat3& oldAxis )
+void idEntity::CreateDeltasFromOldOriginAndAxis( const Vector3& oldOrigin, const Matrix3& oldAxis )
 {
 	// Set smooth values so we transition from the old position/axis to what we are now (visual only)
 	if( GetPhysics() )
@@ -6341,7 +6341,7 @@ void budAnimatedEntity::SetModel( const char* modelname )
 budAnimatedEntity::GetJointWorldTransform
 =====================
 */
-bool budAnimatedEntity::GetJointWorldTransform( jointHandle_t jointHandle, int currentTime, budVec3& offset, budMat3& axis )
+bool budAnimatedEntity::GetJointWorldTransform( jointHandle_t jointHandle, int currentTime, Vector3& offset, Matrix3& axis )
 {
 	if( !animator.GetJointTransform( jointHandle, currentTime, offset, axis ) )
 	{
@@ -6357,7 +6357,7 @@ bool budAnimatedEntity::GetJointWorldTransform( jointHandle_t jointHandle, int c
 budAnimatedEntity::GetJointTransformForAnim
 ==============
 */
-bool budAnimatedEntity::GetJointTransformForAnim( jointHandle_t jointHandle, int animNum, int frameTime, budVec3& offset, budMat3& axis ) const
+bool budAnimatedEntity::GetJointTransformForAnim( jointHandle_t jointHandle, int animNum, int frameTime, Vector3& offset, Matrix3& axis ) const
 {
 	const budAnim*	anim;
 	int				numJoints;
@@ -6393,11 +6393,11 @@ budAnimatedEntity::AddDamageEffect
   Dammage effects track the animating impact position, spitting out particles.
 ==============
 */
-void budAnimatedEntity::AddDamageEffect( const trace_t& collision, const budVec3& velocity, const char* damageDefName )
+void budAnimatedEntity::AddDamageEffect( const trace_t& collision, const Vector3& velocity, const char* damageDefName )
 {
 	jointHandle_t jointNum;
-	budVec3 origin, dir, localDir, localOrigin, localNormal;
-	budMat3 axis;
+	Vector3 origin, dir, localDir, localOrigin, localNormal;
+	Matrix3 axis;
 	
 	if( !g_bloodEffects.GetBool() || renderEntity.joints == NULL )
 	{
@@ -6444,12 +6444,12 @@ int	budAnimatedEntity::GetDefaultSurfaceType() const
 budAnimatedEntity::AddLocalDamageEffect
 ==============
 */
-void budAnimatedEntity::AddLocalDamageEffect( jointHandle_t jointNum, const budVec3& localOrigin, const budVec3& localNormal, const budVec3& localDir, const budDeclEntityDef* def, const budMaterial* collisionMaterial )
+void budAnimatedEntity::AddLocalDamageEffect( jointHandle_t jointNum, const Vector3& localOrigin, const Vector3& localNormal, const Vector3& localDir, const budDeclEntityDef* def, const budMaterial* collisionMaterial )
 {
 	const char* sound, *splat, *decal, *bleed, *key;
 	damageEffect_t*	de;
-	budVec3 origin, dir;
-	budMat3 axis;
+	Vector3 origin, dir;
+	Matrix3 axis;
 	
 	SetTimeState ts( timeGroup );
 	
@@ -6561,8 +6561,8 @@ void budAnimatedEntity::UpdateDamageEffects()
 	// emit a particle for each bleeding wound
 	for( de = this->damageEffects; de; de = de->next )
 	{
-		budVec3 origin, start;
-		budMat3 axis;
+		Vector3 origin, start;
+		Matrix3 axis;
 		
 		animator.GetJointTransform( de->jointNum, gameLocal.time, origin, axis );
 		axis *= renderEntity.axis;
@@ -6585,7 +6585,7 @@ bool budAnimatedEntity::ClientReceiveEvent( int event, int time, const budBitMsg
 	int damageDefIndex;
 	int materialIndex;
 	jointHandle_t jointNum;
-	budVec3 localOrigin, localNormal, localDir;
+	Vector3 localOrigin, localNormal, localDir;
 	
 	switch( event )
 	{
@@ -6657,7 +6657,7 @@ budAnimatedEntity::Event_SetJointPos
 modifies the position of the joint based on the transform type
 ================
 */
-void budAnimatedEntity::Event_SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const budVec3& pos )
+void budAnimatedEntity::Event_SetJointPos( jointHandle_t jointnum, jointModTransform_t transform_type, const Vector3& pos )
 {
 	animator.SetJointPos( jointnum, transform_type, pos );
 }
@@ -6669,9 +6669,9 @@ budAnimatedEntity::Event_SetJointAngle
 modifies the orientation of the joint based on the transform type
 ================
 */
-void budAnimatedEntity::Event_SetJointAngle( jointHandle_t jointnum, jointModTransform_t transform_type, const budAngles& angles )
+void budAnimatedEntity::Event_SetJointAngle( jointHandle_t jointnum, jointModTransform_t transform_type, const Angles& angles )
 {
-	budMat3 mat;
+	Matrix3 mat;
 	
 	mat = angles.ToMat3();
 	animator.SetJointAxis( jointnum, transform_type, mat );
@@ -6686,8 +6686,8 @@ returns the position of the joint in worldspace
 */
 void budAnimatedEntity::Event_GetJointPos( jointHandle_t jointnum )
 {
-	budVec3 offset;
-	budMat3 axis;
+	Vector3 offset;
+	Matrix3 axis;
 	
 	if( !GetJointWorldTransform( jointnum, gameLocal.time, offset, axis ) )
 	{
@@ -6706,15 +6706,15 @@ returns the orientation of the joint in worldspace
 */
 void budAnimatedEntity::Event_GetJointAngle( jointHandle_t jointnum )
 {
-	budVec3 offset;
-	budMat3 axis;
+	Vector3 offset;
+	Matrix3 axis;
 	
 	if( !GetJointWorldTransform( jointnum, gameLocal.time, offset, axis ) )
 	{
 		gameLocal.Warning( "Joint # %d out of range on entity '%s'",  jointnum, name.c_str() );
 	}
 	
-	budAngles ang = axis.ToAngles();
-	budVec3 vec( ang[ 0 ], ang[ 1 ], ang[ 2 ] );
+	Angles ang = axis.ToAngles();
+	Vector3 vec( ang[ 0 ], ang[ 1 ], ang[ 2 ] );
 	idThread::ReturnVector( vec );
 }

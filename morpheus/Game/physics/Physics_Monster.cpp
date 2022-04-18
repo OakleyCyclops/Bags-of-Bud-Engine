@@ -44,7 +44,7 @@ idPhysics_Monster::CheckGround
 void idPhysics_Monster::CheckGround( monsterPState_t& state )
 {
 	trace_t groundTrace;
-	budVec3 down;
+	Vector3 down;
 	
 	if( gravityNormal == vec3_zero )
 	{
@@ -93,11 +93,11 @@ void idPhysics_Monster::CheckGround( monsterPState_t& state )
 idPhysics_Monster::SlideMove
 =====================
 */
-monsterMoveResult_t idPhysics_Monster::SlideMove( budVec3& start, budVec3& velocity, const budVec3& delta )
+monsterMoveResult_t idPhysics_Monster::SlideMove( Vector3& start, Vector3& velocity, const Vector3& delta )
 {
 	int i;
 	trace_t tr;
-	budVec3 move;
+	Vector3 move;
 	
 	blockingEntity = NULL;
 	move = delta;
@@ -138,15 +138,15 @@ idPhysics_Monster::StepMove
   the velocity is clipped conform any collisions
 =====================
 */
-monsterMoveResult_t idPhysics_Monster::StepMove( budVec3& start, budVec3& velocity, const budVec3& delta )
+monsterMoveResult_t idPhysics_Monster::StepMove( Vector3& start, Vector3& velocity, const Vector3& delta )
 {
 	trace_t tr;
-	budVec3 up, down, noStepPos, noStepVel, stepPos, stepVel;
+	Vector3 up, down, noStepPos, noStepVel, stepPos, stepVel;
 	monsterMoveResult_t result1, result2;
 	float	stepdist;
 	float	nostepdist;
 	
-	if( delta == vec3_origin )
+	if( delta == Vector3_Origin )
 	{
 		return MM_OK;
 	}
@@ -375,10 +375,10 @@ void idPhysics_Monster::Restore( idRestoreGame* savefile )
 idPhysics_Monster::SetDelta
 ================
 */
-void idPhysics_Monster::SetDelta( const budVec3& d )
+void idPhysics_Monster::SetDelta( const Vector3& d )
 {
 	delta = d;
-	if( delta != vec3_origin )
+	if( delta != Vector3_Origin )
 	{
 		Activate();
 	}
@@ -491,8 +491,8 @@ idPhysics_Monster::Evaluate
 */
 bool idPhysics_Monster::Evaluate( int timeStepMSec, int endTimeMSec )
 {
-	budVec3 masterOrigin, oldOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin, oldOrigin;
+	Matrix3 masterAxis;
 	float timeStep;
 	
 	timeStep = MS2SEC( timeStepMSec );
@@ -552,7 +552,7 @@ bool idPhysics_Monster::Evaluate( int timeStepMSec, int endTimeMSec )
 			moveResult = MM_OK;
 		}
 		delta = current.velocity * timeStep;
-		if( delta != vec3_origin )
+		if( delta != Vector3_Origin )
 		{
 			moveResult = idPhysics_Monster::SlideMove( current.origin, current.velocity, delta );
 			delta.Zero();
@@ -576,7 +576,7 @@ bool idPhysics_Monster::Evaluate( int timeStepMSec, int endTimeMSec )
 		
 		current.velocity -= ( current.velocity * gravityNormal ) * gravityNormal;
 		
-		if( delta == vec3_origin )
+		if( delta == Vector3_Origin )
 		{
 			Rest();
 		}
@@ -630,7 +630,7 @@ int idPhysics_Monster::GetTime() const
 idPhysics_Monster::GetImpactInfo
 ================
 */
-void idPhysics_Monster::GetImpactInfo( const int id, const budVec3& point, impactInfo_t* info ) const
+void idPhysics_Monster::GetImpactInfo( const int id, const Vector3& point, impactInfo_t* info ) const
 {
 	info->invMass = invMass;
 	info->invInertiaTensor.Zero();
@@ -643,7 +643,7 @@ void idPhysics_Monster::GetImpactInfo( const int id, const budVec3& point, impac
 idPhysics_Monster::ApplyImpulse
 ================
 */
-void idPhysics_Monster::ApplyImpulse( const int id, const budVec3& point, const budVec3& impulse )
+void idPhysics_Monster::ApplyImpulse( const int id, const Vector3& point, const Vector3& impulse )
 {
 	if( noImpact )
 	{
@@ -702,10 +702,10 @@ void idPhysics_Monster::RestoreState()
 idPhysics_Player::SetOrigin
 ================
 */
-void idPhysics_Monster::SetOrigin( const budVec3& newOrigin, int id )
+void idPhysics_Monster::SetOrigin( const Vector3& newOrigin, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.localOrigin = newOrigin;
 	if( masterEntity )
@@ -726,7 +726,7 @@ void idPhysics_Monster::SetOrigin( const budVec3& newOrigin, int id )
 idPhysics_Player::SetAxis
 ================
 */
-void idPhysics_Monster::SetAxis( const budMat3& newAxis, int id )
+void idPhysics_Monster::SetAxis( const Matrix3& newAxis, int id )
 {
 	clipModel->Link( gameLocal.clip, self, 0, clipModel->GetOrigin(), newAxis );
 	Activate();
@@ -737,7 +737,7 @@ void idPhysics_Monster::SetAxis( const budMat3& newAxis, int id )
 idPhysics_Monster::Translate
 ================
 */
-void idPhysics_Monster::Translate( const budVec3& translation, int id )
+void idPhysics_Monster::Translate( const Vector3& translation, int id )
 {
 
 	current.localOrigin += translation;
@@ -751,10 +751,10 @@ void idPhysics_Monster::Translate( const budVec3& translation, int id )
 idPhysics_Monster::Rotate
 ================
 */
-void idPhysics_Monster::Rotate( const budRotation& rotation, int id )
+void idPhysics_Monster::Rotate( const Rotation& rotation, int id )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	current.origin *= rotation;
 	if( masterEntity )
@@ -775,7 +775,7 @@ void idPhysics_Monster::Rotate( const budRotation& rotation, int id )
 idPhysics_Monster::SetLinearVelocity
 ================
 */
-void idPhysics_Monster::SetLinearVelocity( const budVec3& newLinearVelocity, int id )
+void idPhysics_Monster::SetLinearVelocity( const Vector3& newLinearVelocity, int id )
 {
 	current.velocity = newLinearVelocity;
 	Activate();
@@ -786,7 +786,7 @@ void idPhysics_Monster::SetLinearVelocity( const budVec3& newLinearVelocity, int
 idPhysics_Monster::GetLinearVelocity
 ================
 */
-const budVec3& idPhysics_Monster::GetLinearVelocity( int id ) const
+const Vector3& idPhysics_Monster::GetLinearVelocity( int id ) const
 {
 	return current.velocity;
 }
@@ -799,7 +799,7 @@ idPhysics_Monster::SetPushed
 void idPhysics_Monster::SetPushed( int deltaTime )
 {
 	// velocity with which the monster is pushed
-	current.pushVelocity += ( current.origin - saved.origin ) / ( deltaTime * budMath::M_MS2SEC );
+	current.pushVelocity += ( current.origin - saved.origin ) / ( deltaTime * Math::M_MS2SEC );
 }
 
 /*
@@ -807,7 +807,7 @@ void idPhysics_Monster::SetPushed( int deltaTime )
 idPhysics_Monster::GetPushedLinearVelocity
 ================
 */
-const budVec3& idPhysics_Monster::GetPushedLinearVelocity( const int id ) const
+const Vector3& idPhysics_Monster::GetPushedLinearVelocity( const int id ) const
 {
 	return current.pushVelocity;
 }
@@ -821,8 +821,8 @@ idPhysics_Monster::SetMaster
 */
 void idPhysics_Monster::SetMaster( idEntity* master, const bool orientated )
 {
-	budVec3 masterOrigin;
-	budMat3 masterAxis;
+	Vector3 masterOrigin;
+	Matrix3 masterAxis;
 	
 	if( master )
 	{
@@ -848,7 +848,7 @@ void idPhysics_Monster::SetMaster( idEntity* master, const bool orientated )
 
 const float	MONSTER_VELOCITY_MAX			= 4000;
 const int	MONSTER_VELOCITY_TOTAL_BITS		= 16;
-const int	MONSTER_VELOCITY_EXPONENT_BITS	= budMath::BitsForInteger( budMath::BitsForFloat( MONSTER_VELOCITY_MAX ) ) + 1;
+const int	MONSTER_VELOCITY_EXPONENT_BITS	= Math::BitsForInteger( Math::BitsForFloat( MONSTER_VELOCITY_MAX ) ) + 1;
 const int	MONSTER_VELOCITY_MANTISSA_BITS	= MONSTER_VELOCITY_TOTAL_BITS - 1 - MONSTER_VELOCITY_EXPONENT_BITS;
 
 /*

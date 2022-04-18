@@ -109,7 +109,7 @@ void idMenuWidget_MenuBar::Update()
 idMenuWidget_MenuBar::SetListHeadings
 ========================
 */
-void idMenuWidget_MenuBar::SetListHeadings( budList< budStr >& list )
+void idMenuWidget_MenuBar::SetListHeadings( List< String >& list )
 {
 	headings.Clear();
 	for( int index = 0; index < list.Num(); ++index )

@@ -40,7 +40,7 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 
-budCVar g_projectileDebug( "g_projectileDebug", "0", CVAR_BOOL, "Debug projectiles" );
+CVar g_projectileDebug( "g_projectileDebug", "0", CVAR_BOOL, "Debug projectiles" );
 
 
 // This is used in MP to simulate frames to catchup a projectile's state. Similiar to how players work much lighter weight.
@@ -197,7 +197,7 @@ void idProjectile::Restore( idRestoreGame* savefile )
 	
 	if( smokeFly != NULL )
 	{
-		budVec3 dir;
+		Vector3 dir;
 		dir = physicsObj.GetLinearVelocity();
 		dir.NormalizeFast();
 		gameLocal.smokeParticles->EmitSmoke( smokeFly, gameLocal.time, gameLocal.random.RandomFloat(), GetPhysics()->GetOrigin(), GetPhysics()->GetAxis(), timeGroup /*_D3XP*/ );
@@ -224,14 +224,14 @@ idEntity* idProjectile::GetOwner() const
 idProjectile::Create
 ================
 */
-void idProjectile::Create( idEntity* owner, const budVec3& start, const budVec3& dir )
+void idProjectile::Create( idEntity* owner, const Vector3& start, const Vector3& dir )
 {
-	idDict		args;
-	budStr		shaderName;
-	budVec3		light_color;
-	budVec3		light_offset;
-	budVec3		tmp;
-	budMat3		axis;
+	Dict		args;
+	String		shaderName;
+	Vector3		light_color;
+	Vector3		light_offset;
+	Vector3		tmp;
+	Matrix3		axis;
 	
 	Unbind();
 	
@@ -316,13 +316,13 @@ void idProjectile::FreeLightDef()
 idProjectile::Launch
 =================
 */
-void idProjectile::Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire, const float launchPower, const float dmgPower )
+void idProjectile::Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire, const float launchPower, const float dmgPower )
 {
 	float			fuse;
 	float			startthrust;
 	float			endthrust;
-	budVec3			velocity;
-	budAngles		angular_velocity;
+	Vector3			velocity;
+	Angles		angular_velocity;
 	float			linear_friction;
 	float			angular_friction;
 	float			contact_friction;
@@ -330,9 +330,9 @@ void idProjectile::Launch( const budVec3& start, const budVec3& dir, const budVe
 	float			mass;
 	float			speed;
 	float			gravity;
-	budVec3			gravVec;
-	budVec3			tmp;
-	budMat3			axis;
+	Vector3			gravVec;
+	Vector3			tmp;
+	Matrix3			axis;
 	int				thrust_start;
 	int				contents;
 	int				clipMask;
@@ -411,7 +411,7 @@ void idProjectile::Launch( const budVec3& start, const budVec3& dir, const budVe
 		clipMask |= CONTENTS_PROJECTILE;
 	}
 	
-	if( !budStr::Cmp( this->GetEntityDefName(), "projectile_helltime_killer" ) )
+	if( !String::Cmp( this->GetEntityDefName(), "projectile_helltime_killer" ) )
 	{
 		contents = CONTENTS_MOVEABLECLIP;
 		clipMask = CONTENTS_MOVEABLECLIP;
@@ -443,7 +443,7 @@ void idProjectile::Launch( const budVec3& start, const budVec3& dir, const budVe
 	launchOrigin = start;
 	launchAxis = axis;
 	
-	thruster.SetPosition( &physicsObj, 0, budVec3( GetPhysics()->GetBounds()[ 0 ].x, 0, 0 ) );
+	thruster.SetPosition( &physicsObj, 0, Vector3( GetPhysics()->GetBounds()[ 0 ].x, 0, 0 ) );
 	
 	if( !common->IsClient() || fl.skipReplication )
 	{
@@ -560,7 +560,7 @@ void idProjectile::AddParticlesAndLight()
 	// add the particles
 	if( smokeFly != NULL && smokeFlyTime && !IsHidden() )
 	{
-		budVec3 dir = -GetPhysics()->GetLinearVelocity();
+		Vector3 dir = -GetPhysics()->GetLinearVelocity();
 		dir.Normalize();
 		SetTimeState ts( originalTimeGroup );
 		
@@ -579,7 +579,7 @@ void idProjectile::AddParticlesAndLight()
 		{
 			if( lightEndTime > 0 && gameLocal.time <= lightEndTime )
 			{
-				budVec3 color( 0, 0, 0 );
+				Vector3 color( 0, 0, 0 );
 				if( gameLocal.time < lightEndTime )
 				{
 					float frac = ( float )( gameLocal.time - lightStartTime ) / ( float )( lightEndTime - lightStartTime );
@@ -603,12 +603,12 @@ void idProjectile::AddParticlesAndLight()
 idProjectile::Collide
 =================
 */
-bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
+bool idProjectile::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	idEntity*	ent;
 	idEntity*	ignore;
 	const char*	damageDefName;
-	budVec3		dir;
+	Vector3		dir;
 	float		push;
 	float		damageScale;
 	
@@ -693,7 +693,7 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 				float len = velocity.Length();
 				if( len > BOUNCE_SOUND_MIN_VELOCITY )
 				{
-					SetSoundVolume( len > BOUNCE_SOUND_MAX_VELOCITY ? 1.0f : budMath::Sqrt( len - BOUNCE_SOUND_MIN_VELOCITY ) * ( 1.0f / budMath::Sqrt( BOUNCE_SOUND_MAX_VELOCITY - BOUNCE_SOUND_MIN_VELOCITY ) ) );
+					SetSoundVolume( len > BOUNCE_SOUND_MAX_VELOCITY ? 1.0f : Math::Sqrt( len - BOUNCE_SOUND_MIN_VELOCITY ) * ( 1.0f / Math::Sqrt( BOUNCE_SOUND_MAX_VELOCITY - BOUNCE_SOUND_MIN_VELOCITY ) ) );
 					StartSound( "snd_bounce", SND_CHANNEL_ANY, 0, true, NULL );
 				}
 			}
@@ -819,7 +819,7 @@ bool idProjectile::Collide( const trace_t& collision, const budVec3& velocity )
 idProjectile::DefaultDamageEffect
 =================
 */
-void idProjectile::DefaultDamageEffect( idEntity* soundEnt, const idDict& projectileDef, const trace_t& collision, const budVec3& velocity )
+void idProjectile::DefaultDamageEffect( idEntity* soundEnt, const Dict& projectileDef, const trace_t& collision, const Vector3& velocity )
 {
 	const char* decal, *sound, *typeName;
 	surfTypes_t materialType;
@@ -868,7 +868,7 @@ void idProjectile::DefaultDamageEffect( idEntity* soundEnt, const idDict& projec
 idProjectile::AddDefaultDamageEffect
 =================
 */
-void idProjectile::AddDefaultDamageEffect( const trace_t& collision, const budVec3& velocity )
+void idProjectile::AddDefaultDamageEffect( const trace_t& collision, const Vector3& velocity )
 {
 
 	DefaultDamageEffect( this, spawnArgs, collision, velocity );
@@ -903,7 +903,7 @@ void idProjectile::AddDefaultDamageEffect( const trace_t& collision, const budVe
 idProjectile::Killed
 ================
 */
-void idProjectile::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idProjectile::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	if( spawnArgs.GetBool( "detonate_on_death" ) )
 	{
@@ -944,7 +944,7 @@ void idProjectile::Fizzle()
 	const char* psystem = spawnArgs.GetString( "smoke_fuse" );
 	if( psystem != NULL && *psystem != '\0' )
 	{
-//FIXME:SMOKE		gameLocal.particles->SpawnParticles( GetPhysics()->GetOrigin(), vec3_origin, psystem );
+//FIXME:SMOKE		gameLocal.particles->SpawnParticles( GetPhysics()->GetOrigin(), Vector3_Origin, psystem );
 	}
 	
 	// we need to work out how long the effects last and then remove them at that time
@@ -1006,7 +1006,7 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 {
 	const char* fxname, *light_shader, *sndExplode;
 	float		light_fadetime;
-	budVec3		normal;
+	Vector3		normal;
 	int			removeTime;
 	
 	if( mNoExplodeDisappear )
@@ -1028,7 +1028,7 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	
 		// damage
 		const char* damageDefName = spawnArgs.GetString( "def_damage" );
-		const idDict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
+		const Dict* damageDef = gameLocal.FindEntityDefDict( damageDefName );
 		int damage;
 		if( damageDef != NULL )
 		{
@@ -1038,19 +1038,19 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 		{
 			damage = 200;
 		}
-		float damageScale = budMath::ClampFloat( 0.25f, 1.0f, ( float )damage * ( 1.0f / 200.0f ) );	// 50...200 -> min...max rumble
+		float damageScale = Math::ClampFloat( 0.25f, 1.0f, ( float )damage * ( 1.0f / 200.0f ) );	// 50...200 -> min...max rumble
 		
 		// distance
 		float dist = ( GetPhysics()->GetOrigin() - player->GetPhysics()->GetOrigin() ).LengthFast();
-		float distScale = 1.0f - budMath::ClampFloat( 0.0f, 1.0f, ( dist * ( 1.0f / 4000.0f ) ) + 0.25f );		// 0...4000 -> max...min rumble
+		float distScale = 1.0f - Math::ClampFloat( 0.0f, 1.0f, ( dist * ( 1.0f / 4000.0f ) ) + 0.25f );		// 0...4000 -> max...min rumble
 		
 		distScale *= damageScale;	// apply damage scale here, weaker damage produces less rumble
 		
 		// determine rumble
 		float highMag = distScale;
-		int highDuration = budMath::Ftoi( 300.0f * distScale );
+		int highDuration = Math::Ftoi( 300.0f * distScale );
 		float lowMag = distScale * 0.75f;
-		int lowDuration = budMath::Ftoi( 500.0f * distScale );
+		int lowDuration = Math::Ftoi( 500.0f * distScale );
 		
 		player->SetControllerShake( highMag, highDuration, lowMag, lowDuration );
 	}
@@ -1131,12 +1131,12 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	}
 	
 	// If the explosion is in liquid, spawn a particle splash
-	budVec3 testOrg = GetPhysics()->GetOrigin();
+	Vector3 testOrg = GetPhysics()->GetOrigin();
 	int testC = gameLocal.clip.Contents( testOrg, NULL, mat3_identity, CONTENTS_WATER, this );
 	if( testC & CONTENTS_WATER )
 	{
 		idFuncEmitter* splashEnt;
-		idDict splashArgs;
+		Dict splashArgs;
 		
 		splashArgs.Set( "model", "sludgebulletimpact.prt" );
 		splashArgs.Set( "start_off", "1" );
@@ -1147,7 +1147,7 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 		splashEnt->PostEventMS( &EV_Remove, 1500 );
 		
 		// HACK - if this is a chaingun bullet, don't do the normal effect
-		if( !budStr::Cmp( spawnArgs.GetString( "def_damage" ), "damage_bullet_chaingun" ) )
+		if( !String::Cmp( spawnArgs.GetString( "def_damage" ), "damage_bullet_chaingun" ) )
 		{
 			fxname = NULL;
 		}
@@ -1258,14 +1258,14 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 	int fxdebris = spawnArgs.GetInt( "debris_count" );
 	if( fxdebris )
 	{
-		const idDict* debris = gameLocal.FindEntityDefDict( "projectile_debris", false );
+		const Dict* debris = gameLocal.FindEntityDefDict( "projectile_debris", false );
 		if( debris )
 		{
 			int amount = gameLocal.random.RandomInt( fxdebris );
 			for( int i = 0; i < amount; i++ )
 			{
 				idEntity* ent;
-				budVec3 dir;
+				Vector3 dir;
 				dir.x = gameLocal.random.CRandomFloat() * 4.0f;
 				dir.y = gameLocal.random.CRandomFloat() * 4.0f;
 				dir.z = gameLocal.random.RandomFloat() * 8.0f;
@@ -1290,7 +1290,7 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 			for( int i = 0; i < amount; i++ )
 			{
 				idEntity* ent;
-				budVec3 dir;
+				Vector3 dir;
 				dir.x = gameLocal.random.CRandomFloat() * 8.0f;
 				dir.y = gameLocal.random.CRandomFloat() * 8.0f;
 				dir.z = gameLocal.random.RandomFloat() * 8.0f + 8.0f;
@@ -1319,9 +1319,9 @@ void idProjectile::Explode( const trace_t& collision, idEntity* ignore )
 idProjectile::GetVelocity
 ================
 */
-budVec3 idProjectile::GetVelocity( const idDict* projectile )
+Vector3 idProjectile::GetVelocity( const Dict* projectile )
 {
-	budVec3 velocity;
+	Vector3 velocity;
 	
 	projectile->GetVector( "velocity", "0 0 0", velocity );
 	return velocity;
@@ -1332,12 +1332,12 @@ budVec3 idProjectile::GetVelocity( const idDict* projectile )
 idProjectile::GetGravity
 ================
 */
-budVec3 idProjectile::GetGravity( const idDict* projectile )
+Vector3 idProjectile::GetGravity( const Dict* projectile )
 {
 	float gravity;
 	
 	gravity = projectile->GetFloat( "gravity" );
-	return budVec3( 0, 0, -gravity );
+	return Vector3( 0, 0, -gravity );
 }
 
 /*
@@ -1424,10 +1424,10 @@ void idProjectile::CatchProjectile( idEntity* o, const char* reflectName )
 		proj->SetEnemy( prevowner );
 	}
 	
-	budStr s = spawnArgs.GetString( "def_damage" );
+	String s = spawnArgs.GetString( "def_damage" );
 	s += reflectName;
 	
-	const idDict* damageDef = gameLocal.FindEntityDefDict( s, false );
+	const Dict* damageDef = gameLocal.FindEntityDefDict( s, false );
 	if( damageDef )
 	{
 		spawnArgs.Set( "def_damage", s );
@@ -1450,7 +1450,7 @@ int idProjectile::GetProjectileState()
 idProjectile::Event_CreateProjectile
 ================
 */
-void idProjectile::Event_CreateProjectile( idEntity* owner, const budVec3& start, const budVec3& dir )
+void idProjectile::Event_CreateProjectile( idEntity* owner, const Vector3& start, const Vector3& dir )
 {
 	Create( owner, start, dir );
 }
@@ -1460,7 +1460,7 @@ void idProjectile::Event_CreateProjectile( idEntity* owner, const budVec3& start
 idProjectile::Event_LaunchProjectile
 ================
 */
-void idProjectile::Event_LaunchProjectile( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity )
+void idProjectile::Event_LaunchProjectile( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity )
 {
 	Launch( start, dir, pushVelocity );
 }
@@ -1472,7 +1472,7 @@ idProjectile::Event_SetGravity
 */
 void idProjectile::Event_SetGravity( float gravity )
 {
-	budVec3 gravVec;
+	Vector3 gravVec;
 	
 	gravVec = gameLocal.GetGravity();
 	gravVec.NormalizeFast();
@@ -1484,7 +1484,7 @@ void idProjectile::Event_SetGravity( float gravity )
 idProjectile::ClientPredictionCollide
 =================
 */
-bool idProjectile::ClientPredictionCollide( idEntity* soundEnt, const idDict& projectileDef, const trace_t& collision, const budVec3& velocity, bool addDamageEffect )
+bool idProjectile::ClientPredictionCollide( idEntity* soundEnt, const Dict& projectileDef, const trace_t& collision, const Vector3& velocity, bool addDamageEffect )
 {
 	idEntity* ent;
 	
@@ -1613,13 +1613,13 @@ void idProjectile::ReadFromSnapshot( const budBitMsg& msg )
 		{
 			case SPAWNED:
 			{
-				Create( owner.GetEntity(), vec3_origin, budVec3( 1, 0, 0 ) );
+				Create( owner.GetEntity(), Vector3_Origin, Vector3( 1, 0, 0 ) );
 				break;
 			}
 			case CREATED:
 			{
 				// the right origin and direction are required if you want bullet traces
-				Launch( vec3_origin, budVec3( 1, 0, 0 ), vec3_origin );
+				Launch( Vector3_Origin, Vector3( 1, 0, 0 ), Vector3_Origin );
 				break;
 			}
 			case LAUNCHED:
@@ -1667,7 +1667,7 @@ idProjectile::ClientReceiveEvent
 bool idProjectile::ClientReceiveEvent( int event, int time, const budBitMsg& msg )
 {
 	trace_t collision;
-	budVec3 velocity;
+	Vector3 velocity;
 	
 	switch( event )
 	{
@@ -1728,7 +1728,7 @@ idProjectile::SimulateProjectileFrame
 */
 void idProjectile::SimulateProjectileFrame( int msec, int endTime )
 {
-	budVec3 oldOrigin = GetPhysics()->GetOrigin();
+	Vector3 oldOrigin = GetPhysics()->GetOrigin();
 	
 	GetPhysics()->Evaluate( msec, endTime );
 	SetOrigin( GetPhysics()->GetOrigin() );
@@ -1864,7 +1864,7 @@ void budGuidedProjectile::Restore( idRestoreGame* savefile )
 budGuidedProjectile::GetSeekPos
 ================
 */
-void budGuidedProjectile::GetSeekPos( budVec3& out )
+void budGuidedProjectile::GetSeekPos( Vector3& out )
 {
 	idEntity* enemyEnt = enemy.GetEntity();
 	if( enemyEnt )
@@ -1892,14 +1892,14 @@ budGuidedProjectile::Think
 */
 void budGuidedProjectile::Think()
 {
-	budVec3		dir;
-	budVec3		seekPos;
-	budVec3		velocity;
-	budVec3		nose;
-	budVec3		tmp;
-	budMat3		axis;
-	budAngles	dirAng;
-	budAngles	diff;
+	Vector3		dir;
+	Vector3		seekPos;
+	Vector3		velocity;
+	Vector3		nose;
+	Vector3		tmp;
+	Matrix3		axis;
+	Angles	dirAng;
+	Angles	diff;
 	float		dist;
 	float		frac;
 	int			i;
@@ -1976,7 +1976,7 @@ void budGuidedProjectile::Think()
 budGuidedProjectile::Launch
 =================
 */
-void budGuidedProjectile::Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire, const float launchPower, float dmgPower )
+void budGuidedProjectile::Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire, const float launchPower, float dmgPower )
 {
 	idProjectile::Launch( start, dir, pushVelocity, timeSinceFire, launchPower, dmgPower );
 	if( owner.GetEntity() )
@@ -1989,8 +1989,8 @@ void budGuidedProjectile::Launch( const budVec3& start, const budVec3& dir, cons
 		{
 			trace_t tr;
 			budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
-			budVec3 start = player->GetEyePosition();
-			budVec3 end = start + player->viewAxis[0] * 1000.0f;
+			Vector3 start = player->GetEyePosition();
+			Vector3 end = start + player->viewAxis[0] * 1000.0f;
 			gameLocal.clip.TracePoint( tr, start, end, MASK_SHOT_RENDERMODEL | CONTENTS_BODY, owner.GetEntity() );
 			if( tr.fraction < 1.0f )
 			{
@@ -2003,7 +2003,7 @@ void budGuidedProjectile::Launch( const budVec3& start, const budVec3& dir, cons
 			}
 		}
 	}
-	const budVec3& vel = physicsObj.GetLinearVelocity();
+	const Vector3& vel = physicsObj.GetLinearVelocity();
 	angles = vel.ToAngles();
 	speed = vel.Length();
 	rndScale = spawnArgs.GetAngles( "random", "15 15 0" );
@@ -2107,7 +2107,7 @@ void idSoulCubeMissile::Restore( idRestoreGame* savefile )
 idSoulCubeMissile::KillTarget
 ================
 */
-void idSoulCubeMissile::KillTarget( const budVec3& dir )
+void idSoulCubeMissile::KillTarget( const Vector3& dir )
 {
 	idEntity*	ownerEnt;
 	const char*	smokeName;
@@ -2146,7 +2146,7 @@ idSoulCubeMissile::Think
 void idSoulCubeMissile::Think()
 {
 	float		pct;
-	budVec3		seekPos;
+	Vector3		seekPos;
 	idEntity*	ownerEnt;
 	
 	if( state == LAUNCHED )
@@ -2202,7 +2202,7 @@ void idSoulCubeMissile::Think()
 idSoulCubeMissile::GetSeekPos
 ================
 */
-void idSoulCubeMissile::GetSeekPos( budVec3& out )
+void idSoulCubeMissile::GetSeekPos( Vector3& out )
 {
 	if( returnPhase && owner.GetEntity() && owner.GetEntity()->IsType( budActor::Type ) )
 	{
@@ -2238,10 +2238,10 @@ void idSoulCubeMissile::ReturnToOwner()
 idSoulCubeMissile::Launch
 =================
 */
-void idSoulCubeMissile::Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire, const float launchPower, float dmgPower )
+void idSoulCubeMissile::Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire, const float launchPower, float dmgPower )
 {
-	budVec3		newStart;
-	budVec3		offs;
+	Vector3		newStart;
+	Vector3		offs;
 	idEntity*	ownerEnt;
 	
 	// push it out a little
@@ -2443,14 +2443,14 @@ void idBFGProjectile::Think()
 			budPlayer* player = ( beamTargets[i].target.GetEntity()->IsType( budPlayer::Type ) ) ? static_cast<budPlayer*>( beamTargets[i].target.GetEntity() ) : NULL;
 			// Major hack for end boss.  :(
 			budAnimatedEntity*	beamEnt;
-			budVec3				org;
+			Vector3				org;
 			bool				forceDamage = false;
 			
 			beamEnt = static_cast<budAnimatedEntity*>( beamTargets[i].target.GetEntity() );
-			if( !budStr::Cmp( beamEnt->GetEntityDefName(), "monster_boss_d3xp_maledict" ) )
+			if( !String::Cmp( beamEnt->GetEntityDefName(), "monster_boss_d3xp_maledict" ) )
 			{
 				SetTimeState	ts( beamEnt->timeGroup );
-				budMat3			temp;
+				Matrix3			temp;
 				jointHandle_t	bodyJoint;
 				
 				bodyJoint = beamEnt->GetAnimator()->GetJointHandle( "Chest1" );
@@ -2502,7 +2502,7 @@ void idBFGProjectile::Think()
 			gameRenderWorld->UpdateEntityDef( secondModelDefHandle, &secondModel );
 		}
 		
-		budAngles ang;
+		Angles ang;
 		
 		ang.pitch = ( gameLocal.time & 4095 ) * 360.0f / -4096.0f;
 		ang.yaw = ang.pitch;
@@ -2525,7 +2525,7 @@ void idBFGProjectile::Think()
 idBFGProjectile::Launch
 =================
 */
-void idBFGProjectile::Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire, const float power, const float dmgPower )
+void idBFGProjectile::Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire, const float power, const float dmgPower )
 {
 	idProjectile::Launch( start, dir, pushVelocity, 0.0f, power, dmgPower );
 	
@@ -2539,7 +2539,7 @@ void idBFGProjectile::Launch( const budVec3& start, const budVec3& dir, const bu
 	idEntity* 	entityList[ MAX_GENTITIES ];
 	int			numListedEntities;
 	budBounds	bounds;
-	budVec3		damagePoint;
+	Vector3		damagePoint;
 	
 	float radius;
 	spawnArgs.GetFloat( "damageRadius", "512", radius );
@@ -2566,7 +2566,7 @@ void idBFGProjectile::Launch( const budVec3& start, const budVec3& dir, const bu
 		secondModelDefHandle = gameRenderWorld->AddEntityDef( &secondModel );
 	}
 	
-	budVec3 delta( 15.0f, 15.0f, 15.0f );
+	Vector3 delta( 15.0f, 15.0f, 15.0f );
 	//physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_LINEAR|EXTRAPOLATION_NOSTOP), gameLocal.time, 0, physicsObj.GetAxis().ToAngles(), delta, ang_zero );
 	
 	// get all entities touching the bounds
@@ -2620,15 +2620,15 @@ void idBFGProjectile::Launch( const budVec3& start, const budVec3& dir, const bu
 	{
 		SetTimeState	ts( maledict->timeGroup );
 		
-		budVec3			realPoint;
-		budMat3			temp;
+		Vector3			realPoint;
+		Matrix3			temp;
 		float			dist;
 		jointHandle_t	bodyJoint;
 		
 		bodyJoint = maledict->GetAnimator()->GetJointHandle( "Chest1" );
 		maledict->GetJointWorldTransform( bodyJoint, gameLocal.time, realPoint, temp );
 		
-		dist = budVec3( realPoint - GetPhysics()->GetOrigin() ).Length();
+		dist = Vector3( realPoint - GetPhysics()->GetOrigin() ).Length();
 		
 		if( dist < radius )
 		{
@@ -2684,8 +2684,8 @@ idProjectile::Explode
 void idBFGProjectile::Explode( const trace_t& collision, idEntity* ignore )
 {
 	int			i;
-	budVec3		dmgPoint;
-	budVec3		dir;
+	Vector3		dmgPoint;
+	Vector3		dir;
 	float		beamWidth;
 	float		damageScale;
 	const char* damage;
@@ -2806,7 +2806,7 @@ void idDebris::Spawn()
 idDebris::Create
 ================
 */
-void idDebris::Create( idEntity* owner, const budVec3& start, const budMat3& axis )
+void idDebris::Create( idEntity* owner, const Vector3& start, const Matrix3& axis )
 {
 	Unbind();
 	GetPhysics()->SetOrigin( start );
@@ -2883,17 +2883,17 @@ idDebris::Launch
 void idDebris::Launch()
 {
 	float		fuse;
-	budVec3		velocity;
-	budAngles	angular_velocity;
+	Vector3		velocity;
+	Angles	angular_velocity;
 	float		linear_friction;
 	float		angular_friction;
 	float		contact_friction;
 	float		bounce;
 	float		mass;
 	float		gravity;
-	budVec3		gravVec;
+	Vector3		gravVec;
 	bool		randomVelocity;
-	budMat3		axis;
+	Matrix3		axis;
 	
 	renderEntity.shaderParms[ SHADERPARM_TIMEOFFSET ] = -MS2SEC( gameLocal.time );
 	
@@ -3045,7 +3045,7 @@ void idDebris::Think()
 idDebris::Killed
 ================
 */
-void idDebris::Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location )
+void idDebris::Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location )
 {
 	if( spawnArgs.GetBool( "detonate_on_death" ) )
 	{
@@ -3062,7 +3062,7 @@ void idDebris::Killed( idEntity* inflictor, idEntity* attacker, int damage, cons
 idDebris::Collide
 =================
 */
-bool idDebris::Collide( const trace_t& collision, const budVec3& velocity )
+bool idDebris::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	if( sndBounce != NULL )
 	{
@@ -3200,7 +3200,7 @@ idHomingProjectile::idHomingProjectile()
 	burstDist		= 0;
 	burstVelocity	= 0.0f;
 	unGuided		= false;
-	seekPos			= vec3_origin;
+	seekPos			= Vector3_Origin;
 }
 
 /*
@@ -3278,13 +3278,13 @@ void idHomingProjectile::Think()
 		return;
 	}
 	
-	budVec3		dir;
-	budVec3		velocity;
-	budVec3		nose;
-	budVec3		tmp;
-	budMat3		axis;
-	budAngles	dirAng;
-	budAngles	diff;
+	Vector3		dir;
+	Vector3		velocity;
+	Vector3		nose;
+	Vector3		tmp;
+	Matrix3		axis;
+	Angles	dirAng;
+	Angles	diff;
 	float		dist;
 	float		frac;
 	int			i;
@@ -3348,7 +3348,7 @@ void idHomingProjectile::Think()
 idHomingProjectile::Launch
 =================
 */
-void idHomingProjectile::Launch( const budVec3& start, const budVec3& dir, const budVec3& pushVelocity, const float timeSinceFire, const float launchPower, float dmgPower )
+void idHomingProjectile::Launch( const Vector3& start, const Vector3& dir, const Vector3& pushVelocity, const float timeSinceFire, const float launchPower, float dmgPower )
 {
 	idProjectile::Launch( start, dir, pushVelocity, timeSinceFire, launchPower, dmgPower );
 	if( owner.GetEntity() )
@@ -3361,8 +3361,8 @@ void idHomingProjectile::Launch( const budVec3& start, const budVec3& dir, const
 		{
 			trace_t tr;
 			budPlayer* player = static_cast<budPlayer*>( owner.GetEntity() );
-			budVec3 start = player->GetEyePosition();
-			budVec3 end = start + player->viewAxis[0] * 1000.0f;
+			Vector3 start = player->GetEyePosition();
+			Vector3 end = start + player->viewAxis[0] * 1000.0f;
 			gameLocal.clip.TracePoint( tr, start, end, MASK_SHOT_RENDERMODEL | CONTENTS_BODY, owner.GetEntity() );
 			if( tr.fraction < 1.0f )
 			{
@@ -3375,7 +3375,7 @@ void idHomingProjectile::Launch( const budVec3& start, const budVec3& dir, const
 			}
 		}
 	}
-	const budVec3& vel = physicsObj.GetLinearVelocity();
+	const Vector3& vel = physicsObj.GetLinearVelocity();
 	angles = vel.ToAngles();
 	speed = vel.Length();
 	rndScale = spawnArgs.GetAngles( "random", "15 15 0" );
@@ -3392,7 +3392,7 @@ void idHomingProjectile::SetEnemy( idEntity* ent )
 {
 	enemy = ent;
 }
-void idHomingProjectile::SetSeekPos( budVec3 pos )
+void idHomingProjectile::SetSeekPos( Vector3 pos )
 {
 	seekPos = pos;
 }

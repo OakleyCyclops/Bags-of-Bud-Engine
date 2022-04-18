@@ -205,7 +205,7 @@ END_CLASS
 
 idThread*			idThread::currentThread = NULL;
 int					idThread::threadIndex = 0;
-budList<idThread*, TAG_THREAD>	idThread::threadList;
+List<idThread*, TAG_THREAD>	idThread::threadList;
 trace_t				idThread::trace;
 
 /*
@@ -553,7 +553,7 @@ void idThread::DisplayInfo()
 idThread::ListThreads_f
 ================
 */
-void idThread::ListThreads_f( const budCmdArgs& args )
+void idThread::ListThreads_f( const CmdArgs& args )
 {
 	int	i;
 	int	n;
@@ -694,7 +694,7 @@ void idThread::KillThread( const char* name )
 	for( i = 0; i < num; i++ )
 	{
 		thread = threadList[ i ];
-		if( !budStr::Cmpn( thread->GetThreadName(), name, len ) )
+		if( !String::Cmpn( thread->GetThreadName(), name, len ) )
 		{
 			thread->End();
 		}
@@ -952,7 +952,7 @@ void idThread::ReturnInt( int value )
 idThread::ReturnVector
 ================
 */
-void idThread::ReturnVector( budVec3 const& vec )
+void idThread::ReturnVector( Vector3 const& vec )
 {
 	gameLocal.program.ReturnVector( vec );
 }
@@ -1339,9 +1339,9 @@ void idThread::Event_SpawnFloat( const char* key, float defaultvalue )
 idThread::Event_SpawnVector
 ================
 */
-void idThread::Event_SpawnVector( const char* key, budVec3& defaultvalue )
+void idThread::Event_SpawnVector( const char* key, Vector3& defaultvalue )
 {
-	budVec3 result;
+	Vector3 result;
 	
 	spawnArgs.GetVector( key, va( "%f %f %f", defaultvalue.x, defaultvalue.y, defaultvalue.z ), result );
 	ReturnVector( result );
@@ -1401,7 +1401,7 @@ idThread::Event_GetPersistantVector
 */
 void idThread::Event_GetPersistantVector( const char* key )
 {
-	budVec3 result;
+	Vector3 result;
 	
 	gameLocal.persistentLevelInfo.GetVector( key, "0 0 0", result );
 	ReturnVector( result );
@@ -1412,7 +1412,7 @@ void idThread::Event_GetPersistantVector( const char* key )
 idThread::Event_AngToForward
 ================
 */
-void idThread::Event_AngToForward( budAngles& ang )
+void idThread::Event_AngToForward( Angles& ang )
 {
 	ReturnVector( ang.ToForward() );
 }
@@ -1422,9 +1422,9 @@ void idThread::Event_AngToForward( budAngles& ang )
 idThread::Event_AngToRight
 ================
 */
-void idThread::Event_AngToRight( budAngles& ang )
+void idThread::Event_AngToRight( Angles& ang )
 {
-	budVec3 vec;
+	Vector3 vec;
 	
 	ang.ToVectors( NULL, &vec );
 	ReturnVector( vec );
@@ -1435,9 +1435,9 @@ void idThread::Event_AngToRight( budAngles& ang )
 idThread::Event_AngToUp
 ================
 */
-void idThread::Event_AngToUp( budAngles& ang )
+void idThread::Event_AngToUp( Angles& ang )
 {
-	budVec3 vec;
+	Vector3 vec;
 	
 	ang.ToVectors( NULL, NULL, &vec );
 	ReturnVector( vec );
@@ -1450,7 +1450,7 @@ idThread::Event_GetSine
 */
 void idThread::Event_GetSine( float angle )
 {
-	ReturnFloat( budMath::Sin( DEG2RAD( angle ) ) );
+	ReturnFloat( Math::Sin( DEG2RAD( angle ) ) );
 }
 
 /*
@@ -1460,7 +1460,7 @@ idThread::Event_GetCosine
 */
 void idThread::Event_GetCosine( float angle )
 {
-	ReturnFloat( budMath::Cos( DEG2RAD( angle ) ) );
+	ReturnFloat( Math::Cos( DEG2RAD( angle ) ) );
 }
 
 /*
@@ -1470,7 +1470,7 @@ idThread::Event_GetArcSine
 */
 void idThread::Event_GetArcSine( float a )
 {
-	ReturnFloat( RAD2DEG( budMath::ASin( a ) ) );
+	ReturnFloat( RAD2DEG( Math::ASin( a ) ) );
 }
 
 /*
@@ -1480,7 +1480,7 @@ idThread::Event_GetArcCosine
 */
 void idThread::Event_GetArcCosine( float a )
 {
-	ReturnFloat( RAD2DEG( budMath::ACos( a ) ) );
+	ReturnFloat( RAD2DEG( Math::ACos( a ) ) );
 }
 
 /*
@@ -1490,7 +1490,7 @@ idThread::Event_GetSquareRoot
 */
 void idThread::Event_GetSquareRoot( float theSquare )
 {
-	ReturnFloat( budMath::Sqrt( theSquare ) );
+	ReturnFloat( Math::Sqrt( theSquare ) );
 }
 
 /*
@@ -1498,9 +1498,9 @@ void idThread::Event_GetSquareRoot( float theSquare )
 idThread::Event_VecNormalize
 ================
 */
-void idThread::Event_VecNormalize( budVec3& vec )
+void idThread::Event_VecNormalize( Vector3& vec )
 {
-	budVec3 n;
+	Vector3 n;
 	
 	n = vec;
 	n.Normalize();
@@ -1512,7 +1512,7 @@ void idThread::Event_VecNormalize( budVec3& vec )
 idThread::Event_VecLength
 ================
 */
-void idThread::Event_VecLength( budVec3& vec )
+void idThread::Event_VecLength( Vector3& vec )
 {
 	ReturnFloat( vec.Length() );
 }
@@ -1522,7 +1522,7 @@ void idThread::Event_VecLength( budVec3& vec )
 idThread::Event_VecDotProduct
 ================
 */
-void idThread::Event_VecDotProduct( budVec3& vec1, budVec3& vec2 )
+void idThread::Event_VecDotProduct( Vector3& vec1, Vector3& vec2 )
 {
 	ReturnFloat( vec1 * vec2 );
 }
@@ -1532,7 +1532,7 @@ void idThread::Event_VecDotProduct( budVec3& vec1, budVec3& vec2 )
 idThread::Event_VecCrossProduct
 ================
 */
-void idThread::Event_VecCrossProduct( budVec3& vec1, budVec3& vec2 )
+void idThread::Event_VecCrossProduct( Vector3& vec1, Vector3& vec2 )
 {
 	ReturnVector( vec1.Cross( vec2 ) );
 }
@@ -1542,10 +1542,10 @@ void idThread::Event_VecCrossProduct( budVec3& vec1, budVec3& vec2 )
 idThread::Event_VecToAngles
 ================
 */
-void idThread::Event_VecToAngles( budVec3& vec )
+void idThread::Event_VecToAngles( Vector3& vec )
 {
-	budAngles ang = vec.ToAngles();
-	ReturnVector( budVec3( ang[0], ang[1], ang[2] ) );
+	Angles ang = vec.ToAngles();
+	ReturnVector( Vector3( ang[0], ang[1], ang[2] ) );
 }
 
 /*
@@ -1553,25 +1553,25 @@ void idThread::Event_VecToAngles( budVec3& vec )
 idThread::Event_VecToOrthoBasisAngles
 ================
 */
-void idThread::Event_VecToOrthoBasisAngles( budVec3& vec )
+void idThread::Event_VecToOrthoBasisAngles( Vector3& vec )
 {
-	budVec3 left, up;
-	budAngles ang;
+	Vector3 left, up;
+	Angles ang;
 	
 	vec.OrthogonalBasis( left, up );
-	budMat3 axis( left, up, vec );
+	Matrix3 axis( left, up, vec );
 	
 	ang = axis.ToAngles();
 	
-	ReturnVector( budVec3( ang[0], ang[1], ang[2] ) );
+	ReturnVector( Vector3( ang[0], ang[1], ang[2] ) );
 }
 
-void idThread::Event_RotateVector( budVec3& vec, budVec3& ang )
+void idThread::Event_RotateVector( Vector3& vec, Vector3& ang )
 {
 
-	budAngles tempAng( ang );
-	budMat3 axis = tempAng.ToMat3();
-	budVec3 ret = vec * axis;
+	Angles tempAng( ang );
+	Matrix3 axis = tempAng.ToMat3();
+	Vector3 ret = vec * axis;
 	ReturnVector( ret );
 	
 }
@@ -1665,9 +1665,9 @@ void idThread::Event_FirstPerson()
 idThread::Event_Trace
 ================
 */
-void idThread::Event_Trace( const budVec3& start, const budVec3& end, const budVec3& mins, const budVec3& maxs, int contents_mask, idEntity* passEntity )
+void idThread::Event_Trace( const Vector3& start, const Vector3& end, const Vector3& mins, const Vector3& maxs, int contents_mask, idEntity* passEntity )
 {
-	if( mins == vec3_origin && maxs == vec3_origin )
+	if( mins == Vector3_Origin && maxs == Vector3_Origin )
 	{
 		gameLocal.clip.TracePoint( trace, start, end, contents_mask, passEntity );
 	}
@@ -1683,7 +1683,7 @@ void idThread::Event_Trace( const budVec3& start, const budVec3& end, const budV
 idThread::Event_TracePoint
 ================
 */
-void idThread::Event_TracePoint( const budVec3& start, const budVec3& end, int contents_mask, idEntity* passEntity )
+void idThread::Event_TracePoint( const Vector3& start, const Vector3& end, int contents_mask, idEntity* passEntity )
 {
 	gameLocal.clip.TracePoint( trace, start, end, contents_mask, passEntity );
 	ReturnFloat( trace.fraction );
@@ -1722,7 +1722,7 @@ void idThread::Event_GetTraceNormal()
 	}
 	else
 	{
-		ReturnVector( vec3_origin );
+		ReturnVector( Vector3_Origin );
 	}
 }
 
@@ -1791,9 +1791,9 @@ void idThread::Event_GetTraceBody()
 idThread::Event_FadeIn
 ================
 */
-void idThread::Event_FadeIn( budVec3& color, float time )
+void idThread::Event_FadeIn( Vector3& color, float time )
 {
-	budVec4		fadeColor;
+	Vector4		fadeColor;
 	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1809,9 +1809,9 @@ void idThread::Event_FadeIn( budVec3& color, float time )
 idThread::Event_FadeOut
 ================
 */
-void idThread::Event_FadeOut( budVec3& color, float time )
+void idThread::Event_FadeOut( Vector3& color, float time )
 {
-	budVec4		fadeColor;
+	Vector4		fadeColor;
 	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1827,9 +1827,9 @@ void idThread::Event_FadeOut( budVec3& color, float time )
 idThread::Event_FadeTo
 ================
 */
-void idThread::Event_FadeTo( budVec3& color, float alpha, float time )
+void idThread::Event_FadeTo( Vector3& color, float alpha, float time )
 {
-	budVec4		fadeColor;
+	Vector4		fadeColor;
 	budPlayer*	player;
 	
 	player = gameLocal.GetLocalPlayer();
@@ -1921,7 +1921,7 @@ void idThread::Event_StrLeft( const char* string, int num )
 		return;
 	}
 	
-	budStr result( string, 0, num );
+	String result( string, 0, num );
 	idThread::ReturnString( result );
 }
 
@@ -2005,7 +2005,7 @@ void idThread::Event_StrMid( const char* string, int start, int num )
 		num = len - start;
 	}
 	
-	budStr result( string, start, start + num );
+	String result( string, start, start + num );
 	idThread::ReturnString( result );
 }
 
@@ -2027,7 +2027,7 @@ void idThread::Event_StrToFloat( const char* string )
 idThread::Event_RadiusDamage
 ================
 */
-void idThread::Event_RadiusDamage( const budVec3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignore, const char* damageDefName, float dmgPower )
+void idThread::Event_RadiusDamage( const Vector3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignore, const char* damageDefName, float dmgPower )
 {
 	gameLocal.RadiusDamage( origin, inflictor, attacker, ignore, ignore, damageDefName, dmgPower );
 }
@@ -2087,9 +2087,9 @@ void idThread::Event_CacheSoundShader( const char* soundName )
 idThread::Event_DebugLine
 ================
 */
-void idThread::Event_DebugLine( const budVec3& color, const budVec3& start, const budVec3& end, const float lifetime )
+void idThread::Event_DebugLine( const Vector3& color, const Vector3& start, const Vector3& end, const float lifetime )
 {
-	gameRenderWorld->DebugLine( budVec4( color.x, color.y, color.z, 0.0f ), start, end, SEC2MS( lifetime ) );
+	gameRenderWorld->DebugLine( Vector4( color.x, color.y, color.z, 0.0f ), start, end, SEC2MS( lifetime ) );
 }
 
 /*
@@ -2097,9 +2097,9 @@ void idThread::Event_DebugLine( const budVec3& color, const budVec3& start, cons
 idThread::Event_DebugArrow
 ================
 */
-void idThread::Event_DebugArrow( const budVec3& color, const budVec3& start, const budVec3& end, const int size, const float lifetime )
+void idThread::Event_DebugArrow( const Vector3& color, const Vector3& start, const Vector3& end, const int size, const float lifetime )
 {
-	gameRenderWorld->DebugArrow( budVec4( color.x, color.y, color.z, 0.0f ), start, end, size, SEC2MS( lifetime ) );
+	gameRenderWorld->DebugArrow( Vector4( color.x, color.y, color.z, 0.0f ), start, end, size, SEC2MS( lifetime ) );
 }
 
 /*
@@ -2107,9 +2107,9 @@ void idThread::Event_DebugArrow( const budVec3& color, const budVec3& start, con
 idThread::Event_DebugCircle
 ================
 */
-void idThread::Event_DebugCircle( const budVec3& color, const budVec3& origin, const budVec3& dir, const float radius, const int numSteps, const float lifetime )
+void idThread::Event_DebugCircle( const Vector3& color, const Vector3& origin, const Vector3& dir, const float radius, const int numSteps, const float lifetime )
 {
-	gameRenderWorld->DebugCircle( budVec4( color.x, color.y, color.z, 0.0f ), origin, dir, radius, numSteps, SEC2MS( lifetime ) );
+	gameRenderWorld->DebugCircle( Vector4( color.x, color.y, color.z, 0.0f ), origin, dir, radius, numSteps, SEC2MS( lifetime ) );
 }
 
 /*
@@ -2117,9 +2117,9 @@ void idThread::Event_DebugCircle( const budVec3& color, const budVec3& origin, c
 idThread::Event_DebugBounds
 ================
 */
-void idThread::Event_DebugBounds( const budVec3& color, const budVec3& mins, const budVec3& maxs, const float lifetime )
+void idThread::Event_DebugBounds( const Vector3& color, const Vector3& mins, const Vector3& maxs, const float lifetime )
 {
-	gameRenderWorld->DebugBounds( budVec4( color.x, color.y, color.z, 0.0f ), budBounds( mins, maxs ), vec3_origin, SEC2MS( lifetime ) );
+	gameRenderWorld->DebugBounds( Vector4( color.x, color.y, color.z, 0.0f ), budBounds( mins, maxs ), Vector3_Origin, SEC2MS( lifetime ) );
 }
 
 /*
@@ -2127,9 +2127,9 @@ void idThread::Event_DebugBounds( const budVec3& color, const budVec3& mins, con
 idThread::Event_DrawText
 ================
 */
-void idThread::Event_DrawText( const char* text, const budVec3& origin, float scale, const budVec3& color, const int align, const float lifetime )
+void idThread::Event_DrawText( const char* text, const Vector3& origin, float scale, const Vector3& color, const int align, const float lifetime )
 {
-	gameRenderWorld->DrawText( text, origin, scale, budVec4( color.x, color.y, color.z, 0.0f ), gameLocal.GetLocalPlayer()->viewAngles.ToMat3(), align, SEC2MS( lifetime ) );
+	gameRenderWorld->DrawText( text, origin, scale, Vector4( color.x, color.y, color.z, 0.0f ), gameLocal.GetLocalPlayer()->viewAngles.ToMat3(), align, SEC2MS( lifetime ) );
 }
 
 /*

@@ -156,10 +156,10 @@ protected:
 	
 	~idSoundSample_OpenAL();
 	
-	bool			LoadWav( const budStr& name );
-	bool			LoadAmplitude( const budStr& name );
-	void			WriteAllSamples( const budStr& sampleName );
-	bool			LoadGeneratedSample( const budStr& name );
+	bool			LoadWav( const String& name );
+	bool			LoadAmplitude( const String& name );
+	void			WriteAllSamples( const String& sampleName );
+	bool			LoadGeneratedSample( const String& name );
 	void			WriteGeneratedSample( budFile* fileOut );
 	
 	struct MS_ADPCM_decodeState_t
@@ -183,7 +183,7 @@ protected:
 		int numSamples;
 	};
 	
-	budStr			name;
+	String			name;
 	
 	ID_TIME_T		timestamp;
 	bool			loaded;
@@ -195,7 +195,7 @@ protected:
 	uint32			lastPlayedTime;
 	
 	int				totalBufferSize;	// total size of all the buffers
-	budList<sampleBuffer_t, TAG_AUDIO> buffers;
+	List<sampleBuffer_t, TAG_AUDIO> buffers;
 	
 	// OpenAL buffer that contains all buffers
 	ALuint			openalBuffer;
@@ -205,7 +205,7 @@ protected:
 	
 	idWaveFile::waveFmt_t	format;
 	
-	budList<byte, TAG_AMPLITUDE> amplitude;
+	List<byte, TAG_AMPLITUDE> amplitude;
 };
 
 /*

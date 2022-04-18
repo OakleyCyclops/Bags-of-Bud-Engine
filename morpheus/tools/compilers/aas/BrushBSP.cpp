@@ -327,11 +327,11 @@ bool idBrushBSPNode::TestLeafNode()
 	int s, n;
 	float d;
 	idBrushBSPPortal* p;
-	budVec3 center;
+	Vector3 center;
 	budPlane plane;
 	
 	n = 0;
-	center = vec3_origin;
+	center = Vector3_Origin;
 	for( p = portals; p; p = p->next[s] )
 	{
 		s = ( p->nodes[1] == this );
@@ -1025,12 +1025,12 @@ idBrushBSPNode* idBrushBSP::ProcessGridCell( idBrushBSPNode* node, int skipConte
 idBrushBSP::BuildGrid_r
 ============
 */
-void idBrushBSP::BuildGrid_r( budList<idBrushBSPNode*>& gridCells, idBrushBSPNode* node )
+void idBrushBSP::BuildGrid_r( List<idBrushBSPNode*>& gridCells, idBrushBSPNode* node )
 {
 	int axis;
 	float dist;
 	budBounds bounds;
-	budVec3 normal, halfSize;
+	Vector3 normal, halfSize;
 	
 	if( !node->brushList.Num() )
 	{
@@ -1065,7 +1065,7 @@ void idBrushBSP::BuildGrid_r( budList<idBrushBSPNode*>& gridCells, idBrushBSPNod
 	
 	numSplits++;
 	
-	normal = vec3_origin;
+	normal = Vector3_Origin;
 	normal[axis] = 1.0f;
 	node->plane.SetNormal( normal );
 	node->plane.SetDist( ( int ) dist );
@@ -1102,7 +1102,7 @@ void idBrushBSP::Build( idBrushList brushList, int skipContents,
 {
 
 	int i;
-	budList<idBrushBSPNode*> gridCells;
+	List<idBrushBSPNode*> gridCells;
 	
 	common->Printf( "[Brush BSP]\n" );
 	common->Printf( "%6d brushes\n", brushList.Num() );
@@ -1150,7 +1150,7 @@ void idBrushBSP::Build( idBrushList brushList, int skipContents,
 idBrushBSP::WriteBrushMap
 ============
 */
-void idBrushBSP::WriteBrushMap( const budStr& fileName, const budStr& ext, int contents )
+void idBrushBSP::WriteBrushMap( const String& fileName, const String& ext, int contents )
 {
 	brushMap = new idBrushMap( fileName, ext );
 	brushMapContents = contents;
@@ -1473,7 +1473,7 @@ void idBrushBSP::MakeOutsidePortals()
 	int i, j, n;
 	budBounds bounds;
 	idBrushBSPPortal* p, *portals[6];
-	budVec3 normal;
+	Vector3 normal;
 	budPlane planes[6];
 	
 	// pad with some space so there will never be null volume leaves
@@ -1500,7 +1500,7 @@ void idBrushBSP::MakeOutsidePortals()
 		{
 		
 			p = new idBrushBSPPortal();
-			normal = vec3_origin;
+			normal = Vector3_Origin;
 			normal[i] = j ? -1 : 1;
 			p->plane.SetNormal( normal );
 			p->plane.SetDist( j ? -bounds[j][i] : bounds[j][i] );
@@ -1549,14 +1549,14 @@ Finds the shortest possible chain of portals that
 leads from the outside leaf to a specific occupied leaf.
 =============
 */
-void idBrushBSP::LeakFile( const budStr& fileName )
+void idBrushBSP::LeakFile( const String& fileName )
 {
 	int count, next, s;
-	budVec3 mid;
+	Vector3 mid;
 	budFile* lineFile;
 	idBrushBSPNode* node, *nextNode = NULL;
 	idBrushBSPPortal* p, *nextPortal = NULL;
-	budStr qpath, name;
+	String qpath, name;
 	
 	if( !outside->occupied )
 	{
@@ -1657,7 +1657,7 @@ void idBrushBSP::FloodThroughPortals_r( idBrushBSPNode* node, int contents, int 
 idBrushBSP::FloodFromOrigin
 ============
 */
-bool idBrushBSP::FloodFromOrigin( const budVec3& origin, int contents )
+bool idBrushBSP::FloodFromOrigin( const Vector3& origin, int contents )
 {
 	idBrushBSPNode* node;
 	
@@ -1705,13 +1705,13 @@ idBrushBSP::FloodFromEntities
   Marks all nodes that can be reached by entites.
 ============
 */
-bool idBrushBSP::FloodFromEntities( const budMapFile* mapFile, int contents, const budStrList& classNames )
+bool idBrushBSP::FloodFromEntities( const budMapFile* mapFile, int contents, const StringList& classNames )
 {
 	int i, j;
 	bool inside;
-	budVec3 origin;
+	Vector3 origin;
 	idMapEntity* mapEnt;
-	budStr classname;
+	String classname;
 	
 	inside = false;
 	outside->occupied = 0;
@@ -1815,7 +1815,7 @@ void idBrushBSP::RemoveOutside_r( idBrushBSPNode* node, int contents )
 idBrushBSP::RemoveOutside
 ============
 */
-bool idBrushBSP::RemoveOutside( const budMapFile* mapFile, int contents, const budStrList& classNames )
+bool idBrushBSP::RemoveOutside( const budMapFile* mapFile, int contents, const StringList& classNames )
 {
 	common->Printf( "[Remove Outside]\n" );
 	
@@ -2270,7 +2270,7 @@ idBrushBSP::MeltFloor_r
   flood through portals touching the bounds to find all vertices that might be inside the bounds
 ============
 */
-void idBrushBSP::MeltFlood_r( idBrushBSPNode* node, int skipContents, budBounds& bounds, budVectorSet<budVec3, 3>& vertexList )
+void idBrushBSP::MeltFlood_r( idBrushBSPNode* node, int skipContents, budBounds& bounds, VectortorSet<Vector3, 3>& vertexList )
 {
 	int s1, i;
 	idBrushBSPPortal* p1;
@@ -2330,7 +2330,7 @@ void idBrushBSP::MeltFlood_r( idBrushBSPNode* node, int skipContents, budBounds&
 idBrushBSP::MeltLeafNodePortals
 ============
 */
-void idBrushBSP::MeltLeafNodePortals( idBrushBSPNode* node, int skipContents, budVectorSet<budVec3, 3>& vertexList )
+void idBrushBSP::MeltLeafNodePortals( idBrushBSPNode* node, int skipContents, VectortorSet<Vector3, 3>& vertexList )
 {
 	int s1, i;
 	idBrushBSPPortal* p1;
@@ -2377,7 +2377,7 @@ void idBrushBSP::MeltLeafNodePortals( idBrushBSPNode* node, int skipContents, bu
 idBrushBSP::MeltPortals_r
 ============
 */
-void idBrushBSP::MeltPortals_r( idBrushBSPNode* node, int skipContents, budVectorSet<budVec3, 3>& vertexList )
+void idBrushBSP::MeltPortals_r( idBrushBSPNode* node, int skipContents, VectortorSet<Vector3, 3>& vertexList )
 {
 	if( !node )
 	{
@@ -2451,7 +2451,7 @@ idBrushBSP::MeltPortals
 */
 void idBrushBSP::MeltPortals( int skipContents )
 {
-	budVectorSet<budVec3, 3> vertexList;
+	VectortorSet<Vector3, 3> vertexList;
 	
 	numInsertedPoints = 0;
 	common->Printf( "[Melt Portals]\n" );

@@ -260,7 +260,7 @@ void budCollisionModelManagerLocal::WriteCollisionModelsToFile( const char* file
 {
 	int i;
 	budFile* fp;
-	budStr name;
+	String name;
 	
 	name = filename;
 	name.SetFileExtension( CM_FILE_EXT );
@@ -295,7 +295,7 @@ budCollisionModelManagerLocal::WriteCollisionModelForMapEntity
 bool budCollisionModelManagerLocal::WriteCollisionModelForMapEntity( const idMapEntity* mapEnt, const char* filename, const bool testTraceModel )
 {
 	budFile* fp;
-	budStr name;
+	String name;
 	cm_model_t* model;
 	
 	SetupHash();
@@ -390,7 +390,7 @@ void budCollisionModelManagerLocal::ParseEdges( budLexer* src, cm_model_t* model
 		model->edges[i].sideSet = 0;
 		model->edges[i].internal = src->ParseInt();
 		model->edges[i].numUsers = src->ParseInt();
-		model->edges[i].normal = vec3_origin;
+		model->edges[i].normal = Vector3_Origin;
 		model->edges[i].checkcount = 0;
 		model->numInternalEdges += model->edges[i].internal;
 	}
@@ -432,7 +432,7 @@ void budCollisionModelManagerLocal::ParsePolygons( budLexer* src, cm_model_t* mo
 {
 	cm_polygon_t* p;
 	int i, numEdges;
-	budVec3 normal;
+	Vector3 normal;
 	budToken token;
 	
 	if( src->CheckTokenType( TT_NUMBER, 0, &token ) )
@@ -479,7 +479,7 @@ void budCollisionModelManagerLocal::ParseBrushes( budLexer* src, cm_model_t* mod
 {
 	cm_brush_t* b;
 	int i, numPlanes;
-	budVec3 normal;
+	Vector3 normal;
 	budToken token;
 	
 	if( src->CheckTokenType( TT_NUMBER, 0, &token ) )
@@ -616,10 +616,10 @@ bool budCollisionModelManagerLocal::LoadCollisionModelFile( const char* name, un
 	unsigned int crc;
 	
 	// load it
-	budStrStatic< MAX_OSPATH > fileName = name;
+	StringStatic< MAX_OSPATH > fileName = name;
 	
 	// check for generated file
-	budStrStatic< MAX_OSPATH > generatedFileName = fileName;
+	StringStatic< MAX_OSPATH > generatedFileName = fileName;
 	generatedFileName.Insert( "generated/", 0 );
 	generatedFileName.SetFileExtension( CM_BINARYFILE_EXT );
 	
@@ -636,8 +636,8 @@ bool budCollisionModelManagerLocal::LoadCollisionModelFile( const char* name, un
 		file->ReadBig( numEntries );
 		file->ReadString( mapName );
 		file->ReadBig( crc );
-		budStrStatic< 32 > fileID;
-		budStrStatic< 32 > fileVersion;
+		StringStatic< 32 > fileID;
+		StringStatic< 32 > fileVersion;
 		file->ReadString( fileID );
 		file->ReadString( fileVersion );
 		if( fileID == CM_FILEID && fileVersion == CM_FILEVERSION && crc == mapFileCRC && numEntries > 0 )

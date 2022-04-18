@@ -59,8 +59,8 @@ budScreenRect::AddPoint
 */
 void budScreenRect::AddPoint( float x, float y )
 {
-	int	ix = budMath::Ftoi( x );
-	int iy = budMath::Ftoi( y );
+	int	ix = Math::Ftoi( x );
+	int iy = Math::Ftoi( y );
 	
 	if( ix < x1 )
 	{
@@ -172,7 +172,7 @@ void R_ShowColoredScreenRect( const budScreenRect& rect, int colorIndex )
 {
 	if( !rect.IsEmpty() )
 	{
-		static budVec4 colors[] = { colorRed, colorGreen, colorBlue, colorYellow, colorMagenta, colorCyan, colorWhite, colorPurple };
+		static Vector4 colors[] = { colorRed, colorGreen, colorBlue, colorYellow, colorMagenta, colorCyan, colorWhite, colorPurple };
 		tr.viewDef->renderWorld->DebugScreenRect( colors[colorIndex & 7], rect, tr.viewDef );
 	}
 }

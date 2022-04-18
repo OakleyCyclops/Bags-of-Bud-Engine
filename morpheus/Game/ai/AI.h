@@ -56,7 +56,7 @@ typedef struct ballistics_s
 	float				time;		// time it takes before the projectile arrives
 } ballistics_t;
 
-extern int Ballistics( const budVec3& start, const budVec3& end, float speed, float gravity, ballistics_t bal[2] );
+extern int Ballistics( const Vector3& start, const Vector3& end, float speed, float gravity, ballistics_t bal[2] );
 
 // defined in script/ai_base.script.  please keep them up to date.
 typedef enum
@@ -122,11 +122,11 @@ typedef enum
 // obstacle avoidance
 typedef struct obstaclePath_s
 {
-	budVec3				seekPos;					// seek position avoiding obstacles
+	Vector3				seekPos;					// seek position avoiding obstacles
 	idEntity* 			firstObstacle;				// if != NULL the first obstacle along the path
-	budVec3				startPosOutsideObstacles;	// start position outside obstacles
+	Vector3				startPosOutsideObstacles;	// start position outside obstacles
 	idEntity* 			startPosObstacle;			// if != NULL the obstacle containing the start position
-	budVec3				seekPosOutsideObstacles;	// seek position outside obstacles
+	Vector3				seekPosOutsideObstacles;	// seek position outside obstacles
 	idEntity* 			seekPosObstacle;			// if != NULL the obstacle containing the seek position
 } obstaclePath_t;
 
@@ -142,9 +142,9 @@ typedef enum
 
 typedef struct predictedPath_s
 {
-	budVec3				endPos;						// final position
-	budVec3				endVelocity;				// velocity at end position
-	budVec3				endNormal;					// normal of blocking surface
+	Vector3				endPos;						// final position
+	Vector3				endVelocity;				// velocity at end position
+	Vector3				endNormal;					// normal of blocking surface
 	int					endTime;					// time predicted
 	int					endEvent;					// event that stopped the prediction
 	const idEntity* 	blockingEntity;				// entity that blocks the movement
@@ -206,10 +206,10 @@ public:
 	moveType_t				moveType;
 	moveCommand_t			moveCommand;
 	moveStatus_t			moveStatus;
-	budVec3					moveDest;
-	budVec3					moveDir;			// used for wandering and slide moves
+	Vector3					moveDest;
+	Vector3					moveDir;			// used for wandering and slide moves
 	idEntityPtr<idEntity>	goalEntity;
-	budVec3					goalEntityOrigin;	// move to entity uses this to avoid checking the floor position every frame
+	Vector3					goalEntityOrigin;	// move to entity uses this to avoid checking the floor position every frame
 	int						toAreaNum;
 	int						startTime;
 	int						duration;
@@ -219,7 +219,7 @@ public:
 	int						nextWanderTime;
 	int						blockTime;
 	idEntityPtr<idEntity>	obstacle;
-	budVec3					lastMoveOrigin;
+	Vector3					lastMoveOrigin;
 	int						lastMoveTime;
 	int						anim;
 };
@@ -227,7 +227,7 @@ public:
 class budAASFindCover : public budAASCallback
 {
 public:
-	budAASFindCover( const budVec3& hideFromPos );
+	budAASFindCover( const Vector3& hideFromPos );
 	~budAASFindCover();
 	
 	virtual bool		TestArea( const budAAS* aas, int areaNum );
@@ -240,19 +240,19 @@ private:
 class budAASFindAreaOutOfRange : public budAASCallback
 {
 public:
-	budAASFindAreaOutOfRange( const budVec3& targetPos, float maxDist );
+	budAASFindAreaOutOfRange( const Vector3& targetPos, float maxDist );
 	
 	virtual bool		TestArea( const budAAS* aas, int areaNum );
 	
 private:
-	budVec3				targetPos;
+	Vector3				targetPos;
 	float				maxDistSqr;
 };
 
 class budAASFindAttackPosition : public budAASCallback
 {
 public:
-	budAASFindAttackPosition( const budAI* self, const budMat3& gravityAxis, idEntity* target, const budVec3& targetPos, const budVec3& fireOffset );
+	budAASFindAttackPosition( const budAI* self, const Matrix3& gravityAxis, idEntity* target, const Vector3& targetPos, const Vector3& fireOffset );
 	~budAASFindAttackPosition();
 	
 	virtual bool		TestArea( const budAAS* aas, int areaNum );
@@ -261,9 +261,9 @@ private:
 	const budAI*			self;
 	idEntity*			target;
 	budBounds			excludeBounds;
-	budVec3				targetPos;
-	budVec3				fireOffset;
-	budMat3				gravityAxis;
+	Vector3				targetPos;
+	Vector3				fireOffset;
+	Matrix3				gravityAxis;
 	pvsHandle_t			targetPVS;
 	int					PVSAreas[ idEntity::MAX_PVS_AREAS ];
 };
@@ -285,25 +285,25 @@ public:
 	void					TalkTo( budActor* actor );
 	talkState_t				GetTalkState() const;
 	
-	bool					GetAimDir( const budVec3& firePos, idEntity* aimAtEnt, const idEntity* ignore, budVec3& aimDir ) const;
+	bool					GetAimDir( const Vector3& firePos, idEntity* aimAtEnt, const idEntity* ignore, Vector3& aimDir ) const;
 	
 	void					TouchedByFlashlight( budActor* flashlight_owner );
 	
 	// Outputs a list of all monsters to the console.
-	static void				List_f( const budCmdArgs& args );
+	static void				List_f( const CmdArgs& args );
 	
 	// Finds a path around dynamic obstacles.
-	static bool				FindPathAroundObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* ignore, const budVec3& startPos, const budVec3& seekPos, obstaclePath_t& path );
+	static bool				FindPathAroundObstacles( const idPhysics* physics, const budAAS* aas, const idEntity* ignore, const Vector3& startPos, const Vector3& seekPos, obstaclePath_t& path );
 	// Frees any nodes used for the dynamic obstacle avoidance.
 	static void				FreeObstacleAvoidanceNodes();
 	// Predicts movement, returns true if a stop event was triggered.
-	static bool				PredictPath( const idEntity* ent, const budAAS* aas, const budVec3& start, const budVec3& velocity, int totalTime, int frameTime, int stopEvent, predictedPath_t& path );
+	static bool				PredictPath( const idEntity* ent, const budAAS* aas, const Vector3& start, const Vector3& velocity, int totalTime, int frameTime, int stopEvent, predictedPath_t& path );
 	// Return true if the trajectory of the clip model is collision free.
-	static bool				TestTrajectory( const budVec3& start, const budVec3& end, float zVel, float gravity, float time, float max_height, const budClipModel* clip, int clipmask, const idEntity* ignore, const idEntity* targetEntity, int drawtime );
+	static bool				TestTrajectory( const Vector3& start, const Vector3& end, float zVel, float gravity, float time, float max_height, const budClipModel* clip, int clipmask, const idEntity* ignore, const idEntity* targetEntity, int drawtime );
 	// Finds the best collision free trajectory for a clip model.
-	static bool				PredictTrajectory( const budVec3& firePos, const budVec3& target, float projectileSpeed, const budVec3& projGravity, const budClipModel* clip, int clipmask, float max_height, const idEntity* ignore, const idEntity* targetEntity, int drawtime, budVec3& aimDir );
+	static bool				PredictTrajectory( const Vector3& firePos, const Vector3& target, float projectileSpeed, const Vector3& projGravity, const budClipModel* clip, int clipmask, float max_height, const idEntity* ignore, const idEntity* targetEntity, int drawtime, Vector3& aimDir );
 	
-	virtual void			Gib( const budVec3& dir, const char* damageDefName );
+	virtual void			Gib( const Vector3& dir, const char* damageDefName );
 	
 protected:
 	// navigation
@@ -357,17 +357,17 @@ protected:
 	int						lastAttackTime;
 	float					melee_range;
 	float					projectile_height_to_distance_ratio;	// calculates the maximum height a projectile can be thrown
-	budList<budVec3, TAG_AI>			missileLaunchOffset;
+	List<Vector3, TAG_AI>			missileLaunchOffset;
 	
-	const idDict* 			projectileDef;
+	const Dict* 			projectileDef;
 	mutable budClipModel*		projectileClipModel;
 	float					projectileRadius;
 	float					projectileSpeed;
-	budVec3					projectileVelocity;
-	budVec3					projectileGravity;
+	Vector3					projectileVelocity;
+	Vector3					projectileGravity;
 	idEntityPtr<idProjectile> projectile;
-	budStr					attack;
-	budVec3					homingMissileGoal;
+	String					attack;
+	Vector3					homingMissileGoal;
 	
 	// chatter/talking
 	const idSoundShader*		chat_snd;
@@ -383,17 +383,17 @@ protected:
 	
 	bool					allowJointMod;
 	idEntityPtr<idEntity>	focusEntity;
-	budVec3					currentFocusPos;
+	Vector3					currentFocusPos;
 	int						focusTime;
 	int						alignHeadTime;
 	int						forceAlignHeadTime;
-	budAngles				eyeAng;
-	budAngles				lookAng;
-	budAngles				destLookAng;
-	budAngles				lookMin;
-	budAngles				lookMax;
-	budList<jointHandle_t, TAG_AI>	lookJoints;
-	budList<budAngles, TAG_AI>		lookJointAngles;
+	Angles				eyeAng;
+	Angles				lookAng;
+	Angles				destLookAng;
+	Angles				lookMin;
+	Angles				lookMax;
+	List<jointHandle_t, TAG_AI>	lookJoints;
+	List<Angles, TAG_AI>		lookJointAngles;
 	float					eyeVerticalOffset;
 	float					eyeHorizontalOffset;
 	float					eyeFocusRate;
@@ -403,7 +403,7 @@ protected:
 	// special fx
 	bool					restartParticles;			// should smoke emissions restart
 	bool					useBoneAxis;				// use the bone vs the model axis
-	budList<particleEmitter_t, TAG_AI> particles;				// particle data
+	List<particleEmitter_t, TAG_AI> particles;				// particle data
 	
 	renderLight_t			worldMuzzleFlash;			// positioned on world weapon bone
 	int						worldMuzzleFlashHandle;
@@ -412,17 +412,17 @@ protected:
 	int						flashTime;
 	
 	// joint controllers
-	budAngles				eyeMin;
-	budAngles				eyeMax;
+	Angles				eyeMin;
+	Angles				eyeMax;
 	jointHandle_t			focusJoint;
 	jointHandle_t			orientationJoint;
 	
 	// enemy variables
 	idEntityPtr<budActor>	enemy;
-	budVec3					lastVisibleEnemyPos;
-	budVec3					lastVisibleEnemyEyeOffset;
-	budVec3					lastVisibleReachableEnemyPos;
-	budVec3					lastReachableEnemyPos;
+	Vector3					lastVisibleEnemyPos;
+	Vector3					lastVisibleEnemyEyeOffset;
+	Vector3					lastVisibleReachableEnemyPos;
+	Vector3					lastReachableEnemyPos;
 	bool					wakeOnFlashlight;
 	
 	bool					spawnClearMoveables;
@@ -470,58 +470,58 @@ protected:
 	void					PlayChatter();
 	virtual void			Hide();
 	virtual void			Show();
-	budVec3					FirstVisiblePointOnPath( const budVec3 origin, const budVec3& target, int travelFlags ) const;
+	Vector3					FirstVisiblePointOnPath( const Vector3 origin, const Vector3& target, int travelFlags ) const;
 	void					CalculateAttackOffsets();
 	void					PlayCinematic();
 	
 	// movement
-	virtual void			ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse );
-	void					GetMoveDelta( const budMat3& oldaxis, const budMat3& axis, budVec3& delta );
-	void					CheckObstacleAvoidance( const budVec3& goalPos, budVec3& newPos );
+	virtual void			ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse );
+	void					GetMoveDelta( const Matrix3& oldaxis, const Matrix3& axis, Vector3& delta );
+	void					CheckObstacleAvoidance( const Vector3& goalPos, Vector3& newPos );
 	void					DeadMove();
 	void					AnimMove();
 	void					SlideMove();
 	void					AdjustFlyingAngles();
-	void					AddFlyBob( budVec3& vel );
-	void					AdjustFlyHeight( budVec3& vel, const budVec3& goalPos );
-	void					FlySeekGoal( budVec3& vel, budVec3& goalPos );
-	void					AdjustFlySpeed( budVec3& vel );
+	void					AddFlyBob( Vector3& vel );
+	void					AdjustFlyHeight( Vector3& vel, const Vector3& goalPos );
+	void					FlySeekGoal( Vector3& vel, Vector3& goalPos );
+	void					AdjustFlySpeed( Vector3& vel );
 	void					FlyTurn();
 	void					FlyMove();
 	void					StaticMove();
 	
 	// damage
-	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
-	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
+	virtual void			Killed( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	
 	// navigation
-	void					KickObstacles( const budVec3& dir, float force, idEntity* alwaysKick );
-	bool					ReachedPos( const budVec3& pos, const moveCommand_t moveCommand ) const;
-	float					TravelDistance( const budVec3& start, const budVec3& end ) const;
-	int						PointReachableAreaNum( const budVec3& pos, const float boundsScale = 2.0f ) const;
-	bool					PathToGoal( aasPath_t& path, int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin ) const;
+	void					KickObstacles( const Vector3& dir, float force, idEntity* alwaysKick );
+	bool					ReachedPos( const Vector3& pos, const moveCommand_t moveCommand ) const;
+	float					TravelDistance( const Vector3& start, const Vector3& end ) const;
+	int						PointReachableAreaNum( const Vector3& pos, const float boundsScale = 2.0f ) const;
+	bool					PathToGoal( aasPath_t& path, int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin ) const;
 	void					DrawRoute() const;
-	bool					GetMovePos( budVec3& seekPos );
+	bool					GetMovePos( Vector3& seekPos );
 	bool					MoveDone() const;
-	bool					EntityCanSeePos( budActor* actor, const budVec3& actorOrigin, const budVec3& pos );
+	bool					EntityCanSeePos( budActor* actor, const Vector3& actorOrigin, const Vector3& pos );
 	void					BlockedFailSafe();
 	
 	// movement control
 	void					StopMove( moveStatus_t status );
 	bool					FaceEnemy();
 	bool					FaceEntity( idEntity* ent );
-	bool					DirectMoveToPosition( const budVec3& pos );
+	bool					DirectMoveToPosition( const Vector3& pos );
 	bool					MoveToEnemyHeight();
 	bool					MoveOutOfRange( idEntity* entity, float range );
 	bool					MoveToAttackPosition( idEntity* ent, int attack_anim );
 	bool					MoveToEnemy();
 	bool					MoveToEntity( idEntity* ent );
-	bool					MoveToPosition( const budVec3& pos );
-	bool					MoveToCover( idEntity* entity, const budVec3& pos );
-	bool					SlideToPosition( const budVec3& pos, float time );
+	bool					MoveToPosition( const Vector3& pos );
+	bool					MoveToCover( idEntity* entity, const Vector3& pos );
+	bool					SlideToPosition( const Vector3& pos, float time );
 	bool					WanderAround();
 	bool					StepDirection( float dir );
-	bool					NewWanderDir( const budVec3& dest );
+	bool					NewWanderDir( const Vector3& dest );
 	
 	// effects
 	const budDeclParticle*	SpawnParticlesOnJoint( particleEmitter_t& pe, const char* particleName, const char* jointName );
@@ -532,7 +532,7 @@ protected:
 	bool					FacingIdeal();
 	void					Turn();
 	bool					TurnToward( float yaw );
-	bool					TurnToward( const budVec3& pos );
+	bool					TurnToward( const Vector3& pos );
 	
 	// enemy management
 	void					ClearEnemy();
@@ -543,7 +543,7 @@ protected:
 	
 	// attacks
 	void					CreateProjectileClipModel() const;
-	idProjectile*			CreateProjectile( const budVec3& pos, const budVec3& dir );
+	idProjectile*			CreateProjectile( const Vector3& pos, const Vector3& dir );
 	void					RemoveProjectile();
 	idProjectile*			LaunchProjectile( const char* jointname, idEntity* target, bool clampToAttackCone );
 	virtual void			DamageFeedback( idEntity* victim, idEntity* inflictor, int& damage );
@@ -555,9 +555,9 @@ protected:
 	void					PushWithAF();
 	
 	// special effects
-	void					GetMuzzle( const char* jointname, budVec3& muzzle, budMat3& axis );
+	void					GetMuzzle( const char* jointname, Vector3& muzzle, Matrix3& axis );
 	void					InitMuzzleFlash();
-	void					TriggerWeaponEffects( const budVec3& muzzle );
+	void					TriggerWeaponEffects( const Vector3& muzzle );
 	void					UpdateMuzzleFlash();
 	virtual bool			UpdateAnimationControllers();
 	void					UpdateParticles();
@@ -588,7 +588,7 @@ protected:
 	void					Event_CreateMissile( const char* jointname );
 	void					Event_AttackMissile( const char* jointname );
 	void					Event_FireMissileAtTarget( const char* jointname, const char* targetname );
-	void					Event_LaunchMissile( const budVec3& muzzle, const budAngles& ang );
+	void					Event_LaunchMissile( const Vector3& muzzle, const Angles& ang );
 	void					Event_LaunchHomingMissile();
 	void					Event_SetHomingMissileGoal();
 	void					Event_LaunchProjectile( const char* entityDefName );
@@ -610,7 +610,7 @@ protected:
 	void					Event_IgnoreDamage();
 	void					Event_GetCurrentYaw();
 	void					Event_TurnTo( float angle );
-	void					Event_TurnToPos( const budVec3& pos );
+	void					Event_TurnToPos( const Vector3& pos );
 	void					Event_TurnToEntity( idEntity* ent );
 	void					Event_MoveStatus();
 	void					Event_StopMove();
@@ -620,8 +620,8 @@ protected:
 	void					Event_MoveOutOfRange( idEntity* entity, float range );
 	void					Event_MoveToAttackPosition( idEntity* entity, const char* attack_anim );
 	void					Event_MoveToEntity( idEntity* ent );
-	void					Event_MoveToPosition( const budVec3& pos );
-	void					Event_SlideTo( const budVec3& pos, float time );
+	void					Event_MoveToPosition( const Vector3& pos );
+	void					Event_SlideTo( const Vector3& pos, float time );
 	void					Event_Wander();
 	void					Event_FacingIdeal();
 	void					Event_FaceEnemy();
@@ -630,7 +630,7 @@ protected:
 	void					Event_GetCombatNode();
 	void					Event_EnemyInCombatCone( idEntity* ent, int use_current_enemy_location );
 	void					Event_WaitMove();
-	void					Event_GetJumpVelocity( const budVec3& pos, float speed, float max_height );
+	void					Event_GetJumpVelocity( const Vector3& pos, float speed, float max_height );
 	void					Event_EntityInAttackCone( idEntity* ent );
 	void					Event_CanSeeEntity( idEntity* ent );
 	void					Event_SetTalkTarget( idEntity* target );
@@ -650,7 +650,7 @@ protected:
 	void					Event_TestChargeAttack();
 	void					Event_TestAnimMoveTowardEnemy( const char* animname );
 	void					Event_TestAnimMove( const char* animname );
-	void					Event_TestMoveToPosition( const budVec3& position );
+	void					Event_TestMoveToPosition( const Vector3& position );
 	void					Event_TestMeleeAttack();
 	void					Event_TestAnimAttack( const char* animname );
 	void					Event_Burn();
@@ -677,16 +677,16 @@ protected:
 	void					Event_ClearFlyOffset();
 	void					Event_GetClosestHiddenTarget( const char* type );
 	void					Event_GetRandomTarget( const char* type );
-	void					Event_TravelDistanceToPoint( const budVec3& pos );
+	void					Event_TravelDistanceToPoint( const Vector3& pos );
 	void					Event_TravelDistanceToEntity( idEntity* ent );
-	void					Event_TravelDistanceBetweenPoints( const budVec3& source, const budVec3& dest );
+	void					Event_TravelDistanceBetweenPoints( const Vector3& source, const Vector3& dest );
 	void					Event_TravelDistanceBetweenEntities( idEntity* source, idEntity* dest );
 	void					Event_LookAtEntity( idEntity* ent, float duration );
 	void					Event_LookAtEnemy( float duration );
 	void					Event_SetJointMod( int allowJointMod );
 	void					Event_ThrowMoveable();
 	void					Event_ThrowAF();
-	void					Event_SetAngles( budAngles const& ang );
+	void					Event_SetAngles( Angles const& ang );
 	void					Event_GetAngles();
 	void					Event_GetTrajectoryToPlayer();
 	void					Event_RealKill();
@@ -695,18 +695,18 @@ protected:
 	void					Event_LocateEnemy();
 	void					Event_KickObstacles( idEntity* kickEnt, float force );
 	void					Event_GetObstacle();
-	void					Event_PushPointIntoAAS( const budVec3& pos );
+	void					Event_PushPointIntoAAS( const Vector3& pos );
 	void					Event_GetTurnRate();
 	void					Event_SetTurnRate( float rate );
 	void					Event_AnimTurn( float angles );
 	void					Event_AllowHiddenMovement( int enable );
 	void					Event_TriggerParticles( const char* jointName );
-	void					Event_FindActorsInBounds( const budVec3& mins, const budVec3& maxs );
-	void 					Event_CanReachPosition( const budVec3& pos );
+	void					Event_FindActorsInBounds( const Vector3& mins, const Vector3& maxs );
+	void 					Event_CanReachPosition( const Vector3& pos );
 	void 					Event_CanReachEntity( idEntity* ent );
 	void					Event_CanReachEnemy();
 	void					Event_GetReachableEntityPosition( idEntity* ent );
-	void					Event_MoveToPositionDirect( const budVec3& pos );
+	void					Event_MoveToPositionDirect( const Vector3& pos );
 	void					Event_AvoidObstacles( int ignore );
 	void					Event_TriggerFX( const char* joint, const char* fx );
 	
@@ -727,7 +727,7 @@ public:
 	
 	void				Spawn();
 	bool				IsDisabled() const;
-	bool				EntityInView( budActor* actor, const budVec3& pos );
+	bool				EntityInView( budActor* actor, const Vector3& pos );
 	static void			DrawDebugInfo();
 	
 private:
@@ -736,9 +736,9 @@ private:
 	float				cone_dist;
 	float				min_height;
 	float				max_height;
-	budVec3				cone_left;
-	budVec3				cone_right;
-	budVec3				offset;
+	Vector3				cone_left;
+	Vector3				cone_right;
+	Vector3				offset;
 	bool				disabled;
 	
 	void				Event_Activate( idEntity* activator );

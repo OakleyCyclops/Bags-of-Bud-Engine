@@ -75,9 +75,9 @@ public:
 	{
 		return images[i].data;
 	}
-	static void			GetGeneratedFileName( budStr& gfn, const char* imageName );
+	static void			GetGeneratedFileName( String& gfn, const char* imageName );
 private:
-	budStr				imgName;			// game path, including extension (except for cube maps), may be an image program
+	String				imgName;			// game path, including extension (except for cube maps), may be an image program
 	bimageFile_t		fileData;
 	
 	class budBinaryImageData : public bimageImage_t
@@ -118,10 +118,10 @@ private:
 		}
 	};
 	
-	budList< budBinaryImageData, TAG_LIBBUD_LIST_IMAGE > images;
+	List< budBinaryImageData, TAG_LIBBUD_LIST_IMAGE > images;
 	
 private:
-	void				MakeGeneratedFileName( budStr& gfn );
+	void				MakeGeneratedFileName( String& gfn );
 	bool				LoadFromGeneratedFile( budFile* f, ID_TIME_T sourceFileTime );
 };
 

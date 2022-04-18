@@ -453,7 +453,7 @@ static int ParsePolygonMesh( const MapPolygonMesh* mesh, int primitiveNum, int n
 	prim->next = uEntity->primitives;
 	uEntity->primitives = prim;
 	
-	const budList<budDrawVert>& verts = mesh->GetDrawVerts();
+	const List<budDrawVert>& verts = mesh->GetDrawVerts();
 	
 	for( int i = 0; i < mesh->GetNumPolygons(); i++ )
 	{
@@ -461,9 +461,9 @@ static int ParsePolygonMesh( const MapPolygonMesh* mesh, int primitiveNum, int n
 		
 		const budMaterial* mat = declManager->FindMaterial( poly.GetMaterial() );
 		
-		const budList<int>& indexes = poly.GetIndexes();
+		const List<int>& indexes = poly.GetIndexes();
 		
-		//budList<int> unique;
+		//List<int> unique;
 		//for( int j = 0; j < indexes.Num(); j++ )
 		//{
 		//	unique.AddUnique( indexes[j] );
@@ -611,7 +611,7 @@ static void CreateMapLight( const idMapEntity* mapEnt )
 	
 	mapEnt->epairs.GetString( "name", "", &name );
 	
-	budStr::Copynz( light->name, name, sizeof( light->name ) );
+	String::Copynz( light->name, name, sizeof( light->name ) );
 	if( !light->name[0] )
 	{
 		common->Error( "Light at (%f,%f,%f) didn't have a name",
@@ -644,7 +644,7 @@ static void CreateMapLights( const budMapFile* dmapFile )
 	{
 		mapEnt = dmapFile->GetEntity( i );
 		mapEnt->epairs.GetString( "classname", "", &value );
-		if( !budStr::Icmp( value, "light" ) )
+		if( !String::Icmp( value, "light" ) )
 		{
 			CreateMapLight( mapEnt );
 		}

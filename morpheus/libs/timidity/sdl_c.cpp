@@ -98,7 +98,7 @@ static int cmsg(int type, int verbosity_level, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	budStr::vsnPrintf(timidity_error, TIMIDITY_ERROR_MAX_CHARS - 1, fmt, ap);
+	String::vsnPrintf(timidity_error, TIMIDITY_ERROR_MAX_CHARS - 1, fmt, ap);
 	va_end(ap);
 
 	strcat( timidity_error, "\n" );

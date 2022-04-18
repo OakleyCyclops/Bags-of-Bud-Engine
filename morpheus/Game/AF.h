@@ -43,8 +43,8 @@ typedef struct jointConversion_s
 	int						bodyId;				// id of the body
 	jointHandle_t			jointHandle;		// handle of joint this body modifies
 	AFJointModType_t		jointMod;			// modify joint axis, origin or both
-	budVec3					jointBodyOrigin;	// origin of body relative to joint
-	budMat3					jointBodyAxis;		// axis of body relative to joint
+	Vector3					jointBodyOrigin;	// origin of body relative to joint
+	Matrix3					jointBodyAxis;		// axis of body relative to joint
 } jointConversion_t;
 
 typedef struct afTouch_s
@@ -87,7 +87,7 @@ public:
 	{
 		return isActive;
 	}
-	void					SetConstraintPosition( const char* name, const budVec3& pos );
+	void					SetConstraintPosition( const char* name, const Vector3& pos );
 	
 	idPhysics_AF* 			GetPhysics()
 	{
@@ -100,28 +100,28 @@ public:
 	budBounds				GetBounds() const;
 	bool					UpdateAnimation();
 	
-	void					GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis ) const;
-	void					GetImpactInfo( idEntity* ent, int id, const budVec3& point, impactInfo_t* info );
-	void					ApplyImpulse( idEntity* ent, int id, const budVec3& point, const budVec3& impulse );
-	void					AddForce( idEntity* ent, int id, const budVec3& point, const budVec3& force );
+	void					GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis ) const;
+	void					GetImpactInfo( idEntity* ent, int id, const Vector3& point, impactInfo_t* info );
+	void					ApplyImpulse( idEntity* ent, int id, const Vector3& point, const Vector3& impulse );
+	void					AddForce( idEntity* ent, int id, const Vector3& point, const Vector3& force );
 	int						BodyForClipModelId( int id ) const;
 	
-	void					SaveState( idDict& args ) const;
-	void					LoadState( const idDict& args );
+	void					SaveState( Dict& args ) const;
+	void					LoadState( const Dict& args );
 	
 	void					AddBindConstraints();
 	void					RemoveBindConstraints();
 	
 protected:
-	budStr					name;				// name of the loaded .af file
+	String					name;				// name of the loaded .af file
 	idPhysics_AF			physicsObj;			// articulated figure physics
 	idEntity* 				self;				// entity using the animated model
 	budAnimator* 			animator;			// animator on entity
 	int						modifiedAnim;		// anim to modify
-	budVec3					baseOrigin;			// offset of base body relative to skeletal model origin
-	budMat3					baseAxis;			// axis of base body relative to skeletal model origin
-	budList<jointConversion_t, TAG_AF>	jointMods;			// list with transforms from skeletal model joints to articulated figure bodies
-	budList<int, TAG_AF>		jointBody;			// table to find the nearest articulated figure body for a joint of the skeletal model
+	Vector3					baseOrigin;			// offset of base body relative to skeletal model origin
+	Matrix3					baseAxis;			// axis of base body relative to skeletal model origin
+	List<jointConversion_t, TAG_AF>	jointMods;			// list with transforms from skeletal model joints to articulated figure bodies
+	List<int, TAG_AF>		jointBody;			// table to find the nearest articulated figure body for a joint of the skeletal model
 	int						poseTime;			// last time the articulated figure was transformed to reflect the current animation pose
 	int						restStartTime;		// time the articulated figure came to rest
 	bool					isLoaded;			// true when the articulated figure is properly loaded

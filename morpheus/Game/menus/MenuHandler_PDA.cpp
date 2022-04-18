@@ -149,7 +149,7 @@ void idMenuHandler_PDA::ActivateMenu( bool show )
 		for( int j = 0; j < player->GetInventory().pdas.Num(); j++ )
 		{
 			const budDeclPDA* pda = player->GetInventory().pdas[ j ];
-			budList< budStr > names;
+			List< String > names;
 			names.Append( pda->GetPdaName() );
 			pdaNames.Append( names );
 		}

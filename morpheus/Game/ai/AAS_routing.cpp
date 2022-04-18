@@ -87,7 +87,7 @@ int idRoutingCache::Size() const
 budAASLocal::AreaTravelTime
 ============
 */
-unsigned short budAASLocal::AreaTravelTime( int areaNum, const budVec3& start, const budVec3& end ) const
+unsigned short budAASLocal::AreaTravelTime( int areaNum, const Vector3& start, const Vector3& end ) const
 {
 	float dist;
 	
@@ -109,7 +109,7 @@ unsigned short budAASLocal::AreaTravelTime( int areaNum, const budVec3& start, c
 	{
 		return 1;
 	}
-	return ( unsigned short ) budMath::Ftoi( dist );
+	return ( unsigned short ) Math::Ftoi( dist );
 }
 
 /*
@@ -515,7 +515,7 @@ bool budAASLocal::SetAreaState( const budBounds& bounds, const int areaContents,
 budAASLocal::GetBoundsAreas_r
 ============
 */
-void budAASLocal::GetBoundsAreas_r( int nodeNum, const budBounds& bounds, budList<int>& areas ) const
+void budAASLocal::GetBoundsAreas_r( int nodeNum, const budBounds& bounds, List<int>& areas ) const
 {
 	int res;
 	const aasNode_t* node;
@@ -1142,7 +1142,7 @@ idRoutingCache* budAASLocal::GetPortalRoutingCache( int clusterNum, int areaNum,
 budAASLocal::RouteToGoalArea
 ============
 */
-bool budAASLocal::RouteToGoalArea( int areaNum, const budVec3 origin, int goalAreaNum, int travelFlags, int& travelTime, idReachability** reach ) const
+bool budAASLocal::RouteToGoalArea( int areaNum, const Vector3 origin, int goalAreaNum, int travelFlags, int& travelTime, idReachability** reach ) const
 {
 	int clusterNum, goalClusterNum, portalNum, i, clusterAreaNum;
 	unsigned short int t, bestTime;
@@ -1321,7 +1321,7 @@ bool budAASLocal::RouteToGoalArea( int areaNum, const budVec3 origin, int goalAr
 budAASLocal::TravelTimeToGoalArea
 ============
 */
-int budAASLocal::TravelTimeToGoalArea( int areaNum, const budVec3& origin, int goalAreaNum, int travelFlags ) const
+int budAASLocal::TravelTimeToGoalArea( int areaNum, const Vector3& origin, int goalAreaNum, int travelFlags ) const
 {
 	int travelTime;
 	idReachability* reach;
@@ -1343,14 +1343,14 @@ int budAASLocal::TravelTimeToGoalArea( int areaNum, const budVec3& origin, int g
 budAASLocal::FindNearestGoal
 ============
 */
-bool budAASLocal::FindNearestGoal( aasGoal_t& goal, int areaNum, const budVec3 origin, const budVec3& target, int travelFlags, aasObstacle_t* obstacles, int numObstacles, budAASCallback& callback ) const
+bool budAASLocal::FindNearestGoal( aasGoal_t& goal, int areaNum, const Vector3 origin, const Vector3& target, int travelFlags, aasObstacle_t* obstacles, int numObstacles, budAASCallback& callback ) const
 {
 	int i, j, k, badTravelFlags, nextAreaNum, bestAreaNum;
 	unsigned short t, bestTravelTime;
 	idRoutingUpdate* updateListStart, *updateListEnd, *curUpdate, *nextUpdate;
 	idReachability* reach;
 	const aasArea_t* nextArea;
-	budVec3 v1, v2, p;
+	Vector3 v1, v2, p;
 	float targetDist, dist;
 	
 	if( file == NULL || areaNum <= 0 )

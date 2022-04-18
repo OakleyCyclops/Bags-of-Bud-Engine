@@ -3,21 +3,31 @@
 #ifndef __CORE_PCH__
 #define __CORE_PCH__
 
-// FYI Precompiled headers don't get preprocessed in the same way cpp files do
+// FYI: Precompiled headers don't get preprocessed in the same way cpp files do
+// cuz fuck you that's why
+
+// SDL2
+#include <SDL2/SDL.h>
+// OpenAL
+#include <AL/al.h>
 
 // Interface Headers
 #include "INTFheart.hpp"
+#include "INTFconsoleShell.hpp"
 #include "INTFconsole.hpp"
-#include "INTFcvarSystem.hpp"
+#include "INTFinputSystem.hpp"
 #include "INTFfileSystem.hpp"
 #include "INTFsys.hpp"
 
 // libBud
-#include "libBudPCH.hpp"
+#include "oakUtilsPCH.hpp"
 
 // The Core Framework
+#include "InputSystem.hpp"
+#include "ConsoleShell.hpp"
 #include "Console.hpp"
 #include "Heart.hpp" // You need to include everything else before the heart because there's no fucking preprocessor
+
 
 #undef min
 #undef max

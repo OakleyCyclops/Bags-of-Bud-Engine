@@ -45,7 +45,7 @@ public:
 	void		CalculateSurround( int srcChannels, float pLevelMatrix[ MAX_CHANNELS_PER_VOICE * MAX_CHANNELS_PER_VOICE ], float scale );
 	
 	// RB begin
-	virtual void	SetPosition( const budVec3& p )
+	virtual void	SetPosition( const Vector3& p )
 	{
 		position = p;
 	}
@@ -93,7 +93,7 @@ public:
 	}
 	
 protected:
-	budVec3		position;			// Position of the sound relative to listener
+	Vector3		position;			// Position of the sound relative to listener
 	float		gain;				// Volume (0-1)
 	float		centerChannel;		// Value (0-1) which indicates how much of this voice goes to the center channel
 	float		pitch;				// Pitch multiplier
@@ -105,12 +105,12 @@ protected:
 	float		innerSampleRangeSqr;
 	float		outerSampleRangeSqr;
 	
-	budList< idSoundSample*, TAG_AUDIO> samples;
+	List< idSoundSample*, TAG_AUDIO> samples;
 	
 	// These are constants which are initialized with InitSurround
 	//-------------------------------------------------------------
 	
-	static budVec2 speakerPositions[idWaveFile::CHANNEL_INDEX_MAX];
+	static Vector2 speakerPositions[idWaveFile::CHANNEL_INDEX_MAX];
 	
 	// This is to figure out which speakers are "next to" this one
 	static int speakerLeft[idWaveFile::CHANNEL_INDEX_MAX];

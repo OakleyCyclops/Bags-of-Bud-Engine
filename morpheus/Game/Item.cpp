@@ -149,7 +149,7 @@ bool idItem::UpdateRenderEntity( renderEntity_s* renderEntity, const renderView_
 	lastRenderViewTime = renderView->time[timeGroup];
 	
 	// check for glow highlighting if near the center of the view
-	budVec3 dir = renderEntity->origin - renderView->vieworg;
+	Vector3 dir = renderEntity->origin - renderView->vieworg;
 	dir.Normalize();
 	float d = dir * renderView->viewaxis[0];
 	
@@ -246,8 +246,8 @@ void idItem::Think()
 	{
 		if( spin )
 		{
-			budAngles	ang;
-			budVec3		org;
+			Angles	ang;
+			Vector3		org;
 			
 			ang.pitch = ang.roll = 0.0f;
 			ang.yaw = ( gameLocal.time & 4095 ) * 360.0f / -4096.0f;
@@ -304,7 +304,7 @@ idItem::Spawn
 */
 void idItem::Spawn()
 {
-	budStr		giveTo;
+	String		giveTo;
 	idEntity* 	ent;
 	float		tsize;
 	
@@ -315,7 +315,7 @@ void idItem::Spawn()
 	
 	if( spawnArgs.GetFloat( "triggersize", "0", tsize ) )
 	{
-		GetPhysics()->GetClipModel()->LoadModel( budTraceModel( budBounds( vec3_origin ).Expand( tsize ) ) );
+		GetPhysics()->GetClipModel()->LoadModel( budTraceModel( budBounds( Vector3_Origin ).Expand( tsize ) ) );
 		GetPhysics()->GetClipModel()->Link( gameLocal.clip );
 	}
 	
@@ -368,7 +368,7 @@ void idItem::Spawn()
 idItem::GetAttributes
 ================
 */
-void idItem::GetAttributes( idDict& attributes ) const
+void idItem::GetAttributes( Dict& attributes ) const
 {
 	int					i;
 	const idKeyValue*	arg;
@@ -600,7 +600,7 @@ void idItem::Event_DropToFloor()
 		return;
 	}
 	
-	gameLocal.clip.TraceBounds( trace, renderEntity.origin, renderEntity.origin - budVec3( 0, 0, 64 ), renderEntity.bounds, MASK_SOLID | CONTENTS_CORPSE, this );
+	gameLocal.clip.TraceBounds( trace, renderEntity.origin, renderEntity.origin - Vector3( 0, 0, 64 ), renderEntity.bounds, MASK_SOLID | CONTENTS_CORPSE, this );
 	SetOrigin( trace.endpos );
 }
 
@@ -826,7 +826,7 @@ idItemTeam::Spawn
 void idItemTeam::Spawn()
 {
 	team					= spawnArgs.GetInt( "team" );
-	returnOrigin			= GetPhysics()->GetOrigin() + budVec3( 0, 0, 20 );
+	returnOrigin			= GetPhysics()->GetOrigin() + Vector3( 0, 0, 20 );
 	returnAxis				= GetPhysics()->GetAxis();
 	
 	BecomeActive( TH_THINK );
@@ -853,8 +853,8 @@ void idItemTeam::Spawn()
 	
 	/* Spawn attached dlight */
 	/*
-	idDict args;
-	budVec3 lightOffset( 0.0f, 20.0f, 0.0f );
+	Dict args;
+	Vector3 lightOffset( 0.0f, 20.0f, 0.0f );
 	
 	// Set up the flag's dynamic light
 	memset( &itemGlow, 0, sizeof( itemGlow ) );
@@ -879,7 +879,7 @@ void idItemTeam::Spawn()
 	
 	physicsObj.SetContents( 0 );
 	physicsObj.SetClipMask( MASK_SOLID | CONTENTS_MOVEABLECLIP );
-	physicsObj.SetGravity( budVec3( 0, 0, spawnArgs.GetInt( "gravity", "-30" ) ) );
+	physicsObj.SetGravity( Vector3( 0, 0, spawnArgs.GetInt( "gravity", "-30" ) ) );
 }
 
 
@@ -891,7 +891,7 @@ idItemTeam::LoadScript
 function_t* idItemTeam::LoadScript( const char* script )
 {
 	function_t* function = NULL;
-	budStr funcname = spawnArgs.GetString( script, "" );
+	String funcname = spawnArgs.GetString( script, "" );
 	if( funcname.Length() )
 	{
 		function = gameLocal.program.FindFunction( funcname );
@@ -918,7 +918,7 @@ void idItemTeam::Think()
 	TouchTriggers();
 	
 	// TODO : only update on updatevisuals
-	/*budVec3 offset( 0.0f, 0.0f, 20.0f );
+	/*Vector3 offset( 0.0f, 0.0f, 20.0f );
 	itemGlow.origin = GetPhysics()->GetOrigin() + offset;
 	if ( itemGlowHandle == -1 ) {
 		itemGlowHandle = gameRenderWorld->AddLightDef( &itemGlow );
@@ -1122,8 +1122,8 @@ void idItemTeam::PrivateReturn()
 	if ( itemGlowHandle != -1 )
 		gameRenderWorld->UpdateLightDef( itemGlowHandle, &itemGlow );*/
 	
-	GetPhysics()->SetLinearVelocity( budVec3( 0, 0, 0 ) );
-	GetPhysics()->SetAngularVelocity( budVec3( 0, 0, 0 ) );
+	GetPhysics()->SetLinearVelocity( Vector3( 0, 0, 0 ) );
+	GetPhysics()->SetAngularVelocity( Vector3( 0, 0, 0 ) );
 }
 
 /*
@@ -1165,8 +1165,8 @@ void idItemTeam::Event_TakeFlag( budPlayer* player )
 	}
 	
 	BindToJoint( player, g_flagAttachJoint.GetString(), true );
-	budVec3 origin( g_flagAttachOffsetX.GetFloat(), g_flagAttachOffsetY.GetFloat(), g_flagAttachOffsetZ.GetFloat() );
-	budAngles angle( g_flagAttachAngleX.GetFloat(), g_flagAttachAngleY.GetFloat(), g_flagAttachAngleZ.GetFloat() );
+	Vector3 origin( g_flagAttachOffsetX.GetFloat(), g_flagAttachOffsetY.GetFloat(), g_flagAttachOffsetZ.GetFloat() );
+	Angles angle( g_flagAttachAngleX.GetFloat(), g_flagAttachAngleY.GetFloat(), g_flagAttachAngleZ.GetFloat() );
 	SetAngles( angle );
 	SetOrigin( origin );
 	
@@ -1238,25 +1238,25 @@ void idItemTeam::Event_DropFlag( bool death )
 	Show();
 	
 	if( death )
-		GetPhysics()->SetLinearVelocity( budVec3( 0, 0, 0 ) );
+		GetPhysics()->SetLinearVelocity( Vector3( 0, 0, 0 ) );
 	else
-		GetPhysics()->SetLinearVelocity( budVec3( 0, 0, 20 ) );
+		GetPhysics()->SetLinearVelocity( Vector3( 0, 0, 20 ) );
 		
-	GetPhysics()->SetAngularVelocity( budVec3( 0, 0, 0 ) );
+	GetPhysics()->SetAngularVelocity( Vector3( 0, 0, 0 ) );
 	
 //	GetPhysics()->SetLinearVelocity( ( GetPhysics()->GetLinearVelocity() * GetBindMaster()->GetPhysics()->GetAxis() ) + GetBindMaster()->GetPhysics()->GetLinearVelocity() );
 
 	if( GetBindMaster() )
 	{
 		const budBounds bounds = GetPhysics()->GetBounds();
-		budVec3 origin = GetBindMaster()->GetPhysics()->GetOrigin() + budVec3( 0, 0, ( bounds[1].z - bounds[0].z ) * 0.6f );
+		Vector3 origin = GetBindMaster()->GetPhysics()->GetOrigin() + Vector3( 0, 0, ( bounds[1].z - bounds[0].z ) * 0.6f );
 		
 		Unbind();
 		
 		SetOrigin( origin );
 	}
 	
-	budAngles angle = GetPhysics()->GetAxis().ToAngles();
+	Angles angle = GetPhysics()->GetAxis().ToAngles();
 	angle.roll	= 0;
 	angle.pitch = 0;
 	SetAxis( angle.ToMat3() );
@@ -1415,15 +1415,15 @@ void idItemTeam::FreeLightDef()
 idItemTeam::SpawnNugget
 ================
 */
-void idItemTeam::SpawnNugget( budVec3 pos )
+void idItemTeam::SpawnNugget( Vector3 pos )
 {
 
-	budAngles angle( gameLocal.random.RandomInt( spawnArgs.GetInt( "nugget_pitch", "30" ) ),	gameLocal.random.RandomInt( spawnArgs.GetInt( "nugget_yaw", "360" ) ),	0 );
+	Angles angle( gameLocal.random.RandomInt( spawnArgs.GetInt( "nugget_pitch", "30" ) ),	gameLocal.random.RandomInt( spawnArgs.GetInt( "nugget_yaw", "360" ) ),	0 );
 	float velocity = float( gameLocal.random.RandomInt( 40 ) + 15 );
 	
 	velocity *= spawnArgs.GetFloat( "nugget_velocity", "1" );
 	
-	idEntity* ent = idMoveableItem::DropItem( nuggetName, pos, GetPhysics()->GetAxis(), angle.ToMat3() * budVec3( velocity, velocity, velocity ), 0, spawnArgs.GetInt( "nugget_removedelay" ) );
+	idEntity* ent = idMoveableItem::DropItem( nuggetName, pos, GetPhysics()->GetAxis(), angle.ToMat3() * Vector3( velocity, velocity, velocity ), 0, spawnArgs.GetInt( "nugget_removedelay" ) );
 	idPhysics_RigidBody* physics = static_cast<idPhysics_RigidBody*>( ent->GetPhysics() );
 	
 	if( physics != NULL && physics->IsType( idPhysics_RigidBody::Type ) )
@@ -1578,7 +1578,7 @@ idObjective::Spawn
 void idObjective::Spawn()
 {
 	Hide();
-	budStr shotName;
+	String shotName;
 	shotName = gameLocal.GetMapName();
 	shotName.StripFileExtension();
 	shotName += "/";
@@ -1611,7 +1611,7 @@ void idObjective::Event_Trigger( idEntity* activator )
 				{
 					if( gameLocal.entities[ i ] && gameLocal.entities[ i ]->IsType( idObjectiveComplete::Type ) )
 					{
-						if( budStr::Icmp( spawnArgs.GetString( "objectivetitle" ), gameLocal.entities[ i ]->spawnArgs.GetString( "objectivetitle" ) ) == 0 )
+						if( String::Icmp( spawnArgs.GetString( "objectivetitle" ), gameLocal.entities[ i ]->spawnArgs.GetString( "objectivetitle" ) ) == 0 )
 						{
 							gameLocal.entities[ i ]->spawnArgs.SetBool( "objEnabled", true );
 							break;
@@ -1650,7 +1650,7 @@ void idObjective::Event_HideObjective( idEntity* e )
 	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
-		budVec3 v = player->GetPhysics()->GetOrigin() - playerPos;
+		Vector3 v = player->GetPhysics()->GetOrigin() - playerPos;
 		if( v.Length() > 64.0f )
 		{
 			player->HideObjective();
@@ -1822,13 +1822,13 @@ void idMoveableItem::Spawn()
 {
 	budTraceModel trm;
 	float density, friction, bouncyness, tsize;
-	budStr clipModelName;
+	String clipModelName;
 	budBounds bounds;
 	SetTimeState ts( timeGroup );
 	
 	// create a trigger for item pickup
 	spawnArgs.GetFloat( "triggersize", "16.0", tsize );
-	trigger = new( TAG_PHYSICS_CLIP_ENTITY ) budClipModel( budTraceModel( budBounds( vec3_origin ).Expand( tsize ) ) );
+	trigger = new( TAG_PHYSICS_CLIP_ENTITY ) budClipModel( budTraceModel( budBounds( Vector3_Origin ).Expand( tsize ) ) );
 	trigger->Link( gameLocal.clip, this, 0, GetPhysics()->GetOrigin(), GetPhysics()->GetAxis() );
 	trigger->SetContents( CONTENTS_TRIGGER );
 	
@@ -1854,11 +1854,11 @@ void idMoveableItem::Spawn()
 	
 	// get rigid body properties
 	spawnArgs.GetFloat( "density", "0.5", density );
-	density = budMath::ClampFloat( 0.001f, 1000.0f, density );
+	density = Math::ClampFloat( 0.001f, 1000.0f, density );
 	spawnArgs.GetFloat( "friction", "0.05", friction );
-	friction = budMath::ClampFloat( 0.0f, 1.0f, friction );
+	friction = Math::ClampFloat( 0.0f, 1.0f, friction );
 	spawnArgs.GetFloat( "bouncyness", "0.6", bouncyness );
-	bouncyness = budMath::ClampFloat( 0.0f, 1.0f, bouncyness );
+	bouncyness = Math::ClampFloat( 0.0f, 1.0f, bouncyness );
 	
 	// setup the physics
 	physicsObj.SetSelf( this );
@@ -1950,14 +1950,14 @@ void idMoveableItem::Think()
 idMoveableItem::Collide
 =================
 */
-bool idMoveableItem::Collide( const trace_t& collision, const budVec3& velocity )
+bool idMoveableItem::Collide( const trace_t& collision, const Vector3& velocity )
 {
 	float v, f;
 	
 	v = -( velocity * collision.c.normal );
 	if( v > 80 && gameLocal.time > nextSoundTime )
 	{
-		f = v > 200 ? 1.0f : budMath::Sqrt( v - 80 ) * 0.091f;
+		f = v > 200 ? 1.0f : Math::Sqrt( v - 80 ) * 0.091f;
 		if( StartSound( "snd_bounce", SND_CHANNEL_ANY, 0, false, NULL ) )
 		{
 			// don't set the volume unless there is a bounce sound as it overrides the entire channel
@@ -1990,9 +1990,9 @@ bool idMoveableItem::Pickup( budPlayer* player )
 idMoveableItem::DropItem
 ================
 */
-idEntity* idMoveableItem::DropItem( const char* classname, const budVec3& origin, const budMat3& axis, const budVec3& velocity, int activateDelay, int removeDelay )
+idEntity* idMoveableItem::DropItem( const char* classname, const Vector3& origin, const Matrix3& axis, const Vector3& velocity, int activateDelay, int removeDelay )
 {
-	idDict args;
+	Dict args;
 	idEntity* item;
 	
 	args.Set( "classname", classname );
@@ -2046,14 +2046,14 @@ idMoveableItem::DropItems
   where <X> is an aribtrary string.
 ================
 */
-void idMoveableItem::DropItems( budAnimatedEntity*  ent, const char* type, budList<idEntity*>* list )
+void idMoveableItem::DropItems( budAnimatedEntity*  ent, const char* type, List<idEntity*>* list )
 {
 	const idKeyValue* kv;
 	const char* skinName, *c, *jointName;
-	budStr key, key2;
-	budVec3 origin;
-	budMat3 axis;
-	budAngles angles;
+	String key, key2;
+	Vector3 origin;
+	Matrix3 axis;
+	Angles angles;
 	const budDeclSkin* skin;
 	jointHandle_t joint;
 	idEntity* item;
@@ -2064,7 +2064,7 @@ void idMoveableItem::DropItems( budAnimatedEntity*  ent, const char* type, budLi
 	{
 	
 		c = kv->GetKey().c_str() + kv->GetKey().Length();
-		if( budStr::Icmp( c - 5, "Joint" ) != 0 && budStr::Icmp( c - 8, "Rotation" ) != 0 )
+		if( String::Icmp( c - 5, "Joint" ) != 0 && String::Icmp( c - 8, "Rotation" ) != 0 )
 		{
 		
 			key = kv->GetKey().c_str() + 4;
@@ -2094,7 +2094,7 @@ void idMoveableItem::DropItems( budAnimatedEntity*  ent, const char* type, budLi
 			
 			origin += ent->spawnArgs.GetVector( key2, "0 0 0" );
 			
-			item = DropItem( kv->GetValue(), origin, axis, vec3_origin, 0, 0 );
+			item = DropItem( kv->GetValue(), origin, axis, Vector3_Origin, 0, 0 );
 			if( list && item )
 			{
 				list->Append( item );
@@ -2160,7 +2160,7 @@ void idMoveableItem::ReadFromSnapshot( const budBitMsg& msg )
 idMoveableItem::Gib
 ============
 */
-void idMoveableItem::Gib( const budVec3& dir, const char* damageDefName )
+void idMoveableItem::Gib( const Vector3& dir, const char* damageDefName )
 {
 	// spawn smoke puff
 	const char* smokeName = spawnArgs.GetString( "smoke_gib" );
@@ -2190,7 +2190,7 @@ idMoveableItem::Event_Gib
 */
 void idMoveableItem::Event_Gib( const char* damageDefName )
 {
-	Gib( budVec3( 0, 0, 1 ), damageDefName );
+	Gib( Vector3( 0, 0, 1 ), damageDefName );
 }
 
 /*
@@ -2387,7 +2387,7 @@ void idObjectiveComplete::Event_HideObjective( idEntity* e )
 	budPlayer* player = gameLocal.GetLocalPlayer();
 	if( player )
 	{
-		budVec3 v = player->GetPhysics()->GetOrigin();
+		Vector3 v = player->GetPhysics()->GetOrigin();
 		v -= playerPos;
 		if( v.Length() > 64.0f )
 		{

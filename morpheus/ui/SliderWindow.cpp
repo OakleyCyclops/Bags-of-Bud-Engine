@@ -71,37 +71,37 @@ idSliderWindow::~idSliderWindow()
 
 bool idSliderWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 {
-	if( budStr::Icmp( _name, "stepsize" ) == 0 || budStr::Icmp( _name, "step" ) == 0 )
+	if( String::Icmp( _name, "stepsize" ) == 0 || String::Icmp( _name, "step" ) == 0 )
 	{
 		stepSize = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "low" ) == 0 )
+	if( String::Icmp( _name, "low" ) == 0 )
 	{
 		low = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "high" ) == 0 )
+	if( String::Icmp( _name, "high" ) == 0 )
 	{
 		high = src->ParseFloat();
 		return true;
 	}
-	if( budStr::Icmp( _name, "vertical" ) == 0 )
+	if( String::Icmp( _name, "vertical" ) == 0 )
 	{
 		vertical = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "verticalflip" ) == 0 )
+	if( String::Icmp( _name, "verticalflip" ) == 0 )
 	{
 		verticalFlip = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "scrollbar" ) == 0 )
+	if( String::Icmp( _name, "scrollbar" ) == 0 )
 	{
 		scrollbar = src->ParseBool();
 		return true;
 	}
-	if( budStr::Icmp( _name, "thumbshader" ) == 0 )
+	if( String::Icmp( _name, "thumbshader" ) == 0 )
 	{
 		ParseString( src, thumbShader );
 		declManager->FindMaterial( thumbShader );
@@ -113,19 +113,19 @@ bool idSliderWindow::ParseInternalVar( const char* _name, budTokenParser* src )
 idWinVar* idSliderWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
 {
 
-	if( budStr::Icmp( _name, "value" ) == 0 )
+	if( String::Icmp( _name, "value" ) == 0 )
 	{
 		return &value;
 	}
-	if( budStr::Icmp( _name, "cvar" ) == 0 )
+	if( String::Icmp( _name, "cvar" ) == 0 )
 	{
 		return &cvarStr;
 	}
-	if( budStr::Icmp( _name, "liveUpdate" ) == 0 )
+	if( String::Icmp( _name, "liveUpdate" ) == 0 )
 	{
 		return &liveUpdate;
 	}
-	if( budStr::Icmp( _name, "cvarGroup" ) == 0 )
+	if( String::Icmp( _name, "cvarGroup" ) == 0 )
 	{
 		return &cvarGroup;
 	}
@@ -193,7 +193,7 @@ void idSliderWindow::PostParse()
 	InitCvar();
 }
 
-void idSliderWindow::InitWithDefaults( const char* _name, const idRectangle& _rect, const budVec4& _foreColor, const budVec4& _matColor, const char* _background, const char* thumbShader, bool _vertical, bool _scrollbar )
+void idSliderWindow::InitWithDefaults( const char* _name, const idRectangle& _rect, const Vector4& _foreColor, const Vector4& _matColor, const char* _background, const char* thumbShader, bool _vertical, bool _scrollbar )
 {
 	SetInitialState( _name );
 	rect = _rect;
@@ -224,7 +224,7 @@ void idSliderWindow::SetValue( float _value )
 
 void idSliderWindow::Draw( int time, float x, float y )
 {
-	budVec4 color = foreColor;
+	Vector4 color = foreColor;
 	
 	if( !cvar && !buddyWin )
 	{
@@ -410,7 +410,7 @@ const char* idSliderWindow::RouteMouseCoords( float xd, float yd )
 }
 
 
-void idSliderWindow::Activate( bool activate, budStr& act )
+void idSliderWindow::Activate( bool activate, String& act )
 {
 	idWindow::Activate( activate, act );
 	if( activate )
@@ -482,9 +482,9 @@ idSliderWindow::RunNamedEvent
 */
 void idSliderWindow::RunNamedEvent( const char* eventName )
 {
-	budStr event, group;
+	String event, group;
 	
-	if( !budStr::Cmpn( eventName, "cvar read ", 10 ) )
+	if( !String::Cmpn( eventName, "cvar read ", 10 ) )
 	{
 		event = eventName;
 		group = event.Mid( 10, event.Length() - 10 );
@@ -493,7 +493,7 @@ void idSliderWindow::RunNamedEvent( const char* eventName )
 			UpdateCvar( true, true );
 		}
 	}
-	else if( !budStr::Cmpn( eventName, "cvar write ", 11 ) )
+	else if( !String::Cmpn( eventName, "cvar write ", 11 ) )
 	{
 		event = eventName;
 		group = event.Mid( 11, event.Length() - 11 );

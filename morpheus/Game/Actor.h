@@ -61,7 +61,7 @@ class budAnimState
 {
 public:
 	bool					idleAnim;
-	budStr					state;
+	String					state;
 	int						animBlendFrames;
 	int						lastAnimBlendFrames;		// allows override anims to blend based on the last transition time
 	
@@ -116,7 +116,7 @@ public:
 	
 	int						team;
 	int						rank;				// monsters don't fight back if the attacker's rank is higher
-	budMat3					viewAxis;			// view axis of the actor
+	Matrix3					viewAxis;			// view axis of the actor
 	
 	idLinkList<budActor>		enemyNode;			// node linked into an entity's enemy list for quick lookups of who is attacking him
 	idLinkList<budActor>		enemyList;			// list of characters that have targeted the player as their enemy
@@ -134,15 +134,15 @@ public:
 	virtual void			Hide();
 	virtual void			Show();
 	virtual int				GetDefaultSurfaceType() const;
-	virtual void			ProjectOverlay( const budVec3& origin, const budVec3& dir, float size, const char* material );
+	virtual void			ProjectOverlay( const Vector3& origin, const Vector3& dir, float size, const char* material );
 	
 	virtual bool			LoadAF();
 	void					SetupBody();
 	
 	void					CheckBlink();
 	
-	virtual bool			GetPhysicsToVisualTransform( budVec3& origin, budMat3& axis );
-	virtual bool			GetPhysicsToSoundTransform( budVec3& origin, budMat3& axis );
+	virtual bool			GetPhysicsToVisualTransform( Vector3& origin, Matrix3& axis );
+	virtual bool			GetPhysicsToSoundTransform( Vector3& origin, Matrix3& axis );
 	
 	// script state management
 	void					ShutdownThreads();
@@ -156,22 +156,22 @@ public:
 	// vision testing
 	void					SetEyeHeight( float height );
 	float					EyeHeight() const;
-	budVec3					EyeOffset() const;
-	budVec3					GetEyePosition() const;
-	virtual void			GetViewPos( budVec3& origin, budMat3& axis ) const;
+	Vector3					EyeOffset() const;
+	Vector3					GetEyePosition() const;
+	virtual void			GetViewPos( Vector3& origin, Matrix3& axis ) const;
 	void					SetFOV( float fov );
-	bool					CheckFOV( const budVec3& pos ) const;
+	bool					CheckFOV( const Vector3& pos ) const;
 	bool					CanSee( idEntity* ent, bool useFOV ) const;
-	bool					PointVisible( const budVec3& point ) const;
-	virtual void			GetAIAimTargets( const budVec3& lastSightPos, budVec3& headPos, budVec3& chestPos );
+	bool					PointVisible( const Vector3& point ) const;
+	virtual void			GetAIAimTargets( const Vector3& lastSightPos, Vector3& headPos, Vector3& chestPos );
 	
 	// damage
 	void					SetupDamageGroups();
-	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const budVec3& dir, const char* damageDefName, const float damageScale, const int location );
+	virtual	void			Damage( idEntity* inflictor, idEntity* attacker, const Vector3& dir, const char* damageDefName, const float damageScale, const int location );
 	int						GetDamageForLocation( int damage, int location );
 	const char* 			GetDamageGroup( int location );
 	void					ClearPain();
-	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const budVec3& dir, int location );
+	virtual bool			Pain( idEntity* inflictor, idEntity* attacker, int damage, const Vector3& dir, int location );
 	
 	// model/combat model/ragdoll
 	void					SetCombatModel();
@@ -183,20 +183,20 @@ public:
 	virtual bool			UpdateAnimationControllers();
 	
 	// delta view angles to allow movers to rotate the view of the actor
-	const budAngles& 		GetDeltaViewAngles() const;
-	void					SetDeltaViewAngles( const budAngles& delta );
+	const Angles& 		GetDeltaViewAngles() const;
+	void					SetDeltaViewAngles( const Angles& delta );
 	
 	bool					HasEnemies() const;
-	budActor* 				ClosestEnemyToPoint( const budVec3& pos );
+	budActor* 				ClosestEnemyToPoint( const Vector3& pos );
 	budActor* 				EnemyWithMostHealth();
 	
 	virtual bool			OnLadder() const;
 	
-	virtual void			GetAASLocation( budAAS* aas, budVec3& pos, int& areaNum ) const;
+	virtual void			GetAASLocation( budAAS* aas, Vector3& pos, int& areaNum ) const;
 	
 	void					Attach( idEntity* ent );
 	
-	virtual void			Teleport( const budVec3& origin, const budAngles& angles, idEntity* destination );
+	virtual void			Teleport( const Vector3& origin, const Angles& angles, idEntity* destination );
 	
 	virtual	renderView_t* 	GetRenderView();
 	
@@ -209,7 +209,7 @@ public:
 	const char* 			WaitState() const;
 	void					SetWaitState( const char* _waitstate );
 	bool					AnimDone( int channel, int blendFrames ) const;
-	virtual void			SpawnGibs( const budVec3& dir, const char* damageDefName );
+	virtual void			SpawnGibs( const Vector3& dir, const char* damageDefName );
 	
 	idEntity*				GetHeadEntity()
 	{
@@ -220,21 +220,21 @@ protected:
 	friend class			budAnimState;
 	
 	float					fovDot;				// cos( fovDegrees )
-	budVec3					eyeOffset;			// offset of eye relative to physics origin
-	budVec3					modelOffset;		// offset of visual model relative to the physics origin
+	Vector3					eyeOffset;			// offset of eye relative to physics origin
+	Vector3					modelOffset;		// offset of visual model relative to the physics origin
 	
-	budAngles				deltaViewAngles;	// delta angles relative to view input angles
+	Angles				deltaViewAngles;	// delta angles relative to view input angles
 	
 	int						pain_debounce_time;	// next time the actor can show pain
 	int						pain_delay;			// time between playing pain sound
 	int						pain_threshold;		// how much damage monster can take at any one time before playing pain animation
 	
-	budStrList				damageGroups;		// body damage groups
-	budList<float, TAG_ACTOR>			damageScale;		// damage scale per damage gruop
+	StringList				damageGroups;		// body damage groups
+	List<float, TAG_ACTOR>			damageScale;		// damage scale per damage gruop
 	
 	bool						use_combat_bbox;	// whether to use the bounding box for combat collision
 	idEntityPtr<budAFAttachment>	head;
-	budList<copyJoints_t, TAG_ACTOR>		copyJoints;			// copied from the body animation to the head model
+	List<copyJoints_t, TAG_ACTOR>		copyJoints;			// copied from the body animation to the head model
 	
 	// state variables
 	const function_t*		state;
@@ -247,8 +247,8 @@ protected:
 	
 	idIK_Walk				walkIK;
 	
-	budStr					animPrefix;
-	budStr					painAnim;
+	String					animPrefix;
+	String					painAnim;
 	
 	// blinking
 	int						blink_anim;
@@ -258,7 +258,7 @@ protected:
 	
 	// script variables
 	idThread* 				scriptThread;
-	budStr					waitState;
+	String					waitState;
 	budAnimState				headAnim;
 	budAnimState				torsoAnim;
 	budAnimState				legsAnim;
@@ -270,11 +270,11 @@ protected:
 	int						painTime;
 	bool					damageNotByFists;
 	
-	budList<budAttachInfo, TAG_ACTOR>	attachments;
+	List<budAttachInfo, TAG_ACTOR>	attachments;
 	
 	int						damageCap;
 	
-	virtual void			Gib( const budVec3& dir, const char* damageDefName );
+	virtual void			Gib( const Vector3& dir, const char* damageDefName );
 	
 	// removes attachments with "remove" set for when character dies
 	void					RemoveAttachments();
@@ -322,7 +322,7 @@ private:
 	void					Event_AnimDistance( int channel, const char* animname );
 	void					Event_HasEnemies();
 	void					Event_NextEnemy( idEntity* ent );
-	void					Event_ClosestEnemyToPoint( const budVec3& pos );
+	void					Event_ClosestEnemyToPoint( const Vector3& pos );
 	void					Event_StopSound( int channel, int netsync );
 	void					Event_SetNextState( const char* name );
 	void					Event_SetState( const char* name );

@@ -69,11 +69,11 @@ const char* idBindWindow::HandleEvent( const sysEvent_t* event, bool* updateVisu
 		waitingOnKey = false;
 		if( key == K_ESCAPE )
 		{
-			budStr::snPrintf( ret, sizeof( ret ), "clearbind \"%s\"", bindName.GetName() );
+			String::snPrintf( ret, sizeof( ret ), "clearbind \"%s\"", bindName.GetName() );
 		}
 		else
 		{
-			budStr::snPrintf( ret, sizeof( ret ), "bind %i \"%s\"", key, bindName.GetName() );
+			String::snPrintf( ret, sizeof( ret ), "bind %i \"%s\"", key, bindName.GetName() );
 		}
 		return ret;
 	}
@@ -93,7 +93,7 @@ const char* idBindWindow::HandleEvent( const sysEvent_t* event, bool* updateVisu
 idWinVar* idBindWindow::GetWinVarByName( const char* _name, bool fixup, drawWin_t** owner )
 {
 
-	if( budStr::Icmp( _name, "bind" ) == 0 )
+	if( String::Icmp( _name, "bind" ) == 0 )
 	{
 		return &bindName;
 	}
@@ -112,9 +112,9 @@ void idBindWindow::PostParse()
 
 void idBindWindow::Draw( int time, float x, float y )
 {
-	budVec4 color = foreColor;
+	Vector4 color = foreColor;
 	
-	budStr str;
+	String str;
 	if( waitingOnKey )
 	{
 		str = budLocalization::GetString( "#str_07000" );
@@ -140,7 +140,7 @@ void idBindWindow::Draw( int time, float x, float y )
 	dc->DrawText( str, textScale, textAlign, color, textRect, false, -1 );
 }
 
-void idBindWindow::Activate( bool activate, budStr& act )
+void idBindWindow::Activate( bool activate, String& act )
 {
 	idWindow::Activate( activate, act );
 	bindName.Update();

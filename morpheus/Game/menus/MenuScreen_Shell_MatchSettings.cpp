@@ -280,10 +280,10 @@ bool idMenuScreen_Shell_MatchSettings::HandleAction( idWidgetAction& action, con
 // SCREEN SETTINGS
 /////////////////////////////////
 
-extern budCVar si_timeLimit;
-extern budCVar si_fragLimit;
-extern budCVar si_map;
-extern budCVar si_mode;
+extern CVar si_timeLimit;
+extern CVar si_fragLimit;
+extern CVar si_map;
+extern CVar si_mode;
 
 /*
 ========================
@@ -306,7 +306,7 @@ void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::LoadData(
 {
 	updateMap = false;
 	budMatchParameters matchParameters = session->GetActivePlatformLobbyBase().GetMatchParms();
-	budStr val;
+	String val;
 	GetMapName( matchParameters.gameMap, val );
 	fields[ MATCH_FIELD_MAP ].SetString( val );
 	GetModeName( matchParameters.gameMode, val );
@@ -347,15 +347,15 @@ void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::CommitDat
 idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetMapName
 ========================
 */
-void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetMapName( int index, budStr& name )
+void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetMapName( int index, String& name )
 {
 	idLobbyBase& lobby = session->GetActivePlatformLobbyBase();
 	const budMatchParameters& matchParameters = lobby.GetMatchParms();
 	name = "#str_swf_filter_random";
 	if( matchParameters.gameMap >= 0 )
 	{
-		const budList< mpMap_t > maps = common->GetMapList();
-		name = budLocalization::GetString( maps[ budMath::ClampInt( 0, maps.Num() - 1, matchParameters.gameMap ) ].mapName );
+		const List< mpMap_t > maps = common->GetMapList();
+		name = budLocalization::GetString( maps[ Math::ClampInt( 0, maps.Num() - 1, matchParameters.gameMap ) ].mapName );
 	}
 }
 
@@ -364,15 +364,15 @@ void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetMapNam
 idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetModeName
 ========================
 */
-void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetModeName( int index, budStr& name )
+void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::GetModeName( int index, String& name )
 {
 	idLobbyBase& lobby = session->GetActivePlatformLobbyBase();
 	const budMatchParameters& matchParameters = lobby.GetMatchParms();
 	name = "#str_swf_filter_random";
 	if( matchParameters.gameMode >= 0 )
 	{
-		const budStrList& modes = common->GetModeDisplayList();
-		name = budLocalization::GetString( modes[ budMath::ClampInt( 0, modes.Num() - 1, matchParameters.gameMode ) ] );
+		const StringList& modes = common->GetModeDisplayList();
+		name = budLocalization::GetString( modes[ Math::ClampInt( 0, modes.Num() - 1, matchParameters.gameMode ) ] );
 	}
 }
 
@@ -384,8 +384,8 @@ idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::AdjustField
 void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::AdjustField( const int fieldIndex, const int adjustAmount )
 {
 
-	const budStrList& modes = common->GetModeList();
-	const budList< mpMap_t > maps = common->GetMapList();
+	const StringList& modes = common->GetModeList();
+	const List< mpMap_t > maps = common->GetMapList();
 	
 	budMatchParameters matchParameters = session->GetActivePlatformLobbyBase().GetMatchParms();
 	if( fieldIndex == MATCH_FIELD_MAP )
@@ -408,7 +408,7 @@ void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::AdjustFie
 		}
 		session->UpdateMatchParms( matchParameters );
 		
-		budStr val;
+		String val;
 		GetMapName( matchParameters.gameMap, val );
 		si_map.SetInteger( matchParameters.gameMap );
 		fields[ MATCH_FIELD_MAP ].SetString( val );
@@ -439,7 +439,7 @@ void idMenuScreen_Shell_MatchSettings::idMenuDataSource_MatchSettings::AdjustFie
 		}
 		
 		session->UpdateMatchParms( matchParameters );
-		budStr val;
+		String val;
 		
 		GetModeName( matchParameters.gameMode, val );
 		si_mode.SetInteger( matchParameters.gameMode );

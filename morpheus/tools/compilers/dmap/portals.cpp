@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "dmap.h"
 
 
-budList<interAreaPortal_t> interAreaPortals;
+List<interAreaPortal_t> interAreaPortals;
 
 
 int		c_active_portals;
@@ -316,7 +316,7 @@ static void MakeNodePortal( node_t* node )
 {
 	uPortal_t*	new_portal, *p;
 	idWinding*	w;
-	budVec3		normal;
+	Vector3		normal;
 	int			side;
 	
 	w = BaseWindingForNode( node );
@@ -591,7 +591,7 @@ void FloodPortals_r( node_t* node, int dist )
 PlaceOccupant
 =============
 */
-bool PlaceOccupant( node_t* headnode, budVec3 origin, uEntity_t* occupant )
+bool PlaceOccupant( node_t* headnode, Vector3 origin, uEntity_t* occupant )
 {
 	node_t*	node;
 	float	d;
@@ -634,7 +634,7 @@ Marks all nodes that can be reached by entites
 bool FloodEntities( tree_t* tree )
 {
 	int		i;
-	budVec3	origin;
+	Vector3	origin;
 	const char*	cl;
 	bool	inside;
 	node_t* headnode;
@@ -704,7 +704,7 @@ bool FloodEntities( tree_t* tree )
 			common->Printf( "Entity classname was: %s\n", p );
 			mapEnt->epairs.GetString( "name", "", &p );
 			common->Printf( "Entity name was: %s\n", p );
-			budVec3 origin;
+			Vector3 origin;
 			if( mapEnt->epairs.GetVector( "origin", "", origin ) )
 			{
 				common->Printf( "Entity origin is: %f %f %f\n\n\n", origin.x, origin.y, origin.z );
@@ -833,7 +833,7 @@ static bool	CheckTrianglesForPortal( uPortal_t* p )
 	return false;
 }
 
-static bool	FindTrianglesForPortal( uPortal_t* p, budList<mapTri_t*>& tris )
+static bool	FindTrianglesForPortal( uPortal_t* p, List<mapTri_t*>& tris )
 {
 	int			i;
 	node_t*		node;
@@ -1080,7 +1080,7 @@ static void FindInterAreaPortals_r( node_t* node )
 	}
 	
 	// RB: check area portal triangles
-	budList<mapTri_t*> apTriangles;
+	List<mapTri_t*> apTriangles;
 	for( p = node->portals ; p ; p = p->next[s] )
 	{
 		node_t*	other;
@@ -1144,7 +1144,7 @@ static void FindInterAreaPortals_r( node_t* node )
 		for( int j = 0; j < apTriangles.Num(); j++ )
 		{
 			mapTri_t* tri = apTriangles[j];
-			budVec3 planeNormal = dmapGlobals.mapPlanes[ tri->planeNum].Normal();
+			Vector3 planeNormal = dmapGlobals.mapPlanes[ tri->planeNum].Normal();
 			
 			for( int k = 0; k < 3; k++ )
 			{

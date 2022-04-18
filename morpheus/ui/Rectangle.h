@@ -30,7 +30,7 @@ If you have questions concerning this license or the applicable additional terms
 //
 // simple rectangle
 //
-extern void RotateVector( budVec3& v, budVec3 origin, float a, float c, float s );
+extern void RotateVector( Vector3& v, Vector3 origin, float a, float c, float s );
 class idRectangle
 {
 public:
@@ -108,9 +108,9 @@ public:
 	
 	void Rotate( float a, idRectangle& out )
 	{
-		budVec3 p1, p2, p3, p4, p5;
+		Vector3 p1, p2, p3, p4, p5;
 		float c, s;
-		budVec3 center;
+		Vector3 center;
 		center.Set( ( x + w ) / 2.0, ( y + h ) / 2.0, 0 );
 		p1.Set( x, y, 0 );
 		p2.Set( Right(), y, 0 );
@@ -138,17 +138,17 @@ public:
 	idRectangle& operator/=( const idRectangle& a );
 	idRectangle& operator/=( const float a );
 	idRectangle& operator*=( const float a );
-	idRectangle& operator=( const budVec4 v );
+	idRectangle& operator=( const Vector4 v );
 	int operator==( const idRectangle& a ) const;
 	float& 	operator[]( const int index );
 	char* String() const;
-	const budVec4& ToVec4() const;
+	const Vector4& ToVec4() const;
 	
 };
 
-BUD_INLINE const budVec4& idRectangle::ToVec4() const
+BUD_INLINE const Vector4& idRectangle::ToVec4() const
 {
-	return *reinterpret_cast<const budVec4*>( &x );
+	return *reinterpret_cast<const Vector4*>( &x );
 }
 
 
@@ -204,7 +204,7 @@ BUD_INLINE idRectangle& idRectangle::operator*=( const float a )
 }
 
 
-BUD_INLINE idRectangle& idRectangle::operator=( const budVec4 v )
+BUD_INLINE idRectangle& idRectangle::operator=( const Vector4 v )
 {
 	x = v.x;
 	y = v.y;
@@ -267,7 +267,7 @@ public:
 	
 protected:
 
-	budList<idRectangle, TAG_OLD_UI> rects;
+	List<idRectangle, TAG_OLD_UI> rects;
 };
 
 

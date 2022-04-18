@@ -37,8 +37,8 @@ If you have questions concerning this license or the applicable additional terms
 
 budSys* 						sys = NULL;
 budCommon* 					common = NULL;
-budCmdSystem* 				cmdSystem = NULL;
-budCVarSystem* 				cvarSystem = NULL;
+CmdSystem* 				cmdSystem = NULL;
+CVarSystem* 				cvarSystem = NULL;
 budFileSystem* 				fileSystem = NULL;
 budRenderSystem* 			renderSystem = NULL;
 idSoundSystem* 				soundSystem = NULL;
@@ -47,9 +47,9 @@ budUserInterfaceManager* 	uiManager = NULL;
 budDeclManager* 				declManager = NULL;
 budAASFileManager* 			AASFileManager = NULL;
 budCollisionModelManager* 	collisionModelManager = NULL;
-budCVar* 					budCVar::staticVars = NULL;
+CVar* 					CVar::staticVars = NULL;
 
-budCVar com_forceGenericSIMD( "com_forceGenericSIMD", "0", CVAR_BOOL | CVAR_SYSTEM, "force generic platform independent SIMD" );
+CVar com_forceGenericSIMD( "com_forceGenericSIMD", "0", CVAR_BOOL | CVAR_SYSTEM, "force generic platform independent SIMD" );
 
 #endif
 
@@ -71,7 +71,7 @@ const char* budGameLocal::sufaceTypeNames[ MAX_SURFACE_TYPES ] =
 	"ricochet", "surftype10", "surftype11", "surftype12", "surftype13", "surftype14", "surftype15"
 };
 
-budCVar net_usercmd_timing_debug( "net_usercmd_timing_debug", "0", CVAR_BOOL, "Print messages about usercmd timing." );
+CVar net_usercmd_timing_debug( "net_usercmd_timing_debug", "0", CVAR_BOOL, "Print messages about usercmd timing." );
 
 
 // List of all defs used by the player that will stay on the fast timeline
@@ -295,7 +295,7 @@ budGameLocal::Init
 */
 void budGameLocal::Init()
 {
-	const idDict* dict;
+	const Dict* dict;
 	budAAS* aas;
 	
 #ifndef GAME_DLL
@@ -308,7 +308,7 @@ void budGameLocal::Init()
 	libBud::Init();
 	
 	// register static cvars declared in the game
-	budCVar::RegisterStaticVars();
+	CVar::RegisterStaticVars();
 	
 	// initialize processor specific SIMD
 	idSIMD::InitProcessor( "game", com_forceGenericSIMD.GetBool() );
@@ -330,8 +330,8 @@ void budGameLocal::Init()
 	declManager->RegisterDeclFolder( "af",				".af",				DECL_AF );
 	declManager->RegisterDeclFolder( "newpdas",			".pda",				DECL_PDA );
 	
-	cmdSystem->AddCommand( "listModelDefs", budListDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "lists model defs" );
-	cmdSystem->AddCommand( "printModelDefs", budPrintDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "prints a model def", budCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
+	cmdSystem->AddCommand( "listModelDefs", ListDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "lists model defs" );
+	cmdSystem->AddCommand( "printModelDefs", budPrintDecls_f<DECL_MODELDEF>, CMD_FL_SYSTEM | CMD_FL_GAME, "prints a model def", CmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
 	
 	Clear();
 	
@@ -458,7 +458,7 @@ void budGameLocal::Shutdown()
 #endif
 }
 
-budCVar g_recordSaveGameTrace( "g_recordSaveGameTrace", "0", CVAR_BOOL, "" );
+CVar g_recordSaveGameTrace( "g_recordSaveGameTrace", "0", CVAR_BOOL, "" );
 
 /*
 ===========
@@ -511,7 +511,7 @@ void budGameLocal::SaveGame( budFile* f, budFile* strings )
 		}
 	}
 	
-	budList<idThread*> threads;
+	List<idThread*> threads;
 	threads = idThread::GetThreads();
 	
 	for( i = 0; i < threads.Num(); i++ )
@@ -696,7 +696,7 @@ void budGameLocal::GetSaveGameDetails( idSaveGameDetails& gameDetails )
 	idLocationEntity* locationEnt = LocationForPoint( gameLocal.GetLocalPlayer()->GetEyePosition() );
 	const char* locationStr = locationEnt ? locationEnt->GetLocation() : budLocalization::GetString( "#str_02911" );
 	
-	budStrStatic< MAX_OSPATH > shortMapName = mapFileName;
+	StringStatic< MAX_OSPATH > shortMapName = mapFileName;
 	shortMapName.StripFileExtension();
 	shortMapName.StripLeading( "maps/" );
 	
@@ -725,7 +725,7 @@ void budGameLocal::GetSaveGameDetails( idSaveGameDetails& gameDetails )
 budGameLocal::GetPersistentPlayerInfo
 ============
 */
-const idDict& budGameLocal::GetPersistentPlayerInfo( int clientNum )
+const Dict& budGameLocal::GetPersistentPlayerInfo( int clientNum )
 {
 	idEntity*	ent;
 	
@@ -744,7 +744,7 @@ const idDict& budGameLocal::GetPersistentPlayerInfo( int clientNum )
 budGameLocal::SetPersistentPlayerInfo
 ============
 */
-void budGameLocal::SetPersistentPlayerInfo( int clientNum, const idDict& playerInfo )
+void budGameLocal::SetPersistentPlayerInfo( int clientNum, const Dict& playerInfo )
 {
 	persistentPlayerInfo[ clientNum ] = playerInfo;
 }
@@ -760,7 +760,7 @@ void budGameLocal::Printf( const char* fmt, ... ) const // DG: FIXME: printf-ann
 	char		text[MAX_STRING_CHARS];
 	
 	va_start( argptr, fmt );
-	budStr::vsnPrintf( text, sizeof( text ), fmt, argptr );
+	String::vsnPrintf( text, sizeof( text ), fmt, argptr );
 	va_end( argptr );
 	
 	common->Printf( "%s", text );
@@ -782,7 +782,7 @@ void budGameLocal::DPrintf( const char* fmt, ... ) const
 	}
 	
 	va_start( argptr, fmt );
-	budStr::vsnPrintf( text, sizeof( text ), fmt, argptr );
+	String::vsnPrintf( text, sizeof( text ), fmt, argptr );
 	va_end( argptr );
 	
 	common->Printf( "%s", text );
@@ -800,7 +800,7 @@ void budGameLocal::Warning( const char* fmt, ... ) const
 	idThread* 	thread;
 	
 	va_start( argptr, fmt );
-	budStr::vsnPrintf( text, sizeof( text ), fmt, argptr );
+	String::vsnPrintf( text, sizeof( text ), fmt, argptr );
 	va_end( argptr );
 	
 	thread = idThread::CurrentThread();
@@ -831,7 +831,7 @@ void budGameLocal::DWarning( const char* fmt, ... ) const
 	}
 	
 	va_start( argptr, fmt );
-	budStr::vsnPrintf( text, sizeof( text ), fmt, argptr );
+	String::vsnPrintf( text, sizeof( text ), fmt, argptr );
 	va_end( argptr );
 	
 	thread = idThread::CurrentThread();
@@ -857,7 +857,7 @@ void budGameLocal::Error( const char* fmt, ... ) const
 	idThread* 	thread;
 	
 	va_start( argptr, fmt );
-	budStr::vsnPrintf( text, sizeof( text ), fmt, argptr );
+	String::vsnPrintf( text, sizeof( text ), fmt, argptr );
 	va_end( argptr );
 	
 	thread = idThread::CurrentThread();
@@ -882,7 +882,7 @@ void gameError( const char* fmt, ... )
 	char		text[MAX_STRING_CHARS];
 	
 	va_start( argptr, fmt );
-	budStr::vsnPrintf( text, sizeof( text ), fmt, argptr );
+	String::vsnPrintf( text, sizeof( text ), fmt, argptr );
 	va_end( argptr );
 	
 	gameLocal.Error( "%s", text );
@@ -914,7 +914,7 @@ int budGameLocal::GetServerGameTimeMs() const
 budGameLocal::SetServerInfo
 ============
 */
-void budGameLocal::SetServerInfo( const idDict& _serverInfo )
+void budGameLocal::SetServerInfo( const Dict& _serverInfo )
 {
 	serverInfo = _serverInfo;
 	
@@ -933,7 +933,7 @@ void budGameLocal::SetServerInfo( const idDict& _serverInfo )
 budGameLocal::GetServerInfo
 ============
 */
-const idDict& budGameLocal::GetServerInfo()
+const Dict& budGameLocal::GetServerInfo()
 {
 	return serverInfo;
 }
@@ -947,7 +947,7 @@ Initializes all map variables common to both save games and spawned games.
 */
 void budGameLocal::LoadMap( const char* mapName, int randseed )
 {
-	bool sameMap = ( mapFile && budStr::Icmp( mapFileName, mapName ) == 0 );
+	bool sameMap = ( mapFile && String::Icmp( mapFileName, mapName ) == 0 );
 	
 	// clear the sound system
 	gameSoundWorld->ClearAllSoundEmitters();
@@ -966,7 +966,7 @@ void budGameLocal::LoadMap( const char* mapName, int randseed )
 			delete mapFile;
 		}
 		mapFile = new( TAG_GAME ) budMapFile;
-		if( !mapFile->Parse( budStr( mapName ) + ".map" ) )
+		if( !mapFile->Parse( String( mapName ) + ".map" ) )
 		{
 			delete mapFile;
 			mapFile = NULL;
@@ -1063,7 +1063,7 @@ void budGameLocal::LoadMap( const char* mapName, int randseed )
 	// load navigation system for all the different monster sizes
 	for( int i = 0; i < aasNames.Num(); i++ )
 	{
-		aasList[ i ]->Init( budStr( mapFileName ).SetFileExtension( aasNames[ i ] ).c_str(), mapFile->GetGeometryCRC() );
+		aasList[ i ]->Init( String( mapFileName ).SetFileExtension( aasNames[ i ] ).c_str(), mapFile->GetGeometryCRC() );
 	}
 	
 	// clear the smoke particle free list
@@ -1209,7 +1209,7 @@ void budGameLocal::MapRestart()
 budGameLocal::MapRestart_f
 ===================
 */
-void budGameLocal::MapRestart_f( const budCmdArgs& args )
+void budGameLocal::MapRestart_f( const CmdArgs& args )
 {
 	if( !common->IsMultiplayer() || common->IsClient() )
 	{
@@ -1265,7 +1265,7 @@ budGameLocal::InitFromNewMap
 void budGameLocal::InitFromNewMap( const char* mapName, budRenderWorld* renderWorld, budSoundWorld* soundWorld, int gameMode, int randseed )
 {
 
-	this->gameType = ( gameType_t )budMath::ClampInt( GAME_SP, GAME_COUNT - 1, gameMode );
+	this->gameType = ( gameType_t )Math::ClampInt( GAME_SP, GAME_COUNT - 1, gameMode );
 	
 	if( mapFileName.Length() )
 	{
@@ -1285,7 +1285,7 @@ void budGameLocal::InitFromNewMap( const char* mapName, budRenderWorld* renderWo
 	}
 	else
 	{
-		g_skill.SetInteger( budMath::ClampInt( 0, 3, g_skill.GetInteger() ) );
+		g_skill.SetInteger( Math::ClampInt( 0, 3, g_skill.GetInteger() ) );
 	}
 	
 	LoadMap( mapName, randseed );
@@ -1317,7 +1317,7 @@ bool budGameLocal::InitFromSaveGame( const char* mapName, budRenderWorld* render
 	int i;
 	int num;
 	idEntity* ent;
-	idDict si;
+	Dict si;
 	
 	if( mapFileName.Length() )
 	{
@@ -1678,7 +1678,7 @@ void budGameLocal::MapShutdown()
 	
 	ShutdownAsyncNetwork();
 	
-	budStrStatic< MAX_OSPATH > mapName = mapFileName;
+	StringStatic< MAX_OSPATH > mapName = mapFileName;
 	mapName.StripPath();
 	mapName.StripFileExtension();
 	fileSystem->UnloadMapResources( mapName );
@@ -1698,7 +1698,7 @@ void budGameLocal::MapShutdown()
 budGameLocal::GetAimAssistAngles
 ========================
 */
-void budGameLocal::GetAimAssistAngles( budAngles& angles )
+void budGameLocal::GetAimAssistAngles( Angles& angles )
 {
 	angles.Zero();
 	
@@ -1805,7 +1805,7 @@ merging the entitydef.  It could be done post-merge, but that would
 avoid the fast pre-cache check associated with each entityDef
 ===================
 */
-void budGameLocal::CacheDictionaryMedia( const idDict* dict )
+void budGameLocal::CacheDictionaryMedia( const Dict* dict )
 {
 	const idKeyValue* kv;
 	
@@ -1849,9 +1849,9 @@ void budGameLocal::CacheDictionaryMedia( const idDict* dict )
 	{
 		if( kv->GetValue().Length() )
 		{
-			if( !budStr::Icmp( kv->GetKey(), "gui_noninteractive" )
-					|| !budStr::Icmpn( kv->GetKey(), "gui_parm", 8 )
-					|| !budStr::Icmp( kv->GetKey(), "gui_inventory" ) )
+			if( !String::Icmp( kv->GetKey(), "gui_noninteractive" )
+					|| !String::Icmpn( kv->GetKey(), "gui_parm", 8 )
+					|| !String::Icmp( kv->GetKey(), "gui_inventory" ) )
 			{
 				// unfortunate flag names, they aren't actually a gui
 			}
@@ -1922,7 +1922,7 @@ void budGameLocal::CacheDictionaryMedia( const idDict* dict )
 	{
 		if( kv->GetValue().Length() )
 		{
-			budStr prtName = kv->GetValue();
+			String prtName = kv->GetValue();
 			int dash = prtName.Find( '-' );
 			if( dash > 0 )
 			{
@@ -2087,7 +2087,7 @@ budGameLocal::SpawnPlayer
 void budGameLocal::SpawnPlayer( int clientNum )
 {
 	idEntity*	ent;
-	idDict		args;
+	Dict		args;
 	
 	// they can connect
 	Printf( "SpawnPlayer: %i\n", clientNum );
@@ -2368,7 +2368,7 @@ void budGameLocal::UpdateGravity()
 budGameLocal::GetGravity
 ================
 */
-const budVec3& budGameLocal::GetGravity() const
+const Vector3& budGameLocal::GetGravity() const
 {
 	return gravity;
 }
@@ -2518,7 +2518,7 @@ void budGameLocal::RunEntityThink( idEntity& ent, budUserCmdMgr& userCmdMgr )
 	}
 }
 
-budCVar g_recordTrace( "g_recordTrace", "0", CVAR_BOOL, "" );
+CVar g_recordTrace( "g_recordTrace", "0", CVAR_BOOL, "" );
 
 /*
 ================
@@ -2588,7 +2588,7 @@ void budGameLocal::RunFrame( budUserCmdMgr& cmdMgr, gameReturn_t& ret )
 			ComputeSlowScale();
 			
 			slow.previousTime = slow.time;
-			slow.time += budMath::Ftoi( ( fast.time - fast.previousTime ) * slowmoScale );
+			slow.time += Math::Ftoi( ( fast.time - fast.previousTime ) * slowmoScale );
 			slow.realClientTime = slow.time;
 			
 			SelectTimeGroup( false );
@@ -2997,7 +2997,7 @@ void budGameLocal::RunAllUserCmdsForPlayer( budUserCmdMgr& cmdMgr, const int pla
 	for( ; numPasses < MaxExtraCommandsPerFrame; numPasses++ )
 	{
 		// Run remote player extra commands
-		extern budCVar net_ucmdRate;
+		extern CVar net_ucmdRate;
 		// Add some extra time to smooth out network inconsistencies.
 		const int extraFrameMilliseconds = FRAME_TO_MSEC( common->GetGameFrame() + 2 ) - FRAME_TO_MSEC( common->GetGameFrame() );
 		const int millisecondBuffer = MSEC_ALIGN_TO_FRAME( net_ucmdRate.GetInteger() + extraFrameMilliseconds );
@@ -3061,14 +3061,14 @@ void budGameLocal::CalcFov( float base_fov, float& fov_x, float& fov_y ) const
 	// Calculate the fov_y based on an ideal aspect ratio
 	const float ideal_ratio_x = 16.0f;
 	const float ideal_ratio_y = 9.0f;
-	const float tanHalfX = budMath::Tan( DEG2RAD( base_fov * 0.5f ) );
-	fov_y = 2.0f * RAD2DEG( budMath::ATan( ideal_ratio_y * tanHalfX, ideal_ratio_x ) );
+	const float tanHalfX = Math::Tan( DEG2RAD( base_fov * 0.5f ) );
+	fov_y = 2.0f * RAD2DEG( Math::ATan( ideal_ratio_y * tanHalfX, ideal_ratio_x ) );
 	
 	// Then calculate fov_x based on the true aspect ratio
 	const float ratio_x = width * renderSystem->GetPixelAspect();
 	const float ratio_y = height;
-	const float tanHalfY = budMath::Tan( DEG2RAD( fov_y * 0.5f ) );
-	fov_x = 2.0f * RAD2DEG( budMath::ATan( ratio_x * tanHalfY, ratio_y ) );
+	const float tanHalfY = Math::Tan( DEG2RAD( fov_y * 0.5f ) );
+	fov_x = 2.0f * RAD2DEG( Math::ATan( ratio_x * tanHalfY, ratio_y ) );
 }
 
 /*
@@ -3216,12 +3216,12 @@ budGameLocal::ShowTargets
 */
 void budGameLocal::ShowTargets()
 {
-	budMat3		axis = GetLocalPlayer()->viewAngles.ToMat3();
-	budVec3		up = axis[ 2 ] * 5.0f;
-	const budVec3& viewPos = GetLocalPlayer()->GetPhysics()->GetOrigin();
+	Matrix3		axis = GetLocalPlayer()->viewAngles.ToMat3();
+	Vector3		up = axis[ 2 ] * 5.0f;
+	const Vector3& viewPos = GetLocalPlayer()->GetPhysics()->GetOrigin();
 	budBounds	viewTextBounds( viewPos );
 	budBounds	viewBounds( viewPos );
-	budBounds	box( budVec3( -4.0f, -4.0f, -4.0f ), budVec3( 4.0f, 4.0f, 4.0f ) );
+	budBounds	box( Vector3( -4.0f, -4.0f, -4.0f ), Vector3( 4.0f, 4.0f, 4.0f ) );
 	idEntity*	ent;
 	idEntity*	target;
 	int			i;
@@ -3247,7 +3247,7 @@ void budGameLocal::ShowTargets()
 		}
 		
 		float dist;
-		budVec3 dir = totalBounds.GetCenter() - viewPos;
+		Vector3 dir = totalBounds.GetCenter() - viewPos;
 		dir.NormalizeFast();
 		totalBounds.RayIntersection( viewPos, dir, dist );
 		float frac = ( 512.0f - dist ) / 512.0f;
@@ -3259,7 +3259,7 @@ void budGameLocal::ShowTargets()
 		gameRenderWorld->DebugBounds( ( ent->IsHidden() ? colorLtGrey : colorOrange ) * frac, ent->GetPhysics()->GetAbsBounds() );
 		if( viewTextBounds.IntersectsBounds( ent->GetPhysics()->GetAbsBounds() ) )
 		{
-			budVec3 center = ent->GetPhysics()->GetAbsBounds().GetCenter();
+			Vector3 center = ent->GetPhysics()->GetAbsBounds().GetCenter();
 			gameRenderWorld->DrawText( ent->name.c_str(), center - up, 0.1f, colorWhite * frac, axis, 1 );
 			gameRenderWorld->DrawText( ent->GetEntityDefName(), center, 0.1f, colorWhite * frac, axis, 1 );
 			gameRenderWorld->DrawText( va( "#%d", ent->entityNumber ), center + up, 0.1f, colorWhite * frac, axis, 1 );
@@ -3293,12 +3293,12 @@ void budGameLocal::RunDebugInfo()
 		return;
 	}
 	
-	const budVec3& origin = player->GetPhysics()->GetOrigin();
+	const Vector3& origin = player->GetPhysics()->GetOrigin();
 	
 	if( g_showEntityInfo.GetBool() )
 	{
-		budMat3		axis = player->viewAngles.ToMat3();
-		budVec3		up = axis[ 2 ] * 5.0f;
+		Matrix3		axis = player->viewAngles.ToMat3();
+		Vector3		up = axis[ 2 ] * 5.0f;
 		budBounds	viewTextBounds( origin );
 		budBounds	viewBounds( origin );
 		
@@ -3400,7 +3400,7 @@ void budGameLocal::RunDebugInfo()
 	
 	if( g_showCollisionWorld.GetBool() )
 	{
-		collisionModelManager->DrawModel( 0, vec3_origin, mat3_identity, origin, 128.0f );
+		collisionModelManager->DrawModel( 0, Vector3_Origin, mat3_identity, origin, 128.0f );
 	}
 	
 	if( g_showCollisionModels.GetBool() )
@@ -3426,7 +3426,7 @@ void budGameLocal::RunDebugInfo()
 			aas->Test( origin );
 			if( ai_testPredictPath.GetBool() )
 			{
-				budVec3 velocity;
+				Vector3 velocity;
 				predictedPath_t path;
 				
 				velocity.x = cos( DEG2RAD( player->viewAngles.yaw ) ) * 100.0f;
@@ -3442,7 +3442,7 @@ void budGameLocal::RunDebugInfo()
 		budAAS* aas = GetAAS( 0 );
 		if( aas )
 		{
-			budVec3 seekPos;
+			Vector3 seekPos;
 			obstaclePath_t path;
 			
 			seekPos = player->GetPhysics()->GetOrigin() + player->viewAxis[0] * 200.0f;
@@ -3585,7 +3585,7 @@ budGameLocal::CheatsOk
 */
 bool budGameLocal::CheatsOk( bool requirePlayer )
 {
-	extern budCVar net_allowCheats;
+	extern CVar net_allowCheats;
 	if( common->IsMultiplayer() && !net_allowCheats.GetBool() )
 	{
 		Printf( "Not allowed in multiplayer.\n" );
@@ -3613,7 +3613,7 @@ bool budGameLocal::CheatsOk( bool requirePlayer )
 budGameLocal::RegisterEntity
 ===================
 */
-void budGameLocal::RegisterEntity( idEntity* ent, int forceSpawnId, const idDict& spawnArgsToCopy )
+void budGameLocal::RegisterEntity( idEntity* ent, int forceSpawnId, const Dict& spawnArgsToCopy )
 {
 	int spawn_entnum;
 	
@@ -3649,7 +3649,7 @@ void budGameLocal::RegisterEntity( idEntity* ent, int forceSpawnId, const idDict
 	ent->spawnNode.AddToEnd( spawnedEntities );
 	
 	// Make a copy because TransferKeyValues clears the input parameter.
-	idDict copiedArgs = spawnArgsToCopy;
+	Dict copiedArgs = spawnArgsToCopy;
 	ent->spawnArgs.TransferKeyValues( copiedArgs );
 	
 	if( spawn_entnum >= num_entities )
@@ -3699,7 +3699,7 @@ void budGameLocal::UnregisterEntity( idEntity* ent )
 budGameLocal::SpawnEntityType
 ================
 */
-idEntity* budGameLocal::SpawnEntityType( const idTypeInfo& classdef, const idDict* args, bool bIsClientReadSnapshot )
+idEntity* budGameLocal::SpawnEntityType( const idTypeInfo& classdef, const Dict* args, bool bIsClientReadSnapshot )
 {
 	idClass* obj;
 	
@@ -3746,13 +3746,13 @@ Finds the spawn function for the entity and calls it,
 returning false if not found
 ===================
 */
-bool budGameLocal::SpawnEntityDef( const idDict& args, idEntity** ent, bool setDefaults )
+bool budGameLocal::SpawnEntityDef( const Dict& args, idEntity** ent, bool setDefaults )
 {
 	const char*	classname;
 	const char*	spawn;
 	idTypeInfo*	cls;
 	idClass*		obj;
-	budStr		error;
+	String		error;
 	const char*  name;
 	
 	if( ent )
@@ -3785,7 +3785,7 @@ bool budGameLocal::SpawnEntityDef( const idDict& args, idEntity** ent, bool setD
 		
 		for( int i = 0; fastEntityList[i]; i++ )
 		{
-			if( !budStr::Cmp( classname, fastEntityList[i] ) )
+			if( !String::Cmp( classname, fastEntityList[i] ) )
 			{
 				slowmo = false;
 				break;
@@ -3870,7 +3870,7 @@ const budDeclEntityDef* budGameLocal::FindEntityDef( const char* name, bool make
 budGameLocal::FindEntityDefDict
 ================
 */
-const idDict* budGameLocal::FindEntityDefDict( const char* name, bool makeDefault ) const
+const Dict* budGameLocal::FindEntityDefDict( const char* name, bool makeDefault ) const
 {
 	const budDeclEntityDef* decl = FindEntityDef( name, makeDefault );
 	return decl ? &decl->dict : NULL;
@@ -3881,7 +3881,7 @@ const idDict* budGameLocal::FindEntityDefDict( const char* name, bool makeDefaul
 budGameLocal::InhibitEntitySpawn
 ================
 */
-bool budGameLocal::InhibitEntitySpawn( idDict& spawnArgs )
+bool budGameLocal::InhibitEntitySpawn( Dict& spawnArgs )
 {
 
 	bool result = false;
@@ -3911,8 +3911,8 @@ bool budGameLocal::InhibitEntitySpawn( idDict& spawnArgs )
 	{
 		const char* name = spawnArgs.GetString( "classname" );
 		// _D3XP :: remove moveable medkit packs also
-		if( budStr::Icmp( name, "item_medkit" ) == 0 || budStr::Icmp( name, "item_medkit_small" ) == 0 ||
-				budStr::Icmp( name, "moveable_item_medkit" ) == 0 || budStr::Icmp( name, "moveable_item_medkit_small" ) == 0 )
+		if( String::Icmp( name, "item_medkit" ) == 0 || String::Icmp( name, "item_medkit_small" ) == 0 ||
+				String::Icmp( name, "moveable_item_medkit" ) == 0 || String::Icmp( name, "moveable_item_medkit_small" ) == 0 )
 		{
 		
 			result = true;
@@ -3922,7 +3922,7 @@ bool budGameLocal::InhibitEntitySpawn( idDict& spawnArgs )
 	if( common->IsMultiplayer() )
 	{
 		const char* name = spawnArgs.GetString( "classname" );
-		if( budStr::Icmp( name, "weapon_bfg" ) == 0 || budStr::Icmp( name, "weapon_soulcube" ) == 0 )
+		if( String::Icmp( name, "weapon_bfg" ) == 0 || String::Icmp( name, "weapon_soulcube" ) == 0 )
 		{
 			result = true;
 		}
@@ -3957,7 +3957,7 @@ void budGameLocal::SpawnMapEntities()
 	int			inhibit;
 	idMapEntity*	mapEnt;
 	int			numEntities;
-	idDict		args;
+	Dict		args;
 	
 	Printf( "Spawning entities\n" );
 	
@@ -4051,7 +4051,7 @@ bool budGameLocal::RemoveEntityFromHash( const char* name, idEntity* ent )
 budGameLocal::GetTargets
 ================
 */
-int budGameLocal::GetTargets( const idDict& args, budList< idEntityPtr<idEntity> >& list, const char* ref ) const
+int budGameLocal::GetTargets( const Dict& args, List< idEntityPtr<idEntity> >& list, const char* ref ) const
 {
 	int i, num, refLength;
 	const idKeyValue* arg;
@@ -4110,7 +4110,7 @@ budGameLocal::ArgCompletion_EntityName
 Argument completion for entity names
 =============
 */
-void budGameLocal::ArgCompletion_EntityName( const budCmdArgs& args, void( *callback )( const char* s ) )
+void budGameLocal::ArgCompletion_EntityName( const CmdArgs& args, void( *callback )( const char* s ) )
 {
 	int i;
 	
@@ -4172,7 +4172,7 @@ idEntity* budGameLocal::FindEntityUsingDef( idEntity* from, const char* match ) 
 	for( ; ent != NULL; ent = ent->spawnNode.Next() )
 	{
 		assert( ent );
-		if( budStr::Icmp( ent->GetEntityDefName(), match ) == 0 )
+		if( String::Icmp( ent->GetEntityDefName(), match ) == 0 )
 		{
 			return ent;
 		}
@@ -4189,7 +4189,7 @@ Searches all active entities for the closest ( to start ) match that intersects
 the line start,end
 =============
 */
-idEntity* budGameLocal::FindTraceEntity( budVec3 start, budVec3 end, const idTypeInfo& c, const idEntity* skip ) const
+idEntity* budGameLocal::FindTraceEntity( Vector3 start, Vector3 end, const idTypeInfo& c, const idEntity* skip ) const
 {
 	idEntity* ent;
 	idEntity* bestEnt;
@@ -4223,7 +4223,7 @@ idEntity* budGameLocal::FindTraceEntity( budVec3 start, budVec3 end, const idTyp
 budGameLocal::EntitiesWithinRadius
 ================
 */
-int budGameLocal::EntitiesWithinRadius( const budVec3 org, float radius, idEntity** entityList, int maxCount ) const
+int budGameLocal::EntitiesWithinRadius( const Vector3 org, float radius, idEntity** entityList, int maxCount ) const
 {
 	idEntity* ent;
 	budBounds bo( org );
@@ -4301,12 +4301,12 @@ void budGameLocal::KillBox( idEntity* ent, bool catch_teleport )
 			}
 			else if( !catch_teleport )
 			{
-				hit->Damage( ent, ent, vec3_origin, "damage_telefrag", 1.0f, INVALID_JOINT );
+				hit->Damage( ent, ent, Vector3_Origin, "damage_telefrag", 1.0f, INVALID_JOINT );
 			}
 		}
 		else if( !catch_teleport )
 		{
-			hit->Damage( ent, ent, vec3_origin, "damage_telefrag", 1.0f, INVALID_JOINT );
+			hit->Damage( ent, ent, Vector3_Origin, "damage_telefrag", 1.0f, INVALID_JOINT );
 		}
 	}
 }
@@ -4316,14 +4316,14 @@ void budGameLocal::KillBox( idEntity* ent, bool catch_teleport )
 budGameLocal::RequirementMet
 ================
 */
-bool budGameLocal::RequirementMet( idEntity* activator, const budStr& requires, int removeItem )
+bool budGameLocal::RequirementMet( idEntity* activator, const String& requires, int removeItem )
 {
 	if( requires.Length() )
 	{
 		if( activator->IsType( budPlayer::Type ) )
 		{
 			budPlayer* player = static_cast<budPlayer*>( activator );
-			idDict* item = player->FindInventoryItem( requires );
+			Dict* item = player->FindInventoryItem( requires );
 			if( item )
 			{
 				if( removeItem )
@@ -4384,17 +4384,17 @@ budActor* budGameLocal::GetAlertEntity()
 budGameLocal::RadiusDamage
 ============
 */
-void budGameLocal::RadiusDamage( const budVec3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignoreDamage, idEntity* ignorePush, const char* damageDefName, float dmgPower )
+void budGameLocal::RadiusDamage( const Vector3& origin, idEntity* inflictor, idEntity* attacker, idEntity* ignoreDamage, idEntity* ignorePush, const char* damageDefName, float dmgPower )
 {
 	float		dist, damageScale, attackerDamageScale, attackerPushScale;
 	idEntity* 	ent;
 	idEntity* 	entityList[ MAX_GENTITIES ];
 	int			numListedEntities;
 	budBounds	bounds;
-	budVec3 		v, damagePoint, dir;
+	Vector3 		v, damagePoint, dir;
 	int			i, e, damage, radius, push;
 	
-	const idDict* damageDef = FindEntityDefDict( damageDefName, false );
+	const Dict* damageDef = FindEntityDefDict( damageDefName, false );
 	if( !damageDef )
 	{
 		Warning( "Unknown damageDef '%s'", damageDefName );
@@ -4549,12 +4549,12 @@ void budGameLocal::RadiusDamage( const budVec3& origin, idEntity* inflictor, idE
 budGameLocal::RadiusPush
 ==============
 */
-void budGameLocal::RadiusPush( const budVec3& origin, const float radius, const float push, const idEntity* inflictor, const idEntity* ignore, float inflictorScale, const bool quake )
+void budGameLocal::RadiusPush( const Vector3& origin, const float radius, const float push, const idEntity* inflictor, const idEntity* ignore, float inflictorScale, const bool quake )
 {
 	int i, numListedClipModels;
 	budClipModel* clipModel;
 	budClipModel* clipModelList[ MAX_GENTITIES ];
-	budVec3 dir;
+	Vector3 dir;
 	budBounds bounds;
 	modelTrace_t result;
 	idEntity* ent;
@@ -4639,14 +4639,14 @@ void budGameLocal::RadiusPush( const budVec3& origin, const float radius, const 
 budGameLocal::RadiusPushClipModel
 ==============
 */
-void budGameLocal::RadiusPushClipModel( const budVec3& origin, const float push, const budClipModel* clipModel )
+void budGameLocal::RadiusPushClipModel( const Vector3& origin, const float push, const budClipModel* clipModel )
 {
 	int i, j;
 	float dot, dist, area;
 	const budTraceModel* trm;
 	const traceModelPoly_t* poly;
 	budFixedWinding w;
-	budVec3 v, localOrigin, center, impulse;
+	Vector3 v, localOrigin, center, impulse;
 	
 	trm = clipModel->GetTraceModel();
 	if( !trm || 1 )
@@ -4686,7 +4686,7 @@ void budGameLocal::RadiusPushClipModel( const budVec3& origin, const float push,
 		// always push up for nicer effect
 		impulse.z -= 1.0f;
 		// scale impulse based on visible surface area and polygon angle
-		impulse *= push * ( dot * area * ( 1.0f / ( 4.0f * budMath::PI ) ) );
+		impulse *= push * ( dot * area * ( 1.0f / ( 4.0f * Math::PI ) ) );
 		// scale away distance for nicer effect
 		impulse *= ( dist * 2.0f );
 		// impulse is applied to the center of the polygon
@@ -4701,19 +4701,19 @@ void budGameLocal::RadiusPushClipModel( const budVec3& origin, const float push,
 budGameLocal::ProjectDecal
 ===============
 */
-void budGameLocal::ProjectDecal( const budVec3& origin, const budVec3& dir, float depth, bool parallel, float size, const char* material, float angle )
+void budGameLocal::ProjectDecal( const Vector3& origin, const Vector3& dir, float depth, bool parallel, float size, const char* material, float angle )
 {
 	float s, c;
-	budMat3 axis, axistemp;
+	Matrix3 axis, axistemp;
 	budFixedWinding winding;
-	budVec3 windingOrigin, projectionOrigin;
+	Vector3 windingOrigin, projectionOrigin;
 	
-	static budVec3 decalWinding[4] =
+	static Vector3 decalWinding[4] =
 	{
-		budVec3( 1.0f,  1.0f, 0.0f ),
-		budVec3( -1.0f,  1.0f, 0.0f ),
-		budVec3( -1.0f, -1.0f, 0.0f ),
-		budVec3( 1.0f, -1.0f, 0.0f )
+		Vector3( 1.0f,  1.0f, 0.0f ),
+		Vector3( -1.0f,  1.0f, 0.0f ),
+		Vector3( -1.0f, -1.0f, 0.0f ),
+		Vector3( 1.0f, -1.0f, 0.0f )
 	};
 	
 	if( !g_decals.GetBool() )
@@ -4722,7 +4722,7 @@ void budGameLocal::ProjectDecal( const budVec3& origin, const budVec3& dir, floa
 	}
 	
 	// randomly rotate the decal winding
-	budMath::SinCos16( ( angle ) ? angle : random.RandomFloat() * budMath::TWO_PI, s, c );
+	Math::SinCos16( ( angle ) ? angle : random.RandomFloat() * Math::TWO_PI, s, c );
 	
 	// winding orientation
 	axis[2] = dir;
@@ -4744,10 +4744,10 @@ void budGameLocal::ProjectDecal( const budVec3& origin, const budVec3& dir, floa
 	size *= 0.5f;
 	
 	winding.Clear();
-	winding += budVec5( windingOrigin + ( axis * decalWinding[0] ) * size, budVec2( 1, 1 ) );
-	winding += budVec5( windingOrigin + ( axis * decalWinding[1] ) * size, budVec2( 0, 1 ) );
-	winding += budVec5( windingOrigin + ( axis * decalWinding[2] ) * size, budVec2( 0, 0 ) );
-	winding += budVec5( windingOrigin + ( axis * decalWinding[3] ) * size, budVec2( 1, 0 ) );
+	winding += Vector5( windingOrigin + ( axis * decalWinding[0] ) * size, Vector2( 1, 1 ) );
+	winding += Vector5( windingOrigin + ( axis * decalWinding[1] ) * size, Vector2( 0, 1 ) );
+	winding += Vector5( windingOrigin + ( axis * decalWinding[2] ) * size, Vector2( 0, 0 ) );
+	winding += Vector5( windingOrigin + ( axis * decalWinding[3] ) * size, Vector2( 1, 0 ) );
 	gameRenderWorld->ProjectDecalOntoWorld( winding, projectionOrigin, parallel, depth * 0.5f, declManager->FindMaterial( material ), gameLocal.slow.time /* _D3XP */ );
 }
 
@@ -4756,13 +4756,13 @@ void budGameLocal::ProjectDecal( const budVec3& origin, const budVec3& dir, floa
 budGameLocal::BloodSplat
 ==============
 */
-void budGameLocal::BloodSplat( const budVec3& origin, const budVec3& dir, float size, const char* material )
+void budGameLocal::BloodSplat( const Vector3& origin, const Vector3& dir, float size, const char* material )
 {
 	float halfSize = size * 0.5f;
-	budVec3 verts[] = {	budVec3( 0.0f, +halfSize, +halfSize ),
-						budVec3( 0.0f, +halfSize, -halfSize ),
-						budVec3( 0.0f, -halfSize, -halfSize ),
-						budVec3( 0.0f, -halfSize, +halfSize )
+	Vector3 verts[] = {	Vector3( 0.0f, +halfSize, +halfSize ),
+						Vector3( 0.0f, +halfSize, -halfSize ),
+						Vector3( 0.0f, -halfSize, -halfSize ),
+						Vector3( 0.0f, -halfSize, +halfSize )
 					 };
 	budTraceModel trm;
 	budClipModel mdl;
@@ -4977,7 +4977,7 @@ void budGameLocal::SpreadLocations()
 		{
 			continue;
 		}
-		budVec3	point = ent->spawnArgs.GetVector( "origin" );
+		Vector3	point = ent->spawnArgs.GetVector( "origin" );
 		int areaNum = gameRenderWorld->PointInArea( point );
 		if( areaNum < 0 )
 		{
@@ -5019,7 +5019,7 @@ The player checks the location each frame to update the HUD text display
 May return NULL
 ===================
 */
-idLocationEntity* budGameLocal::LocationForPoint( const budVec3& point )
+idLocationEntity* budGameLocal::LocationForPoint( const Vector3& point )
 {
 	if( !locationEntities )
 	{
@@ -5220,7 +5220,7 @@ idEntity* budGameLocal::SelectInitialSpawnPoint( budPlayer* player )
 {
 	int				i, j, which;
 	spawnSpot_t		spot;
-	budVec3			pos;
+	Vector3			pos;
 	float			dist;
 	bool			alone;
 	

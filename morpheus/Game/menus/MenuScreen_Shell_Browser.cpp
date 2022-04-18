@@ -67,10 +67,10 @@ public:
 
 /*
 ================================================
-budSort_PlayerGamesList
+Sort_PlayerGamesList
 ================================================
 */
-class budSort_PlayerGamesList : public budSort_Quick< idPair< serverInfo_t, int >, budSort_PlayerGamesList >
+class Sort_PlayerGamesList : public SortQuick< idPair< serverInfo_t, int >, Sort_PlayerGamesList >
 {
 public:
 	int Compare( const idPair< serverInfo_t, int >& a, const idPair< serverInfo_t, int >& b ) const
@@ -261,7 +261,7 @@ void idMenuScreen_Shell_GameBrowser::OnServerListReady()
 	
 	mgr->HidePacifier();
 	
-	budList< idPair< serverInfo_t, int > > servers;
+	List< idPair< serverInfo_t, int > > servers;
 	for( int i = 0; i < session->NumServers(); ++i )
 	{
 		const serverInfo_t* const server = session->ServerInfo( i );
@@ -273,7 +273,7 @@ void idMenuScreen_Shell_GameBrowser::OnServerListReady()
 		}
 	}
 	
-	servers.SortWithTemplate( budSort_PlayerGamesList() );
+	servers.SortWithTemplate( Sort_PlayerGamesList() );
 	
 	listWidget->ClearGames();
 	for( int i = 0; i < servers.Num(); ++i )
@@ -291,7 +291,7 @@ void idMenuScreen_Shell_GameBrowser::OnServerListReady()
 	}
 	else
 	{
-		listWidget->AddGame( "#str_swf_no_servers_found", budStrId(), budStr(), -1, 0, 0, false, false );
+		listWidget->AddGame( "#str_swf_no_servers_found", StringId(), String(), -1, 0, 0, false, false );
 		listWidget->Update();
 		listWidget->SetViewOffset( 0 );
 		listWidget->SetViewIndex( 0 );
@@ -344,16 +344,16 @@ idMenuScreen_Shell_GameBrowser::DescribeServers
 void idMenuScreen_Shell_GameBrowser::DescribeServer( const serverInfo_t& server, const int index )
 {
 
-	budStr serverName;
+	String serverName;
 	int serverIndex = index;
 	bool joinable = false;
 	bool validMap = false;
 	int players = 0;
 	int maxPlayers = 0;
-	budStrId mapName;
-	budStr modeName;
+	StringId mapName;
+	String modeName;
 	
-	const budList< mpMap_t > maps = common->GetMapList();
+	const List< mpMap_t > maps = common->GetMapList();
 	const bool isMapValid = ( server.gameMap >= 0 ) && ( server.gameMap < maps.Num() );
 	if( !isMapValid )
 	{
@@ -369,8 +369,8 @@ void idMenuScreen_Shell_GameBrowser::DescribeServer( const serverInfo_t& server,
 	{
 		mapName = common->GetMapList()[ server.gameMap ].mapName;
 		
-		const budStrList& modes = common->GetModeDisplayList();
-		budStr mode = budLocalization::GetString( modes[ budMath::ClampInt( 0, modes.Num() - 1, server.gameMode ) ] );
+		const StringList& modes = common->GetModeDisplayList();
+		String mode = budLocalization::GetString( modes[ Math::ClampInt( 0, modes.Num() - 1, server.gameMode ) ] );
 		validMap = true;
 		serverName = server.serverName;
 		modeName = mode;

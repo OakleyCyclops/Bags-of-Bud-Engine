@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "../Game_local.h"
 
-budCVar binaryLoadAnim( "binaryLoadAnim", "1", 0, "enable binary load/write of budMD5Anim" );
+CVar binaryLoadAnim( "binaryLoadAnim", "1", 0, "enable binary load/write of budMD5Anim" );
 
 static const byte B_ANIM_MD5_VERSION = 101;
 static const unsigned int B_ANIM_MD5_MAGIC = ( 'B' << 24 ) | ( 'M' << 16 ) | ( 'D' << 8 ) | B_ANIM_MD5_VERSION;
@@ -129,7 +129,7 @@ int budMD5Anim::Length() const
 budMD5Anim::TotalMovementDelta
 =====================
 */
-const budVec3& budMD5Anim::TotalMovementDelta() const
+const Vector3& budMD5Anim::TotalMovementDelta() const
 {
 	return totaldelta;
 }
@@ -151,7 +151,7 @@ budMD5Anim::Reload
 */
 bool budMD5Anim::Reload()
 {
-	budStr filename;
+	String filename;
 	
 	filename = name;
 	Free();
@@ -181,7 +181,7 @@ bool budMD5Anim::LoadAnim( const char* filename )
 	budLexer	parser( LEXFL_ALLOWPATHNAMES | LEXFL_NOSTRINGESCAPECHARS | LEXFL_NOSTRINGCONCAT );
 	budToken	token;
 	
-	budStr generatedFileName = "generated/anim/";
+	String generatedFileName = "generated/anim/";
 	generatedFileName.AppendPath( filename );
 	generatedFileName.SetFileExtension( ".bMD5anim" );
 	
@@ -310,7 +310,7 @@ bool budMD5Anim::LoadAnim( const char* filename )
 	parser.ExpectTokenString( "{" );
 	for( int i = 0; i < numJoints; i++ )
 	{
-		idCQuat q;
+		CMPQuat q;
 		parser.Parse1DMatrix( 3, baseFrame[ i ].t.ToFloatPtr() );
 		parser.Parse1DMatrix( 3, q.ToFloatPtr() );//baseFrame[ i ].q.ToFloatPtr() );
 		baseFrame[ i ].q = q.ToQuat();//.w = baseFrame[ i ].q.CalcW();
@@ -457,7 +457,7 @@ bool budMD5Anim::LoadBinary( budFile* file, ID_TIME_T sourceTimeStamp )
 	{
 		jointAnimInfo_t& j = jointInfo[i];
 		
-		budStr jointName;
+		String jointName;
 		file->ReadString( jointName );
 		if( jointName.IsEmpty() )
 		{
@@ -534,7 +534,7 @@ void budMD5Anim::WriteBinary( budFile* file, ID_TIME_T sourceTimeStamp )
 	for( int i = 0; i < jointInfo.Num(); i++ )
 	{
 		jointAnimInfo_t& j = jointInfo[i];
-		budStr jointName = animationLib.JointName( j.nameIndex );
+		String jointName = animationLib.JointName( j.nameIndex );
 		file->WriteString( jointName );
 		file->WriteBig( j.parentNum );
 		file->WriteBig( j.animBits );
@@ -679,7 +679,7 @@ void budMD5Anim::ConvertTimeToFrame( int time, int cyclecount, frameBlend_t& fra
 budMD5Anim::GetOrigin
 ====================
 */
-void budMD5Anim::GetOrigin( budVec3& offset, int time, int cyclecount ) const
+void budMD5Anim::GetOrigin( Vector3& offset, int time, int cyclecount ) const
 {
 	offset = baseFrame[ 0 ].t;
 	if( !( jointInfo[ 0 ].animBits & ( ANIM_TX | ANIM_TY | ANIM_TZ ) ) )
@@ -724,7 +724,7 @@ void budMD5Anim::GetOrigin( budVec3& offset, int time, int cyclecount ) const
 budMD5Anim::GetOriginRotation
 ====================
 */
-void budMD5Anim::GetOriginRotation( idQuat& rotation, int time, int cyclecount ) const
+void budMD5Anim::GetOriginRotation( Quat& rotation, int time, int cyclecount ) const
 {
 	int animBits = jointInfo[ 0 ].animBits;
 	if( !( animBits & ( ANIM_QX | ANIM_QY | ANIM_QZ ) ) )
@@ -758,8 +758,8 @@ void budMD5Anim::GetOriginRotation( idQuat& rotation, int time, int cyclecount )
 		jointframe2++;
 	}
 	
-	idQuat q1;
-	idQuat q2;
+	Quat q1;
+	Quat q2;
 	
 	switch( animBits & ( ANIM_QX | ANIM_QY | ANIM_QZ ) )
 	{
@@ -852,7 +852,7 @@ void budMD5Anim::GetBounds( budBounds& bnds, int time, int cyclecount ) const
 	bnds.AddBounds( bounds[ frame.frame2 ] );
 	
 	// origin position
-	budVec3 offset = baseFrame[ 0 ].t;
+	Vector3 offset = baseFrame[ 0 ].t;
 	if( jointInfo[ 0 ].animBits & ( ANIM_TX | ANIM_TY | ANIM_TZ ) )
 	{
 		const float* componentPtr1 = &componentFrames[ numAnimatedComponents * frame.frame1 + jointInfo[ 0 ].firstComponent ];
@@ -1165,8 +1165,8 @@ budMD5Anim* budAnimManager::GetAnim( const char* name )
 	}
 	else
 	{
-		budStr extension;
-		budStr filename = name;
+		String extension;
+		String filename = name;
 		
 		filename.ExtractFileExtension( extension );
 		if( extension != MD5_ANIM_EXT )
@@ -1316,7 +1316,7 @@ void budAnimManager::FlushUnusedAnims()
 {
 	int						i;
 	budMD5Anim**				animptr;
-	budList<budMD5Anim*>		removeAnims;
+	List<budMD5Anim*>		removeAnims;
 	
 	for( i = 0; i < animations.Num(); i++ )
 	{

@@ -85,8 +85,8 @@ void idCursor3D::Present()
 	}
 	BecomeInactive( TH_UPDATEVISUALS );
 	
-	const budVec3& origin = GetPhysics()->GetOrigin();
-	const budMat3& axis = GetPhysics()->GetAxis();
+	const Vector3& origin = GetPhysics()->GetOrigin();
+	const Matrix3& axis = GetPhysics()->GetAxis();
 	gameRenderWorld->DebugArrow( colorYellow, origin + axis[1] * -5.0f + axis[2] * 5.0f, origin, 2 );
 	gameRenderWorld->DebugArrow( colorRed, origin, draggedPosition, 2 );
 }
@@ -178,13 +178,13 @@ idDragEntity::Update
 */
 void idDragEntity::Update( budPlayer* player )
 {
-	budVec3 viewPoint, origin;
-	budMat3 viewAxis, axis;
+	Vector3 viewPoint, origin;
+	Matrix3 viewAxis, axis;
 	trace_t trace;
 	idEntity* newEnt = NULL;
-	budAngles angles;
+	Angles angles;
 	jointHandle_t newJoint = INVALID_JOINT;
-	budStr newBodyName;
+	String newBodyName;
 	
 	player->GetViewPos( viewPoint, viewAxis );
 	
@@ -360,7 +360,7 @@ void idDragEntity::BindSelected()
 	int num, largestNum;
 	budLexer lexer;
 	budToken type, bodyName;
-	budStr key, value, bindBodyName;
+	String key, value, bindBodyName;
 	const idKeyValue* kv;
 	budAFEntity_Base* af;
 	
@@ -471,9 +471,9 @@ idEditEntities::idEditEntities()
 idEditEntities::SelectEntity
 =============
 */
-bool idEditEntities::SelectEntity( const budVec3& origin, const budVec3& dir, const idEntity* skip )
+bool idEditEntities::SelectEntity( const Vector3& origin, const Vector3& dir, const idEntity* skip )
 {
-	budVec3		end;
+	Vector3		end;
 	idEntity*	ent;
 	
 	if( !g_editEntityMode.GetInteger() || selectableEntityClasses.Num() == 0 )
@@ -559,7 +559,7 @@ void idEditEntities::ClearSelectedEntities()
 idEditEntities::EntityIsSelectable
 =============
 */
-bool idEditEntities::EntityIsSelectable( idEntity* ent, budVec4* color, budStr* text )
+bool idEditEntities::EntityIsSelectable( idEntity* ent, Vector4* color, String* text )
 {
 	for( int i = 0; i < selectableEntityClasses.Num(); i++ )
 	{
@@ -659,17 +659,17 @@ void idEditEntities::DisplayEntities()
 	
 	budBounds viewBounds( gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin() );
 	budBounds viewTextBounds( gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin() );
-	budMat3 axis = gameLocal.GetLocalPlayer()->viewAngles.ToMat3();
+	Matrix3 axis = gameLocal.GetLocalPlayer()->viewAngles.ToMat3();
 	
 	viewBounds.ExpandSelf( 512 );
 	viewTextBounds.ExpandSelf( 128 );
 	
-	budStr textKey;
+	String textKey;
 	
 	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() )
 	{
 	
-		budVec4 color;
+		Vector4 color;
 		
 		textKey = "";
 		if( !EntityIsSelectable( ent, &color, &textKey ) )
@@ -713,25 +713,25 @@ void idEditEntities::DisplayEntities()
 		gameRenderWorld->DebugBounds( color, budBounds( ent->GetPhysics()->GetOrigin() ).Expand( 8 ) );
 		if( drawArrows )
 		{
-			budVec3 start = ent->GetPhysics()->GetOrigin();
-			budVec3 end = start + budVec3( 1, 0, 0 ) * 20.0f;
+			Vector3 start = ent->GetPhysics()->GetOrigin();
+			Vector3 end = start + Vector3( 1, 0, 0 ) * 20.0f;
 			gameRenderWorld->DebugArrow( colorWhite, start, end, 2 );
-			gameRenderWorld->DrawText( "x+", end + budVec3( 4, 0, 0 ), 0.15f, colorWhite, axis );
-			end = start + budVec3( 1, 0, 0 ) * -20.0f;
+			gameRenderWorld->DrawText( "x+", end + Vector3( 4, 0, 0 ), 0.15f, colorWhite, axis );
+			end = start + Vector3( 1, 0, 0 ) * -20.0f;
 			gameRenderWorld->DebugArrow( colorWhite, start, end, 2 );
-			gameRenderWorld->DrawText( "x-", end + budVec3( -4, 0, 0 ), 0.15f, colorWhite, axis );
-			end = start + budVec3( 0, 1, 0 ) * +20.0f;
+			gameRenderWorld->DrawText( "x-", end + Vector3( -4, 0, 0 ), 0.15f, colorWhite, axis );
+			end = start + Vector3( 0, 1, 0 ) * +20.0f;
 			gameRenderWorld->DebugArrow( colorGreen, start, end, 2 );
-			gameRenderWorld->DrawText( "y+", end + budVec3( 0, 4, 0 ), 0.15f, colorWhite, axis );
-			end = start + budVec3( 0, 1, 0 ) * -20.0f;
+			gameRenderWorld->DrawText( "y+", end + Vector3( 0, 4, 0 ), 0.15f, colorWhite, axis );
+			end = start + Vector3( 0, 1, 0 ) * -20.0f;
 			gameRenderWorld->DebugArrow( colorGreen, start, end, 2 );
-			gameRenderWorld->DrawText( "y-", end + budVec3( 0, -4, 0 ), 0.15f, colorWhite, axis );
-			end = start + budVec3( 0, 0, 1 ) * +20.0f;
+			gameRenderWorld->DrawText( "y-", end + Vector3( 0, -4, 0 ), 0.15f, colorWhite, axis );
+			end = start + Vector3( 0, 0, 1 ) * +20.0f;
 			gameRenderWorld->DebugArrow( colorBlue, start, end, 2 );
-			gameRenderWorld->DrawText( "z+", end + budVec3( 0, 0, 4 ), 0.15f, colorWhite, axis );
-			end = start + budVec3( 0, 0, 1 ) * -20.0f;
+			gameRenderWorld->DrawText( "z+", end + Vector3( 0, 0, 4 ), 0.15f, colorWhite, axis );
+			end = start + Vector3( 0, 0, 1 ) * -20.0f;
 			gameRenderWorld->DebugArrow( colorBlue, start, end, 2 );
-			gameRenderWorld->DrawText( "z-", end + budVec3( 0, 0, -4 ), 0.15f, colorWhite, axis );
+			gameRenderWorld->DrawText( "z-", end + Vector3( 0, 0, -4 ), 0.15f, colorWhite, axis );
 		}
 		
 		if( textKey.Length() )
@@ -739,7 +739,7 @@ void idEditEntities::DisplayEntities()
 			const char* text = ent->spawnArgs.GetString( textKey );
 			if( viewTextBounds.ContainsPoint( ent->GetPhysics()->GetOrigin() ) )
 			{
-				gameRenderWorld->DrawText( text, ent->GetPhysics()->GetOrigin() + budVec3( 0, 0, 12 ), 0.25, colorWhite, axis, 1 );
+				gameRenderWorld->DrawText( text, ent->GetPhysics()->GetOrigin() + Vector3( 0, 0, 12 ), 0.25, colorWhite, axis, 1 );
 			}
 		}
 	}
@@ -833,7 +833,7 @@ void budGameEdit::AddSelectedEntity( idEntity* ent )
 budGameEdit::FindEntityDefDict
 ================
 */
-const idDict* budGameEdit::FindEntityDefDict( const char* name, bool makeDefault ) const
+const Dict* budGameEdit::FindEntityDefDict( const char* name, bool makeDefault ) const
 {
 	return gameLocal.FindEntityDefDict( name, makeDefault );
 }
@@ -843,7 +843,7 @@ const idDict* budGameEdit::FindEntityDefDict( const char* name, bool makeDefault
 budGameEdit::SpawnEntityDef
 ================
 */
-void budGameEdit::SpawnEntityDef( const idDict& args, idEntity** ent )
+void budGameEdit::SpawnEntityDef( const Dict& args, idEntity** ent )
 {
 	gameLocal.SpawnEntityDef( args, ent );
 }
@@ -873,7 +873,7 @@ const char* budGameEdit::GetUniqueEntityName( const char* classname ) const
 	// can only have MAX_GENTITIES, so if we have a spot available, we're guaranteed to find one
 	for( id = 0; id < MAX_GENTITIES; id++ )
 	{
-		budStr::snPrintf( name, sizeof( name ), "%s_%d", classname, id );
+		String::snPrintf( name, sizeof( name ), "%s_%d", classname, id );
 		if( !gameLocal.FindEntity( name ) )
 		{
 			return name;
@@ -881,7 +881,7 @@ const char* budGameEdit::GetUniqueEntityName( const char* classname ) const
 	}
 	
 	// id == MAX_GENTITIES + 1, which can't be in use if we get here
-	budStr::snPrintf( name, sizeof( name ), "%s_%d", classname, id );
+	String::snPrintf( name, sizeof( name ), "%s_%d", classname, id );
 	return name;
 }
 
@@ -890,7 +890,7 @@ const char* budGameEdit::GetUniqueEntityName( const char* classname ) const
 budGameEdit::EntityGetOrigin
 ================
 */
-void  budGameEdit::EntityGetOrigin( idEntity* ent, budVec3& org ) const
+void  budGameEdit::EntityGetOrigin( idEntity* ent, Vector3& org ) const
 {
 	if( ent )
 	{
@@ -903,7 +903,7 @@ void  budGameEdit::EntityGetOrigin( idEntity* ent, budVec3& org ) const
 budGameEdit::EntityGetAxis
 ================
 */
-void budGameEdit::EntityGetAxis( idEntity* ent, budMat3& axis ) const
+void budGameEdit::EntityGetAxis( idEntity* ent, Matrix3& axis ) const
 {
 	if( ent )
 	{
@@ -916,7 +916,7 @@ void budGameEdit::EntityGetAxis( idEntity* ent, budMat3& axis ) const
 budGameEdit::EntitySetOrigin
 ================
 */
-void budGameEdit::EntitySetOrigin( idEntity* ent, const budVec3& org )
+void budGameEdit::EntitySetOrigin( idEntity* ent, const Vector3& org )
 {
 	if( ent )
 	{
@@ -929,7 +929,7 @@ void budGameEdit::EntitySetOrigin( idEntity* ent, const budVec3& org )
 budGameEdit::EntitySetAxis
 ================
 */
-void budGameEdit::EntitySetAxis( idEntity* ent, const budMat3& axis )
+void budGameEdit::EntitySetAxis( idEntity* ent, const Matrix3& axis )
 {
 	if( ent )
 	{
@@ -942,7 +942,7 @@ void budGameEdit::EntitySetAxis( idEntity* ent, const budMat3& axis )
 budGameEdit::EntitySetColor
 ================
 */
-void budGameEdit::EntitySetColor( idEntity* ent, const budVec3 color )
+void budGameEdit::EntitySetColor( idEntity* ent, const Vector3 color )
 {
 	if( ent )
 	{
@@ -955,7 +955,7 @@ void budGameEdit::EntitySetColor( idEntity* ent, const budVec3 color )
 budGameEdit::EntityTranslate
 ================
 */
-void budGameEdit::EntityTranslate( idEntity* ent, const budVec3& org )
+void budGameEdit::EntityTranslate( idEntity* ent, const Vector3& org )
 {
 	if( ent )
 	{
@@ -968,7 +968,7 @@ void budGameEdit::EntityTranslate( idEntity* ent, const budVec3& org )
 budGameEdit::EntityGetSpawnArgs
 ================
 */
-const idDict* budGameEdit::EntityGetSpawnArgs( idEntity* ent ) const
+const Dict* budGameEdit::EntityGetSpawnArgs( idEntity* ent ) const
 {
 	if( ent )
 	{
@@ -982,7 +982,7 @@ const idDict* budGameEdit::EntityGetSpawnArgs( idEntity* ent ) const
 budGameEdit::EntityUpdateChangeableSpawnArgs
 ================
 */
-void budGameEdit::EntityUpdateChangeableSpawnArgs( idEntity* ent, const idDict* dict )
+void budGameEdit::EntityUpdateChangeableSpawnArgs( idEntity* ent, const Dict* dict )
 {
 	if( ent )
 	{
@@ -995,7 +995,7 @@ void budGameEdit::EntityUpdateChangeableSpawnArgs( idEntity* ent, const idDict* 
 budGameEdit::EntityChangeSpawnArgs
 ================
 */
-void budGameEdit::EntityChangeSpawnArgs( idEntity* ent, const idDict* newArgs )
+void budGameEdit::EntityChangeSpawnArgs( idEntity* ent, const Dict* newArgs )
 {
 	if( ent )
 	{
@@ -1080,7 +1080,7 @@ bool budGameEdit::PlayerIsValid() const
 budGameEdit::PlayerGetOrigin
 ================
 */
-void budGameEdit::PlayerGetOrigin( budVec3& org ) const
+void budGameEdit::PlayerGetOrigin( Vector3& org ) const
 {
 	org = gameLocal.GetLocalPlayer()->GetPhysics()->GetOrigin();
 }
@@ -1090,7 +1090,7 @@ void budGameEdit::PlayerGetOrigin( budVec3& org ) const
 budGameEdit::PlayerGetAxis
 ================
 */
-void budGameEdit::PlayerGetAxis( budMat3& axis ) const
+void budGameEdit::PlayerGetAxis( Matrix3& axis ) const
 {
 	axis = gameLocal.GetLocalPlayer()->GetPhysics()->GetAxis();
 }
@@ -1100,7 +1100,7 @@ void budGameEdit::PlayerGetAxis( budMat3& axis ) const
 budGameEdit::PlayerGetViewAngles
 ================
 */
-void budGameEdit::PlayerGetViewAngles( budAngles& angles ) const
+void budGameEdit::PlayerGetViewAngles( Angles& angles ) const
 {
 	angles = gameLocal.GetLocalPlayer()->viewAngles;
 }
@@ -1110,7 +1110,7 @@ void budGameEdit::PlayerGetViewAngles( budAngles& angles ) const
 budGameEdit::PlayerGetEyePosition
 ================
 */
-void budGameEdit::PlayerGetEyePosition( budVec3& org ) const
+void budGameEdit::PlayerGetEyePosition( Vector3& org ) const
 {
 	org = gameLocal.GetLocalPlayer()->GetEyePosition();
 }
@@ -1121,7 +1121,7 @@ void budGameEdit::PlayerGetEyePosition( budVec3& org ) const
 budGameEdit::MapGetEntityDict
 ================
 */
-const idDict* budGameEdit::MapGetEntityDict( const char* name ) const
+const Dict* budGameEdit::MapGetEntityDict( const char* name ) const
 {
 	budMapFile* mapFile = gameLocal.GetLevelMap();
 	if( mapFile && name && *name )
@@ -1172,7 +1172,7 @@ void budGameEdit::MapSetEntityKeyVal( const char* name, const char* key, const c
 budGameEdit::MapCopyDictToEntity
 ================
 */
-void budGameEdit::MapCopyDictToEntity( const char* name, const idDict* dict ) const
+void budGameEdit::MapCopyDictToEntity( const char* name, const Dict* dict ) const
 {
 	budMapFile* mapFile = gameLocal.GetLevelMap();
 	if( mapFile && name && *name )
@@ -1225,7 +1225,7 @@ int budGameEdit::MapGetUniqueMatchingKeyVals( const char* key, const char* list[
 budGameEdit::MapAddEntity
 ================
 */
-void budGameEdit::MapAddEntity( const idDict* dict ) const
+void budGameEdit::MapAddEntity( const Dict* dict ) const
 {
 	budMapFile* mapFile = gameLocal.GetLevelMap();
 	if( mapFile )
@@ -1272,7 +1272,7 @@ int budGameEdit::MapGetEntitiesMatchingClassWithString( const char* classname, c
 			idMapEntity* ent = mapFile->GetEntity( i );
 			if( ent )
 			{
-				budStr work = ent->epairs.GetString( "classname" );
+				String work = ent->epairs.GetString( "classname" );
 				if( work.Icmp( classname ) == 0 )
 				{
 					if( match && *match )
@@ -1300,7 +1300,7 @@ int budGameEdit::MapGetEntitiesMatchingClassWithString( const char* classname, c
 budGameEdit::MapEntityTranslate
 ================
 */
-void budGameEdit::MapEntityTranslate( const char* name, const budVec3& v ) const
+void budGameEdit::MapEntityTranslate( const char* name, const Vector3& v ) const
 {
 	budMapFile* mapFile = gameLocal.GetLevelMap();
 	if( mapFile && name && *name )
@@ -1308,7 +1308,7 @@ void budGameEdit::MapEntityTranslate( const char* name, const budVec3& v ) const
 		idMapEntity* mapent = mapFile->FindEntity( name );
 		if( mapent )
 		{
-			budVec3 origin;
+			Vector3 origin;
 			mapent->epairs.GetVector( "origin", "", origin );
 			origin += v;
 			mapent->epairs.SetVector( "origin", origin );

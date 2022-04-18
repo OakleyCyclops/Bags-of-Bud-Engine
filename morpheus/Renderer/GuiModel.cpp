@@ -96,7 +96,7 @@ void budGuiModel::BeginFrame()
 	Clear();
 }
 
-budCVar	stereoRender_defaultGuiDepth( "stereoRender_defaultGuiDepth", "0", CVAR_RENDERER, "Fraction of separation when not specified" );
+CVar	stereoRender_defaultGuiDepth( "stereoRender_defaultGuiDepth", "0", CVAR_RENDERER, "Fraction of separation when not specified" );
 /*
 ================
 EmitSurfaces
@@ -252,7 +252,7 @@ void budGuiModel::EmitFullScreen()
 		// this will be negated on the alternate eyes, both rendered each frame
 		viewDef->renderView.stereoScreenSeparation = screenSeparation;
 		
-		extern budCVar stereoRender_swapEyes;
+		extern CVar stereoRender_swapEyes;
 		viewDef->renderView.viewEyeBuffer = 0;	// render to both buffers
 		if( stereoRender_swapEyes.GetBool() )
 		{

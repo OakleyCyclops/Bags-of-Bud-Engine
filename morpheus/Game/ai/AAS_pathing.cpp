@@ -52,10 +52,10 @@ budAASLocal::EdgeSplitPoint
   returns true if the split point is between the edge vertices
 ============
 */
-bool budAASLocal::EdgeSplitPoint( budVec3& split, int edgeNum, const budPlane& plane ) const
+bool budAASLocal::EdgeSplitPoint( Vector3& split, int edgeNum, const budPlane& plane ) const
 {
 	const aasEdge_t* edge;
-	budVec3 v1, v2;
+	Vector3 v1, v2;
 	float d1, d2;
 	
 	edge = &file->GetEdge( edgeNum );
@@ -81,12 +81,12 @@ budAASLocal::FloorEdgeSplitPoint
   the point has to be on the front side of the frontPlane to be valid
 ============
 */
-bool budAASLocal::FloorEdgeSplitPoint( budVec3& bestSplit, int areaNum, const budPlane& pathPlane, const budPlane& frontPlane, bool closest ) const
+bool budAASLocal::FloorEdgeSplitPoint( Vector3& bestSplit, int areaNum, const budPlane& pathPlane, const budPlane& frontPlane, bool closest ) const
 {
 	int i, j, faceNum, edgeNum;
 	const aasArea_t* area;
 	const aasFace_t* face;
-	budVec3 split;
+	Vector3 split;
 	float dist, bestDist;
 	
 	if( closest )
@@ -155,13 +155,13 @@ budAASLocal::WalkPathValid
   returns true if one can walk in a straight line between origin and goalOrigin
 ============
 */
-bool budAASLocal::WalkPathValid( int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags, budVec3& endPos, int& endAreaNum ) const
+bool budAASLocal::WalkPathValid( int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags, Vector3& endPos, int& endAreaNum ) const
 {
 	int curAreaNum, lastAreaNum, lastAreas[4], lastAreaIndex;
 	budPlane pathPlane, frontPlane, farPlane;
 	idReachability* reach;
 	const aasArea_t* area;
-	budVec3 p, dir;
+	Vector3 p, dir;
 	
 	if( file == NULL )
 	{
@@ -283,10 +283,10 @@ bool budAASLocal::WalkPathValid( int areaNum, const budVec3& origin, int goalAre
 budAASLocal::SubSampleWalkPath
 ============
 */
-budVec3 budAASLocal::SubSampleWalkPath( int areaNum, const budVec3& origin, const budVec3& start, const budVec3& end, int travelFlags, int& endAreaNum ) const
+Vector3 budAASLocal::SubSampleWalkPath( int areaNum, const Vector3& origin, const Vector3& start, const Vector3& end, int travelFlags, int& endAreaNum ) const
 {
 	int i, numSamples, curAreaNum;
-	budVec3 dir, point, nextPoint, endPos;
+	Vector3 dir, point, nextPoint, endPos;
 	
 	dir = end - start;
 	numSamples = ( int )( dir.Length() / walkPathSampleDistance ) + 1;
@@ -316,11 +316,11 @@ budAASLocal::WalkPathToGoal
   FIXME: don't stop optimizing on first failure ?
 ============
 */
-bool budAASLocal::WalkPathToGoal( aasPath_t& path, int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags ) const
+bool budAASLocal::WalkPathToGoal( aasPath_t& path, int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags ) const
 {
 	int i, travelTime, curAreaNum, lastAreas[4], lastAreaIndex, endAreaNum;
 	idReachability* reach = NULL;
-	budVec3 endPos;
+	Vector3 endPos;
 	
 	path.type = PATHTYPE_WALK;
 	path.moveGoal = origin;
@@ -452,7 +452,7 @@ budAASLocal::FlyPathValid
   returns true if one can fly in a straight line between origin and goalOrigin
 ============
 */
-bool budAASLocal::FlyPathValid( int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags, budVec3& endPos, int& endAreaNum ) const
+bool budAASLocal::FlyPathValid( int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags, Vector3& endPos, int& endAreaNum ) const
 {
 	aasTrace_t trace;
 	
@@ -481,10 +481,10 @@ bool budAASLocal::FlyPathValid( int areaNum, const budVec3& origin, int goalArea
 budAASLocal::SubSampleFlyPath
 ============
 */
-budVec3 budAASLocal::SubSampleFlyPath( int areaNum, const budVec3& origin, const budVec3& start, const budVec3& end, int travelFlags, int& endAreaNum ) const
+Vector3 budAASLocal::SubSampleFlyPath( int areaNum, const Vector3& origin, const Vector3& start, const Vector3& end, int travelFlags, int& endAreaNum ) const
 {
 	int i, numSamples, curAreaNum;
-	budVec3 dir, point, nextPoint, endPos;
+	Vector3 dir, point, nextPoint, endPos;
 	
 	dir = end - start;
 	numSamples = ( int )( dir.Length() / flyPathSampleDistance ) + 1;
@@ -514,11 +514,11 @@ budAASLocal::FlyPathToGoal
   FIXME: don't stop optimizing on first failure ?
 ============
 */
-bool budAASLocal::FlyPathToGoal( aasPath_t& path, int areaNum, const budVec3& origin, int goalAreaNum, const budVec3& goalOrigin, int travelFlags ) const
+bool budAASLocal::FlyPathToGoal( aasPath_t& path, int areaNum, const Vector3& origin, int goalAreaNum, const Vector3& goalOrigin, int travelFlags ) const
 {
 	int i, travelTime, curAreaNum, lastAreas[4], lastAreaIndex, endAreaNum;
 	idReachability* reach = NULL;
-	budVec3 endPos;
+	Vector3 endPos;
 	
 	path.type = PATHTYPE_WALK;
 	path.moveGoal = origin;

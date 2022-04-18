@@ -181,18 +181,18 @@ public:
 	budSWFScriptObject* scriptObject;
 	
 	// children display entries
-	budList< swfDisplayEntry_t, TAG_SWF > displayList;
+	List< swfDisplayEntry_t, TAG_SWF > displayList;
 	swfDisplayEntry_t* FindDisplayEntry( int depth );
 	
 	// name of this sprite instance
-	budStr name;
+	String name;
 	
 	struct swfAction_t
 	{
 		const byte* data;
 		uint32 dataLength;
 	};
-	budList< swfAction_t, TAG_SWF > actions;
+	List< swfAction_t, TAG_SWF > actions;
 	
 	budSWFScriptFunction_Script* actionScript;
 	

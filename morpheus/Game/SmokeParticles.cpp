@@ -88,8 +88,8 @@ void idSmokeParticles::Init()
 	renderEntity.noShadow = 1;
 	
 	// huge bounds, so it will be present in every world area
-	renderEntity.bounds.AddPoint( budVec3( -100000, -100000, -100000 ) );
-	renderEntity.bounds.AddPoint( budVec3( 100000,  100000,  100000 ) );
+	renderEntity.bounds.AddPoint( Vector3( -100000, -100000, -100000 ) );
+	renderEntity.bounds.AddPoint( Vector3( 100000,  100000,  100000 ) );
 	
 	renderEntity.callback = idSmokeParticles::ModelCallback;
 	// add to renderer list
@@ -186,7 +186,7 @@ idSmokeParticles::EmitSmoke
 Called by game code to drop another particle into the list
 ================
 */
-bool idSmokeParticles::EmitSmoke( const budDeclParticle* smoke, const int systemStartTime, const float diversity, const budVec3& origin, const budMat3& axis, int timeGroup /*_D3XP*/ )
+bool idSmokeParticles::EmitSmoke( const budDeclParticle* smoke, const int systemStartTime, const float diversity, const Vector3& origin, const Matrix3& axis, int timeGroup /*_D3XP*/ )
 {
 	bool	continues = false;
 	SetTimeState ts( timeGroup );
