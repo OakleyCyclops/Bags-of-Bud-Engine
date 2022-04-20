@@ -19,8 +19,8 @@ class INTFconsole
         virtual void Unregister(Cmd* cmd) = 0;
 
         //  Getter Functions
-        virtual CVar* FindCVar(const char* cvarName) = 0;
-        virtual Cmd*  FindCmd(const char* cmdName) = 0;
+        virtual void* FindCVar(const char* cvarName) = 0;
+        virtual void* FindCmd(const char* cmdName) = 0;
 };
 
 #endif /* !__INTF_CONSOLE_HPP__ */

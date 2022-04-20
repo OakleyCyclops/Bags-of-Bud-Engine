@@ -2,16 +2,14 @@
 
 void Console::Init()
 {
-
     auto cmdClear = [](void)
     {
-
+        return;
     };
     auto cmdDump = [](void)
     {
-
+        return;
     };
-    
     static CVar con_notifyTime("con_notifyTime", "3", CVAR_CORE, "time messages are displayed onscreen when console is pulled up");
     static CVar con_noPrint("con_noPrint", "1", CVAR_CORE, "print on the console but not onscreen when console is pulled up");
     static Cmd clear("clear", cmdClear, CMD_CORE, "clears the console");
@@ -25,16 +23,16 @@ void Console::Shutdown()
 
 void Console::Register(CVar* cvar)
 {
-    static Node cvarNode(cvar->GetName(), cvar);
+    Node* cvarNode = new Node(cvar->GetName(), cvar);
 
-    this->registeredCVars.Append(&cvarNode);
+    this->registeredCVars.Append(cvarNode);
 }
 
 void Console::Register(Cmd* cmd)
 {
-    static Node cmdNode(cmd->GetName(), cmd);
+    Node* cmdNode = new Node(cmd->GetName(), cmd);
 
-    this->registeredCmds.Append(&cmdNode);  
+    this->registeredCmds.Append(cmdNode);  
 }
 
 void Console::Unregister(CVar* cvar)
@@ -47,17 +45,33 @@ void Console::Unregister(Cmd* cmd)
     
 }
 
-CVar* Console::FindCVar(const char* cvarName)
+void* Console::FindCVar(const char* cvarName)
 {
-
+    if (registeredCVars.Search(cvarName) != nullptr)
+    {   
+        void* ptr = registeredCVars.Search(cvarName)->GetData();
+        return ptr;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
-Cmd* Console::FindCmd(const char* cmdName)
+void* Console::FindCmd(const char* cmdName)
 {
-
+    if (registeredCmds.Search(cmdName) != nullptr)
+    {
+        void* ptr = registeredCmds.Search(cmdName)->GetData();
+        return ptr;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
-CVar::CVar(const char* Name, const char* Value, int Flags, const char* Description)
+CVar::CVar(const char* Name, char* Value, int Flags, const char* Description)
 {
     Console& console = Singleton<Console>::GetInstance();
 
@@ -97,6 +111,72 @@ Cmd::Cmd(const char* Name, void(*FunctionPointer)(), int Flags, const char* Desc
 const char* CVar::GetName() const
 {
     return this->Name;
+}
+
+bool CVar::GetBool() const
+{
+    if (atoi(this->Value))
+    {
+        return true;
+    }
+
+    else
+    {
+        return false;
+    }
+}
+
+int CVar::GetInteger() const
+{
+    if (isdigit(atoi(this->Value)))
+    {
+        return atoi(this->Value);
+    }
+
+    else
+    {
+        return 0;
+    }
+}
+
+float CVar::GetFloat() const
+{
+    if (atof(this->Value))
+    {
+        return atof(this->Value);
+    }
+
+    else
+    {
+        return 0.0f;
+    }
+}
+
+void CVar::SetBool(const bool value)
+{
+    if (value)
+    {
+        char yes = '1';
+        this->Value = &yes;
+        this->IntegerValue = 1;
+    }
+
+    else if (!value)
+    {
+        char no = '0';
+        this->Value = &no;
+        this->IntegerValue = 0;
+    }
+}
+
+void CVar::SetInteger(int value)
+{
+    sprintf(this->Value, "%i", value);
+}
+
+void CVar::SetFloat(const float value)
+{
+    sprintf(this->Value, "%f", value);
 }
 
 const char* Cmd::GetName() const

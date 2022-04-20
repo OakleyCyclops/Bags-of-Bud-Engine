@@ -4,10 +4,10 @@
 class LinkedList
 {
     public:
-
+        friend class Node;
         LinkedList();
         
-        Node*           Search(const char* name) const;
+        Node*           Search(const char* name);
         void            Push(Node* node);
         void            Append(Node* node);
         void            InsertBefore(Node* nextNode, Node* node);
@@ -16,7 +16,7 @@ class LinkedList
         void            Clear();
 
         // Getter functions
-        unsigned int    GetSize() const;
+        unsigned int    GetSize();
         Node*           GetHead();  // lol
 
         bool            IsEmpty();

@@ -4,7 +4,6 @@
 class Console final : public INTFconsole
 {
     public:
-        friend class ConsoleShell;
 
         void Init() override;
         void Shutdown() override;
@@ -16,12 +15,12 @@ class Console final : public INTFconsole
         void Unregister(Cmd* cmd) override;
 
         //  Getter Functions
-        CVar* FindCVar(const char* cvarName) override;
-        Cmd*  FindCmd(const char* cmdName) override;
+        void* FindCVar(const char* cvarName) override;
+        void*  FindCmd(const char* cmdName) override;
 
     private:
-        static LinkedList      registeredCVars;
-        static LinkedList      registeredCmds;
+        inline static LinkedList      registeredCVars;
+        inline static LinkedList      registeredCmds;
 
 };
 
@@ -58,7 +57,7 @@ class CVar final
         }
 
         // Always use one of the following constructors.
-	    CVar(const char* Name, const char* Value, int Flags, const char* Description);
+	    CVar(const char* Name, char* Value, int Flags, const char* Description);
 
         const char*     GetName() const;
         const char*     GetValue() const;
@@ -70,15 +69,15 @@ class CVar final
         int             GetInteger() const;
         float           GetFloat() const;
 
-        void            SetBool(const bool value);
-        void            SetInteger(const int value);
-        void            SetFloat(const float value);
+        void            SetBool(bool value);
+        void            SetInteger(int value);
+        void            SetFloat(float value);
 
 
 
     protected:
     	const char* 			Name;					// Name
-	    const char* 			Value;					// Value
+	    char* 			        Value;					// Value
 	    const char* 			Description;			// Description
         int                     Flags;                  // Flags
 

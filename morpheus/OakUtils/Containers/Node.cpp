@@ -4,6 +4,8 @@ Node::Node(const char* Name, void* Data)
 {
     this->Name = Name;
     this->Data = Data;
+    this->Next = nullptr;
+    this->Prev = nullptr;
 }
 
 const char* Node::GetName() const

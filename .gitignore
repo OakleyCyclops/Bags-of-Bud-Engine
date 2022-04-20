@@ -71,3 +71,4 @@ morpheus/build/libBud/CMakeFiles/libBud.dir/math/VecX.cpp.o
 morpheus/build/libBud/CMakeFiles/libBud.dir/sys/sys_assert.cpp.o
 morpheus/build/libBud/CMakeFiles/libBud.dir/sys/posix/posix_thread.cpp.o
 morpheus/.vscode/settings.json
+morpheus/a.out

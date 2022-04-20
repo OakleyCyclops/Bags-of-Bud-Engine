@@ -5,52 +5,120 @@ LinkedList::LinkedList()
 {
     head.SetName("head");
     head.SetData(nullptr);
+    head.SetPrev(nullptr);
+    head.SetNext(nullptr);
 }
 
-unsigned int LinkedList::GetSize() const
+unsigned int LinkedList::GetSize()
 {
-    return size;
+    return this->size;
 }
 
 Node* LinkedList::GetHead()
 {
-    return &head;
+    return &this->head;
 }
 
-Node* LinkedList::Search(const char* name) const
-{
-    unsigned int i;
-    Node* currentNode;
+Node* LinkedList::Search(const char* name)
+{   
+    unsigned int i = 0;
+    Node* currentNode = GetHead();
+    String phrase;
 
-    currentNode = head.GetNext();
-
-    while (i != size || currentNode->GetName() != name)
+    while (i != GetSize())
     {
-        currentNode = currentNode->GetNext();
+        if (!phrase.Icmp(currentNode->GetName(), name))
+        {
+            return currentNode;
+        }
+        else
+        {
+            currentNode = currentNode->GetNext();
+        }
+        
         i++;
     }
 
-    if (i == size && currentNode->GetName() != name)
-    {
-        return NULL;
-    }
-
-    else
-    {
-        return currentNode;
-    }
-
+    return nullptr;
 }
 
 void LinkedList::Push(Node* node)
-{
+{   
+    if (size == 0)
+    {
+        GetHead()->SetName(node->GetName());
+        GetHead()->SetData(node->GetData());
+        size++;
+        return;
+    }
+
     head.SetNext(node);
     node->SetPrev(&head);
+    size++;
+}
 
+void LinkedList::InsertBefore(Node* nextNode, Node* node)
+{
+    if (size == 0)
+    {
+        GetHead()->SetName(node->GetName());
+        GetHead()->SetData(node->GetData());
+        size++;
+        return;
+    }
+
+    if (nextNode == nullptr)
+    {
+        return;
+    }
+
+    nextNode->SetPrev(node);
+    size++;
+}
+
+void LinkedList::InsertAfter(Node* prevNode, Node* node)
+{
+    if (size == 0)
+    {
+        GetHead()->SetName(node->GetName());
+        GetHead()->SetData(node->GetData());
+        size++;
+        return;
+    }
+
+    if (prevNode == nullptr)
+    {
+        return;
+    }
+
+    if (prevNode->GetNext() != nullptr)
+    {
+        node->SetNext(prevNode->GetNext());
+    }
+
+    prevNode->SetNext(node);
     size++;
 }
 
 void LinkedList::Append(Node* node)
 {
-    
+    Node* currentNode;
+
+    if (size == 0)
+    {
+        GetHead()->SetName(node->GetName());
+        GetHead()->SetData(node->GetData());
+        size++;
+        return;
+    }
+
+    currentNode = GetHead();
+
+    while (currentNode->GetNext() != nullptr)
+    {
+        currentNode = currentNode->GetNext();
+    }
+
+    currentNode->SetNext(node);
+    size++;
 }
