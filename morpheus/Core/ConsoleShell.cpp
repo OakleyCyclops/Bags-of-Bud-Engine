@@ -1,6 +1,6 @@
 #include "CorePCH.hpp"
-#include <unistd.h>
 
+static CVar con_terminalSupport("con_terminalSupport", "1", CVAR_CORE || CVAR_BOOL || CVAR_INIT, "Enables/Disables the usage of the Terminal/Command Prompt as the engine's developer console");
 
 /*
 =========
@@ -10,19 +10,45 @@ Everything basically starts here
 */
 void ConsoleShell::Init()
 {
-	
-}
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{
+		initscr();
+		noecho();
+		cbreak();
+	}
 
-static CVar con_terminalSupport("con_terminalSupport", "1", CVAR_CORE || CVAR_BOOL, "Enables/Disables the usage of the Terminal/Command Prompt as the engine's developer console");
+    auto cmdClear = []
+    {
+        return;
+    };
+    auto cmdDump = []
+    {
+        return;
+    };
+    static CVar con_notifyTime("con_notifyTime", "3", CVAR_CORE, "time messages are displayed onscreen when console is pulled up");
+    static CVar con_noPrint("con_noPrint", "1", CVAR_CORE, "print on the console but not onscreen when console is pulled up");
+    static Cmd clear("clear", cmdClear, CMD_CORE, "clears the console");
+    static Cmd conDump("conDump", cmdDump, CMD_CORE, "dumps the console text to a file");
+
+	Print("Console Initialized\n");
+}
 
 void ConsoleShell::Update()
 {
-
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{
+		refresh();
+	}
 }
 
 void ConsoleShell::Shutdown()
 {
+	Print("Shutting down console shell");
 
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{
+		endwin();
+	}
 }
 
 void ConsoleShell::Input()
@@ -49,14 +75,18 @@ void ConsoleShell::TerminalInput()
 {
 	if (con_terminalSupport.GetBool())
 	{
-		char buffer[MAX_PRINT_MSG];
+		char buffer;
 		String input;
-
-		scanf("%s", buffer);
+	
+		buffer = getch();
 		input.Append(buffer);
 		input.StripTrailingWhitespace();
 
-		TerminalOutput(&input);
+		if (buffer == '\n')
+		{
+			TerminalOutput(&input);
+		}
+		
 	}
 
 	else
@@ -74,7 +104,7 @@ void ConsoleShell::TerminalOutput(String* input)
 		// TODO: Make this actually process commands and shit
 		char prefix[3] = "] ";
 
-		PrintF(prefix);
+		Print(prefix);
 		
 		if (console.FindCmd(input->c_str()))
 		{
@@ -87,7 +117,7 @@ void ConsoleShell::TerminalOutput(String* input)
 		}
 		else
 		{
-			PrintF("Unknown CVar/Command '%s'\n", input->c_str());
+			Print("Unknown CVar/Command '%s'\n", input->c_str());
 		}
 
 		TerminalInput();
@@ -108,10 +138,15 @@ Both client and server can use this, and it will output to the appropriate place
 A raw string should NEVER be passed as fmt, because of "%f" type crashers.
 ==================
 */
-void ConsoleShell::PrintF(const char* fmt, ...)
+void ConsoleShell::Print(const char* fmt, ...)
 {
-	va_list argptr;
-	va_start( argptr, fmt );
-	vprintf(fmt, argptr);
-	va_end( argptr );
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{
+		va_list argptr;
+		va_start(argptr, fmt);
+		vw_printw(stdscr, fmt, argptr);
+		va_end(argptr);
+	}
+
+	Update();
 }
