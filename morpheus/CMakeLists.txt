@@ -45,16 +45,12 @@ target_precompile_headers(engine PUBLIC Core/CorePCH.hpp)
 
 target_link_libraries(engine
 					OakUtils
-					${OPENGL_LIBRARIES} 
-					pthread 
-					${RT_LIBRARY} 
 					SDL2 
-					${OPENAL_LIBRARY} 
-					${FFMPEG_LIBRARIES}
 					z 
 					${ZLIB_LIBRARIES} 
 					minizip
 					${PNG_LIBRARY} 
 					${JPEG_LIBRARY} 
 					${GLEW_LIBRARY} 
-					${CMAKE_DL_LIBS})
+					${CMAKE_DL_LIBS}
+					ncurses)

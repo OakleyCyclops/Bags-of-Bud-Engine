@@ -12,14 +12,14 @@ used throughout the engine, so things like Init(), Shutdown(), Print(), stuff li
 class Heart final : public INTFheart
 {
     public:
-        void            Init(int argc, const char* const* argv)         override;
+        void            Init(int argc, const char** argv)               override;
         void            Shutdown()                                      override;
         void            Tick()                                          override;
 
     private:
-        InputSystem     inputSystem;
-        ConsoleShell    consoleShell;
-        Console         console;
+        Console& console              =       Singleton<Console>::GetInstance();
+        ConsoleShell& consoleShell    =       Singleton<ConsoleShell>::GetInstance();
+        InputSystem& inputSystem      =       Singleton<InputSystem>::GetInstance();
 };
 
 #endif /* !__HEART_HPP__ */

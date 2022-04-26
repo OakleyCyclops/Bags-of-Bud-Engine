@@ -1,10 +1,12 @@
 #ifndef __CONSOLE_HPP__
 #define __CONSOLE_HPP__
 
+class ConsoleShell;
+
 class Console final : public INTFconsole
 {
     public:
-
+    
         void Init() override;
         void Shutdown() override;
         

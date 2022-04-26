@@ -99,9 +99,6 @@ int main(int argc, const char** argv)
 	{
 		heart.Tick();	
 	}
-
-	SDL_Quit();
-	
 }
 
 /*

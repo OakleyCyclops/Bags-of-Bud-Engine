@@ -2,23 +2,14 @@
 
 void Console::Init()
 {
-    auto cmdClear = [](void)
-    {
-        return;
-    };
-    auto cmdDump = [](void)
-    {
-        return;
-    };
-    static CVar con_notifyTime("con_notifyTime", "3", CVAR_CORE, "time messages are displayed onscreen when console is pulled up");
-    static CVar con_noPrint("con_noPrint", "1", CVAR_CORE, "print on the console but not onscreen when console is pulled up");
-    static Cmd clear("clear", cmdClear, CMD_CORE, "clears the console");
-    static Cmd conDump("conDump", cmdDump, CMD_CORE, "dumps the console text to a file");
+
 }
 
 void Console::Shutdown()
 {
+    ConsoleShell& consoleShell = Singleton<ConsoleShell>::GetInstance();
 
+    consoleShell.Print("Shutting down console");
 }
 
 void Console::Register(CVar* cvar)

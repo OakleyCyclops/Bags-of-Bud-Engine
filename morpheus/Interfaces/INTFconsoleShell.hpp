@@ -31,7 +31,7 @@ class INTFconsoleShell
 		virtual void			TerminalInput() = 0;
 		virtual void			TerminalOutput(String* input) = 0;
 		
-		virtual void            PrintF(const char* fmt, ...) = 0;
+		virtual void            Print(const char* fmt, ...) = 0;
 
 };
 

@@ -13,7 +13,7 @@ INTFheart.hpp
 class INTFheart
 {
 	public:
-		virtual void				Init(int argc, const char* const* argv) = 0;
+		virtual void				Init(int argc, const char** argv) = 0;
 		virtual void				Shutdown() = 0;
 
 		virtual void				Tick() = 0;

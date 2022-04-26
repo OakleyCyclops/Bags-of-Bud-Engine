@@ -1287,9 +1287,6 @@ void String::ExtractFilePath( String& dest ) const
 {
 	int pos;
 	
-	//
-	// back up until a \ or the start
-	//
 	pos = Length();
 	while( ( pos > 0 ) && ( ( *this )[ pos - 1 ] != '/' ) && ( ( *this )[ pos - 1 ] != '\\' ) )
 	{
@@ -1307,10 +1304,7 @@ String::ExtractFileName
 void String::ExtractFileName( String& dest ) const
 {
 	int pos;
-	
-	//
-	// back up until a \ or the start
-	//
+
 	pos = Length() - 1;
 	while( ( pos > 0 ) && ( ( *this )[ pos - 1 ] != '/' ) && ( ( *this )[ pos - 1 ] != '\\' ) )
 	{
@@ -1676,11 +1670,6 @@ int String::IcmpPath( const char* s1, const char* s2 )
 {
 	int c1, c2, d;
 	
-#if 0
-//#if !defined( ID_PC_WIN )
-	libBud::common->Printf( "WARNING: IcmpPath used on a case-sensitive filesystem?\n" );
-#endif
-	
 	do
 	{
 		c1 = *s1++;
@@ -1763,11 +1752,6 @@ String::IcmpnPath
 int String::IcmpnPath( const char* s1, const char* s2, int n )
 {
 	int c1, c2, d;
-	
-#if 0
-//#if !defined( ID_PC_WIN )
-	libBud::common->Printf( "WARNING: IcmpPath used on a case-sensitive filesystem?\n" );
-#endif
 	
 	assert( n >= 0 );
 	
@@ -1859,17 +1843,6 @@ Safe strncpy that ensures a trailing zero
 */
 void String::Copynz( char* dest, const char* src, int destsize )
 {
-	// if( !src )
-	// {
-	// 	libBud::common->Warning( "String::Copynz: NULL src" );
-	// 	return;
-	// }
-	// if( destsize < 1 )
-	// {
-	// 	libBud::common->Warning( "String::Copynz: destsize < 1" );
-	// 	return;
-	// }
-	
 	strncpy( dest, src, destsize - 1 );
 	dest[destsize - 1] = 0;
 }
@@ -1885,13 +1858,7 @@ void String::Append( char* dest, int size, const char* src )
 {
 	int		l1;
 	
-	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
 	l1 = ( int )strlen( dest );
-	// RB end
-	// if( l1 >= size )
-	// {
-	// 	libBud::common->Error( "String::Append: already overflowed" );
-	// }
 	String::Copynz( dest + l1, src, size - l1 );
 }
 
@@ -2205,15 +2172,7 @@ int String::snPrintf( char* dest, int size, const char* fmt, ... )
 	va_start( argptr, fmt );
 	len = vsprintf( buffer, fmt, argptr );
 	va_end( argptr );
-	// if( len >= sizeof( buffer ) )
-	// {
-	// 	libBud::common->Error( "String::snPrintf: overflowed buffer" );
-	// }
-	// if( len >= size )
-	// {
-	// 	libBud::common->Warning( "String::snPrintf: overflow of %i in %i\n", len, size );
-	// 	len = size;
-	// }
+
 	String::Copynz( dest, buffer, size );
 	return len;
 }

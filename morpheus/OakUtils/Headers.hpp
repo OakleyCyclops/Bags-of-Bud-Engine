@@ -147,8 +147,10 @@ If you have questions concerning this license or the applicable additional terms
 #include <errno.h>
 #include <math.h>
 #include <limits.h>
-#include <memory>
 #include <xmmintrin.h>
+#include <thread>
+
+
 // RB: added <stdint.h> for missing uintptr_t with MinGW
 #include <stdint.h>
 // RB end

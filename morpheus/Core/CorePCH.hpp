@@ -8,8 +8,12 @@
 
 // SDL2
 #include <SDL2/SDL.h>
+
 // OpenAL
 #include <AL/al.h>
+
+// NCurses (This is used for text mode or if you launch the engine via a terminal)
+#include <ncurses.h>
 
 // Interface Headers
 #include "INTFheart.hpp"
