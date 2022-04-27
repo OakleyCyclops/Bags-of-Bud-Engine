@@ -17,8 +17,8 @@ class Console final : public INTFconsole
         void Unregister(Cmd* cmd) override;
 
         //  Getter Functions
-        void* FindCVar(const char* cvarName) override;
-        void*  FindCmd(const char* cmdName) override;
+        CVar* FindCVar(const char* cvarName) override;
+        Cmd*  FindCmd(const char* cmdName) override;
 
     private:
         inline static LinkedList      registeredCVars;
@@ -118,7 +118,7 @@ class Cmd final
 
         // Not really sure how you specify a function pointer return type
         // But i can just use void* instead i think
-        void*           GetFunctionPointer() const;
+        void*           GetFunctionPointer();
 
     protected:
     	const char* 			Name;					// Name

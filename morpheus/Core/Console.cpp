@@ -1,10 +1,20 @@
 #include "CorePCH.hpp"
 
+/*
+==================
+Console::Init
+==================
+*/
 void Console::Init()
 {
 
 }
 
+/*
+==================
+Console::Shutdown
+==================
+*/
 void Console::Shutdown()
 {
     ConsoleShell& consoleShell = Singleton<ConsoleShell>::GetInstance();
@@ -12,6 +22,11 @@ void Console::Shutdown()
     consoleShell.Print("Shutting down console");
 }
 
+/*
+==================
+Console::Register(CVar* cvar)
+==================
+*/
 void Console::Register(CVar* cvar)
 {
     Node* cvarNode = new Node(cvar->GetName(), cvar);
@@ -19,6 +34,11 @@ void Console::Register(CVar* cvar)
     this->registeredCVars.Append(cvarNode);
 }
 
+/*
+==================
+Console::Register(Cmd* cmd)
+==================
+*/
 void Console::Register(Cmd* cmd)
 {
     Node* cmdNode = new Node(cmd->GetName(), cmd);
@@ -26,21 +46,36 @@ void Console::Register(Cmd* cmd)
     this->registeredCmds.Append(cmdNode);  
 }
 
+/*
+==================
+Console::Unregister(CVar* cvar)
+==================
+*/
 void Console::Unregister(CVar* cvar)
 {
 
 }
 
+/*
+==================
+Console::Unregister(Cmd* cmd)
+==================
+*/
 void Console::Unregister(Cmd* cmd)
 {
     
 }
 
-void* Console::FindCVar(const char* cvarName)
+/*
+==================
+Console::FindCVar(const char* cvarName)
+==================
+*/
+CVar* Console::FindCVar(const char* cvarName)
 {
     if (registeredCVars.Search(cvarName) != nullptr)
     {   
-        void* ptr = registeredCVars.Search(cvarName)->GetData();
+        CVar* ptr = (CVar*)registeredCVars.Search(cvarName)->GetData();
         return ptr;
     }
     else
@@ -49,11 +84,16 @@ void* Console::FindCVar(const char* cvarName)
     }
 }
 
-void* Console::FindCmd(const char* cmdName)
+/*
+==================
+Console::FindCmd(const char* cmdName)
+==================
+*/
+Cmd* Console::FindCmd(const char* cmdName)
 {
     if (registeredCmds.Search(cmdName) != nullptr)
     {
-        void* ptr = registeredCmds.Search(cmdName)->GetData();
+        Cmd* ptr = (Cmd*)registeredCmds.Search(cmdName)->GetData();
         return ptr;
     }
     else
@@ -62,6 +102,11 @@ void* Console::FindCmd(const char* cmdName)
     }
 }
 
+/*
+===========
+CVar::CVar
+===========
+*/
 CVar::CVar(const char* Name, char* Value, int Flags, const char* Description)
 {
     Console& console = Singleton<Console>::GetInstance();
@@ -74,6 +119,11 @@ CVar::CVar(const char* Name, char* Value, int Flags, const char* Description)
     console.Register(this);
 }
 
+/*
+===========
+Cmd::Cmd
+===========
+*/
 Cmd::Cmd(const char* Name, void(*FunctionPointer)(), const char* Arguments, int Flags, const char* Description)
 {
     Console& console = Singleton<Console>::GetInstance();
@@ -87,6 +137,11 @@ Cmd::Cmd(const char* Name, void(*FunctionPointer)(), const char* Arguments, int 
     console.Register(this);
 }
 
+/*
+===========
+Cmd::Cmd
+===========
+*/
 Cmd::Cmd(const char* Name, void(*FunctionPointer)(), int Flags, const char* Description)
 {
     Console& console = Singleton<Console>::GetInstance();
@@ -99,11 +154,21 @@ Cmd::Cmd(const char* Name, void(*FunctionPointer)(), int Flags, const char* Desc
     console.Register(this);
 }
 
+/*
+===========
+Cvar::GetName
+===========
+*/
 const char* CVar::GetName() const
 {
     return this->Name;
 }
 
+/*
+===========
+Cvar::GetBool
+===========
+*/
 bool CVar::GetBool() const
 {
     if (atoi(this->Value))
@@ -117,6 +182,11 @@ bool CVar::GetBool() const
     }
 }
 
+/*
+===========
+Cvar::GetInteger
+===========
+*/
 int CVar::GetInteger() const
 {
     if (isdigit(atoi(this->Value)))
@@ -130,6 +200,11 @@ int CVar::GetInteger() const
     }
 }
 
+/*
+===========
+Cvar::GetFloat
+===========
+*/
 float CVar::GetFloat() const
 {
     if (atof(this->Value))
@@ -143,6 +218,11 @@ float CVar::GetFloat() const
     }
 }
 
+/*
+===========
+Cvar::SetBool
+===========
+*/
 void CVar::SetBool(const bool value)
 {
     if (value)
@@ -160,17 +240,37 @@ void CVar::SetBool(const bool value)
     }
 }
 
+/*
+===========
+Cvar::SetInteger
+===========
+*/
 void CVar::SetInteger(int value)
 {
     sprintf(this->Value, "%i", value);
 }
 
+/*
+===========
+Cvar::SetFloat
+===========
+*/
 void CVar::SetFloat(const float value)
 {
     sprintf(this->Value, "%f", value);
 }
 
+/*
+===========
+Cvar::GetName
+===========
+*/
 const char* Cmd::GetName() const
 {
     return this->Name;
+}
+
+void* Cmd::GetFunctionPointer()
+{
+    return (void*)this->FunctionPointer;
 }

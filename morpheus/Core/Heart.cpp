@@ -57,5 +57,5 @@ Heart::Tick
 */
 void Heart::Tick()
 {
-
+    consoleShell.Update();
 }

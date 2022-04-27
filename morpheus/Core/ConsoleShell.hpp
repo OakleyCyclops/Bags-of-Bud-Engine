@@ -28,7 +28,11 @@ class ConsoleShell final : public INTFconsoleShell
         void            TerminalInput() override;
         void            TerminalOutput(String* input) override;
 
-        void            Print(const char* fmt, ...) override;   
+        void            Print(const char* fmt, ...) override;
+        void            Success(const char* msg, ...) override;
+        void            Warning(const char* msg, ...) override;   
+        void            Error(const char* msg, ...) override;
+        void            FatalError(const char* msg, ...) override;    
 };
 
 #endif /* !__CONSOLE_SHELL_HPP__ */
