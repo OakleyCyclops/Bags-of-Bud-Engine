@@ -124,7 +124,7 @@ CVar::CVar(const char* Name, char* Value, int Flags, const char* Description)
 Cmd::Cmd
 ===========
 */
-Cmd::Cmd(const char* Name, void(*FunctionPointer)(), const char* Arguments, int Flags, const char* Description)
+Cmd::Cmd(const char* Name, funcPtr FunctionPointer, const char* Arguments, int Flags, const char* Description)
 {
     Console& console = Singleton<Console>::GetInstance();
 
@@ -142,7 +142,7 @@ Cmd::Cmd(const char* Name, void(*FunctionPointer)(), const char* Arguments, int 
 Cmd::Cmd
 ===========
 */
-Cmd::Cmd(const char* Name, void(*FunctionPointer)(), int Flags, const char* Description)
+Cmd::Cmd(const char* Name, funcPtr FunctionPointer, int Flags, const char* Description)
 {
     Console& console = Singleton<Console>::GetInstance();
 
@@ -220,7 +220,7 @@ float CVar::GetFloat() const
 
 /*
 ===========
-Cvar::SetBool
+CVar::SetBool(const bool value)
 ===========
 */
 void CVar::SetBool(const bool value)
@@ -242,7 +242,7 @@ void CVar::SetBool(const bool value)
 
 /*
 ===========
-Cvar::SetInteger
+CVar::SetInteger(int value)
 ===========
 */
 void CVar::SetInteger(int value)
@@ -252,7 +252,7 @@ void CVar::SetInteger(int value)
 
 /*
 ===========
-Cvar::SetFloat
+CVar::SetFloat(const float value)
 ===========
 */
 void CVar::SetFloat(const float value)
@@ -270,7 +270,12 @@ const char* Cmd::GetName() const
     return this->Name;
 }
 
-void* Cmd::GetFunctionPointer()
+/*
+===========
+Cmd::GetFunctionPointer
+===========
+*/
+funcPtr Cmd::GetFunctionPointer()
 {
-    return (void*)this->FunctionPointer;
+    return this->FunctionPointer;
 }

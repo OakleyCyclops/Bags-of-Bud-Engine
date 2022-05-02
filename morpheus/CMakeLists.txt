@@ -45,7 +45,7 @@ target_precompile_headers(engine PUBLIC Core/CorePCH.hpp)
 
 target_link_libraries(engine
 					OakUtils
-					SDL2 
+					glfw 
 					z 
 					${ZLIB_LIBRARIES} 
 					minizip

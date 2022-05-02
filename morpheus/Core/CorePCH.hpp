@@ -6,8 +6,8 @@
 // FYI: Precompiled headers don't get preprocessed in the same way cpp files do
 // cuz fuck you that's why
 
-// SDL2
-#include <SDL2/SDL.h>
+// GLFW
+#include <GLFW/glfw3.h>
 
 // OpenAL
 #include <AL/al.h>

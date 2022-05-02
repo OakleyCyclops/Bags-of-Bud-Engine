@@ -7,7 +7,6 @@ class InputSystem final : public INTFinputSystem
         void            Init()                                      override;
         void            Update()                                    override;
         void            Shutdown()                                  override;
-        SDL_Event event;
 };
 
 class InputEvent final

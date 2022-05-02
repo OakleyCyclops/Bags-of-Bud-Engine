@@ -30,6 +30,9 @@ void Heart::Init(int argc, const char** argv)
     };
     
     static Cmd quit("quit", cmdQuit, CMD_CORE, "quits the game");
+
+    // GLFW Window
+    Window = glfwCreateWindow(640, 480, "Bags of Bud Engine", nullptr, nullptr);
 }
 
 /*
@@ -45,7 +48,7 @@ void Heart::Shutdown()
     console.Shutdown();
     consoleShell.Shutdown();
 
-    SDL_Quit();
+    glfwTerminate();
 
     Sys_Quit();
 }

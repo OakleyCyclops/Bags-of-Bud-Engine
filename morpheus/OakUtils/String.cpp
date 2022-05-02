@@ -51,8 +51,8 @@ void String::ReAllocate( int amount, bool keepold )
 	int		newsize;
 	int		mod;
 	
-	//assert( data );
-	assert( amount > 0 );
+	assert(data);
+	assert(amount > 0);
 	
 	mod = amount % STR_ALLOC_GRAN;
 	if( !mod )
@@ -73,11 +73,7 @@ void String::ReAllocate( int amount, bool keepold )
 	
 	if( data && data != baseBuffer )
 	{
-#ifdef USE_STRING_DATA_ALLOCATOR
-		stringDataAllocator.Free( data );
-#else
 		delete [] data;
-#endif
 	}
 	
 	data = newbuffer;

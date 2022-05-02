@@ -81,6 +81,11 @@ int main(int argc, const char** argv)
 {
 	Heart& heart = Singleton<Heart>::GetInstance();
 
+	if (!glfwInit())
+	{
+		return -1;
+	}
+
 	cmdargc = argc;
 	cmdargv = argv;
 

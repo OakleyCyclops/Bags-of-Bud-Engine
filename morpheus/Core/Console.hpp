@@ -118,7 +118,7 @@ class Cmd final
 
         // Not really sure how you specify a function pointer return type
         // But i can just use void* instead i think
-        void*           GetFunctionPointer();
+        funcPtr         GetFunctionPointer();
 
     protected:
     	const char* 			Name;					// Name
@@ -127,7 +127,7 @@ class Cmd final
 
         int                     Flags;                  // Flags
 
-        void(*FunctionPointer)();                       // Function pointer
+        funcPtr FunctionPointer;                        // Function pointer
 
 };
 

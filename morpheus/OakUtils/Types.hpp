@@ -51,6 +51,8 @@ typedef unsigned int		uint32;
 typedef long long			int64;
 typedef unsigned long long	uint64;
 
+using funcPtr = void(*)();
+
 // The C/C++ standard guarantees the size of an unsigned type is the same as the signed type.
 // The exact size in bytes of several types is guaranteed here.
 // assert_sizeof( bool,	1 );

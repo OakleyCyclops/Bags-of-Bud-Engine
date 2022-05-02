@@ -32,6 +32,9 @@ class INTFconsoleShell
 		virtual void			TerminalOutput(String* input) = 0;
 		
 		virtual void            Print(const char* fmt, ...) = 0;
+		virtual void			Print(short pair, const char* fmt, ...) = 0;
+		virtual void			Print(short pair, unsigned int attr, const char* fmt, ...) = 0;
+
 		virtual void            Success(const char* msg, ...) = 0;
 		virtual void            Warning(const char* msg, ...) = 0;
 		virtual void            Error(const char* msg, ...) = 0;

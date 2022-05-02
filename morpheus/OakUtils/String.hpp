@@ -429,7 +429,7 @@ public:
 String::Construct
 ========================
 */
-BUD_INLINE void String::Construct()
+inline void String::Construct()
 {
 	SetStatic( false );
 	SetAlloced( STR_ALLOC_BASE );
@@ -439,7 +439,7 @@ BUD_INLINE void String::Construct()
 }
 
 
-BUD_INLINE void String::EnsureAlloced( int amount, bool keepold )
+inline void String::EnsureAlloced( int amount, bool keepold )
 {
 	// static string's can't reallocate
 	if( IsStatic() )
@@ -938,12 +938,12 @@ BUD_INLINE void String::Clear()
 	Construct();
 }
 
-BUD_INLINE void String::Append( const char a )
+inline void String::Append( const char a )
 {
 	EnsureAlloced( len + 2 );
 	data[ len ] = a;
 	len++;
-	data[ len ] = '\0';
+	data[len] = '\0';
 }
 
 BUD_INLINE void String::Append( const String& text )

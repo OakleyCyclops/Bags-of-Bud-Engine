@@ -10,20 +10,10 @@ Everything basically starts here
 */
 void ConsoleShell::Init()
 {
+
 	if (con_terminalSupport.GetBool() && isTerminal)
 	{
-		initscr();
-		noecho();
-		nodelay(stdscr, true);
-		cbreak();
-		scrollok(stdscr, true);
-		keypad(stdscr, true);
-
-		if (has_colors)
-		{
-			start_color();
-			use_default_colors();
-		}
+		TerminalInit();
 	}
 
     auto cmdClear = []
@@ -58,7 +48,7 @@ void ConsoleShell::Shutdown()
 
 	if (con_terminalSupport.GetBool() && isTerminal)
 	{
-		endwin();
+		TerminalShutdown();
 	}
 }
 
@@ -74,12 +64,32 @@ void ConsoleShell::Output()
 
 void ConsoleShell::TerminalInit()
 {
+	initscr();
+	noecho();
+	nodelay(stdscr, true);
+	cbreak();
+	scrollok(stdscr, true);
+	keypad(stdscr, true);
 
+	start_color();
+	use_default_colors();
+
+	init_pair(PAIR_PROMPT_SIGN, PROMPT_SIGN_COLOR);
+	init_pair(PAIR_ERROR_MSG, ERROR_MSG_COLOR);
+
+	init_pair(PAIR_FATALERROR_MSG, FATALERROR_MSG_COLOR);
+	init_pair(PAIR_WARNING_MSG, WARNING_MSG_COLOR);
+
+	init_pair(PAIR_SUCCESS_MSG, SUCCESS_MSG_COLOR);
+	init_pair(PAIR_EXTRA_1, EXTRA_COLOR_1);
+
+	init_pair(PAIR_EXTRA_2, EXTRA_COLOR_2);
+	init_pair(PAIR_EXTRA_3, EXTRA_COLOR_3);
 }
 
 void ConsoleShell::TerminalShutdown()
 {
-	
+	endwin();
 }
 
 void ConsoleShell::TerminalInput()
@@ -88,7 +98,6 @@ void ConsoleShell::TerminalInput()
 	{
 		// Performing some magic so it doesn't wait for user input
 		static char buffer;
-		static String input;
 	
 		buffer = getch();
 	
@@ -136,15 +145,7 @@ void ConsoleShell::TerminalOutput(String* input)
 
 		// TODO: Make this actually process commands and shit
 
-		char prefix[3] = "] ";
-
-		init_pair(1, COLOR_WHITE, -1);
-
-		attron(COLOR_PAIR(1));
-		attron(A_DIM);
-		Print(prefix);
-		attroff(COLOR_PAIR(1));
-		attroff(A_DIM);
+		Print(PAIR_PROMPT_SIGN, PROMP_SIGN_ATTR, CON_PROMPT_SIGN);
 		
 		if (input->Length() == 0)
 		{
@@ -158,7 +159,8 @@ void ConsoleShell::TerminalOutput(String* input)
 
 			if (console.FindCmd(input->c_str()))
 			{
-
+				Cmd* cmd = console.FindCmd(input->c_str());
+				cmd->GetFunctionPointer()();
 			}
 
 			else if (console.FindCVar(input->c_str()))
@@ -170,7 +172,6 @@ void ConsoleShell::TerminalOutput(String* input)
 				Error("Unknown CVar/Command '%s'\n", input->c_str());
 			}
 		}
-
 	}
 
 	else
@@ -194,7 +195,43 @@ void ConsoleShell::Print(const char* fmt, ...)
 	{
 		va_list argptr;
 		va_start(argptr, fmt);
+
 		vw_printw(stdscr, fmt, argptr);
+
+		va_end(argptr);
+	}
+
+	Update();
+}
+
+void ConsoleShell::Print(short pair, const char* fmt, ...)
+{
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{
+		va_list argptr;
+		va_start(argptr, fmt);
+
+		attron(COLOR_PAIR(pair));
+		vw_printw(stdscr, fmt, argptr);
+		attroff(COLOR_PAIR(pair));
+
+		va_end(argptr);
+	}
+
+	Update();
+}
+
+void ConsoleShell::Print(short pair, unsigned int attr, const char* fmt, ...)
+{
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{	
+		va_list argptr;
+		va_start(argptr, fmt);
+
+		attron(COLOR_PAIR(pair) | attr);
+		vw_printw(stdscr, fmt, argptr);
+		attroff(COLOR_PAIR(pair) | attr);
+
 		va_end(argptr);
 	}
 
@@ -208,7 +245,15 @@ ConsoleShell::Success
 */
 void ConsoleShell::Success(const char* msg, ...)
 {
+	if (con_terminalSupport.GetBool() && isTerminal)
+	{
+		Print(PAIR_SUCCESS_MSG, SUCCESS_MSG_ATTR, CON_SUCCESS_MSG);
 
+		va_list argptr;
+		va_start(argptr, msg);
+		vw_printw(stdscr, msg, argptr);
+		va_end(argptr);
+	}
 }
 
 /*
@@ -220,28 +265,12 @@ void ConsoleShell::Warning(const char* msg, ...)
 {
 	if (con_terminalSupport.GetBool() && isTerminal)
 	{
-		if (has_colors)
-		{
-			init_pair(1, COLOR_YELLOW, -1);
+		Print(PAIR_WARNING_MSG, WARNING_MSG_ATTR, CON_WARN_MSG);
 
-			attron(COLOR_PAIR(1));
-			Print("WARNING: ");
-			attroff(COLOR_PAIR(1));
-
-			va_list argptr;
-			va_start(argptr, msg);
-			vw_printw(stdscr, msg, argptr);
-			va_end(argptr);
-		}
-		else
-		{
-			Print("WARNING: ");
-
-			va_list argptr;
-			va_start(argptr, msg);
-			vw_printw(stdscr, msg, argptr);
-			va_end(argptr);
-		}
+		va_list argptr;
+		va_start(argptr, msg);
+		vw_printw(stdscr, msg, argptr);
+		va_end(argptr);
 	}
 }
 
@@ -254,28 +283,12 @@ void ConsoleShell::Error(const char* msg, ...)
 {
 	if (con_terminalSupport.GetBool() && isTerminal)
 	{
-		if (has_colors)
-		{
-			init_pair(2, COLOR_RED, -1);
-			attron(COLOR_PAIR(2));
+		Print(PAIR_ERROR_MSG, ERROR_MSG_ATTR, CON_ERROR_MSG);
 
-			Print("ERROR: ");
-			attroff(COLOR_PAIR(2));
-
-			va_list argptr;
-			va_start(argptr, msg);
-			vw_printw(stdscr, msg, argptr);
-			va_end(argptr);
-		}
-		else
-		{
-			Print("ERROR: ");
-
-			va_list argptr;
-			va_start(argptr, msg);
-			vw_printw(stdscr, msg, argptr);
-			va_end(argptr);
-		}
+		va_list argptr;
+		va_start(argptr, msg);
+		vw_printw(stdscr, msg, argptr);
+		va_end(argptr);
 	}
 }
 
@@ -288,32 +301,11 @@ void ConsoleShell::FatalError(const char* msg, ...)
 {
 	if (con_terminalSupport.GetBool() && isTerminal)
 	{
-		if (has_colors)
-		{
-			init_pair(3, COLOR_RED, -1);
-			attron(A_BOLD);
-			attron(COLOR_PAIR(3));
+		Print(PAIR_FATALERROR_MSG, FATALERROR_MSG_ATTR, CON_FATALERROR_MSG);
 
-			Print("FATAL ERROR: ");
-
-			attroff(COLOR_PAIR(3));
-			attroff(A_BOLD);
-
-			va_list argptr;
-			va_start(argptr, msg);
-			vw_printw(stdscr, msg, argptr);
-			va_end(argptr);
-		}
-		else
-		{
-			attron(A_BOLD);
-			Print("FATAL ERROR: ");
-			attroff(A_BOLD);
-
-			va_list argptr;
-			va_start(argptr, msg);
-			vw_printw(stdscr, msg, argptr);
-			va_end(argptr);
-		}
+		va_list argptr;
+		va_start(argptr, msg);
+		vw_printw(stdscr, msg, argptr);
+		va_end(argptr);
 	}
 }

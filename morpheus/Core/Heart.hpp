@@ -20,6 +20,9 @@ class Heart final : public INTFheart
         Console& console              =       Singleton<Console>::GetInstance();
         ConsoleShell& consoleShell    =       Singleton<ConsoleShell>::GetInstance();
         InputSystem& inputSystem      =       Singleton<InputSystem>::GetInstance();
+
+    protected:
+        GLFWwindow*     Window;
 };
 
 #endif /* !__HEART_HPP__ */
