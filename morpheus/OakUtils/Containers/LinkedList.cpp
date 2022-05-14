@@ -23,11 +23,11 @@ Node* LinkedList::Search(const char* name)
 {   
     unsigned int i = 0;
     Node* currentNode = GetHead();
-    String phrase;
+    std::string phrase(name);
 
     while (i != GetSize())
     {
-        if (!phrase.Icmp(currentNode->GetName(), name))
+        if (!phrase.compare(currentNode->GetName()))
         {
             return currentNode;
         }

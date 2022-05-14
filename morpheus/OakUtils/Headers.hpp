@@ -149,6 +149,7 @@ If you have questions concerning this license or the applicable additional terms
 #include <limits.h>
 #include <xmmintrin.h>
 #include <thread>
+#include <string>
 
 
 // RB: added <stdint.h> for missing uintptr_t with MinGW

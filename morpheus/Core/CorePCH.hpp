@@ -15,6 +15,9 @@
 // NCurses (This is used for text mode or if you launch the engine via a terminal)
 #include <ncurses.h>
 
+// libBud
+#include "oakUtilsPCH.hpp"
+
 // Interface Headers
 #include "INTFheart.hpp"
 #include "INTFconsoleShell.hpp"
@@ -22,9 +25,6 @@
 #include "INTFinputSystem.hpp"
 #include "INTFfileSystem.hpp"
 #include "INTFsys.hpp"
-
-// libBud
-#include "oakUtilsPCH.hpp"
 
 // The Core Framework
 #include "InputSystem.hpp"

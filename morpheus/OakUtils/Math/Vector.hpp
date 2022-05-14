@@ -98,7 +98,7 @@ public:
 	
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	String 			ToString( int precision = 2 ) const;
 	
 	void			Lerp( const Vector2& v1, const Vector2& v2, const float l );
 };
@@ -411,7 +411,7 @@ public:
 	Vector2& 		ToVec2();
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	String 			ToString( int precision = 2 ) const;
 	
 	void			NormalVectors( Vector3& left, Vector3& down ) const;	// vector should be normalized
 	void			OrthogonalBasis( Vector3& left, Vector3& up ) const;
@@ -1014,7 +1014,7 @@ public:
 	Vector3& 		ToVec3();
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 	void			Lerp( const Vector4& v1, const Vector4& v2, const float l );
 };
@@ -1278,7 +1278,7 @@ public:
 	Vector3& 		ToVec3();
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 	void			Lerp( const Vector5& v1, const Vector5& v2, const float l );
 };
@@ -1400,7 +1400,7 @@ public:
 	Vector3& 		SubVec3( int index );
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	String 			ToString( int precision = 2 ) const;
 	
 private:
 	float			p[6];

@@ -156,9 +156,9 @@ Vector3 Quat::ToAngularVelocity() const
 Quat::ToString
 =============
 */
-const char* Quat::ToString( int precision ) const
+std::string Quat::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString(ToFloatPtr(), GetDimension(), precision);
 }
 
 /*
@@ -320,9 +320,9 @@ Matrix4 CMPQuat::ToMat4() const
 CMPQuat::ToString
 =============
 */
-const char* CMPQuat::ToString( int precision ) const
+std::string CMPQuat::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString(ToFloatPtr(), GetDimension(), precision);
 }
 
 /*

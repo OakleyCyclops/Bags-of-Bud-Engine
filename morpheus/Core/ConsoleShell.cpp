@@ -97,15 +97,8 @@ void ConsoleShell::TerminalInput()
 	if (con_terminalSupport.GetBool())
 	{
 		// Performing some magic so it doesn't wait for user input
-		static char buffer;
+		const char buffer = getch();
 	
-		buffer = getch();
-	
-		if (buffer == KEY_MOUSE)
-		{
-			return;
-		}
-
 		if (buffer == ERR)
 		{
 			// Returns and continues regular operation if the user has pressed no keys within this cycle
@@ -125,7 +118,6 @@ void ConsoleShell::TerminalInput()
 			TerminalOutput(&input);
 
 			// Clear both the char and string
-			memset(&buffer, 0, sizeof(buffer));
 			input.Clear();
 		}
 		// voila
@@ -157,26 +149,13 @@ void ConsoleShell::TerminalOutput(String* input)
 			Print(input->c_str());
 			Print(" \n");
 
-			if (console.FindCmd(input->c_str()))
-			{
-				Cmd* cmd = console.FindCmd(input->c_str());
-				cmd->GetFunctionPointer()();
-			}
-
-			else if (console.FindCVar(input->c_str()))
-			{
-
-			}
-			else
-			{
-				Error("Unknown CVar/Command '%s'\n", input->c_str());
-			}
+			console.Exec(input);
 		}
-	}
 
-	else
-	{
-		return;
+		if (!console.Exec(input))
+		{
+			Error("Unknown CVar/Command '%s'\n", input->c_str());
+		}
 	}
 
 	

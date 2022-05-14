@@ -81,12 +81,12 @@ public:
 	
 	Quat			Inverse() const;
 	float			Length() const;
-	Quat& 		Normalize();
+	Quat& 			Normalize();
 	
 	float			CalcW() const;
 	int				GetDimension() const;
 	
-	Angles		ToAngles() const;
+	Angles			ToAngles() const;
 	Rotation		ToRotation() const;
 	Matrix3			ToMat3() const;
 	Matrix4			ToMat4() const;
@@ -94,7 +94,7 @@ public:
 	Vector3			ToAngularVelocity() const;
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 	Quat& 		Slerp( const Quat& from, const Quat& to, float t );
 	Quat& 		Lerp( const Quat& from, const Quat& to, const float t );
@@ -376,14 +376,14 @@ public:
 	
 	int				GetDimension() const;
 	
-	Angles		ToAngles() const;
+	Angles			ToAngles() const;
 	Rotation		ToRotation() const;
 	Matrix3			ToMat3() const;
 	Matrix4			ToMat4() const;
 	Quat			ToQuat() const;
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 };
 
 BUD_INLINE CMPQuat::CMPQuat()

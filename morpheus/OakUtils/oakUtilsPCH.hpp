@@ -8,6 +8,9 @@
 #include "Types.hpp"
 #include "Public.hpp"
 
+// Text Manipulation
+#include "String.hpp"
+
 // Containers
 #include "Containers/Array.hpp"
 #include "Containers/Singleton.hpp"
@@ -22,9 +25,6 @@
 #include "Math/Matrix.hpp"
 #include "Math/Quat.hpp"
 #include "Math/Rotation.hpp"
-
-// Text Manipulation
-#include "String.hpp"
 
 #undef min
 #undef max

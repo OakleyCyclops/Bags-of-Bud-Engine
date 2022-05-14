@@ -128,9 +128,9 @@ bool Matrix2::InverseFastSelf()
 Matrix2::ToString
 =============
 */
-const char* Matrix2::ToString( int precision ) const
+std::string Matrix2::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 
@@ -632,9 +632,9 @@ Matrix3& Matrix3::InertiaRotateSelf( const Matrix3& rotation )
 Matrix3::ToString
 =============
 */
-const char* Matrix3::ToString( int precision ) const
+std::string Matrix3::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 
@@ -1081,9 +1081,9 @@ bool Matrix4::InverseFastSelf()
 Matrix4::ToString
 =============
 */
-const char* Matrix4::ToString( int precision ) const
+std::string Matrix4::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 
@@ -1788,9 +1788,9 @@ bool Matrix5::InverseFastSelf()
 Matrix5::ToString
 =============
 */
-const char* Matrix5::ToString( int precision ) const
+std::string Matrix5::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 
@@ -2991,7 +2991,7 @@ bool Matrix6::InverseFastSelf()
 Matrix6::ToString
 =============
 */
-const char* Matrix6::ToString( int precision ) const
+std::string Matrix6::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }

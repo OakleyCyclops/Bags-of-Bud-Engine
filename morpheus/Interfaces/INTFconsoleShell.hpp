@@ -9,8 +9,6 @@
 #ifndef __INTF_CONSOLE_SHELL_HPP__
 #define __INTF_CONSOLE_SHELL_HPP__
 
-class String;
-
 class INTFconsoleShell
 {
 	public:

@@ -66,9 +66,29 @@ void Console::Unregister(Cmd* cmd)
     
 }
 
+bool Console::Exec(String* input)
+{
+    if (FindCmd(input->c_str()))
+    {
+		Cmd* cmd = FindCmd(input->c_str());
+        cmd->GetFunctionPointer()();
+        return true;
+    }
+
+	else if (FindCVar(input->c_str()))
+	{
+        return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 /*
 ==================
-Console::FindCVar(const char* cvarName)
+Console::FindCVar
 ==================
 */
 CVar* Console::FindCVar(const char* cvarName)
@@ -86,7 +106,7 @@ CVar* Console::FindCVar(const char* cvarName)
 
 /*
 ==================
-Console::FindCmd(const char* cmdName)
+Console::FindCmd
 ==================
 */
 Cmd* Console::FindCmd(const char* cmdName)
@@ -220,7 +240,7 @@ float CVar::GetFloat() const
 
 /*
 ===========
-CVar::SetBool(const bool value)
+CVar::SetBool
 ===========
 */
 void CVar::SetBool(const bool value)
@@ -242,7 +262,7 @@ void CVar::SetBool(const bool value)
 
 /*
 ===========
-CVar::SetInteger(int value)
+CVar::SetInteger
 ===========
 */
 void CVar::SetInteger(int value)
@@ -252,7 +272,7 @@ void CVar::SetInteger(int value)
 
 /*
 ===========
-CVar::SetFloat(const float value)
+CVar::SetFloat
 ===========
 */
 void CVar::SetFloat(const float value)

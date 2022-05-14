@@ -98,7 +98,7 @@ public:
 	Vector3			ToAngularVelocity() const;
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 };
 
 extern Angles ang_zero;

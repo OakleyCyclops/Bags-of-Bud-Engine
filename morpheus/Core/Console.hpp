@@ -6,7 +6,6 @@ class ConsoleShell;
 class Console final : public INTFconsole
 {
     public:
-    
         void Init() override;
         void Shutdown() override;
         
@@ -15,6 +14,8 @@ class Console final : public INTFconsole
 
         void Unregister(CVar* cvar) override;
         void Unregister(Cmd* cmd) override;
+        
+        bool Exec(String* input) override;
 
         //  Getter Functions
         CVar* FindCVar(const char* cvarName) override;
@@ -90,12 +91,12 @@ class CVar final
 typedef enum
 {
 	CMD_ALL				    = -1,
-	CMD_CHEAT			    = BIT( 0 ),	// command is considered a cheat
-	CMD_CORE			    = BIT( 1 ),	// core command
-	CMD_RENDERER			= BIT( 2 ),	// renderer command
-	CMD_SOUND			    = BIT( 3 ),	// sound command
-	CMD_GAME				= BIT( 4 ),	// game command
-	CMD_TOOL				= BIT( 5 )	// tool command
+	CMD_CHEAT               = BIT(0),	// command is considered a cheat
+	CMD_CORE                = BIT(1),	// core command
+	CMD_RENDERER            = BIT(2),	// renderer command
+	CMD_SOUND               = BIT(3),	// sound command
+	CMD_GAME			    = BIT(4),	// game command
+	CMD_TOOL				= BIT(5)	// tool command
 } cmdFlags_t;
 
 class Cmd final

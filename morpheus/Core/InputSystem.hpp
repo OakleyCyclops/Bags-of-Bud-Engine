@@ -18,9 +18,9 @@ class InputEvent final
             canHold = false;
         }
     
-    bool        Pressed;
-    bool        canHold;
-    String      Binding;     
+    bool            Pressed;
+    bool            canHold;
+    String          Binding;     
 };
 
 #endif /* !__INPUT_SYSTEM_HPP__ */

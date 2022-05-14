@@ -262,7 +262,7 @@ Vector3 Angles::ToAngularVelocity() const
 Angles::ToString
 =============
 */
-const char* Angles::ToString( int precision ) const
+std::string Angles::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }

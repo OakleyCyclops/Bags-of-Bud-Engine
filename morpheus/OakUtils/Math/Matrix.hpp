@@ -101,7 +101,7 @@ public:
 	
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 private:
 	Vector2			mat[ 2 ];
@@ -449,7 +449,7 @@ public:
 	Vector3			ToAngularVelocity() const;
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 	friend void		TransposeMultiply( const Matrix3& inv, const Matrix3& b, Matrix3& dst );
 	friend Matrix3	SkewSymmetric( Vector3 const& src );
@@ -955,7 +955,7 @@ public:
 	
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 private:
 	Vector4			mat[ 4 ];
@@ -1432,7 +1432,7 @@ public:
 	
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 private:
 	Vector5			mat[ 5 ];
@@ -1832,7 +1832,7 @@ public:
 	
 	const float* 	ToFloatPtr() const;
 	float* 			ToFloatPtr();
-	const char* 	ToString( int precision = 2 ) const;
+	std::string 	ToString( int precision = 2 ) const;
 	
 private:
 	Vector6			mat[ 6 ];

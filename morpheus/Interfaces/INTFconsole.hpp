@@ -18,6 +18,8 @@ class INTFconsole
         virtual void Unregister(CVar* cvar) = 0;
         virtual void Unregister(Cmd* cmd) = 0;
 
+        virtual bool Exec(String* input) = 0;
+
         //  Getter Functions
         virtual CVar* FindCVar(const char* cvarName) = 0;
         virtual Cmd* FindCmd(const char* cmdName) = 0;

@@ -48,9 +48,9 @@ Vector6 Vector6_Infinity( Math::INFINITY, Math::INFINITY, Math::INFINITY, Math::
 Vector2::ToString
 =============
 */
-const char* Vector2::ToString( int precision ) const
+String Vector2::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 /*
@@ -260,9 +260,9 @@ Matrix3 Vector3::ToMat3() const
 Vector3::ToString
 =============
 */
-const char* Vector3::ToString( int precision ) const
+String Vector3::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 /*
@@ -364,9 +364,9 @@ void Vector3::ProjectSelfOntoSphere( const float radius )
 Vector4::ToString
 =============
 */
-const char* Vector4::ToString( int precision ) const
+std::string Vector4::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString(ToFloatPtr(), GetDimension(), precision);
 }
 
 /*
@@ -404,9 +404,9 @@ void Vector4::Lerp( const Vector4& v1, const Vector4& v2, const float l )
 Vector5::ToString
 =============
 */
-const char* Vector5::ToString( int precision ) const
+std::string Vector5::ToString( int precision ) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString(ToFloatPtr(), GetDimension(), precision);
 }
 
 /*
@@ -446,7 +446,7 @@ void Vector5::Lerp( const Vector5& v1, const Vector5& v2, const float l )
 Vector6::ToString
 =============
 */
-const char* Vector6::ToString( int precision ) const
+String Vector6::ToString(int precision) const
 {
-	return String::FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
+	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
