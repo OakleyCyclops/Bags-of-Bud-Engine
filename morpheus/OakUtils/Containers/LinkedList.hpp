@@ -1,29 +1,22 @@
 #ifndef __LINKED_LIST_HPP__
 #define __LINKED_LIST_HPP__
 
-class LinkedList
+struct LinkedList
 {
-    public:
-        friend class Node;
-        LinkedList();
-        
-        Node*           Search(const char* name);
-        void            Push(Node* node);
-        void            Append(Node* node);
-        void            InsertBefore(Node* nextNode, Node* node);
-        void            InsertAfter(Node* prevNode, Node* node);
+        Node             Head;
+        unsigned int     Size;
+};
 
-        void            Clear();
+namespace linkedList
+{
+    Node*           Search(LinkedList* list, const char* name);
+    void            Push(LinkedList* list, Node* node);
+    void            Append(LinkedList* list, Node* node);
+    void            InsertBefore(LinkedList* list, Node* nextNode, Node* node);
+    void            InsertAfter(LinkedList* list, Node* prevNode, Node* node);
 
-        // Getter functions
-        unsigned int    GetSize();
-        Node*           GetHead();  // lol
-
-        bool            IsEmpty();
-    
-    private:
-        Node             head;
-        unsigned int     size;
+    void            Clear();
+    bool            IsEmpty();
 };
 
 #endif /* !__LINKED_LIST_HPP__ */

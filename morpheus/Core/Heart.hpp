@@ -3,26 +3,32 @@
 
 /*
 =========
-coreHeart : public INTFheart
+Heart
 
 The "Heart" contains all the universal functions and commands
 used throughout the engine, so things like Init(), Shutdown(), Print(), stuff like that.
 =========
 */
-class Heart final : public INTFheart
+namespace Heart
 {
-    public:
-        void            Init(int argc, const char** argv)               override;
-        void            Shutdown()                                      override;
-        void            Tick()                                          override;
+    void Init(int argc, const char** argv);
+    void RegisterCVarsAndCmds();
 
-    private:
-        Console& console              =       Singleton<Console>::GetInstance();
-        ConsoleShell& consoleShell    =       Singleton<ConsoleShell>::GetInstance();
-        InputSystem& inputSystem      =       Singleton<InputSystem>::GetInstance();
+    void Shutdown();
+    void Tick();
 
-    protected:
-        GLFWwindow*     Window;
+    inline GLFWwindow* Window;
+
+    inline CVar hrt_textMode = {"hrt_textMode", (bool*)0, "If true, launches the engine in \"Text Mode\" Renderer is never initialized", CVAR_CORE || CVAR_INIT || CVAR_BOOL};
+    inline CVar hrt_globalFPSCap = {"hrt_globalFPSCap", (int*)1000, "Global framerate cap across all threads", CVAR_CORE || CVAR_INTEGER};
+
+    // Quit command
+    inline auto cmdQuit = []
+    {
+        Heart::Shutdown();
+    };
+
+    inline Cmd quit = {"quit", cmdQuit, "Quits the game", CMD_CORE};
 };
 
 #endif /* !__HEART_HPP__ */

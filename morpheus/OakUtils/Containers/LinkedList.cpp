@@ -1,39 +1,20 @@
 #include "oakUtilsPCH.hpp"
 
-
-LinkedList::LinkedList()
-{
-    head.SetName("head");
-    head.SetData(nullptr);
-    head.SetPrev(nullptr);
-    head.SetNext(nullptr);
-}
-
-unsigned int LinkedList::GetSize()
-{
-    return this->size;
-}
-
-Node* LinkedList::GetHead()
-{
-    return &this->head;
-}
-
-Node* LinkedList::Search(const char* name)
+Node* linkedList::Search(LinkedList* list, const char* name)
 {   
     unsigned int i = 0;
-    Node* currentNode = GetHead();
+    Node* currentNode = &list->Head;
     std::string phrase(name);
 
-    while (i != GetSize())
+    while (i != list->Size)
     {
-        if (!phrase.compare(currentNode->GetName()))
+        if (!phrase.compare(currentNode->Name))
         {
             return currentNode;
         }
         else
         {
-            currentNode = currentNode->GetNext();
+            currentNode = currentNode->Next;
         }
         
         i++;
@@ -42,28 +23,30 @@ Node* LinkedList::Search(const char* name)
     return nullptr;
 }
 
-void LinkedList::Push(Node* node)
+void linkedList::Push(LinkedList* list, Node* node)
 {   
-    if (size == 0)
+    if (list->Size == 0)
     {
-        GetHead()->SetName(node->GetName());
-        GetHead()->SetData(node->GetData());
-        size++;
+        list->Head.Name = node->Name;
+        list->Head.Data = node->Data;
+
+        list->Size++;
         return;
     }
 
-    head.SetNext(node);
-    node->SetPrev(&head);
-    size++;
+    list->Head.Next = node;
+    node->Prev = &list->Head;
+    list->Size++;
 }
 
-void LinkedList::InsertBefore(Node* nextNode, Node* node)
+void linkedList::InsertBefore(LinkedList* list, Node* nextNode, Node* node)
 {
-    if (size == 0)
+    if (list->Size == 0)
     {
-        GetHead()->SetName(node->GetName());
-        GetHead()->SetData(node->GetData());
-        size++;
+        list->Head.Name = node->Name;
+        list->Head.Data = node->Data;
+
+        list->Size++;
         return;
     }
 
@@ -72,17 +55,18 @@ void LinkedList::InsertBefore(Node* nextNode, Node* node)
         return;
     }
 
-    nextNode->SetPrev(node);
-    size++;
+    nextNode->Prev = node;
+    list->Size++;
 }
 
-void LinkedList::InsertAfter(Node* prevNode, Node* node)
+void linkedList::InsertAfter(LinkedList* list, Node* prevNode, Node* node)
 {
-    if (size == 0)
+    if (list->Size == 0)
     {
-        GetHead()->SetName(node->GetName());
-        GetHead()->SetData(node->GetData());
-        size++;
+        list->Head.Name = node->Name;
+        list->Head.Data = node->Data;
+
+        list->Size++;
         return;
     }
 
@@ -91,34 +75,30 @@ void LinkedList::InsertAfter(Node* prevNode, Node* node)
         return;
     }
 
-    if (prevNode->GetNext() != nullptr)
-    {
-        node->SetNext(prevNode->GetNext());
-    }
-
-    prevNode->SetNext(node);
-    size++;
+    prevNode->Next = node;
+    list->Size++;
 }
 
-void LinkedList::Append(Node* node)
+void linkedList::Append(LinkedList* list, Node* node)
 {
     Node* currentNode;
 
-    if (size == 0)
+    if (list->Size == 0)
     {
-        GetHead()->SetName(node->GetName());
-        GetHead()->SetData(node->GetData());
-        size++;
+        list->Head.Name = node->Name;
+        list->Head.Data = node->Data;
+
+        list->Size++;
         return;
     }
 
-    currentNode = GetHead();
+    currentNode = &list->Head;
 
-    while (currentNode->GetNext() != nullptr)
+    while (currentNode->Next != nullptr)
     {
-        currentNode = currentNode->GetNext();
+        currentNode = currentNode->Next;
     }
 
-    currentNode->SetNext(node);
-    size++;
+    currentNode->Next = node;
+    list->Size++;
 }

@@ -12,10 +12,7 @@
 // OpenAL
 #include <AL/al.h>
 
-// NCurses (This is used for text mode or if you launch the engine via a terminal)
-#include <ncurses.h>
-
-// libBud
+// oakUtils
 #include "oakUtilsPCH.hpp"
 
 // Interface Headers

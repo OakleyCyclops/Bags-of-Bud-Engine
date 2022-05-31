@@ -79,8 +79,6 @@ main
 */
 int main(int argc, const char** argv)
 {
-	Heart& heart = Singleton<Heart>::GetInstance();
-
 	if (!glfwInit())
 	{
 		return -1;
@@ -92,17 +90,17 @@ int main(int argc, const char** argv)
 	// Let there be light...
 	if (argc > 1)
 	{
-		heart.Init(argc - 1, &argv[1]);
+		Heart::Init(argc - 1, &argv[1]);
 	}
 
 	else
 	{
-		heart.Init(0, NULL);
+		Heart::Init(0, NULL);
 	}
 
 	while (1)
 	{
-		heart.Tick();	
+		Heart::Tick();	
 	}
 }
 

@@ -1,6 +1,5 @@
 #include "CorePCH.hpp"
 
-static CVar con_terminalSupport("con_terminalSupport", "1", CVAR_CORE || CVAR_BOOL || CVAR_INIT, "Enables/Disables the usage of the Terminal/Command Prompt as the engine's developer console");
 
 /*
 =========
@@ -10,117 +9,129 @@ Everything basically starts here
 */
 void ConsoleShell::Init()
 {
+	// Register the Heart's CVars and Cmds
+    RegisterCVarsAndCmds();
 
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
 		TerminalInit();
 	}
-
-    auto cmdClear = []
-    {
-        return;
-    };
-    auto cmdDump = []
-    {
-        return;
-    };
-	
-    static CVar con_notifyTime("con_notifyTime", "3", CVAR_CORE, "time messages are displayed onscreen when console is pulled up");
-    static CVar con_noPrint("con_noPrint", "1", CVAR_CORE, "print on the console but not onscreen when console is pulled up");
-    static Cmd clear("clear", cmdClear, CMD_CORE, "clears the console");
-    static Cmd conDump("conDump", cmdDump, CMD_CORE, "dumps the console text to a file");
-
-	Print("Console Initialized\n");
 }
 
+/*
+=========
+ConsoleShell::RegisterCVarsAndCmds
+=========
+*/
+void ConsoleShell::RegisterCVarsAndCmds()
+{
+	Console::Register(&con_terminalSupport);
+	Console::Register(&con_notifyTime);
+	Console::Register(&con_noPrint);
+
+	Console::Register(&clear);
+	Console::Register(&conDump);
+}
+
+/*
+=========
+ConsoleShell::Update
+=========
+*/
 void ConsoleShell::Update()
 {
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
 		TerminalInput();
-		refresh();
 	}
 }
 
+/*
+=========
+ConsoleShell::Shutdown
+=========
+*/
 void ConsoleShell::Shutdown()
 {
-	Print("Shutting down console shell");
+	Print("ConsoleShell::Shutdown();\n");
 
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
 		TerminalShutdown();
 	}
 }
 
+/*
+=========
+ConsoleShell::Input
+=========
+*/
 void ConsoleShell::Input()
 {
 
 }
 
+/*
+=========
+ConsoleShell::Output
+=========
+*/
 void ConsoleShell::Output()
 {
 
 }
 
+/*
+=========
+ConsoleShell::TerminalInit
+=========
+*/
 void ConsoleShell::TerminalInit()
 {
-	initscr();
-	noecho();
-	nodelay(stdscr, true);
-	cbreak();
-	scrollok(stdscr, true);
-	keypad(stdscr, true);
 
-	start_color();
-	use_default_colors();
-
-	init_pair(PAIR_PROMPT_SIGN, PROMPT_SIGN_COLOR);
-	init_pair(PAIR_ERROR_MSG, ERROR_MSG_COLOR);
-
-	init_pair(PAIR_FATALERROR_MSG, FATALERROR_MSG_COLOR);
-	init_pair(PAIR_WARNING_MSG, WARNING_MSG_COLOR);
-
-	init_pair(PAIR_SUCCESS_MSG, SUCCESS_MSG_COLOR);
-	init_pair(PAIR_EXTRA_1, EXTRA_COLOR_1);
-
-	init_pair(PAIR_EXTRA_2, EXTRA_COLOR_2);
-	init_pair(PAIR_EXTRA_3, EXTRA_COLOR_3);
 }
 
+/*
+=========
+ConsoleShell::TerminalShutdown
+=========
+*/
 void ConsoleShell::TerminalShutdown()
 {
-	endwin();
+
 }
 
+/*
+=========
+ConsoleShell::TerminalInput
+=========
+*/
 void ConsoleShell::TerminalInput()
 {
-	if (con_terminalSupport.GetBool())
+	if (con_terminalSupport.Value)
 	{
-		// Performing some magic so it doesn't wait for user input
-		const char buffer = getch();
-	
-		if (buffer == ERR)
+		// FUCKING FINALLY
+		if (KbhHit())
 		{
-			// Returns and continues regular operation if the user has pressed no keys within this cycle
+			char buffer = GetChar();
+				
+			input.Append(buffer);
+			input.StripTrailing('\n');
+
+			// Call TerminalOutput if we press enter
+			if (buffer == '\n')
+			{
+				TerminalOutput(&input);
+				// Clear both the char and string
+				input.Clear();
+			}
+			// VOILA
+		}
+		else
+		{
 			return;
 		}
 
-		input.Append(buffer);
-		input.StripTrailing('\n');
-
-		mvaddstr(getcury(stdscr), 0, input.c_str());
-
-		// Call TerminalOutput if we press enter
-		if (buffer == '\n')
-		{
-			move(getcury(stdscr), 0);
-			clrtoeol();
-			TerminalOutput(&input);
-
-			// Clear both the char and string
-			input.Clear();
-		}
-		// voila
 	}
 
 	else
@@ -129,15 +140,18 @@ void ConsoleShell::TerminalInput()
 	}
 }	
 
+/*
+=========
+ConsoleShell::TerminalOutput
+=========
+*/
 void ConsoleShell::TerminalOutput(String* input)
 {
-	if (con_terminalSupport.GetBool())
+	if (con_terminalSupport.Value)
 	{
-		Console& console = Singleton<Console>::GetInstance();
-
 		// TODO: Make this actually process commands and shit
 
-		Print(PAIR_PROMPT_SIGN, PROMP_SIGN_ATTR, CON_PROMPT_SIGN);
+		Print(CON_PROMPT_SIGN);
 		
 		if (input->Length() == 0)
 		{
@@ -149,10 +163,10 @@ void ConsoleShell::TerminalOutput(String* input)
 			Print(input->c_str());
 			Print(" \n");
 
-			console.Exec(input);
+			Console::Exec(input);
 		}
 
-		if (!console.Exec(input))
+		if (!Console::Exec(input))
 		{
 			Error("Unknown CVar/Command '%s'\n", input->c_str());
 		}
@@ -170,46 +184,14 @@ A raw string should NEVER be passed as fmt, because of "%f" type crashers.
 */
 void ConsoleShell::Print(const char* fmt, ...)
 {
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
+		printf(ANSI_RST);
+
 		va_list argptr;
 		va_start(argptr, fmt);
 
-		vw_printw(stdscr, fmt, argptr);
-
-		va_end(argptr);
-	}
-
-	Update();
-}
-
-void ConsoleShell::Print(short pair, const char* fmt, ...)
-{
-	if (con_terminalSupport.GetBool() && isTerminal)
-	{
-		va_list argptr;
-		va_start(argptr, fmt);
-
-		attron(COLOR_PAIR(pair));
-		vw_printw(stdscr, fmt, argptr);
-		attroff(COLOR_PAIR(pair));
-
-		va_end(argptr);
-	}
-
-	Update();
-}
-
-void ConsoleShell::Print(short pair, unsigned int attr, const char* fmt, ...)
-{
-	if (con_terminalSupport.GetBool() && isTerminal)
-	{	
-		va_list argptr;
-		va_start(argptr, fmt);
-
-		attron(COLOR_PAIR(pair) | attr);
-		vw_printw(stdscr, fmt, argptr);
-		attroff(COLOR_PAIR(pair) | attr);
+		vprintf(fmt, argptr);
 
 		va_end(argptr);
 	}
@@ -224,13 +206,15 @@ ConsoleShell::Success
 */
 void ConsoleShell::Success(const char* msg, ...)
 {
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
-		Print(PAIR_SUCCESS_MSG, SUCCESS_MSG_ATTR, CON_SUCCESS_MSG);
+		printf(ANSI_GRN);
+		printf(CON_SUCCESS_MSG);
+		printf(ANSI_RST);
 
 		va_list argptr;
 		va_start(argptr, msg);
-		vw_printw(stdscr, msg, argptr);
+		vprintf(msg, argptr);
 		va_end(argptr);
 	}
 }
@@ -242,13 +226,15 @@ ConsoleShell::Warning
 */
 void ConsoleShell::Warning(const char* msg, ...)
 {
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
-		Print(PAIR_WARNING_MSG, WARNING_MSG_ATTR, CON_WARN_MSG);
+		printf(ANSI_YEL);
+		printf(CON_WARN_MSG);
+		printf(ANSI_RST);
 
 		va_list argptr;
 		va_start(argptr, msg);
-		vw_printw(stdscr, msg, argptr);
+		vprintf(msg, argptr);
 		va_end(argptr);
 	}
 }
@@ -260,13 +246,15 @@ ConsoleShell::Error
 */
 void ConsoleShell::Error(const char* msg, ...)
 {
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
-		Print(PAIR_ERROR_MSG, ERROR_MSG_ATTR, CON_ERROR_MSG);
+		printf(ANSI_RED);
+		printf(CON_ERROR_MSG);
+		printf(ANSI_RST);
 
 		va_list argptr;
 		va_start(argptr, msg);
-		vw_printw(stdscr, msg, argptr);
+		vprintf(msg, argptr);
 		va_end(argptr);
 	}
 }
@@ -278,13 +266,93 @@ ConsoleShell::FatalError
 */
 void ConsoleShell::FatalError(const char* msg, ...)
 {
-	if (con_terminalSupport.GetBool() && isTerminal)
+	if (con_terminalSupport.Value && isTerminal)
 	{
-		Print(PAIR_FATALERROR_MSG, FATALERROR_MSG_ATTR, CON_FATALERROR_MSG);
+		printf(ANSI_BRED);
+		printf(CON_FATALERROR_MSG);
+		printf(ANSI_RST);
 
 		va_list argptr;
 		va_start(argptr, msg);
-		vw_printw(stdscr, msg, argptr);
+		vprintf(msg, argptr);
 		va_end(argptr);
 	}
 }
+
+#ifdef USING_UNIX
+
+	// I hate this
+    // Because conio.h isn't a thing in the GNU C library and NCurses fucking sucks
+
+	// Thank u :) https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux 
+	// And thank u :) https://www.flipcode.com/archives/_kbhit_for_Linux.shtml
+
+	/*
+	==================
+	ConsoleShell::GetChar
+	==================
+	*/
+    char ConsoleShell::GetChar()
+	{
+		char buf = 0;
+		struct termios old = {0};
+		fflush(stdout);
+
+		if(tcgetattr(0, &old) < 0)
+		{
+			perror("tcsetattr()");
+		}
+
+    	old.c_lflag &= ~ICANON;
+    	old.c_lflag &= ~ECHO;
+    	old.c_cc[VMIN] = 1;
+    	old.c_cc[VTIME] = 0;
+
+    	if(tcsetattr(0, TCSANOW, &old) < 0)
+		{
+        	perror("tcsetattr ICANON");
+		}
+
+    	if(read(0, &buf, 1) < 0)
+		{
+			perror("read()");
+		}
+
+    	old.c_lflag |= ICANON;
+    	old.c_lflag |= ECHO;
+
+    	if(tcsetattr(0, TCSADRAIN, &old) < 0)
+		{
+        	perror("tcsetattr ~ICANON");
+		}
+
+		return buf;
+	}
+
+	/*
+	==================
+	ConsoleShell::KbhHit
+	==================
+	*/
+	int ConsoleShell::KbhHit()
+	{
+		static const int STDIN = 0;
+		static bool initialized = false;
+		
+		if (! initialized) 
+		{
+			// Use termios to turn off line buffering
+			termios term;
+			tcgetattr(STDIN, &term);
+			term.c_lflag &= ~ICANON;
+			tcsetattr(STDIN, TCSANOW, &term);
+			setbuf(stdin, NULL);
+			initialized = true;
+		}
+
+    	int bytesWaiting;
+    	ioctl(STDIN, FIONREAD, &bytesWaiting);
+    	return bytesWaiting;
+	}
+
+#endif 

@@ -1,33 +1,29 @@
 #ifndef __CONSOLE_HPP__
 #define __CONSOLE_HPP__
 
-class ConsoleShell;
-
-class Console final : public INTFconsole
+namespace Console
 {
-    public:
-        void Init() override;
-        void Shutdown() override;
+    void Init();
+	void RegisterCVarsAndCmds();
+
+    void Shutdown();
         
-        void Register(CVar* cvar) override;
-        void Register(Cmd* cmd) override;
+    void Register(CVar* cvar);
+    void Register(Cmd* cmd);
 
-        void Unregister(CVar* cvar) override;
-        void Unregister(Cmd* cmd) override;
+    void Unregister(CVar* cvar);
+    void Unregister(Cmd* cmd);
         
-        bool Exec(String* input) override;
+    bool Exec(String* input);
 
-        //  Getter Functions
-        CVar* FindCVar(const char* cvarName) override;
-        Cmd*  FindCmd(const char* cmdName) override;
+    CVar* FindCVar(const char* cvarName);
+    Cmd*  FindCmd(const char* cmdName);
 
-    private:
-        inline static LinkedList      registeredCVars;
-        inline static LinkedList      registeredCmds;
-
+    inline static LinkedList registeredCVars;
+    inline static LinkedList registeredCmds;
 };
 
-typedef enum
+typedef enum CVarFlags
 {
 	CVAR_ALL				= -1,		// all flags
 	CVAR_BOOL				= BIT(0),	// variable is a boolean
@@ -48,47 +44,9 @@ typedef enum
 	CVAR_ROM				= BIT(16),	// display only, cannot be set by user at all
 	CVAR_ARCHIVE			= BIT(17),	// set to cause it to be saved to a config file
 	CVAR_MODIFIED			= BIT(18)	// set when the variable is modified
-} cvarFlags_t;
-
-class CVar final
-{
-    public:
-        // Never use the default constructor.
-        CVar()
-        {
-            assert(typeid(this) != typeid(CVar));
-        }
-
-        // Always use one of the following constructors.
-	    CVar(const char* Name, char* Value, int Flags, const char* Description);
-
-        const char*     GetName() const;
-        const char*     GetValue() const;
-        const char*     GetDescription() const;
-
-        int             GetFlags() const;
-
-        bool            GetBool() const;
-        int             GetInteger() const;
-        float           GetFloat() const;
-
-        void            SetBool(bool value);
-        void            SetInteger(int value);
-        void            SetFloat(float value);
-
-
-
-    protected:
-    	const char* 			Name;					// Name
-	    char* 			        Value;					// Value
-	    const char* 			Description;			// Description
-        int                     Flags;                  // Flags
-
-        int                     IntegerValue;           // Gets it's value from atoi(string)
-        float                   FloatValue;             // Gets it's value from atof(value)
 };
 
-typedef enum
+typedef enum CmdFlags
 {
 	CMD_ALL				    = -1,
 	CMD_CHEAT               = BIT(0),	// command is considered a cheat
@@ -97,38 +55,24 @@ typedef enum
 	CMD_SOUND               = BIT(3),	// sound command
 	CMD_GAME			    = BIT(4),	// game command
 	CMD_TOOL				= BIT(5)	// tool command
-} cmdFlags_t;
+};
 
-class Cmd final
+struct CVar
 {
-    public:
-        // Never use the default constructor.
-        Cmd()
-        {
-            assert(typeid(this) != typeid(Cmd));
-        }
+	// Everything needs to be null by default otherwise we run into segfaults lol
+    const char* 			Name = nullptr;					// Name
+	void*             		Value = nullptr;				// Value
+	const char* 			Description = nullptr;			// Description
+    int                     Flags = NULL;                  	// Flags
+};
 
-        Cmd(const char* Name, void(*FunctionPointer)(), const char* Arguments, int Flags, const char* Description);
-        Cmd(const char* Name, void(*FunctionPointer)(), int Flags, const char* Description);  
-
-        const char*     GetName() const;
-        const char*     GetArguments() const;
-        const char*     GetDescription() const;
-        
-        int             GetFlags() const;
-
-        // Not really sure how you specify a function pointer return type
-        // But i can just use void* instead i think
-        funcPtr         GetFunctionPointer();
-
-    protected:
-    	const char* 			Name;					// Name
-	    const char* 			Arguments;				// Arguments
-	    const char* 			Description;			// Description
-
-        int                     Flags;                  // Flags
-
-        funcPtr FunctionPointer;                        // Function pointer
+struct Cmd 
+{
+	// Everything needs to be null by default otherwise we run into segfaults lol
+    const char* 			Name = nullptr;					// Name
+    funcPtr                 FunctionPointer = nullptr;		// Function pointer
+	const char* 			Description = nullptr;			// Description
+    int                     Flags = NULL;                  	// Flags
 
 };
 

@@ -1,23 +1,17 @@
 #ifndef __INPUT_SYSTEM_HPP__
 #define __INPUT_SYSTEM_HPP__
 
-class InputSystem final : public INTFinputSystem
+namespace InputSystem
 {
-    public:
-        void            Init()                                      override;
-        void            Update()                                    override;
-        void            Shutdown()                                  override;
+    void            Init();
+    void            RegisterCVarsAndCmds();
+
+    void            Update();
+    void            Shutdown();
 };
 
-class InputEvent final
+struct InputEvent
 {
-    public:
-        InputEvent()
-        {
-            Pressed = false;
-            canHold = false;
-        }
-    
     bool            Pressed;
     bool            canHold;
     String          Binding;     

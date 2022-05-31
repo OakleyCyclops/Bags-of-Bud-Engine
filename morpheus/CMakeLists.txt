@@ -52,5 +52,4 @@ target_link_libraries(engine
 					${PNG_LIBRARY} 
 					${JPEG_LIBRARY} 
 					${GLEW_LIBRARY} 
-					${CMAKE_DL_LIBS}
-					ncurses)
+					${CMAKE_DL_LIBS})

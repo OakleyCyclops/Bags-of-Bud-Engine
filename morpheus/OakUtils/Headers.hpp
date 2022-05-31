@@ -140,6 +140,8 @@ If you have questions concerning this license or the applicable additional terms
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <sys/ioctl.h>
+#include <termios.h>
 #include <assert.h>
 #include <time.h>
 #include <ctype.h>
