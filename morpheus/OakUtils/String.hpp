@@ -242,54 +242,61 @@ class String final
 
 /*
 ==========================================================
-	Struct of char* methods to replace library methods 
+	Char* methods to replace library methods 
 ==========================================================
 */
-inline struct CharMethods
+namespace CharMethods
 {
-	static int			Length(const char* s);
-	static int			LengthWithoutColors(const char* s);
-	static int			Cmp(const char* s1, const char* s2);
-	static int			Cmpn(const char* s1, const char* s2, int n);
-	static int			Icmp(const char* s1, const char* s2);
-	static int			Icmpn(const char* s1, const char* s2, int n);
-	static int			IcmpNoColor(const char* s1, const char* s2);
-	static int			IcmpPath(const char* s1, const char* s2);			// compares paths and makes sure folders come first
-	static int			IcmpnPath(const char* s1, const char* s2, int n);	// compares paths and makes sure folders come first
-	static int			snPrintf(char* dest, int size, const char* fmt, ...);
-	static int			vsnPrintf(char* dest, int size, const char* fmt, va_list argptr);
-	static int			FindChar(const char* str, const char c, int start = 0, int end = -1);
-	static int			FindText(const char* str, const char* text, bool casesensitive = true, int start = 0, int end = -1);
-	static int			ColorIndex(int c);
+	int				Length(const char* s);
+	int				LengthWithoutColors(const char* s);
+	int				Cmp(const char* s1, const char* s2);
+	int				Cmpn(const char* s1, const char* s2, int n);
+	int				Icmp(const char* s1, const char* s2);
+	int				Icmpn(const char* s1, const char* s2, int n);
+	int				IcmpNoColor(const char* s1, const char* s2);
+	int				IcmpPath(const char* s1, const char* s2);			// compares paths and makes sure folders come first
+	int				IcmpnPath(const char* s1, const char* s2, int n);	// compares paths and makes sure folders come first
+	int				snPrintf(char* dest, int size, const char* fmt, ...);
+	int				vsnPrintf(char* dest, int size, const char* fmt, va_list argptr);
+	int				FindChar(const char* str, const char c, int start = 0, int end = -1);
+	int				FindText(const char* str, const char* text, bool casesensitive = true, int start = 0, int end = -1);
+	int				ColorIndex(int c);
 
-	static void			Append(char* dest, int size, const char* src);
-	static void			Copynz(char* dest, const char* src, int destsize);
-	static void			StripMediaName(const char* name, String& mediaName);
+	void			Append(char* dest, int size, const char* src);
+	void			Copynz(char* dest, const char* src, int destsize);
+	void			StripMediaName(const char* name, String& mediaName);
 
-	static bool			CharIsPrintable(int c);
-	static bool			CharIsLower(int c);
-	static bool			CharIsUpper(int c);
-	static bool			CharIsAlpha(int c);
-	static bool			CharIsNumeric(int c);
-	static bool			CharIsNewLine(char c);
-	static bool			CharIsTab(char c);
-	static bool			IsNumeric(const char* s);
-	static bool			IsColor(const char* s);
-	static bool			HasLower(const char* s);
-	static bool			HasUpper(const char* s);
-	static bool			Filter(const char* filter, const char* name, bool casesensitive);
-	static bool			CheckExtension(const char* name, const char* ext);
+	bool			CharIsPrintable(int c);
+	bool			CharIsLower(int c);
+	bool			CharIsUpper(int c);
+	bool			CharIsAlpha(int c);
+	bool			CharIsNumeric(int c);
+	bool			CharIsNewLine(char c);
+	bool			CharIsTab(char c);
+	bool			IsNumeric(const char* s);
+	bool			IsColor(const char* s);
+	bool			HasLower(const char* s);
+	bool			HasUpper(const char* s);
+	bool			Filter(const char* filter, const char* name, bool casesensitive);
+	bool			CheckExtension(const char* name, const char* ext);
 
-	static char* 		ToLower(char* s);
-	static char* 		ToUpper(char* s);
-	static char* 		RemoveColors(char* string);
+	char*			ToLower(char* s);
+	char*			ToUpper(char* s);
+	char*			RemoveColors(char* string);
 
-	static char			ToLower(char c);
-	static char			ToUpper(char c);
 
-	static const char* 	FloatArrayToString(const float* array, const int length, const int precision);
-	static const char* 	CStyleQuote(const char* str);
-	static const char* 	CStyleUnQuote(const char* str);
-} CharMethods;
+	char*			FloatToString(float f, char* s, unsigned int base);
+	char*			DoubleToString(double d, char* s, unsigned int base);
+	char*			LongToString(long l, char* s, unsigned int base);
+	char*			IntToString(int i, char* s, unsigned int base);
+
+
+	char			ToLower(char c);
+	char			ToUpper(char c);
+
+	const char* 	FloatArrayToString(const float* array, const int length, const int precision);
+	const char* 	CStyleQuote(const char* str);
+	const char* 	CStyleUnQuote(const char* str);
+}
 
 #endif /* !__STRING_HPP__ */

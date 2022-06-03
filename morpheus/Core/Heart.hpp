@@ -19,8 +19,9 @@ namespace Heart
 
     inline GLFWwindow* Window;
 
-    inline CVar hrt_textMode = {"hrt_textMode", (bool*)0, "If true, launches the engine in \"Text Mode\" Renderer is never initialized", CVAR_CORE || CVAR_INIT || CVAR_BOOL};
-    inline CVar hrt_globalFPSCap = {"hrt_globalFPSCap", (int*)1000, "Global framerate cap across all threads", CVAR_CORE || CVAR_INTEGER};
+    inline CVar hrt_allowCheats = {"hrt_allowCheats", new bool(0), "Enables cheats", CVAR_BOOL | CVAR_CORE};
+    inline CVar hrt_textMode = {"hrt_textMode", new bool(0), "If true, launches the engine in \"Text Mode\" Renderer is never initialized", CVAR_BOOL | CVAR_CORE | CVAR_INIT};
+    inline CVar hrt_globalFPSCap = {"hrt_globalFPSCap", new int(1000), "Global framerate cap across all threads", CVAR_INTEGER | CVAR_CORE};
 
     // Quit command
     inline auto cmdQuit = []

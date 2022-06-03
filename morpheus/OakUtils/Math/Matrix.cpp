@@ -123,16 +123,6 @@ bool Matrix2::InverseFastSelf()
 #endif
 }
 
-/*
-=============
-Matrix2::ToString
-=============
-*/
-std::string Matrix2::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}
-
 
 //===============================================================
 //
@@ -627,16 +617,6 @@ Matrix3& Matrix3::InertiaRotateSelf( const Matrix3& rotation )
 	return *this;
 }
 
-/*
-=============
-Matrix3::ToString
-=============
-*/
-std::string Matrix3::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}
-
 
 //===============================================================
 //
@@ -1074,16 +1054,6 @@ bool Matrix4::InverseFastSelf()
 	
 	return true;
 #endif
-}
-
-/*
-=============
-Matrix4::ToString
-=============
-*/
-std::string Matrix4::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 
@@ -1781,16 +1751,6 @@ bool Matrix5::InverseFastSelf()
 	
 	return true;
 #endif
-}
-
-/*
-=============
-Matrix5::ToString
-=============
-*/
-std::string Matrix5::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
 }
 
 
@@ -2986,12 +2946,3 @@ bool Matrix6::InverseFastSelf()
 #endif
 }
 
-/*
-=============
-Matrix6::ToString
-=============
-*/
-std::string Matrix6::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}

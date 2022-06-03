@@ -32,6 +32,25 @@ void Console::Register(CVar* cvar)
     cvarNode->Name = cvar->Name;
     cvarNode->Data = cvar;
 
+    if (cvar->Flags & CVAR_INTEGER)
+    {
+        cvar->ValueString = CharMethods::IntToString(*(int*)cvar->Value, cvar->ValueString, 10);  
+    }
+
+    else if (cvar->Flags & CVAR_BOOL)
+    {
+        if (*(bool*)&cvar->Value == true)
+        {
+            cvar->ValueString = "1";
+        }
+
+        else
+        {
+            cvar->ValueString = "0";
+        }
+    }
+
+
     linkedList::Append(&registeredCVars, cvarNode);
 }
 
@@ -70,19 +89,61 @@ void Console::Unregister(Cmd* cmd)
     
 }
 
-bool Console::Exec(String* input)
+bool Console::Exec(String* input, String* arg)
 {
-    if (FindCmd(input->c_str()))
+    Cmd* cmd;
+    CVar* cvar;
+
+    if (cmd = FindCmd(input->c_str()))
     {
-		Cmd* cmd = FindCmd(input->c_str());
         cmd->FunctionPointer();
         return true;
     }
 
-	else if (FindCVar(input->c_str()))
+	else if (cvar = FindCVar(input->c_str()))
 	{
+        if (arg->Length() != 0)
+        {
+            if (cvar->Flags & CVAR_FLOAT)
+            {
+                float f = strtof(arg->c_str(), nullptr);
+                cvar->Value = (float*)&f;
+
+                cvar->ValueString = (char*)arg->c_str();
+            }
+
+            else if (cvar->Flags & CVAR_INTEGER)
+            {
+                int i = strtol(arg->c_str(), nullptr, 0);
+                cvar->Value = (int*)&i;
+
+                cvar->ValueString = (char*)arg->c_str();
+            }
+
+            else if (cvar->Flags & CVAR_BOOL)
+            {
+                int i = strtol(arg->c_str(), nullptr, 0);
+                
+                if (i > 0)
+                {
+                    cvar->Value = (bool*)true;
+
+                }
+
+                else
+                {
+                    cvar->Value = (bool*)false;
+                }
+
+                cvar->ValueString = (char*)arg->c_str(); 
+            }
+        }
+
+
         return true;
 	}
+
+
 	else
 	{
 		return false;

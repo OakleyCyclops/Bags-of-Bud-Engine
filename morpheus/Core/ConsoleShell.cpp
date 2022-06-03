@@ -121,7 +121,12 @@ void ConsoleShell::TerminalInput()
 			// Call TerminalOutput if we press enter
 			if (buffer == '\n')
 			{
+				Print(CON_PROMPT_SIGN);
+				Print(input.c_str());
+				Print("\n");
+
 				TerminalOutput(&input);
+
 				// Clear both the char and string
 				input.Clear();
 			}
@@ -140,39 +145,41 @@ void ConsoleShell::TerminalInput()
 	}
 }	
 
-/*
-=========
-ConsoleShell::TerminalOutput
-=========
-*/
 void ConsoleShell::TerminalOutput(String* input)
 {
-	if (con_terminalSupport.Value)
+	int i = input->Find(' ', 0, -1) + 1;
+	
+	String* arg = new String;
+	String* strip = new String;
+
+	// Split up the string between the Cmd/CVar and the argument
+    while(i <= input->Length())
+    {
+		if (input->c_str()[i] != ' ')
+		{
+			arg->Append(input->c_str()[i]);
+		}
+        i++;
+    }
+
+	strip->Append(' ');
+	strip->Append(arg->c_str());
+
+	input->StripTrailingOnce(strip->c_str());
+
+	delete strip;
+
+
+	if (!Console::Exec(input, arg))
 	{
-		// TODO: Make this actually process commands and shit
-
-		Print(CON_PROMPT_SIGN);
-		
-		if (input->Length() == 0)
-		{
-			Print(" \n");
-			return;
-		}
-		else
-		{
-			Print(input->c_str());
-			Print(" \n");
-
-			Console::Exec(input);
-		}
-
-		if (!Console::Exec(input))
-		{
-			Error("Unknown CVar/Command '%s'\n", input->c_str());
-		}
+		Error("Unknown CVar/Command '%s'\n", input->c_str());
 	}
 
-	
+	else
+	{
+		Console::Exec(input, arg);
+	}
+
 }
 
 /*
@@ -339,7 +346,7 @@ void ConsoleShell::FatalError(const char* msg, ...)
 		static const int STDIN = 0;
 		static bool initialized = false;
 		
-		if (! initialized) 
+		if (!initialized) 
 		{
 			// Use termios to turn off line buffering
 			termios term;

@@ -1,6 +1,27 @@
 #ifndef __CONSOLE_HPP__
 #define __CONSOLE_HPP__
 
+struct CVar
+{
+	// Everything needs to be null by default otherwise we run into segfaults lol
+    const char* 			Name = nullptr;					// Name
+	void*             		Value = nullptr;				// Value
+	const char* 			Description = nullptr;			// Description
+    int                     Flags = NULL;                  	// Flags
+	
+	char*					ValueString = nullptr;			// ValueString
+};
+
+struct Cmd 
+{
+	// Everything needs to be null by default otherwise we run into segfaults lol
+    const char* 			Name = nullptr;					// Name
+    funcPtr                 FunctionPointer = nullptr;		// Function pointer
+	const char* 			Description = nullptr;			// Description
+    int                     Flags = NULL;                  	// Flags
+
+};
+
 namespace Console
 {
     void Init();
@@ -14,7 +35,7 @@ namespace Console
     void Unregister(CVar* cvar);
     void Unregister(Cmd* cmd);
         
-    bool Exec(String* input);
+    bool Exec(String* input, String* arg);
 
     CVar* FindCVar(const char* cvarName);
     Cmd*  FindCmd(const char* cmdName);
@@ -55,25 +76,6 @@ typedef enum CmdFlags
 	CMD_SOUND               = BIT(3),	// sound command
 	CMD_GAME			    = BIT(4),	// game command
 	CMD_TOOL				= BIT(5)	// tool command
-};
-
-struct CVar
-{
-	// Everything needs to be null by default otherwise we run into segfaults lol
-    const char* 			Name = nullptr;					// Name
-	void*             		Value = nullptr;				// Value
-	const char* 			Description = nullptr;			// Description
-    int                     Flags = NULL;                  	// Flags
-};
-
-struct Cmd 
-{
-	// Everything needs to be null by default otherwise we run into segfaults lol
-    const char* 			Name = nullptr;					// Name
-    funcPtr                 FunctionPointer = nullptr;		// Function pointer
-	const char* 			Description = nullptr;			// Description
-    int                     Flags = NULL;                  	// Flags
-
 };
 
 #endif /* !__CONSOLE_HPP__ */

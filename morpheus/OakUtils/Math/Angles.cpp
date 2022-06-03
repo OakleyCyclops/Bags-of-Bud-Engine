@@ -257,12 +257,3 @@ Vector3 Angles::ToAngularVelocity() const
 	return rotation.GetVec() * DEG2RAD( rotation.GetAngle() );
 }
 
-/*
-=============
-Angles::ToString
-=============
-*/
-std::string Angles::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}

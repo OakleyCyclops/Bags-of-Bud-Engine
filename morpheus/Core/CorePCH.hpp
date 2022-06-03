@@ -15,24 +15,11 @@
 // oakUtils
 #include "oakUtilsPCH.hpp"
 
-// Interface Headers
-#include "INTFheart.hpp"
-#include "INTFconsoleShell.hpp"
-#include "INTFconsole.hpp"
-#include "INTFinputSystem.hpp"
-#include "INTFfileSystem.hpp"
-#include "INTFsys.hpp"
-
 // The Core Framework
 #include "InputSystem.hpp"
 #include "ConsoleShell.hpp"
 #include "Console.hpp"
 #include "Heart.hpp" // You need to include everything else before the heart because there's no fucking preprocessor
-
-
-#undef min
-#undef max
-#include <algorithm>	// for min / max / swap
 
 #endif /* !__CORE_PCH__ */
 

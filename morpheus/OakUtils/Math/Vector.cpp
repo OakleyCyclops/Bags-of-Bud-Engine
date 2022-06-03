@@ -45,16 +45,6 @@ Vector6 Vector6_Infinity( Math::INFINITY, Math::INFINITY, Math::INFINITY, Math::
 
 /*
 =============
-Vector2::ToString
-=============
-*/
-String Vector2::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}
-
-/*
-=============
 Lerp
 
 Linearly inperpolates one vector to another.
@@ -257,16 +247,6 @@ Matrix3 Vector3::ToMat3() const
 
 /*
 =============
-Vector3::ToString
-=============
-*/
-String Vector3::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}
-
-/*
-=============
 Lerp
 
 Linearly inperpolates one vector to another.
@@ -361,16 +341,6 @@ void Vector3::ProjectSelfOntoSphere( const float radius )
 
 /*
 =============
-Vector4::ToString
-=============
-*/
-std::string Vector4::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString(ToFloatPtr(), GetDimension(), precision);
-}
-
-/*
-=============
 Lerp
 
 Linearly inperpolates one vector to another.
@@ -398,16 +368,6 @@ void Vector4::Lerp( const Vector4& v1, const Vector4& v2, const float l )
 //	Vector5
 //
 //===============================================================
-
-/*
-=============
-Vector5::ToString
-=============
-*/
-std::string Vector5::ToString( int precision ) const
-{
-	return CharMethods.FloatArrayToString(ToFloatPtr(), GetDimension(), precision);
-}
 
 /*
 =============
@@ -441,12 +401,3 @@ void Vector5::Lerp( const Vector5& v1, const Vector5& v2, const float l )
 //
 //===============================================================
 
-/*
-=============
-Vector6::ToString
-=============
-*/
-String Vector6::ToString(int precision) const
-{
-	return CharMethods.FloatArrayToString( ToFloatPtr(), GetDimension(), precision );
-}

@@ -3,8 +3,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 project(engine CXX)
 
-file(GLOB INTF_INCLUDES Interfaces/*.hpp)
-
 file(GLOB CORE_INCLUDES Core/*.hpp)
 file(GLOB CORE_SOURCES Core/*.cpp)
 
@@ -14,7 +12,6 @@ file(GLOB UNIX_SOURCES Core/unix/*.cpp)
 file(GLOB SDL_INCLUDES Core/sdl/*.hpp)
 file(GLOB SDL_SOURCES Core/sdl/*.cpp)
 
-source_group("Interfaces" FILES ${INTF_INCLUDES})
 
 source_group("Core" FILES ${CORE_INCLUDES})
 source_group("Core" FILES ${CORE_SOURCES})
@@ -36,7 +33,6 @@ set(ENGINE_SOURCES
 add_subdirectory(OakUtils)
 
 include_directories(OakUtils)
-include_directories(Interfaces)
 include_directories(Core)
 
 add_executable(engine ${ENGINE_SOURCES})

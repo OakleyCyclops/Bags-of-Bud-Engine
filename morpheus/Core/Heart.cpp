@@ -39,6 +39,7 @@ Heart::RegisterCVarsAndCmds
 */
 void Heart::RegisterCVarsAndCmds()
 {
+    Console::Register(&hrt_allowCheats);
     Console::Register(&hrt_textMode);
     Console::Register(&hrt_globalFPSCap);
     Console::Register(&quit); 

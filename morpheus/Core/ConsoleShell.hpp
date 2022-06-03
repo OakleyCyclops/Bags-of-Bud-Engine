@@ -51,9 +51,9 @@ namespace ConsoleShell
             return;
         };
 
-        inline CVar con_terminalSupport = {"con_terminalSupport", (bool*)1, "Enables/Disables the usage of the Terminal/Command Prompt as the engine's developer console", CVAR_CORE || CVAR_BOOL || CVAR_INIT};
-        inline CVar con_notifyTime = {"con_notifyTime", (int*)3, "time messages are displayed onscreen when console is pulled up", CVAR_CORE};
-        inline CVar con_noPrint = {"con_noPrint", (bool*)0, "print on the console but not onscreen when console is pulled up", CVAR_CORE};
+        inline CVar con_terminalSupport = {"con_terminalSupport", new bool(1), "Enables/Disables the usage of the Terminal/Command Prompt as the engine's developer console", CVAR_BOOL | CVAR_CORE | CVAR_INIT};
+        inline CVar con_notifyTime = {"con_notifyTime", new int(3), "time messages are displayed onscreen when console is pulled up", CVAR_INTEGER | CVAR_CORE};
+        inline CVar con_noPrint = {"con_noPrint", new bool(0), "print on the console but not onscreen when console is pulled up", CVAR_BOOL | CVAR_CORE};
 
         inline Cmd clear = {"clear", cmdClear, "clears the console", CMD_CORE};
         inline Cmd conDump = {"conDump", cmdDump, "dumps the console text to a file", CMD_CORE};
@@ -64,10 +64,9 @@ namespace ConsoleShell
             // Because conio.h isn't a thing in the GNU C library and NCurses fucking sucks
 
 	        // Thank u :) https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux 
-            char GetChar();
-
+            char    GetChar();
             // And thank u :) https://www.flipcode.com/archives/_kbhit_for_Linux.shtml
-            int KbhHit();
+            int     KbhHit();
 
         #endif 
 }

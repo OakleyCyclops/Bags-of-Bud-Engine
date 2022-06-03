@@ -216,7 +216,7 @@ String::String(const float f)
 	char text[64];
 	int l;
 	
-	l = CharMethods.snPrintf( text, sizeof( text ), "%f", f );
+	l = CharMethods::snPrintf( text, sizeof( text ), "%f", f );
 	while(l > 0 && text[l - 1] == '0') 
 	{
 		text[--l] = '\0';
@@ -410,19 +410,19 @@ String& String::operator+=(const bool a)
 
 bool operator==(const String& a, const String& b)
 {
-	return (!CharMethods.Cmp(a.data, b.data));
+	return (!CharMethods::Cmp(a.data, b.data));
 }
 
 bool operator==(const String& a, const char* b)
 {
 	assert(b);
-	return (!CharMethods.Cmp(a.data, b));
+	return (!CharMethods::Cmp(a.data, b));
 }
 
 bool operator==(const char* a, const String& b)
 {
 	assert(a);
-	return (!CharMethods.Cmp(a, b.data));
+	return (!CharMethods::Cmp(a, b.data));
 }
 
 bool operator!=(const String& a, const String& b)
@@ -629,7 +629,7 @@ String::LengthWithoutColors
 */
 int String::LengthWithoutColors() const
 {
-	return CharMethods.LengthWithoutColors(data);
+	return CharMethods::LengthWithoutColors(data);
 }
 
 /*
@@ -852,7 +852,7 @@ void String::ToLower()
 {
 	for (int i = 0; data[i]; i++)
 	{
-		if (CharMethods.CharIsUpper(data[i]))
+		if (CharMethods::CharIsUpper(data[i]))
 		{
 			data[i] += ( 'a' - 'A' );
 		}
@@ -868,7 +868,7 @@ void String::ToUpper()
 {
 	for (int i = 0; data[i]; i++)
 	{
-		if (CharMethods.CharIsLower(data[i]))
+		if (CharMethods::CharIsLower(data[i]))
 		{
 			data[i] -= ( 'a' - 'A' );
 		}
@@ -882,7 +882,7 @@ String::IsEmpty
 */
 bool String::IsEmpty() const
 {
-	return (CharMethods.Cmp(data, "") == 0);
+	return (CharMethods::Cmp(data, "") == 0);
 }
 
 /*
@@ -892,7 +892,7 @@ String::IsNumeric
 */
 bool String::IsNumeric() const
 {
-	return CharMethods.IsNumeric(data);
+	return CharMethods::IsNumeric(data);
 }
 
 /*
@@ -902,7 +902,7 @@ String::IsColor
 */
 bool String::IsColor() const
 {
-	return CharMethods.IsColor(data);
+	return CharMethods::IsColor(data);
 }
 
 /*
@@ -912,7 +912,7 @@ String::HasLower
 */
 bool String::HasLower() const
 {
-	return CharMethods.HasLower(data);
+	return CharMethods::HasLower(data);
 }
 
 /*
@@ -922,7 +922,7 @@ String::HasUpper
 */
 bool String::HasUpper() const
 {
-	return CharMethods.HasUpper(data);
+	return CharMethods::HasUpper(data);
 }
 
 /*
@@ -934,7 +934,7 @@ int String::Cmp(const char* text) const
 {
 	assert(text);
 
-	return CharMethods.Cmp(data, text);
+	return CharMethods::Cmp(data, text);
 }
 
 /*
@@ -946,7 +946,7 @@ int String::Cmpn(const char* text, int n) const
 {
 	assert(text);
 
-	return CharMethods.Cmpn(data, text, n);
+	return CharMethods::Cmpn(data, text, n);
 }
 
 /*
@@ -959,7 +959,7 @@ int String::CmpPrefix(const char* text) const
 	assert(text);
 
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-	return CharMethods.Cmpn(data, text, (int)strlen(text));
+	return CharMethods::Cmpn(data, text, (int)strlen(text));
 	// RB end
 }
 
@@ -972,7 +972,7 @@ int String::Icmp(const char* text) const
 {
 	assert(text);
 
-	return CharMethods.Icmp(data, text);
+	return CharMethods::Icmp(data, text);
 }
 
 /*
@@ -984,7 +984,7 @@ int String::Icmpn(const char* text, int n) const
 {
 	assert(text);
 
-	return CharMethods.Icmpn(data, text, n);
+	return CharMethods::Icmpn(data, text, n);
 }
 
 /*
@@ -997,7 +997,7 @@ int String::IcmpPrefix(const char* text) const
 	assert(text);
 
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-	return CharMethods.Icmpn(data, text, (int)strlen(text));
+	return CharMethods::Icmpn(data, text, (int)strlen(text));
 	// RB end
 }
 
@@ -1010,7 +1010,7 @@ int String::IcmpPath(const char* text) const
 {
 	assert(text);
 
-	return CharMethods.IcmpPath(data, text);
+	return CharMethods::IcmpPath(data, text);
 }
 
 /*
@@ -1022,7 +1022,7 @@ int String::IcmpnPath(const char* text, int n) const
 {
 	assert(text);
 
-	return CharMethods.IcmpnPath(data, text, n);
+	return CharMethods::IcmpnPath(data, text, n);
 }
 
 /*
@@ -1035,7 +1035,7 @@ int String::IcmpPrefixPath(const char* text) const
 	assert(text);
 
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-	return CharMethods.IcmpnPath(data, text, (int)strlen(text));
+	return CharMethods::IcmpnPath(data, text, (int)strlen(text));
 	// RB end
 }
 
@@ -1048,7 +1048,7 @@ int String::IcmpNoColor(const char* text) const
 {
 	assert(text);
 
-	return CharMethods.IcmpNoColor(data, text);
+	return CharMethods::IcmpNoColor(data, text);
 }
 
 /*
@@ -1114,7 +1114,7 @@ int String::Find(const char c, int start, int end) const
 		end = length;
 	}
 
-	return CharMethods.FindChar(data, c, start, end);
+	return CharMethods::FindChar(data, c, start, end);
 }
 
 int String::Find(const char* text, bool casesensitive, int start, int end) const
@@ -1124,7 +1124,7 @@ int String::Find(const char* text, bool casesensitive, int start, int end) const
 		end = length;
 	}
 
-	return CharMethods.FindText(data, text, casesensitive, start, end);
+	return CharMethods::FindText(data, text, casesensitive, start, end);
 }
 
 /*
@@ -1387,8 +1387,8 @@ String::RemoveColors
 */
 String& String::RemoveColors()
 {
-	CharMethods.RemoveColors(data);
-	length = CharMethods.Length(data);
+	CharMethods::RemoveColors(data);
+	length = CharMethods::Length(data);
 	return *this;
 }
 
@@ -1405,7 +1405,7 @@ bool String::StripTrailingOnce(const char* string)
 	l = (int)strlen(string);
 	// RB end
 
-	if ((l > 0) && (length >= l) && !CharMethods.Cmpn(string, data + length - l, l))
+	if ((l > 0) && (length >= l) && !CharMethods::Cmpn(string, data + length - l, l))
 	{
 		length -= l;
 		data[length] = '\0';
@@ -1506,7 +1506,7 @@ void String::StripTrailing(const char* string)
 
 	if (l > 0)
 	{
-		while ((length >= l) && !CharMethods.Cmpn(string, data + length - l, l))
+		while ((length >= l) && !CharMethods::Cmpn(string, data + length - l, l))
 		{
 			length -= l;
 			data[length] = '\0';
@@ -2522,6 +2522,173 @@ bool CharMethods::CheckExtension(const char* name, const char* ext)
 	return (s1 >= name);
 }
 
+char* CharMethods::FloatToString(float f, char* s, unsigned int base)
+{
+
+}
+
+char* CharMethods::DoubleToString(double d, char* s, unsigned int base)
+{
+
+}
+
+char* CharMethods::LongToString(long l, char* s, unsigned int base)
+{
+	const char* table = "0123456789abcdef";	
+
+	unsigned int length = 0;
+	char prefix[2];
+	char number[MAX_STRING_CHARS]; // No segfaults
+
+	bool negative = false;
+
+	// If zero, just return null
+	if (base == 0 || base > 16)
+	{
+		return nullptr;
+	}
+
+	if (l < 0 && base == 10)
+	{
+		l = -l;
+		negative = true;
+	}
+
+	// If binary, take our char and add the "0b" prefix
+	else if (base == 2)
+	{
+		prefix[0] = '0';
+		prefix[1] = 'b';
+	}
+
+	// If octal, take our char and add the "0c" prefix
+	// I'm not fucking using "0" as the prefix fuck you
+	else if (base == 8)
+	{
+		prefix[0] = '0';
+		prefix[1] = 'c';
+	}
+
+	// If hexadecminal, take our char and add the "0x" prefix
+	else if (base == 16)
+	{
+		prefix[0] = '0';
+		prefix[1] = 'x';
+	}
+
+	while (l != 0)
+	{
+		number[length] = table[l % base];
+		l /= base;
+
+		length++;	
+	}
+      
+    // use for loop to iterate the string
+	unsigned int count = 0;
+	unsigned int temp;
+
+    while (count = 0, count < length / 2)  
+    {  
+        temp = number[count];
+
+        number[count] = number[length - count - 1];  
+        number[length - count - 1] = temp;  
+
+		count++;
+    }
+  
+	if (base != 10)
+	{
+		char result[length + 2];
+
+		strcat(prefix, result);
+		strcat(number, result);
+
+		strcpy(result, s);
+
+		return s;
+	}
+
+	else
+	{
+		char result[length];
+
+		strcat(number, result);
+		strcpy(result, s);
+
+		return s;
+	}
+}
+
+char* CharMethods::IntToString(int i, char* s, unsigned int base)
+{
+	const char* table = "0123456789abcdef";	
+
+	unsigned int length = 0;
+
+	char prefix[2];
+	char* number = (char*)malloc(0);
+
+	bool negative = false;
+
+	// If zero, just return null
+	if (base == 0 || base > 16)
+	{
+		return nullptr;
+	}
+
+	if (i < 0 && base == 10)
+	{
+		i = -i;
+		negative = true;
+	}
+
+	// If binary, take our char and add the "0b" prefix
+	else if (base == 2)
+	{
+		prefix[0] = '0';
+		prefix[1] = 'b';
+	}
+
+	// If octal, take our char and add the "0c" prefix
+	// I'm not fucking using "0" as the prefix fuck you
+	else if (base == 8)
+	{
+		prefix[0] = '0';
+		prefix[1] = 'c';
+	}
+
+	// If hexadecminal, take our char and add the "0x" prefix
+	else if (base == 16)
+	{
+		prefix[0] = '0';
+		prefix[1] = 'x';
+	}
+
+	while (i != 0)
+	{	
+		number[length] = table[i % base];
+
+		i /= base;
+		length++;
+
+		number = (char*)realloc(number, length);
+	}
+
+    for (i = 0; i < length/2; i++)  
+    {
+		char tmp;
+
+		tmp = number[i];  
+		number[i] = number[length - i - 1];  
+		number[length - i - 1] = tmp;  
+    }
+
+	s = number;
+	return s;  
+}
+
 /*
 ==================
 CharMethods::ToLower
@@ -2610,42 +2777,6 @@ char* CharMethods::RemoveColors(char* string)
 	*d = '\0';
 	
 	return string;
-}
-
-/*
-==================
-CharMethods::FloatArrayToString
-==================
-*/
-const char* CharMethods::FloatArrayToString(const float* array, const int length, const int precision)
-{
-	static int index = 0;
-	static char str[4][16384];	// in case called by nested functions
-	int i, n;
-	char format[16], *s;
-	
-	// use an array of string so that multiple calls won't collide
-	s = str[index];
-	index = (index + 1) & 3;
-	
-	snPrintf(format, sizeof(format), "%%.%df", precision);
-	n = snPrintf(s, sizeof(str[0]), format, array[0]);
-	if( precision > 0 )
-	{
-		while (n > 0 && s[n - 1] == '0') s[--n] = '\0';
-		while (n > 0 && s[n - 1] == '.') s[--n] = '\0';
-	}
-	snPrintf(format, sizeof(format), " %%.%df", precision);
-	for (i = 1; i < length; i++)
-	{
-		n += snPrintf(s + n, sizeof(str[0]) - n, format, array[i]);
-		if (precision > 0)
-		{
-			while (n > 0 && s[n - 1] == '0') s[--n] = '\0';
-			while (n > 0 && s[n - 1] == '.') s[--n] = '\0';
-		}
-	}
-	return s;
 }
 
 /*
