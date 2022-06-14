@@ -402,7 +402,7 @@ const char* Sys_DefaultCDPath()
 	return "";
 }
 
-ID_TIME_T Sys_FileTimeStamp( budFileHandle fp )
+ID_TIME_T Sys_FileTimeStamp(FileHandle fp)
 {
 	struct stat st;
 	fstat( fileno( fp ), &st );

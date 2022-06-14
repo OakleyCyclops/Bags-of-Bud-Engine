@@ -23,11 +23,12 @@ String::String(const String& text)
 
 	int l;
 	
-	l = text.Length();
-	EnsureAlloced(l + 1);
+	l = this->Length;
+	
+	StringMethods::EnsureAlloced(this, l + 1);
 
-	strcpy(data, text.data);
-	length = l;
+	strcpy(Cstring, text.Cstring);
+	this->Length = l;
 }
 
 /*
@@ -42,14 +43,14 @@ String::String(const String& text, int start, int end)
 	int i;
 	int l;
 	
-	if (end > text.Length())
+	if (end > text.Length)
 	{
-		end = text.Length();
+		end = text.Length;
 	}
 
-	if (start > text.Length())
+	if (start > text.Length)
 	{
-		start = text.Length();
+		start = text.Length;
 	}
 
 	else if (start < 0)
@@ -64,15 +65,15 @@ String::String(const String& text, int start, int end)
 		l = 0;
 	}
 	
-	EnsureAlloced(l + 1);
+	StringMethods::EnsureAlloced(this, l + 1);
 	
 	for (i = 0; i < l; i++)
 	{
-		data[i] = text[start + i];
+		Cstring[i] = text[start + i];
 	}
 	
-	data[l] = '\0';
-	length = l;
+	Cstring[l] = '\0';
+	Length = l;
 }
 
 /*
@@ -91,9 +92,10 @@ String::String(const char* text)
 		// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
 		l = (int) strlen(text);
 		// RB end
-		EnsureAlloced(l + 1);
-		strcpy(data, text);
-		length = l;
+		StringMethods::EnsureAlloced(this, l + 1);
+
+		strcpy(Cstring, text);
+		Length = l;
 	}	
 }
 
@@ -132,15 +134,15 @@ String::String(const char* text, int start, int end)
 		l = 0;
 	}
 	
-	EnsureAlloced(l + 1);
+	StringMethods::EnsureAlloced(this, l + 1);
 	
 	for (i = 0; i < l; i++)
 	{
-		data[i] = text[start + i];
+		Cstring[i] = text[start + i];
 	}
 	
-	data[l] = '\0';
-	length = l;
+	Cstring[l] = '\0';
+	Length = l;
 }
 
 /*
@@ -151,10 +153,11 @@ String::String
 String::String(const bool b)
 {
 	Construct();
-	EnsureAlloced( 2 );
-	data[0] = b ? '1' : '0';
-	data[1] = '\0';
-	length = 1;
+	StringMethods::EnsureAlloced(this, 2);
+
+	Cstring[0] = b ? '1' : '0';
+	Cstring[1] = '\0';
+	Length = 1;
 }
 
 /*
@@ -165,10 +168,11 @@ String::String
 String::String(const char c)
 {
 	Construct();
-	EnsureAlloced( 2 );
-	data[0] = c;
-	data[1] = '\0';
-	length = 1;
+	StringMethods::EnsureAlloced(this, 2);
+
+	Cstring[0] = c;
+	Cstring[1] = '\0';
+	Length = 1;
 }
 
 /*
@@ -183,9 +187,10 @@ String::String(const int i)
 	int l;
 	
 	l = sprintf(text, "%d", i);
-	EnsureAlloced(l + 1);
-	strcpy(data, text);
-	length = l;
+	StringMethods::EnsureAlloced(this, l + 1);
+
+	strcpy(Cstring, text);
+	Length = l;
 }
 
 /*
@@ -200,9 +205,10 @@ String::String(const unsigned u)
 	int l;
 	
 	l = sprintf(text, "%u", u);
-	EnsureAlloced(l + 1);
-	strcpy(data, text);
-	length = l;
+	StringMethods::EnsureAlloced(this, l + 1);
+
+	strcpy(Cstring, text);
+	Length = l;
 }
 
 /*
@@ -226,9 +232,9 @@ String::String(const float f)
 	{
 		text[--l] = '\0';
 	}
-	EnsureAlloced(l + 1);
-	strcpy(data, text);
-	length = l;
+	StringMethods::EnsureAlloced(this, l + 1);
+	strcpy(Cstring, text);
+	Length = l;
 }
 
 /*
@@ -250,7 +256,7 @@ String::operator
 */
 String::operator const char* () const
 {
-	return c_str();
+	return Cstring;
 }
 
 /*
@@ -260,85 +266,93 @@ String::operator
 */
 String::operator const char* ()
 {
-	return c_str();
+	return Cstring;
 }
 
 char String::operator[](int index) const
 {
-	assert((index >= 0) && (index <= length));
-	return data[index];
+	assert((index >= 0) && (index <= Length));
+	return Cstring[index];
 }
 
 char& String::operator[](int index)
 {
-	assert((index >= 0) && (index <= length));
-	return data[index];
+	assert((index >= 0) && (index <= Length));
+	return Cstring[index];
 }
 
 void String::operator=(const String& text)
 {
 	int l;
 	
-	l = text.Length();
-	EnsureAlloced( l + 1, false );
-	memcpy( data, text.data, l );
-	data[l] = '\0';
-	length = l;
+
+	l = this->Length;
+	StringMethods::EnsureAlloced(this, l + 1, false);
+
+	memcpy(Cstring, text.Cstring, l);
+
+	Cstring[l] = '\0';
+	Length = l;
 }
 
 String operator+(const String& a, const String& b)
 {
-	String result( a );
-	result.Append( b );
+	String result(a);
+
+	StringMethods::Append(&result, b);
 	return result;
 }
 
 String operator+(const String& a, const char* b)
 {
-	String result( a );
-	result.Append( b );
+	String result(a);
+
+	StringMethods::Append(&result, b);
 	return result;
 }
 
 String operator+(const char* a, const String& b)
 {
-	String result( a );
-	result.Append( b );
+	String result(a);
+
+	StringMethods::Append(&result, b);
 	return result;
 }
 
 String operator+(const String& a, const bool b)
 {
-	String result( a );
-	result.Append( b ? "true" : "false" );
+	String result(a);
+
+	StringMethods::Append(&result, b ? "true" : "false");
 	return result;
 }
 
 String operator+(const String& a, const char b)
 {
-	String result( a );
-	result.Append( b );
+	String result(a);
+
+	StringMethods::Append(&result, b);
 	return result;
 }
 
 String operator+(const String& a, const float b)
 {
-	char	text[ 64 ];
-	String	result( a );
+	char	text[64];
+	String	result(a);
 	
-	sprintf( text, "%f", b );
-	result.Append( text );
+	sprintf(text, "%f", b);
+	StringMethods::Append(&result, text);
 	
 	return result;
 }
 
 String operator+(const String& a, const int b)
 {
-	char	text[ 64 ];
-	String	result( a );
+	char	text[64];
+	String	result(a);
 	
-	sprintf( text, "%d", b );
-	result.Append( text );
+	sprintf(text, "%d", b);
+	StringMethods::Append(&result, text);
 	
 	return result;
 }
@@ -346,10 +360,10 @@ String operator+(const String& a, const int b)
 String operator+(const String& a, const unsigned b)
 {
 	char	text[64];
-	String	result( a );
+	String	result(a);
 	
 	sprintf(text, "%u", b);
-	result.Append(text);
+	StringMethods::Append(&result, text);
 	
 	return result;
 }
@@ -359,7 +373,7 @@ String& String::operator+=(const float a)
 	char text[64];
 	
 	sprintf(text, "%f", a);
-	Append(text);
+	StringMethods::Append(this, text);
 	
 	return *this;
 }
@@ -369,7 +383,7 @@ String& String::operator+=(const int a)
 	char text[64];
 	
 	sprintf(text, "%d", a);
-	Append(text);
+	StringMethods::Append(this, text);
 	
 	return *this;
 }
@@ -379,50 +393,50 @@ String& String::operator+=(const unsigned a)
 	char text[64];
 	
 	sprintf(text, "%u", a);
-	Append(text);
+	StringMethods::Append(this, text);
 	
 	return *this;
 }
 
 String& String::operator+=(const String& a)
 {
-	Append(a);
+	StringMethods::Append(this, a);
 	return *this;
 }
 
 String& String::operator+=(const char* a)
 {
-	Append(a);
+	StringMethods::Append(this, a);
 	return *this;
 }
 
 String& String::operator+=(const char a)
 {
-	Append(a);
+	StringMethods::Append(this, a);
 	return *this;
 }
 
 String& String::operator+=(const bool a)
 {
-	Append(a ? "true" : "false");
+	StringMethods::Append(this, a ? "true" : "false");
 	return *this;
 }
 
 bool operator==(const String& a, const String& b)
 {
-	return (!CharMethods::Cmp(a.data, b.data));
+	return (!CharMethods::Cmp(a.Cstring, b.Cstring));
 }
 
 bool operator==(const String& a, const char* b)
 {
 	assert(b);
-	return (!CharMethods::Cmp(a.data, b));
+	return (!CharMethods::Cmp(a.Cstring, b));
 }
 
 bool operator==(const char* a, const String& b)
 {
 	assert(a);
-	return (!CharMethods::Cmp(a, b.data));
+	return (!CharMethods::Cmp(a, b.Cstring));
 }
 
 bool operator!=(const String& a, const String& b)
@@ -449,11 +463,11 @@ String::Construct
 */
 void String::Construct()
 {
-	SetStatic(false);
-	SetAlloced(STR_ALLOC_BASE);
-	data = baseBuffer;
-	length = 0;
-	data[0] = '\0';
+	StringMethods::SetStatic(this, false);
+	StringMethods::SetAlloced(this, STR_ALLOC_BASE);
+	Cstring = BaseBuffer;
+	Length = 0;
+	Cstring[0] = '\0';
 }
 
 /*
@@ -463,67 +477,67 @@ String::FreeData
 */
 void String::FreeData()
 {
-	if (IsStatic())
+	if (StringMethods::IsStatic(this))
 	{
 		return;
 	}
 	
-	if (data && data != baseBuffer)
+	if (Cstring && Cstring != BaseBuffer)
 	{
-		delete[] data;
-		data = baseBuffer;
+		delete[] Cstring;
+		Cstring = BaseBuffer;
 	}
 }
 
 /*
 ============
-String::IsStatic
+StringMethods::IsStatic
 ============
 */
-bool String::IsStatic() const
+bool StringMethods::IsStatic(String* str)
 {
-	return (allocedAndFlag & STATIC_MASK) != 0;
+	return (str->AllocedAndFlag & str->STATIC_MASK) != 0;
 }
 
 /*
 ============
-String::SetStatic
+StringMethods::SetStatic
 ============
 */
-void String::SetStatic(const bool isStatic)
+void StringMethods::SetStatic(String* str, const bool isStatic)
 {
-	allocedAndFlag = (allocedAndFlag & ALLOCED_MASK) | (isStatic << STATIC_BIT);
+	str->AllocedAndFlag = (str->AllocedAndFlag & str->ALLOCED_MASK) | (isStatic << str->STATIC_BIT);
 }
 
 /*
 ============
-String::GetAlloced
+StringMethods::GetAlloced
 ============
 */
-int String::GetAlloced() const
+int StringMethods::GetAlloced(String* str)
 {
-	return allocedAndFlag & ALLOCED_MASK;
+	return str->AllocedAndFlag & str->ALLOCED_MASK;
 }
 
 /*
 ============
-String::SetAlloced
+StringMethods::SetAlloced
 ============
 */
-void String::SetAlloced(const int a)
+void StringMethods::SetAlloced(String* str, const int a)
 {
-	allocedAndFlag = (allocedAndFlag & STATIC_MASK) | (a & ALLOCED_MASK);
+	str->AllocedAndFlag = (str->AllocedAndFlag & str->STATIC_MASK) | (a & str->ALLOCED_MASK);
 }
 /*
 ============
-String::Allocated
+StringMethods::Allocated
 ============
 */
-int String::Allocated() const
+int StringMethods::Allocated(String* str)
 {
-	if (data != baseBuffer)
+	if (str->Cstring != str->BaseBuffer)
 	{
-		return GetAlloced();
+		return StringMethods::GetAlloced(str);
 	}
 	else
 	{
@@ -533,28 +547,28 @@ int String::Allocated() const
 
 /*
 ============
-String::EnsureAlloced
+StringMethods::EnsureAlloced
 ============
 */
-void String::EnsureAlloced(int amount, bool keepold)
+void StringMethods::EnsureAlloced(String* str, int amount, bool keepold)
 {
 	// static string's can't reallocate
-	if (IsStatic())
+	if (IsStatic(str))
 	{
 		return;
 	}
-	if (amount > GetAlloced())
+	if (amount > GetAlloced(str))
 	{
-		ReAllocate(amount, keepold);
+		ReAllocate(str, amount, keepold);
 	}
 }
 
 /*
 ============
-String::ReAllocate
+StringMethods::ReAllocate
 ============
 */
-void String::ReAllocate(int amount, bool keepold)
+void StringMethods::ReAllocate(String* str, int amount, bool keepold)
 {
 	char*	newbuffer;
 	int		newsize;
@@ -574,160 +588,182 @@ void String::ReAllocate(int amount, bool keepold)
 		newsize = amount + STR_ALLOC_GRAN - mod;
 	}
 
-	SetAlloced(newsize);
+	SetAlloced(str, newsize);
 	
-	newbuffer = new char[GetAlloced()];
+	newbuffer = new char[GetAlloced(str)];
 
-	if (keepold && data)
+	if (keepold && str->Cstring)
 	{
-		data[length] = '\0';
-		strcpy(newbuffer, data);
+		str->Cstring[str->Length] = '\0';
+		strcpy(newbuffer, str->Cstring);
 	}
 	
-	if (data && data != baseBuffer)
+	if (str->Cstring && str->Cstring != str->BaseBuffer)
 	{
-		delete[] data;
+		delete[] str->Cstring;
 	}
 	
-	data = newbuffer;
+	str->Cstring = newbuffer;
 }
 
 /*
 ============
-String::Size
+StringMethods::Size
 ============
 */
-size_t String::Size() const
+size_t StringMethods::Size(String* str)
 {
-	return sizeof(*this) + Allocated();
+	return sizeof(str) + Allocated(str);
 }
 
 /*
 ============
-String::c_str
+StringMethods::LengthWithoutColors
 ============
 */
-const char* String::c_str() const
+int StringMethods::LengthWithoutColors(String* str)
 {
-	return data;
+	return CharMethods::LengthWithoutColors(str->Cstring);
 }
 
 /*
 ============
-String::Length
+StringMethods::Empty
 ============
 */
-int String::Length() const
+void StringMethods::Empty(String* str)
 {
-	return length;
+	EnsureAlloced(str, 1);
+	str->Cstring[0] = '\0';
+	str->Length = 0;
 }
 
 /*
 ============
-String::LengthWithoutColors
+StringMethods::Clear
 ============
 */
-int String::LengthWithoutColors() const
+void StringMethods::Clear(String* str)
 {
-	return CharMethods::LengthWithoutColors(data);
-}
-
-/*
-============
-String::Empty
-============
-*/
-void String::Empty()
-{
-	EnsureAlloced(1);
-	data[0] = '\0';
-	length = 0;
-}
-
-/*
-============
-String::Clear
-============
-*/
-void String::Clear()
-{
-	if (IsStatic())
+	if (StringMethods::IsStatic(str))
 	{
-		length = 0;
-		data[0] = '\0';
+		str->Length = 0;
+		str->Cstring[0] = '\0';
 		return;
 	}
 
-	FreeData();
-	Construct();
+	str->FreeData();
+	str->Construct();
 }
 
 /*
 ============
-String::CapLength
+StringMethods::CapLength
 ============
 */
-void String::CapLength(int newLength)
+void StringMethods::CapLength(String* str, int newLength)
 {
-	if (length <= newLength)
+	if (str->Length <= newLength)
 	{
 		return;
 	}
 
-	data[newLength] = 0;
-	length = newLength;
+	str->Cstring[newLength] = 0;
+	str->Length = newLength;
 }
 
-void String::Fill(const char ch, int newLength)
+void StringMethods::Fill(String* str, const char ch, int newLength)
 {
-	EnsureAlloced(newLength + 1);
-	length = newLength;
-	memset(data, ch, length);
-	data[length] = 0;
+	StringMethods::EnsureAlloced(str, newLength + 1);
+	str->Length = newLength;
+
+	memset(str->Cstring, ch, str->Length);
+	str->Cstring[str->Length] = 0;
 }
 
 /*
 ============
-String::Append
+StringMethods::Append
 ============
 */
-void String::Append(const char a)
+void StringMethods::Append(String* str, const char a)
 {
-	EnsureAlloced(length + 2);
+	StringMethods::EnsureAlloced(str, str->Length + 2);
 
-	data[length] = a;
-	length++;
-	data[length] = '\0';
+	str->Cstring[str->Length] = a;
+	str->Length++;
+	str->Cstring[str->Length] = '\0';
 }
 
 /*
 ============
-String::Append
+StringMethods::BackSlashesToForwardSlashes
 ============
 */
-void String::Append(const String& text)
+String& StringMethods::BackSlashesToForwardSlashes(String& str) 
+{
+	int i;
+
+	for (i = 0; i < str.Length; i++) 
+	{
+		if (str.Cstring[i] == '\\' ) 
+		{
+			str.Cstring[i] = '/';
+		}
+	}
+
+	return str;
+}
+
+/*
+============
+StringMethods::ForwardSlashesToBackSlashes
+============
+*/
+String& StringMethods::ForwardSlashesToBackSlashes(String& str) 
+{
+	int i;
+
+	for (i = 0; i < str.Length; i++) 
+	{
+		if (str.Cstring[i] == '/') 
+		{
+			str.Cstring[i] = '\\';
+		}
+	}
+
+	return str;
+}
+
+
+/*
+============
+StringMethods::Append
+============
+*/
+void StringMethods::Append(String* str, const String& text)
 {
 	int newLength;
 	int i;
 	
-	newLength = length + text.Length();
-	EnsureAlloced(newLength + 1);
+	newLength = str->Length + text.Length;
+	StringMethods::EnsureAlloced(str, newLength + 1);
 
-	for (i = 0; i < text.length; i++)
+	for (i = 0; i < text.Length; i++)
 	{
-		data[length + i] = text[i];
+		str->Cstring[str->Length + i] = text[i];
 	}
 
-	length = newLength;
-	data[length] = '\0';
+	str->Length = newLength;
+	str->Cstring[str->Length] = '\0';
 }
 
 /*
 ============
-String::Append
+StringMethods::Append
 ============
 */
-void String::Append(const char* text)
+void StringMethods::Append(String* str, const char* text)
 {
 	int newLength;
 	int i;
@@ -735,51 +771,51 @@ void String::Append(const char* text)
 	if (text)
 	{
 		// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-		newLength = length + (int)strlen(text);
+		newLength = str->Length + (int)strlen(text);
 		// RB end
-		EnsureAlloced(newLength + 1);
+		EnsureAlloced(str, newLength + 1);
 
 		for (i = 0; text[i]; i++)
 		{
-			data[length + i] = text[i];
+			str->Cstring[str->Length + i] = text[i];
 		}
 
-		length = newLength;
-		data[length] = '\0';
+		str->Length = newLength;
+		str->Cstring[str->Length] = '\0';
 	}
 }
 
 /*
 ============
-String::Append
+StringMethods::Append
 ============
 */
-void String::Append(const char* text, int l)
+void StringMethods::Append(String* str, const char* text, int l)
 {
 	int newLength;
 	int i;
 	
 	if (text && l)
 	{
-		newLength = length + l;
-		EnsureAlloced(newLength + 1);
+		newLength = str->Length + l;
+		EnsureAlloced(str, newLength + 1);
 
 		for (i = 0; text[i] && i < l; i++)
 		{
-			data[length + i] = text[i];
+			str->Cstring[str->Length + i] = text[i];
 		}
 
-		length = newLength;
-		data[length] = '\0';
+		str->Length = newLength;
+		str->Cstring[str->Length] = '\0';
 	}
 }
 
 /*
 ============
-String::Insert
+StringMethods::Insert
 ============
 */
-void String::Insert(const char a, int index)
+void StringMethods::Insert(String* str, const char a, int index)
 {
 	int i, l;
 	
@@ -787,30 +823,30 @@ void String::Insert(const char a, int index)
 	{
 		index = 0;
 	}
-	else if (index > length)
+	else if (index > str->Length)
 	{
-		index = length;
+		index = str->Length;
 	}
 	
 	l = 1;
 
-	EnsureAlloced(length + l + 1);
+	EnsureAlloced(str, str->Length + l + 1);
 
-	for (i = length; i >= index; i--)
+	for (i = str->Length; i >= index; i--)
 	{
-		data[i + l] = data[i];
+		str->Cstring[i + l] = str->Cstring[i];
 	}
 
-	data[index] = a;
-	length++;
+	str->Cstring[index] = a;
+	str->Length++;
 }
 
 /*
 ============
-String::Insert
+StringMethods::Insert
 ============
 */
-void String::Insert(const char* text, int index)
+void StringMethods::Insert(String* str, const char* text, int index)
 {
 	int i, l;
 	
@@ -819,254 +855,254 @@ void String::Insert(const char* text, int index)
 		index = 0;
 	}
 
-	else if (index > length)
+	else if (index > str->Length)
 	{
-		index = length;
+		index = str->Length;
 	}
 	
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
 	l = (int)strlen(text);
 	// RB end
 
-	EnsureAlloced(length + l + 1);
+	EnsureAlloced(str, str->Length + l + 1);
 
-	for (i = length; i >= index; i--)
+	for (i = str->Length; i >= index; i--)
 	{
-		data[i + l] = data[i];
+		str->Cstring[i + l] = str->Cstring[i];
 	}
 
 	for (i = 0; i < l; i++)
 	{
-		data[index + i] = text[i];
+		str->Cstring[index + i] = text[i];
 	}
 
-	length += l;
+	str->Length += l;
 }
 
 /*
 ============
-String::ToLower
+StringMethods::ToLower
 ============
 */
-void String::ToLower()
+void StringMethods::ToLower(String* str)
 {
-	for (int i = 0; data[i]; i++)
+	for (int i = 0; str->Cstring[i]; i++)
 	{
-		if (CharMethods::CharIsUpper(data[i]))
+		if (CharMethods::CharIsUpper(str->Cstring[i]))
 		{
-			data[i] += ( 'a' - 'A' );
+			str->Cstring[i] += ( 'a' - 'A' );
 		}
 	}
 }
 
 /*
 ============
-String::ToUpper
+StringMethods::ToUpper
 ============
 */
-void String::ToUpper()
+void StringMethods::ToUpper(String* str)
 {
-	for (int i = 0; data[i]; i++)
+	for (int i = 0; str->Cstring[i]; i++)
 	{
-		if (CharMethods::CharIsLower(data[i]))
+		if (CharMethods::CharIsLower(str->Cstring[i]))
 		{
-			data[i] -= ( 'a' - 'A' );
+			str->Cstring[i] -= ( 'a' - 'A' );
 		}
 	}
 }
 
 /*
 ============
-String::IsEmpty
+StringMethods::IsEmpty
 ============
 */
-bool String::IsEmpty() const
+bool StringMethods::IsEmpty(String* str)
 {
-	return (CharMethods::Cmp(data, "") == 0);
+	return (CharMethods::Cmp(str->Cstring, "") == 0);
 }
 
 /*
 ============
-String::IsNumeric
+StringMethods::IsNumeric
 ============
 */
-bool String::IsNumeric() const
+bool StringMethods::IsNumeric(String* str)
 {
-	return CharMethods::IsNumeric(data);
+	return CharMethods::IsNumeric(str->Cstring);
 }
 
 /*
 ============
-String::IsColor
+StringMethods::IsColor
 ============
 */
-bool String::IsColor() const
+bool StringMethods::IsColor(String* str)
 {
-	return CharMethods::IsColor(data);
+	return CharMethods::IsColor(str->Cstring);
 }
 
 /*
 ============
-String::HasLower
+StringMethods::HasLower
 ============
 */
-bool String::HasLower() const
+bool StringMethods::HasLower(String* str)
 {
-	return CharMethods::HasLower(data);
+	return CharMethods::HasLower(str->Cstring);
 }
 
 /*
 ============
-String::HasUpper
+StringMethods::HasUpper
 ============
 */
-bool String::HasUpper() const
+bool StringMethods::HasUpper(String* str)
 {
-	return CharMethods::HasUpper(data);
+	return CharMethods::HasUpper(str->Cstring);
 }
 
 /*
 ============
-String::Cmp
+StringMethods::Cmp
 ============
 */
-int String::Cmp(const char* text) const
-{
-	assert(text);
-
-	return CharMethods::Cmp(data, text);
-}
-
-/*
-============
-String::Cmpn
-============
-*/
-int String::Cmpn(const char* text, int n) const
+int StringMethods::Cmp(String* str, const char* text)
 {
 	assert(text);
 
-	return CharMethods::Cmpn(data, text, n);
+	return CharMethods::Cmp(str->Cstring, text);
 }
 
 /*
 ============
-String::CmpPrefix
+StringMethods::Cmpn
 ============
 */
-int String::CmpPrefix(const char* text) const
+int StringMethods::Cmpn(String* str, const char* text, int n)
+{
+	assert(text);
+
+	return CharMethods::Cmpn(str->Cstring, text, n);
+}
+
+/*
+============
+StringMethods::CmpPrefix
+============
+*/
+int StringMethods::CmpPrefix(String* str, const char* text)
 {
 	assert(text);
 
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-	return CharMethods::Cmpn(data, text, (int)strlen(text));
+	return CharMethods::Cmpn(str->Cstring, text, (int)strlen(text));
 	// RB end
 }
 
 /*
 ============
-String::Icmp
+StringMethods::Icmp
 ============
 */	
-int String::Icmp(const char* text) const
+int StringMethods::Icmp(String* str, const char* text)
 {
 	assert(text);
 
-	return CharMethods::Icmp(data, text);
+	return CharMethods::Icmp(str->Cstring, text);
 }
 
 /*
 ============
-String::Icmpn
+StringMethods::Icmpn
 ============
 */
-int String::Icmpn(const char* text, int n) const
+int StringMethods::Icmpn(String* str, const char* text, int n)
 {
 	assert(text);
 
-	return CharMethods::Icmpn(data, text, n);
+	return CharMethods::Icmpn(str->Cstring, text, n);
 }
 
 /*
 ============
-String::IcmpPrefix
+StringMethods::IcmpPrefix
 ============
 */
-int String::IcmpPrefix(const char* text) const
+int StringMethods::IcmpPrefix(String* str, const char* text)
 {
 	assert(text);
 
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-	return CharMethods::Icmpn(data, text, (int)strlen(text));
+	return CharMethods::Icmpn(str->Cstring, text, (int)strlen(text));
 	// RB end
 }
 
 /*
 ============
-String::IcmpPath
+StringMethods::IcmpPath
 ============
 */
-int String::IcmpPath(const char* text) const
+int StringMethods::IcmpPath(String* str, const char* text)
 {
 	assert(text);
 
-	return CharMethods::IcmpPath(data, text);
+	return CharMethods::IcmpPath(str->Cstring, text);
 }
 
 /*
 ============
-String::IcmpnPath
+StringMethods::IcmpnPath
 ============
 */
-int String::IcmpnPath(const char* text, int n) const
+int StringMethods::IcmpnPath(String* str, const char* text, int n)
 {
 	assert(text);
 
-	return CharMethods::IcmpnPath(data, text, n);
+	return CharMethods::IcmpnPath(str->Cstring, text, n);
 }
 
 /*
 ============
-String::IcmpPrefixPath
+StringMethods::IcmpPrefixPath
 ============
 */
-int String::IcmpPrefixPath(const char* text) const
+int StringMethods::IcmpPrefixPath(String* str, const char* text)
 {
 	assert(text);
 
 	// RB: 64 bit fixes,  conversion from 'size_t' to 'int', possible loss of data
-	return CharMethods::IcmpnPath(data, text, (int)strlen(text));
+	return CharMethods::IcmpnPath(str->Cstring, text, (int)strlen(text));
 	// RB end
 }
 
 /*
 ============
-String::IcmpNoColor
+StringMethods::IcmpNoColor
 ============
 */	
-int String::IcmpNoColor(const char* text) const
+int StringMethods::IcmpNoColor(String* str, const char* text)
 {
 	assert(text);
 
-	return CharMethods::IcmpNoColor(data, text);
+	return CharMethods::IcmpNoColor(str->Cstring, text);
 }
 
 /*
 ============
-String::UTF8Length
+StringMethods::UTF8Length
 ============
 */
-int String::UTF8Length()
+int StringMethods::UTF8Length(String* str)
 {
-	return UTF8Length((byte*)data);
+	return UTF8Length(str, (byte*)str->Cstring);
 }
 
 /*
 ============
-String::UTF8Length
+StringMethods::UTF8Length
 ============
 */
-int String::UTF8Length(const byte* s)
+int StringMethods::UTF8Length(String* str, const byte* s)
 {
 	int mbLen = 0;
 	int charLen = 0;
@@ -1104,55 +1140,55 @@ int String::UTF8Length(const byte* s)
 
 /*
 ============
-String::Find
+StringMethods::Find
 ============
 */
-int String::Find(const char c, int start, int end) const
+int StringMethods::Find(String* str, const char c, int start, int end)
 {
 	if (end == -1)
 	{
-		end = length;
+		end = str->Length;
 	}
 
-	return CharMethods::FindChar(data, c, start, end);
+	return CharMethods::FindChar(str->Cstring, c, start, end);
 }
 
-int String::Find(const char* text, bool casesensitive, int start, int end) const
+int StringMethods::Find(String* str, const char* text, bool casesensitive, int start, int end)
 {
 	if (end == -1)
 	{
-		end = length;
+		end = str->Length;
 	}
 
-	return CharMethods::FindText(data, text, casesensitive, start, end);
+	return CharMethods::FindText(str->Cstring, text, casesensitive, start, end);
 }
 
 /*
 ============
-String::UTF8Char
+StringMethods::UTF8Char
 ============
 */
-uint32 String::UTF8Char(int& idx)
+uint32 StringMethods::UTF8Char(String* str, int& idx)
 {
-	return UTF8Char((byte*)data, idx);
+	return UTF8Char(str, (byte*)str->Cstring, idx);
 }
 
 /*
 ============
-String::UTF8Char
+StringMethods::UTF8Char
 ============
 */
-uint32 String::UTF8Char(const char* s, int& idx)
+uint32 StringMethods::UTF8Char(String* str, const char* s, int& idx)
 {
-	return UTF8Char((byte*)s, idx);
+	return UTF8Char(str, (byte*)s, idx);
 }
 
 /*
 ============
-String::UTF8Char
+StringMethods::UTF8Char
 ============
 */
-uint32 String::UTF8Char(const byte* s, int& idx)
+uint32 StringMethods::UTF8Char(String* str, const byte* s, int& idx)
 {
 	if (idx >= 0)
 	{
@@ -1195,64 +1231,64 @@ uint32 String::UTF8Char(const byte* s, int& idx)
 
 /*
 ============
-String::AppendUTF8Char
+StringMethods::AppendUTF8Char
 ============
 */
-void String::AppendUTF8Char(uint32 c)
+void StringMethods::AppendUTF8Char(String* str, uint32 c)
 {
 	if (c < 0x80)
 	{
-		Append((char)c);
+		StringMethods::Append(str, (char)c);
 	}
 	else if (c < 0x800)      // 11 bits
 	{
-		Append((char)(0xC0 | (c >> 6)));
-		Append((char)(0x80 | (c & 0x3F)));
+		StringMethods::Append(str, (char)(0xC0 | (c >> 6)));
+		StringMethods::Append(str, (char)(0x80 | (c & 0x3F)));
 	}
 	else if (c < 0x10000)      // 16 bits
 	{
-		Append((char)(0xE0 | (c >> 12)));
-		Append((char)(0x80 | ((c >> 6) & 0x3F)));
-		Append((char)(0x80 | (c & 0x3F)));
+		StringMethods::Append(str, (char)(0xE0 | (c >> 12)));
+		StringMethods::Append(str, (char)(0x80 | ((c >> 6) & 0x3F)));
+		StringMethods::Append(str, (char)(0x80 | (c & 0x3F)));
 	}
 	else if (c < 0x200000)  	// 21 bits
 	{
-		Append((char)(0xF0 | (c >> 18)));
-		Append((char)(0x80 | (( c >> 12) & 0x3F)));
-		Append((char)(0x80 | (( c >> 6) & 0x3F)));
-		Append((char)(0x80 | (c & 0x3F)));
+		StringMethods::Append(str, (char)(0xF0 | (c >> 18)));
+		StringMethods::Append(str, (char)(0x80 | (( c >> 12) & 0x3F)));
+		StringMethods::Append(str, (char)(0x80 | (( c >> 6) & 0x3F)));
+		StringMethods::Append(str, (char)(0x80 | (c & 0x3F)));
 	}
 	else
 	{
 		// UTF-8 can encode up to 6 bytes. Why don't we support that?
 		// This is an invalid Unicode character
-		Append('?');
+		StringMethods::Append(str, '?');
 	}
 }
 
 /*
 ============
-String::ConvertToUTF8
+StringMethods::ConvertToUTF8
 ============
 */
-void String::ConvertToUTF8()
+void StringMethods::ConvertToUTF8(String* str)
 {
-	String temp(*this);
+	String temp(str);
 
-	Clear();
+	StringMethods::Clear(str);
 
-	for(int index = 0; index < temp.Length(); ++index)
+	for(int index = 0; index < temp.Length; ++index)
 	{
-		AppendUTF8Char(temp[index]);
+		AppendUTF8Char(str, temp[index]);
 	}
 }
 
 /*
 ============
-String::IsValidUTF8
+StringMethods::IsValidUTF8
 ============
 */
-bool String::IsValidUTF8(const uint8* s, const int maxLen, utf8Encoding_t& encoding)
+bool StringMethods::IsValidUTF8(String* str, const uint8* s, const int maxLen, utf8Encoding_t& encoding)
 {
 	struct local_t
 	{
@@ -1372,32 +1408,32 @@ bool String::IsValidUTF8(const uint8* s, const int maxLen, utf8Encoding_t& encod
 
 /*
 ============
-String::IsValidUTF8
+StringMethods::IsValidUTF8
 ============
 */
-bool String::IsValidUTF8(const char* s, const int maxLen, utf8Encoding_t& encoding)
+bool StringMethods::IsValidUTF8(String* str, const char* s, const int maxLen, utf8Encoding_t& encoding)
 {
-	return IsValidUTF8((const uint8*)s, maxLen, encoding);
+	return IsValidUTF8(str, (const uint8*)s, maxLen, encoding);
 }
 
 /*
 ============
-String::RemoveColors
+StringMethods::RemoveColors
 ============
 */
-String& String::RemoveColors()
+String& StringMethods::RemoveColors(String* str)
 {
-	CharMethods::RemoveColors(data);
-	length = CharMethods::Length(data);
-	return *this;
+	CharMethods::RemoveColors(str->Cstring);
+	str->Length = CharMethods::Length(str->Cstring);
+	return *str;
 }
 
 /*
 ============
-String::StripTrailingOnce
+StringMethods::StripTrailingOnce
 ============
 */
-bool String::StripTrailingOnce(const char* string)
+bool StringMethods::StripTrailingOnce(String* str, const char* string)
 {
 	int l;
 	
@@ -1405,10 +1441,10 @@ bool String::StripTrailingOnce(const char* string)
 	l = (int)strlen(string);
 	// RB end
 
-	if ((l > 0) && (length >= l) && !CharMethods::Cmpn(string, data + length - l, l))
+	if ((l > 0) && (str->Length >= l) && !CharMethods::Cmpn(string, str->Cstring + str->Length - l, l))
 	{
-		length -= l;
-		data[length] = '\0';
+		str->Length -= l;
+		str->Cstring[str->Length] = '\0';
 		return true;
 	}
 
@@ -1417,10 +1453,10 @@ bool String::StripTrailingOnce(const char* string)
 
 /*
 ============
-String::StripLeadingOnce
+StringMethods::StripLeadingOnce
 ============
 */
-bool String::StripLeadingOnce(const char* string)
+bool StringMethods::StripLeadingOnce(String* str, const char* string)
 {
 	int l;
 	
@@ -1428,11 +1464,11 @@ bool String::StripLeadingOnce(const char* string)
 	l = (int)strlen(string);
 	// RB end
 
-	if ((l > 0) && !Cmpn(string, l))
+	if ((l > 0) && !Cmpn(str, string, l))
 	{
-		memmove(data, data + l, length - l + 1);
+		memmove(str->Cstring, str->Cstring + l, str->Length - l + 1);
 
-		length -= l;
+		str->Length -= l;
 		return true;
 	}
 
@@ -1441,24 +1477,24 @@ bool String::StripLeadingOnce(const char* string)
 
 /*
 ============
-String::StripLeading
+StringMethods::StripLeading
 ============
 */
-void String::StripLeading(const char c)
+void StringMethods::StripLeading(String* str, const char c)
 {
-	while (data[0] == c)
+	while (str->Cstring[0] == c)
 	{
-		memmove(&data[0], &data[1], length);
-		length--;
+		memmove(&str->Cstring[0], &str->Cstring[1], str->Length);
+		str->Length--;
 	}
 }
 
 /*
 ============
-String::StripLeading
+StringMethods::StripLeading
 ============
 */
-void String::StripLeading(const char* string)
+void StringMethods::StripLeading(String* str, const char* string)
 {
 	int l;
 	
@@ -1467,36 +1503,36 @@ void String::StripLeading(const char* string)
 	// RB end
 	if (l > 0)
 	{
-		while (!Cmpn(string, l))
+		while (!Cmpn(str, string, l))
 		{
-			memmove (data, data + l, length - l + 1);
-			length -= l;
+			memmove(str->Cstring, str->Cstring + l, str->Length - l + 1);
+			str->Length -= l;
 		}
 	}
 }
 
 /*
 ============
-String::StripTrailing
+StringMethods::StripTrailing
 ============
 */
-void String::StripTrailing(const char c)
+void StringMethods::StripTrailing(String* str, const char c)
 {
 	int i;
 	
-	for (i = Length(); i > 0 && data[i - 1] == c; i--)
+	for (i = str->Length; i > 0 && str->Cstring[i - 1] == c; i--)
 	{
-		data[i - 1] = '\0';
-		length--;
+		str->Cstring[i - 1] = '\0';
+		str->Length--;
 	}
 }
 
 /*
 ============
-String::StripLeading
+StringMethods::StripLeading
 ============
 */
-void String::StripTrailing(const char* string)
+void StringMethods::StripTrailing(String* str, const char* string)
 {
 	int l;
 	
@@ -1506,10 +1542,10 @@ void String::StripTrailing(const char* string)
 
 	if (l > 0)
 	{
-		while ((length >= l) && !CharMethods::Cmpn(string, data + length - l, l))
+		while ((str->Length >= l) && !CharMethods::Cmpn(string, str->Cstring + str->Length - l, l))
 		{
-			length -= l;
-			data[length] = '\0';
+			str->Length -= l;
+			str->Cstring[str->Length] = '\0';
 		}
 	}
 
@@ -2091,10 +2127,11 @@ int CharMethods::FindText(const char* str, const char* text, bool casesensitive,
 				}
 			}
 		}
-		if (!text[j])
-		{
-			return i;
-		}
+	}
+
+	if (!text[j])
+	{
+		return i;
 	}
 
 	return -1;
@@ -2116,7 +2153,6 @@ void CharMethods::Append(char* dest, int size, const char* src)
 	// RB end
 	if (l1 >= size)
 	{
-		// libBud::common->Error( "String::Append: already overflowed" );
 		return;
 	}
 	Copynz(dest + l1, src, size - l1);
@@ -2131,12 +2167,10 @@ void CharMethods::Copynz(char* dest, const char* src, int destsize)
 {
 	if (!src)
 	{
-		// libBud::common->Warning( "String::Copynz: NULL src" );
 		return;
 	}
 	if (destsize < 1)
 	{
-		// libBud::common->Warning( "String::Copynz: destsize < 1" );
 		return;
 	}
 	
@@ -2155,7 +2189,7 @@ void CharMethods::StripMediaName(const char* name, String& mediaName)
 {
 	char c;
 	
-	mediaName.Empty();
+	StringMethods::Empty(&mediaName);
 	
 	for (c = *name; c; c = *(++name))
 	{
@@ -2168,12 +2202,12 @@ void CharMethods::StripMediaName(const char* name, String& mediaName)
 		// convert backslashes to forward slashes
 		if (c == '\\')
 		{
-			mediaName.Append('/');
+			StringMethods::Append(&mediaName, '/');
 		}
 
 		else
 		{
-			mediaName.Append(ToLower(c));
+			StringMethods::Append(&mediaName, ToLower(c));
 		}
 	}
 }
@@ -2340,7 +2374,7 @@ bool CharMethods::Filter(const char* filter, const char* name, bool casesensitiv
 		if (*filter == '*')
 		{
 			filter++;
-			buf.Empty();
+			StringMethods::Empty(&buf);
 
 			for (i = 0; *filter; i++)
 			{
@@ -2357,9 +2391,11 @@ bool CharMethods::Filter(const char* filter, const char* name, bool casesensitiv
 				}
 				filter++;
 			}
-			if (buf.Length())
-			{
-				index = String(name).Find(buf.c_str(), casesensitive);
+			if (buf.Length)
+			{	
+				String Name(name);
+
+				index = StringMethods::Find(&Name, buf.Cstring, casesensitive);
 				if( index == -1 )
 				{
 					return false;
@@ -2522,12 +2558,30 @@ bool CharMethods::CheckExtension(const char* name, const char* ext)
 	return (s1 >= name);
 }
 
-char* CharMethods::FloatToString(float f, char* s, unsigned int base)
+char* CharMethods::FloatToString(float f, char* s, unsigned int afterPoint, unsigned int base)
 {
+	int intPart = (int)f;
+	float floatPart = f - (float)intPart;
+
+	char* integer = IntToString(intPart, integer, base);
+	char* number = (char*)malloc(1);
+
+	if (afterPoint != 0)
+	{
+		number[sizeof(integer)] = '.';
+
+		floatPart = floatPart * pow(10, afterPoint);
+
+		IntToString((int)floatPart, number, 10);
+	}
+
+	s = number;
+
+	return s;
 
 }
 
-char* CharMethods::DoubleToString(double d, char* s, unsigned int base)
+char* CharMethods::DoubleToString(double d, char* s, unsigned int afterPoint, unsigned int base)
 {
 
 }
@@ -2537,8 +2591,12 @@ char* CharMethods::LongToString(long l, char* s, unsigned int base)
 	const char* table = "0123456789abcdef";	
 
 	unsigned int length = 0;
-	char prefix[2];
-	char number[MAX_STRING_CHARS]; // No segfaults
+	unsigned int a = 0;
+
+	char prefix[3];
+	char minus[2];
+
+	char* number = (char*)malloc(0);
 
 	bool negative = false;
 
@@ -2554,71 +2612,74 @@ char* CharMethods::LongToString(long l, char* s, unsigned int base)
 		negative = true;
 	}
 
-	// If binary, take our char and add the "0b" prefix
-	else if (base == 2)
-	{
-		prefix[0] = '0';
-		prefix[1] = 'b';
-	}
+	switch (base)
+	{	
+		// If binary, take our char and add the "0b" prefix
+		case 2:
+			{
+				prefix[0] = '0';
+				prefix[1] = 'b';
+				prefix[2] = '\0';	
+			}
 
-	// If octal, take our char and add the "0c" prefix
-	// I'm not fucking using "0" as the prefix fuck you
-	else if (base == 8)
-	{
-		prefix[0] = '0';
-		prefix[1] = 'c';
-	}
+		// If octal, take our char and add the "0c" prefix
+		// I'm not fucking using "0" as the prefix fuck you
+		case 8:
+			{
+				prefix[0] = '0';
+				prefix[1] = 'c';
+				prefix[2] = '\0';
+			}
 
-	// If hexadecminal, take our char and add the "0x" prefix
-	else if (base == 16)
-	{
-		prefix[0] = '0';
-		prefix[1] = 'x';
+		// If hexadecminal, take our char and add the "0x" prefix
+		case 16:
+			{
+				prefix[0] = '0';
+				prefix[1] = 'x';
+				prefix[2] = '\0';
+			}
 	}
-
+	
 	while (l != 0)
-	{
+	{	
 		number[length] = table[l % base];
+
 		l /= base;
+		length++;
 
-		length++;	
+		number = (char*)realloc(number, length);
 	}
-      
-    // use for loop to iterate the string
-	unsigned int count = 0;
-	unsigned int temp;
+	
+    for (a = 0; a < length/2; a++)  
+    {
+		char tmp;
 
-    while (count = 0, count < length / 2)  
-    {  
-        temp = number[count];
-
-        number[count] = number[length - count - 1];  
-        number[length - count - 1] = temp;  
-
-		count++;
+		tmp = number[a];  
+		number[a] = number[length - a - 1];  
+		number[length - a - 1] = tmp;  
     }
-  
+
+	number = (char*)realloc(number, length + 1);
+	length++;
+	number[length] = '\0';
+
 	if (base != 10)
 	{
-		char result[length + 2];
-
-		strcat(prefix, result);
-		strcat(number, result);
-
-		strcpy(result, s);
-
-		return s;
+		number = (char*)realloc(number, length + 2);
+		number = strcat(prefix, number);
 	}
 
-	else
+	if (negative)
 	{
-		char result[length];
+		minus[0] = '-';
+		minus[1] = '\0';
 
-		strcat(number, result);
-		strcpy(result, s);
-
-		return s;
+		number = (char*)realloc(number, length + 1);
+		number = strcat(minus, number);
 	}
+
+	s = number;
+	return s;     
 }
 
 char* CharMethods::IntToString(int i, char* s, unsigned int base)
@@ -2626,8 +2687,11 @@ char* CharMethods::IntToString(int i, char* s, unsigned int base)
 	const char* table = "0123456789abcdef";	
 
 	unsigned int length = 0;
+	unsigned int a = 0;
 
-	char prefix[2];
+	char prefix[3];
+	char minus[2];
+
 	char* number = (char*)malloc(0);
 
 	bool negative = false;
@@ -2644,28 +2708,34 @@ char* CharMethods::IntToString(int i, char* s, unsigned int base)
 		negative = true;
 	}
 
-	// If binary, take our char and add the "0b" prefix
-	else if (base == 2)
-	{
-		prefix[0] = '0';
-		prefix[1] = 'b';
-	}
+	switch (base)
+	{	
+		// If binary, take our char and add the "0b" prefix
+		case 2:
+			{
+				prefix[0] = '0';
+				prefix[1] = 'b';
+				prefix[2] = '\0';	
+			}
 
-	// If octal, take our char and add the "0c" prefix
-	// I'm not fucking using "0" as the prefix fuck you
-	else if (base == 8)
-	{
-		prefix[0] = '0';
-		prefix[1] = 'c';
-	}
+		// If octal, take our char and add the "0c" prefix
+		// I'm not fucking using "0" as the prefix fuck you
+		case 8:
+			{
+				prefix[0] = '0';
+				prefix[1] = 'c';
+				prefix[2] = '\0';
+			}
 
-	// If hexadecminal, take our char and add the "0x" prefix
-	else if (base == 16)
-	{
-		prefix[0] = '0';
-		prefix[1] = 'x';
+		// If hexadecminal, take our char and add the "0x" prefix
+		case 16:
+			{
+				prefix[0] = '0';
+				prefix[1] = 'x';
+				prefix[2] = '\0';
+			}
 	}
-
+	
 	while (i != 0)
 	{	
 		number[length] = table[i % base];
@@ -2675,18 +2745,37 @@ char* CharMethods::IntToString(int i, char* s, unsigned int base)
 
 		number = (char*)realloc(number, length);
 	}
-
-    for (i = 0; i < length/2; i++)  
+	
+    for (a = 0; a < length/2; a++)  
     {
 		char tmp;
 
-		tmp = number[i];  
-		number[i] = number[length - i - 1];  
-		number[length - i - 1] = tmp;  
+		tmp = number[a];  
+		number[a] = number[length - a - 1];  
+		number[length - a - 1] = tmp;  
     }
 
+	number = (char*)realloc(number, length + 1);
+	length++;
+	number[length] = '\0';
+
+	if (base != 10)
+	{
+		number = (char*)realloc(number, length + 2);
+		number = strcat(prefix, number);
+	}
+
+	if (negative)
+	{
+		minus[0] = '-';
+		minus[1] = '\0';
+
+		number = (char*)realloc(number, length + 1);
+		number = strcat(minus, number);
+	}
+
 	s = number;
-	return s;  
+	return s;   
 }
 
 /*

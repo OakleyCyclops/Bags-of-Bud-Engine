@@ -52,192 +52,186 @@ const int STR_ALLOC_GRAN			= 32;
 
 /*
 ====================
-	String class
+	String struct
 ====================
 */
-class String final
+struct String
 {
-    public:
-        String();
+	String();
+    String(const String& text);
+    String(const String& text, int start, int end);
+    String(const char* text);
+    String(const char* text, int start, int end);
 
-        String(const String& text);
-        String(const String& text, int start, int end);
-        
-        String(const char* text);
-        String(const char* text, int start, int end);
+    explicit String(const bool b);
+    explicit String(const char c);
+    explicit String(const int i);
+    explicit String(const unsigned u);
+    explicit String(const float f);
 
-        explicit String( const bool b );
-        explicit String( const char c );
-        explicit String( const int i );
-        explicit String( const unsigned u );
-        explicit String( const float f );
+    ~String();
 
-        ~String();
+	void				Construct();	// Initialize string using base buffer
+	void				FreeData();		// Free allocated string memory
 
-        size_t				Size() const;
+	operator			const char* () const;
+	operator			const char* ();
 
-        const char* 		c_str() const;
-
-        int					Length() const;
-        int					LengthWithoutColors() const;
-
-	    int					Allocated() const;
-
-	    void				Empty();
-	    void				Clear();
-        void				CapLength(int newLength);
-	    void				Fill(const char ch, int newLength);
-
-	    void				Append(const char a);
-	    void				Append(const String& text);
-	    void				Append(const char* text);
-	    void				Append(const char* text, int length);
-
-	    void				Insert(const char a, int index);
-	    void				Insert(const char* text, int index);
-
-	    void				ToLower();
-	    void				ToUpper();
-
-        bool				IsEmpty() const;
-	    bool				IsNumeric() const;
-	    bool				IsColor() const;
-	    bool				HasLower() const;
-	    bool				HasUpper() const;
-
-        // case sensitive compare
-	    int					Cmp(const char* text) const;
-	    int					Cmpn(const char* text, int n) const;
-	    int					CmpPrefix(const char* text) const;
+	friend String		operator+(const String& a, const String& b);
+	friend String		operator+(const String& a, const char* b);
+	friend String		operator+(const char* a, const String& b);
 	
-	    // case insensitive compare
-	    int					Icmp(const char* text) const;
-	    int					Icmpn(const char* text, int n ) const;
-	    int					IcmpPrefix(const char* text) const;
+	friend String		operator+(const String& a, const float b);
+	friend String		operator+(const String& a, const int b);
+	friend String		operator+(const String& a, const unsigned b);
+	friend String		operator+(const String& a, const bool b);
+	friend String		operator+(const String& a, const char b);
 
-		// compares paths and makes sure folders come first
-		int					IcmpPath( const char* text ) const;
-		int					IcmpnPath( const char* text, int n ) const;
-		int					IcmpPrefixPath( const char* text ) const;
+    String& 			operator+=(const String& a);
+	String& 			operator+=(const char* a);
+	String& 			operator+=(const float a);
+	String& 			operator+=(const char a);
+	String& 			operator+=(const int a);
+	String& 			operator+=(const unsigned a);
+	String& 			operator+=(const bool a);
+
+	friend bool			operator==(const String& a, const String& b);
+	friend bool			operator==(const String& a, const char* b);
+	friend bool			operator==(const char* a, const String& b);
 	
-	    // case insensitive compare ignoring color
-	    int					IcmpNoColor(const char* text) const;
+	friend bool			operator!=(const String& a, const String& b);
+	friend bool			operator!=(const String& a, const char* b);
+	friend bool			operator!=(const char* a, const String& b);
 
-        // UTF-8 Stuff
-        int                 UTF8Length();
-        int                 UTF8Length(const byte* s);
+	char				operator[](int index) const;
+	char& 				operator[](int index);
+	
+	void				operator=(const String& text);
+	void				operator=(const char* text);
 
-		int					Find(const char c, int start = 0, int end = -1) const;
-		int					Find(const char* text, bool casesensitive = true, int start = 0, int end = -1) const;
+	int					Length;
+	char*				Cstring;
+	int					AllocedAndFlag;
+	char				BaseBuffer[STR_ALLOC_BASE];
+	
+	static const uint32	STATIC_BIT	= 31;
+	static const uint32	STATIC_MASK	= 1u << STATIC_BIT;
+	static const uint32	ALLOCED_MASK = STATIC_MASK - 1;
+};
 
-	    uint32              UTF8Char(int& idx);
-	    uint32              UTF8Char(const char* s, int& idx);
-	    uint32              UTF8Char(const byte* s, int& idx);
+namespace StringMethods
+{
+    size_t 		Size(String* str);
 
-	    void                AppendUTF8Char(uint32 c);
-	    void                ConvertToUTF8();
+    int			LengthWithoutColors(String* str);
+	int			Allocated(String* str);
 
-	    bool                IsValidUTF8(const uint8* s, const int maxLen, utf8Encoding_t& encoding);
-	    bool                IsValidUTF8(const char* s, const int maxLen, utf8Encoding_t& encoding);
+	void		Empty(String* str);
+	void		Clear(String* str);
+    void		CapLength(String* str, int newLength);
+	void		Fill(String* str, const char ch, int newLength);
 
-	    String& 			RemoveColors();
+	void		Append(String* str, const char a);
+	void		Append(String* str, const String& text);
+	void		Append(String* str, const char* text);
+	void		Append(String* str, const char* text, int length);
+
+	String& 	BackSlashesToForwardSlashes(String& str);
+	String&		ForwardSlashesToBackSlashes(String& str);
+
+	void		Insert(String* str, const char a, int index);
+	void		Insert(String* str, const char* text, int index);
+
+	void		ToLower(String* str);
+	void		ToUpper(String* str);
+
+    bool		IsEmpty(String* str);
+	bool		IsNumeric(String* str);
+	bool		IsColor(String* str);
+	bool		HasLower(String* str);
+	bool		HasUpper(String* str);
+
+    // case sensitive compare
+	int			Cmp(String* str, const char* text);
+	int			Cmpn(String* str, const char* text, int n);
+	int			CmpPrefix(String* str, const char* text);
+	
+	// case insensitive compare
+	int			Icmp(String* str, const char* text);
+	int			Icmpn(String* str, const char* text, int n );
+	int			IcmpPrefix(String* str, const char* text);
+
+	// compares paths and makes sure folders come first
+	int			IcmpPath(String* str, const char* text );
+	int			IcmpnPath(String* str, const char* text, int n );
+	int			IcmpPrefixPath(String* str, const char* text );
+	
+	// case insensitive compare ignoring color
+	int			IcmpNoColor(String* str, const char* text);
+
+    // UTF-8 Stuff
+    int			UTF8Length(String* str);
+    int			UTF8Length(String* str, const byte* s);
+
+	int			Find(String* str, const char c, int start = 0, int end = -1);
+	int			Find(String* str, const char* text, bool casesensitive = true, int start = 0, int end = -1);
+
+	uint32		UTF8Char(String* str, int& idx);
+	uint32		UTF8Char(String* str, const char* s, int& idx);
+	uint32		UTF8Char(String* str, const byte* s, int& idx);
+
+	void		AppendUTF8Char(String* str, uint32 c);
+	void		ConvertToUTF8(String* str);
+
+	bool		IsValidUTF8(String* str, const uint8* s, const int maxLen, utf8Encoding_t& encoding);
+	bool		IsValidUTF8(String* str, const char* s, const int maxLen, utf8Encoding_t& encoding);
+
+	String& 	RemoveColors(String* str);
 		
-		bool				StripTrailingOnce(const char* string);		// strip string from end just once if it occurs
-		bool				StripLeadingOnce(const char* string);		// strip string from front just once if it occurs
+	bool		StripTrailingOnce(String* str, const char* string);		// strip string from end just once if it occurs
+	bool		StripLeadingOnce(String* str, const char* string);		// strip string from front just once if it occurs
 
 
-		void				StripLeading(const char c);					// strip char from front as many times as the char occurs
-		void				StripLeading(const char* string);			// strip string from front as many times as the string occurs
-		void				StripTrailing(const char c);				// strip char from end as many times as the char occurs
-		void				StripTrailing(const char* string);			// strip string from end as many times as the string occurs
-		void				Strip(const char c);						// strip char from front and end as many times as the char occurs
-		void				Strip(const char* string);					// strip string from front and end as many times as the string occurs
-		void				StripTrailingWhitespace();					// strip trailing white space characters
+	void		StripLeading(String* str, const char c);					// strip char from front as many times as the char occurs
+	void		StripLeading(String* str, const char* string);			// strip string from front as many times as the string occurs
+	void		StripTrailing(String* str, const char c);				// strip char from end as many times as the char occurs
+	void		StripTrailing(String* str, const char* string);			// strip string from end as many times as the string occurs
+	void		Strip(String* str, const char c);						// strip char from front and end as many times as the char occurs
+	void		Strip(String* str, const char* string);					// strip string from front and end as many times as the string occurs
+	void		StripTrailingWhitespace(String* str);					// strip trailing white space characters
 
-		String& 			StripQuotes();								// strip quotes around string
+	String& 	StripQuotes(String* str);								// strip quotes around string
 
-		// hash keys
-		static int			Hash(const char* string);
-		static int			Hash(const char* string, int length);
+	// hash keys
+	int			Hash(String* str, const char* string);
+	int			Hash(String* str, const char* string, int length);
 
-		static int			IHash(const char* string);					// case insensitive
-		static int			IHash(const char* string, int length);		// case insensitive
+	int			IHash(String* str, const char* string);					// case insensitive
+	int			IHash(String* str, const char* string, int length);		// case insensitive
 		
-		// character methods
-		static char			ToLower(char c);
-		static char			ToUpper(char c);
-		static int			ColorIndex(int c);
-		static Vector4& 	ColorForIndex(int i);
+	// character methods
+	char		ToLower(String* str, char c);
+	char		ToUpper(String* str, char c);
+	int			ColorIndex(String* str, int c);
+	Vector4& 	ColorForIndex(String* str, int i);
 		
-		friend int			sprintf(String& dest, const char* fmt, ...);
-		friend int			vsprintf(String& dest, const char* fmt, va_list ap);
+	int			sprintf(String* src, String* dest, const char* fmt, ...);
+	int			vsprintf(String* src, String* dest, const char* fmt, va_list ap);
 		
-		void				ReAllocate( int amount, bool keepold );				// reallocate string data buffer
-		void				FreeData();											// free allocated string memory
-
-	    operator			const char* () const;
-	    operator			const char* ();
+	void		ReAllocate(String* str, int amount, bool keepold);				// reallocate string data buffer
 	
-	    char				operator[](int index) const;
-	    char& 				operator[](int index);
-	
-	    void				operator=(const String& text);
-	    void				operator=(const char* text);
-	
-	    friend String		operator+(const String& a, const String& b);
-	    friend String		operator+(const String& a, const char* b);
-	    friend String		operator+(const char* a, const String& b);
-	
-	    friend String		operator+(const String& a, const float b);
-	    friend String		operator+(const String& a, const int b);
-	    friend String		operator+(const String& a, const unsigned b);
-	    friend String		operator+(const String& a, const bool b);
-	    friend String		operator+(const String& a, const char b);
+	// sets the data point to the specified buffer... note that this ignores makes the passed buffer empty and ignores
+	// anything currently in the budStr's dynamic buffer.  This method is intended to be called only from a derived class's constructor.
+	void		SetStaticBuffer(char* buffer, const int bufferLength);
 
-        String& 			operator+=(const String& a);
-	    String& 			operator+=(const char* a);
-	    String& 			operator+=(const float a);
-	    String& 			operator+=(const char a);
-	    String& 			operator+=(const int a);
-	    String& 			operator+=(const unsigned a);
-	    String& 			operator+=(const bool a);
+	bool		IsStatic(String* str);
+	void		SetStatic(String* str, const bool isStatic);
 
-        // Case-sensitive compare
-	    friend bool			operator==(const String& a, const String& b);
-	    friend bool			operator==(const String& a, const char* b);
-	    friend bool			operator==(const char* a, const String& b);
-	
-	    friend bool			operator!=(const String& a, const String& b);
-	    friend bool			operator!=(const String& a, const char* b);
-	    friend bool			operator!=(const char* a, const String& b);
+	int			GetAlloced(String* str);
+	void		SetAlloced(String* str, const int a);
 
-	private:
-		// Initialize string using base buffer
-		// ONLY CALL FROM CONSTRUCTOR
-		void				Construct();
-	
-		// sets the data point to the specified buffer... note that this ignores makes the passed buffer empty and ignores
-		// anything currently in the budStr's dynamic buffer.  This method is intended to be called only from a derived class's constructor.
-		void				SetStaticBuffer(char* buffer, const int bufferLength);
-
-		bool				IsStatic() const;
-		void				SetStatic(const bool isStatic);
-
-		int					GetAlloced() const;
-		void				SetAlloced(const int a);
-
-		// ensure string data buffer is large anough
-		void				EnsureAlloced( int amount, bool keepold = true );
-
-		static const uint32	STATIC_BIT	= 31;
-		static const uint32	STATIC_MASK	= 1u << STATIC_BIT;
-		static const uint32	ALLOCED_MASK = STATIC_MASK - 1;
-
-	protected:
-		int					length;
-		char*				data;
-		int					allocedAndFlag;
-		char				baseBuffer[STR_ALLOC_BASE];
+	// ensure string data buffer is large anough
+	void		EnsureAlloced(String* str, int amount, bool keepold = true);
 };
 
 /*
@@ -285,8 +279,8 @@ namespace CharMethods
 	char*			RemoveColors(char* string);
 
 
-	char*			FloatToString(float f, char* s, unsigned int base);
-	char*			DoubleToString(double d, char* s, unsigned int base);
+	char*			FloatToString(float f, char* s, unsigned int afterPoint, unsigned int base);
+	char*			DoubleToString(double d, char* s, unsigned int afterPoint, unsigned int base);
 	char*			LongToString(long l, char* s, unsigned int base);
 	char*			IntToString(int i, char* s, unsigned int base);
 

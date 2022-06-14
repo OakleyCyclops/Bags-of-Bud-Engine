@@ -31,6 +31,158 @@ void ConsoleShell::RegisterCVarsAndCmds()
 
 	Console::Register(&clear);
 	Console::Register(&conDump);
+	Console::Register(&help);
+}
+
+/*
+=========
+Command functions
+=========
+*/
+void ConsoleShell::cmdClear()
+{
+	return;
+}
+
+void ConsoleShell::cmdDump()
+{
+	return;
+}
+
+void ConsoleShell::cmdHelp()
+{
+	CVar* cvar;
+	Cmd* cmd;
+
+	const char* typeStr = "Type:\n";
+	const char* usageStr = "Usage:\n";
+	const char* descStr = "Description:\n";
+
+	if (arg.Length != 0)
+	{
+		if (cmd = Console::FindCmd(arg.Cstring))
+		{	
+			// "Type:"
+			Print("\n");
+
+			Print(ANSI_YEL);
+			Print(typeStr);
+
+			Print("\t");
+
+			Print("Console command\n");
+				
+			if (cmd->Flags & CMD_CHEAT)
+			{
+				Print("\t");
+				Print("Cheat\n");
+			}
+
+			// "Usage:"
+			Print("\n");
+
+			Print(ANSI_YEL);
+			Print(usageStr);
+			Print(ANSI_RST);
+
+			Print("\t");
+				
+			Print(cmd->Name);
+
+			Print(ANSI_BLU);
+			Print(" <String>\"\n");
+			printf(ANSI_RST);
+
+			// "Description:"
+			Print("\n");
+				
+			Print(ANSI_YEL);
+			Print(descStr);
+			Print(ANSI_RST);
+
+			Print("\t");
+			Print("\"");
+			Print(cmd->Description);
+			Print("\"");
+
+			Print("\n");
+		}
+
+		else if (cvar = Console::FindCVar(arg.Cstring))
+		{	
+			// "Type:"
+			Print("\n");
+
+			Print(ANSI_UYEL);
+			Print(typeStr);
+			Print(ANSI_RST);
+
+			Print("\t");
+
+			Print("Console variable\n");
+				
+			if (cvar->Flags & CVAR_CHEAT)
+			{
+				Print("\t");
+				Print("Cheat\n");
+			}
+
+			// "Usage:"
+			Print("\n");
+
+			Print(ANSI_UYEL);
+			Print(usageStr);
+			Print(ANSI_RST);
+
+			Print("\t");
+			
+			Print("\"");
+			Print(cvar->Name);
+			Print(" ");
+
+			if (cvar->Flags & CVAR_INTEGER)
+			{
+				Print(ANSI_UBLU);
+				Print("<Int>");
+				Print(ANSI_RST);
+			}
+
+			else if (cvar->Flags & CVAR_FLOAT)
+			{
+				Print(ANSI_UBLU);
+				Print("<Float>");
+				Print(ANSI_RST);
+			}
+
+			else if (cvar->Flags & CVAR_BOOL)
+			{
+				Print(ANSI_UBLU);
+				Print("<Bool>");
+				Print(ANSI_RST);
+			}
+			Print("\"\n");	
+
+			// "Description:"
+			Print("\n");
+				
+			Print(ANSI_UYEL);
+			Print(descStr);
+			Print(ANSI_RST);
+
+
+			// TODO: No clue why but for some reason
+			// the description doesn't print 
+			// and this function runs twice 
+			// for no apparent reason
+
+			Print("\t");
+			Print("\"");
+			Print(cvar->Description);
+			Print("\"");
+
+			Print("\n");
+		}
+	}
 }
 
 /*
@@ -114,70 +266,57 @@ void ConsoleShell::TerminalInput()
 		if (KbhHit())
 		{
 			char buffer = GetChar();
-				
-			input.Append(buffer);
-			input.StripTrailing('\n');
+			
+			if (buffer != '\n' || buffer != '\t')
+			{
+				StringMethods::Append(&input, buffer);
+				StringMethods::StripTrailing(&input, '\n');
+			}
 
 			// Call TerminalOutput if we press enter
 			if (buffer == '\n')
 			{
 				Print(CON_PROMPT_SIGN);
-				Print(input.c_str());
+				Print(input.Cstring);
 				Print("\n");
 
 				TerminalOutput(&input);
 
-				// Clear both the char and string
-				input.Clear();
+				// Clear
+				StringMethods::Clear(&input); 
+				StringMethods::Clear(&arg); 
 			}
 			// VOILA
 		}
-		else
-		{
-			return;
-		}
 
-	}
-
-	else
-	{
-		return;
 	}
 }	
 
 void ConsoleShell::TerminalOutput(String* input)
 {
-	int i = input->Find(' ', 0, -1) + 1;
-	
-	String* arg = new String;
+	int i = StringMethods::Find(input, ' ', 0, -1) + 1;
 	String* strip = new String;
 
 	// Split up the string between the Cmd/CVar and the argument
-    while(i <= input->Length())
-    {
-		if (input->c_str()[i] != ' ')
+    while(i <= input->Length)
+    {	
+		if (input->Cstring[i] != ' ')
 		{
-			arg->Append(input->c_str()[i]);
+			StringMethods::Append(&arg, input->Cstring[i]);
 		}
         i++;
     }
 
-	strip->Append(' ');
-	strip->Append(arg->c_str());
+	StringMethods::Append(strip, ' ');
+	StringMethods::Append(strip, arg.Cstring);
 
-	input->StripTrailingOnce(strip->c_str());
+	StringMethods::StripTrailingOnce(input, strip->Cstring);
 
 	delete strip;
 
-
-	if (!Console::Exec(input, arg))
+	if (!Console::Exec(input, &arg))
 	{
-		Error("Unknown CVar/Command '%s'\n", input->c_str());
-	}
-
-	else
-	{
-		Console::Exec(input, arg);
+		Error("Unknown CVar/Cmd \"%s\"\n", input->Cstring);
 	}
 
 }
@@ -193,8 +332,6 @@ void ConsoleShell::Print(const char* fmt, ...)
 {
 	if (con_terminalSupport.Value && isTerminal)
 	{
-		printf(ANSI_RST);
-
 		va_list argptr;
 		va_start(argptr, fmt);
 
@@ -217,12 +354,16 @@ void ConsoleShell::Success(const char* msg, ...)
 	{
 		printf(ANSI_GRN);
 		printf(CON_SUCCESS_MSG);
-		printf(ANSI_RST);
 
 		va_list argptr;
 		va_start(argptr, msg);
+
+		Print(ANSI_RST);
+
 		vprintf(msg, argptr);
 		va_end(argptr);
+
+
 	}
 }
 
@@ -235,12 +376,14 @@ void ConsoleShell::Warning(const char* msg, ...)
 {
 	if (con_terminalSupport.Value && isTerminal)
 	{
-		printf(ANSI_YEL);
-		printf(CON_WARN_MSG);
-		printf(ANSI_RST);
+		Print(ANSI_YEL);
+		Print(CON_WARN_MSG);
 
 		va_list argptr;
 		va_start(argptr, msg);
+
+		Print(ANSI_RST);
+
 		vprintf(msg, argptr);
 		va_end(argptr);
 	}
@@ -255,12 +398,14 @@ void ConsoleShell::Error(const char* msg, ...)
 {
 	if (con_terminalSupport.Value && isTerminal)
 	{
-		printf(ANSI_RED);
-		printf(CON_ERROR_MSG);
-		printf(ANSI_RST);
+		Print(ANSI_RED);
+		Print(CON_ERROR_MSG);
 
 		va_list argptr;
 		va_start(argptr, msg);
+
+		Print(ANSI_RST);
+
 		vprintf(msg, argptr);
 		va_end(argptr);
 	}
@@ -275,18 +420,20 @@ void ConsoleShell::FatalError(const char* msg, ...)
 {
 	if (con_terminalSupport.Value && isTerminal)
 	{
-		printf(ANSI_BRED);
-		printf(CON_FATALERROR_MSG);
-		printf(ANSI_RST);
+		Print(ANSI_BRED);
+		Print(CON_FATALERROR_MSG);
 
 		va_list argptr;
 		va_start(argptr, msg);
+
+		Print(ANSI_RST);
+
 		vprintf(msg, argptr);
 		va_end(argptr);
 	}
 }
 
-#ifdef USING_UNIX
+#ifdef BUDPOSIX
 
 	// I hate this
     // Because conio.h isn't a thing in the GNU C library and NCurses fucking sucks
@@ -305,7 +452,7 @@ void ConsoleShell::FatalError(const char* msg, ...)
 		struct termios old = {0};
 		fflush(stdout);
 
-		if(tcgetattr(0, &old) < 0)
+		if (tcgetattr(0, &old) < 0)
 		{
 			perror("tcsetattr()");
 		}
@@ -315,12 +462,12 @@ void ConsoleShell::FatalError(const char* msg, ...)
     	old.c_cc[VMIN] = 1;
     	old.c_cc[VTIME] = 0;
 
-    	if(tcsetattr(0, TCSANOW, &old) < 0)
+    	if (tcsetattr(0, TCSANOW, &old) < 0)
 		{
         	perror("tcsetattr ICANON");
 		}
 
-    	if(read(0, &buf, 1) < 0)
+    	if (read(0, &buf, 1) < 0)
 		{
 			perror("read()");
 		}
@@ -328,7 +475,7 @@ void ConsoleShell::FatalError(const char* msg, ...)
     	old.c_lflag |= ICANON;
     	old.c_lflag |= ECHO;
 
-    	if(tcsetattr(0, TCSADRAIN, &old) < 0)
+    	if (tcsetattr(0, TCSADRAIN, &old) < 0)
 		{
         	perror("tcsetattr ~ICANON");
 		}

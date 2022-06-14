@@ -136,6 +136,7 @@ If you have questions concerning this license or the applicable additional terms
 #endif
 
 #include <unistd.h>
+#include <libgen.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>

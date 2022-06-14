@@ -24,10 +24,7 @@ namespace Heart
     inline CVar hrt_globalFPSCap = {"hrt_globalFPSCap", new int(1000), "Global framerate cap across all threads", CVAR_INTEGER | CVAR_CORE};
 
     // Quit command
-    inline auto cmdQuit = []
-    {
-        Heart::Shutdown();
-    };
+    void cmdQuit();
 
     inline Cmd quit = {"quit", cmdQuit, "Quits the game", CMD_CORE};
 };

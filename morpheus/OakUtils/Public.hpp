@@ -479,11 +479,11 @@ void			Sys_Shutdown();
 void			Sys_Error( const char* error, ... );
 const char* 	Sys_GetCmdLine();
 
-#ifdef USING_UNIX
+#ifdef BUDPOSIX
 	const bool  isTerminal = isatty(STDOUT_FILENO);
 #endif
 
-#ifdef USING_WINDOWS
+#ifdef BUDWINDOWS
 	const bool	isTerminal = _isatty(_fileno(stdout);
 #endif
 
@@ -622,16 +622,16 @@ void			Sys_ShowConsole( int visLevel, bool quitOnClose );
 // This really isn't the right place to have this, but since this is the 'top level' include
 // and has a function signature with 'FILE' in it, it kinda needs to be here =/
 
-// RB begin
-#if defined(_WIN32)
-typedef HANDLE budFileHandle;
-#else
-typedef FILE* budFileHandle;
+#ifdef BUDWINDOWS
+	typedef HANDLE FileHandle;
 #endif
-// RB end
+
+#ifdef BUDPOSIX
+	typedef FILE* FileHandle;
+#endif
 
 
-ID_TIME_T		Sys_FileTimeStamp( budFileHandle fp );
+ID_TIME_T		Sys_FileTimeStamp(FileHandle fp);
 // NOTE: do we need to guarantee the same output on all platforms?
 const char* 	Sys_TimeStampToStr( ID_TIME_T timeStamp );
 const char* 	Sys_SecToStr( int sec );

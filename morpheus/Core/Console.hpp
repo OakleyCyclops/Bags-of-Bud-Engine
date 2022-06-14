@@ -10,13 +10,14 @@ struct CVar
     int                     Flags = NULL;                  	// Flags
 	
 	char*					ValueString = nullptr;			// ValueString
+	void*					DefaultValue = nullptr;			// DefaultValue
 };
 
 struct Cmd 
 {
 	// Everything needs to be null by default otherwise we run into segfaults lol
     const char* 			Name = nullptr;					// Name
-    funcPtr                 FunctionPointer = nullptr;		// Function pointer
+    funcPtr                	FunctionPointer = nullptr;		// Function pointer
 	const char* 			Description = nullptr;			// Description
     int                     Flags = NULL;                  	// Flags
 
@@ -40,8 +41,8 @@ namespace Console
     CVar* FindCVar(const char* cvarName);
     Cmd*  FindCmd(const char* cmdName);
 
-    inline static LinkedList registeredCVars;
-    inline static LinkedList registeredCmds;
+    inline LinkedList registeredCVars;
+    inline LinkedList registeredCmds;
 };
 
 typedef enum CVarFlags
@@ -50,12 +51,13 @@ typedef enum CVarFlags
 	CVAR_BOOL				= BIT(0),	// variable is a boolean
 	CVAR_INTEGER			= BIT(1),	// variable is an integer
 	CVAR_FLOAT				= BIT(2),	// variable is a float
-	CVAR_CORE				= BIT(3),	// core variable
-	CVAR_RENDERER			= BIT(4),	// renderer variable
-	CVAR_SOUND				= BIT(5),	// sound variable
-	CVAR_GUI				= BIT(6),	// gui variable
-	CVAR_GAME				= BIT(7),	// game variable
-	CVAR_TOOL				= BIT(8),	// tool variable
+	CVAR_STRING				= BIT(3),	// Variable is a String
+	CVAR_CORE				= BIT(4),	// core variable
+	CVAR_RENDERER			= BIT(5),	// renderer variable
+	CVAR_SOUND				= BIT(6),	// sound variable
+	CVAR_GUI				= BIT(7),	// gui variable
+	CVAR_GAME				= BIT(8),	// game variable
+	CVAR_TOOL				= BIT(9),	// tool variable
 	CVAR_SERVERINFO			= BIT(10),  // sent from servers, available to menu
 	CVAR_NETWORKSYNC		= BIT(11),	// cvar is synced from the server to clients
 	CVAR_STATIC				= BIT(12),	// statically declared, not user created

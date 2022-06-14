@@ -23,6 +23,10 @@ void Heart::Init(int argc, const char** argv)
     ConsoleShell::Init();
     ConsoleShell::Print("ConsoleShell::Init();\n");
 
+    // The File System
+    FileSystem::Init(argc, argv);
+    ConsoleShell::Print("FileSystem::Init(argc, argv);\n");
+
     // Input System
     InputSystem::Init();
     ConsoleShell::Print("InputSystem::Init();\n");
@@ -47,6 +51,16 @@ void Heart::RegisterCVarsAndCmds()
 
 /*
 =========
+Command Functions
+=========
+*/
+void Heart::cmdQuit()
+{
+    Heart::Shutdown();
+}
+
+/*
+=========
 Heart::Shutdown
 =========
 */
@@ -59,6 +73,8 @@ void Heart::Shutdown()
     InputSystem::Shutdown();
     ConsoleShell::Print("InputSystem::Shutdown();\n");
 
+    FileSystem::Shutdown(false);
+    ConsoleShell::Print("FileSystem::Shutdown(false);\n");
 
     Console::Shutdown();
     ConsoleShell::Print("Console::Shutdown();\n");

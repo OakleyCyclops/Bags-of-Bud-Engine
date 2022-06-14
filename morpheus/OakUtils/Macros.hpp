@@ -39,11 +39,11 @@ If you have questions concerning this license or the applicable additional terms
 
 // Platform macros
 #ifdef __MINGW64__
-  #define USING_WINDOWS
+  #define BUDWINDOWS
 #endif
 
 #ifdef __linux__ || __FreeBSD__ || __NetBSD__ || __OpenBSD__
-  #define USING_UNIX
+  #define BUDPOSIX
 #endif
 
 

@@ -31,9 +31,13 @@ set(ENGINE_SOURCES
    )
 
 add_subdirectory(OakUtils)
+add_subdirectory(BudRenderer)
+add_subdirectory(Game)
 
 include_directories(OakUtils)
 include_directories(Core)
+include_directories(BudRenderer)
+include_directories(Game)
 
 add_executable(engine ${ENGINE_SOURCES})
 
@@ -42,7 +46,8 @@ target_precompile_headers(engine PUBLIC Core/CorePCH.hpp)
 target_link_libraries(engine
 					OakUtils
 					glfw 
-					z 
+					z
+					rt 
 					${ZLIB_LIBRARIES} 
 					minizip
 					${PNG_LIBRARY} 

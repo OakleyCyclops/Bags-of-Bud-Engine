@@ -19,6 +19,7 @@
 #include "InputSystem.hpp"
 #include "ConsoleShell.hpp"
 #include "Console.hpp"
+#include "FileSystem.hpp"
 #include "Heart.hpp" // You need to include everything else before the heart because there's no fucking preprocessor
 
 #endif /* !__CORE_PCH__ */

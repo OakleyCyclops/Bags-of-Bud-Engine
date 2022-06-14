@@ -10,6 +10,8 @@
 
 // Text Manipulation
 #include "String.hpp"
+#include "Lexer.hpp"
+#include "Parser.hpp"
 
 // Containers
 #include "Containers/Array.hpp"

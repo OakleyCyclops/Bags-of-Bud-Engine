@@ -37,6 +37,11 @@ void Console::Register(CVar* cvar)
         cvar->ValueString = CharMethods::IntToString(*(int*)cvar->Value, cvar->ValueString, 10);  
     }
 
+    else if (cvar->Flags & CVAR_FLOAT)
+    {
+        cvar->ValueString = CharMethods::FloatToString(*(float*)cvar->Value, cvar->ValueString, 2, 10);  
+    }
+
     else if (cvar->Flags & CVAR_BOOL)
     {
         if (*(bool*)&cvar->Value == true)
@@ -94,35 +99,35 @@ bool Console::Exec(String* input, String* arg)
     Cmd* cmd;
     CVar* cvar;
 
-    if (cmd = FindCmd(input->c_str()))
+    if (cmd = FindCmd(input->Cstring))
     {
         cmd->FunctionPointer();
         return true;
     }
 
-	else if (cvar = FindCVar(input->c_str()))
+	else if (cvar = FindCVar(input->Cstring))
 	{
-        if (arg->Length() != 0)
+        if (arg->Length != 0)
         {
             if (cvar->Flags & CVAR_FLOAT)
             {
-                float f = strtof(arg->c_str(), nullptr);
+                float f = strtof(arg->Cstring, nullptr);
                 cvar->Value = (float*)&f;
 
-                cvar->ValueString = (char*)arg->c_str();
+                cvar->ValueString = (char*)arg->Cstring;
             }
 
             else if (cvar->Flags & CVAR_INTEGER)
             {
-                int i = strtol(arg->c_str(), nullptr, 0);
+                int i = strtol(arg->Cstring, nullptr, 0);
                 cvar->Value = (int*)&i;
 
-                cvar->ValueString = (char*)arg->c_str();
+                cvar->ValueString = (char*)arg->Cstring;
             }
 
             else if (cvar->Flags & CVAR_BOOL)
             {
-                int i = strtol(arg->c_str(), nullptr, 0);
+                int i = strtol(arg->Cstring, nullptr, 0);
                 
                 if (i > 0)
                 {
@@ -135,14 +140,17 @@ bool Console::Exec(String* input, String* arg)
                     cvar->Value = (bool*)false;
                 }
 
-                cvar->ValueString = (char*)arg->c_str(); 
+                cvar->ValueString = (char*)arg->Cstring; 
             }
         }
 
+        else
+        {
+            ConsoleShell::Print(cvar->Name, " ", "is ", "\"", cvar->ValueString, "\"\n", "Enter \"help ", cvar->Name, "\"", "for more info");
+        }
 
         return true;
 	}
-
 
 	else
 	{
